@@ -1,0 +1,6912 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--cache-invalidate-on-update is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --authentication",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "219",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": true,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--authentication value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --byok-only",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--byok-only=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "214",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "byok_only": true,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--byok-only value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--byok-only=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "215",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-p1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-p1",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-p1 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-p1",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s1",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S1": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s1 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s1",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S1": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s10",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s10",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S10": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s10 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s10",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S10": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s11",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s11",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S11": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s11 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s11",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S11": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s12",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s12",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S12": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s12 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s12",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S12": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s13",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s13",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S13": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s13 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s13",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S13": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s2",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s2",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S2": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s2 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s2",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S2": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s3",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s3",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S3": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s3 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s3",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S3": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s4",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s4",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S4": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s4 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s4",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S4": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s5",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s5",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S5": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s5 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s5",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S5": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s6",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s6",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S6": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s6 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s6",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S6": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s7",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s7",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S7": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s7 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s7",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S7": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s8",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s8",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S8": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s8 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s8",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S8": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-prompt-s9",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s9",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s9 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s9",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S9": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-p1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-p1",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "P1": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-p1 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-p1",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "P1": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s1",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S1": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s1 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s1",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S1": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s10",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s10",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S10": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s10 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s10",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S10": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s11",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s11",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S11": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s11 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s11",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S11": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s12",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s12",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S12": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s12 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s12",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S12": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s13",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s13",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S13": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s13 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s13",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S13": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s2",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s2",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S2": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s2 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s2",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S2": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s3",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s3",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S3": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s3 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s3",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S3": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s4",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s4",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S4": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s4 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s4",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S4": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s5",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s5",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S5": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s5 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s5",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S5": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s6",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s6",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S6": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s6 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s6",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S6": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s7",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s7",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S7": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s7 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s7",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S7": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s8",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s8",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S8": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s8 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s8",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S8": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s9",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s9",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s9 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s9",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S9": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --log-classification",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--log-classification=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "223",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--log-classification value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--log-classification=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "224",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --log-management",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--log-management",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "216",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management": 1,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --log-management-strategy",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--log-management-strategy",
+      "STOP_INSERTING"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "240",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "STOP_INSERTING",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--log-management-strategy value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--log-management-strategy",
+      "DELETE_OLDEST"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "DELETE_OLDEST",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --logpush",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--logpush=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "logpush": true,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--logpush value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--logpush=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "213",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "logpush": false,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --logpush-public-key",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--logpush-public-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "244",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "logpush_public_key": "regression value &/?+ü",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --otel",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--otel",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "228",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rate-limiting-technique",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--rate-limiting-technique",
+      "fixed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "231",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "fixed",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--rate-limiting-technique value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--rate-limiting-technique",
+      "sliding"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "233",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "sliding",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retry-backoff",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--retry-backoff",
+      "constant"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "224",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_backoff": "constant",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--retry-backoff value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--retry-backoff",
+      "linear"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "222",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_backoff": "linear",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--retry-backoff value 2",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--retry-backoff",
+      "exponential"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "227",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_backoff": "exponential",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retry-delay",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--retry-delay",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "213",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_delay": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retry-max-attempts",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--retry-max-attempts",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_max_attempts": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --spend-limits-enabled",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--spend-limits-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "229",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "spend_limits": {
+            "enabled": true
+          },
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--spend-limits-enabled value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--spend-limits-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "230",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "spend_limits": {
+            "enabled": false
+          },
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --store-id",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "243",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stripe-authorization",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--stripe-authorization",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --workers-ai-billing-mode",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--workers-ai-billing-mode",
+      "postpaid"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "197",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--workers-ai-billing-mode value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--workers-ai-billing-mode",
+      "unified"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "unified"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zdr",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--zdr=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "208",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zdr value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--zdr=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "209",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --cache-invalidate-on-update value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--cache-invalidate-on-update=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --collect-logs value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--collect-logs=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "197",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--byok-only=false",
+      "--guardrails-prompt-p1",
+      "BLOCK",
+      "--guardrails-prompt-s1",
+      "BLOCK",
+      "--guardrails-prompt-s10",
+      "BLOCK",
+      "--guardrails-prompt-s11",
+      "BLOCK",
+      "--guardrails-prompt-s12",
+      "BLOCK",
+      "--guardrails-prompt-s13",
+      "BLOCK",
+      "--guardrails-prompt-s2",
+      "BLOCK",
+      "--guardrails-prompt-s3",
+      "BLOCK",
+      "--guardrails-prompt-s4",
+      "BLOCK",
+      "--guardrails-prompt-s5",
+      "BLOCK",
+      "--guardrails-prompt-s6",
+      "BLOCK",
+      "--guardrails-prompt-s7",
+      "BLOCK",
+      "--guardrails-prompt-s8",
+      "BLOCK",
+      "--guardrails-prompt-s9",
+      "BLOCK",
+      "--guardrails-response-p1",
+      "BLOCK",
+      "--guardrails-response-s1",
+      "BLOCK",
+      "--guardrails-response-s10",
+      "BLOCK",
+      "--guardrails-response-s11",
+      "BLOCK",
+      "--guardrails-response-s12",
+      "BLOCK",
+      "--guardrails-response-s13",
+      "BLOCK",
+      "--guardrails-response-s2",
+      "BLOCK",
+      "--guardrails-response-s3",
+      "BLOCK",
+      "--guardrails-response-s4",
+      "BLOCK",
+      "--guardrails-response-s5",
+      "BLOCK",
+      "--guardrails-response-s6",
+      "BLOCK",
+      "--guardrails-response-s7",
+      "BLOCK",
+      "--guardrails-response-s8",
+      "BLOCK",
+      "--guardrails-response-s9",
+      "BLOCK",
+      "--log-classification=false",
+      "--log-management",
+      "2",
+      "--log-management-strategy",
+      "DELETE_OLDEST",
+      "--logpush=false",
+      "--logpush-public-key",
+      "second value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--rate-limiting-technique",
+      "sliding",
+      "--retry-backoff",
+      "linear",
+      "--retry-delay",
+      "2",
+      "--retry-max-attempts",
+      "2",
+      "--spend-limits-enabled=false",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "unified",
+      "--zdr=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1056",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK",
+              "S8": "BLOCK",
+              "S9": "BLOCK"
+            },
+            "response": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK",
+              "S8": "BLOCK",
+              "S9": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "log_management": 2,
+          "log_management_strategy": "DELETE_OLDEST",
+          "logpush": false,
+          "logpush_public_key": "second value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "sliding",
+          "retry_backoff": "linear",
+          "retry_delay": 2,
+          "retry_max_attempts": 2,
+          "spend_limits": {
+            "enabled": false
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "unified",
+          "zdr": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--byok-only=true",
+      "--guardrails-prompt-s1",
+      "FLAG",
+      "--guardrails-prompt-s11",
+      "FLAG",
+      "--guardrails-prompt-s13",
+      "FLAG",
+      "--guardrails-prompt-s3",
+      "FLAG",
+      "--guardrails-prompt-s5",
+      "FLAG",
+      "--guardrails-prompt-s7",
+      "FLAG",
+      "--guardrails-prompt-s9",
+      "FLAG",
+      "--guardrails-response-s1",
+      "FLAG",
+      "--guardrails-response-s11",
+      "FLAG",
+      "--guardrails-response-s13",
+      "FLAG",
+      "--guardrails-response-s3",
+      "FLAG",
+      "--guardrails-response-s5",
+      "FLAG",
+      "--guardrails-response-s7",
+      "FLAG",
+      "--guardrails-response-s9",
+      "FLAG",
+      "--log-management",
+      "1",
+      "--logpush=true",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--retry-backoff",
+      "constant",
+      "--retry-max-attempts",
+      "1",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--workers-ai-billing-mode",
+      "postpaid"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "586",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "byok_only": true,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S1": "FLAG",
+              "S11": "FLAG",
+              "S13": "FLAG",
+              "S3": "FLAG",
+              "S5": "FLAG",
+              "S7": "FLAG",
+              "S9": "FLAG"
+            },
+            "response": {
+              "S1": "FLAG",
+              "S11": "FLAG",
+              "S13": "FLAG",
+              "S3": "FLAG",
+              "S5": "FLAG",
+              "S7": "FLAG",
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management": 1,
+          "logpush": true,
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_backoff": "constant",
+          "retry_max_attempts": 1,
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--guardrails-prompt-p1",
+      "BLOCK",
+      "--guardrails-prompt-s10",
+      "BLOCK",
+      "--guardrails-prompt-s12",
+      "BLOCK",
+      "--guardrails-prompt-s2",
+      "BLOCK",
+      "--guardrails-prompt-s4",
+      "BLOCK",
+      "--guardrails-prompt-s6",
+      "BLOCK",
+      "--guardrails-prompt-s8",
+      "BLOCK",
+      "--guardrails-response-p1",
+      "BLOCK",
+      "--guardrails-response-s10",
+      "BLOCK",
+      "--guardrails-response-s12",
+      "BLOCK",
+      "--guardrails-response-s2",
+      "BLOCK",
+      "--guardrails-response-s4",
+      "BLOCK",
+      "--guardrails-response-s6",
+      "BLOCK",
+      "--guardrails-response-s8",
+      "BLOCK",
+      "--log-classification=false",
+      "--log-management-strategy",
+      "DELETE_OLDEST",
+      "--logpush-public-key",
+      "second value &/?+ü",
+      "--rate-limiting-technique",
+      "sliding",
+      "--retry-delay",
+      "2",
+      "--spend-limits-enabled=false",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--zdr=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "693",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK",
+              "S10": "BLOCK",
+              "S12": "BLOCK",
+              "S2": "BLOCK",
+              "S4": "BLOCK",
+              "S6": "BLOCK",
+              "S8": "BLOCK"
+            },
+            "response": {
+              "P1": "BLOCK",
+              "S10": "BLOCK",
+              "S12": "BLOCK",
+              "S2": "BLOCK",
+              "S4": "BLOCK",
+              "S6": "BLOCK",
+              "S8": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "log_management_strategy": "DELETE_OLDEST",
+          "logpush_public_key": "second value &/?+ü",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "sliding",
+          "retry_delay": 2,
+          "spend_limits": {
+            "enabled": false
+          },
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-p1",
+      "FLAG",
+      "--guardrails-prompt-s1",
+      "FLAG",
+      "--guardrails-prompt-s12",
+      "FLAG",
+      "--guardrails-prompt-s13",
+      "FLAG",
+      "--guardrails-prompt-s4",
+      "FLAG",
+      "--guardrails-prompt-s5",
+      "FLAG",
+      "--guardrails-prompt-s8",
+      "FLAG",
+      "--guardrails-prompt-s9",
+      "FLAG",
+      "--guardrails-response-s10",
+      "FLAG",
+      "--guardrails-response-s11",
+      "FLAG",
+      "--guardrails-response-s2",
+      "FLAG",
+      "--guardrails-response-s3",
+      "FLAG",
+      "--guardrails-response-s6",
+      "FLAG",
+      "--guardrails-response-s7",
+      "FLAG",
+      "--log-classification=true",
+      "--log-management",
+      "1",
+      "--logpush-public-key",
+      "regression value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--retry-delay",
+      "1",
+      "--retry-max-attempts",
+      "1",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "postpaid"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "609",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "FLAG",
+              "S1": "FLAG",
+              "S12": "FLAG",
+              "S13": "FLAG",
+              "S4": "FLAG",
+              "S5": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            },
+            "response": {
+              "S10": "FLAG",
+              "S11": "FLAG",
+              "S2": "FLAG",
+              "S3": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "log_management": 1,
+          "logpush_public_key": "regression value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "retry_delay": 1,
+          "retry_max_attempts": 1,
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--byok-only=false",
+      "--guardrails-prompt-s10",
+      "BLOCK",
+      "--guardrails-prompt-s11",
+      "BLOCK",
+      "--guardrails-prompt-s2",
+      "BLOCK",
+      "--guardrails-prompt-s3",
+      "BLOCK",
+      "--guardrails-prompt-s6",
+      "BLOCK",
+      "--guardrails-prompt-s7",
+      "BLOCK",
+      "--guardrails-response-p1",
+      "BLOCK",
+      "--guardrails-response-s1",
+      "BLOCK",
+      "--guardrails-response-s12",
+      "BLOCK",
+      "--guardrails-response-s13",
+      "BLOCK",
+      "--guardrails-response-s4",
+      "BLOCK",
+      "--guardrails-response-s5",
+      "BLOCK",
+      "--guardrails-response-s8",
+      "BLOCK",
+      "--guardrails-response-s9",
+      "BLOCK",
+      "--log-management-strategy",
+      "DELETE_OLDEST",
+      "--logpush=false",
+      "--rate-limiting-technique",
+      "sliding",
+      "--retry-backoff",
+      "linear",
+      "--spend-limits-enabled=false",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zdr=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "673",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK"
+            },
+            "response": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S8": "BLOCK",
+              "S9": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "DELETE_OLDEST",
+          "logpush": false,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "sliding",
+          "retry_backoff": "linear",
+          "spend_limits": {
+            "enabled": false
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s10",
+      "FLAG",
+      "--guardrails-prompt-s11",
+      "FLAG",
+      "--guardrails-prompt-s12",
+      "FLAG",
+      "--guardrails-prompt-s13",
+      "FLAG",
+      "--guardrails-prompt-s6",
+      "FLAG",
+      "--guardrails-prompt-s7",
+      "FLAG",
+      "--guardrails-prompt-s8",
+      "FLAG",
+      "--guardrails-prompt-s9",
+      "FLAG",
+      "--guardrails-response-s12",
+      "FLAG",
+      "--guardrails-response-s13",
+      "FLAG",
+      "--guardrails-response-s2",
+      "FLAG",
+      "--guardrails-response-s3",
+      "FLAG",
+      "--guardrails-response-s8",
+      "FLAG",
+      "--guardrails-response-s9",
+      "FLAG",
+      "--log-classification=true",
+      "--log-management",
+      "1",
+      "--rate-limiting-technique",
+      "fixed",
+      "--retry-backoff",
+      "constant",
+      "--retry-delay",
+      "1",
+      "--retry-max-attempts",
+      "1",
+      "--zdr=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "566",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S10": "FLAG",
+              "S11": "FLAG",
+              "S12": "FLAG",
+              "S13": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            },
+            "response": {
+              "S12": "FLAG",
+              "S13": "FLAG",
+              "S2": "FLAG",
+              "S3": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "log_management": 1,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "fixed",
+          "retry_backoff": "constant",
+          "retry_delay": 1,
+          "retry_max_attempts": 1,
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--byok-only=false",
+      "--guardrails-prompt-p1",
+      "BLOCK",
+      "--guardrails-prompt-s1",
+      "BLOCK",
+      "--guardrails-prompt-s2",
+      "BLOCK",
+      "--guardrails-prompt-s3",
+      "BLOCK",
+      "--guardrails-prompt-s4",
+      "BLOCK",
+      "--guardrails-prompt-s5",
+      "BLOCK",
+      "--guardrails-response-p1",
+      "BLOCK",
+      "--guardrails-response-s1",
+      "BLOCK",
+      "--guardrails-response-s10",
+      "BLOCK",
+      "--guardrails-response-s11",
+      "BLOCK",
+      "--guardrails-response-s4",
+      "BLOCK",
+      "--guardrails-response-s5",
+      "BLOCK",
+      "--guardrails-response-s6",
+      "BLOCK",
+      "--guardrails-response-s7",
+      "BLOCK",
+      "--log-management-strategy",
+      "DELETE_OLDEST",
+      "--logpush=false",
+      "--logpush-public-key",
+      "second value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--spend-limits-enabled=false",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "unified"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "710",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK"
+            },
+            "response": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "DELETE_OLDEST",
+          "logpush": false,
+          "logpush_public_key": "second value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "spend_limits": {
+            "enabled": false
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "unified"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s2",
+      "FLAG",
+      "--guardrails-prompt-s3",
+      "FLAG",
+      "--guardrails-prompt-s4",
+      "FLAG",
+      "--guardrails-prompt-s5",
+      "FLAG",
+      "--guardrails-prompt-s6",
+      "FLAG",
+      "--guardrails-prompt-s7",
+      "FLAG",
+      "--guardrails-prompt-s8",
+      "FLAG",
+      "--guardrails-prompt-s9",
+      "FLAG",
+      "--guardrails-response-s4",
+      "FLAG",
+      "--guardrails-response-s5",
+      "FLAG",
+      "--guardrails-response-s6",
+      "FLAG",
+      "--guardrails-response-s7",
+      "FLAG",
+      "--guardrails-response-s8",
+      "FLAG",
+      "--guardrails-response-s9",
+      "FLAG",
+      "--log-classification=true",
+      "--log-management",
+      "1",
+      "--spend-limits-enabled=true",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "postpaid",
+      "--zdr=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "577",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S2": "FLAG",
+              "S3": "FLAG",
+              "S4": "FLAG",
+              "S5": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            },
+            "response": {
+              "S4": "FLAG",
+              "S5": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "log_management": 1,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "spend_limits": {
+            "enabled": true
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--byok-only=false",
+      "--guardrails-prompt-p1",
+      "BLOCK",
+      "--guardrails-prompt-s1",
+      "BLOCK",
+      "--guardrails-prompt-s10",
+      "BLOCK",
+      "--guardrails-prompt-s11",
+      "BLOCK",
+      "--guardrails-prompt-s12",
+      "BLOCK",
+      "--guardrails-prompt-s13",
+      "BLOCK",
+      "--guardrails-response-p1",
+      "BLOCK",
+      "--guardrails-response-s1",
+      "BLOCK",
+      "--guardrails-response-s10",
+      "BLOCK",
+      "--guardrails-response-s11",
+      "BLOCK",
+      "--guardrails-response-s12",
+      "BLOCK",
+      "--guardrails-response-s13",
+      "BLOCK",
+      "--guardrails-response-s2",
+      "BLOCK",
+      "--guardrails-response-s3",
+      "BLOCK",
+      "--log-management-strategy",
+      "DELETE_OLDEST",
+      "--logpush=false",
+      "--logpush-public-key",
+      "second value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--rate-limiting-technique",
+      "sliding",
+      "--retry-backoff",
+      "linear",
+      "--retry-delay",
+      "2",
+      "--retry-max-attempts",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "699",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK"
+            },
+            "response": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "DELETE_OLDEST",
+          "logpush": false,
+          "logpush_public_key": "second value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "sliding",
+          "retry_backoff": "linear",
+          "retry_delay": 2,
+          "retry_max_attempts": 2,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-p1",
+      "FLAG",
+      "--guardrails-response-s1",
+      "FLAG",
+      "--guardrails-response-s10",
+      "FLAG",
+      "--guardrails-response-s11",
+      "FLAG",
+      "--guardrails-response-s12",
+      "FLAG",
+      "--guardrails-response-s13",
+      "FLAG",
+      "--guardrails-response-s2",
+      "FLAG",
+      "--guardrails-response-s3",
+      "FLAG",
+      "--guardrails-response-s4",
+      "FLAG",
+      "--guardrails-response-s5",
+      "FLAG",
+      "--guardrails-response-s6",
+      "FLAG",
+      "--guardrails-response-s7",
+      "FLAG",
+      "--guardrails-response-s8",
+      "FLAG",
+      "--guardrails-response-s9",
+      "FLAG",
+      "--log-classification=true",
+      "--log-management",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "442",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "P1": "FLAG",
+              "S1": "FLAG",
+              "S10": "FLAG",
+              "S11": "FLAG",
+              "S12": "FLAG",
+              "S13": "FLAG",
+              "S2": "FLAG",
+              "S3": "FLAG",
+              "S4": "FLAG",
+              "S5": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "log_management": 1,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--byok-only=false",
+      "--guardrails-prompt-p1",
+      "BLOCK",
+      "--guardrails-prompt-s1",
+      "BLOCK",
+      "--guardrails-prompt-s10",
+      "BLOCK",
+      "--guardrails-prompt-s11",
+      "BLOCK",
+      "--guardrails-prompt-s12",
+      "BLOCK",
+      "--guardrails-prompt-s13",
+      "BLOCK",
+      "--guardrails-prompt-s2",
+      "BLOCK",
+      "--guardrails-prompt-s3",
+      "BLOCK",
+      "--guardrails-prompt-s4",
+      "BLOCK",
+      "--guardrails-prompt-s5",
+      "BLOCK",
+      "--guardrails-prompt-s6",
+      "BLOCK",
+      "--guardrails-prompt-s7",
+      "BLOCK",
+      "--guardrails-prompt-s8",
+      "BLOCK",
+      "--guardrails-prompt-s9",
+      "BLOCK",
+      "--log-management-strategy",
+      "DELETE_OLDEST",
+      "--logpush=false",
+      "--logpush-public-key",
+      "second value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--rate-limiting-technique",
+      "sliding",
+      "--retry-backoff",
+      "linear",
+      "--retry-delay",
+      "2",
+      "--retry-max-attempts",
+      "2",
+      "--spend-limits-enabled=false",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "unified",
+      "--zdr=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "811",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK",
+              "S8": "BLOCK",
+              "S9": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "DELETE_OLDEST",
+          "logpush": false,
+          "logpush_public_key": "second value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "sliding",
+          "retry_backoff": "linear",
+          "retry_delay": 2,
+          "retry_max_attempts": 2,
+          "spend_limits": {
+            "enabled": false
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "unified",
+          "zdr": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--log-management-strategy",
+      "STOP_INSERTING",
+      "--logpush=true",
+      "--logpush-public-key",
+      "regression value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--rate-limiting-technique",
+      "fixed",
+      "--retry-backoff",
+      "constant",
+      "--retry-delay",
+      "1",
+      "--retry-max-attempts",
+      "1",
+      "--spend-limits-enabled=true",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "postpaid",
+      "--zdr=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "561",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_management_strategy": "STOP_INSERTING",
+          "logpush": true,
+          "logpush_public_key": "regression value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "fixed",
+          "retry_backoff": "constant",
+          "retry_delay": 1,
+          "retry_max_attempts": 1,
+          "spend_limits": {
+            "enabled": true
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=false",
+      "--byok-only=false",
+      "--guardrails-prompt-p1",
+      "BLOCK",
+      "--guardrails-prompt-s1",
+      "BLOCK",
+      "--guardrails-prompt-s10",
+      "BLOCK",
+      "--guardrails-prompt-s11",
+      "BLOCK",
+      "--guardrails-prompt-s12",
+      "BLOCK",
+      "--guardrails-prompt-s13",
+      "BLOCK",
+      "--guardrails-prompt-s2",
+      "BLOCK",
+      "--guardrails-prompt-s3",
+      "BLOCK",
+      "--guardrails-prompt-s4",
+      "BLOCK",
+      "--guardrails-prompt-s5",
+      "BLOCK",
+      "--guardrails-prompt-s6",
+      "BLOCK",
+      "--guardrails-prompt-s7",
+      "BLOCK",
+      "--guardrails-prompt-s8",
+      "BLOCK",
+      "--guardrails-prompt-s9",
+      "BLOCK",
+      "--guardrails-response-p1",
+      "BLOCK",
+      "--guardrails-response-s1",
+      "BLOCK",
+      "--guardrails-response-s10",
+      "BLOCK",
+      "--guardrails-response-s11",
+      "BLOCK",
+      "--guardrails-response-s12",
+      "BLOCK",
+      "--guardrails-response-s13",
+      "BLOCK",
+      "--guardrails-response-s2",
+      "BLOCK",
+      "--guardrails-response-s3",
+      "BLOCK",
+      "--guardrails-response-s4",
+      "BLOCK",
+      "--guardrails-response-s5",
+      "BLOCK",
+      "--guardrails-response-s6",
+      "BLOCK",
+      "--guardrails-response-s7",
+      "BLOCK",
+      "--guardrails-response-s8",
+      "BLOCK",
+      "--guardrails-response-s9",
+      "BLOCK",
+      "--log-classification=false",
+      "--log-management",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "695",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": false,
+          "byok_only": false,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK",
+              "S8": "BLOCK",
+              "S9": "BLOCK"
+            },
+            "response": {
+              "P1": "BLOCK",
+              "S1": "BLOCK",
+              "S10": "BLOCK",
+              "S11": "BLOCK",
+              "S12": "BLOCK",
+              "S13": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
+              "S4": "BLOCK",
+              "S5": "BLOCK",
+              "S6": "BLOCK",
+              "S7": "BLOCK",
+              "S8": "BLOCK",
+              "S9": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "log_management": 2,
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--authentication=true",
+      "--byok-only=true",
+      "--guardrails-prompt-p1",
+      "FLAG",
+      "--guardrails-prompt-s1",
+      "FLAG",
+      "--guardrails-prompt-s10",
+      "FLAG",
+      "--guardrails-prompt-s11",
+      "FLAG",
+      "--guardrails-prompt-s12",
+      "FLAG",
+      "--guardrails-prompt-s13",
+      "FLAG",
+      "--guardrails-prompt-s2",
+      "FLAG",
+      "--guardrails-prompt-s3",
+      "FLAG",
+      "--guardrails-prompt-s4",
+      "FLAG",
+      "--guardrails-prompt-s5",
+      "FLAG",
+      "--guardrails-prompt-s6",
+      "FLAG",
+      "--guardrails-prompt-s7",
+      "FLAG",
+      "--guardrails-prompt-s8",
+      "FLAG",
+      "--guardrails-prompt-s9",
+      "FLAG",
+      "--guardrails-response-p1",
+      "FLAG",
+      "--guardrails-response-s1",
+      "FLAG",
+      "--guardrails-response-s10",
+      "FLAG",
+      "--guardrails-response-s11",
+      "FLAG",
+      "--guardrails-response-s12",
+      "FLAG",
+      "--guardrails-response-s13",
+      "FLAG",
+      "--guardrails-response-s2",
+      "FLAG",
+      "--guardrails-response-s3",
+      "FLAG",
+      "--guardrails-response-s4",
+      "FLAG",
+      "--guardrails-response-s5",
+      "FLAG",
+      "--guardrails-response-s6",
+      "FLAG",
+      "--guardrails-response-s7",
+      "FLAG",
+      "--guardrails-response-s8",
+      "FLAG",
+      "--guardrails-response-s9",
+      "FLAG",
+      "--log-classification=true",
+      "--log-management",
+      "1",
+      "--log-management-strategy",
+      "STOP_INSERTING",
+      "--logpush=true",
+      "--logpush-public-key",
+      "regression value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--rate-limiting-technique",
+      "fixed",
+      "--retry-backoff",
+      "constant",
+      "--retry-delay",
+      "1",
+      "--retry-max-attempts",
+      "1",
+      "--spend-limits-enabled=true",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--workers-ai-billing-mode",
+      "postpaid",
+      "--zdr=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1028",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "authentication": true,
+          "byok_only": true,
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "P1": "FLAG",
+              "S1": "FLAG",
+              "S10": "FLAG",
+              "S11": "FLAG",
+              "S12": "FLAG",
+              "S13": "FLAG",
+              "S2": "FLAG",
+              "S3": "FLAG",
+              "S4": "FLAG",
+              "S5": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            },
+            "response": {
+              "P1": "FLAG",
+              "S1": "FLAG",
+              "S10": "FLAG",
+              "S11": "FLAG",
+              "S12": "FLAG",
+              "S13": "FLAG",
+              "S2": "FLAG",
+              "S3": "FLAG",
+              "S4": "FLAG",
+              "S5": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
+              "S8": "FLAG",
+              "S9": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "log_management": 1,
+          "log_management_strategy": "STOP_INSERTING",
+          "logpush": true,
+          "logpush_public_key": "regression value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "rate_limiting_technique": "fixed",
+          "retry_backoff": "constant",
+          "retry_delay": 1,
+          "retry_max_attempts": 1,
+          "spend_limits": {
+            "enabled": true
+          },
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1"
+          },
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": true
+        }
+      }
+    ]
+  }
+]

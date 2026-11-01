@@ -1,0 +1,850 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--certificate-authority is required (one of: google, lets_encrypt, ssl_com). Pass --certificate-authority <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cloudflare-branding",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--cloudflare-branding=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "certificate_authority": "google",
+          "cloudflare_branding": true,
+          "hosts": [
+            "regression value &/?+ü"
+          ],
+          "type": "advanced",
+          "validation_method": "txt",
+          "validity_days": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cloudflare-branding value 1",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--cloudflare-branding=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "certificate_authority": "google",
+          "cloudflare_branding": false,
+          "hosts": [
+            "regression value &/?+ü"
+          ],
+          "type": "advanced",
+          "validation_method": "txt",
+          "validity_days": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --certificate-authority value 1",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--certificate-authority",
+      "lets_encrypt"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --certificate-authority value 2",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--certificate-authority",
+      "ssl_com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --validation-method value 1",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--validation-method",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --validation-method value 2",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--validation-method",
+      "email"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "certificate_authority": "google",
+          "hosts": [
+            "regression value &/?+ü"
+          ],
+          "type": "advanced",
+          "validation_method": "txt",
+          "validity_days": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-e3e27090ab65.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-e3e27090ab65.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          },
+          "type": "advanced"
+        }
+      }
+    ]
+  }
+]

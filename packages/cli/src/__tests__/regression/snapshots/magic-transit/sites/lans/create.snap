@@ -1,0 +1,1680 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bond-id",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "13",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ha-link",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--ha-link=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ha_link": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ha-link value 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--ha-link=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ha_link": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-breakout",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--is-breakout=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "is_breakout": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-breakout value 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--is-breakout=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "is_breakout": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-prioritized",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--is-prioritized=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "is_prioritized": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-prioritized value 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--is-prioritized=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "is_prioritized": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --nat-static-prefix",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--nat-static-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "nat": {
+            "static_prefix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --physport",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--physport",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "14",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "physport": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --routed-subnets",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --static-addressing-address",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "address": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --static-addressing-dhcp-relay-server-addresses",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-dhcp-server-dhcp-pool-end",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-dhcp-server-dhcp-pool-start",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-dhcp-server-dns-server",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-dhcp-server-dns-servers",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-secondary-address",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-secondary-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-virtual-address",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --vlan-tag",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--vlan-tag",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "14",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "vlan_tag": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "2",
+      "--ha-link=false",
+      "--is-breakout=false",
+      "--is-prioritized=false",
+      "--name",
+      "second value &/?+ü",
+      "--nat-static-prefix",
+      "second value &/?+ü",
+      "--physport",
+      "2",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "519",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 2,
+          "ha_link": false,
+          "is_breakout": false,
+          "is_prioritized": false,
+          "name": "second value &/?+ü",
+          "nat": {
+            "static_prefix": "second value &/?+ü"
+          },
+          "physport": 2,
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_relay": {
+              "server_addresses": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            },
+            "dhcp_server": {
+              "dhcp_pool_end": "192.0.2.1",
+              "dhcp_pool_start": "192.0.2.1",
+              "dns_server": "192.0.2.1",
+              "dns_servers": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            },
+            "secondary_address": "192.0.2.1",
+            "virtual_address": "192.0.2.1"
+          },
+          "vlan_tag": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--ha-link=true",
+      "--is-prioritized=true",
+      "--nat-static-prefix",
+      "regression value &/?+ü",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "2",
+      "--is-breakout=false",
+      "--name",
+      "second value &/?+ü",
+      "--physport",
+      "2",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "233",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 2,
+          "is_breakout": false,
+          "name": "second value &/?+ü",
+          "physport": 2,
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_server": {
+              "dhcp_pool_end": "192.0.2.1",
+              "dns_server": "192.0.2.1"
+            },
+            "secondary_address": "192.0.2.1"
+          },
+          "vlan_tag": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--is-breakout=true",
+      "--is-prioritized=true",
+      "--physport",
+      "1",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "2",
+      "--ha-link=false",
+      "--name",
+      "second value &/?+ü",
+      "--nat-static-prefix",
+      "second value &/?+ü",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--vlan-tag",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "302",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 2,
+          "ha_link": false,
+          "name": "second value &/?+ü",
+          "nat": {
+            "static_prefix": "second value &/?+ü"
+          },
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_relay": {
+              "server_addresses": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            },
+            "dhcp_server": {
+              "dns_server": "192.0.2.1",
+              "dns_servers": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            }
+          },
+          "vlan_tag": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--nat-static-prefix",
+      "regression value &/?+ü",
+      "--physport",
+      "1",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "2",
+      "--ha-link=false",
+      "--is-breakout=false",
+      "--is-prioritized=false",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--vlan-tag",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "263",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 2,
+          "ha_link": false,
+          "is_breakout": false,
+          "is_prioritized": false,
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_relay": {
+              "server_addresses": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            },
+            "dhcp_server": {
+              "dhcp_pool_end": "192.0.2.1",
+              "dhcp_pool_start": "192.0.2.1"
+            }
+          },
+          "vlan_tag": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "282",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_relay": {
+              "server_addresses": [
+                "192.0.2.1"
+              ]
+            },
+            "dhcp_server": {
+              "dhcp_pool_end": "192.0.2.1",
+              "dhcp_pool_start": "192.0.2.1",
+              "dns_server": "192.0.2.1",
+              "dns_servers": [
+                "192.0.2.1"
+              ]
+            },
+            "secondary_address": "192.0.2.1",
+            "virtual_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "2",
+      "--ha-link=false",
+      "--is-breakout=false",
+      "--is-prioritized=false",
+      "--name",
+      "second value &/?+ü",
+      "--nat-static-prefix",
+      "second value &/?+ü",
+      "--physport",
+      "2",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--vlan-tag",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "214",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 2,
+          "ha_link": false,
+          "is_breakout": false,
+          "is_prioritized": false,
+          "name": "second value &/?+ü",
+          "nat": {
+            "static_prefix": "second value &/?+ü"
+          },
+          "physport": 2,
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
+          "vlan_tag": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "2",
+      "--ha-link=false",
+      "--is-breakout=false",
+      "--is-prioritized=false",
+      "--name",
+      "second value &/?+ü",
+      "--nat-static-prefix",
+      "second value &/?+ü",
+      "--physport",
+      "2",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "506",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 2,
+          "ha_link": false,
+          "is_breakout": false,
+          "is_prioritized": false,
+          "name": "second value &/?+ü",
+          "nat": {
+            "static_prefix": "second value &/?+ü"
+          },
+          "physport": 2,
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_relay": {
+              "server_addresses": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            },
+            "dhcp_server": {
+              "dhcp_pool_end": "192.0.2.1",
+              "dhcp_pool_start": "192.0.2.1",
+              "dns_server": "192.0.2.1",
+              "dns_servers": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            },
+            "secondary_address": "192.0.2.1",
+            "virtual_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--bond-id",
+      "1",
+      "--ha-link=true",
+      "--is-breakout=true",
+      "--is-prioritized=true",
+      "--name",
+      "regression value &/?+ü",
+      "--nat-static-prefix",
+      "regression value &/?+ü",
+      "--physport",
+      "1",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-address",
+      "192.0.2.1",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-server",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dns-servers",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "500",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bond_id": 1,
+          "ha_link": true,
+          "is_breakout": true,
+          "is_prioritized": true,
+          "name": "regression value &/?+ü",
+          "nat": {
+            "static_prefix": "regression value &/?+ü"
+          },
+          "physport": 1,
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_relay": {
+              "server_addresses": [
+                "192.0.2.1"
+              ]
+            },
+            "dhcp_server": {
+              "dhcp_pool_end": "192.0.2.1",
+              "dhcp_pool_start": "192.0.2.1",
+              "dns_server": "192.0.2.1",
+              "dns_servers": [
+                "192.0.2.1"
+              ]
+            },
+            "secondary_address": "192.0.2.1",
+            "virtual_address": "192.0.2.1"
+          },
+          "vlan_tag": 1
+        }
+      }
+    ]
+  }
+]

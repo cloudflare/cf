@@ -1,0 +1,2080 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enforce-dns-only",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enforce-dns-only value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-flatten-all-cnames",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-flatten-all-cnames=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "flatten_all_cnames": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-flatten-all-cnames value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-flatten-all-cnames=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "flatten_all_cnames": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-foundation-dns",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-foundation-dns=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "foundation_dns": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-foundation-dns value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-foundation-dns=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "foundation_dns": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-internal-dns-reference-zone-id",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-multi-provider",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-multi-provider=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "multi_provider": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-multi-provider value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-multi-provider=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "multi_provider": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-ns-ttl",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-ns-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "ns_ttl": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-secondary-overrides",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-secondary-overrides=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "secondary_overrides": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-secondary-overrides value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-secondary-overrides=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "secondary_overrides": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-expire",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-expire",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "expire": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-min-ttl",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-min-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "min_ttl": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-mname",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-mname",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "mname": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-refresh",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-refresh",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "refresh": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-retry",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-retry",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "retry": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-rname",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-rname",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "rname": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-soa-ttl",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "ttl": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-zone-mode",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-zone-mode",
+      "standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "zone_mode": "standard"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-zone-mode value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-zone-mode",
+      "cdn_only"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "zone_mode": "cdn_only"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-zone-mode value 2",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-zone-mode",
+      "dns_only"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "zone_mode": "dns_only"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zone-defaults-nameservers-type",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "nameservers": {
+              "type": "cloudflare.standard"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-nameservers-type value 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.advanced"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "nameservers": {
+              "type": "cloudflare.advanced"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-nameservers-type value 2",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard.random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "nameservers": {
+              "type": "cloudflare.standard.random"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-nameservers-type value 3",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-nameservers-type",
+      "custom.account"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "nameservers": {
+              "type": "custom.account"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zone-defaults-nameservers-type value 4",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-nameservers-type",
+      "custom.tenant"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "nameservers": {
+              "type": "custom.tenant"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=false",
+      "--zone-defaults-flatten-all-cnames=false",
+      "--zone-defaults-foundation-dns=false",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone-defaults-multi-provider=false",
+      "--zone-defaults-ns-ttl",
+      "2",
+      "--zone-defaults-secondary-overrides=false",
+      "--zone-defaults-soa-expire",
+      "2",
+      "--zone-defaults-soa-min-ttl",
+      "2",
+      "--zone-defaults-soa-mname",
+      "second value &/?+ü",
+      "--zone-defaults-soa-refresh",
+      "2",
+      "--zone-defaults-soa-retry",
+      "2",
+      "--zone-defaults-soa-rname",
+      "second value &/?+ü",
+      "--zone-defaults-soa-ttl",
+      "2",
+      "--zone-defaults-zone-mode",
+      "cdn_only",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.advanced"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "417",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": false,
+          "zone_defaults": {
+            "flatten_all_cnames": false,
+            "foundation_dns": false,
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            },
+            "multi_provider": false,
+            "ns_ttl": 2,
+            "secondary_overrides": false,
+            "soa": {
+              "expire": 2,
+              "min_ttl": 2,
+              "mname": "second value &/?+ü",
+              "refresh": 2,
+              "retry": 2,
+              "rname": "second value &/?+ü",
+              "ttl": 2
+            },
+            "zone_mode": "cdn_only",
+            "nameservers": {
+              "type": "cloudflare.advanced"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-flatten-all-cnames=true",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone-defaults-ns-ttl",
+      "1",
+      "--zone-defaults-soa-expire",
+      "1",
+      "--zone-defaults-soa-mname",
+      "regression value &/?+ü",
+      "--zone-defaults-soa-retry",
+      "1",
+      "--zone-defaults-soa-ttl",
+      "1",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "244",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "flatten_all_cnames": true,
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            },
+            "ns_ttl": 1,
+            "soa": {
+              "expire": 1,
+              "mname": "regression value &/?+ü",
+              "retry": 1,
+              "ttl": 1
+            },
+            "nameservers": {
+              "type": "cloudflare.standard"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=false",
+      "--zone-defaults-foundation-dns=false",
+      "--zone-defaults-multi-provider=false",
+      "--zone-defaults-secondary-overrides=false",
+      "--zone-defaults-soa-min-ttl",
+      "2",
+      "--zone-defaults-soa-refresh",
+      "2",
+      "--zone-defaults-soa-rname",
+      "second value &/?+ü",
+      "--zone-defaults-zone-mode",
+      "cdn_only"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "203",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": false,
+          "zone_defaults": {
+            "foundation_dns": false,
+            "multi_provider": false,
+            "secondary_overrides": false,
+            "soa": {
+              "min_ttl": 2,
+              "refresh": 2,
+              "rname": "second value &/?+ü"
+            },
+            "zone_mode": "cdn_only"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-foundation-dns=true",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone-defaults-secondary-overrides=true",
+      "--zone-defaults-soa-expire",
+      "1",
+      "--zone-defaults-soa-refresh",
+      "1",
+      "--zone-defaults-soa-retry",
+      "1",
+      "--zone-defaults-zone-mode",
+      "standard",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "249",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "foundation_dns": true,
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            },
+            "secondary_overrides": true,
+            "soa": {
+              "expire": 1,
+              "refresh": 1,
+              "retry": 1
+            },
+            "zone_mode": "standard",
+            "nameservers": {
+              "type": "cloudflare.standard"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=false",
+      "--zone-defaults-flatten-all-cnames=false",
+      "--zone-defaults-multi-provider=false",
+      "--zone-defaults-ns-ttl",
+      "2",
+      "--zone-defaults-soa-min-ttl",
+      "2",
+      "--zone-defaults-soa-mname",
+      "second value &/?+ü",
+      "--zone-defaults-soa-rname",
+      "second value &/?+ü",
+      "--zone-defaults-soa-ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": false,
+          "zone_defaults": {
+            "flatten_all_cnames": false,
+            "multi_provider": false,
+            "ns_ttl": 2,
+            "soa": {
+              "min_ttl": 2,
+              "mname": "second value &/?+ü",
+              "rname": "second value &/?+ü",
+              "ttl": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-multi-provider=true",
+      "--zone-defaults-ns-ttl",
+      "1",
+      "--zone-defaults-secondary-overrides=true",
+      "--zone-defaults-soa-expire",
+      "1",
+      "--zone-defaults-soa-rname",
+      "regression value &/?+ü",
+      "--zone-defaults-soa-ttl",
+      "1",
+      "--zone-defaults-zone-mode",
+      "standard",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "208",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "multi_provider": true,
+            "ns_ttl": 1,
+            "secondary_overrides": true,
+            "soa": {
+              "expire": 1,
+              "rname": "regression value &/?+ü",
+              "ttl": 1
+            },
+            "zone_mode": "standard",
+            "nameservers": {
+              "type": "cloudflare.standard"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=false",
+      "--zone-defaults-flatten-all-cnames=false",
+      "--zone-defaults-foundation-dns=false",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone-defaults-soa-min-ttl",
+      "2",
+      "--zone-defaults-soa-mname",
+      "second value &/?+ü",
+      "--zone-defaults-soa-refresh",
+      "2",
+      "--zone-defaults-soa-retry",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": false,
+          "zone_defaults": {
+            "flatten_all_cnames": false,
+            "foundation_dns": false,
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            },
+            "soa": {
+              "min_ttl": 2,
+              "mname": "second value &/?+ü",
+              "refresh": 2,
+              "retry": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--zone-defaults-soa-min-ttl",
+      "1",
+      "--zone-defaults-soa-mname",
+      "regression value &/?+ü",
+      "--zone-defaults-soa-refresh",
+      "1",
+      "--zone-defaults-soa-retry",
+      "1",
+      "--zone-defaults-soa-rname",
+      "regression value &/?+ü",
+      "--zone-defaults-soa-ttl",
+      "1",
+      "--zone-defaults-zone-mode",
+      "standard",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zone_defaults": {
+            "soa": {
+              "min_ttl": 1,
+              "mname": "regression value &/?+ü",
+              "refresh": 1,
+              "retry": 1,
+              "rname": "regression value &/?+ü",
+              "ttl": 1
+            },
+            "zone_mode": "standard",
+            "nameservers": {
+              "type": "cloudflare.standard"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=false",
+      "--zone-defaults-flatten-all-cnames=false",
+      "--zone-defaults-foundation-dns=false",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone-defaults-multi-provider=false",
+      "--zone-defaults-ns-ttl",
+      "2",
+      "--zone-defaults-secondary-overrides=false",
+      "--zone-defaults-soa-expire",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "247",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": false,
+          "zone_defaults": {
+            "flatten_all_cnames": false,
+            "foundation_dns": false,
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            },
+            "multi_provider": false,
+            "ns_ttl": 2,
+            "secondary_overrides": false,
+            "soa": {
+              "expire": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-13c4adbb6876.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-13c4adbb6876.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "dns",
+      "settings",
+      "account",
+      "edit",
+      "--enforce-dns-only=true",
+      "--zone-defaults-flatten-all-cnames=true",
+      "--zone-defaults-foundation-dns=true",
+      "--zone-defaults-internal-dns-reference-zone-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone-defaults-multi-provider=true",
+      "--zone-defaults-ns-ttl",
+      "1",
+      "--zone-defaults-secondary-overrides=true",
+      "--zone-defaults-soa-expire",
+      "1",
+      "--zone-defaults-soa-min-ttl",
+      "1",
+      "--zone-defaults-soa-mname",
+      "regression value &/?+ü",
+      "--zone-defaults-soa-refresh",
+      "1",
+      "--zone-defaults-soa-retry",
+      "1",
+      "--zone-defaults-soa-rname",
+      "regression value &/?+ü",
+      "--zone-defaults-soa-ttl",
+      "1",
+      "--zone-defaults-zone-mode",
+      "standard",
+      "--zone-defaults-nameservers-type",
+      "cloudflare.standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "420",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enforce_dns_only": true,
+          "zone_defaults": {
+            "flatten_all_cnames": true,
+            "foundation_dns": true,
+            "internal_dns": {
+              "reference_zone_id": "0123456789abcdef0123456789abcdef"
+            },
+            "multi_provider": true,
+            "ns_ttl": 1,
+            "secondary_overrides": true,
+            "soa": {
+              "expire": 1,
+              "min_ttl": 1,
+              "mname": "regression value &/?+ü",
+              "refresh": 1,
+              "retry": 1,
+              "rname": "regression value &/?+ü",
+              "ttl": 1
+            },
+            "zone_mode": "standard",
+            "nameservers": {
+              "type": "cloudflare.standard"
+            }
+          }
+        }
+      }
+    ]
+  }
+]

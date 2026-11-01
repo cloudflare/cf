@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "email-sending",
+    "subdomains",
+    "reputation"
+  ],
+  "requests": []
+}

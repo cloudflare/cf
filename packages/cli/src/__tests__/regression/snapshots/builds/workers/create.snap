@@ -1,0 +1,2792 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "builds",
+      "workers",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--git-repository-branch is required. Pass --git-repository-branch <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --git-repository-grant-id",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "792",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-build-caching-enabled",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-build-caching-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "746",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--previews-base-config-build-caching-enabled value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-build-caching-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "747",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-path-excludes",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "790",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-path-includes",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "790",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-root-directory",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "768",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "regression value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-build-caching-enabled",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-build-caching-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "746",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--production-settings-build-caching-enabled value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-build-caching-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "747",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-path-excludes",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "790",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-path-includes",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "790",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-root-directory",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "768",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "regression value &/?+ü"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --git-repository-provider-type value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--git-repository-provider-type",
+      "gitlab"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --git-repository-provider-type value 2",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--git-repository-provider-type",
+      "gitlab_internal"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --git-repository-provider-type value 3",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--git-repository-provider-type",
+      "origin"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --previews-enabled value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--previews-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "746",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1078",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-build-caching-enabled=true",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "834",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "952",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "922",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "830",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "856",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "regression value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "935",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1060",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--git-repository-grant-id",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-build-caching-enabled=true",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1012",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü",
+            "grant_id": "0123456789abcdef0123456789abcdef"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  }
+]

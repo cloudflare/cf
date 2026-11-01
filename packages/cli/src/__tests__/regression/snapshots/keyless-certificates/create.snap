@@ -1,0 +1,930 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "keyless-certificates",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--certificate is required. Pass --certificate <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bundle-method",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "ubiquitous"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "ubiquitous",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--bundle-method value 1",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "optimal"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "optimal",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--bundle-method value 2",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "force",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "ubiquitous",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tunnel-private-ip",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--tunnel-private-ip",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--tunnel-vnet-id is required when any --tunnel-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --tunnel-vnet-id",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--tunnel-vnet-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--tunnel-private-ip is required when any --tunnel-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "ubiquitous",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "optimal",
+      "--name",
+      "second value &/?+ü",
+      "--tunnel-private-ip",
+      "192.0.2.1",
+      "--tunnel-vnet-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "219",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "optimal",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "name": "second value &/?+ü",
+          "port": 1,
+          "tunnel": {
+            "private_ip": "192.0.2.1",
+            "vnet_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--name",
+      "regression value &/?+ü",
+      "--tunnel-vnet-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--tunnel-private-ip is required when any --tunnel-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "optimal",
+      "--tunnel-private-ip",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--tunnel-vnet-id is required when any --tunnel-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--tunnel-private-ip",
+      "192.0.2.1",
+      "--tunnel-vnet-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "ubiquitous",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "port": 1,
+          "tunnel": {
+            "private_ip": "192.0.2.1",
+            "vnet_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "optimal",
+      "--name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "138",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "optimal",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "name": "second value &/?+ü",
+          "port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-68b2db36a9e6.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-68b2db36a9e6.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "keyless-certificates",
+      "create",
+      "--certificate",
+      "regression value &/?+ü",
+      "--host",
+      "regression value &/?+ü",
+      "--port",
+      "1",
+      "--bundle-method",
+      "ubiquitous",
+      "--name",
+      "regression value &/?+ü",
+      "--tunnel-private-ip",
+      "192.0.2.1",
+      "--tunnel-vnet-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/keyless_certificates",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "226",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bundle_method": "ubiquitous",
+          "certificate": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "port": 1,
+          "tunnel": {
+            "private_ip": "192.0.2.1",
+            "vnet_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  }
+]

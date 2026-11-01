@@ -1,0 +1,515 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "stream",
+      "videos",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: tus-resumable, upload-length",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direct-user",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--direct-user=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream?direct_user=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direct-user value 1",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--direct-user=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream?direct_user=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --upload-creator",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--upload-creator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-creator": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --upload-metadata",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--upload-metadata",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "upload-metadata": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--direct-user=false",
+      "--upload-creator",
+      "second value &/?+ü",
+      "--upload-metadata",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream?direct_user=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-creator": "second value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "upload-metadata": "second value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--direct-user=false",
+      "--upload-metadata",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream?direct_user=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "upload-metadata": "second value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--direct-user=false",
+      "--upload-creator",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream?direct_user=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-creator": "second value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "tus-resumable": "regression value &/?+Ã¼",
+          "upload-length": "regression value &/?+Ã¼",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "stream",
+      "videos",
+      "create",
+      "--tus-resumable",
+      "regression value &/?+ü",
+      "--upload-length",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

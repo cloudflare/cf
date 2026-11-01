@@ -1,0 +1,1203 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--max-duration-seconds is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --upload-creator",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--upload-creator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "upload-creator": "regression value &/?+ü",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allowed-origins",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--allowed-origins",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowedOrigins": [
+            "regression value &/?+ü"
+          ],
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --creator",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--creator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "creator": "regression value &/?+ü",
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expiry",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--expiry",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "111",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "regression value &/?+ü",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --require-signed-urls",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--require-signed-urls=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "103",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": true,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "--require-signed-urls value 1",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--require-signed-urls=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --scheduled-deletion",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--scheduled-deletion",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "scheduledDeletion": "regression value &/?+ü",
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --thumbnail-timestamp-pct",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--thumbnail-timestamp-pct",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --watermark-uid",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--upload-creator",
+      "second value &/?+ü",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--expiry",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--scheduled-deletion",
+      "second value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "2",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "299",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "upload-creator": "second value &/?+ü",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "creator": "second value &/?+ü",
+          "expiry": "second value &/?+ü",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "scheduledDeletion": "second value &/?+ü",
+          "thumbnailTimestampPct": 2,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--allowed-origins",
+      "regression value &/?+ü",
+      "--expiry",
+      "regression value &/?+ü",
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "257",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowedOrigins": [
+            "regression value &/?+ü"
+          ],
+          "expiry": "regression value &/?+ü",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "scheduledDeletion": "regression value &/?+ü",
+          "thumbnailTimestampPct": 0,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--upload-creator",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--thumbnail-timestamp-pct",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "upload-creator": "second value &/?+ü",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "creator": "second value &/?+ü",
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--creator",
+      "regression value &/?+ü",
+      "--expiry",
+      "regression value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "202",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "creator": "regression value &/?+ü",
+          "expiry": "regression value &/?+ü",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 1,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--upload-creator",
+      "second value &/?+ü",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--scheduled-deletion",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "209",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "upload-creator": "second value &/?+ü",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "scheduledDeletion": "second value &/?+ü",
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--require-signed-urls=true",
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "204",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiry": "Now + 30 minutes",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": true,
+          "scheduledDeletion": "regression value &/?+ü",
+          "thumbnailTimestampPct": 1,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--upload-creator",
+      "second value &/?+ü",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--expiry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "202",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "upload-creator": "second value &/?+ü",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "creator": "second value &/?+ü",
+          "expiry": "second value &/?+ü",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "stream",
+      "videos",
+      "direct-upload",
+      "create",
+      "--max-duration-seconds",
+      "1",
+      "--upload-creator",
+      "regression value &/?+ü",
+      "--allowed-origins",
+      "regression value &/?+ü",
+      "--creator",
+      "regression value &/?+ü",
+      "--expiry",
+      "regression value &/?+ü",
+      "--require-signed-urls=true",
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/direct_upload",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "292",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "upload-creator": "regression value &/?+ü",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowedOrigins": [
+            "regression value &/?+ü"
+          ],
+          "creator": "regression value &/?+ü",
+          "expiry": "regression value &/?+ü",
+          "maxDurationSeconds": 1,
+          "requireSignedURLs": true,
+          "scheduledDeletion": "regression value &/?+ü",
+          "thumbnailTimestampPct": 1,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  }
+]

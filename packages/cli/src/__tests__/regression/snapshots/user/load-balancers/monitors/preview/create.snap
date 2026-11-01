@@ -1,0 +1,2064 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-insecure",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": true,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--allow-insecure value 1",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consecutive-down",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--consecutive-down",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "194",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_down": 1,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consecutive-up",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--consecutive-up",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_up": 1,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "192.0.2.1",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expected-body",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--expected-body",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "regression value &/?+ü",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expected-codes",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--expected-codes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "regression value &/?+ü",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --follow-redirects",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--follow-redirects=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": true,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--follow-redirects value 1",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--follow-redirects=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --interval",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--interval",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 1,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --method",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--method",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "208",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "method": "regression value &/?+ü",
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --path",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--path",
+      "project"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "190",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "path": "project",
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --port",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "port": 1,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --probe-zone",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--probe-zone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "regression value &/?+ü",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retries",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--retries",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 1,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --timeout",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 1,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "https"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "https"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 2",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "tcp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "tcp"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 3",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "udp_icmp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "udp_icmp"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 4",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "icmp_ping"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "icmp_ping"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 5",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "smtp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "smtp"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=false",
+      "--consecutive-down",
+      "2",
+      "--consecutive-up",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--expected-body",
+      "second value &/?+ü",
+      "--expected-codes",
+      "second value &/?+ü",
+      "--follow-redirects=false",
+      "--interval",
+      "2",
+      "--method",
+      "second value &/?+ü",
+      "--path",
+      "project",
+      "--port",
+      "2",
+      "--probe-zone",
+      "second value &/?+ü",
+      "--retries",
+      "2",
+      "--timeout",
+      "2",
+      "--type",
+      "https"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "336",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_down": 2,
+          "consecutive_up": 2,
+          "description": "192.0.2.1",
+          "expected_body": "second value &/?+ü",
+          "expected_codes": "second value &/?+ü",
+          "follow_redirects": false,
+          "interval": 2,
+          "method": "second value &/?+ü",
+          "path": "project",
+          "port": 2,
+          "probe_zone": "second value &/?+ü",
+          "retries": 2,
+          "timeout": 2,
+          "type": "https"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--consecutive-down",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--expected-codes",
+      "regression value &/?+ü",
+      "--interval",
+      "1",
+      "--path",
+      "project",
+      "--probe-zone",
+      "regression value &/?+ü",
+      "--timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "265",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_down": 1,
+          "description": "192.0.2.1",
+          "expected_body": "",
+          "expected_codes": "regression value &/?+ü",
+          "follow_redirects": false,
+          "interval": 1,
+          "path": "project",
+          "probe_zone": "regression value &/?+ü",
+          "retries": 2,
+          "timeout": 1,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=false",
+      "--consecutive-up",
+      "2",
+      "--expected-body",
+      "second value &/?+ü",
+      "--follow-redirects=false",
+      "--method",
+      "second value &/?+ü",
+      "--port",
+      "2",
+      "--retries",
+      "2",
+      "--type",
+      "https"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "252",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_up": 2,
+          "description": "",
+          "expected_body": "second value &/?+ü",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "method": "second value &/?+ü",
+          "port": 2,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "https"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--consecutive-up",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--follow-redirects=true",
+      "--interval",
+      "1",
+      "--port",
+      "1",
+      "--probe-zone",
+      "regression value &/?+ü",
+      "--type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "231",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_up": 1,
+          "description": "192.0.2.1",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": true,
+          "interval": 1,
+          "port": 1,
+          "probe_zone": "regression value &/?+ü",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=false",
+      "--consecutive-down",
+      "2",
+      "--expected-body",
+      "second value &/?+ü",
+      "--expected-codes",
+      "second value &/?+ü",
+      "--method",
+      "second value &/?+ü",
+      "--path",
+      "project",
+      "--retries",
+      "2",
+      "--timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "280",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_down": 2,
+          "description": "",
+          "expected_body": "second value &/?+ü",
+          "expected_codes": "second value &/?+ü",
+          "follow_redirects": false,
+          "interval": 60,
+          "method": "second value &/?+ü",
+          "path": "project",
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 2,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--expected-body",
+      "regression value &/?+ü",
+      "--expected-codes",
+      "regression value &/?+ü",
+      "--follow-redirects=true",
+      "--interval",
+      "1",
+      "--retries",
+      "1",
+      "--timeout",
+      "1",
+      "--type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "217",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "regression value &/?+ü",
+          "expected_codes": "regression value &/?+ü",
+          "follow_redirects": true,
+          "interval": 1,
+          "probe_zone": "",
+          "retries": 1,
+          "timeout": 1,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=false",
+      "--consecutive-down",
+      "2",
+      "--consecutive-up",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--method",
+      "second value &/?+ü",
+      "--path",
+      "project",
+      "--port",
+      "2",
+      "--probe-zone",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "298",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_down": 2,
+          "consecutive_up": 2,
+          "description": "192.0.2.1",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "method": "second value &/?+ü",
+          "path": "project",
+          "port": 2,
+          "probe_zone": "second value &/?+ü",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--method",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--port",
+      "1",
+      "--probe-zone",
+      "regression value &/?+ü",
+      "--retries",
+      "1",
+      "--timeout",
+      "1",
+      "--type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "257",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "interval": 60,
+          "method": "regression value &/?+ü",
+          "path": "project",
+          "port": 1,
+          "probe_zone": "regression value &/?+ü",
+          "retries": 1,
+          "timeout": 1,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=false",
+      "--consecutive-down",
+      "2",
+      "--consecutive-up",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--expected-body",
+      "second value &/?+ü",
+      "--expected-codes",
+      "second value &/?+ü",
+      "--follow-redirects=false",
+      "--interval",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "259",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "consecutive_down": 2,
+          "consecutive_up": 2,
+          "description": "192.0.2.1",
+          "expected_body": "second value &/?+ü",
+          "expected_codes": "second value &/?+ü",
+          "follow_redirects": false,
+          "interval": 2,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "preview",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-insecure=true",
+      "--consecutive-down",
+      "1",
+      "--consecutive-up",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--expected-body",
+      "regression value &/?+ü",
+      "--expected-codes",
+      "regression value &/?+ü",
+      "--follow-redirects=true",
+      "--interval",
+      "1",
+      "--method",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--port",
+      "1",
+      "--probe-zone",
+      "regression value &/?+ü",
+      "--retries",
+      "1",
+      "--timeout",
+      "1",
+      "--type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors/0123456789abcdef0123456789abcdef/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "349",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": true,
+          "consecutive_down": 1,
+          "consecutive_up": 1,
+          "description": "192.0.2.1",
+          "expected_body": "regression value &/?+ü",
+          "expected_codes": "regression value &/?+ü",
+          "follow_redirects": true,
+          "interval": 1,
+          "method": "regression value &/?+ü",
+          "path": "project",
+          "port": 1,
+          "probe_zone": "regression value &/?+ü",
+          "retries": 1,
+          "timeout": 1,
+          "type": "http"
+        }
+      }
+    ]
+  }
+]

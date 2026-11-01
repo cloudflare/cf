@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "workers-for-platforms",
+    "dispatch-namespaces",
+    "scripts",
+    "tags"
+  ],
+  "requests": []
+}

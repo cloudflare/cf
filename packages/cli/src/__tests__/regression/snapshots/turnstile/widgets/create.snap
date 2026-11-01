@@ -1,0 +1,2075 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--domains is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --order",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--order",
+      "id"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?order=id",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--order value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--order",
+      "sitekey"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?order=sitekey",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--order value 2",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--order",
+      "name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?order=name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--order value 3",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--order",
+      "created_on"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?order=created_on",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--order value 4",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--order",
+      "modified_on"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?order=modified_on",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --filter",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--filter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?filter=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bot-fight-mode",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--bot-fight-mode=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": true,
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--bot-fight-mode value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--bot-fight-mode=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": false,
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --clearance-level",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--clearance-level",
+      "no_clearance"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clearance_level": "no_clearance",
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--clearance-level value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--clearance-level",
+      "jschallenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clearance_level": "jschallenge",
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--clearance-level value 2",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--clearance-level",
+      "managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clearance_level": "managed",
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--clearance-level value 3",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--clearance-level",
+      "interactive"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clearance_level": "interactive",
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ephemeral-id",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--ephemeral-id=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": true,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ephemeral-id value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--ephemeral-id=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": false,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --offlabel",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--offlabel=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "118",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": true,
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--offlabel value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--offlabel=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": false,
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --region",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--region",
+      "world"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--region value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--region",
+      "china"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "china"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --widget-mode value 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--widget-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --widget-mode value 2",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--widget-mode",
+      "managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "sitekey",
+      "--direction",
+      "desc",
+      "--filter",
+      "second value &/?+ü",
+      "--bot-fight-mode=false",
+      "--clearance-level",
+      "jschallenge",
+      "--ephemeral-id=false",
+      "--offlabel=false",
+      "--region",
+      "china"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=2&per_page=2&order=sitekey&direction=desc&filter=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "195",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": false,
+          "clearance_level": "jschallenge",
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": false,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": false,
+          "region": "china"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--per-page",
+      "1",
+      "--direction",
+      "asc",
+      "--bot-fight-mode=true",
+      "--ephemeral-id=true",
+      "--region",
+      "world"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?per_page=1&direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": true,
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": true,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "2",
+      "--order",
+      "sitekey",
+      "--filter",
+      "second value &/?+ü",
+      "--clearance-level",
+      "jschallenge",
+      "--offlabel=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=2&order=sitekey&filter=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clearance_level": "jschallenge",
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": false,
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--order",
+      "id",
+      "--direction",
+      "asc",
+      "--clearance-level",
+      "no_clearance",
+      "--ephemeral-id=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?order=id&direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clearance_level": "no_clearance",
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": true,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--filter",
+      "second value &/?+ü",
+      "--bot-fight-mode=false",
+      "--offlabel=false",
+      "--region",
+      "china"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=2&per_page=2&filter=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": false,
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": false,
+          "region": "china"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--filter",
+      "regression value &/?+ü",
+      "--bot-fight-mode=true",
+      "--clearance-level",
+      "no_clearance",
+      "--ephemeral-id=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?filter=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": true,
+          "clearance_level": "no_clearance",
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": true,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "sitekey",
+      "--direction",
+      "desc",
+      "--offlabel=false",
+      "--region",
+      "china"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=2&per_page=2&order=sitekey&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": false,
+          "region": "china"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--offlabel=true",
+      "--region",
+      "world"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "118",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ],
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": true,
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "sitekey",
+      "--direction",
+      "desc",
+      "--filter",
+      "second value &/?+ü",
+      "--bot-fight-mode=false",
+      "--clearance-level",
+      "jschallenge",
+      "--ephemeral-id=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=2&per_page=2&order=sitekey&direction=desc&filter=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": false,
+          "clearance_level": "jschallenge",
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": false,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "region": "world"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "turnstile",
+      "widgets",
+      "create",
+      "--domains",
+      "example.com",
+      "--widget-mode",
+      "non-interactive",
+      "--name",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--order",
+      "id",
+      "--direction",
+      "asc",
+      "--filter",
+      "regression value &/?+ü",
+      "--bot-fight-mode=true",
+      "--clearance-level",
+      "no_clearance",
+      "--ephemeral-id=true",
+      "--offlabel=true",
+      "--region",
+      "world"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/challenges/widgets?page=1&per_page=1&order=id&direction=asc&filter=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_fight_mode": true,
+          "clearance_level": "no_clearance",
+          "domains": [
+            "example.com"
+          ],
+          "ephemeral_id": true,
+          "mode": "non-interactive",
+          "name": "regression value &/?+ü",
+          "offlabel": true,
+          "region": "world"
+        }
+      }
+    ]
+  }
+]

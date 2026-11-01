@@ -1,0 +1,1140 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "overwrite": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --overwrite",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "overwrite": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--overwrite value 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "overwrite": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-bucket",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-bucket",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-vendor is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-endpoint",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-keys",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-keys",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-path-prefix",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-path-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-region",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-secret-access-key-id",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-secret-secret-access-key",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-secret-client-email",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-secret-client-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-secret-private-key",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-secret-private-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-vendor",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-vendor",
+      "s3"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--source-vendor value 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-vendor",
+      "gcs"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--source-vendor value 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-jurisdiction",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-jurisdiction",
+      "default"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--source-jurisdiction value 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-jurisdiction",
+      "eu"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--source-jurisdiction value 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-jurisdiction",
+      "us"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--source-jurisdiction value 3",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-jurisdiction",
+      "fedramp"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --target-bucket",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-bucket",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--target-secret-access-key-id, --target-secret-secret-access-key, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --target-jurisdiction",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-jurisdiction",
+      "default"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-access-key-id, --target-secret-secret-access-key, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--target-jurisdiction value 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-jurisdiction",
+      "eu"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-access-key-id, --target-secret-secret-access-key, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--target-jurisdiction value 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-jurisdiction",
+      "us"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-access-key-id, --target-secret-secret-access-key, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--target-jurisdiction value 3",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-jurisdiction",
+      "fedramp"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-access-key-id, --target-secret-secret-access-key, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --target-secret-access-key-id",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-secret-access-key, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --target-secret-secret-access-key",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-access-key-id, --target-vendor are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --target-vendor",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "--target-bucket, --target-secret-access-key-id, --target-secret-secret-access-key are required when any --target-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-path-prefix",
+      "second value &/?+ü",
+      "--source-region",
+      "second value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-secret-access-key",
+      "second value &/?+ü",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-secret-private-key",
+      "second value &/?+ü",
+      "--source-vendor",
+      "gcs",
+      "--source-jurisdiction",
+      "eu",
+      "--target-bucket",
+      "second value &/?+ü",
+      "--target-jurisdiction",
+      "eu",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-secret-secret-access-key",
+      "second value &/?+ü",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-bucket",
+      "regression value &/?+ü",
+      "--source-keys",
+      "regression value &/?+ü",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-secret-secret-access-key",
+      "regression value &/?+ü",
+      "--source-secret-private-key",
+      "regression value &/?+ü",
+      "--source-jurisdiction",
+      "default",
+      "--target-jurisdiction",
+      "default",
+      "--target-secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-region and source-secret-private-key are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-path-prefix",
+      "second value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-vendor",
+      "gcs",
+      "--target-bucket",
+      "second value &/?+ü",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-keys",
+      "regression value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-secret-access-key",
+      "regression value &/?+ü",
+      "--source-vendor",
+      "s3",
+      "--source-jurisdiction",
+      "default",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-endpoint and source-jurisdiction are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-path-prefix",
+      "second value &/?+ü",
+      "--source-region",
+      "second value &/?+ü",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-secret-private-key",
+      "second value &/?+ü",
+      "--target-bucket",
+      "second value &/?+ü",
+      "--target-jurisdiction",
+      "eu",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-region and source-secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-path-prefix",
+      "regression value &/?+ü",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-secret-access-key",
+      "regression value &/?+ü",
+      "--target-bucket",
+      "regression value &/?+ü",
+      "--target-jurisdiction",
+      "default",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-secret-private-key",
+      "second value &/?+ü",
+      "--source-vendor",
+      "gcs",
+      "--source-jurisdiction",
+      "eu",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-secret-private-key",
+      "regression value &/?+ü",
+      "--source-vendor",
+      "s3",
+      "--source-jurisdiction",
+      "default",
+      "--target-bucket",
+      "regression value &/?+ü",
+      "--target-jurisdiction",
+      "default",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-secret-client-email and source-jurisdiction are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-path-prefix",
+      "second value &/?+ü",
+      "--source-region",
+      "second value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-secret-access-key",
+      "second value &/?+ü",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "--source-vendor is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=false",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-path-prefix",
+      "second value &/?+ü",
+      "--source-region",
+      "second value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-secret-access-key",
+      "second value &/?+ü",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-secret-private-key",
+      "second value &/?+ü",
+      "--source-vendor",
+      "gcs",
+      "--source-jurisdiction",
+      "eu",
+      "--target-bucket",
+      "second value &/?+ü",
+      "--target-jurisdiction",
+      "eu",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-secret-secret-access-key",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "jobs",
+      "create",
+      "--overwrite=true",
+      "--source-bucket",
+      "regression value &/?+ü",
+      "--source-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--source-keys",
+      "regression value &/?+ü",
+      "--source-path-prefix",
+      "regression value &/?+ü",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-secret-secret-access-key",
+      "regression value &/?+ü",
+      "--source-secret-client-email",
+      "regression@example.com",
+      "--source-secret-private-key",
+      "regression value &/?+ü",
+      "--source-vendor",
+      "s3",
+      "--source-jurisdiction",
+      "default",
+      "--target-bucket",
+      "regression value &/?+ü",
+      "--target-jurisdiction",
+      "default",
+      "--target-secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-secret-secret-access-key",
+      "regression value &/?+ü",
+      "--target-vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "requests": []
+  }
+]

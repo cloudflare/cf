@@ -1,0 +1,1955 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --dataset",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "access_requests"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 2",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "audit_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 3",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "audit_logs_v2"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 4",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "biso_user_actions"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 5",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "casb_findings"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 6",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "device_posture_results"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 7",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "dex_application_tests"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 8",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "dex_device_state_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 9",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "dlp_forensic_copies"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 10",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "dns_firewall_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 11",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "dns_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 12",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "email_security_alerts"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 13",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "email_security_post_delivery_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 14",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "firewall_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 15",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "gateway_dns"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 16",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "gateway_http"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 17",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "gateway_network"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 18",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "http_requests"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 19",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "ipsec_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 20",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "magic_bgp_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 21",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "magic_ids_detections"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 22",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "mcp_portal_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 23",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "mnm_flow_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 24",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "nel_reports"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 25",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "network_analytics_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 26",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "page_shield_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 27",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "sinkhole_http_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 28",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "spectrum_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 29",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "ssh_logs"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 30",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "turnstile_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 31",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "warp_config_changes"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 32",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "warp_toggle_changes"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 33",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "websocket_analytics"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 34",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "workers_trace_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 35",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "zaraz_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 36",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "zero_trust_network_sessions"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --filter",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--filter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --filter-attack-traffic",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--filter-attack-traffic=true"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--filter-attack-traffic value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--filter-attack-traffic=false"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --frequency",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--frequency",
+      "high"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--frequency value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--frequency",
+      "low"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --kind",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--kind",
+      "edge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "http_requests",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": false,
+          "filter_attack_traffic": false,
+          "frequency": "high",
+          "kind": "edge"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --logpull-options",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--logpull-options",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-cve-2021-44228",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-cve-2021-44228=true"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-cve-2021-44228 value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-cve-2021-44228=false"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-batch-prefix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-batch-suffix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-field-delimiter",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-field-names",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-merge-subrequests",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-merge-subrequests value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=false"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-output-type",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-output-type",
+      "ndjson"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-output-type value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-output-type",
+      "csv"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-record-delimiter",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-record-prefix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-record-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-record-suffix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-record-template",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-sample-rate",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --output-options-timestamp-format",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "unixnano"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-timestamp-format value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "unix"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-timestamp-format value 2",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "rfc3339"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-timestamp-format value 3",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "rfc3339ms"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--output-options-timestamp-format value 4",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "rfc3339ns"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --ownership-challenge",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-delimiter",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-merge-subrequests=false",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-delimiter",
+      "second value &/?+ü",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-sample-rate",
+      "2",
+      "--output-options-timestamp-format",
+      "unix",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "763",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "account_abuse_protection_events",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "logpull_options": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "batch_suffix": "second value &/?+ü",
+            "field_delimiter": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "merge_subrequests": false,
+            "output_type": "csv",
+            "record_delimiter": "second value &/?+ü",
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "record_template": "second value &/?+ü",
+            "sample_rate": 2,
+            "timestamp_format": "unix"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--filter-attack-traffic=true",
+      "--kind",
+      "edge",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "448",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "http_requests",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": true,
+          "filter_attack_traffic": true,
+          "frequency": "high",
+          "kind": "edge",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "batch_prefix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
+            "merge_subrequests": true,
+            "record_delimiter": "regression value &/?+ü",
+            "record_suffix": "regression value &/?+ü",
+            "sample_rate": 1
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events",
+      "--filter",
+      "second value &/?+ü",
+      "--frequency",
+      "low",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-timestamp-format",
+      "unix"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--filter",
+      "regression value &/?+ü",
+      "--filter-attack-traffic=true",
+      "--logpull-options",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events",
+      "--enabled=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-merge-subrequests=false",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-timestamp-format",
+      "unix",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "469",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "account_abuse_protection_events",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": false,
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "merge_subrequests": false,
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "timestamp_format": "unix"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--frequency",
+      "high",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "unixnano",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "446",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "http_requests",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": false,
+          "filter_attack_traffic": false,
+          "frequency": "high",
+          "kind": "edge",
+          "logpull_options": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "field_names": [
+              "regression value &/?+ü"
+            ],
+            "merge_subrequests": true,
+            "output_type": "ndjson",
+            "record_delimiter": "regression value &/?+ü",
+            "timestamp_format": "unixnano"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-delimiter",
+      "second value &/?+ü",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-sample-rate",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-cve-2021-44228=true",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-sample-rate",
+      "2",
+      "--output-options-timestamp-format",
+      "unix",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "479",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "account_abuse_protection_events",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "logpull_options": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "output_options": {
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "record_template": "second value &/?+ü",
+            "sample_rate": 2,
+            "timestamp_format": "unix"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-record-prefix",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
+      "--output-options-timestamp-format",
+      "unixnano",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "account_abuse_protection_events",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-delimiter",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-merge-subrequests=false",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-delimiter",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "571",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "account_abuse_protection_events",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "logpull_options": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "batch_suffix": "second value &/?+ü",
+            "field_delimiter": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "merge_subrequests": false,
+            "output_type": "csv",
+            "record_delimiter": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-53c8db1efb6c.example.com"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "access_requests",
+      "--enabled=true",
+      "--filter",
+      "regression value &/?+ü",
+      "--filter-attack-traffic=true",
+      "--frequency",
+      "high",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-cve-2021-44228=true",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-record-prefix",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
+      "--output-options-timestamp-format",
+      "unixnano",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "773",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset": "access_requests",
+          "destination_conf": "regression value &/?+ü",
+          "enabled": true,
+          "filter": "regression value &/?+ü",
+          "filter_attack_traffic": true,
+          "frequency": "high",
+          "kind": "edge",
+          "logpull_options": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": true,
+            "batch_prefix": "regression value &/?+ü",
+            "batch_suffix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
+            "field_names": [
+              "regression value &/?+ü"
+            ],
+            "merge_subrequests": true,
+            "output_type": "ndjson",
+            "record_delimiter": "regression value &/?+ü",
+            "record_prefix": "regression value &/?+ü",
+            "record_suffix": "regression value &/?+ü",
+            "record_template": "regression value &/?+ü",
+            "sample_rate": 1,
+            "timestamp_format": "unixnano"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  }
+]

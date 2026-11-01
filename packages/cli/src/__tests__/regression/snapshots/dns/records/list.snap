@@ -1,0 +1,3037 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "dns",
+      "records",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-exact",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-exact",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.exact=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-contains",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-contains",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.contains=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-startswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-startswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.startswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-endswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-endswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.endswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "A"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=A",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "AAAA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=AAAA",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 2",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "CAA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=CAA",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 3",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "CERT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=CERT",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 4",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "CNAME"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=CNAME",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 5",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "DNSKEY"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=DNSKEY",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 6",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "DS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=DS",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 7",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "HTTPS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=HTTPS",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 8",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "LOC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=LOC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 9",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "MX"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=MX",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 10",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "NAPTR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=NAPTR",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 11",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "NS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=NS",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 12",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "OPENPGPKEY"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=OPENPGPKEY",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 13",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "PTR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=PTR",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 14",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "SMIMEA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=SMIMEA",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 15",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "SRV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=SRV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 16",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "SSHFP"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=SSHFP",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 17",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "SVCB"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=SVCB",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 18",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "TLSA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=TLSA",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 19",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "TXT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=TXT",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 20",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--type",
+      "URI"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?type=URI",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --content",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--content",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?content=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --content-exact",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--content-exact",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?content.exact=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --content-contains",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--content-contains",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?content.contains=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --content-startswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--content-startswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?content.startswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --content-endswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--content-endswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?content.endswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --proxied",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--proxied=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?proxied=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--proxied value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--proxied=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?proxied=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --match",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--match",
+      "any"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?match=any",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--match value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--match",
+      "all"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?match=all",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment-present",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-present",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.present=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment-absent",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-absent",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.absent=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment-exact",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-exact",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.exact=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment-contains",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-contains",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.contains=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment-startswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-startswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.startswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --comment-endswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-endswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.endswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag",
+      "regression-image:latest"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag=regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-present",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-present",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag.present=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-absent",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-absent",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag.absent=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-exact",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-exact",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag.exact=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-contains",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-contains",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag.contains=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-startswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-startswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag.startswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-endswith",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-endswith",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag.endswith=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --search",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--search",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?search=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-match",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-match",
+      "any"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag_match=any",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--tag-match value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--tag-match",
+      "all"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?tag_match=all",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --order",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--order",
+      "type"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?order=type",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--order",
+      "name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?order=name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 2",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--order",
+      "content"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?order=content",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 3",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--order",
+      "ttl"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?order=ttl",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 4",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--order",
+      "proxied"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?order=proxied",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-shadow-metadata",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--include-shadow-metadata=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?include_shadow_metadata=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-shadow-metadata value 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--include-shadow-metadata=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?include_shadow_metadata=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --shadowed-by-name",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--shadowed-by-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?shadowed_by_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --shadowing-name",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--shadowing-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?shadowing_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-exact",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--name-startswith",
+      "second value &/?+ü",
+      "--name-endswith",
+      "second value &/?+ü",
+      "--type",
+      "AAAA",
+      "--content",
+      "second value &/?+ü",
+      "--content-exact",
+      "second value &/?+ü",
+      "--content-contains",
+      "second value &/?+ü",
+      "--content-startswith",
+      "second value &/?+ü",
+      "--content-endswith",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--match",
+      "all",
+      "--comment",
+      "second value &/?+ü",
+      "--comment-present",
+      "second value &/?+ü",
+      "--comment-absent",
+      "second value &/?+ü",
+      "--comment-exact",
+      "second value &/?+ü",
+      "--comment-contains",
+      "second value &/?+ü",
+      "--comment-startswith",
+      "second value &/?+ü",
+      "--comment-endswith",
+      "second value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-present",
+      "second value &/?+ü",
+      "--tag-absent",
+      "second value &/?+ü",
+      "--tag-exact",
+      "second value &/?+ü",
+      "--tag-contains",
+      "second value &/?+ü",
+      "--tag-startswith",
+      "second value &/?+ü",
+      "--tag-endswith",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--tag-match",
+      "all",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "name",
+      "--direction",
+      "desc",
+      "--include-shadow-metadata=false",
+      "--shadowed-by-name",
+      "second value &/?+ü",
+      "--shadowing-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.exact=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&name.startswith=second%20value%20%26%2F%3F%2B%C3%BC&name.endswith=second%20value%20%26%2F%3F%2B%C3%BC&type=AAAA&content=second%20value%20%26%2F%3F%2B%C3%BC&content.exact=second%20value%20%26%2F%3F%2B%C3%BC&content.contains=second%20value%20%26%2F%3F%2B%C3%BC&content.startswith=second%20value%20%26%2F%3F%2B%C3%BC&content.endswith=second%20value%20%26%2F%3F%2B%C3%BC&proxied=false&match=all&comment=second%20value%20%26%2F%3F%2B%C3%BC&comment.present=second%20value%20%26%2F%3F%2B%C3%BC&comment.absent=second%20value%20%26%2F%3F%2B%C3%BC&comment.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.contains=second%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=second%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.present=second%20value%20%26%2F%3F%2B%C3%BC&tag.absent=second%20value%20%26%2F%3F%2B%C3%BC&tag.exact=second%20value%20%26%2F%3F%2B%C3%BC&tag.contains=second%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=second%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=second%20value%20%26%2F%3F%2B%C3%BC&search=second%20value%20%26%2F%3F%2B%C3%BC&tag_match=all&page=2&per_page=2&order=name&direction=desc&include_shadow_metadata=false&shadowed_by_name=second%20value%20%26%2F%3F%2B%C3%BC&shadowing_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-exact",
+      "regression value &/?+ü",
+      "--name-startswith",
+      "regression value &/?+ü",
+      "--type",
+      "A",
+      "--content-exact",
+      "regression value &/?+ü",
+      "--content-startswith",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--comment",
+      "regression value &/?+ü",
+      "--comment-absent",
+      "regression value &/?+ü",
+      "--comment-contains",
+      "regression value &/?+ü",
+      "--comment-endswith",
+      "regression value &/?+ü",
+      "--tag-present",
+      "regression value &/?+ü",
+      "--tag-exact",
+      "regression value &/?+ü",
+      "--tag-startswith",
+      "regression value &/?+ü",
+      "--search",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--order",
+      "type",
+      "--include-shadow-metadata=true",
+      "--shadowing-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.exact=regression%20value%20%26%2F%3F%2B%C3%BC&name.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&type=A&content.exact=regression%20value%20%26%2F%3F%2B%C3%BC&content.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&proxied=true&comment=regression%20value%20%26%2F%3F%2B%C3%BC&comment.absent=regression%20value%20%26%2F%3F%2B%C3%BC&comment.contains=regression%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&tag.present=regression%20value%20%26%2F%3F%2B%C3%BC&tag.exact=regression%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&search=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&order=type&include_shadow_metadata=true&shadowing_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--name-endswith",
+      "second value &/?+ü",
+      "--content",
+      "second value &/?+ü",
+      "--content-contains",
+      "second value &/?+ü",
+      "--content-endswith",
+      "second value &/?+ü",
+      "--match",
+      "all",
+      "--comment-present",
+      "second value &/?+ü",
+      "--comment-exact",
+      "second value &/?+ü",
+      "--comment-startswith",
+      "second value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-absent",
+      "second value &/?+ü",
+      "--tag-contains",
+      "second value &/?+ü",
+      "--tag-endswith",
+      "second value &/?+ü",
+      "--tag-match",
+      "all",
+      "--per-page",
+      "2",
+      "--direction",
+      "desc",
+      "--shadowed-by-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&name.endswith=second%20value%20%26%2F%3F%2B%C3%BC&content=second%20value%20%26%2F%3F%2B%C3%BC&content.contains=second%20value%20%26%2F%3F%2B%C3%BC&content.endswith=second%20value%20%26%2F%3F%2B%C3%BC&match=all&comment.present=second%20value%20%26%2F%3F%2B%C3%BC&comment.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.absent=second%20value%20%26%2F%3F%2B%C3%BC&tag.contains=second%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=second%20value%20%26%2F%3F%2B%C3%BC&tag_match=all&per_page=2&direction=desc&shadowed_by_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-contains",
+      "regression value &/?+ü",
+      "--name-startswith",
+      "regression value &/?+ü",
+      "--content",
+      "regression value &/?+ü",
+      "--content-exact",
+      "regression value &/?+ü",
+      "--content-endswith",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--comment-present",
+      "regression value &/?+ü",
+      "--comment-absent",
+      "regression value &/?+ü",
+      "--comment-startswith",
+      "regression value &/?+ü",
+      "--comment-endswith",
+      "regression value &/?+ü",
+      "--tag-absent",
+      "regression value &/?+ü",
+      "--tag-exact",
+      "regression value &/?+ü",
+      "--tag-endswith",
+      "regression value &/?+ü",
+      "--search",
+      "regression value &/?+ü",
+      "--per-page",
+      "1",
+      "--order",
+      "type",
+      "--shadowed-by-name",
+      "regression value &/?+ü",
+      "--shadowing-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.contains=regression%20value%20%26%2F%3F%2B%C3%BC&name.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&content=regression%20value%20%26%2F%3F%2B%C3%BC&content.exact=regression%20value%20%26%2F%3F%2B%C3%BC&content.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&proxied=true&comment.present=regression%20value%20%26%2F%3F%2B%C3%BC&comment.absent=regression%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&tag.absent=regression%20value%20%26%2F%3F%2B%C3%BC&tag.exact=regression%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&search=regression%20value%20%26%2F%3F%2B%C3%BC&per_page=1&order=type&shadowed_by_name=regression%20value%20%26%2F%3F%2B%C3%BC&shadowing_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-exact",
+      "second value &/?+ü",
+      "--name-endswith",
+      "second value &/?+ü",
+      "--type",
+      "AAAA",
+      "--content-contains",
+      "second value &/?+ü",
+      "--content-startswith",
+      "second value &/?+ü",
+      "--match",
+      "all",
+      "--comment",
+      "second value &/?+ü",
+      "--comment-exact",
+      "second value &/?+ü",
+      "--comment-contains",
+      "second value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-present",
+      "second value &/?+ü",
+      "--tag-contains",
+      "second value &/?+ü",
+      "--tag-startswith",
+      "second value &/?+ü",
+      "--tag-match",
+      "all",
+      "--page",
+      "2",
+      "--direction",
+      "desc",
+      "--include-shadow-metadata=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.exact=second%20value%20%26%2F%3F%2B%C3%BC&name.endswith=second%20value%20%26%2F%3F%2B%C3%BC&type=AAAA&content.contains=second%20value%20%26%2F%3F%2B%C3%BC&content.startswith=second%20value%20%26%2F%3F%2B%C3%BC&match=all&comment=second%20value%20%26%2F%3F%2B%C3%BC&comment.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.contains=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.present=second%20value%20%26%2F%3F%2B%C3%BC&tag.contains=second%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=second%20value%20%26%2F%3F%2B%C3%BC&tag_match=all&page=2&direction=desc&include_shadow_metadata=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name-endswith",
+      "regression value &/?+ü",
+      "--type",
+      "A",
+      "--content",
+      "regression value &/?+ü",
+      "--content-exact",
+      "regression value &/?+ü",
+      "--match",
+      "any",
+      "--comment",
+      "regression value &/?+ü",
+      "--comment-present",
+      "regression value &/?+ü",
+      "--comment-absent",
+      "regression value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-present",
+      "regression value &/?+ü",
+      "--tag-absent",
+      "regression value &/?+ü",
+      "--tag-exact",
+      "regression value &/?+ü",
+      "--tag-match",
+      "any",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--order",
+      "type"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&type=A&content=regression%20value%20%26%2F%3F%2B%C3%BC&content.exact=regression%20value%20%26%2F%3F%2B%C3%BC&match=any&comment=regression%20value%20%26%2F%3F%2B%C3%BC&comment.present=regression%20value%20%26%2F%3F%2B%C3%BC&comment.absent=regression%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.present=regression%20value%20%26%2F%3F%2B%C3%BC&tag.absent=regression%20value%20%26%2F%3F%2B%C3%BC&tag.exact=regression%20value%20%26%2F%3F%2B%C3%BC&tag_match=any&page=1&per_page=1&order=type",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-exact",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--name-startswith",
+      "second value &/?+ü",
+      "--content-contains",
+      "second value &/?+ü",
+      "--content-startswith",
+      "second value &/?+ü",
+      "--content-endswith",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--comment-exact",
+      "second value &/?+ü",
+      "--comment-contains",
+      "second value &/?+ü",
+      "--comment-startswith",
+      "second value &/?+ü",
+      "--comment-endswith",
+      "second value &/?+ü",
+      "--tag-contains",
+      "second value &/?+ü",
+      "--tag-startswith",
+      "second value &/?+ü",
+      "--tag-endswith",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--direction",
+      "desc",
+      "--include-shadow-metadata=false",
+      "--shadowed-by-name",
+      "second value &/?+ü",
+      "--shadowing-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.exact=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&name.startswith=second%20value%20%26%2F%3F%2B%C3%BC&content.contains=second%20value%20%26%2F%3F%2B%C3%BC&content.startswith=second%20value%20%26%2F%3F%2B%C3%BC&content.endswith=second%20value%20%26%2F%3F%2B%C3%BC&proxied=false&comment.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.contains=second%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=second%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=second%20value%20%26%2F%3F%2B%C3%BC&tag.contains=second%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=second%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=second%20value%20%26%2F%3F%2B%C3%BC&search=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&include_shadow_metadata=false&shadowed_by_name=second%20value%20%26%2F%3F%2B%C3%BC&shadowing_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--content-contains",
+      "regression value &/?+ü",
+      "--content-startswith",
+      "regression value &/?+ü",
+      "--content-endswith",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--match",
+      "any",
+      "--comment",
+      "regression value &/?+ü",
+      "--comment-present",
+      "regression value &/?+ü",
+      "--comment-absent",
+      "regression value &/?+ü",
+      "--tag-contains",
+      "regression value &/?+ü",
+      "--tag-startswith",
+      "regression value &/?+ü",
+      "--tag-endswith",
+      "regression value &/?+ü",
+      "--search",
+      "regression value &/?+ü",
+      "--tag-match",
+      "any",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--order",
+      "type"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?content.contains=regression%20value%20%26%2F%3F%2B%C3%BC&content.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&content.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&proxied=true&match=any&comment=regression%20value%20%26%2F%3F%2B%C3%BC&comment.present=regression%20value%20%26%2F%3F%2B%C3%BC&comment.absent=regression%20value%20%26%2F%3F%2B%C3%BC&tag.contains=regression%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&search=regression%20value%20%26%2F%3F%2B%C3%BC&tag_match=any&page=1&per_page=1&order=type",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-exact",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--name-startswith",
+      "second value &/?+ü",
+      "--name-endswith",
+      "second value &/?+ü",
+      "--type",
+      "AAAA",
+      "--content",
+      "second value &/?+ü",
+      "--content-exact",
+      "second value &/?+ü",
+      "--comment-exact",
+      "second value &/?+ü",
+      "--comment-contains",
+      "second value &/?+ü",
+      "--comment-startswith",
+      "second value &/?+ü",
+      "--comment-endswith",
+      "second value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-present",
+      "second value &/?+ü",
+      "--tag-absent",
+      "second value &/?+ü",
+      "--tag-exact",
+      "second value &/?+ü",
+      "--direction",
+      "desc",
+      "--include-shadow-metadata=false",
+      "--shadowed-by-name",
+      "second value &/?+ü",
+      "--shadowing-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.exact=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&name.startswith=second%20value%20%26%2F%3F%2B%C3%BC&name.endswith=second%20value%20%26%2F%3F%2B%C3%BC&type=AAAA&content=second%20value%20%26%2F%3F%2B%C3%BC&content.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.contains=second%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=second%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.present=second%20value%20%26%2F%3F%2B%C3%BC&tag.absent=second%20value%20%26%2F%3F%2B%C3%BC&tag.exact=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&include_shadow_metadata=false&shadowed_by_name=second%20value%20%26%2F%3F%2B%C3%BC&shadowing_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--comment-exact",
+      "regression value &/?+ü",
+      "--comment-contains",
+      "regression value &/?+ü",
+      "--comment-startswith",
+      "regression value &/?+ü",
+      "--comment-endswith",
+      "regression value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-present",
+      "regression value &/?+ü",
+      "--tag-absent",
+      "regression value &/?+ü",
+      "--tag-exact",
+      "regression value &/?+ü",
+      "--tag-contains",
+      "regression value &/?+ü",
+      "--tag-startswith",
+      "regression value &/?+ü",
+      "--tag-endswith",
+      "regression value &/?+ü",
+      "--search",
+      "regression value &/?+ü",
+      "--tag-match",
+      "any",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--order",
+      "type"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?comment.exact=regression%20value%20%26%2F%3F%2B%C3%BC&comment.contains=regression%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.present=regression%20value%20%26%2F%3F%2B%C3%BC&tag.absent=regression%20value%20%26%2F%3F%2B%C3%BC&tag.exact=regression%20value%20%26%2F%3F%2B%C3%BC&tag.contains=regression%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=regression%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=regression%20value%20%26%2F%3F%2B%C3%BC&search=regression%20value%20%26%2F%3F%2B%C3%BC&tag_match=any&page=1&per_page=1&order=type",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-exact",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--name-startswith",
+      "second value &/?+ü",
+      "--name-endswith",
+      "second value &/?+ü",
+      "--type",
+      "AAAA",
+      "--content",
+      "second value &/?+ü",
+      "--content-exact",
+      "second value &/?+ü",
+      "--content-contains",
+      "second value &/?+ü",
+      "--content-startswith",
+      "second value &/?+ü",
+      "--content-endswith",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--match",
+      "all",
+      "--comment",
+      "second value &/?+ü",
+      "--comment-present",
+      "second value &/?+ü",
+      "--comment-absent",
+      "second value &/?+ü",
+      "--direction",
+      "desc",
+      "--include-shadow-metadata=false",
+      "--shadowed-by-name",
+      "second value &/?+ü",
+      "--shadowing-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.exact=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&name.startswith=second%20value%20%26%2F%3F%2B%C3%BC&name.endswith=second%20value%20%26%2F%3F%2B%C3%BC&type=AAAA&content=second%20value%20%26%2F%3F%2B%C3%BC&content.exact=second%20value%20%26%2F%3F%2B%C3%BC&content.contains=second%20value%20%26%2F%3F%2B%C3%BC&content.startswith=second%20value%20%26%2F%3F%2B%C3%BC&content.endswith=second%20value%20%26%2F%3F%2B%C3%BC&proxied=false&match=all&comment=second%20value%20%26%2F%3F%2B%C3%BC&comment.present=second%20value%20%26%2F%3F%2B%C3%BC&comment.absent=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&include_shadow_metadata=false&shadowed_by_name=second%20value%20%26%2F%3F%2B%C3%BC&shadowing_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--direction",
+      "asc",
+      "--include-shadow-metadata=true",
+      "--shadowed-by-name",
+      "regression value &/?+ü",
+      "--shadowing-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?direction=asc&include_shadow_metadata=true&shadowed_by_name=regression%20value%20%26%2F%3F%2B%C3%BC&shadowing_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--name",
+      "second value &/?+ü",
+      "--name-exact",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--name-startswith",
+      "second value &/?+ü",
+      "--name-endswith",
+      "second value &/?+ü",
+      "--type",
+      "AAAA",
+      "--content",
+      "second value &/?+ü",
+      "--content-exact",
+      "second value &/?+ü",
+      "--content-contains",
+      "second value &/?+ü",
+      "--content-startswith",
+      "second value &/?+ü",
+      "--content-endswith",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--match",
+      "all",
+      "--comment",
+      "second value &/?+ü",
+      "--comment-present",
+      "second value &/?+ü",
+      "--comment-absent",
+      "second value &/?+ü",
+      "--comment-exact",
+      "second value &/?+ü",
+      "--comment-contains",
+      "second value &/?+ü",
+      "--comment-startswith",
+      "second value &/?+ü",
+      "--comment-endswith",
+      "second value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--tag-present",
+      "second value &/?+ü",
+      "--tag-absent",
+      "second value &/?+ü",
+      "--tag-exact",
+      "second value &/?+ü",
+      "--tag-contains",
+      "second value &/?+ü",
+      "--tag-startswith",
+      "second value &/?+ü",
+      "--tag-endswith",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--tag-match",
+      "all",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records?name=second%20value%20%26%2F%3F%2B%C3%BC&name.exact=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&name.startswith=second%20value%20%26%2F%3F%2B%C3%BC&name.endswith=second%20value%20%26%2F%3F%2B%C3%BC&type=AAAA&content=second%20value%20%26%2F%3F%2B%C3%BC&content.exact=second%20value%20%26%2F%3F%2B%C3%BC&content.contains=second%20value%20%26%2F%3F%2B%C3%BC&content.startswith=second%20value%20%26%2F%3F%2B%C3%BC&content.endswith=second%20value%20%26%2F%3F%2B%C3%BC&proxied=false&match=all&comment=second%20value%20%26%2F%3F%2B%C3%BC&comment.present=second%20value%20%26%2F%3F%2B%C3%BC&comment.absent=second%20value%20%26%2F%3F%2B%C3%BC&comment.exact=second%20value%20%26%2F%3F%2B%C3%BC&comment.contains=second%20value%20%26%2F%3F%2B%C3%BC&comment.startswith=second%20value%20%26%2F%3F%2B%C3%BC&comment.endswith=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag.present=second%20value%20%26%2F%3F%2B%C3%BC&tag.absent=second%20value%20%26%2F%3F%2B%C3%BC&tag.exact=second%20value%20%26%2F%3F%2B%C3%BC&tag.contains=second%20value%20%26%2F%3F%2B%C3%BC&tag.startswith=second%20value%20%26%2F%3F%2B%C3%BC&tag.endswith=second%20value%20%26%2F%3F%2B%C3%BC&search=second%20value%20%26%2F%3F%2B%C3%BC&tag_match=all&page=2&per_page=2&order=name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--zone",
+      "regression-1a3445b93b45.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-1a3445b93b45.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/dns_records",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "dns",
+      "records",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

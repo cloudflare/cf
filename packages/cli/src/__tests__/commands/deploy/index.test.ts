@@ -121,6 +121,7 @@ describe("cf deploy", () => {
 					allowed_origins: ["https://api.example.com"],
 					allowed_methods: ["GET", "POST"],
 					require_sender_constraint: true as const,
+					http_message_signatures: "web_bot_auth" as const,
 				};
 				const policy = {
 					type: "identity" as const,

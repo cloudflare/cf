@@ -17,9 +17,15 @@ credential contract below. Local static bindings use account `local` and
 `local:<worker-name>` IDs; those IDs never establish production identity.
 
 The receiving Worker calls `await ctx.identity.caller()` with no arguments or
-receiver binding. The caller is the authenticated software making the request:
-an agent, Worker, service, or another supported workload. Keep any human identity
-it acts for separate. The runtime verifies lazily and returns frozen facts;
+receiver binding.
+
+Native service-binding facts identify the immediate calling Worker. JWT facts
+identify the originating identity binding's authority; signed-request facts expose
+the selected capability's exact URL as `signatureAgent`. Forwarding either
+capability preserves its authority; it does not attest the current executor.
+The sender's `identity.id` remains an opaque ID. Keep human identity separate.
+
+The runtime verifies lazily and returns frozen facts;
 the application checks the exact caller, operation, resource, and JWT audience.
 On the HTTP credential path, missing credentials return `null`. Invalid credentials reject with
 `WorkloadIdentityError`; unavailable discovery or replay storage rejects with

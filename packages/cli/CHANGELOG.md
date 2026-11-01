@@ -1,5 +1,74 @@
 # cf
 
+## 1.0.0-beta.27
+
+### Minor Changes
+
+- bbe47a8: Give API fields that collide with cf's own flags distinct names
+
+  Generated commands no longer drop, merge, or shadow API fields whose names match a cf flag. `cf precursor update --detection-mode` sets the previously unreachable `mode`, and `cf o11y telemetry query` and `cf o11y shared-queries create` gain `--preview`.
+
+  One behavior change: on `cf cloudforce-one priority-intelligence profile update`, the organization profile is now `--organization-profile`, and `--profile` selects the auth profile again. An API parameter named `force` can no longer take cf's confirmation `--force`. `cf ai run` and `cf registrar registrations create` accept schema fields named after cf flags as `--input-<name>` (for example `--input-quiet`), and `cf schema` lists the flag behind a path or query parameter when it has one.
+
+- 8129166: Update the generated command surface for Forge OpenAPI release `319dc756af2a642b3122b4db7e3b79ac1fbec7d8`
+
+  Keep `cf auth scopes` working with the OAuth scope catalogue's new IAM group.
+
+### Patch Changes
+
+- cde5fa3: Explain how account-or-zone commands pick their scope
+
+  Commands that serve either an account or a zone, such as `cf rulesets list`
+  and `cf load-balancers account list`, now say in `--help` that they run
+  against your account unless you pass `--zone`, and that they ignore
+  `CLOUDFLARE_ZONE_ID`.
+
+- edc13df: Prepare generated commands to preserve audio API responses
+
+  Recognize `audio/*` responses as binary data in the command generator and its
+  operation descriptors, including schemas without `format: binary`. Future commands
+  generated for audio endpoints will write the exact bytes to stdout so they can be
+  redirected to a file. No commands generated from the currently pinned OpenAPI
+  specification declare audio responses, so this change does not alter the behavior
+  of any currently shipped command.
+
+- cde5fa3: Reject `--zone` without a value
+
+  An empty `--zone` used to fall back to `CLOUDFLARE_ZONE_ID`, and `--dry-run`
+  previewed a `/zones//` path. On commands that serve both an account and a
+  zone, it also switched to zone scope. cf now stops with
+  `--zone requires a non-empty value.` and, as with `--mode`, rejects a repeated
+  `--zone`.
+
+  Commands that forward arguments, such as `cf containers ssh`, used to drop a
+  `-z` with no value, so `cf containers ssh <id> ls -z` ran plain `ls`. That now
+  stops with the same error. Put forwarded arguments after `--`, as in
+  `cf containers ssh <id> -- ls -z`.
+
+- 8e5f074: Keep required HTTP header parameters out of generated JSON request bodies.
+
+  Flags such as `--if-match` are now sent only as headers rather than also being copied into the body under a generated field name.
+
+- 57bca06: Validate nested tagged unions when assembling request bodies from flags.
+
+  Preserve branch-specific required fields, closed-object rules, and available
+  array limits, including unions selected by enum values without an explicit
+  discriminator. Apply the checks to requests and dry-run previews.
+  Preserve the alternatives of enclosing unions and retain explicit `--body`
+  input as an escape hatch from these projected checks.
+
+- aa0ee04: Correct generated validation for nested optional request-body objects.
+
+  Required fields are now enforced only when their containing object is supplied. This prevents flags in sibling objects from incorrectly requiring one another and keeps defaults from creating absent optional objects.
+
+  Raw `--body` requests continue to bypass validation for individual body flags.
+
+- 350c808: Preserve alternative-specific requirements in generated body flags
+
+  Keep nested fields with the same name distinct when deriving `oneOf` constraints. Workers VPC service flags now require only the tunnel for the selected host alternative and accept dual-stack IPv4 and IPv6 hosts.
+
+  Reject incompatible flag combinations only when no alternative supports them and the variants declare required fields. Keep all-optional configuration updates compatible with cleanup payloads that combine settings from different alternatives.
+
 ## 1.0.0-beta.26
 
 ### Minor Changes

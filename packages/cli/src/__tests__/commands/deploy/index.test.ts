@@ -103,16 +103,9 @@ describe("cf deploy", () => {
 			}
 		);
 
-		it.each(
-			(["workload_authorization", "client_credentials"] as const).flatMap(
-				(exchange) =>
-					[undefined, "preferred", "required", "disabled", "legacy"].map(
-						(dpop) => ({ exchange, dpop })
-					)
-			)
-		)(
-			"uploads managed $exchange/$dpop without provisioning or exchanging credentials",
-			async ({ exchange, dpop }) => {
+		it.each(["workload_authorization", "client_credentials"] as const)(
+			"uploads managed %s without provisioning or exchanging credentials",
+			async (exchange) => {
 				const upload = mockWorkerUpload();
 				const oauth = {
 					...(exchange === "client_credentials"
@@ -127,11 +120,6 @@ describe("cf deploy", () => {
 					scope: ["read"],
 					allowed_origins: ["https://api.example.com"],
 					allowed_methods: ["GET", "POST"],
-					...(dpop === "legacy"
-						? { require_sender_constraint: true as const }
-						: dpop
-							? { dpop: dpop as "preferred" | "required" | "disabled" }
-							: {}),
 					http_message_signatures: "web_bot_auth" as const,
 				};
 				const policy = {

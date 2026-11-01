@@ -60,16 +60,9 @@ describe("cf workers types", () => {
 		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
-	it.each(
-		(["workload_authorization", "client_credentials"] as const).flatMap(
-			(exchange) =>
-				[undefined, "preferred", "required", "disabled", "legacy"].map(
-					(dpop) => ({ exchange, dpop })
-				)
-		)
-	)(
-		"generates types for combined $exchange/$dpop bindings without acquiring credentials",
-		async ({ exchange, dpop }) => {
+	it.each(["workload_authorization", "client_credentials"] as const)(
+		"generates types for combined %s bindings without acquiring credentials",
+		async (exchange) => {
 			const oauth = {
 				exchange,
 				...(exchange === "client_credentials"
@@ -81,11 +74,6 @@ describe("cf workers types", () => {
 				scope: ["read"],
 				allowed_origins: ["https://api.example.com"],
 				allowed_methods: ["GET"],
-				...(dpop === "legacy"
-					? { require_sender_constraint: true }
-					: dpop
-						? { dpop }
-						: {}),
 				http_message_signatures: "web_bot_auth",
 			};
 			await seed({

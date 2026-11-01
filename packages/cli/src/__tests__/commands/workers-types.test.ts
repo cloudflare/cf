@@ -60,6 +60,39 @@ describe("cf workers types", () => {
 		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
+	it.each(["workload_authorization", "client_credentials"] as const)(
+		"generates types for combined %s bindings without acquiring credentials",
+		async (exchange) => {
+			const oauth = {
+				exchange,
+				...(exchange === "client_credentials"
+					? { client_id: "provider-id" }
+					: {}),
+				authorization_server: "https://auth.example.com",
+				token_endpoint: "https://auth.example.com/token",
+				resource: "https://api.example.com",
+				scope: ["read"],
+				allowed_origins: ["https://api.example.com"],
+				allowed_methods: ["GET"],
+				http_message_signatures: "web_bot_auth",
+			};
+			await seed({
+				"cloudflare.config.ts": `export default { worker: { name: "combined", compatibilityDate: "2026-11-01", env: { API: { type: "identity", oauth: ${JSON.stringify(oauth)} } } } };`,
+			});
+			const { exitCode } = await runCf([
+				"workers",
+				"types",
+				"--include-runtime",
+				"false",
+			]);
+			expect(exitCode).toBe(0);
+			expect(await readFile(TYPES_PATH, "utf8")).toContain(
+				'import("cf/config").UnwrapConfig'
+			);
+			expect(runtimeTypes.generateRuntimeTypes).not.toHaveBeenCalled();
+		}
+	);
+
 	it("omits runtime types when --include-runtime=false", async () => {
 		await seed({ "cloudflare.config.ts": workerConfig() });
 

@@ -44,6 +44,116 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it.each([false, true])(
+			"uploads identity binding metadata (signing only: %s)",
+			async (signingOnly) => {
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({
+							env: {
+								ORDERS: {
+									type: "identity",
+									...(signingOnly
+										? {
+												request_signing: {
+													allowed_origins: ["https://api.example.com"],
+													allowed_methods: ["GET"],
+												},
+											}
+										: { audience: "urn:orders" }),
+								},
+								REPORTS: {
+									type: "identity",
+									audience: "recipient",
+								},
+							},
+						}),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default {fetch() {return new Response('ok')}}",
+				});
+				const { exitCode } = await runCf([
+					"deploy",
+					"--prebuilt",
+					"--no-provision",
+				]);
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.bindings).toEqual(
+					expect.arrayContaining([
+						{
+							name: "ORDERS",
+							type: "identity",
+							...(signingOnly
+								? {
+										request_signing: {
+											allowed_origins: ["https://api.example.com"],
+											allowed_methods: ["GET"],
+										},
+									}
+								: { audience: "urn:orders" }),
+						},
+						{
+							name: "REPORTS",
+							type: "identity",
+							audience: "recipient",
+						},
+					])
+				);
+			}
+		);
+
+		it.each(["workload_authorization", "client_credentials"] as const)(
+			"uploads managed %s without provisioning or exchanging credentials",
+			async (exchange) => {
+				const upload = mockWorkerUpload();
+				const oauth = {
+					...(exchange === "client_credentials"
+						? {
+								exchange: "client_credentials" as const,
+								client_id: "provider-id",
+							}
+						: { exchange: "workload_authorization" as const }),
+					authorization_server: "https://auth.example.com",
+					token_endpoint: "https://auth.example.com/token",
+					resource: "https://api.example.com",
+					scope: ["read"],
+					allowed_origins: ["https://api.example.com"],
+					allowed_methods: ["GET", "POST"],
+					http_message_signatures: "web_bot_auth" as const,
+				};
+				const policy = {
+					type: "identity" as const,
+					oauth,
+					client_authentication: true,
+				};
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({ env: { API: policy } }),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default {fetch(){return new Response('ok')}}",
+				});
+				const requests = recordRequests();
+				const { exitCode } = await runCf([
+					"deploy",
+					"--prebuilt",
+					"--no-provision",
+				]);
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.bindings).toContainEqual({
+					name: "API",
+					...policy,
+				});
+				expect(
+					requests.some(
+						(r) =>
+							r.includes("auth.example.com") || r.includes("api.example.com")
+					)
+				).toBe(false);
+			}
+		);
+
 		it.each([
 			["D1", { type: "d1", name: "my-database" }, "database_id"],
 			["R2", { type: "r2" }, "bucket_name"],

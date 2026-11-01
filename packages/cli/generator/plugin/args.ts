@@ -5,7 +5,11 @@
  * the single source of both the generated command and its metadata.
  */
 
-import { GLOBAL_OPTION_NAMES } from "../../src/lib/global-options.js";
+import {
+	FLAG_OWNER_TEXT,
+	type FlagOwner,
+	flagOwnership,
+} from "../../src/lib/global-options.js";
 import {
 	GenerateError,
 	get,
@@ -16,12 +20,14 @@ import {
 	truthy,
 	type Value,
 } from "./js.js";
-import type { Method } from "./commands.js";
-import type {
-	MultipartField,
-	MultipartInfo,
-	OperationInfo,
+import {
+	type MultipartField,
+	type MultipartInfo,
+	type OperationInfo,
+	outputKind,
+	type ParameterInfo,
 } from "./operation.js";
+import type { Method } from "./commands.js";
 
 /**
  * The kind of value an argument takes: an `enum` is a string from a fixed
@@ -119,12 +125,14 @@ export interface Derived {
 	hasBodyParams: boolean;
 	hasFileUpload: boolean;
 	multipart?: MultipartInfo;
-	multipartFlagFields: MultipartField[];
-	multipartFileFields: MultipartFileField[];
+	/** Form fields besides the payload that take a value. */
+	multipartFlagFields: MultipartFieldFlag[];
+	/** Binary form fields besides the payload, taking literal content or `@file`. */
+	multipartFileFields: MultipartFieldFlag[];
 }
 
-/** A binary field besides the payload, accepting literal content or `@file`. */
-export interface MultipartFileField {
+/** A multipart field other than the payload, and the flag that fills it. */
+export interface MultipartFieldFlag {
 	field: MultipartField;
 	flag: string;
 }
@@ -183,20 +191,6 @@ export function optionDefaults(
 	return defaults;
 }
 
-/** Options that only the CLI uses, which never become body flags. */
-export const CLI_ONLY_OPTIONS: readonly string[] = [
-	"dry-run",
-	"body",
-	"file",
-	"local",
-	"remote",
-	"preview",
-	"persist-to",
-	"yes",
-	"output",
-	"table",
-];
-
 export const ACCOUNT_PATH_PARAMS: readonly string[] = [
 	"account_id",
 	"account_identifier",
@@ -220,6 +214,10 @@ const WORKER_NAME_ARGS: readonly string[] = [
 	"scriptName",
 	"script_name",
 ];
+
+export function isZonePathParam(name: string): boolean {
+	return ZONE_ARG_NAMES.includes(flagName(name));
+}
 
 export function isWorkerName(name: string): boolean {
 	return WORKER_NAME_ARGS.includes(name);
@@ -274,29 +272,13 @@ function flagName(name: string): string {
 	return name.replace(/[_.]/g, "-");
 }
 
-function cliFlagName(name: string): string | undefined {
-	const flag = flagName(name);
-	return ["mode", "temporary-account", "event-code"].includes(kebab(flag))
-		? undefined
-		: flag;
+function fileFlagSegment(name: string): string | undefined {
+	const flag = kebab(flagName(name.replace(/^[_.]+/, "")));
+	return /^[a-z0-9][a-z0-9-]*$/.test(flag) ? flag : undefined;
 }
 
-function multipartFileFlagName(name: string): string | undefined {
-	const flag = cliFlagName(name.replace(/^[_.]+/, ""));
-	if (flag === undefined) {
-		return undefined;
-	}
-	const normalized = kebab(flag);
-	return /^[a-z0-9][a-z0-9-]*$/.test(normalized) ? normalized : undefined;
-}
-
-function parameterFlagName(
-	name: string,
-	sdkName: string | undefined
-): string | undefined {
-	return sdkName === undefined
-		? cliFlagName(name)
-		: cliFlagName(kebab(sdkName));
+function naturalFlag(p: ParameterInfo): string {
+	return p.sdkName === undefined ? flagName(p.name) : kebab(p.sdkName);
 }
 
 function descriptionFromName(name: string): string {
@@ -382,6 +364,129 @@ class Override {
 	}
 }
 
+type FieldLocation = Origin | { readonly in: "form"; readonly name: string };
+
+function overrideKey(at: FieldLocation): string {
+	return at.in === "body" ? at.path.join(".") : at.name;
+}
+
+function describeField(at: FieldLocation): string {
+	switch (at.in) {
+		case "path":
+			return `path parameter \`${at.name}\``;
+		case "query":
+			return `query parameter \`${at.name}\``;
+		case "header":
+			return `header \`${at.name}\``;
+		case "body":
+			return `body field \`${at.path.join(".")}\``;
+		case "form":
+			return `form-data field \`${at.name}\``;
+	}
+}
+
+const KEBAB_FLAG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+
+/**
+ * `--dry-run`, `--body`, and `--force`/`-f` are cf's on every command, even
+ * where it doesn't emit them, so emitting one later can't create a clash.
+ */
+function cfOwnedFlags(facts: {
+	hasFileUpload: boolean;
+	binaryOutput: boolean;
+	workerArg: boolean;
+}): string[] {
+	return [
+		"dry-run",
+		"body",
+		"force",
+		"f",
+		...(facts.hasFileUpload ? ["file"] : []),
+		...(facts.binaryOutput ? ["text"] : []),
+		...(facts.workerArg ? ["script-name"] : []),
+	];
+}
+
+interface Claim {
+	at: FieldLocation;
+	flag: string;
+	explicit: boolean;
+}
+
+/**
+ * Names the API fields of one command. A field takes
+ * `x-forge-params.<key>.flagName` when set, else its natural name (Fern
+ * rename, else wire name), and must not be a flag cf owns. Clashes are
+ * recorded rather than thrown, so `assertNoClashes` reports all of an
+ * operation's at once.
+ */
+class FlagNames {
+	private readonly claims: Claim[] = [];
+	private readonly clashes: string[] = [];
+	private readonly owner: (flag: string) => FlagOwner | undefined;
+
+	constructor(
+		private readonly where: string,
+		private readonly overrides: Overrides,
+		cfFlags: readonly string[]
+	) {
+		this.owner = flagOwnership(cfFlags);
+	}
+
+	name(at: FieldLocation, natural: string): string {
+		const key = overrideKey(at);
+		const raw = Override.of(this.overrides, key).nullish("flagName");
+		if (
+			raw !== undefined &&
+			(typeof raw !== "string" || !KEBAB_FLAG.test(raw))
+		) {
+			this.clashes.push(
+				`${describeField(at)} has x-forge-params["${key}"].flagName ${JSON.stringify(raw)}, which is not a kebab-case flag name.`
+			);
+			return natural;
+		}
+		const explicit = raw !== undefined;
+		const flag = explicit ? raw : natural;
+		const owner = this.owner(flag);
+		if (owner !== undefined) {
+			this.clashes.push(
+				`${describeField(at)} → --${kebab(flag)}${source(key, explicit)}, which ${FLAG_OWNER_TEXT[owner]}. ${explicit ? "Choose another flagName." : `Set x-forge-params["${key}"].flagName.`}`
+			);
+		}
+		const other = this.claims.find((c) => c.flag === kebab(flag));
+		if (other !== undefined && (explicit || other.explicit)) {
+			this.clashes.push(
+				`${describeField(at)}${source(key, explicit)} and ${describeField(other.at)}${source(overrideKey(other.at), other.explicit)} both resolve to --${kebab(flag)}. Give each its own flagName.`
+			);
+		}
+		this.claims.push({ at, flag: kebab(flag), explicit });
+		return flag;
+	}
+
+	/** For a field cf fills from its own flag, where a `flagName` would do nothing. */
+	refuseOverride(at: FieldLocation, filledBy: "--zone" | "--worker"): void {
+		const key = overrideKey(at);
+		if (Override.of(this.overrides, key).nullish("flagName") !== undefined) {
+			this.clashes.push(
+				`${describeField(at)} is filled by ${filledBy}, so x-forge-params["${key}"].flagName has no effect. Remove it.`
+			);
+		}
+	}
+
+	assertNoClashes(): void {
+		if (this.clashes.length === 0) {
+			return;
+		}
+		throw new GenerateError(
+			`${this.where}: API fields need other CLI flag names:\n${this.clashes.map((c) => `      ${c}`).join("\n")}\n    A flagName renames only the CLI flag; the wire name stays. Until the API schema sets one, add a guarded entry to packages/cli/generator/flag-names-cli-compat.ts.`
+		);
+	}
+}
+
+function source(key: string, explicit: boolean): string {
+	return explicit ? ` (from x-forge-params["${key}"].flagName)` : "";
+}
+
 /** `deriveArgsFromOp`. */
 export function derive(
 	method: Method,
@@ -393,11 +498,25 @@ export function derive(
 	}
 	const workers = resource === "workers";
 	const overrides: Overrides = method.params ?? {};
+	const hasFileUpload = op.requestContentTypes.some(
+		(c) => c !== "application/json"
+	);
+	const names = new FlagNames(
+		`${op.method.toUpperCase()} ${op.path} (${method.operationId})`,
+		overrides,
+		cfOwnedFlags({
+			hasFileUpload,
+			binaryOutput: outputKind(op) === "binary",
+			workerArg:
+				workers &&
+				templateParams(op.path).some((p) => isWorkerName(flagName(p))),
+		})
+	);
 	const args: Arg[] = [];
-	pathParams(args, op, overrides, method, workers);
-	queryParams(args, op, overrides, workers);
-	headerParams(args, op, workers);
-	bodyParams(args, op, overrides, workers);
+	pathParams(args, op, overrides, method, workers, names);
+	queryParams(args, op, overrides, workers, names);
+	headerParams(args, op, workers, names);
+	bodyParams(args, op, overrides, workers, names);
 
 	const optionalParentGroups = optionalParents(args);
 	const upper = op.method.toUpperCase();
@@ -414,43 +533,16 @@ export function derive(
 		!op.requestBodyIsArray &&
 		onlyJson;
 	const hasBodyParams = args.some(isBody) && isMutating;
-	const hasFileUpload = op.requestContentTypes.some(
-		(c) => c !== "application/json"
-	);
 	const multipart = op.requestContentTypes.includes("multipart/form-data")
 		? op.multipart
 		: undefined;
 	const multipartFlagFields = multipart
-		? multipart.fields.filter(
-				(f) =>
-					!f.isBinary &&
-					f.name !== multipart.payloadField &&
-					cliFlagName(f.name) !== undefined
-			)
+		? formTextFlags(multipart, args, names)
 		: [];
-	// File flags must not shadow live globals, generated flags, or aliases.
-	const takenFlags = new Set<string>([
-		...GLOBAL_OPTION_NAMES,
-		...CLI_ONLY_OPTIONS,
-		"force",
-		"text",
-		"f",
-		...(args.some((a) => a.isWorkerName) ? ["script-name"] : []),
-		...args.map((a) => kebab(a.name)),
-		...multipartFlagFields.map((f) => kebab(f.name)),
-	]);
-	const multipartFileFields: MultipartFileField[] = [];
-	for (const field of multipart?.fields ?? []) {
-		if (!field.isBinary || field.name === multipart?.payloadField) {
-			continue;
-		}
-		const flag = multipartFileFlagName(field.name);
-		if (flag === undefined || takenFlags.has(flag)) {
-			continue;
-		}
-		takenFlags.add(flag);
-		multipartFileFields.push({ field, flag });
-	}
+	const multipartFileFields = multipart
+		? formFileFlags(multipart, args, multipartFlagFields, names)
+		: [];
+	names.assertNoClashes();
 	return {
 		args,
 		optionalParentGroups,
@@ -463,6 +555,61 @@ export function derive(
 		multipartFlagFields,
 		multipartFileFields,
 	};
+}
+
+/** A form field the JSON body also has shares that body field's flag. */
+function formTextFlags(
+	multipart: MultipartInfo,
+	args: readonly Arg[],
+	names: FlagNames
+): MultipartFieldFlag[] {
+	const out: MultipartFieldFlag[] = [];
+	for (const field of multipart.fields) {
+		if (field.isBinary || field.name === multipart.payloadField) {
+			continue;
+		}
+		const twin = args.find(
+			(a) =>
+				a.origin.in === "body" &&
+				a.origin.path.length === 1 &&
+				a.origin.path[0] === field.name
+		);
+		const flag =
+			twin === undefined
+				? names.name({ in: "form", name: field.name }, kebab(field.name))
+				: twin.name;
+		out.push({ field, flag: kebab(flag) });
+	}
+	return out;
+}
+
+function formFileFlags(
+	multipart: MultipartInfo,
+	args: readonly Arg[],
+	text: readonly MultipartFieldFlag[],
+	names: FlagNames
+): MultipartFieldFlag[] {
+	const taken = new Set<string>([
+		...args.map((a) => kebab(a.name)),
+		...text.map((t) => t.flag),
+	]);
+	const out: MultipartFieldFlag[] = [];
+	for (const field of multipart.fields) {
+		if (!field.isBinary || field.name === multipart.payloadField) {
+			continue;
+		}
+		const natural = fileFlagSegment(field.name);
+		if (natural === undefined) {
+			continue;
+		}
+		const flag = names.name({ in: "form", name: field.name }, natural);
+		if (taken.has(flag)) {
+			continue;
+		}
+		taken.add(flag);
+		out.push({ field, flag });
+	}
+	return out;
 }
 
 /**
@@ -561,7 +708,8 @@ function pathParams(
 	op: OperationInfo,
 	overrides: Overrides,
 	method: Method,
-	workers: boolean
+	workers: boolean,
+	names: FlagNames
 ): void {
 	const detected = templateParams(op.path).filter(
 		(name) =>
@@ -579,6 +727,7 @@ function pathParams(
 		const parameter = op.pathParams.find((a) => a.name === p);
 		const cls = classify(flagName(p), workers);
 		if (cls.isZone) {
+			names.refuseOverride({ in: "path", name: p }, "--zone");
 			continue;
 		}
 		const defaultValue = o.nullish("default");
@@ -588,14 +737,15 @@ function pathParams(
 			!cls.isWorkerName &&
 			defaultValue === undefined &&
 			truthy(o.nullish("positional") ?? subjectPositional);
+		if (cls.isWorkerName) {
+			names.refuseOverride({ in: "path", name: p }, "--worker");
+		}
 		const emitted = cls.isWorkerName
 			? "worker"
-			: parameter
-				? parameterFlagName(parameter.name, parameter.sdkName)
-				: cliFlagName(p);
-		if (emitted === undefined) {
-			continue;
-		}
+			: names.name(
+					{ in: "path", name: p },
+					parameter ? naturalFlag(parameter) : flagName(p)
+				);
 		const description =
 			o.string("description") ??
 			parameter?.description ??
@@ -618,7 +768,8 @@ function queryParams(
 	out: Arg[],
 	op: OperationInfo,
 	overrides: Overrides,
-	workers: boolean
+	workers: boolean,
+	names: FlagNames
 ): void {
 	for (const p of op.queryParams) {
 		const o = Override.of(overrides, p.name);
@@ -631,10 +782,7 @@ function queryParams(
 		const r = o.nullish("required");
 		const required = r === undefined ? p.required : truthy(r);
 		const dflt = o.nullish("default");
-		const name = parameterFlagName(p.name, p.sdkName);
-		if (name === undefined) {
-			continue;
-		}
+		const name = names.name({ in: "query", name: p.name }, naturalFlag(p));
 		const description =
 			o.string("description") ?? p.description ?? descriptionFromName(p.name);
 		const isEnum = p.enumValues !== undefined && p.enumValues.length > 0;
@@ -662,12 +810,17 @@ function queryParams(
 	}
 }
 
-function headerParams(out: Arg[], op: OperationInfo, workers: boolean): void {
+function headerParams(
+	out: Arg[],
+	op: OperationInfo,
+	workers: boolean,
+	names: FlagNames
+): void {
 	for (const hp of op.headerParams) {
-		const name = parameterFlagName(hp.name, hp.sdkName)?.toLowerCase();
-		if (name === undefined) {
-			continue;
-		}
+		const name = names.name(
+			{ in: "header", name: hp.name },
+			naturalFlag(hp).toLowerCase()
+		);
 		if (out.some((a) => a.name === name)) {
 			continue;
 		}
@@ -691,7 +844,8 @@ function bodyParams(
 	out: Arg[],
 	op: OperationInfo,
 	overrides: Overrides,
-	workers: boolean
+	workers: boolean,
+	names: FlagNames
 ): void {
 	if (op.bodyParams.length === 0) {
 		return;
@@ -699,28 +853,27 @@ function bodyParams(
 	const template = templateParams(op.path);
 	const pathHasAccount = ACCOUNT_PATH_PARAMS.some((p) => template.includes(p));
 	const pathHasZone = ZONE_PATH_PARAMS.some((p) => template.includes(p));
+	const renamed = new Map<string, string>();
 	for (const bp of op.bodyParams) {
-		const name = cliFlagName(bp.name);
-		if (name === undefined) {
-			continue;
-		}
-		if (out.some((a) => a.name === name)) {
-			continue;
-		}
+		const natural = flagName(bp.name);
 		const path = bp.apiFieldPath;
 		const single = path.length === 1;
 		const isAccountField =
 			single && (path[0] === "account_id" || path[0] === "accountId");
 		const isZoneField =
 			single && (path[0] === "zone_id" || path[0] === "zoneId");
-		if ((isAccountField || name === "account-id") && pathHasAccount) {
+		if ((isAccountField || natural === "account-id") && pathHasAccount) {
 			continue;
 		}
-		if ((isZoneField || name === "zone-id") && pathHasZone) {
+		if ((isZoneField || natural === "zone-id") && pathHasZone) {
 			continue;
 		}
-		if (CLI_ONLY_OPTIONS.includes(name) || name === "body" || name === "file") {
+		const name = names.name({ in: "body", path }, natural);
+		if (out.some((a) => a.name === name)) {
 			continue;
+		}
+		if (name !== natural) {
+			renamed.set(kebab(natural), name);
 		}
 		const joined = path.join(".");
 		// Field overrides target the exact wire path; parent objects do not
@@ -736,7 +889,7 @@ function bodyParams(
 				: bp.enumValues !== undefined && bp.enumValues.length > 0
 					? bp.enumValues
 					: undefined;
-		const cls = classify(name, workers);
+		const cls = classify(natural, workers);
 		if (
 			o.get("positional") === true &&
 			single &&
@@ -844,5 +997,13 @@ function bodyParams(
 		a.implies = bp.implies;
 		a.secret = bp.sensitive;
 		out.push(a);
+	}
+	// body.ts relates oneOf branches by their natural flag names.
+	const final = (flag: string) => renamed.get(kebab(flag)) ?? flag;
+	for (const a of out) {
+		if (isBody(a)) {
+			a.conflicts = a.conflicts?.map(final);
+			a.implies = a.implies?.map(final);
+		}
 	}
 }

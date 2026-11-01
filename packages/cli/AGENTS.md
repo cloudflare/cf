@@ -111,7 +111,7 @@ or alias is added.
 
 ## Global Flags
 
-`--zone` (`-z`), `--profile`, `--mode` (`-m`), `--temporary-account` (hidden), `--event-code` (hidden), `--quiet` (`-q`), `--help` (`-h`), `--version` (`-v`), `--local`, and `--persist-to`. `--mode` is available as `ctx.mode` when function-form exports in `cloudflare.config.ts` are evaluated. `--temporary-account` creates or reuses a temporary account when no credentials exist, and missing-credential errors recommend it. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account` and is sent only when a new account is created; it is never cached, printed, or recorded in telemetry. `--persist-to` is valid only with `--local`; local mode starts and disposes a Miniflare instance over cf's state without requiring a running dev server. Hand-written root commands reject `--local`, and generated endpoints without an explorer equivalent return a specific error. Every generated command gets `--dry-run` (mutating and read alike — reads show URL/method/path params without a body preview). Almost every body operation gets `--body`; explicit `--file` is limited to eligible binary, multipart, and other non-JSON upload shapes. Destructive commands get `--force` (`-f`) at runtime. API fields that would emit an exact `--mode`, `--temporary-account`, or `--event-code` flag are omitted to avoid shadowing global flags. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
+`--zone` (`-z`), `--profile`, `--mode` (`-m`), `--temporary-account` (hidden), `--event-code` (hidden), `--quiet` (`-q`), `--help` (`-h`), `--version` (`-v`), `--local`, and `--persist-to`. `--mode` is available as `ctx.mode` when function-form exports in `cloudflare.config.ts` are evaluated. `--temporary-account` creates or reuses a temporary account when no credentials exist, and missing-credential errors recommend it. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account` and is sent only when a new account is created; it is never cached, printed, or recorded in telemetry. `--persist-to` is valid only with `--local`; local mode starts and disposes a Miniflare instance over cf's state without requiring a running dev server. Hand-written root commands reject `--local`, and generated endpoints without an explorer equivalent return a specific error. Every generated command gets `--dry-run` (mutating and read alike — reads show URL/method/path params without a body preview). Almost every body operation gets `--body`; explicit `--file` is limited to eligible binary, multipart, and other non-JSON upload shapes. Destructive commands get `--force` (`-f`) at runtime. An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Normal structured API results are pretty-printed JSON. Null mutation results leave stdout empty and may print a TTY-only success marker on stderr. Endpoints declared as raw bytes or raw text write their payload directly to stdout, and some raw-byte commands accept `--text` to decode as UTF-8. Callers needing newline-delimited JSON can pipe structured results through `jq -c '.[]'` or similar; there is no global output-format `--format` / `--ndjson` flag, though some leaves use those words for endpoint-specific API parameters.
 
@@ -122,9 +122,9 @@ OAuth profile. There are no `--account-id` or `--api-token` flags.
 Named OAuth profiles are selected by `--profile` or the nearest directory
 binding, with the default profile as fallback.
 
-### Reserved cross-cutting names and current collisions
+### Reserved names
 
-`src/index.ts` documents the following design reservations, but they are not an enforced deny-list. Yargs scopes options to leaves, and the generated surface already contains exact `--mode` and `--remote` flags sourced from OpenAPI. Check the generated tree before claiming that a reserved name is unavailable, and avoid adding new collisions casually.
+`flagOwnership` in `src/lib/global-options.ts` is the one policy the generator and the runtime-schema commands enforce. Besides the global flags and their aliases, it reserves:
 
 - `--remote` — force production-API routing if local ever becomes the
   default in some context.
@@ -135,8 +135,9 @@ binding, with the default profile as fallback.
 - `--experimental-*` — opt-in gates for unreleased features; reserved
   as a namespace.
 - `--json`, `--ndjson`, `--pretty` — potential output-format toggles. Normal structured results are JSON today, while raw response endpoints remain raw; these names are claimed so future formatting choices do not collide.
+- Any other single lowercase letter, for aliases.
 
-`--remote` currently appears on a generated Pay Per Crawl command. Exact API fields named `mode`, `temporary_account`, or `event_code` are omitted because those flags are global. The remaining exact names are not root options and are normally rejected outside a leaf that defines them. See the `Reserved (future)` comment block in `src/index.ts`'s `buildCli` for the design list; the comment does not itself register or reject options.
+The future names are not registered as options, so cf rejects them as unknown. Add a new cross-cutting flag to `FUTURE_OPTION_NAMES` before shipping it; `pnpm generate` then lists every API field that would take it. `cf schema` shows the flag that fills a path or query parameter when the parameter has one; cf resolves account parameters itself.
 
 ## Runtime Value Priority (highest → lowest)
 

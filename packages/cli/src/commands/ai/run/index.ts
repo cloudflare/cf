@@ -61,8 +61,8 @@ interface Request {
 
 const MODELS_HINT = "Run `cf ai models list` to see the models you can run.";
 
-/** The positional is cf's; the model's schema never mentions it. */
-const OWN_FLAGS = ["model-name", "modelName"];
+/** Flags this command registers, so a model input can't take one. */
+const OWN_FLAGS = ["model-name", "modelName", "body", "dry-run", "dryRun"];
 
 /**
  * Captured so the handler can reuse yargs' own renderer for the static
@@ -141,7 +141,7 @@ async function showHelp(argv: Args): Promise<void> {
 	);
 	console.log(
 		lookup.ok
-			? `\n${renderFlagHelp(schemaToFlags(lookup.schema), `Input flags for ${model}`)}`
+			? `\n${renderFlagHelp(schemaToFlags(lookup.schema, { commandFlags: OWN_FLAGS }), `Input flags for ${model}`)}`
 			: `\n${theme.muted(`Could not load the input flags for ${model}: ${lookup.reason}.`)}`
 	);
 }
@@ -189,7 +189,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						`Pass the request body directly instead: cf ai run ${model} --body '{…}'`
 				);
 			}
-			const descriptors = schemaToFlags(lookup.schema);
+			const descriptors = schemaToFlags(lookup.schema, {
+				commandFlags: OWN_FLAGS,
+			});
 			const unknown = unknownFlagNames(argv as Record<string, unknown>, [
 				...OWN_FLAGS,
 				...flagArgNames(descriptors),

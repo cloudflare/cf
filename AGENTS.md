@@ -109,8 +109,9 @@ In the rules below, `src/` means `packages/cli/src/`.
   and telemetry belong in `root-commands.ts`. Keep each command's `meta.ts`
   sidecar and the typed `hand-written-meta.ts` list in sync.
 - Let strict yargs own unknown-option validation. Keep emitter options and
-  metadata synchronized; check existing global/reserved flag names before
-  introducing a flag.
+  metadata synchronized. Reserve a new cross-cutting flag in
+  `src/lib/global-options.ts` before introducing it; generation fails on any
+  API field that would take a flag cf owns.
 - stdout carries command output (JSON for structured results, raw payloads
   for raw endpoints). Prompts, progress, notices, warnings, and success lines
   go to stderr. Reuse `lib/ui/theme.ts`, `lib/ui/log.ts`, and `printSuccess`.

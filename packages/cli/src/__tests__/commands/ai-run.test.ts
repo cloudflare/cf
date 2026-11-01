@@ -765,6 +765,37 @@ describe("cf ai run", () => {
 		expect(runBodies).toEqual([{ prompt: "hi" }]);
 	});
 
+	it("takes model inputs named after cf's flags as --input-<flag>", async () => {
+		const schema = {
+			type: "object",
+			properties: {
+				prompt: { type: "string" },
+				quiet: { type: "boolean" },
+				mode: { type: "string" },
+			},
+		};
+		server.use(schemaHandler(200, schema), runHandler());
+
+		const { exitCode } = await run(
+			MODEL,
+			"--prompt",
+			"hi",
+			"--input-quiet",
+			"--input-mode",
+			"fast",
+			"--quiet",
+			"--mode",
+			"staging"
+		);
+
+		expect(exitCode).toBe(0);
+		expect(runBodies).toEqual([{ prompt: "hi", quiet: true, mode: "fast" }]);
+
+		await run(MODEL, "--help");
+		expect(stdout()).toMatch(/--input-quiet\s/);
+		expect(stdout()).toMatch(/--input-mode\s/);
+	});
+
 	it("degrades cleanly when the API returns a malformed schema", async () => {
 		server.use(
 			schemaHandler(200, {

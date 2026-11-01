@@ -2,9 +2,10 @@
 
 Use the [receiver contract](https://gitlab.cfdata.org/birvine-broque/workers-oidc/-/blob/codex/workers-oidc-spec/docs/spec.md#receive-a-caller-through-the-runtime) for caller kinds, credential handling and authorization requirements.
 
-`cf workers types` obtains `CloudflareIdentityContext.caller()` and the
-`CloudflareWorkloadIdentity` union from the runtime types provider, including
-for receivers with no outbound identity binding. Add no receiver configuration
+`cf workers types` will obtain `CloudflareIdentityContext.caller()` and the
+`CloudflareWorkloadIdentity` union from the runtime types provider once you
+install a matching published runtime-types bundle, including for receivers
+with no outbound identity binding. Until then, add no receiver configuration
 to `cloudflare.config.ts`.
 
 Publish a matching workerd and SDK/runtime-types release containing workerd

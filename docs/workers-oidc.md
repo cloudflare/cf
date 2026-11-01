@@ -1,6 +1,8 @@
 # Workload identity runtime types
 
-Use the [receiver contract](https://gitlab.cfdata.org/birvine-broque/workers-oidc/-/blob/codex/workers-oidc-spec/docs/spec.md#receive-a-caller-through-the-runtime) for caller kinds, credential handling and authorization requirements.
+The working signer implementation is [`birvine-broque/workers-oidc` on `main`](https://gitlab.cfdata.org/birvine-broque/workers-oidc/-/tree/main).
+
+Use the [receiver contract](https://gitlab.cfdata.org/birvine-broque/workers-oidc/-/blob/main/docs/spec.md#receive-a-caller-through-the-runtime) for caller kinds, credential handling and authorization requirements.
 
 `cf workers types` will obtain `CloudflareIdentityContext.caller()` and the
 `CloudflareWorkloadIdentity` union from the runtime types provider once cf pins

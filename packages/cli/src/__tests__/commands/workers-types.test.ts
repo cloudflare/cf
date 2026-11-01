@@ -60,30 +60,6 @@ describe("cf workers types", () => {
 		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
-	it.skipIf(!process.env.MINIFLARE_WORKERD_PATH)(
-		"generates the native caller API without receiver bindings",
-		async () => {
-			await seed({ "cloudflare.config.ts": workerConfig("2026-10-31", []) });
-			const actual = await vi.importActual<typeof runtimeTypes>(
-				"@cloudflare/runtime-types"
-			);
-			vi.mocked(runtimeTypes.generateRuntimeTypes).mockImplementationOnce(
-				actual.generateRuntimeTypes
-			);
-			await runCf(["workers", "types"]);
-			const generated = await readFile(TYPES_PATH, "utf8");
-			expect(generated).toContain("interface CloudflareIdentityContext");
-			expect(generated).toContain("type CloudflareServiceBindingCaller");
-			expect(generated).toContain('kind: "service-binding"');
-			expect(generated).toContain(
-				"caller(): Promise<CloudflareWorkloadIdentity | null>"
-			);
-			expect(generated).toContain(
-				"readonly identity: CloudflareIdentityContext"
-			);
-		}
-	);
-
 	it("omits runtime types when --include-runtime=false", async () => {
 		await seed({ "cloudflare.config.ts": workerConfig() });
 

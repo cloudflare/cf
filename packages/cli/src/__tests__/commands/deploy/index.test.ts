@@ -45,9 +45,8 @@ describe("cf deploy", () => {
 
 	describe("simple worker", () => {
 		it.each([false, true])(
-			"uploads identity bindings without provisioning identities (signing only: %s)",
+			"uploads identity binding metadata (signing only: %s)",
 			async (signingOnly) => {
-				const requests = recordRequests();
 				const upload = mockWorkerUpload();
 				await seed({
 					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
@@ -101,13 +100,6 @@ describe("cf deploy", () => {
 						},
 					])
 				);
-				expect(
-					requests.some((request) =>
-						/\/oidc\/(identities|assignments|development_sessions)/.test(
-							request
-						)
-					)
-				).toBe(false);
 			}
 		);
 

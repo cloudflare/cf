@@ -34,6 +34,20 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vite-plus: 1.4.0
 overrides:
+  # Prototype siblings resolve as peers from cf's explicit, reviewed URL pins.
+  "@cloudflare/build-output-utils@0.9.6>@cloudflare/config": "-"
+  "@cloudflare/config@0.29.0>@cloudflare/workers-utils": "-"
+  "@cloudflare/runtime-types@0.1.19>miniflare": "-"
+  "@cloudflare/autoconfig@0.8.3>@cloudflare/config": "-"
+  "@cloudflare/autoconfig@0.8.3>@cloudflare/workers-utils": "-"
+  "@cloudflare/containers-shared@0.23.5>@cloudflare/build-output-utils": "-"
+  "@cloudflare/containers-shared@0.23.5>@cloudflare/config": "-"
+  "@cloudflare/containers-shared@0.23.5>@cloudflare/workers-utils": "-"
+  "@cloudflare/deploy-helpers@0.24.3>@cloudflare/config": "-"
+  "@cloudflare/deploy-helpers@0.24.3>@cloudflare/containers-shared": "-"
+  "@cloudflare/deploy-helpers@0.24.3>@cloudflare/workers-utils": "-"
+  "@cloudflare/deploy-helpers@0.24.3>miniflare": "-"
+  "@cloudflare/workers-auth@0.15.3>@cloudflare/workers-utils": "-"
   vite@*: "catalog:"
   vitest@*: 5.0.5
 peerDependencyRules:
@@ -41,3 +55,35 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
+
+# pkg.pr.new rewrites sibling dependencies to URLs. Keep blockExoticSubdeps
+# enabled: these exact prototype versions consume the explicitly pinned siblings
+# as peers instead. Remove these extensions when switching back to npm releases.
+packageExtensions:
+  "@cloudflare/build-output-utils@0.9.6":
+    peerDependencies:
+      "@cloudflare/config": "0.29.0"
+  "@cloudflare/config@0.29.0":
+    peerDependencies:
+      "@cloudflare/workers-utils": "0.50.1"
+  "@cloudflare/runtime-types@0.1.19":
+    peerDependencies:
+      "miniflare": "5.20261023.3-beta"
+  "@cloudflare/autoconfig@0.8.3":
+    peerDependencies:
+      "@cloudflare/config": "0.29.0"
+      "@cloudflare/workers-utils": "0.50.1"
+  "@cloudflare/containers-shared@0.23.5":
+    peerDependencies:
+      "@cloudflare/build-output-utils": "0.9.6"
+      "@cloudflare/config": "0.29.0"
+      "@cloudflare/workers-utils": "0.50.1"
+  "@cloudflare/deploy-helpers@0.24.3":
+    peerDependencies:
+      "@cloudflare/config": "0.29.0"
+      "@cloudflare/containers-shared": "0.23.5"
+      "@cloudflare/workers-utils": "0.50.1"
+      "miniflare": "5.20261023.3-beta"
+  "@cloudflare/workers-auth@0.15.3":
+    peerDependencies:
+      "@cloudflare/workers-utils": "0.50.1"

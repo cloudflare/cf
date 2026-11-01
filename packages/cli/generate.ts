@@ -1,14 +1,10 @@
-import { execFileSync } from "node:child_process";
-import {
-	existsSync,
-	mkdtempSync,
-	readFileSync,
-	rmSync,
-	writeFileSync,
-} from "node:fs";
+import { execFileSync, spawn } from "node:child_process";
+import { once } from "node:events";
+import { existsSync, readFileSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
-import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
+import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
@@ -229,25 +225,37 @@ console.log(
 const generatedDir = fileURLToPath(
 	new URL("./src/commands/_generated", import.meta.url)
 );
-const tempDir = mkdtempSync(join(tmpdir(), "cf-openapi-"));
-try {
-	const openapiPath = join(tempDir, "openapi.json");
-	writeFileSync(openapiPath, JSON.stringify(source));
-	rmSync(generatedDir, { recursive: true, force: true });
-	execFileSync(
-		process.execPath,
-		[
-			forgeBin,
-			openapiPath,
-			"--target",
-			`wasm://${pluginWasm}`,
-			"--out",
-			generatedDir,
-		],
-		{ stdio: "inherit" }
+const openapi = JSON.stringify(source);
+rmSync(generatedDir, { recursive: true, force: true });
+const forge = spawn(
+	process.execPath,
+	[forgeBin, "-", "--target", `wasm://${pluginWasm}`, "--out", generatedDir],
+	{ stdio: ["pipe", "inherit", "inherit"] as const }
+);
+const normalize = spawn(
+	process.execPath,
+	[forgeBin, "normalize", "--leave-old-extensions", "-"],
+	{ stdio: ["pipe", "pipe", "inherit"] as const }
+);
+let pipelineError: Error | undefined;
+const transfer = Promise.all([
+	pipeline(Readable.from([openapi]), normalize.stdin),
+	pipeline(normalize.stdout, forge.stdin),
+]).catch((error: unknown) => {
+	pipelineError = error instanceof Error ? error : new Error(String(error));
+});
+const [[normalizeCode, normalizeSignal], [forgeCode, forgeSignal]] =
+	await Promise.all([once(normalize, "close"), once(forge, "close"), transfer]);
+if (normalizeCode !== 0) {
+	throw new Error(
+		`forge normalize exited with ${normalizeCode ?? normalizeSignal}`
 	);
-} finally {
-	rmSync(tempDir, { recursive: true, force: true });
+}
+if (forgeCode !== 0) {
+	throw new Error(`forge exited with ${forgeCode ?? forgeSignal}`);
+}
+if (pipelineError !== undefined) {
+	throw pipelineError;
 }
 console.log("CLI: generated commands");
 

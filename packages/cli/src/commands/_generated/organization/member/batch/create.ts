@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("members", {
 			type: "string",
 			description:
-				"The members field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -85,11 +85,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["members"] === undefined) {
-					throw new Error(
-						"--members is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

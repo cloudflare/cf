@@ -38,67 +38,67 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The app identifier tag.",
 			demandOption: true,
 		})
-		.option("config-livestream-viewer-qualities", {
+		.option("preset-config-livestream-viewer-qualities", {
 			type: "string",
 			array: true,
 			description: "Livestream viewer quality levels.",
 		})
-		.option("config-max-screenshare-count", {
+		.option("preset-config-max-screenshare-count", {
 			type: "number",
 			description:
 				"Maximum number of screen shares that can be active at a given time",
 		})
-		.option("config-max-video-streams-desktop", {
+		.option("preset-config-max-video-streams-desktop", {
 			type: "number",
 			description: "Maximum number of video streams visible on desktop devices",
 		})
-		.option("config-max-video-streams-mobile", {
+		.option("preset-config-max-video-streams-mobile", {
 			type: "number",
 			description: "Maximum number of streams visible on mobile devices",
 		})
-		.option("config-media-audio-enable-high-bitrate", {
+		.option("preset-config-media-audio-enable-high-bitrate", {
 			type: "boolean",
 			description: "Enable High Quality Audio for your meetings",
 		})
-		.option("config-media-audio-enable-stereo", {
+		.option("preset-config-media-audio-enable-stereo", {
 			type: "boolean",
 			description: "Enable Stereo for your meetings",
 		})
-		.option("config-media-screenshare-frame-rate", {
+		.option("preset-config-media-screenshare-frame-rate", {
 			type: "number",
 			description: "Frame rate of screen share",
 		})
-		.option("config-media-screenshare-quality", {
+		.option("preset-config-media-screenshare-quality", {
 			type: "string",
 			description: "Quality of screen share ",
 			choices: ["hd", "vga", "qvga", "fhd", "uhd"],
 		})
-		.coerce("config-media-screenshare-quality", (value) =>
-			resolveFileToken(value, "config-media-screenshare-quality", "text")
+		.coerce("preset-config-media-screenshare-quality", (value) =>
+			resolveFileToken(value, "preset-config-media-screenshare-quality", "text")
 		)
-		.option("config-media-video-frame-rate", {
+		.option("preset-config-media-video-frame-rate", {
 			type: "number",
 			description: "Frame rate of participants' video",
 		})
-		.option("config-media-video-quality", {
+		.option("preset-config-media-video-quality", {
 			type: "string",
 			description: "Video quality of participants",
 			choices: ["hd", "vga", "qvga", "fhd", "uhd"],
 		})
-		.coerce("config-media-video-quality", (value) =>
-			resolveFileToken(value, "config-media-video-quality", "text")
+		.coerce("preset-config-media-video-quality", (value) =>
+			resolveFileToken(value, "preset-config-media-video-quality", "text")
 		)
-		.option("config-media-video-simulcast", {
+		.option("preset-config-media-video-simulcast", {
 			type: "boolean",
 			description: "Enable simulcast for participant videos.",
 		})
-		.option("config-view-type", {
+		.option("preset-config-view-type", {
 			type: "string",
 			description: "Type of the meeting",
 			choices: ["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"],
 		})
-		.coerce("config-view-type", (value) =>
-			resolveFileToken(value, "config-view-type", "text")
+		.coerce("preset-config-view-type", (value) =>
+			resolveFileToken(value, "preset-config-view-type", "text")
 		)
 		.option("name", { type: "string", description: "Name of the preset" })
 		.option("permissions-accept-stage-requests", {
@@ -384,12 +384,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "realtime kit presets replace",
 				classification: {
 					safeFlags: [
-						"config-media-audio-enable-high-bitrate",
-						"config-media-audio-enable-stereo",
-						"config-media-screenshare-quality",
-						"config-media-video-quality",
-						"config-media-video-simulcast",
-						"config-view-type",
+						"preset-config-media-audio-enable-high-bitrate",
+						"preset-config-media-audio-enable-stereo",
+						"preset-config-media-screenshare-quality",
+						"preset-config-media-video-quality",
+						"preset-config-media-video-simulcast",
+						"preset-config-view-type",
 						"permissions-accept-stage-requests",
 						"permissions-accept-waiting-requests",
 						"permissions-can-accept-production-requests",
@@ -462,32 +462,41 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										{
 											config: {
 												livestream_viewer_qualities:
-													argv["config-livestream-viewer-qualities"],
+													argv["preset-config-livestream-viewer-qualities"],
 												max_screenshare_count:
-													argv["config-max-screenshare-count"],
+													argv["preset-config-max-screenshare-count"],
 												max_video_streams: {
-													desktop: argv["config-max-video-streams-desktop"],
-													mobile: argv["config-max-video-streams-mobile"],
+													desktop:
+														argv["preset-config-max-video-streams-desktop"],
+													mobile:
+														argv["preset-config-max-video-streams-mobile"],
 												},
 												media: {
 													audio: {
 														enable_high_bitrate:
-															argv["config-media-audio-enable-high-bitrate"],
+															argv[
+																"preset-config-media-audio-enable-high-bitrate"
+															],
 														enable_stereo:
-															argv["config-media-audio-enable-stereo"],
+															argv["preset-config-media-audio-enable-stereo"],
 													},
 													screenshare: {
 														frame_rate:
-															argv["config-media-screenshare-frame-rate"],
-														quality: argv["config-media-screenshare-quality"],
+															argv[
+																"preset-config-media-screenshare-frame-rate"
+															],
+														quality:
+															argv["preset-config-media-screenshare-quality"],
 													},
 													video: {
-														frame_rate: argv["config-media-video-frame-rate"],
-														quality: argv["config-media-video-quality"],
-														simulcast: argv["config-media-video-simulcast"],
+														frame_rate:
+															argv["preset-config-media-video-frame-rate"],
+														quality: argv["preset-config-media-video-quality"],
+														simulcast:
+															argv["preset-config-media-video-simulcast"],
 													},
 												},
-												view_type: argv["config-view-type"],
+												view_type: argv["preset-config-view-type"],
 											},
 											name: resolveFileToken(
 												argv["name"] as string | undefined,
@@ -688,49 +697,50 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["config-max-screenshare-count"] === undefined) {
+				if (argv["preset-config-max-screenshare-count"] === undefined) {
 					throw new Error(
-						"--config-max-screenshare-count is required (or pass --body with this field set)."
+						"--preset-config-max-screenshare-count is required (or pass --body with this field set)."
 					);
 				}
-				if (argv["config-max-video-streams-desktop"] === undefined) {
+				if (argv["preset-config-max-video-streams-desktop"] === undefined) {
 					throw new Error(
-						"--config-max-video-streams-desktop is required (or pass --body with this field set)."
+						"--preset-config-max-video-streams-desktop is required (or pass --body with this field set)."
 					);
 				}
-				if (argv["config-max-video-streams-mobile"] === undefined) {
+				if (argv["preset-config-max-video-streams-mobile"] === undefined) {
 					throw new Error(
-						"--config-max-video-streams-mobile is required (or pass --body with this field set)."
+						"--preset-config-max-video-streams-mobile is required (or pass --body with this field set)."
 					);
 				}
-				if (argv["config-media-screenshare-frame-rate"] === undefined) {
+				if (argv["preset-config-media-screenshare-frame-rate"] === undefined) {
 					throw new Error(
-						"--config-media-screenshare-frame-rate is required (or pass --body with this field set)."
+						"--preset-config-media-screenshare-frame-rate is required (or pass --body with this field set)."
 					);
 				}
-				if (argv["config-media-screenshare-quality"] === undefined) {
-					argv["config-media-screenshare-quality"] =
+				if (argv["preset-config-media-screenshare-quality"] === undefined) {
+					argv["preset-config-media-screenshare-quality"] =
 						await promptForRequiredEnumField(
-							"config-media-screenshare-quality",
+							"preset-config-media-screenshare-quality",
 							"Quality of screen share ",
 							["hd", "vga", "qvga", "fhd", "uhd"] as const
 						);
 				}
-				if (argv["config-media-video-frame-rate"] === undefined) {
+				if (argv["preset-config-media-video-frame-rate"] === undefined) {
 					throw new Error(
-						"--config-media-video-frame-rate is required (or pass --body with this field set)."
+						"--preset-config-media-video-frame-rate is required (or pass --body with this field set)."
 					);
 				}
-				if (argv["config-media-video-quality"] === undefined) {
-					argv["config-media-video-quality"] = await promptForRequiredEnumField(
-						"config-media-video-quality",
-						"Video quality of participants",
-						["hd", "vga", "qvga", "fhd", "uhd"] as const
-					);
+				if (argv["preset-config-media-video-quality"] === undefined) {
+					argv["preset-config-media-video-quality"] =
+						await promptForRequiredEnumField(
+							"preset-config-media-video-quality",
+							"Video quality of participants",
+							["hd", "vga", "qvga", "fhd", "uhd"] as const
+						);
 				}
-				if (argv["config-view-type"] === undefined) {
-					argv["config-view-type"] = await promptForRequiredEnumField(
-						"config-view-type",
+				if (argv["preset-config-view-type"] === undefined) {
+					argv["preset-config-view-type"] = await promptForRequiredEnumField(
+						"preset-config-view-type",
 						"Type of the meeting",
 						["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"] as const
 					);
@@ -1025,29 +1035,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					{
 						config: {
 							livestream_viewer_qualities:
-								argv["config-livestream-viewer-qualities"],
-							max_screenshare_count: argv["config-max-screenshare-count"],
+								argv["preset-config-livestream-viewer-qualities"],
+							max_screenshare_count:
+								argv["preset-config-max-screenshare-count"],
 							max_video_streams: {
-								desktop: argv["config-max-video-streams-desktop"],
-								mobile: argv["config-max-video-streams-mobile"],
+								desktop: argv["preset-config-max-video-streams-desktop"],
+								mobile: argv["preset-config-max-video-streams-mobile"],
 							},
 							media: {
 								audio: {
 									enable_high_bitrate:
-										argv["config-media-audio-enable-high-bitrate"],
-									enable_stereo: argv["config-media-audio-enable-stereo"],
+										argv["preset-config-media-audio-enable-high-bitrate"],
+									enable_stereo:
+										argv["preset-config-media-audio-enable-stereo"],
 								},
 								screenshare: {
-									frame_rate: argv["config-media-screenshare-frame-rate"],
-									quality: argv["config-media-screenshare-quality"],
+									frame_rate:
+										argv["preset-config-media-screenshare-frame-rate"],
+									quality: argv["preset-config-media-screenshare-quality"],
 								},
 								video: {
-									frame_rate: argv["config-media-video-frame-rate"],
-									quality: argv["config-media-video-quality"],
-									simulcast: argv["config-media-video-simulcast"],
+									frame_rate: argv["preset-config-media-video-frame-rate"],
+									quality: argv["preset-config-media-video-quality"],
+									simulcast: argv["preset-config-media-video-simulcast"],
 								},
 							},
-							view_type: argv["config-view-type"],
+							view_type: argv["preset-config-view-type"],
 						},
 						name: resolveFileToken(
 							argv["name"] as string | undefined,

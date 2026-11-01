@@ -61,6 +61,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "A valid CIDR notation representing an IP range.",
 		})
 		.option("physport", { type: "number", description: "The physport field" })
+		.option("remote-subnets", {
+			type: "string",
+			description:
+				"The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("routed-subnets", {
 			type: "string",
 			description:
@@ -199,6 +204,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												),
 											},
 											physport: argv["physport"],
+											remote_subnets: parseObjectArray(
+												argv["remote-subnets"],
+												"remote-subnets"
+											),
 											routed_subnets: parseObjectArray(
 												argv["routed-subnets"],
 												"routed-subnets"
@@ -310,6 +319,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 						},
 						physport: argv["physport"],
+						remote_subnets: parseObjectArray(
+							argv["remote-subnets"],
+							"remote-subnets"
+						),
 						routed_subnets: parseObjectArray(
 							argv["routed-subnets"],
 							"routed-subnets"

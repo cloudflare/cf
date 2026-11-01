@@ -78,6 +78,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					devices: argv["devices"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -94,12 +97,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"account-or-zone": String(accountOrZone),
 							"account-or-zone-id": String(accountOrZoneId),
 						},
+						query: queryParams,
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										devices: argv["devices"],
 										email: resolveFileToken(
 											argv["email"] as string | undefined,
 											"email",
@@ -142,11 +145,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
+					const qs = new URLSearchParams(
+						Object.entries(queryParams)
+							.filter(([, v]) => v !== undefined)
+							.map(([k, v]) => [k, String(v)])
+					).toString();
 					const result = await withProgress(`Deleting`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
+							...queryParams,
 						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
@@ -161,7 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					devices: argv["devices"],
 					email: resolveFileToken(
 						argv["email"] as string | undefined,
 						"email",
@@ -174,11 +182,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					warp_session_reauth: argv["warp-session-reauth"],
 				});
+				const qs = new URLSearchParams(
+					Object.entries(queryParams)
+						.filter(([, v]) => v !== undefined)
+						.map(([k, v]) => [k, String(v)])
+				).toString();
 				const result = await withProgress(`Deleting`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
+						...queryParams,
 					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });

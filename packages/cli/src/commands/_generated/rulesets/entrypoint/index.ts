@@ -1,6 +1,5 @@
 import $get from "./get.js";
 import $update from "./update.js";
-import $versions from "./versions/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * entrypoint command group
@@ -16,7 +15,6 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($get)
 			.command($update)
-			.command($versions)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

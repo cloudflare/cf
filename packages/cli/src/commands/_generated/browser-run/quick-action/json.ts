@@ -148,7 +148,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The userAgent field",
 			default:
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
 		})
 		.option("viewport-device-scale-factor", {
 			type: "number",

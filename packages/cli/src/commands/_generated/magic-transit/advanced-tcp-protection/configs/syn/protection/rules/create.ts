@@ -35,6 +35,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("name", {
 			type: "string",
 			description:
@@ -101,6 +106,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"mitigation-type",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -138,6 +148,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
 					);
 				}
+				if (argv["protection-mode"] === undefined) {
+					argv["protection-mode"] = await promptForRequiredField(
+						"protection-mode",
+						"The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+					);
+				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -167,6 +183,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					mitigation_type: resolveFileToken(
 						argv["mitigation-type"] as string | undefined,
 						"mitigation-type",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					name: resolveFileToken(

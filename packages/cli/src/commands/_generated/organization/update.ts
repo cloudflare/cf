@@ -12,40 +12,27 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization update <organization-id>\n\nUpdate an organization's name."
+			"$0 organization update <organization-id>\n\nUpdate an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes."
 		)
 		.positional("organization-id", {
 			type: "string",
 			description: "The ID of the organization to modify.",
 			demandOption: true,
 		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("parent-id", { type: "string", description: "Organization ID" })
-		.option("profile-business-address", {
+		.option("name", {
 			type: "string",
-			description: "The profile.business_address field",
+			description:
+				"The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op.",
 		})
-		.option("profile-business-email", {
+		.option("parent-id", {
 			type: "string",
-			description: "The profile.business_email field",
-		})
-		.option("profile-business-name", {
-			type: "string",
-			description: "The profile.business_name field",
-		})
-		.option("profile-business-phone", {
-			type: "string",
-			description: "The profile.business_phone field",
-		})
-		.option("profile-external-metadata", {
-			type: "string",
-			description: "The profile.external_metadata field",
+			description:
+				"The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -54,32 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description:
-				'The new details of the organization. Only accepts updates to "name" currently.',
-		})
-		.check((argv) => {
-			const groupSet = [
-				"profile-business-address",
-				"profile-business-email",
-				"profile-business-name",
-				"profile-business-phone",
-				"profile-external-metadata",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = [
-					"profile-business-address",
-					"profile-business-email",
-					"profile-business-name",
-					"profile-business-phone",
-					"profile-external-metadata",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --profile-* flag is set`
-					);
-				}
-			}
-			return true;
+			description: "The Organization fields to update or verify.",
 		});
 }
 
@@ -117,40 +79,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										parent: {
-											id: resolveFileToken(
-												argv["parent-id"] as string | undefined,
-												"parent-id",
-												"text"
-											),
-										},
-										profile: {
-											business_address: resolveFileToken(
-												argv["profile-business-address"] as string | undefined,
-												"profile-business-address",
-												"text"
-											),
-											business_email: resolveFileToken(
-												argv["profile-business-email"] as string | undefined,
-												"profile-business-email",
-												"text"
-											),
-											business_name: resolveFileToken(
-												argv["profile-business-name"] as string | undefined,
-												"profile-business-name",
-												"text"
-											),
-											business_phone: resolveFileToken(
-												argv["profile-business-phone"] as string | undefined,
-												"profile-business-phone",
-												"text"
-											),
-											external_metadata: resolveFileToken(
-												argv["profile-external-metadata"] as string | undefined,
-												"profile-external-metadata",
-												"text"
-											),
-										},
+										parent_id: resolveFileToken(
+											argv["parent-id"] as string | undefined,
+											"parent-id",
+											"text"
+										),
 									}),
 					});
 					return;
@@ -168,9 +101,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
@@ -179,40 +109,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					parent: {
-						id: resolveFileToken(
-							argv["parent-id"] as string | undefined,
-							"parent-id",
-							"text"
-						),
-					},
-					profile: {
-						business_address: resolveFileToken(
-							argv["profile-business-address"] as string | undefined,
-							"profile-business-address",
-							"text"
-						),
-						business_email: resolveFileToken(
-							argv["profile-business-email"] as string | undefined,
-							"profile-business-email",
-							"text"
-						),
-						business_name: resolveFileToken(
-							argv["profile-business-name"] as string | undefined,
-							"profile-business-name",
-							"text"
-						),
-						business_phone: resolveFileToken(
-							argv["profile-business-phone"] as string | undefined,
-							"profile-business-phone",
-							"text"
-						),
-						external_metadata: resolveFileToken(
-							argv["profile-external-metadata"] as string | undefined,
-							"profile-external-metadata",
-							"text"
-						),
-					},
+					parent_id: resolveFileToken(
+						argv["parent-id"] as string | undefined,
+						"parent-id",
+						"text"
+					),
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {

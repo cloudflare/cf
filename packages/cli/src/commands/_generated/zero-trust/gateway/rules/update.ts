@@ -59,6 +59,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"resolve",
 				"quarantine",
 				"redirect",
+				"forward",
 			],
 		})
 		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
@@ -161,8 +162,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-biso-admin-controls-keyboard", {
 			type: "string",
 			description:
-				'Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".',
-			choices: ["enabled", "disabled"],
+				'Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2". The enable_read_only_actions value requires an explicit version of "v2".',
+			choices: ["enabled", "disabled", "enable_read_only_actions"],
 		})
 		.coerce("rule-settings-biso-admin-controls-keyboard", (value) =>
 			resolveFileToken(
@@ -289,6 +290,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-forensic-copy-enabled", {
 			type: "boolean",
 			description: "Enable sending the copy to storage.",
+		})
+		.option("rule-settings-forward-worker-id", {
+			type: "string",
+			description: "Specify the public Worker ID of the target Worker.",
 		})
 		.option("rule-settings-ignore-cname-category-matches", {
 			type: "boolean",
@@ -712,6 +717,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												forensic_copy: {
 													enabled: argv["rule-settings-forensic-copy-enabled"],
 												},
+												forward: {
+													worker_id: resolveFileToken(
+														argv["rule-settings-forward-worker-id"] as
+															| string
+															| undefined,
+														"rule-settings-forward-worker-id",
+														"text"
+													),
+												},
 												ignore_cname_category_matches:
 													argv["rule-settings-ignore-cname-category-matches"],
 												insecure_disable_dnssec_validation:
@@ -899,6 +913,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"resolve",
 							"quarantine",
 							"redirect",
+							"forward",
 						] as const
 					);
 				}
@@ -1031,6 +1046,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							},
 							forensic_copy: {
 								enabled: argv["rule-settings-forensic-copy-enabled"],
+							},
+							forward: {
+								worker_id: resolveFileToken(
+									argv["rule-settings-forward-worker-id"] as string | undefined,
+									"rule-settings-forward-worker-id",
+									"text"
+								),
 							},
 							ignore_cname_category_matches:
 								argv["rule-settings-ignore-cname-category-matches"],

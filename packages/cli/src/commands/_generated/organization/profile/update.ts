@@ -12,13 +12,12 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization profile update <organization-id>\n\nModify organization profile."
+			"$0 organization profile update <organization-id>\n\nPartially updates the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of the organization."
 		)
 		.positional("organization-id", {
 			type: "string",
@@ -52,7 +51,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
+			description:
+				"Partial business profile update. Omitted, empty, or null fields remain unchanged. At least one of business name, address, phone, or email must be non-empty.",
 		});
 }
 
@@ -126,36 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["business-address"] === undefined) {
-					argv["business-address"] = await promptForRequiredField(
-						"business-address",
-						"The business_address field"
-					);
-				}
-				if (argv["business-email"] === undefined) {
-					argv["business-email"] = await promptForRequiredField(
-						"business-email",
-						"The business_email field"
-					);
-				}
-				if (argv["business-name"] === undefined) {
-					argv["business-name"] = await promptForRequiredField(
-						"business-name",
-						"The business_name field"
-					);
-				}
-				if (argv["business-phone"] === undefined) {
-					argv["business-phone"] = await promptForRequiredField(
-						"business-phone",
-						"The business_phone field"
-					);
-				}
-				if (argv["external-metadata"] === undefined) {
-					argv["external-metadata"] = await promptForRequiredField(
-						"external-metadata",
-						"The external_metadata field"
-					);
 				}
 
 				// Assemble request body from individual flags

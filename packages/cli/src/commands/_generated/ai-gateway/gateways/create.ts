@@ -27,7 +27,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("authentication", {
 			type: "boolean",
-			description: "The authentication field",
+			description:
+				"Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled.",
 		})
 		.option("byok-only", {
 			type: "boolean",
@@ -90,6 +91,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.coerce("guardrails-prompt-s13", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s13", "text")
+		)
+		.option("guardrails-prompt-s14", {
+			type: "string",
+			description: "The guardrails.prompt.S14 field",
+			choices: ["FLAG", "BLOCK"],
+		})
+		.coerce("guardrails-prompt-s14", (value) =>
+			resolveFileToken(value, "guardrails-prompt-s14", "text")
 		)
 		.option("guardrails-prompt-s2", {
 			type: "string",
@@ -202,6 +211,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.coerce("guardrails-response-s13", (value) =>
 			resolveFileToken(value, "guardrails-response-s13", "text")
+		)
+		.option("guardrails-response-s14", {
+			type: "string",
+			description: "The guardrails.response.S14 field",
+			choices: ["FLAG", "BLOCK"],
+		})
+		.coerce("guardrails-response-s14", (value) =>
+			resolveFileToken(value, "guardrails-response-s14", "text")
 		)
 		.option("guardrails-response-s2", {
 			type: "string",
@@ -412,6 +429,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"guardrails-prompt-s11",
 						"guardrails-prompt-s12",
 						"guardrails-prompt-s13",
+						"guardrails-prompt-s14",
 						"guardrails-prompt-s2",
 						"guardrails-prompt-s3",
 						"guardrails-prompt-s4",
@@ -426,6 +444,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"guardrails-response-s11",
 						"guardrails-response-s12",
 						"guardrails-response-s13",
+						"guardrails-response-s14",
 						"guardrails-response-s2",
 						"guardrails-response-s3",
 						"guardrails-response-s4",
@@ -474,6 +493,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												S11: argv["guardrails-prompt-s11"],
 												S12: argv["guardrails-prompt-s12"],
 												S13: argv["guardrails-prompt-s13"],
+												S14: argv["guardrails-prompt-s14"],
 												S2: argv["guardrails-prompt-s2"],
 												S3: argv["guardrails-prompt-s3"],
 												S4: argv["guardrails-prompt-s4"],
@@ -490,6 +510,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												S11: argv["guardrails-response-s11"],
 												S12: argv["guardrails-response-s12"],
 												S13: argv["guardrails-response-s13"],
+												S14: argv["guardrails-response-s14"],
 												S2: argv["guardrails-response-s2"],
 												S3: argv["guardrails-response-s3"],
 												S4: argv["guardrails-response-s4"],
@@ -609,6 +630,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							S11: argv["guardrails-prompt-s11"],
 							S12: argv["guardrails-prompt-s12"],
 							S13: argv["guardrails-prompt-s13"],
+							S14: argv["guardrails-prompt-s14"],
 							S2: argv["guardrails-prompt-s2"],
 							S3: argv["guardrails-prompt-s3"],
 							S4: argv["guardrails-prompt-s4"],
@@ -625,6 +647,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							S11: argv["guardrails-response-s11"],
 							S12: argv["guardrails-response-s12"],
 							S13: argv["guardrails-response-s13"],
+							S14: argv["guardrails-response-s14"],
 							S2: argv["guardrails-response-s2"],
 							S3: argv["guardrails-response-s3"],
 							S4: argv["guardrails-response-s4"],

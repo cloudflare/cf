@@ -25,14 +25,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Organization ID",
 			demandOption: true,
 		})
-		.option("member-status", {
-			type: "string",
-			description: "The member.status field",
-			choices: ["active", "canceled"],
-		})
-		.coerce("member-status", (value) =>
-			resolveFileToken(value, "member-status", "text")
-		)
 		.option("member-user-email", {
 			type: "string",
 			description: "The member.user.email field",
@@ -59,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "organization member create",
 				classification: {
-					safeFlags: ["member-status", "dry-run"],
+					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -78,7 +70,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										member: {
-											status: argv["member-status"],
 											user: {
 												email: resolveFileToken(
 													argv["member-user-email"] as string | undefined,
@@ -114,7 +105,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					member: {
-						status: argv["member-status"],
 						user: {
 							email: resolveFileToken(
 								argv["member-user-email"] as string | undefined,

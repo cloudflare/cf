@@ -263,8 +263,8 @@ importers:
         specifier: 2.1.5
         version: 2.1.5
       miniflare:
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@87c195a
-        version: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@87c195a(@types/node@25.9.9)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@1352d6b
+        version: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@1352d6b(@types/node@25.9.9)
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
@@ -3233,6 +3233,11 @@ packages:
     resolution: {integrity: sha512-thdXzlktu5GE1o/BlmMAPeJ0Cu6Tu5LpMbRlyfRrpVvMRrhd6p52TMqcITCZZLVzt1UO92VGBkLDhLOpryUAyQ==}
     engines: {node: '>=22.0.0'}
 
+  miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@1352d6b:
+    resolution: {integrity: sha512-Jh7397icJ+OXEGu74WDebPsDu8aQ9aW9aZhZpQ2GJ7LTIwwmJeZm3stPSKvU53lxbUTV7pmIzZE81VnHbgUqMg==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@1352d6b}
+    version: 5.20261023.3-beta
+    engines: {node: '>=22.0.0'}
+
   miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@87c195a:
     resolution: {integrity: sha512-A7Iyd1feb1GH0TojrY+A3JHRKUM3XZUJHzLvzLEv1fvpunv7xYjq5qm6SGtFwhx2RUc7wgFQKTIgjMD1PHe4jw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@87c195a}
     version: 5.20261023.3-beta
@@ -6091,6 +6096,19 @@ snapshots:
   mimic-fn@2.1.0: {}
 
   miniflare@5.20261023.3-beta(@types/node@25.9.9):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      sharp: 0.35.5(@types/node@25.9.9)
+      undici: 7.30.1
+      workerd: 1.20261023.1
+      ws: 8.21.0
+      youch: 4.1.0-beta.10
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - utf-8-validate
+
+  miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@1352d6b(@types/node@25.9.9):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@25.9.9)

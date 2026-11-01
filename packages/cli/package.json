@@ -73,7 +73,7 @@
 		"@cloudflare/config": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@87c195a",
 		"@cloudflare/runtime-types": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@87c195a",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "https://pkg.pr.new/cloudflare/workers-sdk/miniflare@87c195a"
+		"miniflare": "https://pkg.pr.new/cloudflare/workers-sdk/miniflare@1352d6b"
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",

@@ -194,6 +194,52 @@ describe("cf dev", () => {
 		});
 	});
 
+	describe.each([
+		{
+			name: "@cloudflare/vite-plugin",
+			version: "2.0.0-beta.sha-805ec1ff3",
+			bin: "bin/cf-vite",
+		},
+		{ name: "wrangler", version: "4.136.0", bin: "bin/cf-wrangler.js" },
+	])("$name auth profiles", ({ name, version, bin }) => {
+		it.each([
+			{ profile: "work", inherited: "personal", expected: "work" },
+			{ profile: "default", inherited: "work", expected: "default" },
+			{ profile: undefined, inherited: "work", expected: "work" },
+			{ profile: undefined, inherited: undefined, expected: null },
+		])(
+			"passes profile $profile with inherited profile $inherited through the environment",
+			async ({ profile, inherited, expected }) => {
+				const executable = `node_modules/${name}/${bin}`;
+				await seed({
+					"package.json": JSON.stringify({
+						devDependencies: { [name]: version },
+					}),
+					[`node_modules/${name}/package.json`]: JSON.stringify({
+						name,
+						version,
+					}),
+					[executable]: nodeScript(
+						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null }));'
+					),
+				});
+				makeExecutable(executable);
+
+				const result = await runCf(
+					["dev", ...(profile ? ["--profile", profile] : []), "--port", "3000"],
+					{ CLOUDFLARE_AUTH_PROFILE: inherited }
+				);
+
+				expect(result.exitCode).toBe(0);
+				expect(JSON.parse(readFileSync("profile.out", "utf8"))).toEqual({
+					argv: ["dev", "--port", "3000"],
+					profile: expected,
+				});
+				expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe(inherited);
+			}
+		);
+	});
+
 	describe("happy path", () => {
 		it("rejects an installed Vite plugin v1 delegate", async () => {
 			await seed({
@@ -273,19 +319,23 @@ describe("cf dev", () => {
 					version: "0.0.1",
 				}),
 				"node_modules/.bin/vite": nodeScript(
-					'require("node:fs").writeFileSync("vite-argv.out", [...process.argv.slice(2), process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT].join("\\n") + "\\n");'
+					'require("node:fs").writeFileSync("vite-argv.out", [...process.argv.slice(2), process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT, process.env.CLOUDFLARE_AUTH_PROFILE].join("\\n") + "\\n");'
 				),
 			});
 			makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
-			const result = await runCf(["dev", "--mode", "staging"]);
+			const result = await runCf(
+				["dev", "--mode", "staging", "--profile", "work"],
+				{ CLOUDFLARE_AUTH_PROFILE: "personal" }
+			);
 
 			expect(result.exitCode).toBe(0);
 			expect(
 				readFileSync(resolve(process.cwd(), "vite-argv.out"), "utf8")
 					.trim()
 					.split("\n")
-			).toEqual(["dev", "--mode", "staging", "true"]);
+			).toEqual(["dev", "--mode", "staging", "true", "work"]);
+			expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe("personal");
 		});
 
 		it("does not treat an undeclared vinext installation (installed but not present in the project's manifest) as a vinext project", async () => {

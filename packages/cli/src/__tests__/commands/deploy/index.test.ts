@@ -51,7 +51,6 @@ describe("cf deploy", () => {
 				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
 				".cloudflare/output/v0/workers/default/worker.config.json":
 					workerConfig({
-						compatibilityFlags: ["workers_oidc"],
 						env: {
 							ORDERS: {
 								type: "identity",

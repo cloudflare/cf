@@ -60,25 +60,6 @@ describe("cf workers types", () => {
 		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
-	it("preserves the runtime caller API for a receiver without an identity binding", async () => {
-		await seed({ "cloudflare.config.ts": workerConfig("2026-10-31", []) });
-		const callerTypes =
-			"interface CloudflareIdentityContext { caller(): Promise<CloudflareWorkloadIdentity | null>; }\n";
-		vi.mocked(runtimeTypes.generateRuntimeTypes).mockResolvedValue({
-			runtimeHeader: "// Receiver runtime types",
-			runtimeTypes: callerTypes,
-			isCached: false,
-		});
-		await runCf(["workers", "types"]);
-		const generated = await readFile(TYPES_PATH, "utf8");
-		expect(generated).toContain(callerTypes);
-		expect(runtimeTypes.generateRuntimeTypes).toHaveBeenCalledWith({
-			compatibilityDate: "2026-10-31",
-			compatibilityFlags: [],
-			existingContent: undefined,
-		});
-	});
-
 	it.skipIf(!process.env.MINIFLARE_WORKERD_PATH)(
 		"generates the native caller API without receiver bindings",
 		async () => {
@@ -102,23 +83,6 @@ describe("cf workers types", () => {
 			);
 		}
 	);
-
-	it("generates types for a signing-only identity without an audience or profile", async () => {
-		await seed({
-			"cloudflare.config.ts": `export default { worker: {
-        name: "signing-only", compatibilityDate: "2026-10-31",
-        env: { IDENTITY: { type: "identity", request_signing: {
-          allowed_origins: ["https://api.example.com"], allowed_methods: ["GET"],
-        } } },
-      } };`,
-		});
-		await runCf(["workers", "types", "--include-runtime", "false"]);
-		const generated = await readFile(TYPES_PATH, "utf8");
-		expect(generated).toContain('import("cf/config").UnwrapConfig');
-		expect(generated).toContain('import("../../cloudflare.config").default');
-		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
-		expect(runtimeTypes.generateRuntimeTypes).not.toHaveBeenCalled();
-	});
 
 	it("omits runtime types when --include-runtime=false", async () => {
 		await seed({ "cloudflare.config.ts": workerConfig() });

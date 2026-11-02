@@ -85,7 +85,7 @@
 		"@cloudflare/codemods": "0.7.2",
 		"@cloudflare/containers-shared": "0.23.7",
 		"@cloudflare/deploy-helpers": "0.24.5",
-		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5bd8f6e096e864f99f8a6346745d8021dc6e4ba0",
+		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ae774751262f6da3fee1a3b8941b089973de50a2",
 		"@cloudflare/workers-auth": "0.15.5",
 		"@cloudflare/workers-utils": "0.51.0",
 		"@types/node": "25.9.9",

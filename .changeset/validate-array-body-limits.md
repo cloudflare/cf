@@ -1,5 +1,5 @@
 ---
-"cf": patch
+"cf": minor
 ---
 
 Validate array body limits instead of batching requests

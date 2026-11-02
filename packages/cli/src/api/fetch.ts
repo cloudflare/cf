@@ -2,6 +2,7 @@
 // before, which the commands' requests must keep matching byte for byte.
 
 import { ApiError, rawResponse } from "./error.js";
+import { withResultInfo } from "./result-info.js";
 
 function trimSlashes(s: string): string {
 	if (!s) {
@@ -160,7 +161,8 @@ export interface NonJsonBody {
 
 /**
  * Unwraps a successful Cloudflare envelope to its result, or to
- * `{ result, result_info }` for a list. Successful envelopes without
+ * `{ result, result_info }` for a list. Object results retain metadata
+ * through `getResultInfo`. Successful envelopes without
  * `result` are returned unchanged. An envelope with `success: false`
  * throws whether or not it has `result`.
  */
@@ -209,7 +211,7 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	const result = get("result");
 	return Array.isArray(result)
 		? { result, result_info: get("result_info") }
-		: result;
+		: withResultInfo(result, get("result_info"));
 }
 
 /**

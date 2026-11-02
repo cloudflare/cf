@@ -5,7 +5,7 @@ import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import { isTemporaryAccountRequested } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
-import { ApiError, Client, type ClientOptions } from "#api";
+import { ApiError, Client, type ClientOptions, withResultInfo } from "#api";
 import listAccounts from "#operations/accounts/list.js";
 import listMemberships from "#operations/user/memberships/list.js";
 
@@ -59,6 +59,7 @@ interface ListResponse<T> {
 
 interface CloudflareAPIResponse<T> {
 	result?: T;
+	result_info?: unknown;
 	success?: boolean;
 	errors?: Array<{ code?: number; message?: string }>;
 	messages?: Array<{ code?: number; message?: string }>;
@@ -244,7 +245,9 @@ export async function requestApi<T>(
 			body: data,
 		});
 	}
-	return ("result" in data ? data.result : data) as T;
+	return (
+		"result" in data ? withResultInfo(data.result, data.result_info) : data
+	) as T;
 }
 
 export function createCloudflareClientWithToken(

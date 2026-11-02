@@ -10,7 +10,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-utils": "0.51.0",
-		"@types/node": "25.9.9",
+		"@types/node": "26.6.6",
 		"@types/prompts": "^2.4.9",
 		"@types/shell-quote": "^1.7.5",
 		"@types/yargs": "^17.0.35",

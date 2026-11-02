@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/feedback.test.ts
+  s_da898a4a567a74::t_d78e3d923dce18 314-342
+packages/cli/src/commands/feedback/send.ts
+  s_da898a4a567a74::t_bee9f3404ff8f8 2,66-77,157-158
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "27b78854b23b3cf9e223648682ad24391a338cb9",
+  "prompts": {},
+  "sessions": {
+    "s_da898a4a567a74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "84181229-533f-4d88-a560-7c05875e31b9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

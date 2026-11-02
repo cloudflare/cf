@@ -1,4 +1,5 @@
 import { getDefaultHeaders } from "../../lib/request-headers.js";
+import { VERSION } from "../../version.js";
 import type { Submission } from "./payload.js";
 
 /** The demo feedback Worker. CF_FEEDBACK_URL overrides it, for example to point at `cf dev`. */
@@ -60,6 +61,18 @@ export function feedbackUrl(
 		);
 	}
 	return url.href;
+}
+
+/** The Worker refuses CLI versions it has blocked, for example after a bad release. */
+function versionRefusal(body: unknown): string | undefined {
+	if (!isRecord(body) || body.error !== "cli_version_unsupported") {
+		return undefined;
+	}
+	const minimum =
+		typeof body.minimum_version === "string" ? body.minimum_version : undefined;
+	return `This version of cf (${VERSION}) can no longer send feedback. Upgrade cf${
+		minimum ? ` to ${minimum} or later` : ""
+	} and try again.`;
 }
 
 /** Schema paths from a 422 body, never values: the Worker only returns paths. */
@@ -141,7 +154,8 @@ export async function sendFeedback(
 		}
 		if (!response.ok) {
 			throw new Error(
-				`The feedback service rejected the submission${rejectionDetail(data)}.`
+				versionRefusal(data) ??
+					`The feedback service rejected the submission${rejectionDetail(data)}.`
 			);
 		}
 		if (!isReceipt(data)) {

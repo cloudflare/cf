@@ -311,6 +311,35 @@ describe("cf feedback", () => {
 		expect(sent).toHaveLength(1);
 	});
 
+	it("tells the user to upgrade when the service refuses this CLI version", async () => {
+		const sent = respondWith(() =>
+			HttpResponse.json(
+				{
+					error: "cli_version_unsupported",
+					reason: "below_minimum",
+					minimum_version: "9.9.9",
+				},
+				{ status: 403 }
+			)
+		);
+		await expect(runCf(["feedback", "hi"])).rejects.toThrow(
+			/can no longer send feedback\. Upgrade cf to 9\.9\.9 or later/
+		);
+		expect(sent).toHaveLength(1);
+	});
+
+	it("tells the user to upgrade when this exact version is blocked", async () => {
+		respondWith(() =>
+			HttpResponse.json(
+				{ error: "cli_version_unsupported", reason: "blocked" },
+				{ status: 403 }
+			)
+		);
+		await expect(runCf(["feedback", "hi"])).rejects.toThrow(
+			/can no longer send feedback\. Upgrade cf and try again\./
+		);
+	});
+
 	it("documents the fields and an agent example in --help", async () => {
 		const { cli } = buildCli(["feedback", "--help"]);
 		const help = await cli.getHelp();

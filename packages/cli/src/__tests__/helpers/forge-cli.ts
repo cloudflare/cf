@@ -214,20 +214,28 @@ export function generateFiles(
 			...spec,
 			info: { ...spec.info, version: JSON.stringify(config) },
 		};
-		writeFileSync(join(dir, "openapi.json"), JSON.stringify(doc));
+		const openapi = JSON.stringify(doc);
 		const wasm = plugin();
 		try {
+			const input = execFileSync(
+				process.execPath,
+				[forgeBin, "normalize", "--leave-old-extensions", "-"],
+				{ encoding: "utf8", input: openapi }
+			);
 			execFileSync(
 				process.execPath,
 				[
 					forgeBin,
-					join(dir, "openapi.json"),
+					"-",
 					"--target",
 					`wasm://${wasm}`,
 					"--out",
 					join(dir, "out"),
 				],
-				{ stdio: "pipe" }
+				{
+					input,
+					stdio: ["pipe", "pipe", "pipe"],
+				}
 			);
 		} catch (error) {
 			const stderr = (error as { stderr?: Buffer }).stderr?.toString() ?? "";

@@ -99,7 +99,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
 						query: queryParams,
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 1000)
+								: undefined,
 					});
 					return;
 				}
@@ -117,36 +120,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [], 1000);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
-					if (Array.isArray(bodyData) && bodyData.length > 1000) {
-						const total = Math.ceil(bodyData.length / 1000);
-						let result: unknown = null;
-						for (let i = 0; i < bodyData.length; i += 1000) {
-							const batch = bodyData.slice(i, i + 1000);
-							const batchNum = Math.floor(i / 1000) + 1;
-							result = await withProgress(
-								`Deleting: batch ${batchNum}/${total}`,
-								async () =>
-									requestApi<unknown>(
-										client,
-										"DELETE",
-										`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/objects${qs ? "?" + qs : ""}`,
-										{
-											body: batch,
-											headers:
-												Object.keys(headers).length > 0 ? headers : undefined,
-										}
-									)
-							);
-						}
-						formatOutput(result, { successLabel: `Deleted` });
-						return;
-					}
 					const result = await withProgress(`Deleting`, async () =>
 						requestApi<unknown>(
 							client,

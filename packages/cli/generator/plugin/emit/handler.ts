@@ -132,9 +132,14 @@ function parseBodyExpression(ctx: Ctx): string {
 	const maps = bodyOptions(ctx.derived)
 		.filter((arg) => arg.type === "objectMap" && arg.required)
 		.map((arg) => ({ path: bodyPath(arg) ?? [], flag: arg.name }));
-	return maps.length > 0
-		? `parseBody(argv.body, ${stringify(maps)})`
-		: "parseBody(argv.body)";
+	const args = ["argv.body"];
+	if (maps.length > 0 || ctx.op.maxItems !== undefined) {
+		args.push(stringify(maps));
+	}
+	if (ctx.op.maxItems !== undefined) {
+		args.push(String(ctx.op.maxItems));
+	}
+	return `parseBody(${args.join(", ")})`;
 }
 
 function preservedBodyPaths(ctx: Ctx): string {
@@ -551,19 +556,11 @@ function fileUpload(ctx: Ctx): string[] {
 	return lines;
 }
 
-function batchSize(op: OperationInfo): number | undefined {
-	return op.maxItems !== undefined && op.maxItems > 0 ? op.maxItems : undefined;
-}
-
 export function bodyBypassUsesRequestApi(ctx: Ctx): boolean {
 	if (!ctx.derived.hasBody || ctx.isRawOutput) {
 		return false;
 	}
-	return !(
-		acceptsJson(ctx) &&
-		batchSize(ctx.op) === undefined &&
-		sdk.canEmitTypedJsonBodyCall(ctx)
-	);
+	return !(acceptsJson(ctx) && sdk.canEmitTypedJsonBodyCall(ctx));
 }
 
 function bodyBypass(ctx: Ctx): string[] {
@@ -575,7 +572,6 @@ function bodyBypass(ctx: Ctx): string[] {
 	const rawCt =
 		op.requestContentTypes.find((c) => c !== "application/json") ??
 		"application/octet-stream";
-	const batch = batchSize(op);
 	const lines = ["", "      if (argv.body) {"];
 	if (json) {
 		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
@@ -605,30 +601,6 @@ function bodyBypass(ctx: Ctx): string[] {
 		lines.push(`        const qs = ${QS_FROM_PARAMS};`);
 		url = `\`${ctx.resolvedRequestPath}\${qs ? '?' + qs : ''}\``;
 	}
-	if (batch !== undefined && !ctx.isRawOutput) {
-		const size = String(batch);
-		lines.push(
-			`        if (Array.isArray(bodyData) && bodyData.length > ${size}) {`
-		);
-		lines.push(`          const total = Math.ceil(bodyData.length / ${size});`);
-		lines.push("          let result: unknown = null;");
-		lines.push(
-			`          for (let i = 0; i < bodyData.length; i += ${size}) {`
-		);
-		lines.push(`            const batch = bodyData.slice(i, i + ${size});`);
-		lines.push(`            const batchNum = Math.floor(i / ${size}) + 1;`);
-		const opts =
-			headerOpt !== undefined
-				? `{ body: batch, headers: ${headerOpt} }`
-				: "{ body: batch }";
-		lines.push(
-			`            result = await withProgress(\`${escapeTemplate(ctx.progressLabel)}: batch \${batchNum}/\${total}\`, async () => (${requestApi(ctx, url, opts)}));`
-		);
-		lines.push("          }");
-		lines.push(formatOutputCall(ctx, "          "));
-		lines.push("          return;");
-		lines.push("        }");
-	}
 	if (ctx.isRawOutput) {
 		const parts = json
 			? ["body: JSON.stringify(bodyData)", "contentType: 'application/json'"]
@@ -637,7 +609,7 @@ function bodyBypass(ctx: Ctx): string[] {
 			parts.push(`headers: ${HEADERS_GUARDED}`);
 		}
 		lines.push(...emitRawTail(ctx, "        ", url, parts));
-	} else if (json && batch === undefined && sdk.canEmitTypedJsonBodyCall(ctx)) {
+	} else if (json && sdk.canEmitTypedJsonBodyCall(ctx)) {
 		lines.push(`        const result = ${wrapAwait(ctx, sdk.bodyCall(ctx))};`);
 		lines.push(formatOutputCall(ctx, "        "));
 		lines.push("        return;");

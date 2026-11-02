@@ -1,3 +1,4 @@
+import operation from "../../_operations/kv/bulk/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,7 +9,6 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
@@ -71,7 +71,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/storage/kv/namespaces/${argv["namespace-id"] == null ? "<namespace-id>" : encodeURIComponent(String(argv["namespace-id"]))}/bulk/delete`,
 						pathParams: { "namespace-id": String(argv["namespace-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 10000)
+								: undefined,
 					});
 					return;
 				}
@@ -89,34 +92,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					if (Array.isArray(bodyData) && bodyData.length > 10000) {
-						const total = Math.ceil(bodyData.length / 10000);
-						let result: unknown = null;
-						for (let i = 0; i < bodyData.length; i += 10000) {
-							const batch = bodyData.slice(i, i + 10000);
-							const batchNum = Math.floor(i / 10000) + 1;
-							result = await withProgress(
-								`Deleting: batch ${batchNum}/${total}`,
-								async () =>
-									requestApi<unknown>(
-										client,
-										"POST",
-										`/accounts/${accountId}/storage/kv/namespaces/${encodeURIComponent(String(argv["namespace-id"]))}/bulk/delete`,
-										{ body: batch }
-									)
-							);
-						}
-						formatOutput(result, { successLabel: `Deleted` });
-						return;
-					}
+					const bodyData = parseBody(argv.body, [], 10000);
 					const result = await withProgress(`Deleting`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/storage/kv/namespaces/${encodeURIComponent(String(argv["namespace-id"]))}/bulk/delete`,
-							{ body: bodyData }
-						)
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							namespace_id: argv["namespace-id"],
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;

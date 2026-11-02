@@ -213,7 +213,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Task                            | Location                                                                                                                                                                                                                                                          |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                        |
-| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, batching, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                         |
+| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                  |
 | New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
 | Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                              |
@@ -287,9 +287,9 @@ Practical extensions of this rule:
   (`401 → cf auth login`, `403 → check permissions`) only. Per-code
   hints stay forge-side via overlays because the API itself is the source
   of truth for error text.
-- **Limits, batching, confirmations** live in forge or in the OpenAPI
-  spec itself. Batching comes from the body schema's `maxItems`
-  (surfaced as `opInfo.maxItems`); destructive non-DELETE ops opt in
+- **Limits and confirmations** live in forge or in the OpenAPI
+  spec itself. The body schema's `maxItems` (surfaced as `opInfo.maxItems`)
+  validates array bodies; destructive non-DELETE ops opt in
   via `x-forge-require-confirmation: 'This operation …'`. The
   generator's emitter is generic; forge supplies the per-method values.
 - **Universal zone resolution** is an intentional cross-cutting exception.
@@ -592,7 +592,7 @@ and group level (groups that become empty are pruned —
 forge's `cli` target). Rationale: they'll
 break at sunset; surfacing them encourages users to adopt doomed paths.
 
-### Confirmation, force, batching
+### Confirmation, force, body limits
 
 - DELETE operations get a `confirmDelete` prompt unless `--force` is passed. `--quiet` never confirms a destructive action. Non-interactive/CI contexts print the prompt and `pass --force` hint, then abort the handler.
 - `--force` / `-f` is auto-emitted for DELETE ops that don't already
@@ -608,13 +608,12 @@ break at sunset; surfacing them encourages users to adopt doomed paths.
   annotation value is a "This operation …." sentence surfaced
   verbatim in the prompt instead of the generic "This permanently
   deletes the resource. Continue?" fallback.
-- An OpenAPI body-schema `maxItems: N` on an array-typed request
-  body (surfaced as `opInfo.maxItems`) splits the parsed body into
-  N-sized batches with a per-batch spinner ("Updating: batch
-  2/3"). No result aggregation — bulk ops are write-mostly; success
-  is silent with one final `✓ <successLabel>`. Replaces the
-  previous `x-forge-batch-size` annotation now that the OpenAPI
-  spec carries this directly on the body schema.
+- An OpenAPI body-schema `maxItems: N` on an array-typed JSON request body
+  (surfaced as `opInfo.maxItems`) rejects arrays larger than N before sending
+  the request. The same limit applies to inline `--body`, `--body @file`,
+  and `--dry-run`; `maxItems: 0` permits only an empty array. Commands send
+  each accepted body in one request. No automatic batching is inferred from
+  schema limits.
 
 ### Strict yargs
 
@@ -824,7 +823,7 @@ over adding switches in cf src/.
 | Annotation                                                                         | Status | Effect                                                                                                       |
 | ---------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ |
 | `status: 'deprecated'`                                                             | live   | Method (and possibly its group) skipped entirely                                                             |
-| body schema `maxItems: N`                                                          | live   | Generator emits batched-array codepath for bulk ops (sourced from OpenAPI; see `opInfo.maxItems`)            |
+| body schema `maxItems: N`                                                          | live   | Reject JSON array bodies larger than N, including during dry runs (see `opInfo.maxItems`)                    |
 | `x-forge-require-confirmation: 'This …'`                                           | live   | Treat a non-DELETE op as destructive (confirm prompt with the supplied message + `--force` + delete spinner) |
 | response MIME `application/octet-stream`                                           | live   | Bypass the client envelope; write response body verbatim to stdout (derived from response content type)      |
 | known text response MIME types (`text/plain`, `text/csv`, `text/html`, `text/vtt`) | live   | Same, but UTF-8 decode the body                                                                              |

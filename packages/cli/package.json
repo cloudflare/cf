@@ -88,7 +88,7 @@
 		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5879d90b6c2c560a0f841de4bdb5c105b84d0e92",
 		"@cloudflare/workers-auth": "0.15.5",
 		"@cloudflare/workers-utils": "0.51.0",
-		"@types/node": "25.9.9",
+		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",
 		"@types/yargs": "17.0.35",

@@ -1,0 +1,605 @@
+.changeset/dry-run-no-api.md
+  s_f65b0e05597a3a::t_9e27a28a98e0c8 1-10
+.changeset/package-dependencies.md
+  s_f65b0e05597a3a::t_68b08f57a92a67 1-5
+.changeset/tunnel-quick.md
+  s_f65b0e05597a3a::t_bbb392650c3942 1-13
+.changeset/tunnel-run.md
+  s_f65b0e05597a3a::t_b7cf12c29d80d5 1-8
+.changeset/update-forge.md
+  s_f65b0e05597a3a::t_3f9ff0026cc485 1-6
+.changeset/workers-types.md
+  s_f65b0e05597a3a::t_64dcc2092e2d87 1-9
+AGENTS.md
+  s_f65b0e05597a3a::t_e0dab6922261c2 79,172-195,287-290,295-298,309,325,327-332,344-346,355-356,362,431-433,448-451,470,637
+README.md
+  s_f65b0e05597a3a::t_553d95d4be4c5f 338-339
+fixtures/vite-container-project/package.json
+  s_f65b0e05597a3a::t_d037cc4ebdc567 10-11,14
+fixtures/vite-plugin-project/README.md
+  s_f65b0e05597a3a::t_7414c20f4a7356 24-25
+fixtures/vite-plugin-project/package.json
+  s_f65b0e05597a3a::t_e1315fa03b9bdb 9-10,12
+fixtures/wrangler-bundler-project/package.json
+  s_f65b0e05597a3a::t_c51a14d453ea9d 7
+package.json
+  s_f65b0e05597a3a::t_cd1b992ae2674c 36-39
+packages/cli/AGENTS.md
+  s_f65b0e05597a3a::t_9afb7a997cf49a 18,40-54,83,85
+packages/cli/generate.ts
+  s_f65b0e05597a3a::t_98b5916d9607f7 22
+packages/cli/generator/hand-written-overrides.ts
+  s_f65b0e05597a3a::t_ec31036846fb93 2,4-8,18-19
+packages/cli/package.json
+  s_f65b0e05597a3a::t_3bb15504764698 56-58,60,66-69,72-73
+packages/cli/src/__tests__/commands/cloudflared.test.ts
+  s_f65b0e05597a3a::t_43287220cab378 1-76
+packages/cli/src/__tests__/commands/deploy/containers.test.ts
+  s_f65b0e05597a3a::t_9271d41cb9b6e2 51,75,93,113,132,229,255
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_f65b0e05597a3a::t_6c8304fca3f74e 4,528-540
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_f65b0e05597a3a::t_677a4a74bf00a8 19,1093-1111
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_f65b0e05597a3a::t_035ec553535a34 119,132,205-215,218,221,223,232-262,278-279
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_f65b0e05597a3a::t_60e48b699d7139 17,222-225,238
+packages/cli/src/__tests__/commands/tunnel/quick-start.test.ts
+  s_f65b0e05597a3a::t_a2f58bf88b865c 1-60
+packages/cli/src/__tests__/commands/tunnel/run-client.test.ts
+  s_f65b0e05597a3a::t_339cd605b6e01e 1-107
+packages/cli/src/__tests__/commands/tunnel/run.test.ts
+  s_f65b0e05597a3a::t_a716eb1cc043f7 1-78
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_f65b0e05597a3a::t_5eebabae6181aa 20,220-244
+packages/cli/src/__tests__/commands/workers-types.test.ts
+  s_f65b0e05597a3a::t_f5e91c971fe954 1-136
+packages/cli/src/__tests__/generator/hand-written-leaf-commands.test.ts
+  s_f65b0e05597a3a::t_f1d158b6c42992 28-33,50-52,104-106,108
+packages/cli/src/__tests__/lib/process.test.ts
+  s_f65b0e05597a3a::t_86ebbf105067ae 1-183
+packages/cli/src/__tests__/telemetry-errors.test.ts
+  s_f65b0e05597a3a::t_5702b41677e8d0 200
+packages/cli/src/commands/cloudflared.ts
+  s_f65b0e05597a3a::t_8c6c877a471417 1-60
+packages/cli/src/commands/deploy/containers.ts
+  s_f65b0e05597a3a::t_e8ea707a341f64 35-36,273-280
+packages/cli/src/commands/deploy/shared.ts
+  s_f65b0e05597a3a::t_cbc367e8814909 109-111,113,123
+packages/cli/src/commands/hand-written.ts
+  s_f65b0e05597a3a::t_1eafb746d3eded 129-135,188-193
+packages/cli/src/commands/tunnel/index.ts
+  s_f65b0e05597a3a::t_873bcca4e023b0 1-3,7-13
+packages/cli/src/commands/tunnel/meta.json
+  s_f65b0e05597a3a::t_d164eeb0613801 1-80
+packages/cli/src/commands/tunnel/quick-start/index.ts
+  s_f65b0e05597a3a::t_6ff52a77a3ecab 1-46
+packages/cli/src/commands/tunnel/run/client.ts
+  s_f65b0e05597a3a::t_ff2c31e476a56a 1-72
+packages/cli/src/commands/tunnel/run/index.ts
+  s_f65b0e05597a3a::t_a73e09ccb0ce23 1-8,10-16,18,20,22-31,34-35,37,39-42,44-49,52-66
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_f65b0e05597a3a::t_53f52c1d7a4363 58-60
+packages/cli/src/commands/workers/types/command.ts
+  s_f65b0e05597a3a::t_67a5ddfbce2605 1-2,4-12,16-17,19,21-22,26-45,47,49-51,53-107,109-113
+packages/cli/src/commands/workers/types/index.ts
+  s_f65b0e05597a3a::t_ceba9ec9e5562a 1-11
+packages/cli/src/commands/workers/types/meta.json
+  s_f65b0e05597a3a::t_bb9a0ad5111292 1-18
+packages/cli/src/lib/deploy-input.ts
+  s_f65b0e05597a3a::t_1097b60f60a459 49,105,126,141
+packages/cli/src/lib/process.ts
+  s_f65b0e05597a3a::t_b6494022720512 1-125
+packages/cli/src/sdk/openapi-version
+  s_f65b0e05597a3a::t_df4971a85792df 1
+packages/cli/src/sdk/sdk/Client.ts
+  s_f65b0e05597a3a::t_b571fa2d1b0832 110,260-261,312,661-664,669-670,873-876
+packages/cli/src/sdk/sdk/api/errors/UnsupportedMediaTypeError.ts
+  s_f65b0e05597a3a::t_af70656f4e7cf2 1-22
+packages/cli/src/sdk/sdk/api/errors/index.ts
+  s_f65b0e05597a3a::t_d23d5ea02a418b 21
+packages/cli/src/sdk/sdk/api/resources/accounts/resources/applications/client/Client.ts
+  s_f65b0e05597a3a::t_ab997bef91f301 35,41-43,47,54,57
+packages/cli/src/sdk/sdk/api/resources/accounts/resources/applications/client/requests/CreateApplicationsRequest.ts
+  s_f65b0e05597a3a::t_b924ff18cc4d0d 8-11,14-17
+packages/cli/src/sdk/sdk/api/resources/accounts/resources/applications/client/requests/index.ts
+  s_f65b0e05597a3a::t_b13f2a8c92da45 2
+packages/cli/src/sdk/sdk/api/resources/aiGateway/resources/billing/resources/topup/client/requests/CreateTopupRequest.ts
+  s_f65b0e05597a3a::t_9aa0cbfc7b2788 15-16
+packages/cli/src/sdk/sdk/api/resources/analytics/resources/sql/resources/introspection/client/Client.ts
+  s_f65b0e05597a3a::t_38bfb211692ed4 29
+packages/cli/src/sdk/sdk/api/resources/analytics/resources/sql/resources/introspection/client/requests/GetIntrospectionRequest.ts
+  s_f65b0e05597a3a::t_ad99045b1ea1e7 15
+packages/cli/src/sdk/sdk/api/resources/cloudforceOne/resources/rules/client/Client.ts
+  s_f65b0e05597a3a::t_5eb42ad99b9ed4 360,372
+packages/cli/src/sdk/sdk/api/resources/customPages/client/Client.ts
+  s_f65b0e05597a3a::t_722af420f0e263 38,107
+packages/cli/src/sdk/sdk/api/resources/customPages/client/requests/GetCustomPagesRequest.ts
+  s_f65b0e05597a3a::t_101f067e20444e 13
+packages/cli/src/sdk/sdk/api/resources/customPages/client/requests/ListCustomPagesRequest.ts
+  s_f65b0e05597a3a::t_ab87c423776dd6 12
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/client/Client.ts
+  s_f65b0e05597a3a::t_af25eeaf5d6053 33
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/client/requests/UpdateAccountCustomPagesRequest.ts
+  s_f65b0e05597a3a::t_e13f5ed68863c4 17
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/resources/previewTokens/client/Client.ts
+  s_f65b0e05597a3a::t_7173f755a1e81a 30
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/resources/previewTokens/client/requests/CustomPagesPreviewRequest.ts
+  s_f65b0e05597a3a::t_b4138906d0574d 15
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/create/resources/custom/client/Client.ts
+  s_f65b0e05597a3a::t_84664cdaca0d5f 30
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/create/resources/custom/client/requests/AssetCustomRequest.ts
+  s_f65b0e05597a3a::t_a8219d9d49f3bc 17
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/delete/resources/custom/client/Client.ts
+  s_f65b0e05597a3a::t_b1624b85510361 29
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/delete/resources/custom/client/requests/AssetCustomRequest.ts
+  s_f65b0e05597a3a::t_30ffa57419a44b 13
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/get/resources/custom/client/Client.ts
+  s_f65b0e05597a3a::t_08295b576376c9 29
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/get/resources/custom/client/requests/AssetCustomRequest.ts
+  s_f65b0e05597a3a::t_4e039615c4c391 13
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/list/resources/custom/client/Client.ts
+  s_f65b0e05597a3a::t_2078b9a1e5a75b 29
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/list/resources/custom/client/requests/AssetsCustomRequest.ts
+  s_f65b0e05597a3a::t_47244f9c313b60 12,14,16
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/update/resources/custom/client/Client.ts
+  s_f65b0e05597a3a::t_4b71f4f0743b98 30
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/update/resources/custom/client/requests/AssetCustomRequest.ts
+  s_f65b0e05597a3a::t_50c2740734e82d 17
+packages/cli/src/sdk/sdk/api/resources/d1/client/Client.ts
+  s_f65b0e05597a3a::t_f49e74844b6b8c 33,107,179,256,331,397,469,543-544,617,689
+packages/cli/src/sdk/sdk/api/resources/d1/resources/timeTravel/client/Client.ts
+  s_f65b0e05597a3a::t_8d5c4a34206ad4 26,104
+packages/cli/src/sdk/sdk/api/resources/index.ts
+  s_f65b0e05597a3a::t_49f922b4e73fad 156-157,202,279
+packages/cli/src/sdk/sdk/api/resources/logs/client/Client.ts
+  s_f65b0e05597a3a::t_03616f6837c7be 3,6,8-10,12,20-21,30,53-56,60-155
+packages/cli/src/sdk/sdk/api/resources/logs/client/index.ts
+  s_f65b0e05597a3a::t_35c74ae93bb8e1 1
+packages/cli/src/sdk/sdk/api/resources/logs/client/requests/QueryLogsRequest.ts
+  s_f65b0e05597a3a::t_f0aafd7caa5fcd 10
+packages/cli/src/sdk/sdk/api/resources/logs/client/requests/index.ts
+  s_f65b0e05597a3a::t_d743f58c42acd7 1
+packages/cli/src/sdk/sdk/api/resources/logs/index.ts
+  s_f65b0e05597a3a::t_fddd2e58e99fc7 3
+packages/cli/src/sdk/sdk/api/resources/logs/resources/datasets/client/Client.ts
+  s_f65b0e05597a3a::t_eb6e140c7efe41 3-11,33,41,47,49,54,56,93,134,143,150,157,226,234,240,242,247,249,275,308,316,323,330,388,396,404,411,478,487,494,501
+packages/cli/src/sdk/sdk/api/resources/logs/resources/datasets/client/requests/LexCreateDatasetRequest.ts
+  s_f65b0e05597a3a::t_1eeeb808dfed65 3
+packages/cli/src/sdk/sdk/api/resources/logs/resources/datasets/client/requests/LexUpdateDatasetRequest.ts
+  s_f65b0e05597a3a::t_1e6de7afe3c53d 3
+packages/cli/src/sdk/sdk/api/resources/logs/resources/datasets/types/AvailableDatasetsResponse.ts
+  s_f65b0e05597a3a::t_f6de5a17b8dfe2 3
+packages/cli/src/sdk/sdk/api/resources/logs/resources/datasets/types/ListDatasetsResponse.ts
+  s_f65b0e05597a3a::t_831f22542d1616 3
+packages/cli/src/sdk/sdk/api/resources/logs/resources/index.ts
+  s_f65b0e05597a3a::t_20f3fc1d954cc8 2-4
+packages/cli/src/sdk/sdk/api/resources/logs/types/QueryLogsResponse.ts
+  s_f65b0e05597a3a::t_d2c4771decf529 3,5
+packages/cli/src/sdk/sdk/api/resources/logs/types/index.ts
+  s_f65b0e05597a3a::t_15ee7a633e8601 1
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/client/Client.ts
+  s_f65b0e05597a3a::t_5a757fa43e9599 10,26,53-56
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/config/client/Client.ts
+  s_f65b0e05597a3a::t_5e63097ac2c93b 101,108,112,119,122
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/config/client/requests/PayPerCrawlDaricConfigCreate.ts
+  s_f65b0e05597a3a::t_475a8f040e5886 8,11
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/config/client/requests/index.ts
+  s_f65b0e05597a3a::t_de7b9a0bc083e4 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/index.ts
+  s_f65b0e05597a3a::t_68559035d87a5a 6
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/client/Client.ts
+  s_f65b0e05597a3a::t_1e71fe764d74aa 3-13,17-23,25,29-42,45-46
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/exports.ts
+  s_f65b0e05597a3a::t_ee5c9422af1d34 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/index.ts
+  s_f65b0e05597a3a::t_0dc48d601289b1 1-10
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/Client.ts
+  s_f65b0e05597a3a::t_e7f172f4efb2af 1-280
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/requests/GetConfigurationOperatorRequest.ts
+  s_f65b0e05597a3a::t_523e06f4ca0734 9-10
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/requests/PayPerCrawlPpuOperatorConfiguration.ts
+  s_f65b0e05597a3a::t_f42a513086ef94 1-19
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/requests/PayPerCrawlPpuOperatorConfigurationUpdate.ts
+  s_f65b0e05597a3a::t_6253487f3f8799 1-16
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/requests/index.ts
+  s_f65b0e05597a3a::t_82c72f8e88a0c1 1-3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/exports.ts
+  s_f65b0e05597a3a::t_32c707471ae931 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/pricing/client/Client.ts
+  s_f65b0e05597a3a::t_d7eeb945a19ff8 3,7-16,22-23,25,30-33,35-37,40,44-48,51-59,71,75-79,88,94-107,114,119-122,124-127,130,132,134,138-142,145-149,161,163,175-255,258,264-277,283-284
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/pricing/client/requests/ListOperatorsPricingRequest.ts
+  s_f65b0e05597a3a::t_9ec888eaf14542 1-16
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/pricing/client/requests/OptOutOperatorPricePricingRequest.ts
+  s_f65b0e05597a3a::t_34db1953a37fba 7,10-11,13-14
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/pricing/client/requests/SetOperatorPricePricingRequest.ts
+  s_f65b0e05597a3a::t_d02c4cb0cefda8 1-21
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/pricing/client/requests/index.ts
+  s_f65b0e05597a3a::t_3e7bb7697c76d2 1-3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/pricing/exports.ts
+  s_f65b0e05597a3a::t_9ef63a3f60cd82 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/proposals/client/Client.ts
+  s_f65b0e05597a3a::t_136682ace5c801 3,7-14,16,22-23,25,30,32-37,40,44-48,51-59,71,75-79,88,94-107,114,119-122,124-127,130,132-133,136-140,143-147,159,161,174,178-193,199-200
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/proposals/client/requests/ListProposalsRequest.ts
+  s_f65b0e05597a3a::t_a1139dcf943c58 9-10,12-15
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/proposals/client/requests/PayPerCrawlPpuOperatorProposalActionRequest.ts
+  s_f65b0e05597a3a::t_fb36b41567ef4b 7-8,11-12,14-24
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/proposals/client/requests/index.ts
+  s_f65b0e05597a3a::t_7c7771f725a0ae 1-2
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/proposals/exports.ts
+  s_f65b0e05597a3a::t_e8e97c819f44eb 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/usageStats/client/Client.ts
+  s_f65b0e05597a3a::t_0346e6b2d30f22 1-128
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/usageStats/client/requests/GetAccountUsageStatsRequest.ts
+  s_f65b0e05597a3a::t_c7589888bdbf66 1-24
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/usageStats/client/requests/index.ts
+  s_f65b0e05597a3a::t_ebf00959e7f0de 1
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/usageStats/exports.ts
+  s_f65b0e05597a3a::t_d9ec5ab1d0c6f4 1-4
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/Client.ts
+  s_f65b0e05597a3a::t_9ba61147a873cb 1-349
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/requests/GetCanBeEnabledZonesRequest.ts
+  s_f65b0e05597a3a::t_ab0ddd606712b9 9-10
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/requests/GetConfigurationZonesRequest.ts
+  s_f65b0e05597a3a::t_a7f9fb5c7bca65 1-12
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/requests/PayPerCrawlPpuZoneConfigurationUpdate.ts
+  s_f65b0e05597a3a::t_d314b8e69f822e 1-13
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/requests/PayPerCrawlPpuZonesCanBeEnabledPayload.ts
+  s_f65b0e05597a3a::t_20f04295439dec 3,9-10,14-15,17
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/requests/index.ts
+  s_f65b0e05597a3a::t_6d172c093df609 1-4
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/exports.ts
+  s_f65b0e05597a3a::t_3df43774d35efd 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/zones/client/Client.ts
+  s_f65b0e05597a3a::t_14c15c8586875e 27,29,37-39,43,50,53
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/zones/client/requests/PayPerCrawlZonesCanBeEnabledUpdatePayload.ts
+  s_f65b0e05597a3a::t_0e461686454524 9-11,14,17
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/zones/client/requests/index.ts
+  s_f65b0e05597a3a::t_3dc22922b648e2 3
+packages/cli/src/sdk/sdk/api/resources/payPerUse/client/Client.ts
+  s_f65b0e05597a3a::t_764f760aab56f6 7-8,10,14-17,19,23-28
+packages/cli/src/sdk/sdk/api/resources/payPerUse/exports.ts
+  s_f65b0e05597a3a::t_96438181a06b72 3
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/enabledDomains/client/Client.ts
+  s_f65b0e05597a3a::t_0f7d67c6dc5c2b 12,18-19,21,26,28-29,31,33-34,37-38,41-45,48-52,54-55,68,85,92-93,96-99,113
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/enabledDomains/client/requests/ListEnabledDomainsRequest.ts
+  s_f65b0e05597a3a::t_f1e487187b8b8c 1-16
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/enabledDomains/client/requests/index.ts
+  s_f65b0e05597a3a::t_fcd179dde6b35d 1
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/enabledDomains/exports.ts
+  s_f65b0e05597a3a::t_742242d83bb5bd 1-4
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/index.ts
+  s_f65b0e05597a3a::t_7ddf7b659ac669 1-4
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/usageReports/client/Client.ts
+  s_f65b0e05597a3a::t_299a193dbab4d5 7,13,19-20,22,27,29-30,33,35-39,42-44,47-51,54-58,70,74,76-77,86,95-96,99-115,119-120,134
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/usageReports/client/requests/SubmitUsageReportsRequest.ts
+  s_f65b0e05597a3a::t_d7eb4ec5c00a41 1-15
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/usageReports/client/requests/index.ts
+  s_f65b0e05597a3a::t_ed944c44fde373 1
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/usageReports/exports.ts
+  s_f65b0e05597a3a::t_a1d5a7d178f12a 3
+packages/cli/src/sdk/sdk/api/resources/payPerUse/resources/usageReports/index.ts
+  s_f65b0e05597a3a::t_d3c5c9ff15183a 1
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/extensions/client/Client.ts
+  s_f65b0e05597a3a::t_ad842090ad93cb 27,119
+packages/cli/src/sdk/sdk/api/resources/registrarSandbox/resources/extensions/client/Client.ts
+  s_f65b0e05597a3a::t_8b0945c2d3c25a 27,119
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/client/Client.ts
+  s_f65b0e05597a3a::t_2aff0c06ddf78a 82,89,117,151,158,183,223,230,258,292,299,325,367,374,402
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/index.ts
+  s_f65b0e05597a3a::t_23d5e47ee57795 3
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/client/Client.ts
+  s_f65b0e05597a3a::t_aea0050739f546 129,136,164,199,206,231,271,278,306,341,348,374,416,423,451
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/resources/details/client/Client.ts
+  s_f65b0e05597a3a::t_29844659983dbe 44,51,77
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/types/DeleteEventsResponse.ts
+  s_f65b0e05597a3a::t_bdec3954502eca 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/types/index.ts
+  s_f65b0e05597a3a::t_969f5f574fdfd3 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/index.ts
+  s_f65b0e05597a3a::t_f764e2a25be769 9,15,18
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/client/Client.ts
+  s_f65b0e05597a3a::t_b41327f51c8781 58,65,94
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/index.ts
+  s_f65b0e05597a3a::t_4908620d8ca33b 2
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/types/PreviewPageResponse.ts
+  s_f65b0e05597a3a::t_6f14de1b716a6d 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/types/index.ts
+  s_f65b0e05597a3a::t_80467f0f512d0a 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/client/Client.ts
+  s_f65b0e05597a3a::t_d2bc1e9b4350bb 40,47,73,109,116,145,181,188,217
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/index.ts
+  s_f65b0e05597a3a::t_9b79e8259105b3 2
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/EditSettingsResponse.ts
+  s_f65b0e05597a3a::t_7cdcf7a4c61693 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/GetSettingsResponse.ts
+  s_f65b0e05597a3a::t_db376237131d08 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/UpdateSettingsResponse.ts
+  s_f65b0e05597a3a::t_f5266194f0e440 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/index.ts
+  s_f65b0e05597a3a::t_0dd242cd7949ba 1-3
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/client/Client.ts
+  s_f65b0e05597a3a::t_3d4d92e54340ab 49,56,82
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/index.ts
+  s_f65b0e05597a3a::t_8f968fa31ef368 2
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/types/GetStatusesResponse.ts
+  s_f65b0e05597a3a::t_bfcd778c3f37a6 1-11
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/types/index.ts
+  s_f65b0e05597a3a::t_9e91c6c8793508 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/types/DeleteWaitingRoomsResponse.ts
+  s_f65b0e05597a3a::t_81c86da3cc649e 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/types/index.ts
+  s_f65b0e05597a3a::t_cfb517764bd6f4 1
+packages/cli/src/sdk/sdk/api/resources/workers/client/Client.ts
+  s_f65b0e05597a3a::t_26712150e2575a 496-499,515-519
+packages/cli/src/sdk/sdk/api/resources/workers/client/requests/DeleteWorkersRequest.ts
+  s_f65b0e05597a3a::t_d74a45ac7dc0ba 13-14
+packages/cli/src/sdk/sdk/api/resources/workers/resources/legacy/resources/scripts/client/requests/DeleteScriptsRequest.ts
+  s_f65b0e05597a3a::t_4b91ad563ee1c4 13
+packages/cli/src/sdk/sdk/api/resources/workers/resources/previews/client/requests/DeletePreviewsRequest.ts
+  s_f65b0e05597a3a::t_9bfef65d6c901d 15
+packages/cli/src/sdk/sdk/api/resources/workersForPlatforms/resources/dispatchNamespaces/resources/scripts/client/requests/DeleteScriptsRequest.ts
+  s_f65b0e05597a3a::t_7a56c715b827da 15
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/client/Client.ts
+  s_f65b0e05597a3a::t_cfbf72db5f8bdf 7,12-13,18,31-32,36,40,46-53,66-69,82-85,122,138,348-419
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/client/requests/ListDevicesRequest.ts
+  s_f65b0e05597a3a::t_2b6a0d1d7673ae 36-37
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/client/requests/TeamsDevicesPhysicalDeviceUpdateRequest.ts
+  s_f65b0e05597a3a::t_53ea7c95dfbe5f 7,10,12-14
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/client/requests/index.ts
+  s_f65b0e05597a3a::t_dc19a4371ac3dc 4
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/client/Client.ts
+  s_f65b0e05597a3a::t_a7f3a8634f00ef 3,7-14,16,22-24,26,30-33,37-38,41,48-50,55-57,99
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/client/requests/ListClientVersionsRequest.ts
+  s_f65b0e05597a3a::t_f93e38e27b8c37 3,13,18
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/client/requests/index.ts
+  s_f65b0e05597a3a::t_5568969d9e0133 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/exports.ts
+  s_f65b0e05597a3a::t_f3f105df43cd07 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/index.ts
+  s_f65b0e05597a3a::t_025a1760a36989 1-3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/targetEnvironments/client/Client.ts
+  s_f65b0e05597a3a::t_044c26666848f2 3,7-13,15,21-22,24,31-32,35,40-42,47-49,75
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/targetEnvironments/client/requests/ListTargetEnvironmentsRequest.ts
+  s_f65b0e05597a3a::t_367556bef07d67 9
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/targetEnvironments/client/requests/index.ts
+  s_f65b0e05597a3a::t_8176dac379abfd 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/targetEnvironments/exports.ts
+  s_f65b0e05597a3a::t_0adf8e25bf0580 1-4
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/targetEnvironments/types/ListTargetEnvironmentsResponse.ts
+  s_f65b0e05597a3a::t_c63a1aae28cdae 3,5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/resources/targetEnvironments/types/index.ts
+  s_f65b0e05597a3a::t_d463aebd8eaae1 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/types/ListClientVersionsRequestReleaseTrack.ts
+  s_f65b0e05597a3a::t_e9f229021a6ec1 3,7-8
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/types/ListClientVersionsResponse.ts
+  s_f65b0e05597a3a::t_41c374291df4de 3,5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/clientVersions/types/index.ts
+  s_f65b0e05597a3a::t_3b41fe229233d8 1-2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/Client.ts
+  s_f65b0e05597a3a::t_ce5d9cebdf0d7c 3,7-14,16,22-23,25,32-33,36,41-43,48-50,84,108-109,112,121-122,128-129,183-184,187,193-194,200-201,252-253,256,262-264,269-271,297,321-322,325,331-332,338-339
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/requests/DeleteDeploymentGroupsRequest.ts
+  s_f65b0e05597a3a::t_6042604b105a17 10
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/requests/GetDeploymentGroupsRequest.ts
+  s_f65b0e05597a3a::t_43458f5e9ba80c 10
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/requests/ListDeploymentGroupsRequest.ts
+  s_f65b0e05597a3a::t_e66aca654c7fbd 9
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/requests/TeamsDevicesDeploymentGroupCreateRequest.ts
+  s_f65b0e05597a3a::t_b9bd80647b5ab4 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/requests/TeamsDevicesDeploymentGroupUpdateRequest.ts
+  s_f65b0e05597a3a::t_40a13afddaa8cb 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/client/requests/index.ts
+  s_f65b0e05597a3a::t_08822342cc3d87 1-3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/exports.ts
+  s_f65b0e05597a3a::t_df951315767e6a 1-4
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/types/DeleteDeploymentGroupsResponse.ts
+  s_f65b0e05597a3a::t_bdf25da14d597d 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/types/ListDeploymentGroupsResponse.ts
+  s_f65b0e05597a3a::t_dcc770a857ab5f 3,5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/deploymentGroups/types/index.ts
+  s_f65b0e05597a3a::t_bc76e5c85fb21a 1-2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/index.ts
+  s_f65b0e05597a3a::t_349149e66981da 1-6,17
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/overrideCodes/client/Client.ts
+  s_f65b0e05597a3a::t_b5ac2a27086c69 10,29-104
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/overrideCodes/client/requests/TeamsDevicesOverrideCodeCreateRequest.ts
+  s_f65b0e05597a3a::t_9bb24c62d685c4 7-8,11,13-27
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/overrideCodes/client/requests/index.ts
+  s_f65b0e05597a3a::t_0af43eb0afc036 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/profiles/client/Client.ts
+  s_f65b0e05597a3a::t_dc58ec87dd47d4 13,17-18,22
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/profiles/exports.ts
+  s_f65b0e05597a3a::t_44bc60b1c6d055 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/profiles/resources/custom/client/Client.ts
+  s_f65b0e05597a3a::t_d820dc1ece12e4 32,36,41,43,48,50,83,107,111,117,124,179,183,189,196,248,252,258,260,265,267,293,317,321,327,334
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/profiles/resources/default/client/Client.ts
+  s_f65b0e05597a3a::t_812ef8363e2bcc 32,36,41,48,100,104,109,116
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/profiles/resources/default/index.ts
+  s_f65b0e05597a3a::t_11c56bfad901e3 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/organizations/client/requests/CreateOrganizationsRequest.ts
+  s_f65b0e05597a3a::t_0a1c28993b1687 28
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/organizations/client/requests/UpdateOrganizationsRequest.ts
+  s_f65b0e05597a3a::t_322ee2fa599c82 27
+packages/cli/src/sdk/sdk/api/types/AaaFilters.ts
+  s_f65b0e05597a3a::t_ffd2be7625c788 81-82
+packages/cli/src/sdk/sdk/api/types/AccessDestinationOverrides.ts
+  s_f65b0e05597a3a::t_362a1ca55080b3 3,6,8
+packages/cli/src/sdk/sdk/api/types/AccessDestinationOverridesItem.ts
+  s_f65b0e05597a3a::t_615d181df1192a 1-8
+packages/cli/src/sdk/sdk/api/types/AccessDestinationsItem.ts
+  s_f65b0e05597a3a::t_d0a47c9c63a721 29,65,72,79,84
+packages/cli/src/sdk/sdk/api/types/AccessOrganizations.ts
+  s_f65b0e05597a3a::t_9510b027fd25d7 21
+packages/cli/src/sdk/sdk/api/types/AccessServiceTokenInactivity.ts
+  s_f65b0e05597a3a::t_d6daa4a6f73a87 4,6-21
+packages/cli/src/sdk/sdk/api/types/AlexandriaApplicationIpSubnets.ts
+  s_f65b0e05597a3a::t_aca6a971f8fc30 4
+packages/cli/src/sdk/sdk/api/types/AlexandriaCreateApplicationRequest.ts
+  s_f65b0e05597a3a::t_1c19ca154e0572 1-31
+packages/cli/src/sdk/sdk/api/types/AnalyticsSqlGatewayApiErrorResponse.ts
+  s_f65b0e05597a3a::t_4730c809799850 1-10
+packages/cli/src/sdk/sdk/api/types/AnalyticsSqlSqlQueryAccountScope.ts
+  s_f65b0e05597a3a::t_f8645a1ec9645b 4
+packages/cli/src/sdk/sdk/api/types/AnalyticsSqlSqlQueryZoneScope.ts
+  s_f65b0e05597a3a::t_c5ab07359743ca 4
+packages/cli/src/sdk/sdk/api/types/BillableUsageApiCostAndUsageData.ts
+  s_f65b0e05597a3a::t_9a4a855b481dbf 9-12,68
+packages/cli/src/sdk/sdk/api/types/CustomPagesErrorPageType.ts
+  s_f65b0e05597a3a::t_2aaf17b64d00d0 3
+packages/cli/src/sdk/sdk/api/types/DlpIntegrationProfile.ts
+  s_f65b0e05597a3a::t_4d349bd93783ec 11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlDaricZoneCanBeEnabledUpdate.ts
+  s_f65b0e05597a3a::t_16c560c14609e6 1-6
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlEnabledDomain.ts
+  s_f65b0e05597a3a::t_47d1e7ce870c38 1-18
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlEnabledDomainsResponse.ts
+  s_f65b0e05597a3a::t_782b533ac86d84 1-9
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlEnabledDomainsResult.ts
+  s_f65b0e05597a3a::t_06d62acc2ab5db 1-9
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorConfigurationResponse.ts
+  s_f65b0e05597a3a::t_1d4e4f39bc71c2 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorConfigurationResult.ts
+  s_f65b0e05597a3a::t_0579afcfce38a5 1-10
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorPrice.ts
+  s_f65b0e05597a3a::t_eebb867f43ac63 3,5-15
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorPrices.ts
+  s_f65b0e05597a3a::t_8dcd2ce2b08892 1-7
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorPricesResponse.ts
+  s_f65b0e05597a3a::t_b18366f65338e4 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPrice.ts
+  s_f65b0e05597a3a::t_3c32266eac7213 3-11,14-20
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPriceResponse.ts
+  s_f65b0e05597a3a::t_9bd0a371779fd4 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuProposal.ts
+  s_f65b0e05597a3a::t_4159ff1ed9b686 1-9
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuProposals.ts
+  s_f65b0e05597a3a::t_bca74daa22dae4 1-7
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuProposalsResponse.ts
+  s_f65b0e05597a3a::t_dc1c5aab8f4084 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPublisherPriceAcceptDefaultRequest.ts
+  s_f65b0e05597a3a::t_19c3ce93f2da3e 1-3
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPublisherPriceActionRequest.ts
+  s_f65b0e05597a3a::t_1111e091daa7b6 3,5-14,16-18,20-21,24-25
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPublisherPriceProposeRequest.ts
+  s_f65b0e05597a3a::t_ea8abfd5ce71bc 1-6
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPublisherPriceResumeRequest.ts
+  s_f65b0e05597a3a::t_4bb297dc74925e 1-3
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuPublisherPriceWithdrawRequest.ts
+  s_f65b0e05597a3a::t_66fb62d5fbeab5 1-3
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuUsageStats.ts
+  s_f65b0e05597a3a::t_92cef7a69d5a0e 1-28
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuUsageStatsBuyer.ts
+  s_f65b0e05597a3a::t_b791f77fe7031d 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuUsageStatsDataPoint.ts
+  s_f65b0e05597a3a::t_e19d9e1bbc6b61 1-12
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuUsageStatsResponse.ts
+  s_f65b0e05597a3a::t_9023c44387f521 1-9
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuUsageStatsTotals.ts
+  s_f65b0e05597a3a::t_53cf9f161dc268 1-8
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneCanBeEnabled.ts
+  s_f65b0e05597a3a::t_faacdeb3bc5fdc 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneCanBeEnabledResponse.ts
+  s_f65b0e05597a3a::t_7fd72f518992dc 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneCanBeEnabledUpdate.ts
+  s_f65b0e05597a3a::t_3a666f24bcbf32 1-6
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneConfiguration.ts
+  s_f65b0e05597a3a::t_d893e4f19ef53e 1-10
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneConfigurationResponse.ts
+  s_f65b0e05597a3a::t_f8820903ecfda4 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlUsageReportCreated.ts
+  s_f65b0e05597a3a::t_bc7e57a7ac8ebf 1-9
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlUsageReportCreatedResponse.ts
+  s_f65b0e05597a3a::t_0c5c25a31305bb 1-8
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlUsageReportValidationError.ts
+  s_f65b0e05597a3a::t_a3765ea4c1cdef 1-8
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlUsageReportValidationResponse.ts
+  s_f65b0e05597a3a::t_c65c7d413c0de9 1-8
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlUsageReportValidationResult.ts
+  s_f65b0e05597a3a::t_41ffded67b6d04 1-8
+packages/cli/src/sdk/sdk/api/types/PostureApiBaseFindingType.ts
+  s_f65b0e05597a3a::t_4dd5c2a1ba46ca 9,13,16,18-22
+packages/cli/src/sdk/sdk/api/types/PostureApiFindingType.ts
+  s_f65b0e05597a3a::t_a0fab25828b467 9,13,16,18,21-24
+packages/cli/src/sdk/sdk/api/types/PostureApiVendorsEnum.ts
+  s_f65b0e05597a3a::t_5c627e98f6a623 21
+packages/cli/src/sdk/sdk/api/types/RegistrarApiExtensionItem.ts
+  s_f65b0e05597a3a::t_048619eecd7bd4 6,12-13
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxExtensionItem.ts
+  s_f65b0e05597a3a::t_47fc8f3d45a2b6 6,12-13
+packages/cli/src/sdk/sdk/api/types/RulesetsSetConfigRuleActionParameters.ts
+  s_f65b0e05597a3a::t_f1fbfda9010848 49-52
+packages/cli/src/sdk/sdk/api/types/SpectrumConfigAppConfig.ts
+  s_f65b0e05597a3a::t_5e8a06bea4e766 16
+packages/cli/src/sdk/sdk/api/types/SpectrumConfigOriginWorkerId.ts
+  s_f65b0e05597a3a::t_62eaaf65444746 1-6
+packages/cli/src/sdk/sdk/api/types/SpectrumConfigTrafficType.ts
+  s_f65b0e05597a3a::t_0c0d8a4aadc204 3,8
+packages/cli/src/sdk/sdk/api/types/TeamsDevicesOverrideCode.ts
+  s_f65b0e05597a3a::t_85c8dc40800100 1-6
+packages/cli/src/sdk/sdk/api/types/TeamsDevicesPhysicalDevice.ts
+  s_f65b0e05597a3a::t_5cf015c5dc821b 45-46
+packages/cli/src/sdk/sdk/api/types/TeamsDevicesProfileType.ts
+  s_f65b0e05597a3a::t_8b45fdf6228b41 3
+packages/cli/src/sdk/sdk/api/types/WaitingroomApiResponseCommon.ts
+  s_f65b0e05597a3a::t_7d84c74b49ec8d 3-10
+packages/cli/src/sdk/sdk/api/types/WaitingroomApiResponseSingle.ts
+  s_f65b0e05597a3a::t_10c6592af2579d 3-4,6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomDefaultTemplateLanguage.ts
+  s_f65b0e05597a3a::t_5f9b5df1859479 28
+packages/cli/src/sdk/sdk/api/types/WaitingroomEventDetailsResponse.ts
+  s_f65b0e05597a3a::t_8580dcdbc47711 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomEventIdResponse.ts
+  s_f65b0e05597a3a::t_e2ed0386212c58 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomEventResponse.ts
+  s_f65b0e05597a3a::t_24e74b1cd3b4c5 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomPreviewResponse.ts
+  s_f65b0e05597a3a::t_db49063940edc7 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomSingleResponse.ts
+  s_f65b0e05597a3a::t_8617f6bbb07b01 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomStatusResponse.ts
+  s_f65b0e05597a3a::t_d41d3690a0fed4 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomWaitingRoomIdResponse.ts
+  s_f65b0e05597a3a::t_819205a9f52834 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomZoneSettingsResponse.ts
+  s_f65b0e05597a3a::t_71f67e9dbb4bf2 6-7,9
+packages/cli/src/sdk/sdk/api/types/index.ts
+  s_f65b0e05597a3a::t_ea25253a3cad8f 344-345,711,1020,1036,4544-4547,4559-4583,4591-4595,5765,6096
+packages/cli/src/sdk/sdk/sdk-map.json
+  s_f65b0e05597a3a::t_c341000fd73bd9 10030,10111-10130,10387,10389,10392,11538,11543-11544,13164,13181,13198,13214,13247,13314,13330,18602,19277,19292,19307,19337-19354,20165,20181,20186-20187,20499,20802,20807,25008-25009,25014-25015,25024,25029-25030,25073,25078-25079,26158,30510-30511,30955-30969,31389,31392-31407,31425-31469,31539-31568,31585-31652,31698-31718,31749-31764,31773,31775-31803,43686,45684,45699,45715,45748,45763,45794,45810,45825,45869,45886,45920,45937,45970,45987,46004,46019
+packages/cli/src/sdk/sdk/sdk-operation-types.ts
+  s_f65b0e05597a3a::t_57fee7dcdd3054 572,577,599,697,771-774,776,780-781,1110,1152-1154,1156,1205-1206,1224,1338,1538-1539,1542,1949,1959-1960,1962-1964,1970-1971,1973-1976,1980,1983-1986,2797,3390,3393,3461,3463,3576,3579-3580,3670-3671,3673
+packages/wrangler-tests/package.json
+  s_f65b0e05597a3a::t_4df3194cca525c 12,22
+packages/wrangler-tests/src/__tests__/d1/delete.test.ts
+  s_f65b0e05597a3a::t_43f261d0e84207 25,46
+packages/wrangler-tests/src/__tests__/d1/timeTravel.test.ts
+  s_f65b0e05597a3a::t_e69e6402436b7b 100,112
+packages/wrangler-tests/src/__tests__/delete.test.ts
+  s_f65b0e05597a3a::t_51afbe095ed8c4 73
+pnpm-lock.yaml
+  s_f65b0e05597a3a::t_04790b6e4735f6 8,10-11,13-14,16-17,19,56-57,59-60,68-69,74-75,77-78,83-84,89-90,94-102,107-108,120-121,123-124,126-127,129-130,138-139,141-142,195-196,225-226,240-241,410-411,416-417,422-423,426-427,430,436,444-446,456-457,461,493-494,504-505,507-508,2590-2591,3127-3130,3255-3256,3577,3579,3581,3589,3592,3604,3607,3609,3613,3615,3617-3618,3624,3653-3661,3668,3671,3675,3697,3699,3705,3707,3715,5280,5876-5877,5983,5989,5994
+scripts/sync-forge.ts
+  s_f65b0e05597a3a::t_1fff589557cf0c 46,166-170
+usecases/types-ci-check.yaml
+  s_f65b0e05597a3a::t_6a484efa0fd94f 9
+usecases/types-generate-custom-output.yaml
+  s_f65b0e05597a3a::t_9672ad179e44cb 3,10,12-13
+usecases/types-generate-default.yaml
+  s_f65b0e05597a3a::t_14c872d84107b8 1,3,7,9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d88d5f74c35e89dd98bc399ae9563af2e8ebf560",
+  "prompts": {},
+  "sessions": {
+    "s_f65b0e05597a3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80ab0623-161c-4255-af61-af145b47984c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

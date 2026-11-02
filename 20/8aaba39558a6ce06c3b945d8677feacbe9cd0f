@@ -1,0 +1,39 @@
+packages/cli/src/__tests__/lib/telemetry/run.test.ts
+  s_ec32857784cffb::t_b80880eba99c17 39-40,42-48,58,60-61
+packages/cli/src/index.ts
+  s_ec32857784cffb::t_73032438392575 215,220-221,223
+packages/cli/src/lib/telemetry/dispatcher.ts
+  s_ec32857784cffb::t_c29a8c860309b9 19-23,45-48
+packages/cli/src/lib/telemetry/index.ts
+  s_ec32857784cffb::t_4e8f4c8b80a1be 32,34
+packages/cli/src/lib/telemetry/run.ts
+  s_f77741e678c1d3::t_9cf2e492455fcf 31-32,37-39,45-47,51-53
+packages/cli/src/lib/telemetry/types.ts
+  s_f77741e678c1d3::t_0c326b78cd236f 26-27,38-39
+packages/cli/telemetry.md
+  s_ec32857784cffb::t_8d67ac8f3722d7 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "208aaba39558a6ce06c3b945d8677feacbe9cd0f",
+  "prompts": {},
+  "sessions": {
+    "s_ec32857784cffb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fcf6-7852-a9f8-3231f8472ff3",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_f77741e678c1d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fe87-7572-bc18-7ad88e06dfe4",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

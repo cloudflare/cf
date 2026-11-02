@@ -1,0 +1,19 @@
+packages/cli/src/lib/update-check.ts
+  s_713f0e8da69a21::t_36025e397156a3 55-56,172,204,234
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "17d21f9f0027bd3638cbaed63e7e17d856274801",
+  "prompts": {},
+  "sessions": {
+    "s_713f0e8da69a21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0abba-4559-73e1-93cd-b36dea6871a0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+packages/cli/generator/CLI_ALIASES.md
+  s_f5aa6e81b0b97a::t_daddc4aa105ef4 1-128
+packages/cli/generator/arg-derivation.ts
+  s_f5aa6e81b0b97a::t_36dc287c57f52a 16,228-272,276-278,315-316,318-320,322-325
+packages/cli/generator/emit/build-context.ts
+  s_f5aa6e81b0b97a::t_0146f8b83f8272 129-134
+packages/cli/generator/emit/builder.ts
+  s_f5aa6e81b0b97a::t_7a4d09b39fee2d 164,190
+packages/cli/generator/emit/handler/body-bypass.ts
+  s_f5aa6e81b0b97a::t_1a346f2ee1d717 30,53
+packages/cli/generator/emit/handler/dry-run.ts
+  s_f5aa6e81b0b97a::t_bba8e231a7cabe 53,192-204,235
+packages/cli/generator/emit/handler/imports.ts
+  s_f5aa6e81b0b97a::t_67f993e4a38a18 126-130
+packages/cli/generator/emit/handler/sdk-call.ts
+  s_f5aa6e81b0b97a::t_1b69a90ed41e03 116-122,162-164,180-182
+packages/cli/generator/metadata.ts
+  s_f5aa6e81b0b97a::t_03f21b7eb7cbd3 41,208,243-256,454,507
+packages/cli/src/__tests__/generator/cli-aliases.test.ts
+  s_f5aa6e81b0b97a::t_bd825907c346d7 1-618
+packages/cli/src/__tests__/generator/cli-audience.test.ts
+  s_f5aa6e81b0b97a::t_10fdf00449b8d3 2-6,9-12,16-17,20-24,27-36,39,42-44,47-55
+packages/cli/src/__tests__/generator/fixtures/previews-cli-aliases.json
+  s_f5aa6e81b0b97a::t_f13a310791d9cb 1-217
+packages/cli/src/__tests__/lib/request-body-transform.test.ts
+  s_f5aa6e81b0b97a::t_ac03991857f8f5 1-88
+packages/cli/src/lib/request-body-transform.ts
+  s_f5aa6e81b0b97a::t_1b4e093f46646c 1,4-6,8-21,23-24,26-45
+pnpm-lock.yaml
+  s_f5aa6e81b0b97a::t_7ede7355ab6e9e 611
+packages/cli/generate.ts
+  s_cfbbdefb0211dd::t_3158d79641032a 251-253
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "acef6815c269caeed143af7b2d18bf3c6c0c524b",
+  "prompts": {},
+  "sessions": {
+    "s_cfbbdefb0211dd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0fcee-7e63-7a02-b426-80c3a60240da",
+        "model": "unknown"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_f5aa6e81b0b97a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0fced-da7d-7cc1-94c6-cf05a8985ca2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

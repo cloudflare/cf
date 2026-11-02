@@ -1,0 +1,41 @@
+.changeset/cf-init.md
+  s_9b8e059297e7cf::t_2d96c4df5463fa 7
+AGENTS.md
+  s_9b8e059297e7cf::t_9037ea2c603950 470
+PLAN.md
+  s_9b8e059297e7cf::t_fab7ff4c102eec 75
+packages/cli/README.md
+  s_9b8e059297e7cf::t_f31ef12c979699 41,46
+packages/cli/src/__tests__/commands/init.test.ts
+  s_9b8e059297e7cf::t_9be3ff7b838ab5 14-15,22,39,49,61-74,118-121,123-126,152,156-168,171-177,180,184-212,289-290,293-298,305-307,384-386,388-389,407-408,419
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_9b8e059297e7cf::t_d3d4aa2d58955f 60627,60660
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_9b8e059297e7cf::t_e6f74bcc54e18d 718,756
+packages/cli/src/commands/init/index.ts
+  s_9b8e059297e7cf::t_e7fd97b9db2ef5 21-30,33,36
+packages/cli/src/commands/init/meta.json
+  s_9b8e059297e7cf::t_88d8dd89d27625 15,48
+packages/cli/src/commands/init/workers.ts
+  s_9b8e059297e7cf::t_097ffa0ff1b835 15,22-23,43,68-72,74,83-91,141-143,176-186,213-215,225,234-236,241-283
+packages/cli/src/lib/delegate.ts
+  s_9b8e059297e7cf::t_da2e5aa4bc915d 364-371
+packages/cli/src/lib/dialog.ts
+  s_9b8e059297e7cf::t_6b557b99106ea9 36,57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8a89d83d508aa93852881f3778621293dd24727d",
+  "prompts": {},
+  "sessions": {
+    "s_9b8e059297e7cf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d001-dd9e-7060-8f6d-94e962ef1c67",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

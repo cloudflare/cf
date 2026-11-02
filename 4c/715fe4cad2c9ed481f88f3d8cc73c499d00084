@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/build/index.test.ts
+  s_d42558c74a559d::t_465f185b42f519 41,55,61,82,102,127,205,225
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_d42558c74a559d::t_6446256b9f292c 38,42
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_d42558c74a559d::t_3d3fd9ce527ab8 136,156,183,187,203-204,345,371,401
+packages/cli/src/commands/dev/known-impls.ts
+  s_d42558c74a559d::t_d64fb914661991 118,129
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4c715fe4cad2c9ed481f88f3d8cc73c499d00084",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

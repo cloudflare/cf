@@ -1,0 +1,181 @@
+packages/wrangler-tests/README.md
+  s_68ceee7c49fa8c::t_a92f660100d297 1-26
+packages/wrangler-tests/package.json
+  s_68ceee7c49fa8c::t_c6c4f1aee9f6e9 5
+packages/wrangler-tests/scripts/generate-upstream-stubs.mjs
+  s_68ceee7c49fa8c::t_2eb0a91c18c5ea 1-598
+packages/wrangler-tests/src/__tests__/ai-search.test.ts
+  s_58a93f78d64bcc::t_96883bf74be40a 42-68,74-78,101-103,105,112-133,138,140,154,169,182,191,209-226,236,245,256-307,318-353,357-358,360,370-406,414,426,430,447,456,471,485,491,500,514,518,524,528,534,537,550,559,583,596-598,604-868,877,896,909,923,931-975
+packages/wrangler-tests/src/__tests__/browser-run.test.ts
+  s_58a93f78d64bcc::t_f05ba7b05f0be6 27,54-56,77,96,126,160,198-200,231,248,265-267,284,328,338
+packages/wrangler-tests/src/__tests__/containers/config.test.ts
+  s_58a93f78d64bcc::t_7a4fa7f7330d55 1-31
+packages/wrangler-tests/src/__tests__/containers/delete.test.ts
+  s_a16a0712a36c9c::t_10d93e41989ecb 1-62
+packages/wrangler-tests/src/__tests__/containers/deploy.test.ts
+  s_58a93f78d64bcc::t_cabdbee67e7ae7 1-53
+packages/wrangler-tests/src/__tests__/containers/images.test.ts
+  s_58a93f78d64bcc::t_7f6af57939580a 1-17
+packages/wrangler-tests/src/__tests__/containers/info.test.ts
+  s_58a93f78d64bcc::t_f6795f1a567579 1-53
+packages/wrangler-tests/src/__tests__/containers/instances.test.ts
+  s_a16a0712a36c9c::t_b6489e3ac6c715 1-190
+packages/wrangler-tests/src/__tests__/containers/list.test.ts
+  s_68ceee7c49fa8c::t_1c8e18f2e0db5a 1-144
+packages/wrangler-tests/src/__tests__/containers/push.test.ts
+  s_58a93f78d64bcc::t_a6fab535d73090 1-12
+packages/wrangler-tests/src/__tests__/containers/registries.test.ts
+  s_a16a0712a36c9c::t_478243e7b4924d 1-217
+packages/wrangler-tests/src/__tests__/containers/schema.test.ts
+  s_58a93f78d64bcc::t_c17b5bd620225d 1-9
+packages/wrangler-tests/src/__tests__/containers/ssh.test.ts
+  s_a16a0712a36c9c::t_19d4f026886102 1-63
+packages/wrangler-tests/src/__tests__/d1/create.test.ts
+  s_8f161034f9d5f5::t_961bb63e1ecb94 78-82,136-137
+packages/wrangler-tests/src/__tests__/d1/execute.test.ts
+  s_58a93f78d64bcc::t_272b8ff0891d66 124
+packages/wrangler-tests/src/__tests__/delete.test.ts
+  s_8f161034f9d5f5::t_8f676689a69507 65
+packages/wrangler-tests/src/__tests__/email-routing.test.ts
+  s_58a93f78d64bcc::t_74a6420e6fb6a2 148,328,373-375,620-623,635,650,652-653,657-659,674-675,711
+packages/wrangler-tests/src/__tests__/flagship.test.ts
+  s_58a93f78d64bcc::t_9b0e2848c36e38 1-368
+packages/wrangler-tests/src/__tests__/hyperdrive.test.ts
+  s_8f161034f9d5f5::t_b661e08ab6b125 361-363,526,591-592,706-707,713,718,735,764,781,798,813,828,850,867,895,913
+packages/wrangler-tests/src/__tests__/kv/bulk.test.ts
+  s_a16a0712a36c9c::t_0c336ea30276a9 82-86,188,190-194
+packages/wrangler-tests/src/__tests__/kv/help.test.ts
+  s_a16a0712a36c9c::t_8f8853a0dbe646 34
+packages/wrangler-tests/src/__tests__/kv/key.test.ts
+  s_8f161034f9d5f5::t_c73ed9aa76ea9b 217-222,252-254,275
+packages/wrangler-tests/src/__tests__/kv/local.test.ts
+  s_a16a0712a36c9c::t_0b54796eff1a18 12
+packages/wrangler-tests/src/__tests__/kv/namespace.test.ts
+  s_58a93f78d64bcc::t_3eb9630e2244e6 72,75,105,111,116-140,328,420
+packages/wrangler-tests/src/__tests__/logout.test.ts
+  s_68ceee7c49fa8c::t_5bf2d4b8d114a2 4,61-63,81-87,92,94-97,101
+packages/wrangler-tests/src/__tests__/mtls-certificates.test.ts
+  s_68ceee7c49fa8c::t_8592dafec373b4 281,305
+packages/wrangler-tests/src/__tests__/pipelines.test.ts
+  s_8f161034f9d5f5::t_216b94367467a1 228,241,295,305,341,351,387,430,440,1026-1029
+packages/wrangler-tests/src/__tests__/profiles.test.ts
+  s_58a93f78d64bcc::t_ce63adb4b79e08 1-419
+packages/wrangler-tests/src/__tests__/queues/queues-subscription.test.ts
+  s_8f161034f9d5f5::t_8144e792cfbeeb 308-309
+packages/wrangler-tests/src/__tests__/r2/bucket.test.ts
+  s_8f161034f9d5f5::t_ba2aa888208ebf 1,154,301,351-370,712,1033,1071-1074,1076,1132,1166,1168,1283,1326,1328
+packages/wrangler-tests/src/__tests__/r2/local-uploads.test.ts
+  s_58a93f78d64bcc::t_09eb8456e08183 126,134
+packages/wrangler-tests/src/__tests__/secret.test.ts
+  s_8f161034f9d5f5::t_bbfce96e792e00 133,144,159-161,163,197,215,231,244,341,377,391,437,455,483-484
+packages/wrangler-tests/src/__tests__/secrets-store.test.ts
+  s_58a93f78d64bcc::t_50408d358b80f7 150,155
+packages/wrangler-tests/src/__tests__/tail.test.ts
+  s_8f161034f9d5f5::t_0120daf568465c 103,105
+packages/wrangler-tests/src/__tests__/tunnel/tunnel-resolve.test.ts
+  s_58a93f78d64bcc::t_c14b53183ebc10 18-25
+packages/wrangler-tests/src/__tests__/tunnel/tunnel.test.ts
+  s_58a93f78d64bcc::t_4340a49df88707 1,3-6,9-10,15-16,20-21,25-27,31-34,38-39,43-44,49
+packages/wrangler-tests/src/__tests__/turnstile.test.ts
+  s_58a93f78d64bcc::t_3a75724368a86c 1-208
+packages/wrangler-tests/src/__tests__/upstream/unported-01.test.ts
+  s_68ceee7c49fa8c::t_b5cec9ba93aafb 1-303
+packages/wrangler-tests/src/__tests__/upstream/unported-02.test.ts
+  s_68ceee7c49fa8c::t_f69ec45fa3709e 1-541
+packages/wrangler-tests/src/__tests__/upstream/unported-03.test.ts
+  s_68ceee7c49fa8c::t_2c8ce5c7b319b8 1-381
+packages/wrangler-tests/src/__tests__/upstream/unported-04.test.ts
+  s_68ceee7c49fa8c::t_65aca9b261a25a 1-392
+packages/wrangler-tests/src/__tests__/upstream/unported-05.test.ts
+  s_68ceee7c49fa8c::t_5a64bd2d696d5d 1-346
+packages/wrangler-tests/src/__tests__/upstream/unported-06.test.ts
+  s_68ceee7c49fa8c::t_bd1689c922c460 1-321
+packages/wrangler-tests/src/__tests__/upstream/unported-07.test.ts
+  s_68ceee7c49fa8c::t_d186594ac883d4 1-240
+packages/wrangler-tests/src/__tests__/upstream/unported-08.test.ts
+  s_68ceee7c49fa8c::t_df329cf40a072d 1-432
+packages/wrangler-tests/src/__tests__/upstream/unported-09.test.ts
+  s_68ceee7c49fa8c::t_ebdc100fac2089 1-462
+packages/wrangler-tests/src/__tests__/upstream/unported-10.test.ts
+  s_68ceee7c49fa8c::t_d341629cb013bd 1-360
+packages/wrangler-tests/src/__tests__/upstream/unported-11.test.ts
+  s_68ceee7c49fa8c::t_1cb6ee686f6f3d 1-324
+packages/wrangler-tests/src/__tests__/upstream/unported-12.test.ts
+  s_68ceee7c49fa8c::t_6c12f5d40c80d0 1-432
+packages/wrangler-tests/src/__tests__/user.test.ts
+  s_8f161034f9d5f5::t_4c3bc25e24e8f5 18-21,30,46,49,53,55,57,88,90,92,94,102,106,108
+packages/wrangler-tests/src/__tests__/versions/deployments/deployments.list.test.ts
+  s_8f161034f9d5f5::t_2528ec2bc3e23c 1-43
+packages/wrangler-tests/src/__tests__/versions/deployments/deployments.status.test.ts
+  s_8f161034f9d5f5::t_ac756a57892fd4 1-43
+packages/wrangler-tests/src/__tests__/versions/deployments/deployments.view.test.ts
+  s_8f161034f9d5f5::t_0d3eb32a76e20a 1-8
+packages/wrangler-tests/src/__tests__/versions/secrets.test.ts
+  s_8f161034f9d5f5::t_c2d3de57966765 1-27
+packages/wrangler-tests/src/__tests__/versions/secrets/bulk.test.ts
+  s_58a93f78d64bcc::t_97be3879230f7d 1-104
+packages/wrangler-tests/src/__tests__/versions/secrets/delete.test.ts
+  s_8f161034f9d5f5::t_f5c86033037ffd 1-86
+packages/wrangler-tests/src/__tests__/versions/secrets/list.test.ts
+  s_8f161034f9d5f5::t_1925da4dc8111c 1-89
+packages/wrangler-tests/src/__tests__/versions/secrets/put.test.ts
+  s_8f161034f9d5f5::t_d774f43468e6b0 1-96
+packages/wrangler-tests/src/__tests__/versions/versions.deploy.test.ts
+  s_8f161034f9d5f5::t_6f9ee482f3798f 1-310
+packages/wrangler-tests/src/__tests__/versions/versions.help.test.ts
+  s_8f161034f9d5f5::t_0682037f22347f 1-19
+packages/wrangler-tests/src/__tests__/versions/versions.list.test.ts
+  s_8f161034f9d5f5::t_762b6b95a16ece 1-67
+packages/wrangler-tests/src/__tests__/versions/versions.upload.test.ts
+  s_58a93f78d64bcc::t_af6de36089b7a9 1-176
+packages/wrangler-tests/src/__tests__/versions/versions.view.test.ts
+  s_8f161034f9d5f5::t_262a67a4dc866a 1-163
+packages/wrangler-tests/src/__tests__/vpc.test.ts
+  s_8f161034f9d5f5::t_fdb76329fe94b6 59,79,120,153,187,219,226,235,242,261,305,352,372,407,448,468,475,495,529,556,578,612,648,678,718,738,759-761
+packages/wrangler-tests/src/__tests__/whoami.test.ts
+  s_68ceee7c49fa8c::t_faef2ddea6401b 11-27,86-94
+packages/wrangler-tests/src/__tests__/worker-namespace.test.ts
+  s_68ceee7c49fa8c::t_adb5f721c0800f 22-30,35-39,84-88,115-119,182-186,188
+packages/wrangler-tests/src/__tests__/workflows.test.ts
+  s_8f161034f9d5f5::t_bd3c61c2b28279 408,412-416,455,467,478-481,483,495,557
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6ab10f62c07211520f3620dba17bc8831b824972",
+  "prompts": {},
+  "sessions": {
+    "s_58a93f78d64bcc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a061cd-583b-7fc3-8974-a11c8eb5ed55",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    },
+    "s_68ceee7c49fa8c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a061c6-1284-74b2-9c77-9fc01b101489",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    },
+    "s_8f161034f9d5f5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a061cd-7305-7581-a4ba-9fd9ce8a7f5f",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    },
+    "s_a16a0712a36c9c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a061cd-63c1-7431-a69f-ed19def0e618",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    }
+  }
+}

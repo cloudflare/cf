@@ -1,0 +1,19 @@
+packages/cli/src/lib/agent-context.ts
+  s_6740ecaae6c7e8::t_370aeba7525ad7 73,82,110,182,204
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "3e369a54ceeba23c9ea98f04e3ea555760cdc115",
+  "prompts": {},
+  "sessions": {
+    "s_6740ecaae6c7e8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cee2-0e01-7742-a36e-3b444498a0fa",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

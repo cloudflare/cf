@@ -1,0 +1,23 @@
+CF_WRANGLER_PATH_MAP.md
+  s_d42558c74a559d::t_b7f169b2b56a4e 7-8,25,100-117
+CODE_SHARING_PLAN.md
+  s_d42558c74a559d::t_7e1b09ee4c8f45 12,14-15
+PLAN.md
+  s_d42558c74a559d::t_fecd041359f72d 5,9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4b4e99c1faaab81b2af256da62de440f07d73b6d",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

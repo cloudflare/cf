@@ -1,0 +1,29 @@
+.changeset/deploy-worker-flag.md
+  s_f65b0e05597a3a::t_570889ae12c667 7
+AGENTS.md
+  s_f65b0e05597a3a::t_83d40ddea7a6f4 350,971-973
+packages/cli/AGENTS.md
+  s_f65b0e05597a3a::t_0b824acb0c134e 80
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_f65b0e05597a3a::t_b4948c110b3c0b 8,49-57,201-264
+packages/cli/src/commands/previews/deploy.ts
+  s_f65b0e05597a3a::t_4cfd7c51ef0061 17,19,47-48,82,92
+packages/cli/src/commands/previews/meta.json
+  s_f65b0e05597a3a::t_d6a19b8cf2ab85 25-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e919e415f708058414e1bd5e7fe23370f6f3368e",
+  "prompts": {},
+  "sessions": {
+    "s_f65b0e05597a3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80ab0623-161c-4255-af61-af145b47984c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

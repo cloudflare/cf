@@ -1,0 +1,45 @@
+packages/cli/src/commands/workers/versions/create/index.ts
+  s_b99c4569acddab::t_aa814222261719 1,35-53
+packages/cli/vite.config.ts
+  s_8a6a62094f19fd::t_f0e99a28f760b6 81-87
+packages/cli/src/commands/deploy/shared.ts
+  s_e2e4d6e6dcf6a3::t_4c739189321b19 230-231
+packages/cli/src/__tests__/commands/deploy/errors.test.ts
+  s_e2e4d6e6dcf6a3::t_d3f106999ea281 14,96-127
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_e2e4d6e6dcf6a3::t_bbfda0f09c38f5 138-206
+.changeset/quiet-secrets-upload.md
+  s_8a6a62094f19fd::t_19c042c40e2c27 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "585618e578f68128a8f0d8c4aa67036df1e96e2e",
+  "prompts": {},
+  "sessions": {
+    "s_8a6a62094f19fd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15479-5ab1-7a22-a3fd-411933a8dc30",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    },
+    "s_b99c4569acddab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15486-bb01-7722-b958-8ef5de5f8e9c",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    },
+    "s_e2e4d6e6dcf6a3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15430-17da-7f81-ac59-68a41dab91e8",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

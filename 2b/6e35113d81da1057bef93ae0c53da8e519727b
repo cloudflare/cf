@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/lib/output.test.ts
+  s_5b019bbc9c8edc::t_726ba5001a1572 15-17,26,28-29,41,43-46,56-77,147,158,168,175-195,202
+packages/cli/src/lib/output.ts
+  s_5b019bbc9c8edc::t_ff57a6ec2d1a84 11-23,55-56,86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2b6e35113d81da1057bef93ae0c53da8e519727b",
+  "prompts": {},
+  "sessions": {
+    "s_5b019bbc9c8edc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06250-a732-7c01-bdcc-44c972dab6dc",
+        "model": "unknown"
+      },
+      "human_author": "emily-shen <eshen@cloudflare.com>"
+    }
+  }
+}

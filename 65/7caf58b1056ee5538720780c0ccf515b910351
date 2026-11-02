@@ -1,0 +1,49 @@
+packages/cli/package.json
+  s_66fbfe8dbd34f5::t_d3c0e471ccc8eb 73,83
+packages/cli/src/__tests__/lib/update-check.test.ts
+  s_66fbfe8dbd34f5::t_e9f14f7b0c9a04 1-199
+packages/cli/src/index.ts
+  s_66fbfe8dbd34f5::t_ba709c4aaa8ef0 20,82,87,101,106,137,149-184,461-463,466-467,474-475
+packages/cli/src/lib/session.ts
+  s_66fbfe8dbd34f5::t_0a28ac6c42b07b 23,48,57
+packages/cli/src/lib/ui/banner.ts
+  s_66fbfe8dbd34f5::t_6705bba5f7797c 14,16,41-44,57-60,68-73
+pnpm-lock.yaml
+  s_66fbfe8dbd34f5::t_b2d8fca12a6d95 124-126,154-156,2190-2192,3753,3762,3793,3819,5170-5171,6256,6287,6475
+.changeset/async-update-notifier.md
+  s_d3a5a75062ed74::t_cb87fc25b379c1 1-6
+packages/cli/src/__tests__/lib/banner.test.ts
+  s_d3a5a75062ed74::t_d315b91d455e7f 31-64
+packages/cli/src/__tests__/update-check-runtime.test.ts
+  s_d3a5a75062ed74::t_3ed08a3697b491 1-82
+packages/cli/src/lib/update-check.ts
+  s_d3a5a75062ed74::t_c193451690e22a 1-279
+packages/cli/src/update-check-worker.ts
+  s_d3a5a75062ed74::t_890faa5d417ef6 1-3
+packages/cli/tsdown.config.ts
+  s_d3a5a75062ed74::t_496b2ed99931a6 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "657caf58b1056ee5538720780c0ccf515b910351",
+  "prompts": {},
+  "sessions": {
+    "s_66fbfe8dbd34f5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ab22-4355-7791-9bea-f4606de2eab1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_d3a5a75062ed74": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ab22-441e-7510-90ac-28b26f21423d",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

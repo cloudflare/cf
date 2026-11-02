@@ -1,0 +1,23 @@
+packages/cli/src/__tests__/commands/dev/spawn.test.ts
+  s_ec32857784cffb::t_23702c1d05bdc5 22
+packages/cli/src/commands/dev/spawn.ts
+  s_ec32857784cffb::t_3059f9b944d44a 34
+packages/cli/src/lib/telemetry/run.ts
+  s_ec32857784cffb::t_86e0fe098633ae 31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4d73931917d7f937850193f7ea76a07c7be9d990",
+  "prompts": {},
+  "sessions": {
+    "s_ec32857784cffb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fcf6-7852-a9f8-3231f8472ff3",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

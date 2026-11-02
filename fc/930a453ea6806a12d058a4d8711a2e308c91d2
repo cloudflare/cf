@@ -1,0 +1,19 @@
+.changeset/add-local-command-search.md
+  s_28239f322b4912::t_816ef28d1873fc 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fc930a453ea6806a12d058a4d8711a2e308c91d2",
+  "prompts": {},
+  "sessions": {
+    "s_28239f322b4912": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d43e-7856-7fd2-8ba2-8cc4bb3d68b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

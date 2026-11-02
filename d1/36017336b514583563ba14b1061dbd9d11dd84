@@ -1,0 +1,27 @@
+.changeset/tidy-clouds-device-auth.md
+  s_829def9a9f7689::t_3303775b777315 1-10
+packages/cli/src/__tests__/commands/auth/device-login.test.ts
+  s_829def9a9f7689::t_b0a44c9d4ec505 1-77
+packages/cli/src/commands/auth/login.ts
+  s_829def9a9f7689::t_dbda713cea31d7 18,37-43,111
+packages/cli/src/commands/auth/profiles.ts
+  s_829def9a9f7689::t_75c7a91f0cb0a5 12,67-73,96
+packages/cli/src/lib/oauth/index.ts
+  s_829def9a9f7689::t_0e695c207e3ad3 125,138
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d136017336b514583563ba14b1061dbd9d11dd84",
+  "prompts": {},
+  "sessions": {
+    "s_829def9a9f7689": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a096a2-d93d-78f2-b0f2-c1ab3e4f7b70",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

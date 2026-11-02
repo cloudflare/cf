@@ -1,0 +1,23 @@
+AGENTS.md
+  c7b28f61c3ecfe1d 102,104,110-113,928-932
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "e27fdfc16536199e8c40e07d127d82fa4fb50061",
+  "prompts": {
+    "c7b28f61c3ecfe1d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_1d7932df0ffefMVye8atGXnq48",
+        "model": "anthropic/claude-opus-4-7"
+      },
+      "human_author": "Steven Chong",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 4,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}

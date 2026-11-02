@@ -1,0 +1,25 @@
+packages/cli/generator/generator.ts
+  s_22c15c79e66d32::t_7b2614202be122 12
+packages/cli/generator/index.ts
+  s_22c15c79e66d32::t_120b0622fd4b8a 15,32,521
+packages/cli/src/__tests__/generator/parent-overrides.test.ts
+  s_22c15c79e66d32::t_8330abd81fe162 1-63
+packages/cli/src/__tests__/generator/hand-written-leaf-commands.test.ts
+  s_22c15c79e66d32::t_def29ea4b2f11e 26-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "70159e090a3ab6780e44d1895beec07033380e5b",
+  "prompts": {},
+  "sessions": {
+    "s_22c15c79e66d32": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0f3b7-5e69-7b03-93cc-5bed297ee91e",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

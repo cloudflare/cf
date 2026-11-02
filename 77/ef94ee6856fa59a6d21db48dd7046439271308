@@ -1,0 +1,21 @@
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_dcf88dee825bfe::t_cef974ca4792ec 37763-37768
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_dcf88dee825bfe::t_30929e4917f585 396-401
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "77ef94ee6856fa59a6d21db48dd7046439271308",
+  "prompts": {},
+  "sessions": {
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

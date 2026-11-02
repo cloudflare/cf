@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/lib/telemetry/run.test.ts
+  s_6ab1ff780013ed::t_6d603750c938fa 73
+packages/cli/src/__tests__/telemetry-errors.test.ts
+  s_6ab1ff780013ed::t_561e1ecde9b992 66-67,71-72,84-85,89-90,121,123,129-130,221-222,226-227,275,277,294-295
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4e68118eafddc001c98d70c0e248beda8f44ea24",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

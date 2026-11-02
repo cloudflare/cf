@@ -1,0 +1,39 @@
+.changeset/renovate-workers-sdk-0e865ddd4a42.md
+  s_43f0f53d903a11::t_b8485224070116 9
+packages/cli/package.json
+  s_43f0f53d903a11::t_f77fdc6b5cfdfe 87
+packages/cli/src/__tests__/commands/containers-ssh.test.ts
+  s_43f0f53d903a11::t_7d349b902019bd 172-173,194-195,206-207,238-239
+packages/cli/src/commands/containers/ssh/index.ts
+  s_43f0f53d903a11::t_0d81fbfd1a5619 10,70-80
+packages/cli/src/commands/deploy/shared.ts
+  s_43f0f53d903a11::t_11f913a91601e0 192-207,225-235
+packages/cli/src/commands/previews/containers.ts
+  s_43f0f53d903a11::t_d8a2cc5f03173b 16,22-25,83-89
+packages/cli/src/commands/previews/deploy.ts
+  s_43f0f53d903a11::t_360634881408a0 193-194
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_43f0f53d903a11::t_d71350cfebf898 108-116
+packages/cli/src/lib/deploy-input.ts
+  s_43f0f53d903a11::t_989af0f3f3d098 145-152
+patches/@cloudflare__deploy-helpers@0.20.1.patch
+  s_43f0f53d903a11::t_7bbdf53fbd72e5 4
+pnpm-lock.yaml
+  s_43f0f53d903a11::t_47c9911174d939 181,297-298,720-721,4456,4460,4467
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b9a99989f68905c44051cd2188b0ed15da3152ed",
+  "prompts": {},
+  "sessions": {
+    "s_43f0f53d903a11": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15430-b59c-7052-a0c5-6beb2273ca71",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

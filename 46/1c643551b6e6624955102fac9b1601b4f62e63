@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/lib/deploy-input.test.ts
+  s_20cd843273c46b::t_3429d79528ad57 277-278
+packages/cli/src/lib/deploy-input.ts
+  s_20cd843273c46b::t_d575dbebced0c2 277-280
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "461c643551b6e6624955102fac9b1601b4f62e63",
+  "prompts": {},
+  "sessions": {
+    "s_20cd843273c46b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "988cb205-bf49-4f15-bbcc-4b612413a629",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

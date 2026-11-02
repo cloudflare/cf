@@ -1,0 +1,29 @@
+packages/cli/src/index.ts
+  s_98623744f7ffb6::t_ceaf7bd03b7cb4 19,145,157-159,161-166,168-170,173-178,200-202,204-206
+packages/cli/src/lib/telemetry/dispatcher.ts
+  s_98623744f7ffb6::t_16c4bf3be2ae52 48-50,104-106,133-135,147-149
+packages/cli/src/lib/telemetry/environment.ts
+  s_98623744f7ffb6::t_b07a98bc58de7b 36-47
+packages/cli/src/lib/telemetry/error-sanitization.ts
+  s_98623744f7ffb6::t_f3bac33c75f868 4-6,8-10
+packages/cli/src/lib/telemetry/lifecycle.ts
+  s_98623744f7ffb6::t_5579df84941a12 5-7
+packages/cli/src/lib/telemetry/sanitization.ts
+  s_98623744f7ffb6::t_a3478caa9c7bf7 25-30,33-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5f95e9a52d7d8cd07011795f4582867dc68bca17",
+  "prompts": {},
+  "sessions": {
+    "s_98623744f7ffb6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e6a-45d3-7620-8fa5-b107ffe721bb",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    }
+  }
+}

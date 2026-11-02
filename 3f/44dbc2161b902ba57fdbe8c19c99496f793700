@@ -1,0 +1,19 @@
+packages/cli/generator/command-roots.ts
+  s_1c1bd8666ca79e::t_3a93abc0f60a8b 4-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "3f44dbc2161b902ba57fdbe8c19c99496f793700",
+  "prompts": {},
+  "sessions": {
+    "s_1c1bd8666ca79e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1183d-fba4-7be0-85c4-c25c9d955c45",
+        "model": "unknown"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

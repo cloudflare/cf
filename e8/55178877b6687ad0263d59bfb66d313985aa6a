@@ -1,0 +1,39 @@
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_06c2d5d2143936::t_4643c87cdc6107 718
+packages/cli/src/commands/previews/meta.json
+  s_06c2d5d2143936::t_dc186c0d428d24 15
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_06c2d5d2143936::t_07482971465998 89211
+README.md
+  s_7352111617969e::t_15ea2f772c2d84 25-26
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_7352111617969e::t_1d85a39f920c2a 141-143,213-215
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_7352111617969e::t_83ca6c7b77fbf0 151-153
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_7352111617969e::t_4b9a27bf3b79bf 57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e855178877b6687ad0263d59bfb66d313985aa6a",
+  "prompts": {},
+  "sessions": {
+    "s_06c2d5d2143936": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2eb8fd9cffeUOqD3La1Jb9ppv",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_7352111617969e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2e6f6c4bffeL2g27mBqGH3E1N",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

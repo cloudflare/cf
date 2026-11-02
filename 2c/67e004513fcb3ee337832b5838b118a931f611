@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_dcf88dee825bfe::t_18d368d0fee8e1 53-55,62-69
+pnpm-lock.yaml
+  s_dcf88dee825bfe::t_57ed142ad28117 20-22,133,4286,4296
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2c67e004513fcb3ee337832b5838b118a931f611",
+  "prompts": {},
+  "sessions": {
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

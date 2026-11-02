@@ -1,0 +1,31 @@
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_dcf88dee825bfe::t_732a43e64e51cd 54,77-82,88-90
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_dcf88dee825bfe::t_6879b5da1bb62b 316-409
+pnpm-lock.yaml
+  s_5fe55f81741c12::t_b11e11ea7e266d 21,24,133,136,4286,4293,4296
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "37118bfc1f3b1447870870edb4973df1fa73ace1",
+  "prompts": {},
+  "sessions": {
+    "s_5fe55f81741c12": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f51fd6602ffeePVAQsoTWIwbG6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    },
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+packages/cli/src/commands/previews/deploy.ts
+  s_d42558c74a559d::t_cbea47fd3b7527 18-22,44-46,48,50,93-94
+.changeset/bright-previews-deploy.md
+  s_d42558c74a559d::t_deab5afb157dfc 5
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_d42558c74a559d::t_38bf67470e530d 149
+  s_d42558c74a559d::t_e26e6430f7d53e 90-93,95,117,146-148
+packages/cli/src/__tests__/help.test.ts
+  s_d42558c74a559d::t_34a40c1bfdc756 37-45
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_d42558c74a559d::t_71f104e7da85d6 126
+packages/cli/src/index.ts
+  s_d42558c74a559d::t_34e7cdf0a65861 437
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_d42558c74a559d::t_43449fc74a88ad 88598-88599
+  s_d42558c74a559d::t_00693f8446db40 88603-88607
+  s_d42558c74a559d::t_679994a75e89c6 88597
+  s_d42558c74a559d::t_1775d4eda01f10 88600-88602
+packages/cli/src/commands/previews/meta.json
+  s_d42558c74a559d::t_3b9caf12f63ed1 7-17
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_d42558c74a559d::t_87146ebb05e264 713-715
+  s_d42558c74a559d::t_6dec279c694502 716-720
+  s_d42558c74a559d::t_f5cc56b7258229 710
+  s_d42558c74a559d::t_64358c5c584e25 711-712
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ff53a7a2fa18c4f4d0a9cb7672014afae1862b91",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

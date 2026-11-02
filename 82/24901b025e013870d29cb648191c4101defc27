@@ -1,0 +1,47 @@
+.changeset/remove-agent-context.md
+  s_86a3c8a51fddf7::t_1ce836427bc3bc 1-8
+.opencode/agents/roboreview.md
+  s_86a3c8a51fddf7::t_c8914f30400da3 76
+AGENTS.md
+  s_891f6d6a179cbe::t_50ddeece6f4817 169-192,467-469,471,828-829
+PLAN.md
+  s_86a3c8a51fddf7::t_63396865f73389 26
+README.md
+  s_86a3c8a51fddf7::t_9ac2ea80f25186 39
+packages/cli/AGENTS.md
+  s_891f6d6a179cbe::t_afab2f387e2d05 40-54,83
+packages/cli/generator/index.ts
+  s_891f6d6a179cbe::t_34c2ee94233d8e 63,375,384,387,408,410-416
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_891f6d6a179cbe::t_0a300450bbea2a 118
+packages/cli/src/__tests__/lib/metadata.test.ts
+  s_891f6d6a179cbe::t_abd1213d2e22d8 14-15
+packages/cli/src/__tests__/telemetry-errors.test.ts
+  s_891f6d6a179cbe::t_2d4a4109fa2f97 317-318,322
+packages/cli/src/lib/metadata.ts
+  s_891f6d6a179cbe::t_254c19d5b16bcb 76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8224901b025e013870d29cb648191c4101defc27",
+  "prompts": {},
+  "sessions": {
+    "s_86a3c8a51fddf7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d0c8-31c6-7b91-9f48-c62f16005d0a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_891f6d6a179cbe": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d0d6-c1ea-73b0-8921-2bdfd0a92d5d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

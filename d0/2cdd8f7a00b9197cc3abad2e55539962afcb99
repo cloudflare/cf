@@ -1,0 +1,19 @@
+pnpm-lock.yaml
+  s_563f601fa44626::t_53d8932dda2b36 11,16-17,455
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d02cdd8f7a00b9197cc3abad2e55539962afcb99",
+  "prompts": {},
+  "sessions": {
+    "s_563f601fa44626": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f3a86dabcffe9zJiUPE1o79pg4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

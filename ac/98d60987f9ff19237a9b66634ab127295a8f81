@@ -1,0 +1,57 @@
+.changeset/cf-init.md
+  s_9b8e059297e7cf::t_709519f1655971 1-11
+AGENTS.md
+  s_9b8e059297e7cf::t_da4faa14db65d8 38-39,174-198,205,458,461
+PLAN.md
+  s_9b8e059297e7cf::t_2ed01c74e28292 18,74,105
+README.md
+  s_9b8e059297e7cf::t_77a1363098a5f8 158,225-229
+packages/cli/AGENTS.md
+  s_9b8e059297e7cf::t_f719abf8dade5e 40-54
+packages/cli/README.md
+  s_9b8e059297e7cf::t_83ea1dde2afeed 41-48
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_9b8e059297e7cf::t_797f862ccc6040 47-48,121,130-131
+packages/cli/src/__tests__/commands/init.test.ts
+  s_9b8e059297e7cf::t_52f5cd4b032752 1-356
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_9b8e059297e7cf::t_e4878b00c2fa6e 88
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_9b8e059297e7cf::t_c0f0d26b0610f5 60601-60666,157756
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_9b8e059297e7cf::t_4fe2283f7ab1ed 705-780,1163
+packages/cli/src/commands/hand-written.ts
+  s_9b8e059297e7cf::t_7ab71d2ed4e28e 89-99
+packages/cli/src/commands/init/index.ts
+  s_9b8e059297e7cf::t_7f2cb936fde48e 1-38
+packages/cli/src/commands/init/meta.json
+  s_9b8e059297e7cf::t_b52e735e3f7d01 1-68
+packages/cli/src/commands/init/template.ts
+  s_9b8e059297e7cf::t_331bd6dc2e7083 1-121
+packages/cli/src/commands/init/workers.ts
+  s_9b8e059297e7cf::t_ad06fb23336993 1-266
+packages/wrangler-tests/src/__tests__/init.test.ts
+  s_9b8e059297e7cf::t_3d0b530d32d246 3-10
+packages/wrangler-tests/src/__tests__/setup.test.ts
+  s_9b8e059297e7cf::t_e8279139ac2897 6-7
+usecases/project-init.yaml
+  s_9b8e059297e7cf::t_dec9907a51d8ef 3,8-9,11-12
+usecases/project-setup.yaml
+  s_9b8e059297e7cf::t_71df62ae42ef3a 3,7,10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ac98d60987f9ff19237a9b66634ab127295a8f81",
+  "prompts": {},
+  "sessions": {
+    "s_9b8e059297e7cf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d001-dd9e-7060-8f6d-94e962ef1c67",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

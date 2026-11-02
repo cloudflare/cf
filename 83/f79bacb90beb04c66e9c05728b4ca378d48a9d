@@ -1,0 +1,63 @@
+.changeset/quick-workers-check.md
+  s_977956df82d227::t_db576a1311f8d3 1-7
+CF_WRANGLER_PATH_MAP.md
+  s_75faa5d08faf7d::t_aee03177e562d2 89
+DIVERGENCE.md
+  s_7e9a8aa548625f::t_2f9f974db952b3 235-245,289
+WRANGLER_TEST_REVIEW.md
+  s_7e9a8aa548625f::t_6ce0f73b13b565 194
+package.json
+  s_7e9a8aa548625f::t_02799a2a740235 36-38,41
+packages/cli/generator/emit/index-files.ts
+  s_01886edec709a6::t_a567d81d3d3161 24-25,66-68,70-72,126-128,131-152,164-168,176
+packages/cli/src/commands/dev/spawn.ts
+  s_977956df82d227::t_2f4a1e7b8be267 20,39-40,42,60-71
+packages/cli/src/commands/workers/check/command.ts
+  s_977956df82d227::t_f31763df83d8de 1-127
+packages/cli/src/commands/workers/check/index.ts
+  s_977956df82d227::t_990e97ca8816ba 1-7
+packages/cli/src/commands/workers/check/meta.json
+  s_7e9a8aa548625f::t_b277a5246674ff 1-25
+usecases/check-startup.yaml
+  s_7e9a8aa548625f::t_f0de8c744fadf0 3,7,9-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "83f79bacb90beb04c66e9c05728b4ca378d48a9d",
+  "prompts": {},
+  "sessions": {
+    "s_01886edec709a6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a09553-618f-7561-bd01-396a1f5a464e",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    },
+    "s_75faa5d08faf7d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a09050-04e0-79c0-9c2d-0fcbf382fcd2",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    },
+    "s_7e9a8aa548625f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0955e-accd-7571-8a5d-3d6d387765da",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    },
+    "s_977956df82d227": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0904d-1094-7dc1-923a-af4df2540ef7",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

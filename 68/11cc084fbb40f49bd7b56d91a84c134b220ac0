@@ -1,0 +1,327 @@
+.changeset/README.md
+  s_7892b6dd71bfda::t_363bb42cb8edcb 26,56,58-60
+.changeset/authless-upload-dry-runs.md
+  s_7892b6dd71bfda::t_ee0f77158b502a 1-10
+.changeset/calm-tools-delegate.md
+  s_7892b6dd71bfda::t_5d5892fa0f351d 1-7
+.changeset/filter-cli-audiences.md
+  s_7892b6dd71bfda::t_5b02645187857e 1-6
+.changeset/move-workers-commands.md
+  s_7892b6dd71bfda::t_6992a13171c182 1-13
+.changeset/publish-hand-written-command-metadata.md
+  s_7892b6dd71bfda::t_1060b7a8d1da5c 1-10
+.changeset/quick-workers-check.md
+  s_7892b6dd71bfda::t_75bb57eb741434 1-7
+.changeset/tanstack-start-autoconfig.md
+  s_7892b6dd71bfda::t_ac021ca72e0bdc 1-5
+.changeset/tidy-clouds-device-auth.md
+  s_7892b6dd71bfda::t_2ed2a55b4142a9 1-13
+.gitattributes
+  s_7892b6dd71bfda::t_c513b1bf59572b 1
+.github/roboreview.md
+  s_7892b6dd71bfda::t_4e5ba78e22c04a 116,120,122
+.opencode/agents/roboreview.md
+  s_7892b6dd71bfda::t_be0a839edf75e1 13,76,115-116,128-131,153-154,163
+AGENTS.md
+  s_7892b6dd71bfda::t_5dc92db28f3ce1 4-6,18-20,22-23,27,29-31,48,51-52,54,56-57,63-64,67,69,94-96,103,107,124-127,136,140,149-150,154-156,158,162-184,188-221,227,241-252,259-260,268-283,287,289,294-298,322,330,334-337,353,363,384,393,397-401,403,409-421,423-424,427-430,432,434,436,438-439,441,452,459,483-485,488-489,492-493,500-502,515-517,520-523,536-539,541-544,550,566-587,598-602,608,620,624,626,641-666,678-679,742,750,754-756,760-763,766,800,802,804,807-808,836-839,900-917,923-931,936-939,964-982,986-987,992-993,995-998,1003,1007-1011,1013-1015
+CF_BUILD.md
+  s_7892b6dd71bfda::t_10706aa5928fda 1,3,5,7,9,11-22,24,26,28-35,37,39,41,43-44,46,48,50,52-55,57,59,61,63,65-67,69,71,73,75-80,82,84,86,88,90,92-97,99,101,103,105-106,109,111,113,115,117,120-121,123-146,149-153,155,157,159,161,163-164,166,168,177-183,186,189,201,203-208,210,212,214,216,218-219,221,223,225,227-235,237,239,241-245,247,249,251,253-255,257,259-264,267
+CF_DEPLOY.md
+  s_7892b6dd71bfda::t_318cda6b3d6000 1,3-49,51-67,70,72-77,80,82,84,86,88,90,92-96,98,100,102,104-110,112,114-123,125,127,129,131,133-134,136,138,140-143,145,147-184,187,189,191-198,200-203,205-338,341-353
+CF_DEV.md
+  s_7892b6dd71bfda::t_4284526c4076e8 1,3,5,7,9-20,23,25-30,32,34,36,38-41,43,45,47,49,51,53,55,57-62,64,66,68,70,72,74-77,79,81,83,85,87-89,91,93,95,97-98,101,103,105,107-109,111,113-119,121,123,125,127-132,134,136,138,140,142,144-147,149,151,153,155-158,160,162,164,166-169,171,173,175,177,179,181-185,187,189,191-195,197,199-203
+CF_VERSIONS.md
+  s_7892b6dd71bfda::t_11b27d6bc5efd3 1,3,5-6,8,10,12-59,63,66-154,156
+CF_WRANGLER_DIFF.md
+  s_7892b6dd71bfda::t_ba2e2557404d22 1,3,5,7,9-14,16,18,20-28,30,32-35,37,39,41,43-73,75,77,79,81,83,85,87,89,91,93,95,97,99-100,102,104,106,108-113,115,117,119,121,123,125,127,129,131-134,136-144,146,148,150,152,154,156,158,160-164,166,168,170-172,174,176,178,180-187,189-458
+CF_WRANGLER_PATH_MAP.md
+  s_7892b6dd71bfda::t_1738411a6dd747 1-301
+CF_WRANGLER_PLAN.md
+  s_7892b6dd71bfda::t_ecc3fc7e54223f 1,3-15,19-41,47-49,62-97,101-103,111-113,154-157,172-176,287,291-294,296,298,312-313,317,319-330,346-350,362-379,389,412,417,422,435-437,448-450,452,454,456-457,461,463,467-469,492-494,506-510,535-537,541-543,558,568-569,573,575,577,607,626,629,643,647-659,663,667,669-673,676,681-685,687,691-693,714-716,730,737,741,745,754-756,765,768-769,773,775-777,782,796-799,801,808,810-812,841,850-852,871-873,881-883,903-904,908-910,915,922-924,926-927,944-946,957,959-961,966-972,977,979,986-988,990,996,1000,1002-1020,1024-1025,1032-1033,1041-1042,1050-1051,1057-1058,1064-1065,1071-1072,1085-1086,1092-1093,1100-1101,1109-1110,1116-1117,1129-1131,1158-1166,1175-1180,1186-1187,1190,1196,1198-1200,1211,1219-1221,1241-1243,1254,1266,1268-1271,1283,1292-1299,1301-1305,1309,1316,1320-1322,1324-1325,1335,1341,1348,1354,1356-1360,1371,1374,1376,1380-1382,1387-1395,1402-1404,1419,1429-1431,1439-1441,1457,1459,1461,1463,1465,1467,1469,1471,1473,1475,1477,1479,1481,1486,1492-1497,1501-1503
+CODE_SHARING_PLAN.md
+  s_7892b6dd71bfda::t_26a09f76e11679 1-117
+DIVERGENCE.md
+  s_7892b6dd71bfda::t_b19f9d8b79b48c 12-13,54-56,67-68,73-78,86,91-94,100-103,107-110,121-156,161-164,168-178,209-213,225,242,250-252,254-258,260,273,305,318,320-326,331-334,337,341-342,345,351,366,370-374,376,378,397,399,403,421,428-429,441-444,464,466,472-474,494,496,498-501,517,521,555,557,560,568,589,640,642,644,652-656,665,668-669,676,678,689,694-696,729,731,803-814
+LOCAL_MODE.md
+  s_7892b6dd71bfda::t_68fb70105c85f2 3,5,7-12,16,18,20-41,43-48,52-64,66,68,70,72-75,77-81,86-178
+PLAN.md
+  s_7892b6dd71bfda::t_35cb99c3bfe746 3,5,7,9-13,15,17,19,21-25,27,29-34,36,38-43,45,47-51,53,55-61,63,65,67-70,72,74-77,79,81-83,85,87-90,92,94-124
+README.md
+  s_7892b6dd71bfda::t_90cdb7819e1ced 3,5,7-13,16-19,23-25,30-32,43-51,59,63,65-67,74-75,77-79,81,107-110,112-113,117,120-121,127-131,141-145,148-150,162-169,171-172,181-186,211-212,214-217,219,221-223,230-231,238,257-259,264-266,269-280,284,289-290,299,303-313,323-325,336-338,341-344,352-355,357-358,374,376-377,385,389-390
+SIMPLIFICATION.md
+  s_7892b6dd71bfda::t_7ff9cf26d1a04b 1,3,5,7,9,11-15,17,19,21,23-28,30,32,34-37,39,41,43,45,47,49,51,53-55,57,59,61,63,65,67,69,71-79,81,83,85,87,89,91,93-100,102,104,106,108,110-115,117,119-122,124,126,128,130,132-134,136,138-142
+WRANGLER_TEST_REVIEW.md
+  s_7892b6dd71bfda::t_6d57ffaf0f6d10 1-158
+fixtures/vite-plugin-project/README.md
+  s_7892b6dd71bfda::t_a9efe7a99a98b8 1,3-5,9-15,17,19,21,23,25-27,29-31,33,35,37-39,42,44,47-49,52,54
+fixtures/wrangler-bundler-project/README.md
+  s_7892b6dd71bfda::t_4d26581cdd1b0e 1,3-5,9-16,18,20,22,24,27,30,34-35,37-45,48,50,52-56,58,60
+fixtures/wrangler-bundler-project/package.json
+  s_7892b6dd71bfda::t_1b2da7f81a3269 7
+package.json
+  s_7892b6dd71bfda::t_af6f1eb467ba69 36-38,41-43
+packages/cli/ADVERSARIAL_REVIEW.md
+  s_7892b6dd71bfda::t_1dc7af998a50bf 1,3-10,12,14-17,1057,1070,1072,1086-1088
+packages/cli/AGENTS.md
+  s_7892b6dd71bfda::t_1a495c10eebeb4 1,8,10,13,16-18,22-36,41-42,44-47,50-61,65,67,71,73,76-78,82,84,89-90,93,96,98,111,113,126-128,137,145-147
+packages/cli/README.md
+  s_7892b6dd71bfda::t_5995144c7916c8 3,5,26-27,39-48,51
+packages/cli/generate.ts
+  s_7892b6dd71bfda::t_c89662da8b1a59 13,303-308
+packages/cli/generator/agent-context.ts
+  s_7892b6dd71bfda::t_b87d7a5e012438 18-28,31,78,140
+packages/cli/generator/cli-audience.ts
+  s_7892b6dd71bfda::t_312f02b5c6f401 1-66
+packages/cli/generator/emit/index-files.ts
+  s_7892b6dd71bfda::t_3ec76bdb78e79f 24-26,30,67-69,71-73,127-130,133-154,162,166-170,178,184-199
+packages/cli/generator/hand-written-overrides.ts
+  s_7892b6dd71bfda::t_3c3c636c342c0a 25-33,40-47,50-53,61-64,76,111-221,238-239,253-265,271,275,277-279,281
+packages/cli/generator/index.ts
+  s_7892b6dd71bfda::t_02bad05d68fe5e 1-7,10,21-22,24-26,33,98,118,377-393,401,413,426-437,501-504,513-607,621-652
+packages/cli/generator/metadata.ts
+  s_7892b6dd71bfda::t_14f2d883e146cb 342-357
+packages/cli/package.json
+  s_7892b6dd71bfda::t_8e4759504dd1b0 57,63,66-67,70-71,83
+packages/cli/src/__tests__/commands/auth/device-login.test.ts
+  s_7892b6dd71bfda::t_c89909fc3006a0 1-105
+packages/cli/src/__tests__/commands/auth/profiles.test.ts
+  s_7892b6dd71bfda::t_beda5b2cddb5cc 11-12,27-28,39-53
+packages/cli/src/__tests__/commands/auth/whoami.test.ts
+  s_7892b6dd71bfda::t_6a86b4f9f08acf 6,8,26-57,62,65-66
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_7892b6dd71bfda::t_bfaff98ed3b1b1 229-243
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_7892b6dd71bfda::t_381d236b7757ab 3,9-10,32,235-237,259-268,276-303
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_7892b6dd71bfda::t_9f8499ebab1f64 1-197
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_7892b6dd71bfda::t_5bf874d9599714 1,25-27,60,90,97-131
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_7892b6dd71bfda::t_9f27369dbbbd04 1,27,56,92,94,112,114,134-139,145-206
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_7892b6dd71bfda::t_4716d025000451 1-332
+packages/cli/src/__tests__/generator/cli-audience.test.ts
+  s_7892b6dd71bfda::t_676a03b5b38fd0 1-62
+packages/cli/src/__tests__/generator/hand-written-leaf-commands.test.ts
+  s_7892b6dd71bfda::t_e303e02dc9c6b9 1-100
+packages/cli/src/__tests__/help.test.ts
+  s_7892b6dd71bfda::t_9811f735b145cb 14,19,26,31
+packages/cli/src/__tests__/lib/implicit-device-login.test.ts
+  s_7892b6dd71bfda::t_9e7fdf41ddcbe1 1-91
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_7892b6dd71bfda::t_c2a0e374e18f4d 12,27,36,45,64-65,112,149,168,184,192
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_7892b6dd71bfda::t_8459eb95d3265e 5927-5952,19332-19499,23843-23859,36495-36513,42471-42543,112805-112830,120381-120391,130337-130361,132338-132361,132366,132371,132373-132374,132377-132384,132387,132390-132391,132393,132396,132399,132402-132409,132412,155943,156146-156154
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_7892b6dd71bfda::t_9c82a361973c2b 1-796
+packages/cli/src/commands/_generated/workers/index.ts
+  s_7892b6dd71bfda::t_d2a0019b04d782 1-2,28,40
+packages/cli/src/commands/_generated/workers/versions/index.ts
+  s_7892b6dd71bfda::t_92f2d3bf365de0 1
+packages/cli/src/commands/agent-context/meta.json
+  s_7892b6dd71bfda::t_0d976a89fc9f9f 1-28
+packages/cli/src/commands/auth/login.ts
+  s_7892b6dd71bfda::t_aa40180f8ecc04 18,37-43,111
+packages/cli/src/commands/auth/meta.json
+  s_7892b6dd71bfda::t_e90029647bdc79 1-170
+packages/cli/src/commands/auth/profiles.ts
+  s_7892b6dd71bfda::t_a4c7b7fd90042f 12,67-73,96
+packages/cli/src/commands/build/index.ts
+  s_7892b6dd71bfda::t_09085d02503c16 14,29-33,35,38,47-53,56-61,64-75,87-92
+packages/cli/src/commands/build/meta.json
+  s_7892b6dd71bfda::t_1f68cf59fbda34 1-19
+packages/cli/src/commands/completions/index.ts
+  s_7892b6dd71bfda::t_9a7c2f8bb77f7d 75
+packages/cli/src/commands/completions/meta.json
+  s_7892b6dd71bfda::t_336b9a66306b25 1-21
+packages/cli/src/commands/deploy/meta.json
+  s_7892b6dd71bfda::t_b46b23fa3b544d 1-57
+packages/cli/src/commands/deploy/shared.ts
+  s_7892b6dd71bfda::t_cedb469c603d35 23,26,69,93-95
+packages/cli/src/commands/dev/meta.json
+  s_7892b6dd71bfda::t_2dffd208b7ed3b 1-20
+packages/cli/src/commands/dev/spawn.ts
+  s_7892b6dd71bfda::t_2b76772c9023c8 20,39-40,42,60-71
+packages/cli/src/commands/hand-written.ts
+  s_7892b6dd71bfda::t_52e3b2895beed9 1-160
+packages/cli/src/commands/schema/meta.json
+  s_7892b6dd71bfda::t_70132ade8fd212 1-28
+packages/cli/src/commands/tools/meta.json
+  s_7892b6dd71bfda::t_135367374e4d74 1-13
+packages/cli/src/commands/workers/check/command.ts
+  s_7892b6dd71bfda::t_83bd7b7d1bd787 1-3,5-8,11-18,22-23,26,28-30,32,34,39,41-43,45-47,50-53,56-65,69-71,74-140
+packages/cli/src/commands/workers/check/index.ts
+  s_7892b6dd71bfda::t_8cbbee4bf02816 1-7
+packages/cli/src/commands/workers/check/meta.json
+  s_7892b6dd71bfda::t_28b6df7b65900c 1-25
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_7892b6dd71bfda::t_f4e8a3b3f04b00 8-14
+packages/cli/src/commands/workers/triggers/index.ts
+  s_7892b6dd71bfda::t_c764ef2eb4a043 2
+packages/cli/src/commands/workers/triggers/meta.json
+  s_7892b6dd71bfda::t_e51fec6f5400a6 1-26
+packages/cli/src/commands/workers/versions/create/index.ts
+  s_7892b6dd71bfda::t_f46c9fb5326a5f 1-2,13,15,17,19,29
+packages/cli/src/commands/workers/versions/create/meta.json
+  s_7892b6dd71bfda::t_946a6415be393e 1-51
+packages/cli/src/index.ts
+  s_7892b6dd71bfda::t_50c51225fb60ce 7-10,13,27-32,35-37,264-272
+packages/cli/src/lib/autoconfig.ts
+  s_7892b6dd71bfda::t_90a08fb42d2b02 1,19-23,25-26,28,45-46,50,58-59,61-74,78-86,108-120,123-125,127-128,131,139,148,156,160-166
+packages/cli/src/lib/deploy-input.ts
+  s_7892b6dd71bfda::t_ebb5ec0dc06ee5 11,31-38,100-102
+packages/cli/src/lib/dialog.ts
+  s_7892b6dd71bfda::t_0b086ad48100ba 11,21,38,56,83,111
+packages/cli/src/lib/metadata.ts
+  s_7892b6dd71bfda::t_50f78227cc3141 4,10-12,18
+packages/cli/src/lib/oauth/index.ts
+  s_7892b6dd71bfda::t_dc9c54c7168f7e 125,138
+packages/wrangler-tests/MANIFEST.md
+  s_7892b6dd71bfda::t_d7b1753c188bf5 7-12
+packages/wrangler-tests/README.md
+  s_7892b6dd71bfda::t_a8a089f8ba5085 7-9,11-16,18,21,25-59
+packages/wrangler-tests/src/__tests__/versions/versions.upload.test.ts
+  s_7892b6dd71bfda::t_f13be544d08d03 1,4,10,85-87,89-90,118-119,121-123,163-192
+packages/wrangler-tests/telemetry.md
+  s_7892b6dd71bfda::t_9cbf598fb33fb2 3-4,32,80-87
+pnpm-lock.yaml
+  s_7892b6dd71bfda::t_ff43a0905c2f16 8-10,13,15-16,18-19,21,73-74,82-83,95-96,104-105,107-108,116-117,119-120,154-156,170-171,215-216,385-386,391-395,403-411,456-461,474-479,492-497,510-515,528-535,548-549,569-571,953-958,971-976,982-986,997-1001,1012-1016,1027-1031,1042-1046,1057-1061,1072-1076,1087-1091,1102-1106,1117-1121,1132-1136,1149-1154,1167-1172,1185-1190,1203-1208,1221-1226,1239-1244,1257-1262,1275-1280,1290-1293,1299-1303,1316-1321,1334-1339,1352-1357,2449-2451,2881-2884,3196-3200,3212-3220,3426-3427,3552-3556,3567-3576,3889,3891-3893,3901-3912,3915,3926,3938,3940-3953,3957,3959,3962-3963,3965,3994-3999,4019-4021,4028-4030,4037-4039,4046-4048,4055-4058,4060-4061,4068,4072,4076,4080,4104-4108,4328-4332,4343-4347,4353-4357,4364-4366,4373-4375,4382-4384,4391-4393,4400-4402,4409-4411,4418-4420,4427-4429,4436-4438,4445-4447,4458-4462,4473-4477,4488-4492,4503-4507,4518-4522,4533-4537,4548-4552,4563-4567,4578-4582,4588-4592,4599-4601,4608-4610,4617-4619,5393-5394,5829,5841,5849-5861,6238-6239,6305-6337,6518,6631-6638,6656-6672
+test_bugs/ai-search-update-required-fields.md
+  s_7892b6dd71bfda::t_b722b16d2c9f14 6,9,11,13,17,19,21-23,25,27,29,31,33,35
+test_bugs/auth-paths-resolved-at-import.md
+  s_7892b6dd71bfda::t_e52ca73a316e7a 3,6,9,11,13,17,19,21-23,25,27,29,31,33,35
+test_bugs/bindings-secret-always-required-string.md
+  s_7892b6dd71bfda::t_9a1652a0a26b49 6,13,15,19,21-23,25,27,29,32,35,37,39-41
+test_bugs/body-params-required-within-optional-parent.md
+  s_7892b6dd71bfda::t_0b5538b5c921b6 6,9,11,13,15,19,21-23,25,27,29,31,33,35,37-39
+test_bugs/body-workaround-drops-query-params.md
+  s_7892b6dd71bfda::t_0f838d3cd65091 6,9,11,13,17,19,21,23,25,27-29,31,33,35
+test_bugs/build-output-docs-stale-v1-named-worker-dir.md
+  s_7892b6dd71bfda::t_9783ef4a91fe91 3,6,9,11,13,17,19,21-24,26,28,30,32-34,36,38
+test_bugs/ci-confirmations-silently-answer-no.md
+  s_7892b6dd71bfda::t_2db7ac326a88f2 3-4,6,9,11,13,15,17,19,21-23,25,27-31,33,35-43,45
+test_bugs/cloudflare-config-not-on-internal-registry.md
+  s_7892b6dd71bfda::t_79bd646596002a 3,6,9,11,13,15,19,21-23,25,27,29,31,33,35-36
+test_bugs/config-loader-resolves-every-export.md
+  s_7892b6dd71bfda::t_dcbcfab931d64a 3,6,9,13,17,19,21-24,26,28,30,32,34,36,38,40
+test_bugs/config-loader-unsupported-on-bun.md
+  s_7892b6dd71bfda::t_a3502c60232fe7 3,6,13,15,17,21,23,25,27,29,31,33
+test_bugs/connectivity-services-cert-verification-mode-no-enum.md
+  s_7892b6dd71bfda::t_8859ea141de49e 3-6,9,13,17,19,21-24,26,28,30,32,34,36,38
+test_bugs/connectivity-services-missing-host-flags.md
+  s_7892b6dd71bfda::t_4b745a1e7bccbf 3,6,9,11,13,17,19-24,26,28,30,32,34,36,38,40
+test_bugs/connectivity-services-overrequired-create-update.md
+  s_7892b6dd71bfda::t_a567ea66972511 3-4,6,9-15,19-44
+test_bugs/d1-migrations-no-new-config-path.md
+  s_7892b6dd71bfda::t_03c6365cc9a5b7 3-4,6,9,11,13,15,17,19-21,23,25,27,29,31-36,38,40,42,44,46
+test_bugs/d1-query-no-crlf-normalization.md
+  s_7892b6dd71bfda::t_b7bffb1b074e84 3,6,9,13-20,24-26,28-32,36-40
+test_bugs/define-settings-unusable-under-declaration.md
+  s_7892b6dd71bfda::t_48207b6660c956 3-4,6,9,11,13,17,19,21,23,25-27,29
+test_bugs/delete-no-body-requires-body.md
+  s_7892b6dd71bfda::t_a3ddc227bb48c9 6,11,13,17,19,21-25,27,29,33
+test_bugs/deploy-dry-run-resolves-auth-first.md
+  s_7892b6dd71bfda::t_e1db7429c1c14a 3,6,9,13,17,19-23,25,27,29,31,33,35
+test_bugs/dry-run-account-id-placeholder.md
+  s_7892b6dd71bfda::t_519ffbbfa8e57e 3,6,9,11,13,17,19-21,23,25,27,29
+test_bugs/email-routing-disable-no-force.md
+  s_7892b6dd71bfda::t_79537ea159c46c 3,6,9,11,13,17,19,21,23,25-27,29,33
+test_bugs/email-routing-enable-disable-requires-body.md
+  s_7892b6dd71bfda::t_67dd9bf59eed76 3,6,9,11,13,15,19,21,23-24,26,28,30
+test_bugs/generator-fabricates-default-false-on-optional-booleans.md
+  s_7892b6dd71bfda::t_6693824f69903f 3,6,9,11,13,15,17,19,21,23,25-27,29,31,35
+test_bugs/generator-raw-path-no-url-encode.md
+  s_7892b6dd71bfda::t_4c9e73b512449d 3-4,6,9,11,13,15,17,19,21,23,25,27
+test_bugs/hyperdrive-create-implies-overstrict.md
+  s_7892b6dd71bfda::t_8c49f2a117abea 3,6,9,11,13,17,19,21-24,26,28,30,32
+test_bugs/impl-discovery-ignores-hoisted-node-modules.md
+  s_7892b6dd71bfda::t_3629463fc9eaa5 3,6,9,13,17,19,21-22,25,27,29,31-32,34,36,38
+test_bugs/known-impls-wrangler-minimum-too-low.md
+  s_7892b6dd71bfda::t_41e6a3e60cdfc6 3-4,6,9,11,13,17,19-20,22,24,26,28,30
+test_bugs/kv-bulk-delete-not-destructive.md
+  s_7892b6dd71bfda::t_ddad3b5889d1b8 3,6,9,11,13,17,19-21,24,26,28-30,32,36
+test_bugs/kv-bulk-update-delete-body-dropped.md
+  s_7892b6dd71bfda::t_27b3fe91a85788 3,6,9,11,13,15,17,19-23,25,27,29,31,33,37
+test_bugs/kv-keys-get-raw-bytes-regressed.md
+  s_7892b6dd71bfda::t_e1b5b33f095ba5 3,6,9,11,13,17,20,23,25,27-30,32,36
+test_bugs/kv-keys-list-not-generated.md
+  s_7892b6dd71bfda::t_3c59e5d4c0e19b 3,6,9-32
+test_bugs/kv-keys-update-body-drops-expiration.md
+  s_7892b6dd71bfda::t_f83f28e9b05822 3,6,9,11,13,17,19,21,23,25,27
+test_bugs/list-no-pagination.md
+  s_7892b6dd71bfda::t_7c7bcf70010125 3,6,9,11,13,15,17-19,21,23,25,27,29
+test_bugs/local-flag-has-no-persisted-state-access.md
+  s_7892b6dd71bfda::t_38ff631c33a13e 6,9,11,13,17,19,22,25,29
+test_bugs/looks-like-secret-text-flag.md
+  s_7892b6dd71bfda::t_5bc6d0423ed7cc 3,6,9,11,13,17,19-22,24,26,28
+test_bugs/new-config-unsupported-outside-five-commands.md
+  s_7892b6dd71bfda::t_59a2d7ea2b8bde 3,6,9,13,15-19,21,23,25,27,29-33,35,37,39
+test_bugs/no-rust-build-impl-shipped.md
+  s_7892b6dd71bfda::t_24325eeab7650d 3,6,9,13,15,17-20,22,24,26,28,30
+test_bugs/no-type-generation-outside-dev.md
+  s_7892b6dd71bfda::t_e9b7ee43499689 3,6,9,13,15-18,20,22,24,26,28,30,32
+test_bugs/openapi-defaults-on-put-patch.md
+  s_7892b6dd71bfda::t_7bc8001f4932df 3,5-6,9,11,13,15,19,21,23,25,27
+test_bugs/pipelines-sink-config-oneof-wrong-variant.md
+  s_7892b6dd71bfda::t_c6be53d1ca0c5e 3,6,9,11,13,17,19,23
+test_bugs/queues-consumers-create-missing-visibility-timeout.md
+  s_7892b6dd71bfda::t_7f7e9fea2d6d8e 3,6,9,11,13,17,19-21,23,25,27
+test_bugs/queues-create-missing-settings-flags.md
+  s_7892b6dd71bfda::t_fd20bfaff9e777 6,9,13,15-17,19,21,23,25,27
+test_bugs/queues-purge-no-force-rename.md
+  s_7892b6dd71bfda::t_9395e2731dd243 3,6,9,11,13,17,19,21,23
+test_bugs/queues-subscriptions-update-required-fields.md
+  s_7892b6dd71bfda::t_67658556a85bbe 3,6,9,11,13,17,19,23
+test_bugs/r2-buckets-domains-custom-create-missing-zone-id.md
+  s_7892b6dd71bfda::t_c8b5fa96baf223 3,6,9,11,13,15,17,19-22,24,26,28
+test_bugs/r2-object-not-generated.md
+  s_7892b6dd71bfda::t_2e1ce0d9fe4c17 3,6,9,11,13,15-20,23,25,27,29,31,33,35
+test_bugs/resource-label-malformed-singulars.md
+  s_7892b6dd71bfda::t_aeebec8a99097d 3,6,9,11,13,17,19,21,23
+test_bugs/sdk-no-url-encode-path-params.md
+  s_7892b6dd71bfda::t_80926596434711 3-6,9,11,13,17,19,21,23,25,27
+test_bugs/sdk-swallows-fetch-errors.md
+  s_7892b6dd71bfda::t_575ad5f23485d9 3-6,9,11,13,17,19,21,23,25
+test_bugs/secrets-store-secrets-create-body-only.md
+  s_7892b6dd71bfda::t_1c7b85f6f90db6 3,5-6,9,13,15-16,19,21,23,25,27,29,31,33-35,37
+test_bugs/vectorize-file-bare-enoent.md
+  s_7892b6dd71bfda::t_07f402ac0983b0 3,6,9,11,13,17,19-20,23,25,27,29
+test_bugs/vectorize-file-buffer-json.md
+  s_7892b6dd71bfda::t_65e359e583b1cf 3-6,9,11,13,17,19,21,23,25
+test_bugs/vectorize-file-empty-no-check.md
+  s_7892b6dd71bfda::t_f18ce39e17663d 3,6,9,11,13,17,19,21,23
+test_bugs/vectorize-metadata-index-drop-no-force.md
+  s_7892b6dd71bfda::t_d4433f39f87f25 3,6,9,11,13,17,19-21,24,26,28,30
+test_bugs/vectorize-query-missing-flags.md
+  s_7892b6dd71bfda::t_49cb8308d478b0 3,6,9,13,15-19,21,23,25,27,29,31,33
+test_bugs/versions-upload-no-json-output.md
+  s_7892b6dd71bfda::t_d2f60faf2c4a95 3,6,9,13,15,17,19,21,23,25
+test_bugs/vite-plugin-config-hooks-not-deregistered.md
+  s_7892b6dd71bfda::t_e394ff4479fb6a 3,5-6,9,11,13,15,17,19-22,24,26,28
+test_bugs/vitest-pool-workers-no-new-config.md
+  s_7892b6dd71bfda::t_ce583121a070b5 3,5-6,9,11,13,15-17,19,21,23,25,27,29,31
+test_bugs/workers-types-root-stale-compat-date.md
+  s_7892b6dd71bfda::t_10f04d984ac4c8 3-4,6,9,11,13,17,19,21,23,25
+usecases/auth-login-custom-scopes.yaml
+  s_7892b6dd71bfda::t_ffc1dc36752331 3,8-9,11-12
+usecases/auth-login-oauth.yaml
+  s_7892b6dd71bfda::t_a764dde2957bc0 1,6,9,11-12
+usecases/check-startup.yaml
+  s_7892b6dd71bfda::t_7e220f294c0688 3,7,9-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6811cc084fbb40f49bd7b56d91a84c134b220ac0",
+  "prompts": {},
+  "sessions": {
+    "s_7892b6dd71bfda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a5f8-0ca0-7921-9d97-d93c2b41a358",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

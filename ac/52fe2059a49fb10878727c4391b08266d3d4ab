@@ -1,0 +1,19 @@
+pnpm-lock.yaml
+  s_711f253bddff5e::t_7d08b8af04cd83 15,130,3613
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ac52fe2059a49fb10878727c4391b08266d3d4ab",
+  "prompts": {},
+  "sessions": {
+    "s_711f253bddff5e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2be20cacffeGWTW6PwZdPsqyx",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

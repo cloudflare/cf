@@ -1,0 +1,19 @@
+.changeset/python-vendored-module-names.md
+  s_20cd843273c46b::t_e69a34f1129ee3 7-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "87ffb2e249e1028948f293c80887ac36c50b605c",
+  "prompts": {},
+  "sessions": {
+    "s_20cd843273c46b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "988cb205-bf49-4f15-bbcc-4b612413a629",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

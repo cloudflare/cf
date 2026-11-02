@@ -1,0 +1,47 @@
+packages/cli/src/__tests__/lib/command-search.test.ts
+  s_42fc967fafaece::t_8e43bfb8ff7331 2-8,60-61,65-120
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_42fc967fafaece::t_37b1ca87ac4608 114039-114045,114591,114601-114609
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_42fc967fafaece::t_61529768b1e9b0 706-712,727,737-745
+packages/cli/src/commands/_generated/_meta/search-index.json
+  s_42fc967fafaece::t_0db9a3413d2609 2,4-5
+packages/cli/src/commands/schema.ts
+  s_42fc967fafaece::t_13b46fb088937a 7,14,32-36,69-106
+packages/cli/src/commands/search/index.ts
+  s_42fc967fafaece::t_4de5fb9634cdc1 2-3,5,11-20,37-42,44,46-47,49,51,54-77
+packages/cli/generator/index.ts
+  s_3f95f82c537ee1::t_d33587e64a93d3 8-11,616-621,624,626
+packages/cli/src/__tests__/commands/schema.test.ts
+  s_3f95f82c537ee1::t_7fe2d026a40937 1-39
+packages/cli/src/commands/schema/meta.json
+  s_3f95f82c537ee1::t_9ab4e19e04b99c 25-31
+packages/cli/src/commands/search/meta.json
+  s_3f95f82c537ee1::t_d871245b6b3927 8,18-26
+packages/cli/src/lib/metadata.ts
+  s_3f95f82c537ee1::t_392aade46a5922 52-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2765948408829ce24177da5d0502b0b78727082f",
+  "prompts": {},
+  "sessions": {
+    "s_3f95f82c537ee1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1f90-7491-91cc-351ce081d192",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_42fc967fafaece": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1efd-7c30-b0fb-983b125573db",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

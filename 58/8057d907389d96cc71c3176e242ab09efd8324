@@ -1,0 +1,41 @@
+.github/scripts/bench-report.mjs
+  s_53e0c784e1602f::t_8a1aa90fdeb4b5 4,31
+.github/workflows/cli-startup-bench.yml
+  s_53e0c784e1602f::t_5d1811af0c55e1 3,35,116-122,130-135,142,151
+COMPLETION_PERFORMANCE.md
+  s_53e0c784e1602f::t_270f4056c2ace1 1-97
+scripts/bench-completions.mjs
+  s_53e0c784e1602f::t_fe07c6c2102d09 1-89
+.changeset/quick-shell-completions.md
+  s_53e0c784e1602f::t_19a568f1f1761b 1-9
+README.md
+  s_53e0c784e1602f::t_dc18c9a4f78a53 227-230
+packages/cli/bin/cf
+  s_53e0c784e1602f::t_467700fd6a1f84 33-54,56-59,61-72
+packages/cli/src/__tests__/commands/completions.test.ts
+  s_53e0c784e1602f::t_314ba799416b3c 1-176
+packages/cli/src/commands/completions/data.ts
+  s_53e0c784e1602f::t_90248890150727 1-103
+packages/cli/src/commands/completions/index.ts
+  s_53e0c784e1602f::t_752ff3481d9861 1-2,37,41,52-53
+packages/cli/src/commands/completions/runtime.ts
+  s_53e0c784e1602f::t_904a8128884c2c 1-40
+packages/cli/tsdown.config.ts
+  s_53e0c784e1602f::t_8e5b6e10280924 1,4-5,24,65-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "588057d907389d96cc71c3176e242ab09efd8324",
+  "prompts": {},
+  "sessions": {
+    "s_53e0c784e1602f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a090c6-bdbb-73f3-a7b4-c3bd8921b6aa",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

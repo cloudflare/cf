@@ -1,0 +1,35 @@
+.changeset/bright-previews-deploy.md
+  s_06c2d5d2143936::t_991ab638b59f61 5
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_06c2d5d2143936::t_0fe0d6af7c55e7 96-99,101,123,151-154
+packages/cli/src/__tests__/help.test.ts
+  s_06c2d5d2143936::t_4ff6467c6ee836 37-45
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_06c2d5d2143936::t_e4c6daa06e2258 127
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_06c2d5d2143936::t_07482971465998 89203-89213
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_06c2d5d2143936::t_4643c87cdc6107 710-720
+packages/cli/src/commands/previews/deploy.ts
+  s_06c2d5d2143936::t_30fba97516e667 18-22,43-45,47,49,92-93
+packages/cli/src/commands/previews/meta.json
+  s_06c2d5d2143936::t_dc186c0d428d24 7-17
+packages/cli/src/index.ts
+  s_06c2d5d2143936::t_53994d5a3588d2 435
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "353f26363ffa3dc7300efbb6e952b32696e869e9",
+  "prompts": {},
+  "sessions": {
+    "s_06c2d5d2143936": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2eb8fd9cffeUOqD3La1Jb9ppv",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

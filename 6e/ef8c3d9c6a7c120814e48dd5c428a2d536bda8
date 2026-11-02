@@ -1,0 +1,41 @@
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_d42558c74a559d::t_64358c5c584e25 538-539
+  s_d42558c74a559d::t_87146ebb05e264 541
+  s_d42558c74a559d::t_2a16901a642f90 537
+CF_WRANGLER_PATH_MAP.md
+  s_d42558c74a559d::t_bd565b4ebc86d0 8,77,100-119
+packages/cli/src/__tests__/help.test.ts
+  s_d42558c74a559d::t_34a40c1bfdc756 44
+  s_d42558c74a559d::t_df876fc7d794bf 42-43
+  s_d42558c74a559d::t_78197d36a1cc01 45-47
+packages/cli/src/commands/preview/meta.json
+  s_d42558c74a559d::t_3b9caf12f63ed1 9-10,12,17
+  s_d42558c74a559d::t_d583385b70a051 8
+packages/cli/AGENTS.md
+  s_d42558c74a559d::t_0b9a66ac10574e 22-36,65
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_d42558c74a559d::t_1775d4eda01f10 87318
+  s_d42558c74a559d::t_43449fc74a88ad 87315-87316
+  s_d42558c74a559d::t_00693f8446db40 87323
+  s_d42558c74a559d::t_739108688e7aad 87314
+packages/cli/src/__tests__/commands/preview.test.ts
+  s_d42558c74a559d::t_eef74201f1b693 3-5,63,89,91-92,127,146,148
+packages/cli/src/commands/preview/index.ts
+  s_d42558c74a559d::t_f60315fc32792f 18,22,26-29,34-40,44-45,51,93-94,98-99
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6eef8c3d9c6a7c120814e48dd5c428a2d536bda8",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

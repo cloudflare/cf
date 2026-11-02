@@ -1,0 +1,23 @@
+.changeset/bright-agents-search.md
+  s_42fc967fafaece::t_a0cab3874ca65e 14-15
+packages/cli/src/__tests__/help.test.ts
+  s_42fc967fafaece::t_d876cb5959dc68 54-55
+packages/cli/src/lib/search-hint.ts
+  s_42fc967fafaece::t_1ff2215fd31cf3 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c710ac697295b7ecb546f60a7ac15b684f9d4409",
+  "prompts": {},
+  "sessions": {
+    "s_42fc967fafaece": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1efd-7c30-b0fb-983b125573db",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

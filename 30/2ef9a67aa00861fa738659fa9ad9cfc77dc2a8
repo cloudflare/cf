@@ -1,0 +1,39 @@
+.changeset/login-alias.md
+  s_ec3cbf8afb12cc::t_78e12c00347e04 1-9
+AGENTS.md
+  s_ec3cbf8afb12cc::t_956566dfaa5766 34
+packages/cli/src/__tests__/commands/auth/device-login.test.ts
+  s_ec3cbf8afb12cc::t_2fe87471c6a076 41,64-96
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_ec3cbf8afb12cc::t_f7c0b7de7a6f7f 77-82
+packages/cli/src/__tests__/local-flags.test.ts
+  s_ec3cbf8afb12cc::t_b15b61ab4f2cb0 60
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_ec3cbf8afb12cc::t_1af88e23044617 157923
+packages/cli/src/commands/auth/index.ts
+  s_ec3cbf8afb12cc::t_0f943cc85cb778 5,24-27
+packages/cli/src/commands/auth/login.ts
+  s_ec3cbf8afb12cc::t_93c068eb4887b3 13,23-29
+packages/cli/src/commands/hand-written.ts
+  s_ec3cbf8afb12cc::t_cd604f185e70d2 50-56
+packages/cli/src/commands/login/index.ts
+  s_ec3cbf8afb12cc::t_116fc679d6f83c 1-27
+packages/cli/src/commands/login/meta.json
+  s_ec3cbf8afb12cc::t_6e15d24f75bc1e 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "302ef9a67aa00861fa738659fa9ad9cfc77dc2a8",
+  "prompts": {},
+  "sessions": {
+    "s_ec3cbf8afb12cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d40c-7c83-7a60-92ab-3af972464fec",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

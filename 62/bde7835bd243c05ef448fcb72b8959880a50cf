@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_6ab1ff780013ed::t_091be5110cab47 350-358
+packages/cli/src/lib/autoconfig.ts
+  s_6ab1ff780013ed::t_cc7bd00cc45834 50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "62bde7835bd243c05ef448fcb72b8959880a50cf",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

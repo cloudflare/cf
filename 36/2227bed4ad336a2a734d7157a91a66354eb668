@@ -1,0 +1,19 @@
+pnpm-lock.yaml
+  s_d42558c74a559d::t_de45d62aad2360 120,436,483-486,501-504,2608-2609,3705-3706,3717-3718,5307-5310,5312-5318
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "362227bed4ad336a2a734d7157a91a66354eb668",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

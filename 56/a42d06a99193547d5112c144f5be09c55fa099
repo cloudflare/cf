@@ -1,0 +1,33 @@
+README.md
+  s_f65b0e05597a3a::t_ef052dbc772f57 179,232
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_f65b0e05597a3a::t_e69b9136ad76ec 692-713
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_f65b0e05597a3a::t_18a9ac1f3bd14e 152-189
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_f65b0e05597a3a::t_d1e59ecb2062e1 325-355
+packages/cli/src/commands/build/index.ts
+  s_f65b0e05597a3a::t_8500e3ee07281b 10-13,28-33,36,85-89
+packages/cli/src/commands/deploy/shared.ts
+  s_f65b0e05597a3a::t_fe01fab7f95083 97
+packages/cli/src/commands/workers/check/command.ts
+  s_f65b0e05597a3a::t_2c04bc93044fc4 57
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_f65b0e05597a3a::t_3c1f9e19e57498 49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "56a42d06a99193547d5112c144f5be09c55fa099",
+  "prompts": {},
+  "sessions": {
+    "s_f65b0e05597a3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80ab0623-161c-4255-af61-af145b47984c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

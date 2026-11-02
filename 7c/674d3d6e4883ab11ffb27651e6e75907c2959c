@@ -1,0 +1,19 @@
+.github/workflows/renovate.yml
+  s_e2e4d6e6dcf6a3::t_2aeb039bec817a 7-9,20-30,38-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7c674d3d6e4883ab11ffb27651e6e75907c2959c",
+  "prompts": {},
+  "sessions": {
+    "s_e2e4d6e6dcf6a3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15430-17da-7f81-ac59-68a41dab91e8",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

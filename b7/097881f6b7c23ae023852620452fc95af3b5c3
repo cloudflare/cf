@@ -1,0 +1,19 @@
+pnpm-lock.yaml
+  s_dcf88dee825bfe::t_b3305e333deef6 11,13,23,25,120-121,126-127,129-130,144-145,195-196,413-414,422-424,428-429,431-435,617-618,4222-4223,4227,4229,4231,4234,4242,4245,4253,4256,4267,4275-4279,4283,4285-4286,4293-4294,4436,4446,4454
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b7097881f6b7c23ae023852620452fc95af3b5c3",
+  "prompts": {},
+  "sessions": {
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

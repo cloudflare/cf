@@ -1,0 +1,22 @@
+pnpm-lock.yaml
+  s_dcf88dee825bfe::t_997f421c58cdab 11-12,19-24,131-132,143-144,194-195,422-424,437-438,575-576,2587-2589,4162,4173,4184-4195,4206,4223,4227,4229,4231,4235,4237,4241,4338,4346,4354,5747-5748
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_dcf88dee825bfe::t_ce6e4139524f6f 339-360,817
+  s_dcf88dee825bfe::t_87e70f711b3e1e 338
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9b59ae2b29628d4264bd1410fea071cf789072a9",
+  "prompts": {},
+  "sessions": {
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

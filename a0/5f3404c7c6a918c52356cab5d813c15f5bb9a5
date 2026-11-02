@@ -1,0 +1,29 @@
+.github/workflows/renovate.yml
+  s_e2e4d6e6dcf6a3::t_2aeb039bec817a 7-9,16-28,32-34,39-40
+.github/zizmor.yml
+  s_9f76e75052e73a::t_9c19981d773095 10-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a05f3404c7c6a918c52356cab5d813c15f5bb9a5",
+  "prompts": {},
+  "sessions": {
+    "s_9f76e75052e73a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15461-da6b-7df1-99a2-efc923be7317",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    },
+    "s_e2e4d6e6dcf6a3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15430-17da-7f81-ac59-68a41dab91e8",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

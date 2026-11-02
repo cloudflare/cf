@@ -1,0 +1,19 @@
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_dcf88dee825bfe::t_fc03c060fa8dbe 281,305,321,694-721
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e47f14f364826f84be38f8eeef292bc7594da9e3",
+  "prompts": {},
+  "sessions": {
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

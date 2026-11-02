@@ -1,0 +1,23 @@
+packages/cli/package.json
+  s_f8d69673fc7ffa::t_364bd51e3cd8f6 98
+patches/@cloudflare__deploy-helpers@0.20.2.patch
+  s_f8d69673fc7ffa::t_6fa1b7176ec094 2,5-13,28-82
+pnpm-lock.yaml
+  s_f8d69673fc7ffa::t_1c326646685396 181,301,329-331,2992-2995,3000-3003,4425,6067-6070,6073-6074
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "3f78ae3690e62a7ae726b4e5567a8c0c9adc4fd5",
+  "prompts": {},
+  "sessions": {
+    "s_f8d69673fc7ffa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0eef7-08e9-7700-a926-c58fdf3ee3a5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Eric Clemmons <eclemmons@cloudflare.com>"
+    }
+  }
+}

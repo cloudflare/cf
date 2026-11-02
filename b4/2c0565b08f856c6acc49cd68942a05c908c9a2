@@ -1,0 +1,133 @@
+.changeset/package-dependencies.md
+  s_891f6d6a179cbe::t_1d296f4374624b 1-5
+.changeset/update-forge.md
+  s_891f6d6a179cbe::t_98553ad91bdbc8 6
+AGENTS.md
+  s_891f6d6a179cbe::t_479d90c118701e 77,634
+README.md
+  s_891f6d6a179cbe::t_058e60ebec4614 338-339
+fixtures/vite-container-project/package.json
+  s_891f6d6a179cbe::t_4ab840de7da120 10-11,14
+fixtures/vite-plugin-project/README.md
+  s_891f6d6a179cbe::t_f6e448149155e3 24-25
+fixtures/vite-plugin-project/package.json
+  s_891f6d6a179cbe::t_7deb21d260a30b 9-10,12
+fixtures/wrangler-bundler-project/package.json
+  s_891f6d6a179cbe::t_a68590dfcfba49 7
+package.json
+  s_891f6d6a179cbe::t_1b1acedce6828b 36-39
+packages/cli/generate.ts
+  s_891f6d6a179cbe::t_872e0aa610acd4 22
+packages/cli/package.json
+  s_891f6d6a179cbe::t_07c01f9b6483ac 56-58,60,66-69,72-73
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_891f6d6a179cbe::t_161ce5fe2968b2 14965-14970,15600-15605,42660,42707,42715,42758,42805,42836,42867,42875,42881,42902,42951,42959,42982,43932-43933,44948-44949,156904-156907
+packages/cli/src/commands/_generated/_meta/schemas.json
+  s_891f6d6a179cbe::t_46fb0d984b08d3 11047-11052,11524-11529
+packages/cli/src/commands/_generated/alerting/policies/create.ts
+  s_891f6d6a179cbe::t_bbbfad33f631be 303-308,438,617
+packages/cli/src/commands/_generated/alerting/policies/update.ts
+  s_891f6d6a179cbe::t_9447741d85735a 303-308,438,530
+packages/cli/src/commands/_generated/custom-pages/account-custom-pages/index.ts
+  s_891f6d6a179cbe::t_3263a31ec1c2b4 12
+packages/cli/src/commands/_generated/custom-pages/account-custom-pages/preview-tokens/create.ts
+  s_891f6d6a179cbe::t_71a8576aa7d12e 61
+packages/cli/src/commands/_generated/custom-pages/account-custom-pages/preview-tokens/index.ts
+  s_891f6d6a179cbe::t_6810f58d211ee7 11
+packages/cli/src/commands/_generated/custom-pages/account-custom-pages/update.ts
+  s_891f6d6a179cbe::t_1fc87f3970df73 31,62
+packages/cli/src/commands/_generated/custom-pages/assets/create/custom/asset.ts
+  s_891f6d6a179cbe::t_0141db206af72b 58
+packages/cli/src/commands/_generated/custom-pages/assets/delete/custom/asset.ts
+  s_891f6d6a179cbe::t_ced63e1d7b6ada 50
+packages/cli/src/commands/_generated/custom-pages/assets/get/custom/asset.ts
+  s_891f6d6a179cbe::t_b4e15ed7881eb0 43
+packages/cli/src/commands/_generated/custom-pages/assets/index.ts
+  s_891f6d6a179cbe::t_377a84f099ae1d 15
+packages/cli/src/commands/_generated/custom-pages/assets/list/custom/assets.ts
+  s_891f6d6a179cbe::t_6664162da51929 23-30,47
+packages/cli/src/commands/_generated/custom-pages/assets/update/custom/asset.ts
+  s_891f6d6a179cbe::t_1b4388b409dbce 59
+packages/cli/src/commands/_generated/custom-pages/get.ts
+  s_891f6d6a179cbe::t_e8167eb925607e 25,42
+packages/cli/src/commands/_generated/custom-pages/index.ts
+  s_891f6d6a179cbe::t_00e61fe02e6805 15
+packages/cli/src/commands/_generated/custom-pages/list.ts
+  s_891f6d6a179cbe::t_a115f0ae1233bc 36
+packages/cli/src/commands/_generated/data-security/posture/content/list.ts
+  s_891f6d6a179cbe::t_d339e0f792991f 85
+packages/cli/src/commands/_generated/data-security/posture/listFindings.ts
+  s_891f6d6a179cbe::t_28b2d57bcabcb6 112
+packages/cli/src/commands/_generated/index.ts
+  s_891f6d6a179cbe::t_ec2da1560b6dfa 434
+packages/cli/src/sdk/openapi-version
+  s_891f6d6a179cbe::t_10f0f52eceab75 1
+packages/cli/src/sdk/sdk/Client.ts
+  s_891f6d6a179cbe::t_a4d645ce63c75b 261,667-670
+packages/cli/src/sdk/sdk/api/resources/customPages/client/Client.ts
+  s_891f6d6a179cbe::t_6725a7bf2720d7 38,107
+packages/cli/src/sdk/sdk/api/resources/customPages/client/requests/GetCustomPagesRequest.ts
+  s_891f6d6a179cbe::t_0a0f5ac74b75fe 13
+packages/cli/src/sdk/sdk/api/resources/customPages/client/requests/ListCustomPagesRequest.ts
+  s_891f6d6a179cbe::t_373f91899b490c 12
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/client/Client.ts
+  s_891f6d6a179cbe::t_ae8b50e487fd10 33
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/client/requests/UpdateAccountCustomPagesRequest.ts
+  s_891f6d6a179cbe::t_e4b429c4fc14a7 17
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/resources/previewTokens/client/Client.ts
+  s_891f6d6a179cbe::t_721236f7330fc2 30
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/accountCustomPages/resources/previewTokens/client/requests/CustomPagesPreviewRequest.ts
+  s_891f6d6a179cbe::t_7a24c5d9d6c6e3 15
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/create/resources/custom/client/Client.ts
+  s_891f6d6a179cbe::t_e8565d6673107f 30
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/create/resources/custom/client/requests/AssetCustomRequest.ts
+  s_891f6d6a179cbe::t_d1f667afd12092 17
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/delete/resources/custom/client/Client.ts
+  s_891f6d6a179cbe::t_bd60600099ec94 29
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/delete/resources/custom/client/requests/AssetCustomRequest.ts
+  s_891f6d6a179cbe::t_618b765007da8c 13
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/get/resources/custom/client/Client.ts
+  s_891f6d6a179cbe::t_f13660c4d522e3 29
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/get/resources/custom/client/requests/AssetCustomRequest.ts
+  s_891f6d6a179cbe::t_d9eafedc538e27 13
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/list/resources/custom/client/Client.ts
+  s_891f6d6a179cbe::t_a927acd41ee0c1 29
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/list/resources/custom/client/requests/AssetsCustomRequest.ts
+  s_891f6d6a179cbe::t_beb8ff8d72dd6c 12,14,16
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/update/resources/custom/client/Client.ts
+  s_891f6d6a179cbe::t_9513ebf3227751 30
+packages/cli/src/sdk/sdk/api/resources/customPages/resources/assets/resources/update/resources/custom/client/requests/AssetCustomRequest.ts
+  s_891f6d6a179cbe::t_360830d6f411bb 17
+packages/cli/src/sdk/sdk/api/types/AaaFilters.ts
+  s_891f6d6a179cbe::t_57a4fba9bb0ff3 81-82
+packages/cli/src/sdk/sdk/api/types/CustomPagesErrorPageType.ts
+  s_891f6d6a179cbe::t_92b24581d38d4f 3
+packages/cli/src/sdk/sdk/api/types/PostureApiBaseFindingType.ts
+  s_891f6d6a179cbe::t_b07a5d7ba400df 9,13,16,18-22
+packages/cli/src/sdk/sdk/api/types/PostureApiFindingType.ts
+  s_891f6d6a179cbe::t_a5bbaa541e2ec9 9,13,16,18,21-24
+packages/cli/src/sdk/sdk/api/types/PostureApiVendorsEnum.ts
+  s_891f6d6a179cbe::t_eaceced0f36af8 21
+packages/cli/src/sdk/sdk/sdk-map.json
+  s_891f6d6a179cbe::t_a57c352f76a4f6 26158,30510-30511
+packages/wrangler-tests/package.json
+  s_891f6d6a179cbe::t_32e38fd30563aa 12,22
+pnpm-lock.yaml
+  s_891f6d6a179cbe::t_69e55039ce014a 8,10-11,13-14,16-17,19,56-57,59-60,68-69,74-75,77-78,83-84,89-90,94-99,101-102,107-108,120-121,123-124,126-127,129-130,138-139,141-142,195-196,225-226,240-241,410-411,416-417,422-423,426-427,430,436,444-445,456-457,461,493-494,504-505,507-508,2590-2591,3127-3130,3255-3256,3577,3579,3581,3589,3592,3604,3607,3609,3613,3615,3617-3618,3624,3653,3655,3668,3671,3675,3697,3699,3705,3707,3715,5280,5876-5877,5983,5989,5994
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b42c0565b08f856c6acc49cd68942a05c908c9a2",
+  "prompts": {},
+  "sessions": {
+    "s_891f6d6a179cbe": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d0d6-c1ea-73b0-8921-2bdfd0a92d5d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

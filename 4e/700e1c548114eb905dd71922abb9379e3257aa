@@ -1,0 +1,17 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4e700e1c548114eb905dd71922abb9379e3257aa",
+  "prompts": {},
+  "sessions": {
+    "s_f8d69673fc7ffa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0eef7-08e9-7700-a926-c58fdf3ee3a5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Eric Clemmons <eclemmons@cloudflare.com>"
+    }
+  }
+}

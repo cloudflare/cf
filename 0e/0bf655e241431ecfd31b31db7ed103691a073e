@@ -1,0 +1,59 @@
+AGENTS.md
+  s_1e80a2526c8c1a::t_d46a3fa98a170c 8-16
+packages/cli/src/__tests__/commands/dev/spawn.test.ts
+  s_1e80a2526c8c1a::t_462e930cddab30 17,20-22,51-52,57-58,147-148
+packages/cli/src/__tests__/lib/dialog-cancellation.test.ts
+  s_1e80a2526c8c1a::t_8fe3ea5396cc51 1-48
+packages/cli/src/__tests__/lib/oauth-cancellation.test.ts
+  s_1e80a2526c8c1a::t_6da904f002f1f9 42
+packages/cli/src/__tests__/lib/prompt.test.ts
+  s_1e80a2526c8c1a::t_b69ffebaf91cad 320
+packages/cli/src/__tests__/lib/telemetry/run.test.ts
+  s_1e80a2526c8c1a::t_80a7d3c5d4d9b8 29-37,98-117
+packages/cli/src/commands/build/index.ts
+  s_1e80a2526c8c1a::t_cde22ce105a4af 15,50,52,65,73-74
+packages/cli/src/commands/dev/index.ts
+  s_1e80a2526c8c1a::t_d8994af3dd8d79 90,97,102-105
+packages/cli/src/index.ts
+  s_1e80a2526c8c1a::t_57d77ac038e1ca 593-599,602-603
+packages/cli/src/lib/dialog.ts
+  s_1e80a2526c8c1a::t_387403b9de20f6 25,60,115
+packages/cli/src/lib/oauth/index.ts
+  s_1e80a2526c8c1a::t_ea950a94370dfd 43,64
+packages/cli/src/lib/prompt.ts
+  s_1e80a2526c8c1a::t_b2dfe68af4bf27 173,221,252,280,344
+packages/cli/src/lib/telemetry/run.ts
+  s_1e80a2526c8c1a::t_a8fcfae898997d 6,31-35,39-48,92
+packages/cli/src/lib/telemetry/types.ts
+  s_1e80a2526c8c1a::t_aa899956a10775 27
+packages/cli/telemetry.md
+  s_1e80a2526c8c1a::t_a4ae5ad2c239e4 16
+.changeset/preserve-command-interruptions.md
+  s_1e80a2526c8c1a::t_85850ae2210d9d 1-10
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_1e80a2526c8c1a::t_371480f606ebc8 303-305,317,329
+packages/cli/src/__tests__/lib/child-process-termination.test.ts
+  s_1e80a2526c8c1a::t_dae4c9af62fbb8 1-174
+packages/cli/src/commands/dev/spawn.ts
+  s_1e80a2526c8c1a::t_1188c919f74ecb 18,21,27-30,43,91-93,99,101,108,110
+packages/cli/src/lib/autoconfig.ts
+  s_1e80a2526c8c1a::t_73471fea8eeaa9 11,14,66,102,106,108,184-186
+packages/cli/src/lib/child-process-termination.ts
+  s_1e80a2526c8c1a::t_07af5d44fcba3c 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0e0bf655e241431ecfd31b31db7ed103691a073e",
+  "prompts": {},
+  "sessions": {
+    "s_1e80a2526c8c1a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ce78-4286-75e1-ba0f-c0eae0a6269b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+COMPLETION_PERFORMANCE.md
+  s_53e0c784e1602f::t_43339bb4932933 43-50,108-113
+packages/cli/src/__tests__/commands/completions.test.ts
+  s_53e0c784e1602f::t_f97ce0f125cee5 14,81-144
+.changeset/compact-completion-groups.md
+  s_53e0c784e1602f::t_7774b1ae7b205a 1-10
+packages/cli/src/__tests__/commands/completions-collect.test.ts
+  s_53e0c784e1602f::t_502b5059c04467 4,15-17,81,106,170-171
+packages/cli/src/commands/completions/data.ts
+  s_53e0c784e1602f::t_0f4db0cd29b65b 55-70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7ad526489e96cb7f6fc27cdeff2418f1891cf72a",
+  "prompts": {},
+  "sessions": {
+    "s_53e0c784e1602f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a090c6-bdbb-73f3-a7b4-c3bd8921b6aa",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+README.md
+  s_53e0c784e1602f::t_3f6d5ed2a8ca87 229-230
+packages/cli/src/__tests__/commands/completions-collect.test.ts
+  s_53e0c784e1602f::t_9e2178021cb39e 1-168
+packages/cli/src/cli-definitions.ts
+  s_53e0c784e1602f::t_8d81ea31e3346b 1-141
+packages/cli/src/commands/completions/build.ts
+  s_53e0c784e1602f::t_a42702a1338358 1-17
+packages/cli/src/commands/completions/collect.ts
+  s_53e0c784e1602f::t_7a91a79b4bf79d 1-186
+packages/cli/src/commands/completions/data.ts
+  s_53e0c784e1602f::t_eef57155df75cd 3,7-8,11,15,27-33
+packages/cli/src/commands/completions/runtime.ts
+  s_53e0c784e1602f::t_472e7f2129709c 14-35,37,40-52,58-59,61-69
+packages/cli/src/index.ts
+  s_53e0c784e1602f::t_e97ae34daff89f 3,180-199,205,225
+packages/cli/tsdown.config.ts
+  s_53e0c784e1602f::t_04522dcb626767 1-2,24,65-67
+.changeset/derive-custom-completions.md
+  s_53e0c784e1602f::t_fde48514203ba5 1-10
+AGENTS.md
+  s_53e0c784e1602f::t_fb6b94659efb2c 142-147,289-290
+COMPLETION_PERFORMANCE.md
+  s_536325d03fd200::t_12751f12211aa0 18,23-41,53-60,94-97,103,106-112
+packages/cli/AGENTS.md
+  s_53e0c784e1602f::t_ff5a13680e74cf 70-71,138-142
+packages/cli/bin/cf
+  s_53e0c784e1602f::t_44877979fd4acf 43
+packages/cli/src/commands/completions/index.ts
+  s_53e0c784e1602f::t_b75abc9b6d83fd 36,41
+packages/cli/src/lib/lazy-command.ts
+  s_53e0c784e1602f::t_30546936a1f0d1 57,61-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0ef29a7d2bd0bf47cbbfd414e502086e8d33f0cf",
+  "prompts": {},
+  "sessions": {
+    "s_536325d03fd200": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a090d1-d80d-7d92-afcf-59dddf167c13",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_53e0c784e1602f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a090c6-bdbb-73f3-a7b4-c3bd8921b6aa",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -177,8 +177,8 @@ overrides:
 
 patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
-  '@cloudflare/containers-shared@*': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
-  '@cloudflare/deploy-helpers@*': d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd
+  '@cloudflare/containers-shared@*': 24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924
+  '@cloudflare/deploy-helpers@*': 30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235
 
 importers:
 
@@ -289,10 +289,10 @@ importers:
         version: 0.7.3
       '@cloudflare/containers-shared':
         specifier: 0.23.8
-        version: 0.23.8(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.5)
+        version: 0.23.8(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)
       '@cloudflare/deploy-helpers':
         specifier: 0.25.0
-        version: 0.25.0(patch_hash=d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd)(@types/node@26.6.6)(vitest@5.0.5)
+        version: 0.25.0(patch_hash=30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235)(@types/node@26.6.6)(vitest@5.0.5)
       '@cloudflare/forge':
         specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5879d90b6c2c560a0f841de4bdb5c105b84d0e92
         version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5879d90b6c2c560a0f841de4bdb5c105b84d0e92(@bytecodealliance/jco@1.40.0)
@@ -4251,7 +4251,7 @@ snapshots:
     dependencies:
       zod: 4.6.6
 
-  '@cloudflare/containers-shared@0.23.8(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.5)':
+  '@cloudflare/containers-shared@0.23.8(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)':
     dependencies:
       '@cloudflare/build-output-utils': 0.9.9
       '@cloudflare/cli-shared-helpers': 0.3.3(vitest@5.0.5)
@@ -4260,11 +4260,11 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@0.25.0(patch_hash=d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd)(@types/node@26.6.6)(vitest@5.0.5)':
+  '@cloudflare/deploy-helpers@0.25.0(patch_hash=30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235)(@types/node@26.6.6)(vitest@5.0.5)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.3.3(vitest@5.0.5)
       '@cloudflare/config': 0.30.1
-      '@cloudflare/containers-shared': 0.23.8(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.5)
+      '@cloudflare/containers-shared': 0.23.8(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)
       '@cloudflare/workers-utils': 0.51.1(vitest@5.0.5)
       blake3-wasm: 2.1.5
       chalk: 5.3.0

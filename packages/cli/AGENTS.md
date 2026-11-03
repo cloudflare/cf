@@ -238,7 +238,7 @@ transformer are removed — forge stays formatter-agnostic.
   extract them solely to reduce line count. Existing shared boundaries include
   workers-auth, autoconfig, build-output-utils, deploy-helpers, workers-utils,
   and containers-shared.
-- Reuse `UNIVERSAL_OPTIONS`, `MUTATING_OPTIONS`, `BODY_OPTIONS`, and related Forge definitions where they own a flag. Keep generator-owned generic flags such as `--dry-run`, `--force`, and raw-output `--text` synchronized between the emitter and metadata. This is a current gap for `--force`: many generated delete handlers expose it at runtime while `commands.json` omits it, so completion/tool consumers do not yet see the full destructive-command flag surface.
+- Reuse `UNIVERSAL_OPTIONS`, `MUTATING_OPTIONS`, `BODY_OPTIONS`, and related Forge definitions where they own a flag. Keep generator-owned generic flags such as `--dry-run`, `--force`, and raw-output `--text` synchronized between the emitter and metadata.
 - Never hard-code HTTP verbs — derive from finalized OpenAPI `opInfo.method`
 - Never use `new Date()` in generated metadata — use `"build-time"` for
   deterministic output

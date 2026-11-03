@@ -23,6 +23,7 @@ import {
 	queryArgs,
 	ZONE_PATH_PARAMS,
 } from "../args.js";
+import { requiresConfirmation } from "../confirmation.js";
 import {
 	GenerateError,
 	kebab,
@@ -274,9 +275,8 @@ export function context(
 	const bodyFields = derived.args.filter(isBody);
 	const [block, needsText] = variantPromptBlock(op, bodyFields);
 
-	const requireConfirmation = method.requireConfirmation;
-	const isDelete =
-		op.method.toUpperCase() === "DELETE" || requireConfirmation !== undefined;
+	const requireConfirmation = method.requireConfirmation || undefined;
+	const isDelete = requiresConfirmation(method, op);
 
 	const positionalStr = positional
 		.map((a) => {

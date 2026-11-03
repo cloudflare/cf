@@ -257,12 +257,50 @@ describe("formatOutput", () => {
 			result_info: { page: 1, total_pages: 1 },
 		});
 		expect(loggedJson()).toEqual([{ id: "one" }, { id: "two" }]);
+		expect(stderrWrite.join("")).toBe(
+			'result_info: {"page":1,"total_pages":1}\n'
+		);
+	});
+
+	it.each([
+		{ cursor: "next+/page=\n\u001b[31m", total_count: 101 },
+		{ page: 1, per_page: 5, count: 0, total_count: 0 },
+		{ cursors: { before: null, after: "next-page" }, has_more: true },
+		{ cursor: null },
+	])("prints all result_info fields on redirected stderr (%j)", (info) => {
+		setStderrTTY(false);
+		setStdoutTTY(false);
+		withForcedColor(() => {
+			formatOutput({ result: [], result_info: info });
+		});
+
+		expect(loggedJson()).toEqual([]);
+		expect(stderrWrite.join("")).toBe(`result_info: ${JSON.stringify(info)}\n`);
+	});
+
+	it.each([undefined, null, {}, "", 0])(
+		"does not print absent or empty result_info (%j)",
+		(info) => {
+			formatOutput({ result: [], result_info: info });
+			expect(loggedJson()).toEqual([]);
+			expect(stderrWrite).toEqual([]);
+		}
+	);
+
+	it("suppresses payload and pagination metadata when quiet", () => {
+		formatOutput(
+			{ result: [{ id: "one" }], result_info: { cursor: "next-page" } },
+			{ quiet: true }
+		);
+		expect(logSpy).not.toHaveBeenCalled();
+		expect(stderrWrite).toEqual([]);
 	});
 
 	it("preserves ordinary objects with a result field", () => {
 		const data = { result: "complete", result_info: { duration: 10 } };
 		formatOutput(data);
 		expect(loggedJson()).toEqual(data);
+		expect(stderrWrite).toEqual([]);
 	});
 
 	it("stays silent on stdout for a null result (no literal 'null')", () => {

@@ -626,7 +626,12 @@ allowlists — yargs is authoritative. Keep it that way.
 `result`; null = `{success: true, result: null}`). Prints
 `✓ <successLabel>` on stderr when TTY. For structured output it unwraps list
 envelopes, pretty-prints JSON to stdout, and syntax-highlights when color
-is supported.
+is supported. Non-empty `result_info` metadata is printed as a plain
+`result_info: {"cursor":"...","total_count":101}` line on stderr, including
+when stderr is redirected. This preserves stdout's payload shape for `jq`
+and other consumers. `--quiet` suppresses the metadata notice. Both the client
+and `requestApi` retain metadata for object results alongside the payload,
+without adding fields to it; `formatOutput` reads it through `getResultInfo`.
 
 For binary or non-JSON-shaped responses (KV values, R2 object bytes,
 signed-URL downloads), the generator derives
@@ -648,7 +653,10 @@ also return one page.
 Closing the gap is future work, gated on a forge annotation
 (`x-forge-list-pagination`) so the generator can emit a paginated
 loop only for ops that opt in. Until then, callers paginate manually via the per-API
-cursor / page flags the underlying op exposes.
+cursor / page flags the underlying op exposes. Read the next cursor and
+offset pagination fields (`page`, `per_page`, `count`, `total_count`, and any
+other API-provided fields) from the `result_info` line on stderr. For example,
+pass its `cursor` value to `cf zero-trust casb findings list --cursor <value>`.
 
 ### Required-field interactive prompting
 

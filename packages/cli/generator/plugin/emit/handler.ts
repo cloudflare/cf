@@ -420,7 +420,7 @@ function multipart(ctx: Ctx): string[] {
 		"",
 		`      if (${guard}) {`,
 		"        const formData = new FormData();",
-		"        if (argv.file) {",
+		"        if (argv.file !== undefined) {",
 		"          const fileContent = readFileForFlag(argv.file);",
 		`          formData.append('${payload}', new Blob([fileContent]), argv.file.split(/[\\\\/]/).filter(Boolean).pop());`,
 		"        } else if (argv.body !== undefined) {",

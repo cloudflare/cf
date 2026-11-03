@@ -115,7 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["wait-for-completion"] !== undefined
 				) {
 					const formData = new FormData();
-					if (argv.file) {
+					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
 							"file",

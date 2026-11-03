@@ -91,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.file !== undefined || argv.body !== undefined) {
 					const formData = new FormData();
-					if (argv.file) {
+					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
 							"file",

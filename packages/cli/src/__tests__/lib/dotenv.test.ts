@@ -186,6 +186,7 @@ describe("shouldApplyCloudflareDotEnv", () => {
 		"previews deploy",
 		"tunnels run",
 		"workers triggers deploy",
+		"workers connections apply",
 		"workers versions create",
 	])("lets %s manage dotenv timing", (command) => {
 		expect(shouldApplyCloudflareDotEnv(command, false)).toBe(false);

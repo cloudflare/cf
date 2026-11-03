@@ -41,6 +41,7 @@ import tunnelsReadyMeta from "./tunnels/ready/meta.js";
 import tunnelsRunMeta from "./tunnels/run/meta.js";
 import tunnelsTailMeta from "./tunnels/tail/meta.js";
 import workersCheckMeta from "./workers/check/meta.js";
+import workersConnectionsMeta from "./workers/connections/meta.js";
 import workersTriggersMeta from "./workers/triggers/meta.js";
 import workersTypesMeta from "./workers/types/meta.js";
 import workersVersionsCreateMeta from "./workers/versions/create/meta.js";
@@ -67,6 +68,7 @@ export const handWrittenMeta = {
 		tools: toolsMeta,
 	},
 	subgroups: {
+		"workers/connections": workersConnectionsMeta,
 		"d1/migrations": d1MigrationsMeta,
 		"workers/triggers": workersTriggersMeta,
 	},

@@ -32,6 +32,7 @@ import {
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
 import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
+import { provisionIdentityConnectors } from "../workers/connections/provision.js";
 import { createContainerDeployConfig } from "./containers.js";
 import { secretsFileDescription } from "./secrets-file-description.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -135,7 +136,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	);
 	const worker = selectBuildOutputWorker(workers, argv.worker);
 	const parsedWorker = parseWorkerConfig(worker, rootConfig);
-	const wranglerConfig = applyDependenciesInstrumentationEnv(
+	let wranglerConfig = applyDependenciesInstrumentationEnv(
 		parsedWorker.wranglerConfig
 	);
 	const buildResult = assembleBuildResult(worker, parsedWorker.builtConfig);
@@ -145,6 +146,12 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		accountId: rootConfig.accountId,
 		complianceRegion,
 		dryRun: argv["dry-run"],
+	});
+	wranglerConfig = await provisionIdentityConnectors(wranglerConfig, {
+		accountId,
+		realm: "deployed",
+		dryRun: argv["dry-run"],
+		provision: argv.provision,
 	});
 
 	// Initialize the deploy-helpers context.

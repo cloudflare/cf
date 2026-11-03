@@ -100,6 +100,8 @@ const GLOBAL_DOTENV_EXCLUSIONS = new Set([
 	"previews deploy",
 	"tunnels run",
 	"workers triggers deploy",
+	"workers connections apply",
+	"workers connections setup",
 	"workers versions create",
 ]);
 

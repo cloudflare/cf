@@ -79,7 +79,14 @@ export default defineConfig({
 		server: {
 			deps: {
 				// Native loading of workers-auth would bypass the Undici alias.
-				inline: ["@cloudflare/workers-utils", "@cloudflare/workers-auth"],
+				inline: [
+					"@cloudflare/workers-utils",
+					"@cloudflare/workers-auth",
+					// These share mutable deployment contexts; linked source packages
+					// must use the same module graph as the command under test.
+					"@cloudflare/deploy-helpers",
+					"@cloudflare/containers-shared",
+				],
 			},
 		},
 	},

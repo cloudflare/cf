@@ -20,6 +20,14 @@ If a generic runtime or generator change starts branching on a product name, fir
 
 ## Wrangler Parity Triage
 
+`workers/connections` is a bounded draft workflow for private identity connector
+provisioning. Its adapter also runs before deploy/version upload. The shared
+apply/recovery implementation belongs to workers-utils. The pilot gateway is
+not a public account API operation: it uses a separately provisioned private
+token, never the user's account API token. Keep this exception in that command
+directory until public Account API/IAM work is approved. Its retained state is
+`cloudflare.identity.json`; failed deployments must not delete account resources.
+
 Classify a Wrangler difference before treating it as a cf bug:
 
 - Missing or incorrect API CRUD belongs in the OpenAPI schema or a Forge

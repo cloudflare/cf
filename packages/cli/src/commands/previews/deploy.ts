@@ -33,6 +33,7 @@ import {
 	createContainerDeployConfig,
 	isLiveContainerExport,
 } from "../deploy/containers.js";
+import { provisionIdentityConnectors } from "../workers/connections/provision.js";
 import { createPreviewContainerCallbacks } from "./containers.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { PreviewResult } from "@cloudflare/deploy-helpers";
@@ -107,17 +108,27 @@ async function deployPreviewBuildOutput(
 		argv["temporary-account"]
 	);
 	const worker = selectBuildOutputWorker(output.workers, argv.worker);
-	const { wranglerConfig, builtConfig } = parseWorkerConfig(
-		worker,
-		output.rootConfig
-	);
+	const parsedWorker = parseWorkerConfig(worker, output.rootConfig);
 
+	const { builtConfig } = parsedWorker;
+	let { wranglerConfig } = parsedWorker;
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: output.rootConfig.accountId,
 		complianceRegion,
 		isPreview: true,
 	});
+	// Connectors belong to the account. The compiler supplies the actual Preview
+	// identity; grant/default storage is partitioned by that protected identity.
+	wranglerConfig = await provisionIdentityConnectors(wranglerConfig, {
+		accountId,
+		realm: "deployed",
+	});
+	const resolvedEnv = { ...builtConfig.env };
+	for (const { binding, ...identity } of wranglerConfig.identities ?? []) {
+		resolvedEnv[binding] = { type: "identity", ...identity };
+	}
+
 	const deployContext = createDeployContext(authToken);
 	// TODO(cloudflare/cf#330): Let previewBuildOutput() return without printing.
 	// Until then, hide its summary so this command prints one clean JSON result.
@@ -179,7 +190,9 @@ async function deployPreviewBuildOutput(
 		accountId,
 		{ name: previewName, json: true },
 		{
-			workerConfig: builtConfig,
+			workerConfig: wranglerConfig.identities?.length
+				? { ...builtConfig, env: resolvedEnv }
+				: builtConfig,
 			rootConfig: output.rootConfig,
 			containers: liveContainers
 				.filter(({ config }) =>

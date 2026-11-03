@@ -76,6 +76,14 @@ export type HandWrittenCommand =
 // `hand-written-meta.ts` can require an entry for exactly these commands.
 const registry = [
 	{
+		kind: "subgroup",
+		dryRun: "native",
+		parent: "workers",
+		name: "connections",
+		dir: "workers/connections",
+		describe: "Apply private draft identity connectors",
+	},
+	{
 		kind: "root",
 		dryRun: "preview",
 		command: "auth",

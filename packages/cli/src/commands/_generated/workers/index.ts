@@ -12,6 +12,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  */
 import type { CommandModule } from "yargs";
 import $check from "#commands/workers/check/index.js";
+import $connections from "#commands/workers/connections/index.js";
 import $triggers from "#commands/workers/triggers/index.js";
 import $types from "#commands/workers/types/index.js";
 import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
@@ -27,6 +28,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($get)
 			.command($list)
 			.command(withHandWrittenDryRun($types, "preview"))
+			.command(withHandWrittenDryRun($connections, "native"))
 			.command($deployments)
 			.command($scripts)
 			.command($secrets)

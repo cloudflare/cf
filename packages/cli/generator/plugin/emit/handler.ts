@@ -504,7 +504,7 @@ function fileUpload(ctx: Ctx): string[] {
 	}
 	const lines = [
 		"",
-		"      if (argv.file) {",
+		"      if (argv.file !== undefined) {",
 		"        const fileContent = readFileForFlag(argv.file);",
 	];
 	const primary =
@@ -573,7 +573,10 @@ function bodyBypass(ctx: Ctx): string[] {
 	const rawCt =
 		op.requestContentTypes.find((c) => c !== "application/json") ??
 		"application/octet-stream";
-	const lines = ["", "      if (argv.body) {"];
+	const lines = [
+		"",
+		`      if (${json ? "argv.body" : "argv.body !== undefined"}) {`,
+	];
 	if (json) {
 		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
 	} else {
@@ -789,9 +792,12 @@ function requiredBody(ctx: Ctx): string[] {
 	]
 		.map((read) => `${read} === undefined`)
 		.join(" && ");
+	const message = d.hasFileUpload
+		? "--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+		: "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.";
 	return [
 		`      if (${missing}) {`,
-		"        throw new Error('--body is required for this command. Pass --body \\'<json>\\' or --body @path/to/file.json.');",
+		`        throw new Error(${quote(message)});`,
 		"      }",
 	];
 }

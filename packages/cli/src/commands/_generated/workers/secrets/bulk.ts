@@ -119,7 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const scriptName = getWorkerName({ scriptName: argv["worker"] });
 				argv["worker"] = scriptName;
 
-				if (argv.file) {
+				if (argv.file !== undefined) {
 					const fileContent = readFileForFlag(argv.file);
 					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(

@@ -721,6 +721,33 @@ describe("the forge model", () => {
 		);
 	});
 
+	it("allows an empty required multipart body when none of its fields is required", () => {
+		const code = file(
+			doc({
+				"/accounts/{account_id}/things": {
+					post: {
+						"x-fern-sdk-group-name": "things",
+						"x-fern-sdk-method-name": "create",
+						summary: "Create a thing",
+						parameters: [account()],
+						requestBody: {
+							required: true,
+							content: {
+								"multipart/form-data": {
+									schema: { type: "object", properties: {} },
+								},
+							},
+						},
+						responses: ok(),
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain("client.send(operation, { account_id: accountId })");
+		expect(code).not.toContain("is required for this command");
+	});
+
 	it("requires --body for a required body none of whose fields has a flag", () => {
 		const code = file(
 			create({

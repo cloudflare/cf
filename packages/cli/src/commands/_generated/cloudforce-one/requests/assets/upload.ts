@@ -176,7 +176,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					// Endpoint does not accept application/json — send --body as raw bytes,
 					// resolving @file references as binary file contents.
 					const bodyData = resolveFileToken(argv.body, "body", "binary");

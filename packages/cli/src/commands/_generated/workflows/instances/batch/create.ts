@@ -1,3 +1,4 @@
+import operation from "../../../_operations/workflows/instances/batch/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,7 +9,6 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
@@ -65,7 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"workflow-name": String(argv["workflow-name"] ?? ""),
 						},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 100)
+								: undefined,
 					});
 					return;
 				}
@@ -74,34 +77,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					if (Array.isArray(bodyData) && bodyData.length > 100) {
-						const total = Math.ceil(bodyData.length / 100);
-						let result: unknown = null;
-						for (let i = 0; i < bodyData.length; i += 100) {
-							const batch = bodyData.slice(i, i + 100);
-							const batchNum = Math.floor(i / 100) + 1;
-							result = await withProgress(
-								`Creating: batch ${batchNum}/${total}`,
-								async () =>
-									requestApi<unknown>(
-										client,
-										"POST",
-										`/accounts/${accountId}/workflows/${encodeURIComponent(String(argv["workflow-name"]))}/instances/batch`,
-										{ body: batch }
-									)
-							);
-						}
-						formatOutput(result, { successLabel: `Created` });
-						return;
-					}
+					const bodyData = parseBody(argv.body, [], 100);
 					const result = await withProgress(`Creating`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/workflows/${encodeURIComponent(String(argv["workflow-name"]))}/instances/batch`,
-							{ body: bodyData }
-						)
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							workflow_name: argv["workflow-name"],
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;

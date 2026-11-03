@@ -1,3 +1,4 @@
+import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/tags/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,7 +9,6 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
@@ -73,7 +73,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"script-name": String(argv["script-name"] ?? ""),
 						},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 10)
+								: undefined,
 					});
 					return;
 				}
@@ -82,34 +85,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					if (Array.isArray(bodyData) && bodyData.length > 10) {
-						const total = Math.ceil(bodyData.length / 10);
-						let result: unknown = null;
-						for (let i = 0; i < bodyData.length; i += 10) {
-							const batch = bodyData.slice(i, i + 10);
-							const batchNum = Math.floor(i / 10) + 1;
-							result = await withProgress(
-								`Updating: batch ${batchNum}/${total}`,
-								async () =>
-									requestApi<unknown>(
-										client,
-										"PUT",
-										`/accounts/${accountId}/workers/dispatch/namespaces/${encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${encodeURIComponent(String(argv["script-name"]))}/tags`,
-										{ body: batch }
-									)
-							);
-						}
-						formatOutput(result, { successLabel: `Updated` });
-						return;
-					}
+					const bodyData = parseBody(argv.body, [], 10);
 					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/accounts/${accountId}/workers/dispatch/namespaces/${encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${encodeURIComponent(String(argv["script-name"]))}/tags`,
-							{ body: bodyData }
-						)
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							dispatch_namespace: argv["dispatch-namespace"],
+							script_name: argv["script-name"],
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

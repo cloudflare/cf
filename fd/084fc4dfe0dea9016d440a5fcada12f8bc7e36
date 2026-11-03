@@ -1,0 +1,23 @@
+.changeset/node-25-engines.md
+  s_2acabaa3a3ab0e::t_331272c192379c 1-8
+package.json
+  s_2acabaa3a3ab0e::t_c91408fa1b7a49 26
+packages/cli/package.json
+  s_2acabaa3a3ab0e::t_55858aa80148d4 111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fd084fc4dfe0dea9016d440a5fcada12f8bc7e36",
+  "prompts": {},
+  "sessions": {
+    "s_2acabaa3a3ab0e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2b979c08-4fce-4dc4-be54-38f5d6f8032c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

@@ -455,7 +455,11 @@ function multipart(ctx: Ctx): string[] {
 	for (const { field, flag } of d.multipartFileFields) {
 		const read = argvKey(flag);
 		lines.push(`        if (${read} !== undefined) {`);
-		lines.push(`          const value = String(${read});`);
+		lines.push(
+			field.type === "array"
+				? `          for (const value of ${read}) {`
+				: `          const value = String(${read});`
+		);
 		lines.push("          if (value.startsWith('@')) {");
 		lines.push("            const filePath = value.slice(1);");
 		lines.push(
@@ -469,6 +473,9 @@ function multipart(ctx: Ctx): string[] {
 			`            formData.append(${quote(field.name)}, new Blob([value]), ${quote(field.name)});`
 		);
 		lines.push("          }");
+		if (field.type === "array") {
+			lines.push("          }");
+		}
 		lines.push("        }");
 	}
 	const url = `\`${ctx.resolvedRequestPath}\``;

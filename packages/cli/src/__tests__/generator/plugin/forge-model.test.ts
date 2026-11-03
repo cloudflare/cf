@@ -110,6 +110,70 @@ function listing(schema: Json) {
 }
 
 describe("the forge model", () => {
+	it.each([
+		{ type: "array", items: { type: "string", format: "binary" } },
+		{ $ref: "#/components/schemas/Files" },
+		{
+			type: "array",
+			nullable: true,
+			items: { $ref: "#/components/schemas/File" },
+		},
+	])(
+		"recognizes multipart binary arrays through schema references: %j",
+		(schema) => {
+			const files = generateFiles(
+				doc(
+					{
+						"/uploads": {
+							post: {
+								"x-fern-sdk-group-name": "uploads",
+								"x-fern-sdk-method-name": "create",
+								summary: "Upload files",
+								requestBody: {
+									required: true,
+									content: {
+										"multipart/form-data": {
+											schema: {
+												type: "object",
+												properties: {
+													files: schema,
+													attachments: schema,
+													labels: { type: "array", items: { type: "string" } },
+												},
+												required: ["files"],
+											},
+										},
+									},
+								},
+								responses: ok(),
+							},
+						},
+					},
+					{
+						File: { type: "string", format: "binary" },
+						Files: {
+							type: "array",
+							items: { $ref: "#/components/schemas/File" },
+						},
+					}
+				)
+			);
+			const code = files.get("uploads/create.ts") ?? "";
+			for (const field of ["files", "attachments"]) {
+				expect(code).toContain(
+					`.option('${field}', {"type":"string","array":true`
+				);
+				expect(code).toContain(`for (const value of argv["${field}"])`);
+			}
+			expect(code).toContain(
+				"formData.append('files', new Blob([fileContent])"
+			);
+			expect(code).toContain(
+				"formData.append('labels', typeof v === 'string' ? v : JSON.stringify(v))"
+			);
+		}
+	);
+
 	it("keeps UUID body fields and referenced UUID arrays as string flags", () => {
 		const files = generateFiles(
 			create(

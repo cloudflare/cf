@@ -34,6 +34,8 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vite-plus: 1.4.0
 overrides:
+  # Container output and cf must share one logging context.
+  "@cloudflare/cli-shared-helpers": "0.3.3"
   # Prototype siblings resolve as peers from cf's explicit, reviewed URL pins.
   "@cloudflare/build-output-utils@0.9.6>@cloudflare/config": "-"
   "@cloudflare/config@0.29.0>@cloudflare/workers-utils": "-"

@@ -85,11 +85,7 @@ export function builderLines(ctx: Ctx): string[] {
 	lines.push(
 		`.option("dry-run", {"type":"boolean","description":"Validate and show what would happen without executing","default":false})`
 	);
-	const isDelete =
-		op.method === "delete" ||
-		(ctx.method.requireConfirmation !== undefined &&
-			ctx.method.requireConfirmation !== "");
-	if (isDelete) {
+	if (ctx.isDelete) {
 		lines.push(
 			`.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})`
 		);

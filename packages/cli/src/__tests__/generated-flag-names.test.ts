@@ -16,9 +16,8 @@ const { default: schemasFile } = await import(
 );
 
 const owner = flagOwnership(["dry-run", "body", "force", "f"]);
-// cf adds these to every command itself, so a second copy would come from an
-// API field.
-const CF_EMITTED = new Set(["dry-run", "body"]);
+// cf adds these options itself, so a second copy would come from an API field.
+const CF_EMITTED = new Set(["dry-run", "body", "force"]);
 
 interface ParamInfo {
 	name: string;

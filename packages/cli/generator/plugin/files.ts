@@ -18,6 +18,7 @@ import {
 	positionals,
 	scalar,
 } from "./args.js";
+import { requiresConfirmation } from "./confirmation.js";
 import { builderLines } from "./emit/builder.js";
 import { ACCOUNT_OR_ZONE_HELP, handler, imports } from "./emit/handler.js";
 import { context, escapeSingle } from "./emit/index.js";
@@ -327,6 +328,18 @@ class Walk {
 				["default", false],
 			])
 		);
+		if (requiresConfirmation(method, op)) {
+			optionMetas.push(
+				obj([
+					["name", "force"],
+					["type", "boolean"],
+					["alias", "f"],
+					["required", false],
+					["description", "Skip confirmation (useful in scripts and CI)"],
+					["default", false],
+				])
+			);
+		}
 		if (derived.hasBody) {
 			optionMetas.push(
 				obj([
@@ -458,17 +471,13 @@ class Walk {
 			group !== undefined && group !== ""
 				? `${resource} ${group.replaceAll("/", " ")} ${method.name}`
 				: `${resource} ${method.name}`;
-		const generatedForce =
-			op.method === "delete" ||
-			(method.requireConfirmation !== undefined &&
-				method.requireConfirmation !== "");
 		const safeFlags = telemetrySafeFlags(
 			ctx.derived.args,
-			generatedForce,
+			ctx.isDelete,
 			ctx.outputKind === "binary"
 		);
 		const safe = `[${safeFlags.map((f) => `'${escapeSingle(f)}'`).join(", ")}]`;
-		const aliases = generatedForce
+		const aliases = ctx.isDelete
 			? ", shortFlagAliases: { f: { canonical: 'force', type: 'boolean' } }"
 			: "";
 		return `/**

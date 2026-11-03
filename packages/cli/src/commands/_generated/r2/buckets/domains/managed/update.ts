@@ -108,7 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,
 							"PUT",
@@ -119,7 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							}
 						)
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 				if (argv["enabled"] === undefined) {
@@ -132,7 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData: Record<string, unknown> = {};
 				if (argv["enabled"] !== undefined)
 					setNestedValue(bodyData, ["enabled"], argv["enabled"]);
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,
 						"PUT",
@@ -143,7 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						}
 					)
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

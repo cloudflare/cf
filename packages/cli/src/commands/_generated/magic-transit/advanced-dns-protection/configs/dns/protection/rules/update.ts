@@ -39,6 +39,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The new mode for DNS Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("profile-sensitivity", {
 			type: "string",
 			description:
@@ -96,6 +101,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"burst-sensitivity",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										profile_sensitivity: resolveFileToken(
 											argv["profile-sensitivity"] as string | undefined,
 											"profile-sensitivity",
@@ -133,6 +143,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					burst_sensitivity: resolveFileToken(
 						argv["burst-sensitivity"] as string | undefined,
 						"burst-sensitivity",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					profile_sensitivity: resolveFileToken(

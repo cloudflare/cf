@@ -6,7 +6,11 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/cloudforce-one.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
 import {
 	compactBody,
 	parseBody,
@@ -15,6 +19,7 @@ import {
 } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
@@ -23,17 +28,8 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-intel events create <account-id-path>\n\nCreates an event. Without `datasetId`, the event is created in the default Cloudforce One Threat Events dataset. To create a dataset, use `threat-intel datasets create`."
+			"$0 cloudforce-one threat-intel events create\n\nCreates an event. Without `datasetId`, the event is created in the default Cloudforce One Threat Events dataset. To create a dataset, use `threat-intel datasets create`."
 		)
-		.positional("account-id-path", {
-			type: "string",
-			description: "Account ID.",
-			demandOption: true,
-		})
-		.option("account-id-body", {
-			type: "number",
-			description: "The accountId field",
-		})
 		.option("attacker", { type: "string", description: "The attacker field" })
 		.option("attacker-country", {
 			type: "string",
@@ -122,7 +118,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"source-system",
 				"source-title",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"source-resource-id",
 					"source-resource-type",
@@ -141,7 +137,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <account-id-path>",
+	command: "create",
 	describe: "Create an event",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -155,13 +151,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel events create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${argv["account-id-path"] == null ? "<account-id-path>" : encodeURIComponent(String(argv["account-id-path"]))}/cloudforce-one/events/create`,
-						pathParams: {
-							"account-id-path": String(argv["account-id-path"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/create`,
+						pathParams: {},
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -170,7 +165,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									])
 								: compactBody(
 										{
-											accountId: argv["account-id-body"],
 											attacker: resolveFileToken(
 												argv["attacker"] as string | undefined,
 												"attacker",
@@ -270,16 +264,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body, [
 						{ path: ["raw", "data"], flag: "raw-data" },
 					]);
 					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id_path: argv["account-id-path"],
-						})
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -311,7 +304,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody(
 					{
-						accountId: argv["account-id-body"],
 						attacker: resolveFileToken(
 							argv["attacker"] as string | undefined,
 							"attacker",
@@ -405,10 +397,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					[["raw", "data"]]
 				);
 				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id_path: argv["account-id-path"],
-					})
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

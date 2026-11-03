@@ -37,6 +37,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.",
 		})
+		.option("code-update-strategy-mode", {
+			type: "string",
+			description: "Apply Durable Object code updates immediately.",
+			choices: ["immediate", "deferred"],
+		})
+		.coerce("code-update-strategy-mode", (value) =>
+			resolveFileToken(value, "code-update-strategy-mode", "text")
+		)
+		.option("code-update-strategy-max-delay", {
+			type: "number",
+			description:
+				"Set the maximum number of seconds to wait before forcing the update. When omitted, the default maximum delay applies.",
+		})
 		.option("strategy", {
 			type: "string",
 			description: "The strategy field",
@@ -56,6 +69,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"code-update-strategy-mode",
+				"code-update-strategy-max-delay",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["code-update-strategy-mode"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --code-update-strategy-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -99,7 +129,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "workers deployments create",
 				classification: {
-					safeFlags: ["bypass-deployment-checks", "strategy", "dry-run"],
+					safeFlags: [
+						"bypass-deployment-checks",
+						"code-update-strategy-mode",
+						"strategy",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -121,6 +156,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: validateBodyUnions(
 										compactBody({
+											code_update_strategy: {
+												mode: argv["code-update-strategy-mode"],
+												max_delay: argv["code-update-strategy-max-delay"],
+											},
 											strategy: argv["strategy"],
 											versions: parseObjectArray(argv["versions"], "versions"),
 										}),
@@ -168,6 +207,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					code_update_strategy: {
+						mode: argv["code-update-strategy-mode"],
+						max_delay: argv["code-update-strategy-max-delay"],
+					},
 					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),
 				});

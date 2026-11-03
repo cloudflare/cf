@@ -125,9 +125,15 @@ function parseJson<T>(input: string, flagName: string): T {
 
 export function parseBody<T = unknown>(
 	input: string,
-	requiredMaps: readonly { path: readonly string[]; flag: string }[] = []
+	requiredMaps: readonly { path: readonly string[]; flag: string }[] = [],
+	maxItems?: number
 ): T {
 	const body = parseJson<unknown>(input, "body");
+	if (maxItems !== undefined && Array.isArray(body) && body.length > maxItems) {
+		throw new Error(
+			`--body must contain at most ${maxItems} items (received ${body.length}).`
+		);
+	}
 	for (const { path, flag } of requiredMaps) {
 		let value: unknown = body;
 		for (const key of path) {

@@ -100,14 +100,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							queue_id: argv["queue-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["refs"] === undefined) {
@@ -120,14 +120,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					refs: parseObjectArray(argv["refs"], "refs"),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						queue_id: argv["queue-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

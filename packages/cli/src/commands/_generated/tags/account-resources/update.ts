@@ -235,17 +235,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				}
 
-				if (
-					argv["resource-type"] === "worker_version" &&
-					argv["worker-id"] === undefined
-				) {
-					argv["worker-id"] = await promptForRequiredField(
-						"worker-id",
-						"Worker ID is required only for worker_version resources",
-						{ question: "Enter value for --worker-id" }
-					);
-				}
-
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
 				if (argv["resource-id"] !== undefined)

@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("instance-id", {
 			type: "string",
@@ -116,7 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,
 							"PATCH",
@@ -124,7 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							{ body: bodyData }
 						)
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 				if (argv["action"] === undefined) {
@@ -139,7 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData: Record<string, unknown> = {};
 				if (argv["action"] !== undefined)
 					setNestedValue(bodyData, ["action"], argv["action"]);
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,
 						"PATCH",
@@ -147,7 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						{ body: bodyData }
 					)
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

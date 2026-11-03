@@ -1,3 +1,4 @@
+import $delete from "./delete.js";
 import $get from "./get.js";
 import $replace from "./replace.js";
 import $update from "./update.js";
@@ -14,6 +15,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($delete)
 			.command($get)
 			.command($replace)
 			.command($update)

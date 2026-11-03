@@ -11,7 +11,7 @@ import {
 	createCommandClient,
 	requestApi,
 } from "../../lib/auth.js";
-import { ApiError } from "#api";
+import { ApiError, getResultInfo } from "#api";
 
 describe("createCommandClient", () => {
 	let originalApiToken: string | undefined;
@@ -278,6 +278,25 @@ describe("createCommandClient", () => {
 			});
 			await expect(requestApi(emptyBody, "GET", "/zones")).resolves.toBeNull();
 		});
+
+		it.each([
+			{ result: [{ id: "one" }], result_info: { cursor: "next-page" } },
+			{ result: { buckets: [] }, result_info: { cursor: "next-page" } },
+			{ result: { buckets: [] } },
+		])(
+			"retains passthrough metadata without changing the payload (%j)",
+			async (body) => {
+				const client = createCloudflareClientWithToken({
+					apiToken: "test-token",
+					baseURL: "https://api.test/client/v4",
+					fetch: async () => Response.json({ success: true, ...body }),
+				});
+				const result = await requestApi(client, "GET", "/list");
+				expect(result).toEqual(body.result);
+				expect(JSON.stringify(result)).toBe(JSON.stringify(body.result));
+				expect(getResultInfo(result)).toEqual(body.result_info);
+			}
+		);
 
 		it("preserves non-JSON response bytes when requested", async () => {
 			const bytes = Uint8Array.from([0, 255, 128, 65]);

@@ -128,6 +128,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Beta. Return only articles at or above this relevance band for pir_id, or for any active PIR when pir_id is omitted. Excludes articles that have not been scored.",
 			choices: ["low", "medium", "high"],
 		})
+		.option("severity", {
+			type: "string",
+			array: true,
+			description:
+				"Beta. Repeatable intrinsic severity band filter. An article matches any selected band, the band reported as its severity. Excludes articles without a severity. Like the severity field, severity is reported only while the account has an active Priority Intelligence Requirement; otherwise no articles match.",
+		})
 		.option("sort", {
 			type: "string",
 			description:
@@ -184,6 +190,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					tag_applied_by: argv["tag-applied-by"],
 					pir_id: argv["pir-id"],
 					min_relevance: argv["min-relevance"],
+					severity: argv["severity"],
 					sort: argv["sort"],
 				};
 				if (argv.dryRun) {

@@ -41,7 +41,7 @@ describe("descriptions", () => {
 		expect(ctx.successLabel).toBe("Validated");
 	});
 
-	it("retains destructive confirmation labels for validation operations", () => {
+	it("keeps validation labels when confirmation is required", () => {
 		const ctx = context(
 			method("validate", "things-validate", {
 				requireConfirmation: "This operation deletes data.",
@@ -49,8 +49,43 @@ describe("descriptions", () => {
 			"things",
 			operation("post", "/things/validate")
 		);
-		expect(ctx.progressLabel).toBe("Deleting");
-		expect(ctx.successLabel).toBe("Deleted");
+		expect(ctx.progressLabel).toBe("Validating");
+		expect(ctx.successLabel).toBe("Validated");
+	});
+
+	it.each([
+		["put", "update", "Updating", "Updated"],
+		["patch", "edit", "Updating", "Updated"],
+		["delete", "delete", "Deleting", "Deleted"],
+		["post", "purge", "Processing", "Done"],
+		["post", "batch", "Processing", "Done"],
+		["post", "query", "Loading", "Loaded"],
+	])(
+		"labels confirmed %s %s operations without assuming deletion",
+		(httpMethod, name, progress, success) => {
+			const ctx = context(
+				method(name, `things.${name}`, {
+					requireConfirmation: "This operation may remove data.",
+				}),
+				"things",
+				operation(httpMethod, "/things")
+			);
+			expect(ctx.progressLabel).toBe(progress);
+			expect(ctx.successLabel).toBe(success);
+			expect(handler(ctx).join("\n")).toContain(
+				"confirmDelete({ force: Boolean(argv.force), message: `This operation may remove data.` })"
+			);
+		}
+	);
+
+	it("keeps creation labels for ordinary POST operations", () => {
+		const ctx = context(
+			method("create", "things.create"),
+			"things",
+			operation("post", "/things")
+		);
+		expect(ctx.progressLabel).toBe("Creating");
+		expect(ctx.successLabel).toBe("Created");
 	});
 
 	const description = "Full first line.\nFull second line.";
@@ -105,6 +140,42 @@ describe("delete confirmation", () => {
 			"if (!(await confirmDelete({ force: Boolean(argv.force) }))) {\n        return;\n      }"
 		);
 		expect(output).not.toContain("Aborted");
+	});
+});
+
+describe("an API force parameter on a delete", () => {
+	const op = () =>
+		operation("delete", "/things/{thing_id}", {
+			pathParams: [param("thing_id")],
+			queryParams: [
+				param("force", undefined, { type: "boolean", required: false }),
+			],
+		});
+
+	it("fails without a flagName instead of sharing cf's --force", () => {
+		expect(() =>
+			context(method("delete", "things-delete"), "things", op())
+		).toThrow(
+			"query parameter `force` → --force, which is a flag cf adds to this command."
+		);
+	});
+
+	it("keeps cf's --force for confirmation beside the renamed flag", () => {
+		const ctx = context(
+			method("delete", "things-delete", {
+				params: { force: { flagName: "force-delete" } },
+			}),
+			"things",
+			op()
+		);
+		const builder = builderLines(ctx).join("\n");
+		expect(builder).toContain('.option(\'force-delete\', {"type":"boolean"');
+		expect(builder).toContain(
+			'.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})'
+		);
+		const code = handler(ctx).join("\n");
+		expect(code).toContain(`'force': argv["force-delete"]`);
+		expect(code).toContain("confirmDelete({ force: Boolean(argv.force) })");
 	});
 });
 
@@ -319,6 +390,72 @@ describe("file-backed enum arguments", () => {
 		expect(builder).not.toContain('.coerce("description"');
 		expect(body).toContain('selection: argv["selection"]');
 		expect(body).toContain('resolveFileToken(argv["description"]');
+	});
+});
+
+describe("optional body-object validation", () => {
+	it("bypasses conditional flag validation only for a non-empty raw body", async () => {
+		const ctx = context(
+			method("create", "example-create"),
+			"example",
+			operation("post", "/example", {
+				bodyParams: [
+					bodyParam(
+						"parameters-order-by-order",
+						"string",
+						["parameters", "order_by", "order"],
+						{
+							required: true,
+							optionalParentPath: ["parameters", "order_by"],
+						}
+					),
+					bodyParam(
+						"parameters-order-by-value",
+						"string",
+						["parameters", "order_by", "value"],
+						{
+							required: true,
+							optionalParentPath: ["parameters", "order_by"],
+						}
+					),
+				],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+			})
+		);
+		const builder = new Script(
+			`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
+		).runInNewContext() as (args: Argv) => Argv;
+		const parse = async (args: string[]) =>
+			yargs(args)
+				.exitProcess(false)
+				.fail((message, error) => {
+					throw error ?? new Error(message);
+				})
+				.command("create", "", builder, () => {})
+				.strict()
+				.parseAsync();
+
+		await expect(
+			parse(["create", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse(["create", "--body", "", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse([
+				"create",
+				"--body",
+				"",
+				"--parameters-order-by-order",
+				"asc",
+				"--parameters-order-by-value",
+				"count",
+			])
+		).resolves.toMatchObject({ body: "" });
+		await expect(
+			parse(["create", "--body", "{}", "--parameters-order-by-order", "asc"])
+		).resolves.toMatchObject({ body: "{}" });
 	});
 });
 

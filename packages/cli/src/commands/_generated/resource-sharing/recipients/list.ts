@@ -6,8 +6,13 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/resource-sharing.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
@@ -17,11 +22,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			'$0 resource-sharing recipients list\n\nList share recipients by share ID. Returns **all** recipients regardless of their `association_status` (associating, associated, disassociating, disassociated). Callers that want only "active" recipients must filter client-side on the `association_status` field.'
 		)
-		.option("account-id-path", {
-			type: "string",
-			description: "Account identifier.",
-			demandOption: true,
-		})
 		.option("share-id", {
 			type: "string",
 			description: "Share identifier tag.",
@@ -70,24 +70,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					per_page: argv["per-page"],
 				};
 				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing recipients list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${argv["account-id-path"] == null ? "<account-id-path>" : encodeURIComponent(String(argv["account-id-path"]))}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
-						pathParams: {
-							"account-id-path": String(argv["account-id-path"] ?? ""),
-							"share-id": String(argv["share-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
+						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
 				}
 				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
-						account_id_path: argv["account-id-path"],
+						account_id: accountId,
 						share_id: argv["share-id"],
 						...queryParams,
 					})

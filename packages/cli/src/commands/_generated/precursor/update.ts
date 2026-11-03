@@ -13,6 +13,7 @@ import {
 	setNestedValue,
 } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
@@ -27,6 +28,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Selects the split Precursor API schema.",
 			demandOption: true,
 		})
+		.option("detection-mode", {
+			type: "string",
+			description:
+				"Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n",
+			choices: ["off", "monitor", "arm"],
+		})
+		.coerce("detection-mode", (value) =>
+			resolveFileToken(value, "detection-mode", "text")
+		)
 		.option("rules", {
 			type: "string",
 			description:
@@ -59,7 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "precursor update",
 				classification: {
-					safeFlags: ["show-interstitial", "dry-run"],
+					safeFlags: ["detection-mode", "show-interstitial", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -80,6 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										mode: argv["detection-mode"],
 										rules: parseObjectArray(argv["rules"], "rules"),
 										show_interstitial: argv["show-interstitial"],
 									}),
@@ -111,6 +122,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
+				if (argv["detection-mode"] !== undefined)
+					setNestedValue(bodyData, ["mode"], argv["detection-mode"]);
 				if (argv["rules"] !== undefined)
 					setNestedValue(
 						bodyData,

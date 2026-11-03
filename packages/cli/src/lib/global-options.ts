@@ -107,3 +107,81 @@ export const GLOBAL_OPTION_NAMES: readonly string[] = Object.entries<{
 	name,
 	...(alias === undefined ? [] : typeof alias === "string" ? [alias] : alias),
 ]);
+
+/**
+ * Names cf claims for cross-cutting flags it has not shipped yet, so no API
+ * field takes one first:
+ *
+ * - `remote`: force production-API routing if local ever becomes the default.
+ * - `cwd`: run as if from a different working directory, like Wrangler's.
+ * - `config` / `c`: an explicit Cloudflare config-file path.
+ * - `json`, `ndjson`, `pretty`: output-format toggles.
+ *
+ * Every `--experimental-*` name is reserved too, for opt-in feature gates.
+ */
+export const FUTURE_OPTION_NAMES: readonly string[] = [
+	"remote",
+	"cwd",
+	"config",
+	"c",
+	"json",
+	"ndjson",
+	"pretty",
+];
+
+const EXPERIMENTAL_OPTION_PREFIX = "experimental-";
+
+/** Why cf owns a flag name: everywhere, or only on one command. */
+export type FlagOwner =
+	| "global"
+	| "future"
+	| "experimental"
+	| "single-letter"
+	| "command";
+
+/** Completes "`--name` ..." in messages that explain a clash. */
+export const FLAG_OWNER_TEXT: { readonly [K in FlagOwner]: string } = {
+	global: "is a global cf option",
+	future: "is reserved for a future cf option",
+	experimental: "is in cf's reserved --experimental-* namespace",
+	"single-letter": "is a single-letter name cf reserves for aliases",
+	command: "is a flag cf adds to this command",
+};
+
+const GLOBAL_FLAGS = new Set(GLOBAL_OPTION_NAMES.map(normalizeFlag));
+const FUTURE_FLAGS = new Set(FUTURE_OPTION_NAMES);
+
+/**
+ * Who owns `flag` on a command that registers `commandFlags` itself, or
+ * `undefined` when an API field may take it. Names compare kebab-normalized,
+ * so `temporaryAccount` and `temporary_account` both match
+ * `temporary-account`.
+ */
+export function flagOwnership(
+	commandFlags: Iterable<string>
+): (flag: string) => FlagOwner | undefined {
+	const command = new Set(Array.from(commandFlags, normalizeFlag));
+	return (flag) => {
+		const name = normalizeFlag(flag);
+		if (GLOBAL_FLAGS.has(name)) {
+			return "global";
+		}
+		if (FUTURE_FLAGS.has(name)) {
+			return "future";
+		}
+		if (name.startsWith(EXPERIMENTAL_OPTION_PREFIX)) {
+			return "experimental";
+		}
+		if (/^[a-z]$/.test(name)) {
+			return "single-letter";
+		}
+		return command.has(name) ? "command" : undefined;
+	};
+}
+
+function normalizeFlag(name: string): string {
+	return name
+		.replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+		.replace(/[_.\s]+/g, "-")
+		.toLowerCase();
+}

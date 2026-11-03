@@ -17,14 +17,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts create\n\nCreate an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error."
+			"$0 accounts create\n\nCreate an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. Account names are limited to 65 UTF-8 bytes."
 		)
 		.option("idempotency-key", {
 			type: "string",
 			description:
 				"Optional key that identifies an Account-creation request. Free Account creation can require exactly one valid key, so API clients should send a key with every Account-creation request. Reuse the same key when retrying the same request.",
 		})
-		.option("name", { type: "string", description: "Account name" })
+		.option("name", {
+			type: "string",
+			description: "Account name, limited to 65 UTF-8 bytes.",
+		})
 		.option("standalone", {
 			type: "boolean",
 			description:
@@ -110,7 +113,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "Account name");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Account name, limited to 65 UTF-8 bytes."
+					);
 				}
 
 				// Assemble request body from individual flags

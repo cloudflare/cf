@@ -23,7 +23,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The FQDN of the name server.",
 			demandOption: true,
 		})
-		.option("tenant-tag", {
+		.option("tenant-id", {
 			type: "string",
 			description: "Tenant identifier tag.",
 			demandOption: true,
@@ -62,9 +62,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf tenant-custom-nameservers delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-tag"] == null ? "<tenant-tag>" : encodeURIComponent(String(argv["tenant-tag"]))}/custom_ns/${argv["custom-ns-id"] == null ? "<custom-ns-id>" : encodeURIComponent(String(argv["custom-ns-id"]))}`,
+						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-id"] == null ? "<tenant-id>" : encodeURIComponent(String(argv["tenant-id"]))}/custom_ns/${argv["custom-ns-id"] == null ? "<custom-ns-id>" : encodeURIComponent(String(argv["custom-ns-id"]))}`,
 						pathParams: {
-							"tenant-tag": String(argv["tenant-tag"] ?? ""),
+							"tenant-id": String(argv["tenant-id"] ?? ""),
 							"custom-ns-id": String(argv["custom-ns-id"] ?? ""),
 						},
 						bodyKind: "none",
@@ -79,7 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				const result = await withProgress(`Deleting`, async () =>
 					client.send(operation, {
-						tenant_tag: argv["tenant-tag"],
+						tenant_id: argv["tenant-id"],
 						custom_ns_id: argv["custom-ns-id"],
 					})
 				);

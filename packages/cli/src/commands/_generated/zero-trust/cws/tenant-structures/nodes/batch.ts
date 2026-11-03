@@ -112,14 +112,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							structure_id: argv["structure-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["creates"] === undefined) {
@@ -144,14 +144,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					deletes: parseObjectArray(argv["deletes"], "deletes"),
 					updates: parseObjectArray(argv["updates"], "updates"),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						structure_id: argv["structure-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

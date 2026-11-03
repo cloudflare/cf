@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts profile get\n\nRetrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account."
+			"$0 accounts profile get\n\nRetrieves the business profile (name, email, phone, address, and external metadata) associated with this account's customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account."
 		)
 		.option("dry-run", {
 			type: "boolean",

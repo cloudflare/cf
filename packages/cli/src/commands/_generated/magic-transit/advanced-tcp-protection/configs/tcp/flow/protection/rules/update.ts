@@ -34,6 +34,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The new mode for TCP Flow Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("rate-sensitivity", {
 			type: "string",
 			description:
@@ -85,6 +90,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"burst-sensitivity",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										rate_sensitivity: resolveFileToken(
 											argv["rate-sensitivity"] as string | undefined,
 											"rate-sensitivity",
@@ -116,6 +126,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					burst_sensitivity: resolveFileToken(
 						argv["burst-sensitivity"] as string | undefined,
 						"burst-sensitivity",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					rate_sensitivity: resolveFileToken(

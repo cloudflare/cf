@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The new filter expression. Optional.",
 		})
+		.option("filter-mode", {
+			type: "string",
+			description:
+				"The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -79,6 +84,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"expression",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["filter-mode"] as string | undefined,
+											"filter-mode",
+											"text"
+										),
 									}),
 					});
 					return;
@@ -105,6 +115,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					expression: resolveFileToken(
 						argv["expression"] as string | undefined,
 						"expression",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["filter-mode"] as string | undefined,
+						"filter-mode",
 						"text"
 					),
 				});

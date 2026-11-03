@@ -13,3 +13,4 @@ export {
 } from "./error.js";
 export type { BinaryResponse } from "./fetch.js";
 export { path } from "./path.js";
+export { getResultInfo, withResultInfo } from "./result-info.js";

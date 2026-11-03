@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-domains get <email-domain-id>\n\nReturns domain status and its four assigned DNS records. Shared provider health is reported by the capability states rather than duplicated on each DNS record. Expired unclaimed candidates and completed deletions return 404. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope."
+			"$0 email-domains get <email-domain-id>\n\nReturns domain status and its four assigned DNS records. Shared provider health is reported by the capability states rather than duplicated on each DNS record. Expired unclaimed candidates and completed deletions return 404. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope."
 		)
 		.positional("email-domain-id", {
 			type: "string",

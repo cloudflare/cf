@@ -118,7 +118,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./alerting/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -172,7 +172,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./audit-logs/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -653,15 +653,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"magic-cloud-networking",
-			"magic-cloud-networking",
-			() => import("./magic-cloud-networking/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"magic-network-monitoring",
 			"Flow-based network traffic monitoring with configurable alerting rules and VPC flow ingestion",
 			() => import("./magic-network-monitoring/index.js"),
@@ -694,7 +685,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./managed-transforms/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -752,21 +743,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"oauth-clients",
-			"oauth-clients",
-			() => import("./oauth-clients/index.js"),
+			"observability",
+			"observability",
+			() => import("./observability/index.js"),
 			null
 		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"oauth-scopes",
-			"oauth-scopes",
-			() => import("./oauth-scopes/index.js"),
-			null
-		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -802,7 +784,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./page-rules/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1094,21 +1076,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"tenant",
-			"tenant",
-			() => import("./tenant/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"tenant-custom-nameservers",
 			"tenant-custom-nameservers",
 			() => import("./tenant-custom-nameservers/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1135,7 +1108,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./url-normalization/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1207,7 +1180,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./workers-builds/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

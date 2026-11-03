@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one priority-intelligence profile update\n\nCreates or replaces the account's organization profile: who the organization is, such as its name, brands, domains, sector, regions, key systems and suppliers. All of the account's Priority Intelligence Requirements share it. An account has at most one profile, and it does not count against the PIR quota."
 		)
-		.option("profile", {
+		.option("organization-profile", {
 			type: "string",
 			description:
 				"Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization.",
@@ -70,8 +70,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										profile: resolveFileToken(
-											argv["profile"] as string | undefined,
-											"profile",
+											argv["organization-profile"] as string | undefined,
+											"organization-profile",
 											"text"
 										),
 									}),
@@ -90,9 +90,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["profile"] === undefined) {
-					argv["profile"] = await promptForRequiredField(
-						"profile",
+				if (argv["organization-profile"] === undefined) {
+					argv["organization-profile"] = await promptForRequiredField(
+						"organization-profile",
 						"Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
 					);
 				}
@@ -100,8 +100,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					profile: resolveFileToken(
-						argv["profile"] as string | undefined,
-						"profile",
+						argv["organization-profile"] as string | undefined,
+						"organization-profile",
 						"text"
 					),
 				});

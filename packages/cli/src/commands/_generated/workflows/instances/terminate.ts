@@ -144,7 +144,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
@@ -152,7 +152,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							instance_id: argv["instance-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 				if (argv["status"] === undefined) {
@@ -177,7 +177,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						type: argv["from-type"],
 					},
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
@@ -185,7 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						instance_id: argv["instance-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

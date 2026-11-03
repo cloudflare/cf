@@ -18,9 +18,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenant-custom-nameservers create <tenant-tag>\n\nAdds a custom nameserver for a tenant."
+			"$0 tenant-custom-nameservers create <tenant-id>\n\nAdds a custom nameserver for a tenant."
 		)
-		.positional("tenant-tag", {
+		.positional("tenant-id", {
 			type: "string",
 			description: "Tenant identifier tag.",
 			demandOption: true,
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <tenant-tag>",
+	command: "create <tenant-id>",
 	describe: "Add Tenant Custom Nameserver",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf tenant-custom-nameservers create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-tag"] == null ? "<tenant-tag>" : encodeURIComponent(String(argv["tenant-tag"]))}/custom_ns`,
-						pathParams: { "tenant-tag": String(argv["tenant-tag"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-id"] == null ? "<tenant-id>" : encodeURIComponent(String(argv["tenant-id"]))}/custom_ns`,
+						pathParams: { "tenant-id": String(argv["tenant-id"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -89,7 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
-							tenant_tag: argv["tenant-tag"],
+							tenant_id: argv["tenant-id"],
 						})
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -114,7 +114,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,
-						tenant_tag: argv["tenant-tag"],
+						tenant_id: argv["tenant-id"],
 					})
 				);
 				formatOutput(result, { successLabel: `Created` });

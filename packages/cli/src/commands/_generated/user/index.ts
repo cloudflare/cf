@@ -8,7 +8,6 @@ import $loadbalancers from "./load-balancers/index.js";
 import $loadbalancinganalytics from "./load-balancing-analytics/index.js";
 import $memberships from "./memberships/index.js";
 import $subscriptions from "./subscriptions/index.js";
-import $tenant from "./tenant/index.js";
 import $tokens from "./tokens/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -34,7 +33,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($loadbalancinganalytics)
 			.command($memberships)
 			.command($subscriptions)
-			.command($tenant)
 			.command($tokens)
 			.demandCommand(1, "Please specify a subcommand");
 	},

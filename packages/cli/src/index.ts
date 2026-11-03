@@ -572,25 +572,11 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  *   --local               Route via a cf-spawned Miniflare session
  *   --persist-to          Directory holding the local persisted state
  *
- * ## Reserved (future)
+ * ## Reserved
  *
- * The following names are reserved for upcoming features. Do NOT
- * register them as per-command or new cross-product flags. If a
- * generated command's OpenAPI schema collides, forge / the generator
- * must rename or scope the op-level flag rather than shadow these.
- *
- *   --remote              Force production routing when local
- *                         auto-discovery is the default.
- *   --cwd                 Run as if from a different working
- *                         directory.
- *   --config, -c          Explicit Cloudflare config-file path.
- *   --experimental-*      Namespace for opt-in feature gates.
- *   --json                Output-format toggle. Output is all-JSON
- *   --ndjson              today; these names are claimed so a future
- *   --pretty              change of default doesn't collide.
- *
- * See `AGENTS.md` (root) and `packages/cli/AGENTS.md` for the same
- * list in prose form.
+ * `FUTURE_OPTION_NAMES` and `flagOwnership` in `lib/global-options.ts`
+ * list the names cf reserves beyond these, and why. Reserve a new
+ * cross-cutting flag there before shipping it.
  */
 export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 	const {

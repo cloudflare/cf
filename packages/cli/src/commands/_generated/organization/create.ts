@@ -18,9 +18,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities."
+			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. The optional `profile` object accepts partial profile details; its individual fields are not required. Organization names are limited to 65 UTF-8 bytes. Each profile field is limited to 1,000 UTF-8 bytes, and a non-empty business email must be valid. At least one of business name, address, phone, or email must be non-empty to persist a profile."
 		)
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description: "The Organization name, limited to 65 UTF-8 bytes.",
+		})
 		.option("parent-id", { type: "string", description: "Organization ID" })
 		.option("profile-business-address", {
 			type: "string",
@@ -49,43 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "References an Organization in the Cloudflare data model.",
-		})
-		.check((argv) => {
-			const groupSet = ["parent-id"].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = ["parent-id"].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parent-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = [
-				"profile-business-address",
-				"profile-business-email",
-				"profile-business-name",
-				"profile-business-phone",
-				"profile-external-metadata",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"profile-business-address",
-					"profile-business-email",
-					"profile-business-name",
-					"profile-business-phone",
-					"profile-external-metadata",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --profile-* flag is set`
-					);
-				}
-			}
-			return true;
+			description: "Raw JSON request body (bypasses individual flags)",
 		});
 }
 
@@ -170,7 +137,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The Organization name, limited to 65 UTF-8 bytes."
+					);
 				}
 
 				// Assemble request body from individual flags

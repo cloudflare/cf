@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -93,6 +93,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					});
 					return;
+				}
+				if (
+					argv.body === undefined &&
+					argv.file === undefined &&
+					argv["metadata"] === undefined &&
+					argv["wait-for-completion"] === undefined
+				) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
 				}
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
@@ -160,12 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 			}
 		),

@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization list\n\nRetrieve a list of organizations a particular user has access to."
+			"$0 organization list\n\nRetrieve a list of organizations a particular user has access to. At most one of `containing.account`, `containing.user`, or `containing.organization` may be provided."
 		)
 		.option("id", {
 			type: "string",
@@ -63,6 +63,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				'Filter the list of organizations to the ones that are a sub-organization\nof the specified organization.\n\n"null" is a valid value to provide for this parameter. It means "where\nan organization has no parent (i.e. it is a \'root\' organization)."',
 		})
+		.option("member-email", {
+			type: "string",
+			description:
+				"Filter organizations to those where the given user, by email, is an active member of\nthat exact organization. This does not include hierarchy-derived access.",
+		})
+		.option("order-by", {
+			type: "string",
+			description:
+				"Field to order results by. Currently supported values: `name`.\nWhen not specified, results are ordered by hierarchy.",
+			choices: ["name"],
+		})
+		.option("direction", {
+			type: "string",
+			description:
+				"Sort direction for the `order_by` field. Defaults to `asc` when `order_by` is\nspecified.",
+			choices: ["asc", "desc"],
+		})
 		.option("page-token", {
 			type: "string",
 			description:
@@ -90,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "organization list",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["order-by", "direction", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -105,6 +122,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"containing.user": argv["containing-user"],
 					"containing.organization": argv["containing-organization"],
 					"parent.id": argv["parent-id"],
+					"member.email": argv["member-email"],
+					order_by: argv["order-by"],
+					direction: argv["direction"],
 					page_token: argv["page-token"],
 					page_size: argv["page-size"],
 				};

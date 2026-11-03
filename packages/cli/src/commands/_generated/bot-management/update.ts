@@ -19,6 +19,46 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			'$0 bot-management update\n\nUpdates the Bot Management configuration for a zone. This API is used to update: - **Bot Fight Mode** - **Super Bot Fight Mode** - **Bot Management for Enterprise** See [Bot Plans](https://developers.cloudflare.com/bots/plans/) for more information on the different plans \\ If you recently upgraded or downgraded your plan, refer to the following examples to clean up old configurations. Copy and paste the example body to remove old zone configurations based on your current plan. #### Clean up configuration for Bot Fight Mode plan ```json { "sbfm_likely_automated": "allow", "sbfm_definitely_automated": "allow", "sbfm_verified_bots": "allow", "sbfm_static_resource_protection": false, "optimize_wordpress": false, "suppress_session_score": false } ``` #### Clean up configuration for SBFM Pro plan ```json { "sbfm_likely_automated": "allow", "fight_mode": false } ``` #### Clean up configuration for SBFM Biz plan ```json { "fight_mode": false } ``` #### Clean up configuration for BM Enterprise Subscription plan It is strongly recommended that you ensure you have [custom rules](https://developers.cloudflare.com/waf/custom-rules/) in place to protect your zone before disabling the SBFM rules. Without these protections, your zone is vulnerable to attacks. ```json { "sbfm_likely_automated": "allow", "sbfm_definitely_automated": "allow", "sbfm_verified_bots": "allow", "sbfm_static_resource_protection": false, "optimize_wordpress": false, "fight_mode": false } ```'
 		)
+		.option("ai-agents-anthropic-agent", {
+			type: "string",
+			description: "Action to apply to one supported personal AI agent.",
+			choices: ["disabled", "block", "only_on_ad_pages"],
+		})
+		.coerce("ai-agents-anthropic-agent", (value) =>
+			resolveFileToken(value, "ai-agents-anthropic-agent", "text")
+		)
+		.option("ai-agents-google-agent", {
+			type: "string",
+			description: "Action to apply to one supported personal AI agent.",
+			choices: ["disabled", "block", "only_on_ad_pages"],
+		})
+		.coerce("ai-agents-google-agent", (value) =>
+			resolveFileToken(value, "ai-agents-google-agent", "text")
+		)
+		.option("ai-agents-instinct", {
+			type: "string",
+			description: "Action to apply to one supported personal AI agent.",
+			choices: ["disabled", "block", "only_on_ad_pages"],
+		})
+		.coerce("ai-agents-instinct", (value) =>
+			resolveFileToken(value, "ai-agents-instinct", "text")
+		)
+		.option("ai-agents-muse", {
+			type: "string",
+			description: "Action to apply to one supported personal AI agent.",
+			choices: ["disabled", "block", "only_on_ad_pages"],
+		})
+		.coerce("ai-agents-muse", (value) =>
+			resolveFileToken(value, "ai-agents-muse", "text")
+		)
+		.option("ai-agents-openai-agent", {
+			type: "string",
+			description: "Action to apply to one supported personal AI agent.",
+			choices: ["disabled", "block", "only_on_ad_pages"],
+		})
+		.coerce("ai-agents-openai-agent", (value) =>
+			resolveFileToken(value, "ai-agents-openai-agent", "text")
+		)
 		.option("ai-bots-migration-opt-out", {
 			type: "boolean",
 			description:
@@ -215,6 +255,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "bot-management update",
 				classification: {
 					safeFlags: [
+						"ai-agents-anthropic-agent",
+						"ai-agents-google-agent",
+						"ai-agents-instinct",
+						"ai-agents-muse",
+						"ai-agents-openai-agent",
 						"ai-bots-migration-opt-out",
 						"ai-bots-protection",
 						"ai-search",
@@ -258,6 +303,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										ai_agents: {
+											anthropic_agent: argv["ai-agents-anthropic-agent"],
+											google_agent: argv["ai-agents-google-agent"],
+											instinct: argv["ai-agents-instinct"],
+											muse: argv["ai-agents-muse"],
+											openai_agent: argv["ai-agents-openai-agent"],
+										},
 										ai_bots_migration_opt_out:
 											argv["ai-bots-migration-opt-out"],
 										ai_bots_protection: argv["ai-bots-protection"],
@@ -339,6 +391,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					ai_agents: {
+						anthropic_agent: argv["ai-agents-anthropic-agent"],
+						google_agent: argv["ai-agents-google-agent"],
+						instinct: argv["ai-agents-instinct"],
+						muse: argv["ai-agents-muse"],
+						openai_agent: argv["ai-agents-openai-agent"],
+					},
 					ai_bots_migration_opt_out: argv["ai-bots-migration-opt-out"],
 					ai_bots_protection: argv["ai-bots-protection"],
 					ai_search: argv["ai-search"],

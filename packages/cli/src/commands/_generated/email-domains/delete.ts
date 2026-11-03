@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-domains delete <email-domain-id>\n\nRequires an empty body. Unclaimed unpublished candidates are purged immediately. Claimed domains persist deleting state and retain claims until the deletion worker acknowledges safe revocation and token retirement. Repeated requests while deleting are idempotent. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope."
+			"$0 email-domains delete <email-domain-id>\n\nRequires an empty body. Unclaimed, unpublished candidates are removed immediately after token retirement. Acquired or published resources retain deleting state and claims until the deletion worker acknowledges safe revocation and token retirement: deletion completes after the last authorization FWDR may still hold has expired, up to about 31 minutes after the request. Until then the hostname and client_reference cannot be enrolled again. Repeated requests while deleting are idempotent. Retry-After is the expected time until GET returns 404; follow the Location header after it. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope."
 		)
 		.positional("email-domain-id", {
 			type: "string",

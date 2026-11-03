@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization profile get <organization-id>\n\nGet an organizations profile if it exists."
+			"$0 organization profile get <organization-id>\n\nRetrieves the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record. Profiles can be shared across accounts and organizations. Only available to members of the organization."
 		)
 		.positional("organization-id", {
 			type: "string",

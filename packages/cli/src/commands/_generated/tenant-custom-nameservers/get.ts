@@ -15,9 +15,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenant-custom-nameservers get <tenant-tag>\n\nLists a tenant's custom nameservers."
+			"$0 tenant-custom-nameservers get <tenant-id>\n\nLists a tenant's custom nameservers."
 		)
-		.positional("tenant-tag", {
+		.positional("tenant-id", {
 			type: "string",
 			description: "Tenant identifier tag.",
 			demandOption: true,
@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <tenant-tag>",
+	command: "get <tenant-id>",
 	describe: "List Tenant Custom Nameservers",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -49,8 +49,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf tenant-custom-nameservers get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-tag"] == null ? "<tenant-tag>" : encodeURIComponent(String(argv["tenant-tag"]))}/custom_ns`,
-						pathParams: { "tenant-tag": String(argv["tenant-tag"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-id"] == null ? "<tenant-id>" : encodeURIComponent(String(argv["tenant-id"]))}/custom_ns`,
+						pathParams: { "tenant-id": String(argv["tenant-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -58,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { tenant_tag: argv["tenant-tag"] })
+					client.send(operation, { tenant_id: argv["tenant-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

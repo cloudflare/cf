@@ -60,7 +60,7 @@ export async function loadScopeCatalogue(
 	}
 	const [client, { default: listOAuthScopes }] = await Promise.all([
 		createClient(),
-		import("#operations/oauth-scopes/list.js"),
+		import("#operations/iam/oauth-scopes/list.js"),
 	]);
 	// The client returns a list as `{ result, result_info }`.
 	const response = await client.send(listOAuthScopes);

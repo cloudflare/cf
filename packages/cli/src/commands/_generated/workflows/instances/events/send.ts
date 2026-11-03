@@ -9,8 +9,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
+import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -42,6 +44,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
 			default: false,
+		})
+		.option("body", {
+			type: "string",
+			description: "Raw JSON request body (bypasses individual flags)",
 		});
 }
 
@@ -72,7 +78,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"instance-id": String(argv["instance-id"] ?? ""),
 							"event-type": String(argv["event-type"] ?? ""),
 						},
-						bodyKind: "none",
+						bodyKind: "json",
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
 				}
@@ -80,13 +87,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
+				if (argv.body) {
+					const bodyData = parseBody(argv.body);
+					const result = await withProgress(`Creating`, async () =>
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							workflow_name: argv["workflow-name"],
+							instance_id: argv["instance-id"],
+							event_type: argv["event-type"],
+						})
+					);
+					formatOutput(result, { successLabel: `Created` });
+					return;
+				}
+
 				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						workflow_name: argv["workflow-name"],
-						instance_id: argv["instance-id"],
-						event_type: argv["event-type"],
-					})
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/workflows/${encodeURIComponent(String(argv["workflow-name"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/events/${encodeURIComponent(String(argv["event-type"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

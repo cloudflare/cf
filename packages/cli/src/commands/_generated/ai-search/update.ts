@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("ai-gateway-id", {
 			type: "string",
@@ -345,7 +345,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sync-interval", {
 			type: "number",
 			description:
-				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400.",
+				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h).",
 		})
 		.option("system-prompt-ai-search", {
 			type: "string",
@@ -373,13 +373,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["index-method-keyword", "index-method-vector"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["index-method-keyword", "index-method-vector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index_method-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index-method-* flag is set`
 					);
 				}
 			}
@@ -387,19 +387,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"metadata-created-from-aisearch-wizard",
 				"metadata-created-from-emdash-plugin-type",
 				"metadata-created-from-emdash-plugin-version",
-				"metadata-worker-domain",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"metadata-created-from-emdash-plugin-type",
 					"metadata-created-from-emdash-plugin-version",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-created-from-emdash-plugin-* flag is set`
 					);
 				}
 			}

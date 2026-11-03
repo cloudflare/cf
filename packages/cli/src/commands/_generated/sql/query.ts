@@ -61,11 +61,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["time-until", "time-since"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["time-since"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --time_range-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --time-range-* flag is set`
 					);
 				}
 			}

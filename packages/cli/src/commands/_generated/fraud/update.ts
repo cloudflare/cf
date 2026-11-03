@@ -84,17 +84,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = [
 				"authentication-settings-failure-criteria-kind",
 				"authentication-settings-failure-criteria-status-codes",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"authentication-settings-failure-criteria-kind",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --authentication-settings-failure-criteria-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"authentication-settings-success-criteria-kind",
 				"authentication-settings-success-criteria-status-codes",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
-					"authentication-settings-failure-criteria-kind",
 					"authentication-settings-success-criteria-kind",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --authentication_settings-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --authentication-settings-success-criteria-* flag is set`
 					);
 				}
 			}

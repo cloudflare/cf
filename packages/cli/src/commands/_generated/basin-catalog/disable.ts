@@ -82,13 +82,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

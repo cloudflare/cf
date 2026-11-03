@@ -30,6 +30,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The burst sensitivity. Must be one of 'low', 'medium', 'high'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("name", {
 			type: "string",
 			description:
@@ -90,6 +95,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"burst-sensitivity",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -127,6 +137,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
 					);
 				}
+				if (argv["protection-mode"] === undefined) {
+					argv["protection-mode"] = await promptForRequiredField(
+						"protection-mode",
+						"The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+					);
+				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -151,6 +167,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					burst_sensitivity: resolveFileToken(
 						argv["burst-sensitivity"] as string | undefined,
 						"burst-sensitivity",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					name: resolveFileToken(

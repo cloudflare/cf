@@ -215,7 +215,11 @@ const READ_SHAPED = [
 ];
 
 /** `buildLabels`. */
-function labels(httpMethod: string, method: string): [string, string] {
+function labels(
+	httpMethod: string,
+	method: string,
+	requireConfirmation: boolean
+): [string, string] {
 	if (method === "validate" && httpMethod.toUpperCase() !== "DELETE") {
 		return ["Validating", "Validated"];
 	}
@@ -224,7 +228,9 @@ function labels(httpMethod: string, method: string): [string, string] {
 	}
 	switch (httpMethod.toUpperCase()) {
 		case "POST":
-			return ["Creating", "Created"];
+			return requireConfirmation
+				? ["Processing", "Done"]
+				: ["Creating", "Created"];
 		case "PUT":
 		case "PATCH":
 			return ["Updating", "Updated"];
@@ -289,9 +295,11 @@ export function context(
 	const command =
 		positionalStr === "" ? method.name : `${method.name} ${positionalStr}`;
 
-	const labelMethod =
-		requireConfirmation !== undefined ? "DELETE" : op.method.toUpperCase();
-	const [progress, success] = labels(labelMethod, method.name);
+	const [progress, success] = labels(
+		op.method,
+		method.name,
+		requireConfirmation !== undefined
+	);
 
 	const allPathParamNames: string[] = [];
 	for (const name of [

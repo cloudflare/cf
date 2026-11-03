@@ -105,14 +105,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						app_id: argv["app-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

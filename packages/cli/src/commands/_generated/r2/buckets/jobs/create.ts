@@ -160,7 +160,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Processing`, async () =>
 						requestApi<unknown>(
 							client,
 							"POST",
@@ -171,7 +171,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							}
 						)
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["job-type"] === undefined) {
@@ -219,7 +219,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["sourceStorageClass"],
 						argv["source-storage-class"]
 					);
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					requestApi<unknown>(
 						client,
 						"POST",
@@ -230,7 +230,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						}
 					)
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

@@ -104,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,
 							"PUT",
@@ -112,7 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							{ body: bodyData }
 						)
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 				if (argv["connector-id"] === undefined) {
@@ -134,7 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						)
 					);
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,
 						"PUT",
@@ -142,7 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						{ body: bodyData }
 					)
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

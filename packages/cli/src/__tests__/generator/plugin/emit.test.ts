@@ -41,7 +41,7 @@ describe("descriptions", () => {
 		expect(ctx.successLabel).toBe("Validated");
 	});
 
-	it("retains destructive confirmation labels for validation operations", () => {
+	it("keeps validation labels when confirmation is required", () => {
 		const ctx = context(
 			method("validate", "things-validate", {
 				requireConfirmation: "This operation deletes data.",
@@ -49,8 +49,43 @@ describe("descriptions", () => {
 			"things",
 			operation("post", "/things/validate")
 		);
-		expect(ctx.progressLabel).toBe("Deleting");
-		expect(ctx.successLabel).toBe("Deleted");
+		expect(ctx.progressLabel).toBe("Validating");
+		expect(ctx.successLabel).toBe("Validated");
+	});
+
+	it.each([
+		["put", "update", "Updating", "Updated"],
+		["patch", "edit", "Updating", "Updated"],
+		["delete", "delete", "Deleting", "Deleted"],
+		["post", "purge", "Processing", "Done"],
+		["post", "batch", "Processing", "Done"],
+		["post", "query", "Loading", "Loaded"],
+	])(
+		"labels confirmed %s %s operations without assuming deletion",
+		(httpMethod, name, progress, success) => {
+			const ctx = context(
+				method(name, `things.${name}`, {
+					requireConfirmation: "This operation may remove data.",
+				}),
+				"things",
+				operation(httpMethod, "/things")
+			);
+			expect(ctx.progressLabel).toBe(progress);
+			expect(ctx.successLabel).toBe(success);
+			expect(handler(ctx).join("\n")).toContain(
+				"confirmDelete({ force: Boolean(argv.force), message: `This operation may remove data.` })"
+			);
+		}
+	);
+
+	it("keeps creation labels for ordinary POST operations", () => {
+		const ctx = context(
+			method("create", "things.create"),
+			"things",
+			operation("post", "/things")
+		);
+		expect(ctx.progressLabel).toBe("Creating");
+		expect(ctx.successLabel).toBe("Created");
 	});
 
 	const description = "Full first line.\nFull second line.";

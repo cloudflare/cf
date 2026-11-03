@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vite-plus/test";
+import { stripTypeScriptTypes } from "node:module";
+import { Script } from "node:vm";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { derive } from "../../../../generator/plugin/args.js";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import { dryRun, handler } from "../../../../generator/plugin/emit/handler.js";
@@ -139,6 +141,64 @@ describe("binary multipart file flags", () => {
 			"bodyKind: argv[\"source\"] !== undefined ? 'multipart' : 'octet-stream'"
 		);
 	});
+
+	it.each(["file", "source", "label"])(
+		"accepts --%s input before asking for confirmation",
+		async (flag) => {
+			const op = multipartOperation([
+				binary("source"),
+				{
+					name: "label",
+					type: "string",
+					isBinary: false,
+					description: "Label",
+				},
+			]);
+			op.requestContentTypes = [
+				"application/octet-stream",
+				"multipart/form-data",
+			];
+			const ctx = context(
+				method("upload", "example-upload", {
+					requireConfirmation: "This operation replaces the existing content.",
+				}),
+				"example",
+				op
+			);
+			const requestApi = vi.fn(async () => undefined);
+			const confirmDelete = vi.fn(async () => true);
+			const fileContent = Buffer.from("file content");
+			const source = stripTypeScriptTypes(
+				`(async (argv) => {\n${handler(ctx).join("\n")}\n})`
+			);
+			const execute = new Script(source).runInNewContext({
+				Blob,
+				FormData,
+				createCommandClient: async () => ({}),
+				getAccountId: async () => "account",
+				requestApi,
+				confirmDelete,
+				readFileForFlag: () => fileContent,
+				resolveFileToken: (value: string) => value,
+				withProgress: async (_label: string, task: () => Promise<unknown>) =>
+					task(),
+				formatOutput: () => {},
+			}) as (argv: Record<string, unknown>) => Promise<void>;
+			await execute({ [flag]: "input" });
+			expect(confirmDelete).toHaveBeenCalledExactlyOnceWith({
+				force: false,
+				message: "This operation replaces the existing content.",
+			});
+			expect(requestApi).toHaveBeenCalledExactlyOnceWith(
+				expect.anything(),
+				"POST",
+				"/accounts/account/example",
+				expect.objectContaining({
+					body: flag === "file" ? fileContent : expect.any(FormData),
+				})
+			);
+		}
+	);
 });
 
 describe("multipart field flag names", () => {

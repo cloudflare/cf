@@ -38,6 +38,7 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 		const requestApi = vi.fn(async () => undefined);
 		const fetchRawBytes = vi.fn(async () => Buffer.from("result"));
 		const formatDryRun = vi.fn();
+		const confirmDelete = vi.fn(async () => true);
 		const source = stripTypeScriptTypes(
 			`(async (argv) => {\n${handler(ctx).join("\n")}\n})`
 		);
@@ -48,7 +49,7 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			requestApi,
 			fetchRawBytes,
 			writeRawOutput: () => {},
-			confirmDelete: async () => true,
+			confirmDelete,
 			withProgress: async (_label: string, task: () => Promise<unknown>) =>
 				task(),
 			formatOutput: () => {},
@@ -60,12 +61,51 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			requestApi,
 			fetchRawBytes,
 			formatDryRun,
-			run: (body: string, dryRun = false) =>
+			confirmDelete,
+			run: (body?: string, dryRun = false) =>
 				execute({ body, dryRun, "if-match": "revision" }),
 		};
 	};
 
 	describe.each(["put", "post", "patch", "delete"])("%s", (httpMethod) => {
+		it("rejects a missing body before confirmation or requests", async () => {
+			const { run, confirmDelete, send, requestApi, fetchRawBytes } =
+				setup(httpMethod);
+			await expect(run()).rejects.toThrow(
+				"--body is required for this command."
+			);
+			expect(confirmDelete).not.toHaveBeenCalled();
+			expect(send).not.toHaveBeenCalled();
+			expect(requestApi).not.toHaveBeenCalled();
+			expect(fetchRawBytes).not.toHaveBeenCalled();
+		});
+
+		it("still confirms a supplied body and honours a decline", async () => {
+			const { run, confirmDelete, send, requestApi, fetchRawBytes } =
+				setup(httpMethod);
+			confirmDelete.mockResolvedValue(false);
+			await run("[]");
+			expect(confirmDelete).toHaveBeenCalledExactlyOnceWith({
+				force: false,
+				message: "This operation replaces the full list.",
+			});
+			expect(send).not.toHaveBeenCalled();
+			expect(requestApi).not.toHaveBeenCalled();
+			expect(fetchRawBytes).not.toHaveBeenCalled();
+		});
+
+		it("previews an omitted body without confirmation during a dry run", async () => {
+			const { run, confirmDelete, formatDryRun, send, requestApi } =
+				setup(httpMethod);
+			await run(undefined, true);
+			expect(formatDryRun).toHaveBeenCalledExactlyOnceWith(
+				expect.objectContaining({ body: undefined })
+			);
+			expect(confirmDelete).not.toHaveBeenCalled();
+			expect(send).not.toHaveBeenCalled();
+			expect(requestApi).not.toHaveBeenCalled();
+		});
+
 		it.each([false, true])(
 			"rejects oversized inline and file bodies before any request (dry run: %s)",
 			async (dryRun) => {

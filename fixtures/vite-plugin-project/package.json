@@ -7,7 +7,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "2.0.0-beta.v.10",
-		"@cloudflare/workers-types": "5.20261102.1",
+		"@cloudflare/workers-types": "5.20261103.1",
 		"cf": "workspace:*",
 		"vite": "catalog:",
 		"wrangler": "4.156.2"

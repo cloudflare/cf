@@ -302,7 +302,7 @@ class Walk {
 		});
 		const optionMetas: Value[] = options.map((a) => {
 			const m = obj();
-			m["name"] = a.name;
+			m["name"] = kebab(a.name);
 			m["type"] = scalar(a.type);
 			m["required"] = a.required;
 			m["description"] = a.description;

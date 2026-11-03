@@ -1,0 +1,49 @@
+.changeset/cf-feedback.md
+  s_da898a4a567a74::t_c62546471a4d66 1-12
+packages/cli/README.md
+  s_da898a4a567a74::t_e026f9ab40bfd0 92-105
+packages/cli/src/__tests__/commands/feedback-payload.test.ts
+  s_da898a4a567a74::t_523613ce6d555f 1-190
+packages/cli/src/__tests__/commands/feedback.test.ts
+  s_da898a4a567a74::t_927d487e339445 1-333
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_da898a4a567a74::t_13c5e99f6c071a 52,69,185,210
+packages/cli/src/__tests__/lib/dotenv.test.ts
+  s_da898a4a567a74::t_51f2a0970ada84 170
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_da898a4a567a74::t_cf113d559c5bfa 53370-53423,164672
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_da898a4a567a74::t_6b2fc85a0a0ad0 1272-1330
+packages/cli/src/commands/feedback/index.ts
+  s_da898a4a567a74::t_1f904a32f3e88f 1-164
+packages/cli/src/commands/feedback/meta.ts
+  s_da898a4a567a74::t_60a0b8c09a547a 1-62
+packages/cli/src/commands/feedback/payload.ts
+  s_da898a4a567a74::t_e59e658115e8c7 1-191
+packages/cli/src/commands/feedback/send.ts
+  s_da898a4a567a74::t_66f81088b95bfa 1-155
+packages/cli/src/commands/hand-written-meta.ts
+  s_da898a4a567a74::t_feefa4318f59d2 29,64
+packages/cli/src/commands/hand-written.ts
+  s_da898a4a567a74::t_cf0ebffa490ad1 128-134
+packages/cli/src/commands/root-commands.ts
+  s_da898a4a567a74::t_c696d6e5876042 66-70
+packages/cli/src/lib/dotenv.ts
+  s_da898a4a567a74::t_0970ff5b539ab7 89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b8b331d8138e6f79e22ba6e8df7a0c495e32031a",
+  "prompts": {},
+  "sessions": {
+    "s_da898a4a567a74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "84181229-533f-4d88-a560-7c05875e31b9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -150,7 +150,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_or_zone: accountOrZone,
@@ -158,7 +158,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							...queryParams,
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["email"] === undefined) {
@@ -187,7 +187,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.filter(([, v]) => v !== undefined)
 						.map(([k, v]) => [k, String(v)])
 				).toString();
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_or_zone: accountOrZone,
@@ -195,7 +195,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						...queryParams,
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

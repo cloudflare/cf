@@ -80,13 +80,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						account_id: accountId,
 						pcap_id: argv["pcap-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

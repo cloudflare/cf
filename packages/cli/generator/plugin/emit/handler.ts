@@ -63,6 +63,7 @@ const acceptsJson = (ctx: Ctx) =>
 export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
 	lines.push(...dryRun(ctx));
+	lines.push(...requiredBody(ctx));
 	lines.push(...auth(ctx));
 	if (ctx.isDelete) {
 		lines.push(...deleteConfirm(ctx));
@@ -775,6 +776,26 @@ function bodyUnsatisfiable(ctx: Ctx, typed: boolean): boolean {
 	);
 }
 
+function requiredBody(ctx: Ctx): string[] {
+	const d = ctx.derived;
+	if (d.hasBodyParams || !bodyUnsatisfiable(ctx, sdk.canEmitTypedCall(ctx))) {
+		return [];
+	}
+	const missing = [
+		"argv.body",
+		...(d.hasFileUpload ? ["argv.file"] : []),
+		...d.multipartFlagFields.map((field) => argvKey(field.flag)),
+		...d.multipartFileFields.map((field) => argvKey(field.flag)),
+	]
+		.map((read) => `${read} === undefined`)
+		.join(" && ");
+	return [
+		`      if (${missing}) {`,
+		"        throw new Error('--body is required for this command. Pass --body \\'<json>\\' or --body @path/to/file.json.');",
+		"      }",
+	];
+}
+
 function bodyAssembly(ctx: Ctx): string[] {
 	const lines = ["", "      // Assemble request body from individual flags"];
 	const typed = sdk.canEmitTypedBodyCall(ctx);
@@ -847,13 +868,6 @@ function plainCall(ctx: Ctx): string[] {
 	const lines = [""];
 	const typed = sdk.canEmitTypedCall(ctx);
 	const unsatisfiable = bodyUnsatisfiable(ctx, typed);
-	if (unsatisfiable) {
-		lines.push("      if (argv.body === undefined) {");
-		lines.push(
-			"        throw new Error('--body is required for this command. Pass --body \\'<json>\\' or --body @path/to/file.json.');"
-		);
-		lines.push("      }");
-	}
 	if (ctx.isRawOutput) {
 		let url = `\`${ctx.resolvedRequestPath}\``;
 		if (ctx.hasParams) {

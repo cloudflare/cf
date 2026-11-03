@@ -105,14 +105,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							index_name: argv["index-name"],
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["property-name"] === undefined) {
@@ -130,14 +130,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						index_name: argv["index-name"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

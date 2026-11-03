@@ -81,6 +81,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				if (argv.body === undefined && argv.file === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -124,12 +129,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 			}
 		),

@@ -603,9 +603,12 @@ break at sunset; surfacing them encourages users to adopt doomed paths.
   doesn't match the semantic (e.g. `cache zone-purge`,
   `queues purge`, `cf workers-builds triggers purge-cache`, slurper-abort, vectorize
   metadata-index drop, zero-trust device revokes, etc.). Generator's
-  `isDelete` predicate honours the annotation; spinner and success
-  labels switch to "Deleting" / "Deleted" automatically. The
-  annotation value is a "This operation …." sentence surfaced
+  `isDelete` predicate honours the annotation. Spinner and success labels
+  follow the HTTP method independently: PUT/PATCH use "Updating" / "Updated",
+  DELETE uses "Deleting" / "Deleted", and confirmed POST actions use neutral
+  "Processing" / "Done" labels. Read-shaped and validation commands retain
+  their specific labels. Required `--body` input is checked before confirmation.
+  The annotation value is a "This operation …." sentence surfaced
   verbatim in the prompt instead of the generic "This permanently
   deletes the resource. Continue?" fallback.
 - An OpenAPI body-schema `maxItems: N` on an array-typed JSON request body
@@ -832,7 +835,7 @@ over adding switches in cf src/.
 | ---------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ |
 | `status: 'deprecated'`                                                             | live   | Method (and possibly its group) skipped entirely                                                             |
 | body schema `maxItems: N`                                                          | live   | Reject JSON array bodies larger than N, including during dry runs (see `opInfo.maxItems`)                    |
-| `x-forge-require-confirmation: 'This …'`                                           | live   | Treat a non-DELETE op as destructive (confirm prompt with the supplied message + `--force` + delete spinner) |
+| `x-forge-require-confirmation: 'This …'`                                           | live   | Require confirmation with the supplied message and expose `--force`; pick action labels from the HTTP method |
 | response MIME `application/octet-stream`                                           | live   | Bypass the client envelope; write response body verbatim to stdout (derived from response content type)      |
 | known text response MIME types (`text/plain`, `text/csv`, `text/html`, `text/vtt`) | live   | Same, but UTF-8 decode the body                                                                              |
 | `paramOverride.fromFile`                                                           | live   | Body string field accepts `--<flag> @path` with `format: text \| binary \| base64 \| json`                   |

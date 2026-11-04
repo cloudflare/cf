@@ -107,6 +107,25 @@
     "requests": []
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at bot_overrides (for --bot-overrides).",
+    "requests": []
+  },
+  {
     "case": "global zone",
     "argv": [
       "pay-per-crawl",
@@ -120,6 +139,26 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at bot_overrides (for --bot-overrides).",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 1,
@@ -146,6 +185,100 @@
     ],
     "exitCode": 1,
     "error": "--body must include a JSON object at bot_overrides (for --bot-overrides).",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at bot_overrides (for --bot-overrides).",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "create",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--price-usd-microcents",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
     "requests": []
   },
   {

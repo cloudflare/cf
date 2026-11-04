@@ -71,6 +71,37 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/cache_reserve_clear",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "smart-shield",
@@ -78,6 +109,38 @@
       "clear",
       "--force",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/cache_reserve_clear",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -135,6 +198,88 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/cache_reserve_clear",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "smart-shield",
+      "cache-reserve-clear",
+      "clear",
+      "--force",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

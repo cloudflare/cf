@@ -364,6 +364,37 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/tags/categories/actors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "cloudforce-one",
@@ -372,6 +403,38 @@
       "actors",
       "list",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/tags/categories/actors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -428,6 +491,92 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/tags/categories/actors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "actors",
+      "list",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

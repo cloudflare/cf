@@ -197,6 +197,54 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "kind": "openapi_v3"
+        }
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "api-security",
@@ -213,6 +261,55 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "kind": "openapi_v3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -295,6 +392,141 @@
         }
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "kind": "openapi_v3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "create",
+      "--kind",
+      "openapi_v3",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü",
+      "--validation-enabled=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

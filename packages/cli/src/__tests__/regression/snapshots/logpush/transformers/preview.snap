@@ -85,6 +85,24 @@
     "requests": []
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at input (for --input).",
+    "requests": []
+  },
+  {
     "case": "global zone",
     "argv": [
       "logpush",
@@ -97,6 +115,25 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at input (for --input).",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 1,
@@ -122,6 +159,95 @@
     ],
     "exitCode": 1,
     "error": "--body must include a JSON object at input (for --input).",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at input (for --input).",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "logpush",
+      "transformers",
+      "preview",
+      "--input",
+      "{\"regression\":\"json value\"}",
+      "--sql",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
     "requests": []
   },
   {

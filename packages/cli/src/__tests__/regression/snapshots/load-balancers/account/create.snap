@@ -1921,6 +1921,26 @@
     "requests": []
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
     "case": "global zone",
     "argv": [
       "load-balancers",
@@ -1935,6 +1955,27 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 1,
@@ -1962,6 +2003,105 @@
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
     "requests": []
   },
   {

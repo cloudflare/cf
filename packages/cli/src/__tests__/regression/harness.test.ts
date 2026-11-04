@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
+import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "../../lib/global-options.js";
 import {
 	catalogue,
 	commandCases,
@@ -79,6 +80,38 @@ describe("regression coverage and request recording", () => {
 					(entry) => entry.name === `option alias ${flag}`
 				)?.args
 			).toContain(`${flag}=true`);
+		}
+	});
+
+	it("covers every global alias with equivalent canonical arguments", () => {
+		const command = catalogue.commands.find(
+			(entry) => entry.command === "cf zones delete"
+		);
+		if (!command) {
+			throw new Error("Missing global-option fixture");
+		}
+		const scenarios = commandCases(command);
+		for (const [name, option] of Object.entries<{
+			readonly description: string;
+			readonly alias?: string;
+		}>({
+			...GLOBAL_OPTIONS,
+			...BUILTIN_OPTIONS,
+		})) {
+			if (!option.alias) {
+				continue;
+			}
+			const flag = `-${option.alias}`;
+			const canonical = scenarios.find((scenario) =>
+				scenario.args.includes(`--${name}`)
+			);
+			const alias = scenarios.find((scenario) => scenario.args.includes(flag));
+			expect(canonical, name).toBeDefined();
+			expect(alias, flag).toBeDefined();
+			expect(
+				alias?.args.map((arg) => (arg === flag ? `--${name}` : arg)),
+				flag
+			).toEqual(canonical?.args);
 		}
 	});
 

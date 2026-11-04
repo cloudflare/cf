@@ -219,6 +219,40 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors/01234567-89ab-4cde-8123-456789abcdef/telemetry/snapshots?from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "connector-telemetry-snapshots",
@@ -230,6 +264,41 @@
       "--to",
       "1",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors/01234567-89ab-4cde-8123-456789abcdef/telemetry/snapshots?from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -289,6 +358,107 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors/01234567-89ab-4cde-8123-456789abcdef/telemetry/snapshots?from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "connector-telemetry-snapshots",
+      "list",
+      "--connector-id",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

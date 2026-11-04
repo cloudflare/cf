@@ -74,6 +74,38 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "resource-sharing",
@@ -83,6 +115,39 @@
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -140,6 +205,97 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "resource-sharing",
+      "excluded-recipients",
+      "get",
+      "192.0.2.1",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

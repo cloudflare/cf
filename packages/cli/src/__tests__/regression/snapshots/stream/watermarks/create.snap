@@ -889,6 +889,64 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "stream",
@@ -897,6 +955,65 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -1007,6 +1124,119 @@
         ]
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

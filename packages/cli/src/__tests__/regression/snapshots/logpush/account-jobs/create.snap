@@ -1822,6 +1822,22 @@
     "requests": []
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
     "case": "global zone",
     "argv": [
       "logpush",
@@ -1832,6 +1848,23 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 1,
@@ -1855,6 +1888,85 @@
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
     "requests": []
   },
   {

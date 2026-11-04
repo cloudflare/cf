@@ -1198,6 +1198,39 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tags?resource_id=0123456789abcdef0123456789abcdef&resource_type=access_application",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "tags",
@@ -1208,6 +1241,40 @@
       "--resource-type",
       "access_application",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/tags?resource_id=0123456789abcdef0123456789abcdef&resource_type=access_application",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -1266,6 +1333,102 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tags?resource_id=0123456789abcdef0123456789abcdef&resource_type=access_application",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "tags",
+      "account-resources",
+      "get",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "access_application",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

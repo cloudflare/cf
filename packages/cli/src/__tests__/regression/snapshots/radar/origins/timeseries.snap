@@ -903,6 +903,39 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "radar",
@@ -913,6 +946,40 @@
       "--metric",
       "CONNECTION_FAILURES",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -971,6 +1038,102 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

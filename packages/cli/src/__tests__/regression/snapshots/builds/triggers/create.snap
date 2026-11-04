@@ -353,6 +353,67 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/triggers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "builds",
@@ -383,6 +444,68 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/triggers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -477,6 +600,210 @@
         }
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/triggers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "builds",
+      "triggers",
+      "create",
+      "--branch-excludes",
+      "regression value &/?+ü",
+      "--branch-includes",
+      "regression value &/?+ü",
+      "--build-command",
+      "regression value &/?+ü",
+      "--build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--deploy-command",
+      "regression value &/?+ü",
+      "--external-script-id",
+      "192.0.2.1",
+      "--path-excludes",
+      "regression value &/?+ü",
+      "--path-includes",
+      "regression value &/?+ü",
+      "--repo-connection-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--root-directory",
+      "regression value &/?+ü",
+      "--trigger-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

@@ -164,6 +164,43 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/dispatch/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/scripts/192.0.2.1/tags/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "workers-for-platforms",
@@ -178,6 +215,44 @@
       "192.0.2.1",
       "--force",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/dispatch/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/scripts/192.0.2.1/tags/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -240,6 +315,122 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/dispatch/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/scripts/192.0.2.1/tags/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "workers-for-platforms",
+      "dispatch-namespaces",
+      "scripts",
+      "tags",
+      "delete",
+      "regression-image:latest",
+      "--dispatch-namespace",
+      "regression value &/?+ü",
+      "--script-name",
+      "192.0.2.1",
+      "--force",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

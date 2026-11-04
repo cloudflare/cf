@@ -398,6 +398,39 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/finding_types/0123456789abcdef0123456789abcdef/remediation_types",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "zero-trust",
@@ -408,6 +441,40 @@
       "--finding-type-id",
       "0123456789abcdef0123456789abcdef",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/finding_types/0123456789abcdef0123456789abcdef/remediation_types",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -466,6 +533,102 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/finding_types/0123456789abcdef0123456789abcdef/remediation_types",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "finding-types",
+      "remediation-types",
+      "list",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

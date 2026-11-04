@@ -366,11 +366,18 @@ export function commandCases(command: CommandMeta): RegressionCase[] {
 	});
 	for (const [name, args] of [
 		["global quiet", ["--quiet"]],
+		["global quiet alias", ["-q"]],
 		["global zone", ["--zone", "abcdef0123456789abcdef0123456789"]],
+		["global zone alias", ["-z", "abcdef0123456789abcdef0123456789"]],
 		[
 			"global profile and mode",
 			["--profile", "default", "--mode", "regression"],
 		],
+		["global mode alias", ["--profile", "default", "-m", "regression"]],
+		["global help", ["--help"]],
+		["global help alias", ["-h"]],
+		["global version", ["--version"]],
+		["global version alias", ["-v"]],
 		["local", ["--local"]],
 		["local with persistence", ["--local", "--persist-to", "regression-state"]],
 	] as const) {

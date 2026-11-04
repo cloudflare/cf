@@ -454,6 +454,56 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "ssl",
@@ -472,6 +522,57 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -556,6 +657,151 @@
         }
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/ssl/certificate_packs/order",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "advanced"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "ssl",
+      "certificate-packs",
+      "create",
+      "--certificate-authority",
+      "google",
+      "--hosts",
+      "regression value &/?+ü",
+      "--type",
+      "advanced",
+      "--validation-method",
+      "txt",
+      "--validity-days",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

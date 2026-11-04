@@ -991,6 +991,46 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/speed_api/pages/https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo/trend?region=asia-east1&deviceType=DESKTOP&start=regression%20value%20%26%2F%3F%2B%C3%BC&tz=regression%20value%20%26%2F%3F%2B%C3%BC&metrics=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "speed",
@@ -1008,6 +1048,47 @@
       "--metrics",
       "regression value &/?+ü",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/speed_api/pages/https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo/trend?region=asia-east1&deviceType=DESKTOP&start=regression%20value%20%26%2F%3F%2B%C3%BC&tz=regression%20value%20%26%2F%3F%2B%C3%BC&metrics=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -1073,6 +1154,137 @@
         "body": null
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/speed_api/pages/https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo/trend?region=asia-east1&deviceType=DESKTOP&start=regression%20value%20%26%2F%3F%2B%C3%BC&tz=regression%20value%20%26%2F%3F%2B%C3%BC&metrics=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "speed",
+      "pages",
+      "trend",
+      "https://example.com/a?x=1&y=two",
+      "--region",
+      "asia-east1",
+      "--device-type",
+      "DESKTOP",
+      "--start",
+      "regression value &/?+ü",
+      "--tz",
+      "regression value &/?+ü",
+      "--metrics",
+      "regression value &/?+ü",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

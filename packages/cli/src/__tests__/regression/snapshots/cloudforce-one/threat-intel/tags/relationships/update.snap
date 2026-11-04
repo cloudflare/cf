@@ -405,6 +405,52 @@
     ]
   },
   {
+    "case": "global quiet alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/tags/0123456789abcdef0123456789abcdef/relationships/0123456789abcdef0123456789abcdef?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
     "case": "global zone",
     "argv": [
       "cloudforce-one",
@@ -420,6 +466,53 @@
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/tags/0123456789abcdef0123456789abcdef/relationships/0123456789abcdef0123456789abcdef?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
       "abcdef0123456789abcdef0123456789"
     ],
     "exitCode": 0,
@@ -499,6 +592,135 @@
         }
       }
     ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/tags/0123456789abcdef0123456789abcdef/relationships/0123456789abcdef0123456789abcdef?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "tags",
+      "relationships",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
   },
   {
     "case": "local",

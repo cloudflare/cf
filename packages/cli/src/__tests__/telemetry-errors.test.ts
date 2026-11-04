@@ -195,7 +195,7 @@ describe("telemetry error reporting", () => {
 		},
 		{
 			args: ["--bogus"],
-			error: "You need to specify a command",
+			error: "Unknown argument: bogus",
 			command: "unknown command",
 			resolution: {
 				resolutionFailure: "missing-command",
@@ -208,7 +208,7 @@ describe("telemetry error reporting", () => {
 		},
 		{
 			args: ["-x"],
-			error: "You need to specify a command",
+			error: "Unknown argument: x",
 			command: "unknown command",
 			resolution: {
 				resolutionFailure: "missing-command",

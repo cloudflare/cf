@@ -11,7 +11,6 @@ import {
 	rootHandWrittenCommands,
 } from "./commands/hand-written.js";
 import { loadableRootCommands } from "./commands/root-commands.js";
-import { isLeafCommand } from "./commands/is-leaf-command.js";
 import { detectAgentContext } from "./lib/agent-context.js";
 import { hasQuietFlag } from "./lib/args.js";
 import { CliExit } from "./lib/cli-exit.js";
@@ -20,7 +19,11 @@ import {
 	shouldApplyCloudflareDotEnv,
 } from "./lib/dotenv.js";
 import { handleError } from "./lib/errors.js";
-import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "./lib/global-options.js";
+import {
+	BUILTIN_OPTIONS,
+	GLOBAL_OPTIONS,
+	GLOBAL_OPTION_NAMES,
+} from "./lib/global-options.js";
 import { withHandWrittenDryRun } from "./lib/hand-written-dry-run.js";
 import { lazyCommand, type LazyCommandImporter } from "./lib/lazy-command.js";
 import { disposeLocalRuntime } from "./lib/local.js";
@@ -56,27 +59,21 @@ function flagToken(name: string): string {
 	return name.length === 1 ? `-${name}` : `--${name}`;
 }
 
-const ROOT_OPTION_NAMES = new Set([
-	"help",
-	"h",
-	"version",
-	"v",
-	...Object.entries<Options>(GLOBAL_OPTIONS).flatMap(([name, option]) =>
-		globalOptionNames(name, option)
-	),
-]);
+const ROOT_OPTION_NAMES = new Set(GLOBAL_OPTION_NAMES);
 
-const GLOBAL_FLAGS_LIST = [
-	...Object.entries<Options>(GLOBAL_OPTIONS).map(
+const GLOBAL_FLAGS_LIST = Object.entries<Options>({
+	...GLOBAL_OPTIONS,
+	...BUILTIN_OPTIONS,
+})
+	.filter(([, option]) => !option.hidden)
+	.map(
 		([name, option]) =>
 			`  ${globalOptionNames(name, option)
 				.sort((left, right) => left.length - right.length)
 				.map(flagToken)
 				.join(", ")}`
-	),
-	"  -h, --help",
-	"  -v, --version",
-].join("\n");
+	)
+	.join("\n");
 
 function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
@@ -341,6 +338,39 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 	} catch {
 		return undefined;
 	}
+}
+
+// Automatic help skips strict validation, so account for declared positionals
+// before treating the next parsed token as an unknown command.
+function unresolvedHelpCommand(yargsInstance: unknown): string | undefined {
+	const instance = yargsInstance as {
+		parsed: false | { argv: { _: unknown[]; help?: unknown } };
+		getInternalMethods(): {
+			getContext(): { commands: unknown; fullCommands: unknown };
+		};
+	};
+	const parsed = instance.parsed;
+	if (!parsed || parsed.argv.help !== true) {
+		return undefined;
+	}
+	const { commands, fullCommands } = instance.getInternalMethods().getContext();
+	if (!Array.isArray(commands) || !Array.isArray(fullCommands)) {
+		return undefined;
+	}
+	const currentSyntax = fullCommands.at(-1);
+	const positionals =
+		typeof currentSyntax === "string"
+			? (currentSyntax.match(/(?:<[^>]+>|\[[^\]]+\])/g) ?? [])
+			: [];
+	if (
+		positionals.some((positional) => positional.slice(1, -1).endsWith(".."))
+	) {
+		return undefined;
+	}
+	const next = parsed.argv._[commands.length + positionals.length];
+	return typeof next === "string" || typeof next === "number"
+		? String(next)
+		: undefined;
 }
 
 class CliUsageError extends Error {
@@ -825,7 +855,11 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				return;
 			}
 			const error = new CliUsageError(msg, helpCommandFor(resolvedCommand));
-			const resolutionFailure = commandResolutionFailure(cli, msg);
+			const resolutionFailure =
+				commandResolutionFailure(cli, msg) ??
+				(resolvedCommand === undefined && /^Unknown arguments?:/.test(msg)
+					? commandResolutionFailure(cli, MISSING_COMMAND_MESSAGE)
+					: undefined);
 			if (resolutionFailure) {
 				onCommandResolutionFailed?.(resolutionFailure, error);
 			}
@@ -836,22 +870,14 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 	// yargs emits help rather than relying on a root-level usage string.
 	const showHelp = cli.showHelp.bind(cli);
 	cli.showHelp = (level?: string | ((help: string) => void)) => {
-		// Yargs bypasses strict command validation for automatic --help.
-		// Compare its parsed positionals with the command it resolved. A leaf
-		// may also have positional values, such as a bucket name or model.
-		if (typeof level === "function") {
-			const parsed = cli.parsed as false | { argv: { _: unknown[] } };
-			const resolved = resolvedCommandName(cli);
-			const next = parsed && parsed.argv._[resolved?.split(" ").length ?? 0];
-			if (
-				(typeof next === "string" || typeof next === "number") &&
-				(resolved === undefined || !isLeafCommand(resolved))
-			) {
-				throw new CliUsageError(
-					`Unknown command: ${next}`,
-					helpCommandFor(resolved)
-				);
-			}
+		// Runtime-schema handlers render their own help with showHelp("log").
+		const unknownCommand =
+			typeof level === "function" ? unresolvedHelpCommand(cli) : undefined;
+		if (unknownCommand !== undefined) {
+			throw new CliUsageError(
+				`Unknown command: ${unknownCommand}`,
+				helpCommandFor(resolvedCommandName(cli))
+			);
 		}
 		return showHelp((help) => {
 			const command = resolvedCommandName(cli);

@@ -102,6 +102,29 @@ describe("command recommendations", () => {
 		expect(stderr()).toContain(`For more information, run cf ${parent} --help`);
 	});
 
+	it.each(["--help", "-h"])(
+		"rejects surplus positional arguments with %s",
+		async (help) => {
+			for (const path of [
+				["workers", "list"],
+				["r2", "buckets", "get", "example"],
+				["init", "./example"],
+			]) {
+				await expect(runCf([...path, "malformed", help])).rejects.toThrow(
+					"Unknown command: malformed"
+				);
+			}
+			expect(output.stdout()).toBe("");
+			expect(stderr()).toContain(
+				"For more information, run cf workers list --help"
+			);
+			expect(stderr()).toContain(
+				"For more information, run cf r2 buckets get --help"
+			);
+			expect(stderr()).toContain("For more information, run cf init --help");
+		}
+	);
+
 	it("shows the parent help hint for an unknown nested command", async () => {
 		await expect(runCf(["workers", "malformed"])).rejects.toThrow(
 			"Unknown command: malformed"
@@ -134,6 +157,8 @@ describe("command recommendations", () => {
 		expect(stderr()).toContain("-q, --quiet");
 		expect(stderr()).toContain("--persist-to");
 		expect(stderr()).toContain("-h, --help");
+		expect(stderr()).not.toContain("--temporary-account");
+		expect(stderr()).not.toContain("--event-code");
 	});
 
 	it("does not suggest hidden commands", async () => {
@@ -153,6 +178,7 @@ describe("command recommendations", () => {
 		[["r2", "buckets"], "cf r2 buckets"],
 		[["r2", "buckets", "get", "example"], "cf r2 buckets get"],
 		[["init", "./example"], "cf init"],
+		[["dev", "one", "two"], "cf dev"],
 		[["ai", "run"], "cf ai run"],
 		[
 			["registrar", "registrations", "create"],

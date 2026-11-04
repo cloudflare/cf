@@ -13,6 +13,7 @@ import {
 	path,
 	getResultInfo,
 } from "../../api/index.js";
+import { unwrapEnvelope } from "../../api/fetch.js";
 
 interface Sent {
 	url: string;
@@ -200,6 +201,24 @@ describe("send", () => {
 		assert.deepEqual(await c.send({ method: "GET", path: () => "/a" }), {
 			result: payload,
 			result_info: info,
+		});
+	});
+
+	test("retains top-level platform metadata when unwrapping a list envelope", () => {
+		const platform = { gate: "shared", revision: "r-7" };
+		const payload = [{ id: "one" }];
+		const unwrapped = unwrapEnvelope({
+			success: true,
+			result: payload,
+			result_info: { cursor: null },
+			platform,
+		});
+		// cf email-domains changes documents the top-level `platform` field as
+		// required response data, so unwrapping the envelope must not drop it.
+		assert.deepEqual(JSON.parse(JSON.stringify(unwrapped)), {
+			result: payload,
+			result_info: { cursor: null },
+			platform,
 		});
 	});
 

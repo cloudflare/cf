@@ -3,9 +3,6 @@ import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
 import yargs, { type Argv } from "yargs";
-import { builderLines } from "../../../../generator/plugin/emit/builder.js";
-import { handler, imports } from "../../../../generator/plugin/emit/handler.js";
-import { context as emitContext } from "../../../../generator/plugin/emit/index.js";
 import { compactBody, parseScalarValue } from "../../../lib/body-parser.js";
 import {
 	bodyParam,
@@ -13,6 +10,9 @@ import {
 	operation,
 	wire,
 } from "../../helpers/cli-plugin.js";
+import { builderLines } from "../../helpers/native-generator.js";
+import { handler, imports } from "../../helpers/native-generator.js";
+import { emitContext } from "../../helpers/native-generator.js";
 
 describe.each([true, false])(
 	"scalar-union positionals (typed request: %s)",

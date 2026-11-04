@@ -77,7 +77,6 @@
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
-		"@bytecodealliance/jco": "1.40.0",
 		"@clack/core": "1.5.1",
 		"@clack/prompts": "^1.8.1",
 		"@cloudflare/autoconfig": "0.9.2",

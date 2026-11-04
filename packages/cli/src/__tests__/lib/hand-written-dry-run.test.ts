@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import yargs from "yargs";
 import { withHandWrittenDryRun } from "../../lib/hand-written-dry-run.js";
-import { generateFiles } from "../helpers/forge-cli.js";
+import { generateFiles } from "../helpers/generator.js";
 import { runCf } from "../helpers/run-cf.js";
 import type { OptionMeta } from "../../lib/metadata.js";
 

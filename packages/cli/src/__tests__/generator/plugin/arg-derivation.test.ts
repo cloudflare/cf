@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
 import {
-	accountOrZoneLocal,
-	type Derived,
-	derive,
-} from "../../../../generator/plugin/args.js";
-import {
 	bodyParam,
 	find,
 	method as baseMethod,
@@ -12,11 +7,16 @@ import {
 	operation,
 	param,
 } from "../../helpers/cli-plugin.js";
-import type { Method } from "../../../../generator/plugin/commands.js";
+import {
+	accountOrZoneLocal,
+	type Derived,
+	derive,
+} from "../../helpers/native-generator.js";
+import type { Method } from "../../helpers/native-generator.js";
 import type {
 	MultipartField,
 	OperationInfo,
-} from "../../../../generator/plugin/operation.js";
+} from "../../helpers/native-generator.js";
 
 /** A method `name` with the `x-forge-params` overrides `params`. */
 function method(params: Method["params"] | undefined, name: string): Method {

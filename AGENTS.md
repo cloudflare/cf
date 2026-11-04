@@ -22,16 +22,16 @@ context in the linked documents.
 
 ## Repository map
 
-| Area                                             | Location                                                   |
-| ------------------------------------------------ | ---------------------------------------------------------- |
-| CLI entry, request runtime, generic helpers      | `packages/cli/src/{index.ts,api/,lib/}`                    |
-| Hand-written commands and central registry       | `packages/cli/src/commands/`, especially `hand-written.ts` |
-| Generator plugin and OpenAPI preparation         | `packages/cli/generator/`, `packages/cli/generate.ts`      |
-| Tracked generated commands, operations, metadata | `packages/cli/src/commands/_generated/`                    |
-| CLI unit and command tests (Vitest + MSW)        | `packages/cli/src/__tests__/`                              |
-| Imported Wrangler compatibility tests            | `packages/wrangler-tests/`                                 |
-| Project fixtures and usage scenarios             | `fixtures/`, `usecases/`                                   |
-| Dependency patches and automation                | `patches/`, `scripts/`, `.github/workflows/`               |
+| Area                                             | Location                                                                         |
+| ------------------------------------------------ | -------------------------------------------------------------------------------- |
+| CLI entry, request runtime, generic helpers      | `packages/cli/src/{index.ts,api/,lib/}`                                          |
+| Hand-written commands and central registry       | `packages/cli/src/commands/`, especially `hand-written.ts`                       |
+| Native generator and OpenAPI preparation         | `packages/generator/src/`, `packages/cli/generator/`, `packages/cli/generate.ts` |
+| Tracked generated commands, operations, metadata | `packages/cli/src/commands/_generated/`                                          |
+| CLI unit and command tests (Vitest + MSW)        | `packages/cli/src/__tests__/`                                                    |
+| Imported Wrangler compatibility tests            | `packages/wrangler-tests/`                                                       |
+| Project fixtures and usage scenarios             | `fixtures/`, `usecases/`                                                         |
+| Dependency patches and automation                | `patches/`, `scripts/`, `.github/workflows/`                                     |
 
 ## Cross-platform support
 
@@ -47,7 +47,7 @@ In the rules below, `src/` means `packages/cli/src/`.
 - **Keep API knowledge upstream.** Generic `src/index.ts` and `src/lib/` code
   must remain product-agnostic. API coverage and product-specific behavior
   belong in Forge overlays or OpenAPI; generic command-emission rules belong in
-  `packages/cli/generator/plugin/`. Do not modify the installed Forge package;
+  `packages/generator/src/`. Do not modify the installed Forge package;
   change the Forge source repository and consume its next build.
 - **Choose the shared boundary first.** Capabilities useful to API callers
   belong at the platform/API layer; reusable CLI affordances belong in Forge
@@ -125,7 +125,7 @@ Run from the repository root unless specified:
 
 ```bash
 pnpm install           # install pinned dependencies
-pnpm generate          # pinned OpenAPI + Forge plugin → tracked commands
+pnpm generate          # pinned OpenAPI + native Forge generator → tracked commands
 pnpm build             # generation + Vite+ Pack → dist/
 pnpm dev               # source entry; no generation or bundling
 pnpm check             # generation + builds + workspace type checks + lint/format

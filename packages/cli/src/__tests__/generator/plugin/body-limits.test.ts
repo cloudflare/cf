@@ -2,7 +2,6 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
-import { handler, imports } from "../../../../generator/plugin/emit/handler.js";
 import { parseBody } from "../../../lib/body-parser.js";
 import {
 	context,
@@ -11,6 +10,7 @@ import {
 	param,
 	wire,
 } from "../../helpers/cli-plugin.js";
+import { handler, imports } from "../../helpers/native-generator.js";
 
 describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 	runInTempDir();

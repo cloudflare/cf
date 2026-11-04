@@ -1,21 +1,6 @@
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
 import yargs, { type Argv } from "yargs";
-import { builderLines } from "../../../../generator/plugin/emit/builder.js";
-import {
-	ACCOUNT_OR_ZONE_HELP,
-	bodyObject,
-	bodyPrompts,
-	dryRun,
-	handler,
-	variantPromptBlock,
-} from "../../../../generator/plugin/emit/handler.js";
-import { context as emitContext } from "../../../../generator/plugin/emit/index.js";
-import {
-	leafUsage,
-	summary,
-	telemetrySafeFlags,
-} from "../../../../generator/plugin/files.js";
 import {
 	arg,
 	bodyParam,
@@ -26,9 +11,24 @@ import {
 	param,
 	wire,
 } from "../../helpers/cli-plugin.js";
-import type { Arg, ArgType } from "../../../../generator/plugin/args.js";
-import type { Method } from "../../../../generator/plugin/commands.js";
-import type { OperationInfo } from "../../../../generator/plugin/operation.js";
+import { builderLines } from "../../helpers/native-generator.js";
+import {
+	ACCOUNT_OR_ZONE_HELP,
+	bodyObject,
+	bodyPrompts,
+	dryRun,
+	handler,
+	variantPromptBlock,
+} from "../../helpers/native-generator.js";
+import { emitContext } from "../../helpers/native-generator.js";
+import {
+	leafUsage,
+	summary,
+	telemetrySafeFlags,
+} from "../../helpers/native-generator.js";
+import type { Arg, ArgType } from "../../helpers/native-generator.js";
+import type { Method } from "../../helpers/native-generator.js";
+import type { OperationInfo } from "../../helpers/native-generator.js";
 
 describe("descriptions", () => {
 	it("labels POST validation without claiming to create a resource", () => {
@@ -136,8 +136,8 @@ describe("delete confirmation", () => {
 			})
 		);
 		const output = handler(ctx).join("\n");
-		expect(output).toContain(
-			"if (!(await confirmDelete({ force: Boolean(argv.force) }))) {\n        return;\n      }"
+		expect(output).toMatch(
+			/if \(!\(await confirmDelete\(\{ force: Boolean\(argv.force\) \}\)\)\) \{\s+return;\s+\}/
 		);
 		expect(output).not.toContain("Aborted");
 	});
@@ -223,8 +223,8 @@ describe("dry run with mixed content", () => {
 		expect(output).toContain(
 			"bodyKind: argv.file !== undefined ? 'octet-stream' : 'json'"
 		);
-		expect(output).toContain(
-			"body: argv.file !== undefined\n            ? { file: argv.file }\n            : argv.body !== undefined\n            ? parseBody(argv.body)"
+		expect(output).toMatch(
+			/body: argv.file !== undefined\s+\? \{ file: argv.file \}\s+: argv.body !== undefined\s+\? parseBody\(argv.body\)/
 		);
 	});
 });

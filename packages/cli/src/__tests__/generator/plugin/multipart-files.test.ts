@@ -1,9 +1,6 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it, vi } from "vite-plus/test";
-import { derive } from "../../../../generator/plugin/args.js";
-import { builderLines } from "../../../../generator/plugin/emit/builder.js";
-import { dryRun, handler } from "../../../../generator/plugin/emit/handler.js";
 import {
 	bodyParam,
 	context,
@@ -11,10 +8,13 @@ import {
 	operation,
 	param,
 } from "../../helpers/cli-plugin.js";
+import { derive } from "../../helpers/native-generator.js";
+import { builderLines } from "../../helpers/native-generator.js";
+import { dryRun, handler } from "../../helpers/native-generator.js";
 import type {
 	MultipartField,
 	OperationInfo,
-} from "../../../../generator/plugin/operation.js";
+} from "../../helpers/native-generator.js";
 
 const upload = method("upload", "example-upload");
 const binary = (name: string): MultipartField => ({

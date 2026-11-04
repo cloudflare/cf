@@ -94,10 +94,11 @@
 			// Post-upgrade tasks run in Renovate's slim image, which installs tools on demand.
 			constraints: { node: "22" },
 			postUpgradeTasks: {
-				installTools: { node: {}, pnpm: {} },
-				// The regex manager edits only package.json, so pnpm refreshes the lockfile here.
+				installTools: { node: {}, pnpm: {}, rust: {} },
+				// Keep the native Forge library at the npm normalizer's commit.
 				commands: [
 					"pnpm install --no-frozen-lockfile",
+					"node ./scripts/sync-generator-forge.mjs",
 					"pnpm generate",
 					"node ./scripts/create-forge-changeset.mjs",
 				],
@@ -105,6 +106,8 @@
 				executionMode: "branch",
 				fileFilters: [
 					"pnpm-lock.yaml",
+					"packages/generator/Cargo.toml",
+					"packages/generator/Cargo.lock",
 					"packages/cli/src/commands/_generated/**",
 					".changeset/renovate-forge-*.md",
 				],

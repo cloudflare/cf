@@ -1,24 +1,19 @@
-/**
- * Builders for the tests of the forge plugin in `generator/plugin`, which
- * generates cf's commands. Deriving arguments and emitting a command read
- * only the resolved operation, so tests call them directly; reading a
- * document takes forge, which `generateFiles` runs.
- */
+/** Builders for the native generator's resolved-operation fixtures. */
 
-import {
-	context as emitContext,
-	type Ctx,
-} from "../../../generator/plugin/emit/index.js";
-import { generateFiles } from "./forge-cli.js";
-import type { Arg, ArgType, Origin } from "../../../generator/plugin/args.js";
-import type { Method } from "../../../generator/plugin/commands.js";
+import { generateFiles } from "./generator.js";
+import { emitContext } from "./native-generator.js";
 import type {
+	Arg,
+	ArgType,
+	Origin,
+	Method,
 	BodyParamInfo,
 	OperationInfo,
 	ParameterInfo,
 	ResponseInfo,
 	Wire,
-} from "../../../generator/plugin/operation.js";
+	Ctx,
+} from "./generator-model.js";
 
 export { generateFiles };
 

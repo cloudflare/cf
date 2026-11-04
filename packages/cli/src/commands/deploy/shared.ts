@@ -175,62 +175,76 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 
 	// Upload.
 	let versionId: string | null;
-	if (ctx.command === "Deploy") {
-		const props = createDeployProps(
-			worker,
-			wranglerConfig,
-			accountId,
-			argv,
-			containerDeployConfig
-		);
+	let uploadAborted = false;
+	const previousExitCode = process.exitCode;
+	try {
+		// deploy-helpers signals strict aborts through exitCode; isolate this call.
+		process.exitCode = undefined;
+		if (ctx.command === "Deploy") {
+			const props = createDeployProps(
+				worker,
+				wranglerConfig,
+				accountId,
+				argv,
+				containerDeployConfig
+			);
 
-		log.section("Deploy");
-		({ versionId } = await deploy(props, wranglerConfig, buildResult, {
-			deployCommand: "cf deploy",
-			versionsDeployCommand:
-				"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
-			d1ListCommand: "cf d1 list",
-			d1DeleteCommand: "cf d1 delete <database-id>",
-			queueCreateCommand: (queueName) =>
-				`cf queues create --queue-name ${queueName}`,
-			secretPutCommand:
-				"cf workers secrets update --worker <worker-name> --type secret_text",
-			workersDevConfigFieldName: "workersDev",
-			workersDevConfigAssignment: (value) => `workersDev: ${value}`,
-			previewUrlsConfigFieldName: "previewUrls",
-			previewUrlsConfigAssignment: (value) => `previewUrls: ${value}`,
-			configFileName: "cloudflare.config.ts",
-			observabilityTargetPercentageField: "targetInstancePercentage",
-			observabilityTargetCountField: "targetInstanceCount",
-			syncWorkersSite: undefined,
-			analyseBundle: undefined,
-		}));
-	} else {
-		const props = createVersionsUploadProps(
-			worker,
-			wranglerConfig,
-			accountId,
-			argv,
-			containerDeployConfig
-		);
+			log.section("Deploy");
+			({ versionId } = await deploy(props, wranglerConfig, buildResult, {
+				deployCommand: "cf deploy",
+				versionsDeployCommand:
+					"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
+				d1ListCommand: "cf d1 list",
+				d1DeleteCommand: "cf d1 delete <database-id>",
+				queueCreateCommand: (queueName) =>
+					`cf queues create --queue-name ${queueName}`,
+				secretPutCommand:
+					"cf workers secrets update --worker <worker-name> --type secret_text",
+				workersDevConfigFieldName: "workersDev",
+				workersDevConfigAssignment: (value) => `workersDev: ${value}`,
+				previewUrlsConfigFieldName: "previewUrls",
+				previewUrlsConfigAssignment: (value) => `previewUrls: ${value}`,
+				configFileName: "cloudflare.config.ts",
+				observabilityTargetPercentageField: "targetInstancePercentage",
+				observabilityTargetCountField: "targetInstanceCount",
+				syncWorkersSite: undefined,
+				analyseBundle: undefined,
+			}));
+		} else {
+			const props = createVersionsUploadProps(
+				worker,
+				wranglerConfig,
+				accountId,
+				argv,
+				containerDeployConfig
+			);
 
-		log.section("Upload");
-		({ versionId } = await versionsUpload(props, wranglerConfig, buildResult, {
-			deployCommand: "cf deploy",
-			versionsUploadCommand: "cf workers versions create",
-			versionsDeployCommand:
-				"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
-			triggersDeployCommand: "cf workers triggers deploy",
-			d1ListCommand: "cf d1 list",
-			d1DeleteCommand: "cf d1 delete <database-id>",
-			queueCreateCommand: (queueName) =>
-				`cf queues create --queue-name ${queueName}`,
-			versionsSecretPutCommand: "wrangler versions secret put",
-			analyseBundle: undefined,
-		}));
+			log.section("Upload");
+			({ versionId } = await versionsUpload(
+				props,
+				wranglerConfig,
+				buildResult,
+				{
+					deployCommand: "cf deploy",
+					versionsUploadCommand: "cf workers versions create",
+					versionsDeployCommand:
+						"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
+					triggersDeployCommand: "cf workers triggers deploy",
+					d1ListCommand: "cf d1 list",
+					d1DeleteCommand: "cf d1 delete <database-id>",
+					queueCreateCommand: (queueName) =>
+						`cf queues create --queue-name ${queueName}`,
+					versionsSecretPutCommand: "wrangler versions secret put",
+					analyseBundle: undefined,
+				}
+			));
+		}
+		uploadAborted =
+			versionId === null && process.exitCode === 1 && !argv["dry-run"];
+	} finally {
+		process.exitCode ??= previousExitCode;
 	}
-	// A successful upload can also return no version ID; strict-mode aborts set exitCode.
-	if (versionId === null && process.exitCode === 1 && !argv["dry-run"]) {
+	if (uploadAborted) {
 		throw new CliExit(1);
 	}
 

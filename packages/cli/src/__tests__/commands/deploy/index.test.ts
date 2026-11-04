@@ -161,33 +161,40 @@ describe("cf deploy", () => {
 			expect(std.out).toContain("test-worker");
 		});
 
-		it("accepts a successful upload without a version ID", async () => {
-			const upload = mockWorkerUpload({}, { deploymentId: null });
-			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
-					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
-					"export default { fetch() { return new Response('ok'); } }",
-			});
+		it.each([undefined, 1])(
+			"accepts a null-version upload with initial exit code %s",
+			async (initialExitCode) => {
+				const upload = mockWorkerUpload({}, { deploymentId: null });
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
 
-			const success = vi
-				.spyOn(clack.log, "success")
-				.mockImplementation(() => {});
-			try {
-				const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+				const success = vi
+					.spyOn(clack.log, "success")
+					.mockImplementation(() => {});
+				const previousExitCode = process.exitCode;
+				try {
+					process.exitCode = initialExitCode;
+					const { exitCode } = await runCf(["deploy", "--prebuilt"]);
 
-				expect(exitCode).toBe(0);
-				expect(upload.metadata?.main_module).toBe("index.js");
-				expect(std.out).toContain("Deployed");
-				expect(success).toHaveBeenCalledWith(
-					"Deploy complete",
-					expect.objectContaining({ output: process.stderr })
-				);
-			} finally {
-				success.mockRestore();
+					expect(exitCode).toBe(0);
+					expect(process.exitCode).toBe(initialExitCode);
+					expect(upload.metadata?.main_module).toBe("index.js");
+					expect(std.out).toContain("Deployed");
+					expect(success).toHaveBeenCalledWith(
+						"Deploy complete",
+						expect.objectContaining({ output: process.stderr })
+					);
+				} finally {
+					process.exitCode = previousExitCode;
+					success.mockRestore();
+				}
 			}
-		});
+		);
 
 		it("deploys a standard Container from Build Output", async () => {
 			vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
@@ -1205,9 +1212,13 @@ describe("cf deploy", () => {
 			}
 		);
 
-		it.each([false, true])(
-			"aborts an API-managed Worker in CI with quiet=%s",
-			async (quiet) => {
+		it.each([
+			{ quiet: false, initialExitCode: undefined },
+			{ quiet: true, initialExitCode: undefined },
+			{ quiet: false, initialExitCode: 1 },
+		])(
+			"aborts an API-managed Worker in CI with quiet=$quiet and initial exit code $initialExitCode",
+			async ({ quiet, initialExitCode }) => {
 				const upload = mockWorkerUpload();
 				vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
 
@@ -1256,7 +1267,9 @@ describe("cf deploy", () => {
 				const success = vi
 					.spyOn(clack.log, "success")
 					.mockImplementation(() => {});
+				const previousExitCode = process.exitCode;
 				try {
+					process.exitCode = initialExitCode;
 					const { exitCode } = await runCf(
 						["deploy", ...(quiet ? ["--quiet"] : [])],
 						{ CI: "true" }
@@ -1264,6 +1277,7 @@ describe("cf deploy", () => {
 
 					// strict mode + non-interactive rejects the overwrite; no upload happens
 					expect(exitCode).toBe(1);
+					expect(process.exitCode).toBe(1);
 					expect(upload.metadata).toBeUndefined();
 					expect(std.err).toContain(
 						"Aborting the upload operation because of conflicts. Rerun with `cf deploy --force` to override and upload anyway."
@@ -1276,6 +1290,7 @@ describe("cf deploy", () => {
 					);
 					expect(readDockerCommands()).toEqual([]);
 				} finally {
+					process.exitCode = previousExitCode;
 					success.mockRestore();
 				}
 			}

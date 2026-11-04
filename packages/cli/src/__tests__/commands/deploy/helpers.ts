@@ -345,6 +345,7 @@ export function mockWorkerUpload(
 						id: "test-script-id",
 						etag: "test-etag",
 						pipeline_hash: "test-pipeline-hash",
+						// Preserve explicit null to exercise successful uploads without an ID.
 						deployment_id:
 							opts?.deploymentId === undefined
 								? "test-version-id"

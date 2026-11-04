@@ -30,6 +30,8 @@ export interface OptionMeta {
 	name: string;
 	/** Data type */
 	type: "string" | "number" | "boolean";
+	/** Whether the option accepts multiple values */
+	array?: boolean;
 	/** Whether the option is required */
 	required: boolean;
 	/** Default value if not provided */

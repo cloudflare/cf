@@ -38,7 +38,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("files", {
 			type: "string",
-			description: "Files to convert, supplied as multipart file uploads.",
+			array: true,
+			requiresArg: true,
+			description:
+				"Literal content or @path/to/file for the `files` form field. Repeat for multiple files. Files to convert, supplied as multipart file uploads.",
 		});
 }
 
@@ -96,22 +99,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
-							"file",
+							"files",
 							new Blob([fileContent]),
 							argv.file.split(/[\\/]/).filter(Boolean).pop()
 						);
 					} else if (argv.body !== undefined) {
-						formData.append("file", argv.body);
+						formData.append("files", argv.body);
 					}
 					if (argv["files"] !== undefined) {
-						const v =
-							typeof argv["files"] === "string"
-								? resolveFileToken(argv["files"], "files", "text")
-								: argv["files"];
-						formData.append(
-							"files",
-							typeof v === "string" ? v : JSON.stringify(v)
-						);
+						for (const value of argv["files"]) {
+							if (value.startsWith("@")) {
+								const filePath = value.slice(1);
+								const fileContent = resolveFileToken(
+									value,
+									"files",
+									"binary"
+								) as Buffer<ArrayBuffer>;
+								formData.append(
+									"files",
+									new Blob([fileContent]),
+									filePath.split(/[\\/]/).filter(Boolean).pop()
+								);
+							} else {
+								formData.append("files", new Blob([value]), "files");
+							}
+						}
 					}
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(

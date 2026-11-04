@@ -580,7 +580,10 @@ function multipart(body: Body): MultipartInfo | undefined {
 	for (const field of object.fields) {
 		const name = field.wireName;
 		const resolved = unwrapNull(deref(field.type));
-		const isBinary = isScalar(resolved, "binary");
+		const isBinary =
+			isScalar(resolved, "binary") ||
+			(resolved.kind === "array" &&
+				isScalar(unwrapNull(deref(resolved.elem)), "binary"));
 		let type: MultipartField["type"];
 		switch (resolved.kind) {
 			case "scalar":

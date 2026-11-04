@@ -127,18 +127,19 @@ export interface Derived {
 	multipart?: MultipartInfo;
 	/** Form fields besides the payload that take a value. */
 	multipartFlagFields: MultipartFieldFlag[];
-	/** Binary form fields besides the payload, taking literal content or `@file`. */
+	/** Binary form fields taking literal content or `@file`, including payload arrays. */
 	multipartFileFields: MultipartFieldFlag[];
 }
 
-/** A multipart field other than the payload, and the flag that fills it. */
+/** A multipart field and the flag that fills it. */
 export interface MultipartFieldFlag {
 	field: MultipartField;
 	flag: string;
 }
 
 export function multipartFileFlagDescription(field: MultipartField): string {
-	return `Literal content or @path/to/file for the \`${field.name}\` form field. ${field.description}`;
+	const repeat = field.type === "array" ? " Repeat for multiple files." : "";
+	return `Literal content or @path/to/file for the \`${field.name}\` form field.${repeat} ${field.description}`;
 }
 
 export const positionals = (d: Derived): Arg[] =>
@@ -595,7 +596,10 @@ function formFileFlags(
 	]);
 	const out: MultipartFieldFlag[] = [];
 	for (const field of multipart.fields) {
-		if (!field.isBinary || field.name === multipart.payloadField) {
+		if (
+			!field.isBinary ||
+			(field.name === multipart.payloadField && field.type !== "array")
+		) {
 			continue;
 		}
 		const natural = fileFlagSegment(field.name);

@@ -195,7 +195,7 @@ describe("telemetry error reporting", () => {
 		},
 		{
 			args: ["--bogus"],
-			error: "You need to specify a command",
+			error: "Unknown argument: bogus",
 			command: "unknown command",
 			resolution: {
 				resolutionFailure: "missing-command",
@@ -208,7 +208,7 @@ describe("telemetry error reporting", () => {
 		},
 		{
 			args: ["-x"],
-			error: "You need to specify a command",
+			error: "Unknown argument: x",
 			command: "unknown command",
 			resolution: {
 				resolutionFailure: "missing-command",
@@ -378,6 +378,60 @@ describe("telemetry error reporting", () => {
 			"my-worker"
 		);
 	});
+
+	it.each(["--help", "-h"])(
+		"reports sanitized resolution detail for errors with %s",
+		async (help) => {
+			for (const { args, knownCommand, kind, leaf } of [
+				{
+					args: ["malformed"],
+					knownCommand: "",
+					kind: "unknown-subcommand",
+					leaf: false,
+				},
+				{
+					args: ["workers", "malformed"],
+					knownCommand: "workers",
+					kind: "unknown-subcommand",
+					leaf: false,
+				},
+				{
+					args: ["workers", "list", "private-worker"],
+					knownCommand: "workers list",
+					kind: "surplus-positional",
+					leaf: true,
+				},
+				{
+					args: ["r2", "buckets", "get", "private-bucket", "private-worker"],
+					knownCommand: "r2 buckets get",
+					kind: "surplus-positional",
+					leaf: true,
+				},
+			]) {
+				sendCommandEvent.mockClear();
+				await expect(runCf([...args, help])).rejects.toThrow(
+					"Unknown command:"
+				);
+				expect(sendCommandEvent).toHaveBeenCalledTimes(2);
+				expect(sendCommandEvent).toHaveBeenCalledWith(
+					"cf command finished",
+					expect.objectContaining({
+						command: "unknown command",
+						resolutionFailure: kind,
+						knownCommand,
+						knownCommandIsLeaf: leaf,
+						unknownTokens: ["<word>"],
+						unknownTokenCount: 1,
+						argsUsed: ["help"],
+						outcome: "error",
+					})
+				);
+				expect(JSON.stringify(sendCommandEvent.mock.calls)).not.toMatch(
+					/private-worker|private-bucket|malformed/
+				);
+			}
+		}
+	);
 
 	it("caps unknown tokens and ignores tokens after --", async () => {
 		await expect(

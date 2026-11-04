@@ -33,10 +33,8 @@ const whoamiCommand: CommandModule = {
 			authSource = "none";
 		}
 
-		// Try to get a token and verify it.
-		let token: string;
 		try {
-			token = await getAuthToken();
+			await getAuthToken();
 		} catch {
 			formatOutput({ authenticated: false, error: "Not logged in" });
 			if (authSource === "none" && detectAgentContext().isAgentic) {
@@ -49,16 +47,26 @@ const whoamiCommand: CommandModule = {
 			return;
 		}
 
-		const { createCloudflareClientWithToken } =
-			await import("../../lib/auth.js");
+		const { createCommandClient } = await import("../../lib/auth.js");
 		const { default: getUser } = await import("#operations/user/get.js");
-		const client = createCloudflareClientWithToken({ apiToken: token });
+		const { default: verifyToken } =
+			await import("#operations/user/tokens/verify.js");
+		const client = await createCommandClient(argv);
 		let userEmail: string | undefined;
 		let accounts: Array<{ id: string; name: string }> = [];
-		const [userResult, accountsResult] = await Promise.allSettled([
-			client.send(getUser),
-			fetchAuthorizedAccounts(),
-		]);
+		const [verificationResult, userResult, accountsResult] =
+			await Promise.allSettled([
+				// The user-token endpoint does not verify account API tokens or OAuth tokens.
+				envToken
+					? (client.send(verifyToken) as Promise<{ status?: string }>)
+					: Promise.resolve(undefined),
+				client.send(getUser),
+				fetchAuthorizedAccounts(),
+			]);
+
+		if (verificationResult.status === "rejected" && process.env.DEBUG) {
+			console.error("Token verification error:", verificationResult.reason);
+		}
 
 		if (userResult.status === "fulfilled") {
 			const user = userResult.value as object | null | undefined;
@@ -75,9 +83,22 @@ const whoamiCommand: CommandModule = {
 			console.error("Account lookup error:", accountsResult.reason);
 		}
 
-		const tokenValid =
+		// A rejected user-token probe may belong to an account token; failed detail
+		// lookups alone cannot establish that the credential is invalid.
+		let tokenValid: boolean | null = null;
+		if (
+			verificationResult.status === "fulfilled" &&
+			["active", "disabled", "expired"].includes(
+				verificationResult.value?.status ?? ""
+			)
+		) {
+			tokenValid = verificationResult.value?.status === "active";
+		} else if (
 			userResult.status === "fulfilled" ||
-			accountsResult.status === "fulfilled";
+			accountsResult.status === "fulfilled"
+		) {
+			tokenValid = true;
+		}
 
 		const output: Record<string, unknown> = {
 			authenticated: true,

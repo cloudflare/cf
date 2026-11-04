@@ -31,7 +31,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
+			description:
+				"Raw request body, sent as-is (or @path to send a file's contents)",
 		})
 		.option("file", {
 			type: "string",

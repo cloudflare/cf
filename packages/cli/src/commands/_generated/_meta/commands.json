@@ -855,7 +855,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Submit an appeal for a report. Provide either a list of mitigations to appeal, or an appeal type with its supporting details, but not both. When type is \"counter_notice\", the counter-notice details are required. A \"content_removed\" appeal takes an optional explanation instead and is accepted only while the report is in its Notice and Takedown notice period (`has_pending_notice` on the eligibility response). Reports that allow a single appeal (`max_appeals` of 1) never have a notice period and accept it whenever `appealable` is true."
 				}
 			],
 			"category": "action",
@@ -1138,7 +1138,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Defines a custom application. At least one hostname or IP subnet is required.\nSupport domains and port/protocol pairs do not satisfy this requirement.\nA NUL character (U+0000) in any string value returns `400`.\n"
 				}
 			],
 			"category": "create",
@@ -1398,7 +1398,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update the network matchers for the application. The service preserves omitted\nmatcher lists; send an empty array to clear a list. The resulting application must\ncontain at least one hostname or IP subnet. Support domains and port/protocol pairs\ndo not satisfy this requirement.\nA NUL character (U+0000) in any string value returns `400`.\n"
 				}
 			],
 			"category": "update",
@@ -2281,7 +2281,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Parameters for account creation"
 				}
 			],
 			"category": "create",
@@ -3098,7 +3098,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The destination organization ID is where the account is to be moved."
 				}
 			],
 			"category": "action",
@@ -3206,7 +3206,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Partial business profile update. Omitted, empty, or null fields remain unchanged. At least\none of business name, address, phone, or email must be non-empty."
 				}
 			],
 			"category": "update",
@@ -5052,7 +5052,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -6923,7 +6923,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Finetune asset file upload."
 				},
 				{
 					"name": "file",
@@ -7358,7 +7358,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -7454,7 +7454,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Array of domain hostnames to fetch robots.txt for. Each domain must end with the zone name. Maximum 25 domains per request."
 				}
 			],
 			"category": "action",
@@ -11271,7 +11271,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -13487,7 +13487,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "AI Security for Apps enablement status for a zone."
 				}
 			],
 			"category": "update",
@@ -14555,7 +14555,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Optional configuration for the test notification. When omitted, a default INFO-severity test alert is sent."
 				}
 			],
 			"category": "action",
@@ -15246,7 +15246,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Returns the top N integrations for content findings."
 				}
 			],
 			"category": "action",
@@ -15300,7 +15300,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Query for aggregate findings summary."
 				}
 			],
 			"category": "action",
@@ -15354,7 +15354,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Query for findings timeseries."
 				}
 			],
 			"category": "action",
@@ -15606,7 +15606,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -16470,7 +16470,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request payload for PATCH credentials. Provided keys define the complete stored key set, and stored keys omitted from payload are removed. For each provided key identity (`{alg,kid}`), payload fields overwrite the stored key before validation and omitted fields inherit from the stored key. Key identities must be unique."
 				}
 			],
 			"category": "update",
@@ -16520,7 +16520,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request payload for create and PUT credentials operations. Provided keys define the complete stored key set. Key identities (`{alg,kid}`) must be unique."
 				}
 			],
 			"category": "update",
@@ -17313,7 +17313,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Applies a partial update. Only the provided fields change; omitted fields remain unchanged."
 				}
 			],
 			"category": "update",
@@ -17480,7 +17480,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Full replacement. Provide all fields."
 				}
 			],
 			"category": "update",
@@ -17574,7 +17574,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Applies a partial update. Only the provided fields change; omitted fields remain unchanged."
 				}
 			],
 			"category": "update",
@@ -17701,7 +17701,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Full replacement. Provide all fields."
 				}
 			],
 			"category": "update",
@@ -17762,7 +17762,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a new vulnerability scan. The `scan_type` discriminator\nselects the scan variant and its required context fields.\n"
 				}
 			],
 			"category": "create",
@@ -18043,7 +18043,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Applies a partial update. Only the provided fields change; omitted fields remain unchanged.\n\nThe `description` field supports three states:\n- **omitted**: leave unchanged\n- **`null`**: clear the description\n- **`\"value\"`**: set to the given string\n"
 				}
 			],
 			"category": "update",
@@ -18189,7 +18189,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Full replacement."
 				}
 			],
 			"category": "update",
@@ -18274,7 +18274,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Configures the enablement of Argo Smart Routing."
 				}
 			],
 			"category": "update",
@@ -18335,7 +18335,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update enablement of Tiered Caching."
 				}
 			],
 			"category": "update",
@@ -19711,7 +19711,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Contains request to store catalog credentials."
 				}
 			],
 			"category": "create",
@@ -19873,7 +19873,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Contains the optional request to enable a catalog. Send an empty body\nto keep the defaults. If you include `credential`, the service checks\nthat the token can access the bucket, then stores it as the catalog's\nmaintenance credential, like the store credentials operation.\n"
 				}
 			],
 			"category": "action",
@@ -20032,7 +20032,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Contains request to update catalog maintenance configuration."
 				}
 			],
 			"category": "update",
@@ -20403,7 +20403,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Contains request to update table maintenance configuration."
 				}
 			],
 			"category": "update",
@@ -20673,7 +20673,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating or updating a billing profile."
 				}
 			],
 			"category": "create",
@@ -20897,7 +20897,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating or updating a billing profile."
 				}
 			],
 			"category": "update",
@@ -21117,7 +21117,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A spend policy as sent on create and on full replacement. Unknown fields and trailing JSON are rejected. Only the first 1 MiB of the body is read."
 				}
 			],
 			"category": "create",
@@ -21301,7 +21301,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A spend policy as sent on create and on full replacement. Unknown fields and trailing JSON are rejected. Only the first 1 MiB of the body is read."
 				}
 			],
 			"category": "update",
@@ -21507,7 +21507,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Filter criteria for a usage query. Every field is optional; an empty object is equivalent to omitting the body entirely. Unknown fields are rejected."
 				}
 			],
 			"category": "action",
@@ -26864,7 +26864,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores."
 				}
 			],
 			"category": "action",
@@ -27207,7 +27207,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating a Worker build configuration."
 				}
 			],
 			"category": "create",
@@ -27432,7 +27432,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating a Worker build configuration. At least one field must be provided."
 				}
 			],
 			"category": "update",
@@ -27772,7 +27772,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating or replacing an origin cloud region mapping."
 				}
 			],
 			"category": "update",
@@ -28071,7 +28071,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update enablement of Smart Tiered Cache."
 				}
 			],
 			"category": "create",
@@ -28140,7 +28140,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update enablement of Smart Tiered Cache."
 				}
 			],
 			"category": "update",
@@ -29192,7 +29192,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Binary file to be uploaded to the database."
 				},
 				{
 					"name": "file",
@@ -30883,7 +30883,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -40276,7 +40276,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Interrupt action for a connector."
 				}
 			],
 			"category": "create",
@@ -41026,7 +41026,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a Containers application.\nSet `scheduling_policy` to `default` for a\nscheduler-backed application with deployment configuration, instance counts,\nconstraints, versions, and rollouts. Set it to `durable_object` for a\nDurable Object-managed application where each Durable Object creates and manages\nthe lifecycle of its container instance. For `durable_object` requests, supply\n`name`, `scheduling_policy`, and `durable_objects`, with optional `configuration`\nand top-level `observability` settings.\n"
 				}
 			],
 			"category": "create",
@@ -41152,7 +41152,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for modifying a Containers application without replacing its instances.\nDurable Object-managed applications support only top-level observability.logs.enabled.\nThe other fields apply to scheduler-backed applications, where deployment configuration\nchanges such as image, resource allocation, command, and environment variables require\nan application rollout.\n"
 				}
 			],
 			"category": "update",
@@ -41453,7 +41453,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body to create a new rollout for a scheduler-backed application."
 				}
 			],
 			"category": "create",
@@ -41622,7 +41622,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A digest-pinned managed container image to prepare for the new runtime."
 				}
 			],
 			"category": "action",
@@ -41719,7 +41719,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Configuration for connecting Containers to a supported private external image\nregistry. See [Image management](https://developers.cloudflare.com/containers/platform-details/image-management/)\nfor supported providers and credential setup instructions.\n"
 				}
 			],
 			"category": "create",
@@ -41769,7 +41769,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Specifies the configuration for the image registry credential to create. Cloudflare requires both fields for managed registries. For external registries, Cloudflare ignores both fields, and the registry provider determines the returned credentials' permissions and lifetime."
 				}
 			],
 			"category": "action",
@@ -41902,7 +41902,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Array of Content Scanning custom expressions to create."
 				}
 			],
 			"category": "create",
@@ -42010,7 +42010,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Content Scanning custom expression to update."
 				}
 			],
 			"category": "update",
@@ -42079,7 +42079,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Content Scanning settings to update."
 				}
 			],
 			"category": "update",
@@ -42157,7 +42157,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating communication preferences. An email field in the payload is ignored; email verification state is managed separately, so the field is excluded from this schema."
 				}
 			],
 			"category": "update",
@@ -42218,7 +42218,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating CSAM Scanner configuration.\n"
 				}
 			],
 			"category": "update",
@@ -42334,7 +42334,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating a custom CSR."
 				}
 			],
 			"category": "create",
@@ -44110,7 +44110,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A single query object or a batch query object"
 				}
 			],
 			"category": "action",
@@ -44166,7 +44166,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A single query object or a batch query object"
 				}
 			],
 			"category": "action",
@@ -45610,7 +45610,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -46339,7 +46339,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Updates only the customer-defined name. All other fields are rejected, even if unchanged. An empty object or the current name succeeds without changing the set. A null name is invalid. Requires the account-scoped creation entitlements, including eligibility for the set's current IP set and the Advanced entitlement for an Advanced set."
 				}
 			],
 			"category": "update",
@@ -48244,7 +48244,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for PATCH /dmarc-reports"
 				}
 			],
 			"category": "update",
@@ -49580,7 +49580,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create an allow policy."
 				}
 			],
 			"category": "create",
@@ -49731,7 +49731,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update an allow policy."
 				}
 			],
 			"category": "update",
@@ -49973,7 +49973,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create an allow policy."
 				}
 			],
 			"category": "update",
@@ -50120,7 +50120,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a blocked sender pattern."
 				}
 			],
 			"category": "create",
@@ -50229,7 +50229,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update a blocked sender pattern."
 				}
 			],
 			"category": "update",
@@ -50405,7 +50405,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a blocked sender pattern."
 				}
 			],
 			"category": "update",
@@ -50958,7 +50958,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a content policy."
 				}
 			],
 			"category": "create",
@@ -51072,7 +51072,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update a content policy."
 				}
 			],
 			"category": "update",
@@ -51696,7 +51696,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for replacing an email domain. The `domain` field is intentionally\nabsent — the domain name is immutable after creation.\n"
 				}
 			],
 			"category": "update",
@@ -51812,7 +51812,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create an impersonation registry entry."
 				}
 			],
 			"category": "create",
@@ -51944,7 +51944,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update an impersonation registry entry."
 				}
 			],
 			"category": "update",
@@ -52509,7 +52509,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The messages to release, identified by their investigate IDs."
 				}
 			],
 			"category": "action",
@@ -52649,7 +52649,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a sending domain restriction."
 				}
 			],
 			"category": "create",
@@ -52745,7 +52745,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update a sending domain restriction."
 				}
 			],
 			"category": "update",
@@ -53119,7 +53119,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a trusted domain."
 				}
 			],
 			"category": "create",
@@ -53227,7 +53227,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update a trusted domain."
 				}
 			],
 			"category": "update",
@@ -53401,7 +53401,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a trusted domain."
 				}
 			],
 			"category": "update",
@@ -53505,7 +53505,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Creates a URL ignore pattern that exempts matching URLs from rewriting."
 				}
 			],
 			"category": "create",
@@ -53595,7 +53595,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Updates a URL rewrite ignore pattern; modifies only the provided fields."
 				}
 			],
 			"category": "update",
@@ -54274,7 +54274,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "At least one of `preview_enabled` or `drop_suppressed_recipients` must\nbe provided. A field omitted from the request body is left unchanged.\n"
 				}
 			],
 			"category": "update",
@@ -54689,7 +54689,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Desired-state replacement of all rules for this extractor type."
 				}
 			],
 			"category": "update",
@@ -56524,7 +56524,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Google Tag Gateway configuration for a zone."
 				}
 			],
 			"category": "update",
@@ -57527,7 +57527,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A request to create a Hyperdrive configuration using exactly one of caller-supplied origin credentials or a managed integration."
 				}
 			],
 			"category": "create",
@@ -58335,7 +58335,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Partial update request for an OAuth client. Only include fields you want to update."
 				}
 			],
 			"category": "update",
@@ -59263,7 +59263,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Set/Replace members to a user group."
 				}
 			],
 			"category": "update",
@@ -59343,7 +59343,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -59419,7 +59419,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -61331,7 +61331,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -62720,7 +62720,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A byte sequence to be stored, up to 25 MiB in length."
 				},
 				{
 					"name": "file",
@@ -63028,7 +63028,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Defines a custom set of username/password expressions to match Leaked Credential Checks on."
 				}
 			],
 			"category": "create",
@@ -63180,7 +63180,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Defines a custom set of username/password expressions to match Leaked Credential Checks on."
 				}
 			],
 			"category": "update",
@@ -63248,7 +63248,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Defines the overall status for Leaked Credential Checks."
 				}
 			],
 			"category": "update",
@@ -67470,7 +67470,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -68540,7 +68540,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new DNS Protection rule to add."
 				}
 			],
 			"category": "create",
@@ -68760,7 +68760,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updates to apply to the DNS Protection rule."
 				}
 			],
 			"category": "update",
@@ -68852,7 +68852,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new allowlist prefix to create."
 				}
 			],
 			"category": "create",
@@ -69049,7 +69049,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updates to apply to the allowlist prefix."
 				}
 			],
 			"category": "update",
@@ -69086,7 +69086,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The list of new prefixes to create."
 				}
 			],
 			"category": "create",
@@ -69178,7 +69178,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new prefix to create."
 				}
 			],
 			"category": "create",
@@ -69372,7 +69372,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updates to apply to the prefix."
 				}
 			],
 			"category": "update",
@@ -69462,7 +69462,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new filter to create."
 				}
 			],
 			"category": "create",
@@ -69670,7 +69670,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updates to apply to the filter."
 				}
 			],
 			"category": "update",
@@ -69784,7 +69784,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new SYN Protection rule to add."
 				}
 			],
 			"category": "create",
@@ -69998,7 +69998,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The fields to update on the SYN Protection rule."
 				}
 			],
 			"category": "update",
@@ -70090,7 +70090,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new filter to create."
 				}
 			],
 			"category": "create",
@@ -70302,7 +70302,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updates to apply to the filter."
 				}
 			],
 			"category": "update",
@@ -70412,7 +70412,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The new TCP Flow Protection rule."
 				}
 			],
 			"category": "create",
@@ -70624,7 +70624,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updates to apply to the TCP Flow Protection rule."
 				}
 			],
 			"category": "update",
@@ -70700,7 +70700,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The update to apply to the protection status."
 				}
 			],
 			"category": "update",
@@ -71083,7 +71083,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Partial update for a BGP filter profile. At least one property must be provided; omitted properties are left unchanged. To clear an existing description send `description: \"\"`."
 				}
 			],
 			"category": "update",
@@ -71772,7 +71772,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Partial update payload for a CF1 Site. All properties are optional; only fields supplied in the request body are modified."
 				}
 			],
 			"category": "update",
@@ -72594,7 +72594,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for setting PSKs for multiple IPsec tunnels."
 				}
 			],
 			"category": "action",
@@ -73706,7 +73706,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Bidirectional ACL policy for local network traffic within a site."
 				}
 			],
 			"category": "create",
@@ -76454,7 +76454,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A Managed Transforms patch object. Both fields are optional; only the sections provided will be updated."
 				}
 			],
 			"category": "update",
@@ -78004,7 +78004,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Partial update to a single payment rule. Only the fields present are modified; omitted fields keep their existing values."
 				}
 			],
 			"category": "update",
@@ -81205,7 +81205,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Modify an issue status or group title."
 				}
 			],
 			"category": "update",
@@ -81388,7 +81388,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Specify the new contents of the query."
 				}
 			],
 			"category": "create",
@@ -81546,7 +81546,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Specify the new contents of the query."
 				}
 			],
 			"category": "update",
@@ -81835,7 +81835,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create a sharable link to a query result."
 				}
 			],
 			"category": "create",
@@ -81910,7 +81910,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Keep your live tail connection alive."
 				}
 			],
 			"category": "action",
@@ -81994,7 +81994,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Find keys in your telemetry events matching a specific filter or needle."
 				}
 			],
 			"category": "action",
@@ -82044,7 +82044,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create websocket server for live tail."
 				}
 			],
 			"category": "action",
@@ -82251,7 +82251,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Query your observability events, requests, and traces to build visualizations and identify insights."
 				}
 			],
 			"category": "action",
@@ -82337,7 +82337,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Retrieve values from your telemetry events."
 				}
 			],
 			"category": "action",
@@ -82429,7 +82429,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Replace the ordered trace rules"
 				}
 			],
 			"category": "update",
@@ -82552,7 +82552,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update zone tracing settings"
 				}
 			],
 			"category": "update",
@@ -82954,7 +82954,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The invitation action. Use `accept` to join the organization or `reject` to decline the invitation."
 				}
 			],
 			"category": "update",
@@ -83408,7 +83408,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Partial business profile update. Omitted, empty, or null fields remain unchanged. At least\none of business name, address, phone, or email must be non-empty."
 				}
 			],
 			"category": "update",
@@ -83541,7 +83541,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The Organization fields to update or verify."
 				}
 			],
 			"category": "update",
@@ -84884,7 +84884,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -86007,7 +86007,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Repository and deployment settings for connecting a Git repository to a Pages project."
 				}
 			],
 			"category": "action",
@@ -86095,7 +86095,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Data for fully replacing a pay-per-crawl zone configuration"
 				}
 			],
 			"category": "create",
@@ -86143,7 +86143,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Data for setting flag on zones"
 				}
 			],
 			"category": "update",
@@ -86526,7 +86526,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Zone IDs to check for pay-per-crawl eligibility"
 				}
 			],
 			"category": "action",
@@ -86562,7 +86562,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Data for setting flag on zones"
 				}
 			],
 			"category": "action",
@@ -86670,7 +86670,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Pay-per-use operator configuration"
 				}
 			],
 			"category": "action",
@@ -86718,7 +86718,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Pay-per-use operator configuration update"
 				}
 			],
 			"category": "action",
@@ -86845,7 +86845,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Pay-per-use publisher price action"
 				}
 			],
 			"category": "action",
@@ -86888,7 +86888,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Pay-per-use operator proposal decision"
 				}
 			],
 			"category": "action",
@@ -86954,7 +86954,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -87092,7 +87092,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Pay-per-use zone eligibility updates"
 				}
 			],
 			"category": "action",
@@ -87128,7 +87128,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Pay-per-use zone configuration update"
 				}
 			],
 			"category": "action",
@@ -88595,7 +88595,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating or updating a consumer"
 				}
 			],
 			"category": "create",
@@ -88808,7 +88808,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating or updating a consumer"
 				}
 			],
 			"category": "update",
@@ -91583,7 +91583,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A JSON array of 1 to 1000 object keys to delete. Required unless the deprecated `prefix` parameter is present."
 				}
 			],
 			"category": "action",
@@ -91825,7 +91825,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The object body to upload."
 				},
 				{
 					"name": "file",
@@ -107211,7 +107211,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for kicking participants from an active session. At least one of `participant_ids` or `custom_participant_ids` must contain a value."
 				}
 			],
 			"category": "action",
@@ -107313,7 +107313,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for muting participants in an active session. At least one of `participant_ids` or `custom_participant_ids` must contain a value."
 				}
 			],
 			"category": "action",
@@ -107364,7 +107364,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for muting all participants in an active session."
 				}
 			],
 			"category": "action",
@@ -107432,7 +107432,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating a new poll"
 				}
 			],
 			"category": "create",
@@ -107667,7 +107667,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create meeting body"
 				}
 			],
 			"category": "create",
@@ -108234,7 +108234,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Validity window of the participant authentication token. The window is [not_before, expires_on) and cannot be longer than 100 days. Defaults to a token valid from now for 100 days."
 				}
 			],
 			"category": "action",
@@ -108608,7 +108608,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Create meeting body"
 				}
 			],
 			"category": "action",
@@ -108850,7 +108850,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update meeting body"
 				}
 			],
 			"category": "update",
@@ -110791,7 +110791,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Starts audio track recording for an active meeting. Use `layers` only when you need to set a file name prefix. Selective track recording (`user_ids`) is in early beta contact support to use this feature."
 				}
 			],
 			"category": "action",
@@ -112492,7 +112492,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "List of fully qualified domain names (FQDNs) to check. Each domain must include the extension (e.g., \"example.com\", not \"example\")."
 				}
 			],
 			"category": "action",
@@ -112815,7 +112815,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "List of transferable domain objects to check."
 				}
 			],
 			"category": "action",
@@ -113055,7 +113055,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request to update an existing domain registration.\n\nThis endpoint currently supports updating `auto_renew` only.\n"
 				}
 			],
 			"category": "update",
@@ -113181,7 +113181,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "List of fully qualified domain names (FQDNs) to check. Each domain must include the extension (e.g., \"example.com\", not \"example\")."
 				}
 			],
 			"category": "action",
@@ -113618,7 +113618,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request to update an existing domain registration.\n\nThis endpoint currently supports updating `auto_renew` only.\n"
 				}
 			],
 			"category": "update",
@@ -114517,7 +114517,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Optionally specify `recipient_account_id` to target a specific account, or `organization_id` to target the caller's whole organization. If neither is provided, the caller's organization is used.\nThe legacy field `account_id` is accepted as a synonym for `recipient_account_id` during the deprecation period (see `x-sunset` on that field).\n"
 				}
 			],
 			"category": "create",
@@ -115006,7 +115006,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for `PUT /accounts/{account_id}/shares/{share_id}`. The\nshare's display `name` and `tags` can be updated via this endpoint. To\nmodify recipients, use the\n`/accounts/{account_id}/shares/{share_id}/recipients` subresource\nendpoints (POST, PUT, DELETE).\n"
 				}
 			],
 			"category": "update",
@@ -116680,7 +116680,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -116764,7 +116764,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -116882,7 +116882,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -117054,7 +117054,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -117138,7 +117138,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -117256,7 +117256,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -117336,7 +117336,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for bulk deleting secrets."
 				}
 			],
 			"category": "action",
@@ -118597,7 +118597,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for starting an on-demand scan. Specify issue_type or issue_class to scope the scan, or provide an empty object to scan all issue types."
 				}
 			],
 			"category": "action",
@@ -119582,7 +119582,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The patch body for Smart Shield."
 				}
 			],
 			"category": "update",
@@ -119814,7 +119814,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Define a snippet rules object."
 				}
 			],
 			"category": "update",
@@ -119852,7 +119852,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Define a snippet object."
 				},
 				{
 					"name": "file",
@@ -121318,7 +121318,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update enablement of Auto-Origin TLS KEX selection."
 				}
 			],
 			"category": "update",
@@ -121403,7 +121403,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update enablement of Automatic SSL/TLS."
 				}
 			],
 			"category": "update",
@@ -122029,7 +122029,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating CT alerting subscription settings."
 				}
 			],
 			"category": "update",
@@ -124710,7 +124710,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -124992,7 +124992,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Copy upload request. Provide `input` (preferred) or `url` (deprecated)."
 				}
 			],
 			"category": "action",
@@ -125997,7 +125997,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body schema for deleting tags from account-level resources. Use /zones/{zone_id}/tags for zone-level resources."
 				}
 			],
 			"category": "delete",
@@ -126167,7 +126167,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body schema for setting tags on account-level resources."
 				}
 			],
 			"category": "update",
@@ -127902,7 +127902,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A URL Normalization object."
 				}
 			],
 			"category": "update",
@@ -127964,7 +127964,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "List of urls to scan (up to a 100)."
 				}
 			],
 			"category": "action",
@@ -131744,7 +131744,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -132068,7 +132068,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -136187,7 +136187,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "JSON Merge Patch (RFC 7396) request body for bulk secret changes.\n"
 				},
 				{
 					"name": "file",
@@ -136407,7 +136407,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A secret value accessible through a binding."
 				}
 			],
 			"category": "update",
@@ -136765,7 +136765,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for migrating a Worker's legacy non-production trigger to Previews."
 				}
 			],
 			"category": "action",
@@ -136968,7 +136968,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating a Preview. At least one field must be provided, and omitted fields are left unchanged."
 				}
 			],
 			"category": "update",
@@ -137475,7 +137475,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "JSON Merge Patch (RFC 7396) request body for bulk secret changes.\n"
 				},
 				{
 					"name": "file",
@@ -137743,7 +137743,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A secret value accessible through a binding."
 				}
 			],
 			"category": "update",
@@ -137793,7 +137793,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Raw request body, sent as-is (or @path to send a file's contents)"
 				},
 				{
 					"name": "file",
@@ -137999,7 +137999,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Tags associated with the Worker."
 				}
 			],
 			"category": "update",
@@ -140042,7 +140042,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "ID of the Zaraz configuration to restore."
 				}
 			],
 			"category": "update",
@@ -140072,7 +140072,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Zaraz configuration description."
 				}
 			],
 			"category": "create",
@@ -140126,7 +140126,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Zaraz workflow."
 				}
 			],
 			"category": "update",
@@ -141131,7 +141131,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A template to validate without persisting it."
 				}
 			],
 			"category": "action",
@@ -143401,7 +143401,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A tag"
 				}
 			],
 			"category": "update",
@@ -144201,7 +144201,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A SCIM User resource. Additional SCIM extension attributes are supported."
 				},
 				{
 					"name": "file",
@@ -144521,7 +144521,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A SCIM User resource. Additional SCIM extension attributes are supported."
 				},
 				{
 					"name": "file",
@@ -145292,7 +145292,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating content exports."
 				}
 			],
 			"category": "read",
@@ -146070,7 +146070,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Filter specification for findings export jobs."
 				}
 			],
 			"category": "read",
@@ -146138,7 +146138,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for bulk actions on findings."
 				}
 			],
 			"category": "action",
@@ -146182,7 +146182,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for bulk actions on finding instances."
 				}
 			],
 			"category": "action",
@@ -146250,7 +146250,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Filter specification for finding instance exports."
 				}
 			],
 			"category": "read",
@@ -146436,7 +146436,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for bulk actions on finding instances."
 				}
 			],
 			"category": "action",
@@ -146663,7 +146663,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating a finding's severity."
 				}
 			],
 			"category": "action",
@@ -146699,7 +146699,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for bulk actions on findings."
 				}
 			],
 			"category": "action",
@@ -146789,7 +146789,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Serializer for v2 integration create requests."
 				},
 				{
 					"name": "file",
@@ -147080,7 +147080,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Serializer for v2 integration PATCH requests."
 				},
 				{
 					"name": "file",
@@ -147164,7 +147164,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating a new policy configuration."
 				}
 			],
 			"category": "create",
@@ -147346,7 +147346,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating an existing policy configuration."
 				}
 			],
 			"category": "update",
@@ -147388,7 +147388,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating remediation jobs."
 				}
 			],
 			"category": "create",
@@ -147454,7 +147454,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Filter specification for remediation jobs export."
 				}
 			],
 			"category": "read",
@@ -147630,7 +147630,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating a new webhook configuration."
 				}
 			],
 			"category": "create",
@@ -147731,7 +147731,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for testing a webhook configuration before creating it."
 				}
 			],
 			"category": "action",
@@ -147837,7 +147837,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for creating up to 100 webhook jobs. The number of jobs is the product of webhook_ids and finding_instance_ids."
 				}
 			],
 			"category": "create",
@@ -147943,7 +147943,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Request body for updating an existing webhook configuration."
 				}
 			],
 			"category": "update",
@@ -156155,7 +156155,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A new custom prompt topic to create."
 				}
 			],
 			"category": "create",
@@ -156313,7 +156313,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update to be applied to the custom prompt topic."
 				}
 			],
 			"category": "update",
@@ -156373,7 +156373,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new data class."
 				}
 			],
 			"category": "create",
@@ -156537,7 +156537,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the data class to update."
 				}
 			],
 			"category": "update",
@@ -156591,7 +156591,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new data tag category."
 				}
 			],
 			"category": "create",
@@ -156743,7 +156743,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the data tag category to update."
 				}
 			],
 			"category": "update",
@@ -156849,7 +156849,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new data tag."
 				}
 			],
 			"category": "create",
@@ -157019,7 +157019,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the data tag to update."
 				}
 			],
 			"category": "update",
@@ -157079,7 +157079,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Dataset description."
 				}
 			],
 			"category": "create",
@@ -157263,7 +157263,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Dataset description."
 				}
 			],
 			"category": "update",
@@ -157307,7 +157307,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Dataset. For custom wordlists this contains UTF-8 patterns separated by newline characters."
 				},
 				{
 					"name": "file",
@@ -157362,7 +157362,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new document fingerprint."
 				}
 			],
 			"category": "create",
@@ -157514,7 +157514,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the document fingerprint to update."
 				}
 			],
 			"category": "update",
@@ -157552,7 +157552,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "File used for document fingerprinting."
 				},
 				{
 					"name": "file",
@@ -157601,7 +157601,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Account mapping."
 				}
 			],
 			"category": "create",
@@ -157661,7 +157661,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Rule priorities."
 				}
 			],
 			"category": "action",
@@ -157728,7 +157728,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Rule description."
 				}
 			],
 			"category": "create",
@@ -157899,7 +157899,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Rule description."
 				}
 			],
 			"category": "update",
@@ -157972,7 +157972,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A new entry to create."
 				}
 			],
 			"category": "create",
@@ -158112,7 +158112,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Update to be applied to the entry."
 				}
 			],
 			"category": "update",
@@ -158178,7 +158178,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Validation query."
 				}
 			],
 			"category": "action",
@@ -158290,7 +158290,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "A new profile to create."
 				}
 			],
 			"category": "create",
@@ -158446,7 +158446,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updated parameters for the profile."
 				}
 			],
 			"category": "update",
@@ -158588,7 +158588,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "The updated parameters for the predefined profile."
 				}
 			],
 			"category": "update",
@@ -158698,7 +158698,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new sensitivity group."
 				}
 			],
 			"category": "create",
@@ -158887,7 +158887,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the sensitivity group to update."
 				}
 			],
 			"category": "update",
@@ -158936,7 +158936,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Desired ordered list of level IDs."
 				}
 			],
 			"category": "action",
@@ -158986,7 +158986,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new sensitivity level."
 				}
 			],
 			"category": "create",
@@ -159156,7 +159156,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the sensitivity level to update."
 				}
 			],
 			"category": "update",
@@ -159243,7 +159243,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "DLP settings fields to update."
 				}
 			],
 			"category": "update",
@@ -159322,7 +159322,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "New DLP settings."
 				}
 			],
 			"category": "update",
@@ -159433,7 +159433,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new validator."
 				}
 			],
 			"category": "create",
@@ -159597,7 +159597,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the validator to update."
 				}
 			],
 			"category": "update",
@@ -159645,7 +159645,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the new validator."
 				}
 			],
 			"category": "create",
@@ -159836,7 +159836,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Attributes of the validator to update."
 				}
 			],
 			"category": "update",
@@ -160324,7 +160324,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Specify account settings."
 				}
 			],
 			"category": "update",
@@ -160592,7 +160592,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Specify account settings."
 				}
 			],
 			"category": "update",
@@ -164532,7 +164532,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Behaviors."
 				}
 			],
 			"category": "update",

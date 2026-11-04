@@ -19,7 +19,7 @@ import {
 	scalar,
 } from "./args.js";
 import { requiresConfirmation } from "./confirmation.js";
-import { builderLines } from "./emit/builder.js";
+import { bodyOptionDescription, builderLines } from "./emit/builder.js";
 import { ACCOUNT_OR_ZONE_HELP, handler, imports } from "./emit/handler.js";
 import { context, escapeSingle } from "./emit/index.js";
 import { operationLiteral, operationPath, usesPathTag } from "./emit/sdk.js";
@@ -346,7 +346,7 @@ class Walk {
 					["name", "body"],
 					["type", "string"],
 					["required", false],
-					["description", "Raw JSON request body (bypasses individual flags)"],
+					["description", bodyOptionDescription(op)],
 				])
 			);
 		}

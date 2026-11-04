@@ -24,6 +24,22 @@ function option(name: string, fields: [string, Value | undefined][]): string {
 const quoted = (v: readonly string[]) => v.map((c) => `'${c}'`).join(", ");
 
 /** `generateBuilderLines`. */
+/** `--body`'s help, shared with `_meta/commands.json` so `cf tools` schemas match `--help`. */
+export function bodyOptionDescription(op: Ctx["op"]): string {
+	if (
+		op.requestBodyDescription !== undefined &&
+		op.requestBodyDescription !== ""
+	) {
+		return op.requestBodyDescription;
+	}
+	const raw =
+		op.requestContentTypes.length > 0 &&
+		!op.requestContentTypes.includes("application/json");
+	return raw
+		? "Raw request body, sent as-is (or @path to send a file's contents)"
+		: "Raw JSON request body (bypasses individual flags)";
+}
+
 export function builderLines(ctx: Ctx): string[] {
 	const d = ctx.derived;
 	const op = ctx.op;
@@ -91,11 +107,7 @@ export function builderLines(ctx: Ctx): string[] {
 		);
 	}
 	if (d.hasBody) {
-		const desc =
-			op.requestBodyDescription !== undefined &&
-			op.requestBodyDescription !== ""
-				? op.requestBodyDescription
-				: "Raw JSON request body (bypasses individual flags)";
+		const desc = bodyOptionDescription(op);
 		lines.push("      .option('body', {");
 		lines.push("        type: 'string',");
 		lines.push(`        description: '${escapeSingle(desc)}',`);

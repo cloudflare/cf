@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
+			description: "Plain-text request body (without JSON quotes)",
 		})
 		.option("file", {
 			type: "string",

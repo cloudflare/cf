@@ -23,6 +23,26 @@ function option(name: string, fields: [string, Value | undefined][]): string {
 
 const quoted = (v: readonly string[]) => v.map((c) => `'${c}'`).join(", ");
 
+export const JSON_BODY_DESCRIPTION =
+	"Raw JSON request body (bypasses individual flags)";
+
+/** Matches the plain-text body classification in `wire()`. */
+export const isPlainTextBody = (op: Ctx["op"]) =>
+	op.requestContentTypes.length > 0 &&
+	op.requestContentTypes.every((type) => type.startsWith("text/plain"));
+
+export function bodyOptionDescription(op: Ctx["op"]): string {
+	if (
+		op.requestBodyDescription !== undefined &&
+		op.requestBodyDescription !== ""
+	) {
+		return op.requestBodyDescription;
+	}
+	return isPlainTextBody(op)
+		? "Plain-text request body (without JSON quotes)"
+		: JSON_BODY_DESCRIPTION;
+}
+
 /** `generateBuilderLines`. */
 export function builderLines(ctx: Ctx): string[] {
 	const d = ctx.derived;
@@ -91,11 +111,7 @@ export function builderLines(ctx: Ctx): string[] {
 		);
 	}
 	if (d.hasBody) {
-		const desc =
-			op.requestBodyDescription !== undefined &&
-			op.requestBodyDescription !== ""
-				? op.requestBodyDescription
-				: "Raw JSON request body (bypasses individual flags)";
+		const desc = bodyOptionDescription(op);
 		lines.push("      .option('body', {");
 		lines.push("        type: 'string',");
 		lines.push(`        description: '${escapeSingle(desc)}',`);

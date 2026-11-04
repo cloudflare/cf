@@ -44,6 +44,60 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it.each([
+			{
+				profile: "poppy-0.3",
+				accountTokens: {
+					issuer: "https://auth.shop.example",
+					audience: "https://api.shop.example",
+				},
+			},
+			{ profile: "poppy-0.3", companyId: "https://auth.shop.example" },
+			{
+				profile: "poppy-0.3",
+				accountTokens: {
+					issuer: "https://auth.shop.example",
+					audience: "https://api.shop.example",
+					profile: "rfc9068",
+					jwksUri: "https://auth.shop.example/jwks",
+					algorithms: ["ES256"],
+				},
+			},
+		])(
+			"uploads flat caller identity without credential discovery: %j",
+			async (callerIdentity) => {
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({
+							compatibilityDate: "2026-10-31",
+							callerIdentity,
+						}),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default {fetch(){return new Response('ok')}}",
+				});
+				const requests = recordRequests();
+				const { exitCode } = await runCf([
+					"deploy",
+					"--prebuilt",
+					"--no-provision",
+				]);
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.caller_identity).toEqual(callerIdentity);
+				expect(upload.metadata).not.toHaveProperty("identity_receiver");
+				expect(upload.metadata?.compatibility_flags).toEqual(
+					expect.arrayContaining([
+						"enable_workload_identity_context",
+						"enable_delegated_identity",
+					])
+				);
+				expect(requests.some((url) => url.includes("auth.shop.example"))).toBe(
+					false
+				);
+			}
+		);
+
 		it.each([false, true])(
 			"uploads identity binding metadata (signing only: %s)",
 			async (signingOnly) => {

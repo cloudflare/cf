@@ -1,4 +1,4 @@
-import * as clack from "@clack/prompts";
+import { log } from "../../lib/ui/log.js";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
@@ -40,7 +40,7 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 	builder,
 	handler: async (argv) => {
 		if (argv.force && !argv["dry-run"]) {
-			clack.log.warn(
+			log.warn(
 				"Using --force may overwrite conflicting remote Worker changes."
 			);
 		}

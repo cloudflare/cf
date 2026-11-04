@@ -1149,14 +1149,6 @@
 					"default": false
 				},
 				{
-					"name": "force",
-					"type": "boolean",
-					"required": false,
-					"description": "Allow upload in CI despite conflicting remote Worker changes",
-					"default": false,
-					"alias": "f"
-				},
-				{
 					"name": "tag",
 					"type": "string",
 					"required": false,
@@ -1193,6 +1185,14 @@
 					"required": false,
 					"description": "Automatically provision resources for bindings that need them",
 					"default": true
+				},
+				{
+					"name": "force",
+					"alias": "f",
+					"type": "boolean",
+					"required": false,
+					"description": "Allow upload in CI despite conflicting remote Worker changes",
+					"default": false
 				},
 				{
 					"name": "dispatch-namespace",

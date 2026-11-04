@@ -171,11 +171,22 @@ describe("cf deploy", () => {
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
-			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+			const success = vi
+				.spyOn(clack.log, "success")
+				.mockImplementation(() => {});
+			try {
+				const { exitCode } = await runCf(["deploy", "--prebuilt"]);
 
-			expect(exitCode).toBe(0);
-			expect(upload.metadata?.main_module).toBe("index.js");
-			expect(std.out).toContain("Deployed");
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.main_module).toBe("index.js");
+				expect(std.out).toContain("Deployed");
+				expect(success).toHaveBeenCalledWith(
+					"Deploy complete",
+					expect.objectContaining({ output: process.stderr })
+				);
+			} finally {
+				success.mockRestore();
+			}
 		});
 
 		it("deploys a standard Container from Build Output", async () => {
@@ -1160,32 +1171,39 @@ describe("cf deploy", () => {
 	});
 
 	describe("re-deploy existing worker", () => {
-		it("uploads an API-managed Worker in CI with --force", async () => {
-			const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
-			try {
-				const upload = mockWorkerUpload();
-				mockExistingWorker({ lastDeployedFrom: "api" });
-				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
-						workerConfig(),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
-						"export default { fetch() { return new Response('ok'); } }",
-				});
+		it.each(["--force", "-f"])(
+			"uploads an API-managed Worker in CI with %s",
+			async (forceFlag) => {
+				const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
+				try {
+					const upload = mockWorkerUpload();
+					mockExistingWorker({ lastDeployedFrom: "api" });
+					await seed({
+						".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+						".cloudflare/output/v0/workers/default/worker.config.json":
+							workerConfig(),
+						".cloudflare/output/v0/workers/default/bundle/index.js":
+							"export default { fetch() { return new Response('ok'); } }",
+					});
 
-				const { exitCode } = await runCf(["deploy", "--prebuilt", "--force"], {
-					CI: "true",
-				});
+					const { exitCode } = await runCf(
+						["deploy", "--prebuilt", forceFlag, "--quiet"],
+						{
+							CI: "true",
+						}
+					);
 
-				expect(exitCode).toBe(0);
-				expect(upload.metadata?.main_module).toBe("index.js");
-				expect(warn).toHaveBeenCalledWith(
-					"Using --force may overwrite conflicting remote Worker changes."
-				);
-			} finally {
-				warn.mockRestore();
+					expect(exitCode).toBe(0);
+					expect(upload.metadata?.main_module).toBe("index.js");
+					expect(warn).toHaveBeenCalledWith(
+						"Using --force may overwrite conflicting remote Worker changes.",
+						expect.objectContaining({ output: process.stderr })
+					);
+				} finally {
+					warn.mockRestore();
+				}
 			}
-		});
+		);
 
 		it("aborts in strict mode when last deployed from api", async () => {
 			const upload = mockWorkerUpload();
@@ -1233,14 +1251,24 @@ describe("cf deploy", () => {
 					}),
 			});
 
-			const { exitCode } = await runCf(["deploy"]);
+			const success = vi
+				.spyOn(clack.log, "success")
+				.mockImplementation(() => {});
+			try {
+				const { exitCode } = await runCf(["deploy"]);
 
-			// strict mode + non-interactive rejects the overwrite; no upload happens
-			expect(exitCode).toBe(1);
-			expect(upload.metadata).toBeUndefined();
-			expect(std.err).toContain("Aborting");
-			expect(std.out + std.err).not.toContain("Deploy complete");
-			expect(readDockerCommands()).toEqual([]);
+				// strict mode + non-interactive rejects the overwrite; no upload happens
+				expect(exitCode).toBe(1);
+				expect(upload.metadata).toBeUndefined();
+				expect(std.err).toContain("Aborting");
+				expect(success).not.toHaveBeenCalledWith(
+					"Deploy complete",
+					expect.anything()
+				);
+				expect(readDockerCommands()).toEqual([]);
+			} finally {
+				success.mockRestore();
+			}
 		});
 	});
 

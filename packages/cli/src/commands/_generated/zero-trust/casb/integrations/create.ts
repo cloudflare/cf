@@ -162,7 +162,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.file) {
+				if (argv.file !== undefined) {
 					const fileContent = readFileForFlag(argv.file);
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(

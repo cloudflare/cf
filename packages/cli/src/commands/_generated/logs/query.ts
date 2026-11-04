@@ -1,4 +1,3 @@
-import operation from "../_operations/logs/query.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -78,6 +77,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				if (argv.body === undefined && argv.file === undefined) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -94,7 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.file) {
+				if (argv.file !== undefined) {
 					const fileContent = readFileForFlag(argv.file);
 					const result = await withProgress(`Loading`, async () =>
 						requestApi<unknown>(
@@ -108,7 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					// Endpoint does not accept application/json — send --body as raw bytes,
 					// resolving @file references as binary file contents.
 					const bodyData = resolveFileToken(argv.body, "body", "binary");
@@ -123,14 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
 				}
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
 };

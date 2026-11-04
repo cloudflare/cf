@@ -139,10 +139,7 @@ export interface OperationInfo {
 	requestContentTypes: string[];
 	/** The model the JSON body is, if it is one. */
 	requestBodyRef?: string;
-	/**
-	 * Whether the operation requires its JSON body, which is an object with
-	 * fields: sent empty, it would say nothing.
-	 */
+	/** Whether the operation requires its JSON object or non-JSON body. */
 	requestBodyMandatory: boolean;
 	requestBodyRequired: string[];
 	requestBodyDescription?: string;
@@ -258,8 +255,7 @@ export function resolve(method: Method): OperationInfo {
 		requestBodyMandatory:
 			body !== undefined &&
 			body.required &&
-			jsonResolved !== undefined &&
-			isObject(jsonResolved),
+			(jsonResolved === undefined || isObject(jsonResolved)),
 		requestBodyRequired:
 			jsonResolved && !isArray ? requiredNames(jsonResolved) : [],
 		requestBodyDescription: body && requestBodyDescription(body),

@@ -78,7 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 				if (argv.body === undefined && argv.file === undefined) {
 					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
 					);
 				}
 				const client = await createCommandClient(argv);
@@ -87,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.file !== undefined || argv.body !== undefined) {
 					const formData = new FormData();
-					if (argv.file) {
+					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
 							"file",
@@ -109,7 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					// Endpoint does not accept application/json — send --body as raw bytes,
 					// resolving @file references as binary file contents.
 					const bodyData = resolveFileToken(argv.body, "body", "binary");

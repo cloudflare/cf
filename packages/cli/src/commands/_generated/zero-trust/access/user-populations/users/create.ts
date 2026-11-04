@@ -248,7 +248,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(

@@ -64,6 +64,7 @@ export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
 	lines.push(...dryRun(ctx));
 	lines.push(...requiredBody(ctx));
+	lines.push(...preparsedBody(ctx));
 	lines.push(...auth(ctx));
 	if (ctx.isDelete) {
 		lines.push(...deleteConfirm(ctx));
@@ -141,6 +142,21 @@ function parseBodyExpression(ctx: Ctx): string {
 		args.push(String(ctx.op.maxItems));
 	}
 	return `parseBody(${args.join(", ")})`;
+}
+
+const RAW_BODY_EXPRESSION = "resolveFileToken(argv.body, 'body', 'binary')";
+
+/** Whether `--body` is read before auth so a bad body never reaches the confirmation prompt. */
+const parsesBodyEarly = (ctx: Ctx) => ctx.isDelete && ctx.derived.hasBody;
+
+function preparsedBody(ctx: Ctx): string[] {
+	if (!parsesBodyEarly(ctx)) {
+		return [];
+	}
+	const read = acceptsJson(ctx)
+		? `argv.body !== undefined ? ${parseBodyExpression(ctx)} : undefined`
+		: RAW_BODY_EXPRESSION;
+	return [`      const parsedBody = ${read};`];
 }
 
 function preservedBodyPaths(ctx: Ctx): string {
@@ -304,6 +320,10 @@ export function dryRun(ctx: Ctx): string[] {
 			} else {
 				lines.push("            : undefined,");
 			}
+		} else if (d.hasFileUpload) {
+			lines.push(
+				"          body: argv.file !== undefined ? { file: argv.file } : argv.body,"
+			);
 		} else {
 			lines.push("          body: argv.body,");
 		}
@@ -573,11 +593,11 @@ function bodyBypass(ctx: Ctx): string[] {
 	const rawCt =
 		op.requestContentTypes.find((c) => c !== "application/json") ??
 		"application/octet-stream";
-	const lines = [
-		"",
-		`      if (${json ? "argv.body" : "argv.body !== undefined"}) {`,
-	];
-	if (json) {
+	// `!== undefined`, as in the dry run: an empty `--body` is input, not absence.
+	const lines = ["", "      if (argv.body !== undefined) {"];
+	if (parsesBodyEarly(ctx)) {
+		lines.push("        const bodyData = parsedBody;");
+	} else if (json) {
 		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
 	} else {
 		lines.push(
@@ -586,9 +606,7 @@ function bodyBypass(ctx: Ctx): string[] {
 		lines.push(
 			"        // resolving @file references as binary file contents."
 		);
-		lines.push(
-			"        const bodyData = resolveFileToken(argv.body, 'body', 'binary');"
-		);
+		lines.push(`        const bodyData = ${RAW_BODY_EXPRESSION};`);
 	}
 	const headerParts = json ? [] : [`'Content-Type': '${rawCt}'`];
 	let headerOpt: string | undefined;
@@ -1115,7 +1133,8 @@ export function imports(ctx: Ctx): Imports {
 	}
 	if (d.hasBody || d.hasBodyParams) {
 		const names: string[] = [];
-		if (d.hasBody) {
+		// Non-JSON bodies are sent raw through resolveFileToken.
+		if (d.hasBody && acceptsJson(ctx)) {
 			names.push("parseBody");
 		}
 		if (d.hasBodyParams) {

@@ -174,7 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const scriptName = getWorkerName({ scriptName: argv["worker"] });
 				argv["worker"] = scriptName;
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)

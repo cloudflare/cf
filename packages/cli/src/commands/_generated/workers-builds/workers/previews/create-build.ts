@@ -182,7 +182,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {

@@ -156,6 +156,19 @@ describe.each(["text/plain", "application/octet-stream"])(
 			expect(send).not.toHaveBeenCalled();
 		});
 
+		it("previews a --file body during a dry run", async () => {
+			const { run, requestApi, formatDryRun } = setup(files);
+			await run(["--dry-run", "--file", "body.txt"]);
+			expect(formatDryRun).toHaveBeenCalledExactlyOnceWith(
+				expect.objectContaining({ body: { file: "body.txt" } })
+			);
+			expect(requestApi).not.toHaveBeenCalled();
+		});
+
+		it("does not import the JSON body parser", () => {
+			expect(files.get("things/update.ts")).not.toContain("parseBody");
+		});
+
 		it("rejects an empty file path before making a request", async () => {
 			const { run, requestApi, send, formatOutput } = setup(files);
 			await expect(run(["--file", ""])).rejects.toThrow(

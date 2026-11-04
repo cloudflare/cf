@@ -78,7 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)

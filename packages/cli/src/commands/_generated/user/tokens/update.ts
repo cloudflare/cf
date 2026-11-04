@@ -122,7 +122,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 				const client = await createCommandClient(argv);
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {

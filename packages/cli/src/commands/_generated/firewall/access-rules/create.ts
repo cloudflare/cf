@@ -142,7 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {

@@ -172,7 +172,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body, [
 						{ path: ["requests_by_attribute"], flag: "requests-by-attribute" },
 						{ path: ["requests_by_score"], flag: "requests-by-score" },

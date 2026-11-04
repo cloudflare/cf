@@ -94,6 +94,25 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			expect(fetchRawBytes).not.toHaveBeenCalled();
 		});
 
+		it.each([
+			["oversized", '["one","two","three"]', "at most 2 items"],
+			["malformed", "{not json", "--body"],
+			["empty", "", "--body"],
+		])(
+			"rejects an %s body before confirmation or requests",
+			async (_label, body, message) => {
+				const { run, confirmDelete, send, requestApi, fetchRawBytes } = setup(
+					httpMethod,
+					2
+				);
+				await expect(run(body)).rejects.toThrow(message);
+				expect(confirmDelete).not.toHaveBeenCalled();
+				expect(send).not.toHaveBeenCalled();
+				expect(requestApi).not.toHaveBeenCalled();
+				expect(fetchRawBytes).not.toHaveBeenCalled();
+			}
+		);
+
 		it("previews an omitted body without confirmation during a dry run", async () => {
 			const { run, confirmDelete, formatDryRun, send, requestApi } =
 				setup(httpMethod);

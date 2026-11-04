@@ -92,7 +92,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body, [
 						{ path: ["bot_overrides"], flag: "bot-overrides" },
 					]);

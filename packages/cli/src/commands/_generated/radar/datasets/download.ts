@@ -76,7 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 				const client = await createCommandClient(argv);
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)

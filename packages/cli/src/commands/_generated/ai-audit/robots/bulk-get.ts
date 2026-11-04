@@ -73,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body, [], 25);
 					const result = await withProgress(`Loading`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })

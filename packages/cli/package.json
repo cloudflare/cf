@@ -84,7 +84,7 @@
 		"@cloudflare/cli-shared-helpers": "0.3.3",
 		"@cloudflare/codemods": "0.7.3",
 		"@cloudflare/containers-shared": "0.23.8",
-		"@cloudflare/deploy-helpers": "0.25.0",
+		"@cloudflare/deploy-helpers": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@94113aa73e601df5815b53bffee17ddfb3c6591d",
 		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@0118fdf5fbddbb0959a6c2c2cb5e0c9efaf871b7",
 		"@cloudflare/workers-auth": "0.15.6",
 		"@cloudflare/workers-utils": "0.51.1",

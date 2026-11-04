@@ -782,7 +782,12 @@ workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
 pushes that change the package, and `packages/cli/package.json` pins one by
 commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
-`workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
+and `workers-utils` are installed from npm at exact versions. `deploy-helpers`
+temporarily uses a commit-pinned pkg.pr.new build from workers-sdk PR #16020
+for its `strictModeAbortMessage` API. Its sibling dependencies are overridden
+to the matching npm releases in `pnpm-workspace.yaml` to retain shared package
+instances and the container cleanup patch. Remove those overrides when a
+released deploy-helpers version includes the API.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 

@@ -118,6 +118,8 @@ export function createDeployProps(
 		logpush: config.logpush,
 		dispatchNamespace: argv["dispatch-namespace"],
 		strict: !argv.force,
+		strictModeAbortMessage:
+			"Aborting the upload operation because of conflicts. Rerun with `cf deploy --force` to override and upload anyway.",
 		legacyAssetPaths: undefined,
 		oldAssetTtl: undefined,
 	};

@@ -1205,71 +1205,81 @@ describe("cf deploy", () => {
 			}
 		);
 
-		it("aborts in strict mode when last deployed from api", async () => {
-			const upload = mockWorkerUpload();
-			vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
+		it.each([false, true])(
+			"aborts an API-managed Worker in CI with quiet=%s",
+			async (quiet) => {
+				const upload = mockWorkerUpload();
+				vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
 
-			msw.use(
-				http.get(
-					"*/accounts/:accountId/workers/services/:scriptName",
-					() =>
-						HttpResponse.json(
-							createFetchResult({
-								id: "test-service-id",
-								default_environment: {
-									environment: "production",
-									script: {
-										tag: "existing-tag",
-										last_deployed_from: "api",
+				msw.use(
+					http.get(
+						"*/accounts/:accountId/workers/services/:scriptName",
+						() =>
+							HttpResponse.json(
+								createFetchResult({
+									id: "test-service-id",
+									default_environment: {
+										environment: "production",
+										script: {
+											tag: "existing-tag",
+											last_deployed_from: "api",
+										},
 									},
-								},
-							})
-						),
-					{ once: true }
-				)
-			);
-
-			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
-					workerConfig({
-						exports: {
-							ContainerDO: {
-								type: "durable-object",
-								storage: "sqlite",
-								container: "api-container",
-							},
-						},
-					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
-					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
-					JSON.stringify({
-						name: "api-container",
-						image: { localReference: "api-container:built-by-vite" },
-						maxInstances: 1,
-					}),
-			});
-
-			const success = vi
-				.spyOn(clack.log, "success")
-				.mockImplementation(() => {});
-			try {
-				const { exitCode } = await runCf(["deploy"]);
-
-				// strict mode + non-interactive rejects the overwrite; no upload happens
-				expect(exitCode).toBe(1);
-				expect(upload.metadata).toBeUndefined();
-				expect(std.err).toContain("Aborting");
-				expect(success).not.toHaveBeenCalledWith(
-					"Deploy complete",
-					expect.anything()
+								})
+							),
+						{ once: true }
+					)
 				);
-				expect(readDockerCommands()).toEqual([]);
-			} finally {
-				success.mockRestore();
+
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({
+							exports: {
+								ContainerDO: {
+									type: "durable-object",
+									storage: "sqlite",
+									container: "api-container",
+								},
+							},
+						}),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export class ContainerDO {}; export default {};",
+					".cloudflare/output/v0/containers/api/container.config.json":
+						JSON.stringify({
+							name: "api-container",
+							image: { localReference: "api-container:built-by-vite" },
+							maxInstances: 1,
+						}),
+				});
+
+				const success = vi
+					.spyOn(clack.log, "success")
+					.mockImplementation(() => {});
+				try {
+					const { exitCode } = await runCf(
+						["deploy", ...(quiet ? ["--quiet"] : [])],
+						{ CI: "true" }
+					);
+
+					// strict mode + non-interactive rejects the overwrite; no upload happens
+					expect(exitCode).toBe(1);
+					expect(upload.metadata).toBeUndefined();
+					expect(std.err).toContain(
+						"Aborting the upload operation because of conflicts. Rerun with `cf deploy --force` to override and upload anyway."
+					);
+					expect(std.err).not.toContain("--strict");
+					expect(std.out).not.toContain("cf deploy --force");
+					expect(success).not.toHaveBeenCalledWith(
+						"Deploy complete",
+						expect.anything()
+					);
+					expect(readDockerCommands()).toEqual([]);
+				} finally {
+					success.mockRestore();
+				}
 			}
-		});
+		);
 	});
 
 	describe("--dry-run", () => {

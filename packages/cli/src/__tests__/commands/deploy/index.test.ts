@@ -52,14 +52,19 @@ describe("cf deploy", () => {
 					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
 					".cloudflare/output/v0/workers/default/worker.config.json":
 						workerConfig({
+							compatibilityDate: "2026-04-21",
 							env: {
 								ORDERS: {
 									type: "identity",
 									...(signingOnly
 										? {
 												request_signing: {
-													allowed_origins: ["https://api.example.com"],
-													allowed_methods: ["GET"],
+													resources: [
+														{
+															origin: "https://api.example.com",
+															methods: ["GET"],
+														},
+													],
 												},
 											}
 										: { audience: "urn:orders" }),
@@ -87,8 +92,9 @@ describe("cf deploy", () => {
 							...(signingOnly
 								? {
 										request_signing: {
-											allowed_origins: ["https://api.example.com"],
-											allowed_methods: ["GET"],
+											resources: [
+												{ origin: "https://api.example.com", methods: ["GET"] },
+											],
 										},
 									}
 								: { audience: "urn:orders" }),
@@ -118,19 +124,26 @@ describe("cf deploy", () => {
 					token_endpoint: "https://auth.example.com/token",
 					resource: "https://api.example.com",
 					scope: ["read"],
-					allowed_origins: ["https://api.example.com"],
-					allowed_methods: ["GET", "POST"],
+					resources: [
+						{ origin: "https://api.example.com", methods: ["GET", "POST"] },
+					],
 					http_message_signatures: "web_bot_auth" as const,
 				};
 				const policy = {
 					type: "identity" as const,
 					oauth,
-					client_authentication: true,
+					client_authentication: {
+						client_id: "https://app.example.com/client.json",
+						audience: "https://auth.example.com",
+					},
 				};
 				await seed({
 					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
 					".cloudflare/output/v0/workers/default/worker.config.json":
-						workerConfig({ env: { API: policy } }),
+						workerConfig({
+							compatibilityDate: "2026-04-21",
+							env: { API: policy },
+						}),
 					".cloudflare/output/v0/workers/default/bundle/index.js":
 						"export default {fetch(){return new Response('ok')}}",
 				});

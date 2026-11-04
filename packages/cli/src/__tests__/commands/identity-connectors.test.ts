@@ -71,6 +71,7 @@ describe("normal cf identity commands", () => {
 		await seed({
 			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
 			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				compatibilityDate: "2026-04-21",
 				env: { ISSUES: configuredBinding },
 			}),
 			".cloudflare/output/v0/workers/default/bundle/index.js":
@@ -127,6 +128,7 @@ describe("normal cf identity commands", () => {
 			connectionId = randomUUID();
 		await seed({
 			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				compatibilityDate: "2026-04-21",
 				env: {
 					ISSUES: {
 						type: "identity",

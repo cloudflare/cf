@@ -267,20 +267,20 @@ importers:
   packages/cli:
     dependencies:
       '@cloudflare/build-output-utils':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@f11712be5
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@2bc6fcfba
       '@cloudflare/config':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@f11712be5
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@2bc6fcfba
       '@cloudflare/runtime-types':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@f11712be5
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@2bc6fcfba
       blake3-wasm:
         specifier: 2.1.5
         version: 2.1.5
       miniflare:
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@f11712be5(@types/node@26.6.6)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@2bc6fcfba(@types/node@26.6.6)
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
@@ -295,29 +295,29 @@ importers:
         specifier: ^1.8.1
         version: 1.8.1
       '@cloudflare/autoconfig':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@f11712be5(vitest@5.0.5)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@2bc6fcfba(vitest@5.0.5)
       '@cloudflare/cli-shared-helpers':
         specifier: 0.3.3
         version: 0.3.3(vitest@5.0.5)
       '@cloudflare/codemods':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@f11712be5
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@2bc6fcfba
       '@cloudflare/containers-shared':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@f11712be5(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@2bc6fcfba(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)
       '@cloudflare/deploy-helpers':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@f11712be5(patch_hash=30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235)(vitest@5.0.5)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@2bc6fcfba(patch_hash=30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235)(vitest@5.0.5)
       '@cloudflare/forge':
         specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5879d90b6c2c560a0f841de4bdb5c105b84d0e92
         version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5879d90b6c2c560a0f841de4bdb5c105b84d0e92(@bytecodealliance/jco@1.40.0)
       '@cloudflare/workers-auth':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@f11712be5(msw@3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vitest@5.0.5)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@2bc6fcfba(msw@3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vitest@5.0.5)
       '@cloudflare/workers-utils':
-        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@f11712be5
-        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@f11712be5(vitest@5.0.5)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@2bc6fcfba
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@2bc6fcfba(vitest@5.0.5)
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -710,39 +710,39 @@ packages:
     resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
 
-  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@f11712be5':
-    resolution: {integrity: sha512-zV5cK3of0Fhf8+ZOnySUgy19LCPV93Wmvd6n3RADP4TNrqdS4naYT6x7pM7k3wm2tKQe+eaikrLUFbMNAlVc6Q==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@f11712be5}
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@2bc6fcfba':
+    resolution: {integrity: sha512-lti/BmMZ/j2FS9zDO4wu3W0cPZywSsLjN+W315wXADJRfEDyjGsBVvqy+q2QscdNhdEnOmPhnD1UdiCoI2izvg==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@2bc6fcfba}
     version: 0.8.3
 
   '@cloudflare/build-output-utils@0.9.9':
     resolution: {integrity: sha512-8bsxwE0sBANpEXHD2SWCfMw82wdacUsr1b0p9a9WbGNeMASmXHUzUfMvRkq9k6aKnC9uPeeYJ/m4ErXsC+cy/Q==}
 
-  '@cloudflare/build-output-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@f11712be5':
-    resolution: {integrity: sha512-xiqg4vM6iygoTQtkN2Jcf4GBPxoff/paiBOGIDM3zL6voLRjtFKvoMlDfDYrka1vZ55UgeGUZ/BFWCwLqdm1xw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@f11712be5}
+  '@cloudflare/build-output-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@2bc6fcfba':
+    resolution: {integrity: sha512-7w0kQPSPb80dUW8rB4XG5MXjajGc1gzd2yDGhdprU5PTB4TJEb3RqWFaAigtCDtV2jPrjsmgiBNfe8naTVR9iA==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@2bc6fcfba}
     version: 0.9.6
 
   '@cloudflare/cli-shared-helpers@0.3.3':
     resolution: {integrity: sha512-EpNddk5YQuvxmi8G48Fkm2ruFuOWDO99rdreMT14Wf8LUl1LeDx4gHxdoUZagL5Oj9o0+IQjnetZGfiE+dvueA==}
 
-  '@cloudflare/codemods@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@f11712be5':
-    resolution: {integrity: sha512-F27eL/+Wozd2LoVlnHNokwInVnHwwDswEH2eZml05y53BUNcvSRmb1l4JVcAoqS6QzdtMSTqXLWun0J171hZOA==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@f11712be5}
+  '@cloudflare/codemods@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@2bc6fcfba':
+    resolution: {integrity: sha512-DBau3FThlJJhxIEMCQVRG/ty+gSN++Dh1btddQWRENuwj1DZh5/2NGUBeKaMAeAF6ZxzNj9Q6DItFtQIqP/P/g==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@2bc6fcfba}
     version: 0.7.0
     hasBin: true
 
   '@cloudflare/config@0.30.1':
     resolution: {integrity: sha512-16yO439yuhX1cM1l2IoNDVxJM4cZ9oE+eLtxFAe32EamS/7e4t42CzzyTE+dHQfFcKNvkmiZRxx9JinO4l7ynQ==}
 
-  '@cloudflare/config@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@f11712be5':
-    resolution: {integrity: sha512-qy7CLSU+Uh2R0z3dMBowvq+ueQI9t3Vm21lCyn/xdnVyuewQmPlqwAHZeq8tZ5h9M8nA6M5X8/maxIpjM6rQnw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@f11712be5}
+  '@cloudflare/config@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@2bc6fcfba':
+    resolution: {integrity: sha512-9fL+ExUu2jPxXKZDewFjqQyTwYUX1SuEcOZKT6MOahQ+48BEbTZpb3XxyPTSCapdAnqfqkhSI4PSw3C91h47CQ==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@2bc6fcfba}
     version: 0.29.0
 
-  '@cloudflare/containers-shared@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@f11712be5':
-    resolution: {integrity: sha512-NmGVcY0oE53cV5k5NtnzEQSD9OgeT1SQJHmXHZFtyOfvn5xKe0dKDUie6JxfNLd2II+9LC6ObfWHADJao7kn7g==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@f11712be5}
+  '@cloudflare/containers-shared@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@2bc6fcfba':
+    resolution: {integrity: sha512-KFwkuBu7nPapr44cDfihdA94keg2XSarQyvE2LbpBqYL69MKe1DtTmn2Ywqf5aD1uF7wBDnG7GscXXkqdSrNSw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@2bc6fcfba}
     version: 0.23.5
     engines: {node: '>=22.0.0'}
 
-  '@cloudflare/deploy-helpers@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@f11712be5':
-    resolution: {integrity: sha512-v4gXZikSgefO2sA6qmvgyLSCu7dpvo75bHtpJKQKJRl5iqSl0x4F/s7kZshYgYlZ+Ef9VEp8jXOAPXuCq6mNtQ==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@f11712be5}
+  '@cloudflare/deploy-helpers@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@2bc6fcfba':
+    resolution: {integrity: sha512-HDej2KkdmE1CrMCYEtsRyd+ZwAiPd3em7BmCVadQDvErbY2CR0oc+gV3YyIpsxMhV5paZzQlZ/I79xcfaoeD7A==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@2bc6fcfba}
     version: 0.24.3
 
   '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5879d90b6c2c560a0f841de4bdb5c105b84d0e92':
@@ -763,8 +763,8 @@ packages:
   '@cloudflare/runtime-types@0.1.22':
     resolution: {integrity: sha512-9t9HWbHzSvJt4NQac6n4lS73p635++PyeN/zIuW9FZXV1Zt0+pnySnMr1lsrrh77dXd+soedhamYb9wbs1QGDQ==}
 
-  '@cloudflare/runtime-types@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@f11712be5':
-    resolution: {integrity: sha512-yJKg48/AiV/sKYv2Duu1uXEhGoN8mmcGJ6zQgHiFXxkEnSnbe5h6IvPT8InhLMeWOpQ//NCyuBO/O2rlMv4gHA==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@f11712be5}
+  '@cloudflare/runtime-types@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@2bc6fcfba':
+    resolution: {integrity: sha512-fohiROWDsYzMwOgWr2TQsWh/ota8+uNIkHewwoXX2H+5WNj3b6oGX2yP1bhEuhEceKKQbisC7gOXr1maKi1E7A==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@2bc6fcfba}
     version: 0.1.19
 
   '@cloudflare/unenv-preset@2.16.2':
@@ -842,8 +842,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-auth@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@f11712be5':
-    resolution: {integrity: sha512-zRvhpJpfRtNdEcTYWtTtaR59qKowqCxXliyXheQPi689IsL/Cd2KxVl+OyLXnGvaPrXlDKwvnT18/RGDCLkSbg==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@f11712be5}
+  '@cloudflare/workers-auth@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@2bc6fcfba':
+    resolution: {integrity: sha512-OSu0pyqOiVvcjxFodxsREY4bacxim2RlVUwdgHKHWYek1yXPVWwh+86j93y65u2SxOQzb8LdekhMyKF5c4AsLg==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@2bc6fcfba}
     version: 0.15.3
     peerDependencies:
       msw: 2.14.6
@@ -865,8 +865,8 @@ packages:
       vitest:
         optional: true
 
-  '@cloudflare/workers-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@f11712be5':
-    resolution: {integrity: sha512-NytNih9CMNiUWUI1BZrugAWHvN6GOdWbTzeF88vqNopoSnRV9LoEJn5HMy8nZU0wwwFUsabOqzr0s7PrqaLOaw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@f11712be5}
+  '@cloudflare/workers-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@2bc6fcfba':
+    resolution: {integrity: sha512-a/XNVwDw4w3f7iyexD4CyAUtM7rocon7+Ci6A2AQOG815oXhoodgIeOLR9uelT2J/Wt01Ea6H5UmUuBK21TOag==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@2bc6fcfba}
     version: 0.50.1
     peerDependencies:
       vitest: 5.0.5
@@ -3279,8 +3279,8 @@ packages:
     resolution: {integrity: sha512-wghSXG3KHzMbAYvcrHFxN6JNI1Or3LSxpBe1qHdnFXFOPIDIlXCNvsRVF2J97rXsfFSJr7EzxRSjoUCmgVDEUA==}
     engines: {node: '>=22.0.0'}
 
-  miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@f11712be5:
-    resolution: {integrity: sha512-lfu/hxDkpvTMPgWrTCeGp6+TXf9hFL2JqUi0prXwve2WNhMof32FOhqrmm53Ya3k8Tmf2wRqyVxdc588vYaXyA==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@f11712be5}
+  miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@2bc6fcfba:
+    resolution: {integrity: sha512-04QUyOHRHTUZ8x0gJfvqLOzs6P0u7apUaVafSRwcRghXBMUx6YW85Xk22xAAIvPCdMxaNpL5u6qR0igP8CmCmw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/miniflare@2bc6fcfba}
     version: 5.20261023.3-beta
     engines: {node: '>=22.0.0'}
 
@@ -4304,7 +4304,7 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@f11712be5(vitest@5.0.5)':
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@2bc6fcfba(vitest@5.0.5)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.3.3(vitest@5.0.5)
     transitivePeerDependencies:
@@ -4314,7 +4314,7 @@ snapshots:
     dependencies:
       '@cloudflare/config': 0.30.1
 
-  '@cloudflare/build-output-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@f11712be5': {}
+  '@cloudflare/build-output-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/build-output-utils@2bc6fcfba': {}
 
   '@cloudflare/cli-shared-helpers@0.3.3(vitest@5.0.5)':
     dependencies:
@@ -4327,23 +4327,23 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/codemods@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@f11712be5': {}
+  '@cloudflare/codemods@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/codemods@2bc6fcfba': {}
 
   '@cloudflare/config@0.30.1':
     dependencies:
       zod: 4.6.6
 
-  '@cloudflare/config@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@f11712be5':
+  '@cloudflare/config@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/config@2bc6fcfba':
     dependencies:
       zod: 4.6.6
 
-  '@cloudflare/containers-shared@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@f11712be5(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)':
+  '@cloudflare/containers-shared@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@2bc6fcfba(patch_hash=24a1792d9428e4c51d527fb2f14ecfc1ac65f943bf5cb5b2a896465894413924)(vitest@5.0.5)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.3.3(vitest@5.0.5)
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@f11712be5(patch_hash=30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235)(vitest@5.0.5)':
+  '@cloudflare/deploy-helpers@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@2bc6fcfba(patch_hash=30711b17bc29dc3b500369bdb5740031dc239625cd1bfe5cf26b9661e49ae235)(vitest@5.0.5)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.3.3(vitest@5.0.5)
       blake3-wasm: 2.1.5
@@ -4375,7 +4375,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@cloudflare/runtime-types@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@f11712be5':
+  '@cloudflare/runtime-types@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/runtime-types@2bc6fcfba':
     dependencies:
       workerd: 1.20261023.1
 
@@ -4431,7 +4431,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20261103.1':
     optional: true
 
-  '@cloudflare/workers-auth@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@f11712be5(msw@3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vitest@5.0.5)':
+  '@cloudflare/workers-auth@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@2bc6fcfba(msw@3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vitest@5.0.5)':
     dependencies:
       undici: 7.30.1
     optionalDependencies:
@@ -4449,7 +4449,7 @@ snapshots:
     optionalDependencies:
       vitest: 5.0.5(@types/node@26.6.6)(@vitest/browser-preview@5.0.5)(@vitest/ui@5.0.5)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
 
-  '@cloudflare/workers-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@f11712be5(vitest@5.0.5)':
+  '@cloudflare/workers-utils@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@2bc6fcfba(vitest@5.0.5)':
     dependencies:
       chalk: 5.3.0
       dotenv: 16.3.1
@@ -6149,7 +6149,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@f11712be5(@types/node@26.6.6):
+  miniflare@https://pkg.pr.new/cloudflare/workers-sdk/miniflare@2bc6fcfba(@types/node@26.6.6):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@26.6.6)

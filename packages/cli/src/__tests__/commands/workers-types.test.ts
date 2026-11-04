@@ -72,8 +72,7 @@ describe("cf workers types", () => {
 				token_endpoint: "https://auth.example.com/token",
 				resource: "https://api.example.com",
 				scope: ["read"],
-				allowed_origins: ["https://api.example.com"],
-				allowed_methods: ["GET"],
+				resources: [{ origin: "https://api.example.com", methods: ["GET"] }],
 				http_message_signatures: "web_bot_auth",
 			};
 			await seed({

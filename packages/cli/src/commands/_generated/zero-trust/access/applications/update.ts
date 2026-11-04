@@ -83,6 +83,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
 					);
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -100,7 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body !== undefined) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

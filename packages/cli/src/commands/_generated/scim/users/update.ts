@@ -77,6 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
 					);
 				}
+				const parsedBody = resolveFileToken(argv.body, "body", "binary");
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -99,9 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body !== undefined) {
-					// Endpoint does not accept application/json — send --body as raw bytes,
-					// resolving @file references as binary file contents.
-					const bodyData = resolveFileToken(argv.body, "body", "binary");
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,

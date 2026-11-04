@@ -146,8 +146,17 @@ function parseBodyExpression(ctx: Ctx): string {
 
 const RAW_BODY_EXPRESSION = "resolveFileToken(argv.body, 'body', 'binary')";
 
-/** Whether `--body` is read before auth so a bad body never reaches the confirmation prompt. */
-const parsesBodyEarly = (ctx: Ctx) => ctx.isDelete && ctx.derived.hasBody;
+/** A multipart-only operation appends `--body` to its form as given. */
+const multipartTakesBody = (ctx: Ctx) =>
+	ctx.derived.multipart !== undefined &&
+	!ctx.op.requestContentTypes.includes("application/octet-stream");
+
+/**
+ * `--body` is parsed once, before auth and any confirmation prompt, so a bad
+ * body fails before anything else happens; `bodyBypass` sends the result.
+ */
+const parsesBodyEarly = (ctx: Ctx) =>
+	ctx.derived.hasBody && !multipartTakesBody(ctx);
 
 function preparsedBody(ctx: Ctx): string[] {
 	if (!parsesBodyEarly(ctx)) {
@@ -422,7 +431,7 @@ function multipart(ctx: Ctx): string[] {
 		reads.length === 0
 			? "false"
 			: reads.map((r) => `${r} !== undefined`).join(" || ");
-	const only = !ctx.op.requestContentTypes.includes("application/octet-stream");
+	const only = multipartTakesBody(ctx);
 	let guard: string;
 	if (only) {
 		guard =
@@ -596,6 +605,7 @@ function bodyBypass(ctx: Ctx): string[] {
 	// `!== undefined`, as in the dry run: an empty `--body` is input, not absence.
 	const lines = ["", "      if (argv.body !== undefined) {"];
 	if (parsesBodyEarly(ctx)) {
+		// Parsed and validated in `preparsedBody`; not parsed again here.
 		lines.push("        const bodyData = parsedBody;");
 	} else if (json) {
 		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);

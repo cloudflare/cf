@@ -72,6 +72,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
 					);
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
@@ -79,7 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body !== undefined) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

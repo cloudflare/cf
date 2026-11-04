@@ -131,6 +131,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 
 				if (argv.file !== undefined) {
@@ -146,7 +148,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body !== undefined) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parsedBody;
 					const result = await withProgress(`Loading`, async () =>
 						requestApi<unknown>(client, "POST", `/analytics/sql`, {
 							body: bodyData,

@@ -109,6 +109,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -126,7 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body !== undefined) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

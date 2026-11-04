@@ -165,6 +165,16 @@ describe.each(["text/plain", "application/octet-stream"])(
 			expect(requestApi).not.toHaveBeenCalled();
 		});
 
+		it("rejects an unreadable @file body before authentication", async () => {
+			const { run, createCommandClient, requestApi, send } = setup(files);
+			await expect(run(["--body", "@missing.txt"])).rejects.toThrow(
+				"missing.txt"
+			);
+			expect(createCommandClient).not.toHaveBeenCalled();
+			expect(requestApi).not.toHaveBeenCalled();
+			expect(send).not.toHaveBeenCalled();
+		});
+
 		it("does not import the JSON body parser", () => {
 			expect(files.get("things/update.ts")).not.toContain("parseBody");
 		});

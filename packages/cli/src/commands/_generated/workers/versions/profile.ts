@@ -122,12 +122,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
 				if (argv.body !== undefined) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parsedBody;
 					const __cfRawBytes = await withProgress(`Creating`, async () =>
 						fetchRawBytes(
 							`/accounts/${accountId}/workers/workers/${encodeURIComponent(String(argv["worker-id"]))}/versions/${encodeURIComponent(String(argv["version-id"]))}/profile`,

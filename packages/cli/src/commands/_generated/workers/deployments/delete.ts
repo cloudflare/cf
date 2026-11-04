@@ -64,12 +64,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workers deployments delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/deployments/${argv["deployment-id"] == null ? "<deployment-id>" : encodeURIComponent(String(argv["deployment-id"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/deployments/${argv["deployment-id"] == null ? "<deployment-id>" : encodeURIComponent(String(argv["deployment-id"]))}`,
 						pathParams: {
 							worker: String(argv["worker"] ?? ""),
 							"deployment-id": String(argv["deployment-id"] ?? ""),
@@ -81,8 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
-				argv["worker"] = scriptName;
 
 				if (
 					!(await confirmDelete({

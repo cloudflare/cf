@@ -1,5 +1,5 @@
 ---
-"cf": patch
+"cf": minor
 ---
 
 Use `--worker` consistently across generated `cf workers` commands

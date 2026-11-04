@@ -747,6 +747,22 @@ describe("cf-owned flag clashes", () => {
 		);
 	});
 
+	it.each(["worker", "worker-id", "script-name"])(
+		"reserves --%s where cf selects a Worker",
+		(flag) => {
+			const op = pathOperation(
+				"/accounts/{account_id}/workers/workers/{worker_id}",
+				[["worker_id", undefined]]
+			);
+			op.queryParams = queryOperation("selector").queryParams;
+			expect(() =>
+				derived(method({ selector: { flagName: flag } }, "get"), "workers", op)
+			).toThrow(
+				`--${flag} (from x-forge-params["selector"].flagName), which is a flag cf adds to this command.`
+			);
+		}
+	);
+
 	it("lists every clash of an operation in one error", () => {
 		const op = post({
 			bodyParams: [

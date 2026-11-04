@@ -68,11 +68,15 @@ describe("cf workers identifiers", () => {
 			expect(request).toHaveBeenCalledOnce();
 		});
 
-		it(`${args.join(" ")} still requires a Worker`, async () => {
-			await expect(runCf(["workers", ...args], ENV)).rejects.toThrow(
-				"--worker <name>"
-			);
-		});
+		it.each([false, true])(
+			`${args.join(" ")} requires a Worker (dry run: %s)`,
+			async (dryRun) => {
+				await expect(
+					runCf(["workers", ...args, ...(dryRun ? ["--dry-run"] : [])], ENV)
+				).rejects.toThrow("--worker <name>");
+				expect(logSpy).not.toHaveBeenCalled();
+			}
+		);
 
 		it.each(flags)(`${args.join(" ")} previews %s`, async (flag) => {
 			await runCf(["workers", ...args, flag, "my/worker", "--dry-run"], ENV);
@@ -83,6 +87,16 @@ describe("cf workers identifiers", () => {
 			});
 		});
 	}
+
+	it.each([false, true])(
+		"requires a Worker before delete confirmation or preview (dry run: %s)",
+		async (dryRun) => {
+			await expect(
+				runCf(["workers", "delete", ...(dryRun ? ["--dry-run"] : [])], ENV)
+			).rejects.toThrow("--worker <name>");
+			expect(logSpy).not.toHaveBeenCalled();
+		}
+	);
 
 	it.each(["get", "delete"])(
 		"%s retains positional Worker input",

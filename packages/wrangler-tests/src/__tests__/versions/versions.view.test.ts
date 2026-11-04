@@ -31,7 +31,7 @@ describe("versions view", () => {
 		test("fails with positional version-id arg only", async ({ expect }) => {
 			await expect(
 				runWrangler(`workers versions get ${VERSION_ID}`)
-			).rejects.toThrow(/Missing required argument: worker-id/);
+			).rejects.toThrow("--worker <name>");
 		});
 
 		test("succeeds with positional version-id arg and --name arg", async ({

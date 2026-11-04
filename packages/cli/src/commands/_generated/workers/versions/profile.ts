@@ -92,12 +92,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workers versions profile",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/versions/${argv["version-id"] == null ? "<version-id>" : encodeURIComponent(String(argv["version-id"]))}/profile`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${encodeURIComponent(scriptName)}/versions/${argv["version-id"] == null ? "<version-id>" : encodeURIComponent(String(argv["version-id"]))}/profile`,
 						pathParams: {
 							worker: String(argv["worker"] ?? ""),
 							"version-id": String(argv["version-id"] ?? ""),
@@ -128,8 +130,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
-				argv["worker"] = scriptName;
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;

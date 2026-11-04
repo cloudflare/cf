@@ -412,7 +412,7 @@ function cfOwnedFlags(facts: {
 		"f",
 		...(facts.hasFileUpload ? ["file"] : []),
 		...(facts.binaryOutput ? ["text"] : []),
-		...(facts.workerArg ? ["script-name"] : []),
+		...(facts.workerArg ? ["worker", ...WORKER_ALIASES] : []),
 	];
 }
 

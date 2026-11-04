@@ -10,37 +10,37 @@ import { runCf } from "../../helpers/run-cf.js";
 
 describe("cf auth whoami", () => {
 	runInTempDir();
-	setupMsw();
+	setupMsw(
+		http.get("*/user/tokens/verify", () =>
+			HttpResponse.json({ success: false }, { status: 403 })
+		)
+	);
 	const std = mockConsoleMethods();
 
 	async function runWithAccountResponses(
 		accountResponse: { status: number; body: object },
 		membershipResponse: { status: number; body: object },
-		env: Record<string, string | undefined> = {}
+		env: Record<string, string | undefined> = {},
+		baseURL = env.CLOUDFLARE_API_BASE_URL ?? TEST_BASE_URL
 	): Promise<Record<string, unknown>> {
-		const mockAgent = new MockAgent();
-		mockAgent.disableNetConnect();
-		const api = mockAgent.get("https://api.test");
-		api
-			.intercept({ path: "/client/v4/accounts?page=1", method: "GET" })
-			.reply(accountResponse.status, accountResponse.body);
-		api
-			.intercept({ path: "/client/v4/memberships?page=1", method: "GET" })
-			.reply(membershipResponse.status, membershipResponse.body);
-		const previousDispatcher = getGlobalDispatcher();
-		setGlobalDispatcher(mockAgent);
-
-		try {
-			await runCf(["auth", "whoami"], {
-				CLOUDFLARE_API_TOKEN: "test-token",
-				CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
-				...env,
-			});
-			return JSON.parse(std.getAndClearOut()) as Record<string, unknown>;
-		} finally {
-			setGlobalDispatcher(previousDispatcher);
-			await mockAgent.close();
-		}
+		server.use(
+			http.get(`${baseURL}/accounts`, () =>
+				HttpResponse.json(accountResponse.body, {
+					status: accountResponse.status,
+				})
+			),
+			http.get(`${baseURL}/memberships`, () =>
+				HttpResponse.json(membershipResponse.body, {
+					status: membershipResponse.status,
+				})
+			)
+		);
+		await runCf(["auth", "whoami"], {
+			CLOUDFLARE_API_TOKEN: "test-token",
+			CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
+			...env,
+		});
+		return JSON.parse(std.getAndClearOut()) as Record<string, unknown>;
 	}
 
 	it("outputs the accounts the active credentials are authorised to use", async () => {
@@ -120,31 +120,34 @@ describe("cf auth whoami", () => {
 		expect(output).not.toHaveProperty("email");
 	});
 
-	it("does not call a disabled token valid when detail lookups succeed", async () => {
-		server.use(
-			http.get("*/user/tokens/verify", () =>
-				HttpResponse.json({ success: true, result: { status: "disabled" } })
-			),
-			http.get("*/user", () =>
-				HttpResponse.json({
+	it.each(["disabled", "expired"])(
+		"does not call a %s token valid when detail lookups succeed",
+		async (status) => {
+			server.use(
+				http.get("*/user/tokens/verify", () =>
+					HttpResponse.json({ success: true, result: { status } })
+				),
+				http.get("*/user", () =>
+					HttpResponse.json({
+						success: true,
+						result: { email: "user@example.com" },
+					})
+				)
+			);
+			const empty = {
+				status: 200,
+				body: {
 					success: true,
-					result: { email: "user@example.com" },
-				})
-			)
-		);
-		const empty = {
-			status: 200,
-			body: {
-				success: true,
-				result: [],
-				result_info: { page: 1, total_pages: 1 },
-			},
-		};
+					result: [],
+					result_info: { page: 1, total_pages: 1 },
+				},
+			};
 
-		const output = await runWithAccountResponses(empty, empty);
+			const output = await runWithAccountResponses(empty, empty);
 
-		expect(output.tokenValid).toBe(false);
-	});
+			expect(output.tokenValid).toBe(false);
+		}
+	);
 
 	it("accepts an account token when the user-token endpoint rejects it", async () => {
 		server.use(
@@ -191,20 +194,65 @@ describe("cf auth whoami", () => {
 		});
 	});
 
-	it("reports unknown validity when every check is inconclusive", async () => {
+	it.each([503, 200])(
+		"reports unknown validity when every check is inconclusive (verify %s)",
+		async (status) => {
+			server.use(
+				http.get("*/user/tokens/verify", () =>
+					HttpResponse.json({ success: status === 200, result: {} }, { status })
+				),
+				http.get("*/user", () =>
+					HttpResponse.json({ success: false }, { status: 403 })
+				)
+			);
+			const forbidden = { status: 403, body: { success: false } };
+
+			const output = await runWithAccountResponses(forbidden, forbidden);
+
+			expect(output.tokenValid).toBeNull();
+		}
+	);
+
+	it.each([
+		{
+			name: "API-base override",
+			baseURL: "https://api.override.test/client/v4",
+			env: { CLOUDFLARE_API_BASE_URL: "https://api.override.test/client/v4" },
+		},
+		{
+			name: "compliance region",
+			baseURL: "https://api.fed.cloudflare.com/client/v4",
+			env: {
+				CLOUDFLARE_API_BASE_URL: undefined,
+				CLOUDFLARE_COMPLIANCE_REGION: "fedramp_high",
+			},
+		},
+	])("verifies scoped tokens using the $name", async ({ baseURL, env }) => {
+		let verificationRequests = 0;
 		server.use(
-			http.get("*/user/tokens/verify", () =>
-				HttpResponse.json({ success: false }, { status: 503 })
-			),
-			http.get("*/user", () =>
+			http.get(`${baseURL}/user/tokens/verify`, ({ request }) => {
+				verificationRequests++;
+				expect(request.headers.get("Authorization")).toBe("Bearer test-token");
+				return HttpResponse.json({
+					success: true,
+					result: { status: "active" },
+				});
+			}),
+			http.get(`${baseURL}/user`, () =>
 				HttpResponse.json({ success: false }, { status: 403 })
 			)
 		);
 		const forbidden = { status: 403, body: { success: false } };
 
-		const output = await runWithAccountResponses(forbidden, forbidden);
+		const output = await runWithAccountResponses(
+			forbidden,
+			forbidden,
+			env,
+			baseURL
+		);
 
-		expect(output.tokenValid).toBeNull();
+		expect(output.tokenValid).toBe(true);
+		expect(verificationRequests).toBe(1);
 	});
 
 	it("uses detail lookups for OAuth without calling user-token verification", async () => {

@@ -33,9 +33,8 @@ const whoamiCommand: CommandModule = {
 			authSource = "none";
 		}
 
-		let token: string;
 		try {
-			token = await getAuthToken();
+			await getAuthToken();
 		} catch {
 			formatOutput({ authenticated: false, error: "Not logged in" });
 			if (authSource === "none" && detectAgentContext().isAgentic) {
@@ -48,18 +47,18 @@ const whoamiCommand: CommandModule = {
 			return;
 		}
 
-		const { createCloudflareClientWithToken } =
-			await import("../../lib/auth.js");
+		const { createCommandClient } = await import("../../lib/auth.js");
 		const { default: getUser } = await import("#operations/user/get.js");
-		const { default: verifyToken } = await import("#operations/user/tokens/verify.js");
-		const client = createCloudflareClientWithToken({ apiToken: token });
+		const { default: verifyToken } =
+			await import("#operations/user/tokens/verify.js");
+		const client = await createCommandClient(argv);
 		let userEmail: string | undefined;
 		let accounts: Array<{ id: string; name: string }> = [];
 		const [verificationResult, userResult, accountsResult] =
 			await Promise.allSettled([
 				// The user-token endpoint does not verify account API tokens or OAuth tokens.
 				envToken
-					? client.send(verifyToken) as Promise<{ status?: string }>
+					? (client.send(verifyToken) as Promise<{ status?: string }>)
 					: Promise.resolve(undefined),
 				client.send(getUser),
 				fetchAuthorizedAccounts(),
@@ -87,8 +86,13 @@ const whoamiCommand: CommandModule = {
 		// A rejected user-token probe may belong to an account token; failed detail
 		// lookups alone cannot establish that the credential is invalid.
 		let tokenValid: boolean | null = null;
-		if (verificationResult.status === "fulfilled" && verificationResult.value) {
-			tokenValid = verificationResult.value.status === "active";
+		if (
+			verificationResult.status === "fulfilled" &&
+			["active", "disabled", "expired"].includes(
+				verificationResult.value?.status ?? ""
+			)
+		) {
+			tokenValid = verificationResult.value?.status === "active";
 		} else if (
 			userResult.status === "fulfilled" ||
 			accountsResult.status === "fulfilled"

@@ -342,7 +342,7 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 
 // Automatic help skips strict validation, so account for declared positionals
 // before treating the next parsed token as an unknown command.
-function unresolvedHelpCommand(yargsInstance: unknown): string | undefined {
+function unresolvedHelpCommands(yargsInstance: unknown): string[] {
 	const instance = yargsInstance as {
 		parsed: false | { argv: { _: unknown[]; help?: unknown } };
 		getInternalMethods(): {
@@ -351,11 +351,11 @@ function unresolvedHelpCommand(yargsInstance: unknown): string | undefined {
 	};
 	const parsed = instance.parsed;
 	if (!parsed || parsed.argv.help !== true) {
-		return undefined;
+		return [];
 	}
 	const { commands, fullCommands } = instance.getInternalMethods().getContext();
 	if (!Array.isArray(commands) || !Array.isArray(fullCommands)) {
-		return undefined;
+		return [];
 	}
 	const currentSyntax = fullCommands.at(-1);
 	const positionals =
@@ -365,12 +365,9 @@ function unresolvedHelpCommand(yargsInstance: unknown): string | undefined {
 	if (
 		positionals.some((positional) => positional.slice(1, -1).endsWith(".."))
 	) {
-		return undefined;
+		return [];
 	}
-	const next = parsed.argv._[commands.length + positionals.length];
-	return typeof next === "string" || typeof next === "number"
-		? String(next)
-		: undefined;
+	return parsed.argv._.slice(commands.length + positionals.length).map(String);
 }
 
 class CliUsageError extends Error {
@@ -871,13 +868,21 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 	const showHelp = cli.showHelp.bind(cli);
 	cli.showHelp = (level?: string | ((help: string) => void)) => {
 		// Runtime-schema handlers render their own help with showHelp("log").
-		const unknownCommand =
-			typeof level === "function" ? unresolvedHelpCommand(cli) : undefined;
-		if (unknownCommand !== undefined) {
-			throw new CliUsageError(
-				`Unknown command: ${unknownCommand}`,
+		const unknownCommands =
+			typeof level === "function" ? unresolvedHelpCommands(cli) : [];
+		if (unknownCommands.length > 0) {
+			const error = new CliUsageError(
+				`Unknown command: ${unknownCommands[0]}`,
 				helpCommandFor(resolvedCommandName(cli))
 			);
+			const resolutionFailure = commandResolutionFailure(cli, error.message);
+			if (resolutionFailure) {
+				onCommandResolutionFailed?.(
+					{ ...resolutionFailure, unknownTokens: unknownCommands },
+					error
+				);
+			}
+			throw error;
 		}
 		return showHelp((help) => {
 			const command = resolvedCommandName(cli);
@@ -998,20 +1003,6 @@ export async function main(): Promise<void> {
 	// flows through unchanged so explicit exit codes (e.g. from
 	// `--help` early-exits) survive.
 	try {
-		// Like Wrangler, check unknown top-level commands before yargs handles
-		// --help, since yargs skips strict command validation for help requests.
-		const rootCommand = commandPath(args, 1)[0];
-		if (
-			(args.includes("--help") || args.includes("-h")) &&
-			rootCommand !== undefined &&
-			!HAND_WRITTEN_ROOTS.has(rootCommand) &&
-			!generatedCommands.some(({ command }) => command.command === rootCommand)
-		) {
-			throw new CliUsageError(
-				`Unknown command: ${rootCommand}`,
-				helpCommandFor(undefined)
-			);
-		}
 		await cli.parse(hideBin(process.argv));
 		await reportHelpShown(helpShown);
 	} catch (err) {

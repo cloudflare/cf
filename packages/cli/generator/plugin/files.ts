@@ -365,6 +365,7 @@ class Walk {
 				obj([
 					["name", flag],
 					["type", "string"],
+					...(field.type === "array" ? [["array", true] as const] : []),
 					["required", false],
 					["description", multipartFileFlagDescription(field)],
 				])

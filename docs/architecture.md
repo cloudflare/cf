@@ -503,6 +503,10 @@ literal content or `@path`; file tokens preserve the file's bytes and filename.
 Both forms upload as file parts; inline content uses the original field name
 as its filename and preserves line endings.
 The primary payload retains the explicit `--file <path>` flag.
+Arrays of binary multipart fields also expose their own array flag, including
+the primary payload: `cf ai to-markdown --files @first.html @second.pdf`.
+Each value becomes a separate file part under the original field name; the
+flag can also be repeated. `--file <path>` supplies one primary file as before.
 
 `cf complete` currently completes commands, flags, and enum choices. It does not attach filesystem-completion metadata to `@file` values; users type the path themselves (and `@<TAB>` is not a documented completion contract).
 

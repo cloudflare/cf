@@ -130,6 +130,8 @@ export function builderLines(ctx: Ctx): string[] {
 		lines.push(
 			option(flag, [
 				["type", "string"],
+				["array", field.type === "array" ? true : undefined],
+				["requiresArg", field.type === "array" ? true : undefined],
 				["description", multipartFileFlagDescription(field)],
 			])
 		);

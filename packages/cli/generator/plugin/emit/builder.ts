@@ -23,22 +23,27 @@ function option(name: string, fields: [string, Value | undefined][]): string {
 
 const quoted = (v: readonly string[]) => v.map((c) => `'${c}'`).join(", ");
 
-/** `generateBuilderLines`. */
 export const JSON_BODY_DESCRIPTION =
 	"Raw JSON request body (bypasses individual flags)";
 
+/** Matches the plain-text body classification in `wire()`. */
+export const isPlainTextBody = (op: Ctx["op"]) =>
+	op.requestContentTypes.length > 0 &&
+	op.requestContentTypes.every((type) => type.startsWith("text/plain"));
+
 export function bodyOptionDescription(op: Ctx["op"]): string {
-	return op.requestBodyDescription !== undefined &&
+	if (
+		op.requestBodyDescription !== undefined &&
 		op.requestBodyDescription !== ""
-		? op.requestBodyDescription
+	) {
+		return op.requestBodyDescription;
+	}
+	return isPlainTextBody(op)
+		? "Plain-text request body (without JSON quotes)"
 		: JSON_BODY_DESCRIPTION;
 }
 
-/** A body sent only as `text/plain`, whose `--help` says how to write it. */
-export const isPlainTextBody = (op: Ctx["op"]) =>
-	op.requestContentTypes.length > 0 &&
-	op.requestContentTypes.every((type) => type === "text/plain");
-
+/** `generateBuilderLines`. */
 export function builderLines(ctx: Ctx): string[] {
 	const d = ctx.derived;
 	const op = ctx.op;

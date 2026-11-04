@@ -15606,7 +15606,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Plain-text request body (without JSON quotes)"
 				},
 				{
 					"name": "file",
@@ -67470,7 +67470,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Plain-text request body (without JSON quotes)"
 				},
 				{
 					"name": "file",

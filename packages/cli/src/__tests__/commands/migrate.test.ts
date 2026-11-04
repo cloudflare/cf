@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
@@ -143,6 +144,109 @@ describe("cf migrate", () => {
 			"Would update 2 file(s):\n├─ config/cloudflare.config.ts\n└─ config/package.json"
 		);
 		expect(std.err).toContain("Migration preview complete.");
+	});
+
+	it("approves the builds cf needs in the active pnpm-workspace.yaml before installing", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				name: "cf-migrate-pnpm-repro",
+				private: true,
+				packageManager: "pnpm@12.16.1",
+			}),
+			"pnpm-workspace.yaml": "packages:\n  - apps/*\nallowBuilds:\n  esbuild: true\n",
+			"apps/worker/package.json": JSON.stringify({
+				name: "worker",
+				private: true,
+				type: "module",
+			}),
+			"apps/worker/wrangler.jsonc": JSON.stringify({
+				name: "worker",
+				main: "src/index.js",
+				compatibility_date: "2026-11-01",
+			}),
+		});
+		let workspaceYamlAtInstall: string | undefined;
+		migrateWranglerToCf.mockImplementation(async () => {
+			workspaceYamlAtInstall = readFileSync("pnpm-workspace.yaml", "utf8");
+			return {
+				changedFiles: ["cloudflare.config.ts", "package.json"],
+				followUps: [],
+				status: "complete",
+			};
+		});
+
+		const result = await runCf(["migrate", "apps/worker/wrangler.jsonc"]);
+
+		expect(result.exitCode).toBe(0);
+		const workspaceYaml = readFileSync("pnpm-workspace.yaml", "utf8");
+		expect(workspaceYaml).toContain("packages:");
+		expect(workspaceYaml).toContain("esbuild: true");
+		expect(workspaceYaml).toContain("workerd: true");
+		expect(workspaceYamlAtInstall).toContain("workerd: true");
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "apps/worker/wrangler.jsonc"),
+			expect.objectContaining({ installDependencies: true })
+		);
+	});
+
+	it("keeps an explicit decision not to approve workerd and skips the install", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				name: "cf-migrate-pnpm-repro",
+				private: true,
+				packageManager: "pnpm@12.16.1",
+			}),
+			"pnpm-workspace.yaml": "packages:\n  - apps/*\nallowBuilds:\n  workerd: false\n",
+			"apps/worker/wrangler.jsonc": "{}",
+		});
+
+		const result = await runCf(["migrate", "apps/worker/wrangler.jsonc"]);
+
+		expect(result.exitCode).toBe(0);
+		expect(readFileSync("pnpm-workspace.yaml", "utf8")).toBe(
+			"packages:\n  - apps/*\nallowBuilds:\n  workerd: false\n"
+		);
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "apps/worker/wrangler.jsonc"),
+			expect.objectContaining({ installDependencies: false })
+		);
+		expect(std.err).toContain("workerd");
+	});
+
+	it("writes no build approvals on --dry-run", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				name: "cf-migrate-pnpm-repro",
+				private: true,
+				packageManager: "pnpm@12.16.1",
+			}),
+			"pnpm-workspace.yaml": "packages:\n  - apps/*\n",
+			"apps/worker/wrangler.jsonc": "{}",
+		});
+
+		await runCf(["migrate", "apps/worker/wrangler.jsonc", "--dry-run"]);
+
+		expect(readFileSync("pnpm-workspace.yaml", "utf8")).toBe(
+			"packages:\n  - apps/*\n"
+		);
+	});
+
+	it("writes no build approvals when the install is skipped", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				name: "cf-migrate-pnpm-repro",
+				private: true,
+				packageManager: "pnpm@12.16.1",
+			}),
+			"pnpm-workspace.yaml": "packages:\n  - apps/*\n",
+			"apps/worker/wrangler.jsonc": "{}",
+		});
+
+		await runCf(["migrate", "apps/worker/wrangler.jsonc", "--no-install"]);
+
+		expect(readFileSync("pnpm-workspace.yaml", "utf8")).toBe(
+			"packages:\n  - apps/*\n"
+		);
 	});
 
 	it("requires an explicit path when no Wrangler config is found", async () => {

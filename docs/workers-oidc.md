@@ -1,46 +1,24 @@
-# Workload identity runtime types
+# Workers identity draft tooling
 
-The working signer implementation is [`birvine-broque/workers-oidc` on `main`](https://gitlab.cfdata.org/birvine-broque/workers-oidc/-/tree/main).
+The shared workers-sdk configuration and Miniflare service bundles own identity behavior. cf coordinates `workers types`, build, deployment and local development; it contains no second verifier or token-exchange implementation.
 
-Use the [receiver contract](https://gitlab.cfdata.org/birvine-broque/workers-oidc/-/blob/main/docs/spec.md#receive-a-caller-through-the-runtime) for caller kinds, credential handling and authorization requirements.
+## Stored client secrets
 
-`cf workers types` will obtain `CloudflareIdentityContext.caller()` and the
-`CloudflareWorkloadIdentity` union from the runtime types provider once cf pins
-a matching published runtime-types bundle, including for receivers with no
-outbound identity binding. Until then, add no receiver configuration to
-`cloudflare.config.ts`.
+1. Register a client-credentials OAuth app at the provider and assign its permissions.
+2. Store its secret in same-account Secrets Store with workers scope. Use protected input, for example a user-only temporary JSON file with `cf secrets-store secrets create <store-id> --body @<file>`. Use `--local --persist-to .cloudflare/state` and a test value to match the Vite development server’s default local state; no real credential belongs in source, argv or logs.
+3. Configure the existing binding's `oauth.authentication: { method: "client_secret_basic" | "client_secret_post", secret_reference: { store_id, secret_name } }`. Keep `exchange: "client_credentials"`, exact client ID, trusted issuer, optional token endpoint, and required destination/method `resources`.
+4. Run `cf dev`; call `const identity = await env.SERVICE.getIdentity(); return identity.fetch(url);`.
 
-Publish a matching workerd and SDK/runtime-types release containing workerd
-PR #8121 before advertising local receiver support. Source declarations alone
-do not supply runtime behavior. Local sender issuance remains unsupported.
+Scope and OAuth resource are optional only in this flow. Omission sends no corresponding parameter; empty scope arrays reject. Provider defaults are not zero permissions, and HTTP delivery rules do not narrow a token's provider authority. Stored-secret flows default to Bearer without DPoP; optional `token_protection: "dpop"` requires binding without fallback. Managed-key/WAG and saved-account profiles retain their existing behavior. Top-level `client_authentication` remains the separate fixed key-assertion export capability.
 
-Managed OAuth uses automatic DPoP with no public policy setting. Every token
-request carries a proof and accepts DPoP or Bearer; API authentication follows
-the returned type. Reject the former `dpop` and `require_sender_constraint` fields.
-Shared SDK validation owns this contract; cf preserves policy-free configuration
-through types, Build Output, upload and the unsupported local stub without
-acquiring credentials. Match SDK/compiler/service revisions: new OAuth capabilities
-use protected schema version 4 while earlier compiled capabilities keep their
-original behavior internally.
+Deployment validates the exact same-account reference/use permission. The managed service resolves it privately on acquisition. Local Miniflare supplies a private per-binding capability; application env contains no readable secret binding. Missing local secrets fail startup. Rotation affects future acquisitions; warm tokens expire or invalidate normally. Missing provider expiry has a maximum 60-second reuse budget from acquisition start, reduced by safety margin. API denials return without replay.
 
-## Selected agents and local qualification
+## Matching draft dependencies
 
-A positional `getIdentity(agentId)` always selects an application-supplied
-immutable agent ID; `getIdentity({ agentId })` is equivalent. The selected handle
-supports its configured `getToken()`, `getAuthorizationGrant()` and `fetch()`
-operations, including after forwarding. Root issuance keeps the default workload
-actor. Customer and connection selectors belong to the proposed connector API,
-not this workload implementation.
+Use the same source cohort for service schema-9 reader, EWC compiler, SDK config/build-output/local service bundles, and cf's dependency graph. Readers precede producers. The existing public runtime entry points and workerd/host pin remain unchanged by this extension. Package publication and hosted preview updates are separate from local source verification. Retain the existing published pins until the source cohort is published; a local test overlay must be reported explicitly and must not pretend to be a released artifact.
 
-The companion workers-oidc repository's `examples/agent-identity` runs the actual
-signer and an independent receiver through ordinary `cf dev` service bindings.
-Run `bun run --cwd examples/agent-identity check` there for verified two-agent
-OIDC/WAG/WBA correlation, managed cache separation and forwarding. This is an
-explicit test authority with disposable local keys. The shared Miniflare
-identity stub remains unsupported; cf does not contain a bundled signer copy.
+The CLI regression cases cover both secret methods through type generation and prebuilt upload, without reading secrets, creating connectors or contacting token endpoints. Shared tests exercise actual token and API requests. Use independent local fixtures before claiming provider compatibility. Remote development and arbitrary live-provider access are not deterministic local support.
 
-Publish the matching workerd type-generation worker and SDK packages, then
-update cf's pinned SDK cohort together. A local source or inference-type update
-does not update the released `cf workers types` provider. Keep that release
-dependency explicit; do not substitute a fake published revision or synthesize
-receiver verification from decoded claims.
+## Caller and agent identities
+
+`ctx.identity.caller()` remains the receiver API with flat `callerIdentity` configuration. It requires the matching draft runtime, and no outbound identity binding. A positional `getIdentity(agentId)` selects an immutable application actor; `{ agentId }` is equivalent. WAG exchange supports selected agents; managed client credentials uses the default actor. Inbound delegated verification, application session handling, and the separate zone reverse-proxy proposal are unaffected.

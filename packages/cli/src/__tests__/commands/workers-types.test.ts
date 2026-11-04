@@ -60,18 +60,37 @@ describe("cf workers types", () => {
 		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
-	it.each(["workload_authorization", "client_credentials"] as const)(
+	it.each([
+		"workload_authorization",
+		"client_credentials",
+		"client_secret_basic",
+		"client_secret_post",
+	] as const)(
 		"generates types for combined %s bindings without acquiring credentials",
 		async (exchange) => {
+			const secret = exchange.startsWith("client_secret_");
 			const oauth = {
-				exchange,
-				...(exchange === "client_credentials"
+				exchange: secret ? "client_credentials" : exchange,
+				...(exchange === "client_credentials" || secret
 					? { client_id: "provider-id" }
 					: {}),
 				authorization_server: "https://auth.example.com",
 				token_endpoint: "https://auth.example.com/token",
 				resource: "https://api.example.com",
 				scope: ["read"],
+				...(secret
+					? {
+							resource: undefined,
+							scope: undefined,
+							authentication: {
+								method: exchange,
+								secret_reference: {
+									store_id: "a".repeat(32),
+									secret_name: "SECRET",
+								},
+							},
+						}
+					: {}),
 				resources: [{ origin: "https://api.example.com", methods: ["GET"] }],
 				http_message_signatures: "web_bot_auth",
 			};

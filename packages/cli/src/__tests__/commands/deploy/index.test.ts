@@ -163,12 +163,18 @@ describe("cf deploy", () => {
 			}
 		);
 
-		it.each(["workload_authorization", "client_credentials"] as const)(
+		it.each([
+			"workload_authorization",
+			"client_credentials",
+			"client_secret_basic",
+			"client_secret_post",
+		] as const)(
 			"uploads managed %s without provisioning or exchanging credentials",
 			async (exchange) => {
 				const upload = mockWorkerUpload();
+				const secret = exchange.startsWith("client_secret_");
 				const oauth = {
-					...(exchange === "client_credentials"
+					...(exchange === "client_credentials" || secret
 						? {
 								exchange: "client_credentials" as const,
 								client_id: "provider-id",
@@ -178,6 +184,19 @@ describe("cf deploy", () => {
 					token_endpoint: "https://auth.example.com/token",
 					resource: "https://api.example.com",
 					scope: ["read"],
+					...(secret
+						? {
+								resource: undefined,
+								scope: undefined,
+								authentication: {
+									method: exchange,
+									secret_reference: {
+										store_id: "a".repeat(32),
+										secret_name: "SECRET",
+									},
+								},
+							}
+						: {}),
 					resources: [
 						{ origin: "https://api.example.com", methods: ["GET", "POST"] },
 					],
@@ -185,7 +204,7 @@ describe("cf deploy", () => {
 				};
 				const policy = {
 					type: "identity" as const,
-					oauth,
+					oauth: JSON.parse(JSON.stringify(oauth)),
 					client_authentication: {
 						client_id: "https://app.example.com/client.json",
 						audience: "https://auth.example.com",

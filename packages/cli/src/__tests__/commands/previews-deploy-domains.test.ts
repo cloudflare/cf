@@ -92,7 +92,13 @@ describe("cf previews deploy — custom domains", () => {
 		});
 
 		expect(
-			await runCf(["previews", "deploy", "feature", "--prebuilt"])
+			await runCf([
+				"previews",
+				"deploy",
+				"--preview-name",
+				"feature",
+				"--prebuilt",
+			])
 		).toEqual({
 			exitCode: 0,
 		});

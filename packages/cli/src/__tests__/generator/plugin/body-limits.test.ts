@@ -17,12 +17,17 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 	const setup = (
 		httpMethod: string,
 		maxItems?: number,
-		contentType = "application/json"
+		contentType = "application/json",
+		confirm = true
 	) => {
 		const ctx = context(
-			method("update", "things.update", {
-				requireConfirmation: "This operation replaces the full list.",
-			}),
+			method(
+				"update",
+				"things.update",
+				confirm
+					? { requireConfirmation: "This operation replaces the full list." }
+					: {}
+			),
 			"things",
 			operation(httpMethod, "/things", {
 				hasRequestBody: true,
@@ -39,12 +44,13 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 		const fetchRawBytes = vi.fn(async () => Buffer.from("result"));
 		const formatDryRun = vi.fn();
 		const confirmDelete = vi.fn(async () => true);
+		const createCommandClient = vi.fn(async () => ({ send }));
 		const source = stripTypeScriptTypes(
 			`(async (argv) => {\n${handler(ctx).join("\n")}\n})`
 		);
 		const execute = new Script(source).runInNewContext({
 			parseBody,
-			createCommandClient: async () => ({ send }),
+			createCommandClient,
 			operation: {},
 			requestApi,
 			fetchRawBytes,
@@ -62,6 +68,7 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			fetchRawBytes,
 			formatDryRun,
 			confirmDelete,
+			createCommandClient,
 			run: (body?: string, dryRun = false) =>
 				execute({ body, dryRun, "if-match": "revision" }),
 		};
@@ -93,6 +100,30 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			expect(requestApi).not.toHaveBeenCalled();
 			expect(fetchRawBytes).not.toHaveBeenCalled();
 		});
+
+		it.each([
+			["oversized", '["one","two","three"]', "at most 2 items"],
+			["malformed", "{not json", "--body"],
+			["empty", "", "--body"],
+		])(
+			"rejects an %s body before confirmation or requests",
+			async (_label, body, message) => {
+				const {
+					run,
+					confirmDelete,
+					createCommandClient,
+					send,
+					requestApi,
+					fetchRawBytes,
+				} = setup(httpMethod, 2);
+				await expect(run(body)).rejects.toThrow(message);
+				expect(createCommandClient).not.toHaveBeenCalled();
+				expect(confirmDelete).not.toHaveBeenCalled();
+				expect(send).not.toHaveBeenCalled();
+				expect(requestApi).not.toHaveBeenCalled();
+				expect(fetchRawBytes).not.toHaveBeenCalled();
+			}
+		);
 
 		it("previews an omitted body without confirmation during a dry run", async () => {
 			const { run, confirmDelete, formatDryRun, send, requestApi } =
@@ -166,6 +197,23 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			);
 		}
 	);
+
+	it("rejects a bad body before authentication without a confirmation prompt", async () => {
+		const { run, createCommandClient, confirmDelete, send, requestApi } = setup(
+			"put",
+			2,
+			"application/json",
+			false
+		);
+		await expect(run('["one","two","three"]')).rejects.toThrow(
+			"--body must contain at most 2 items (received 3)."
+		);
+		await expect(run("{not json")).rejects.toThrow("--body");
+		expect(createCommandClient).not.toHaveBeenCalled();
+		expect(confirmDelete).not.toHaveBeenCalled();
+		expect(send).not.toHaveBeenCalled();
+		expect(requestApi).not.toHaveBeenCalled();
+	});
 
 	it("sends an unlimited array as one request and imports its operation", async () => {
 		const { run, ctx, send, requestApi } = setup("post");

@@ -512,17 +512,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined
+						? parseBody(argv.body, [
+								{ path: ["triggers"], flag: "triggers" },
+								{ path: ["variables"], flag: "variables" },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["triggers"], flag: "triggers" },
-						{ path: ["variables"], flag: "variables" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

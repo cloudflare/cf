@@ -64,6 +64,7 @@ export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
 	lines.push(...dryRun(ctx));
 	lines.push(...requiredBody(ctx));
+	lines.push(...preparsedBody(ctx));
 	lines.push(...auth(ctx));
 	if (ctx.isDelete) {
 		lines.push(...deleteConfirm(ctx));
@@ -141,6 +142,43 @@ function parseBodyExpression(ctx: Ctx): string {
 		args.push(String(ctx.op.maxItems));
 	}
 	return `parseBody(${args.join(", ")})`;
+}
+
+const RAW_BODY_EXPRESSION = "resolveFileToken(argv.body, 'body', 'binary')";
+
+/** A multipart-only operation appends `--body` to its form as given. */
+const multipartTakesBody = (ctx: Ctx) =>
+	ctx.derived.multipart !== undefined &&
+	!ctx.op.requestContentTypes.includes("application/octet-stream");
+
+/**
+ * `--body` is parsed once, before auth and any confirmation prompt, so a bad
+ * body fails before anything else happens; `bodyBypass` sends the result.
+ */
+const parsesBodyEarly = (ctx: Ctx) =>
+	ctx.derived.hasBody && !multipartTakesBody(ctx);
+
+function preparsedBody(ctx: Ctx): string[] {
+	if (!parsesBodyEarly(ctx)) {
+		return [];
+	}
+	const earlierBranchReads = [
+		...ctx.derived.multipartFlagFields.map(
+			({ flag }) => `${argvKey(flag)} !== undefined`
+		),
+		...ctx.derived.multipartFileFields.map(
+			({ flag }) => `${argvKey(flag)} !== undefined`
+		),
+		...(ctx.derived.hasFileUpload ? ["argv.file !== undefined"] : []),
+	];
+	const read = acceptsJson(ctx)
+		? `argv.body !== undefined ? ${parseBodyExpression(ctx)} : undefined`
+		: RAW_BODY_EXPRESSION;
+	const parsed =
+		earlierBranchReads.length === 0
+			? read
+			: `(${earlierBranchReads.join(" || ")}) ? undefined : ${read}`;
+	return [`      const parsedBody = ${parsed};`];
 }
 
 function preservedBodyPaths(ctx: Ctx): string {
@@ -304,6 +342,10 @@ export function dryRun(ctx: Ctx): string[] {
 			} else {
 				lines.push("            : undefined,");
 			}
+		} else if (d.hasFileUpload) {
+			lines.push(
+				"          body: argv.file !== undefined ? { file: argv.file } : argv.body,"
+			);
 		} else {
 			lines.push("          body: argv.body,");
 		}
@@ -402,7 +444,7 @@ function multipart(ctx: Ctx): string[] {
 		reads.length === 0
 			? "false"
 			: reads.map((r) => `${r} !== undefined`).join(" || ");
-	const only = !ctx.op.requestContentTypes.includes("application/octet-stream");
+	const only = multipartTakesBody(ctx);
 	let guard: string;
 	if (only) {
 		guard =
@@ -580,11 +622,12 @@ function bodyBypass(ctx: Ctx): string[] {
 	const rawCt =
 		op.requestContentTypes.find((c) => c !== "application/json") ??
 		"application/octet-stream";
-	const lines = [
-		"",
-		`      if (${json ? "argv.body" : "argv.body !== undefined"}) {`,
-	];
-	if (json) {
+	// `!== undefined`, as in the dry run: an empty `--body` is input, not absence.
+	const lines = ["", "      if (argv.body !== undefined) {"];
+	if (parsesBodyEarly(ctx)) {
+		// Parsed and validated in `preparsedBody`; not parsed again here.
+		lines.push("        const bodyData = parsedBody;");
+	} else if (json) {
 		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
 	} else {
 		lines.push(
@@ -593,9 +636,7 @@ function bodyBypass(ctx: Ctx): string[] {
 		lines.push(
 			"        // resolving @file references as binary file contents."
 		);
-		lines.push(
-			"        const bodyData = resolveFileToken(argv.body, 'body', 'binary');"
-		);
+		lines.push(`        const bodyData = ${RAW_BODY_EXPRESSION};`);
 	}
 	const headerParts = json ? [] : [`'Content-Type': '${rawCt}'`];
 	let headerOpt: string | undefined;
@@ -1122,7 +1163,8 @@ export function imports(ctx: Ctx): Imports {
 	}
 	if (d.hasBody || d.hasBodyParams) {
 		const names: string[] = [];
-		if (d.hasBody) {
+		// Non-JSON bodies are sent raw through resolveFileToken.
+		if (d.hasBody && acceptsJson(ctx)) {
 			names.push("parseBody");
 		}
 		if (d.hasBodyParams) {

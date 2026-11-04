@@ -11,7 +11,6 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -117,6 +116,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
 					);
 				}
+				const parsedBody =
+					argv["metadata"] !== undefined || argv.file !== undefined
+						? undefined
+						: resolveFileToken(argv.body, "body", "binary");
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -174,9 +177,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body !== undefined) {
-					// Endpoint does not accept application/json — send --body as raw bytes,
-					// resolving @file references as binary file contents.
-					const bodyData = resolveFileToken(argv.body, "body", "binary");
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

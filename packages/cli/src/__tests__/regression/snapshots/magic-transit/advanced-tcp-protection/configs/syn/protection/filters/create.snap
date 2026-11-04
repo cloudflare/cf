@@ -26,6 +26,8 @@
       "create",
       "--expression",
       "regression value &/?+ü",
+      "--filter-mode",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -69,6 +71,8 @@
       "filters",
       "create",
       "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -82,7 +86,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "40",
+          "content-length": "73",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -91,7 +95,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "expression": "regression value &/?+ü"
+          "expression": "regression value &/?+ü",
+          "mode": "regression value &/?+ü"
         }
       }
     ]
@@ -107,6 +112,8 @@
       "filters",
       "create",
       "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -153,6 +160,8 @@
       "create",
       "--expression",
       "regression value &/?+ü",
+      "--filter-mode",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -198,6 +207,8 @@
       "filters",
       "create",
       "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -247,6 +258,8 @@
       "create",
       "--expression",
       "regression value &/?+ü",
+      "--filter-mode",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -290,6 +303,8 @@
       "filters",
       "create",
       "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -337,6 +352,8 @@
       "create",
       "--expression",
       "regression value &/?+ü",
+      "--filter-mode",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -355,6 +372,8 @@
       "filters",
       "create",
       "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
       "regression value &/?+ü",
       "--body",
       "@<body.json>"
@@ -399,6 +418,8 @@
       "filters",
       "create",
       "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
       "regression value &/?+ü",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"

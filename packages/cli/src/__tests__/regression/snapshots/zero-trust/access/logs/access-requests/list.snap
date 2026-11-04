@@ -380,14 +380,14 @@
     ]
   },
   {
-    "case": "only --allowedOp",
+    "case": "only --allowed-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--allowedOp",
+      "--allowed-op",
       "eq"
     ],
     "exitCode": 0,
@@ -412,14 +412,14 @@
     ]
   },
   {
-    "case": "--allowedOp value 1",
+    "case": "--allowed-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--allowedOp",
+      "--allowed-op",
       "neq"
     ],
     "exitCode": 0,
@@ -444,21 +444,21 @@
     ]
   },
   {
-    "case": "only --country-codeOp",
+    "case": "only --country-code-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--country-codeOp",
+      "--country-code-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?country_codeOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -476,21 +476,21 @@
     ]
   },
   {
-    "case": "--country-codeOp value 1",
+    "case": "--country-code-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--country-codeOp",
+      "--country-code-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?country_codeOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -508,21 +508,21 @@
     ]
   },
   {
-    "case": "only --app-typeOp",
+    "case": "only --app-type-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--app-typeOp",
+      "--app-type-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?app_typeOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -540,21 +540,21 @@
     ]
   },
   {
-    "case": "--app-typeOp value 1",
+    "case": "--app-type-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--app-typeOp",
+      "--app-type-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?app_typeOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -572,21 +572,21 @@
     ]
   },
   {
-    "case": "only --app-uidOp",
+    "case": "only --app-uid-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--app-uidOp",
+      "--app-uid-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?app_uidOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -604,21 +604,21 @@
     ]
   },
   {
-    "case": "--app-uidOp value 1",
+    "case": "--app-uid-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--app-uidOp",
+      "--app-uid-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?app_uidOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -636,21 +636,21 @@
     ]
   },
   {
-    "case": "only --ray-idOp",
+    "case": "only --ray-id-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--ray-idOp",
+      "--ray-id-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?ray_idOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -668,21 +668,21 @@
     ]
   },
   {
-    "case": "--ray-idOp value 1",
+    "case": "--ray-id-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--ray-idOp",
+      "--ray-id-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?ray_idOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -700,14 +700,14 @@
     ]
   },
   {
-    "case": "only --emailOp",
+    "case": "only --email-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--emailOp",
+      "--email-op",
       "eq"
     ],
     "exitCode": 0,
@@ -732,14 +732,14 @@
     ]
   },
   {
-    "case": "--emailOp value 1",
+    "case": "--email-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--emailOp",
+      "--email-op",
       "neq"
     ],
     "exitCode": 0,
@@ -764,14 +764,14 @@
     ]
   },
   {
-    "case": "--emailOp value 2",
+    "case": "--email-op value 2",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--emailOp",
+      "--email-op",
       "contains"
     ],
     "exitCode": 0,
@@ -796,14 +796,14 @@
     ]
   },
   {
-    "case": "only --idpOp",
+    "case": "only --idp-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--idpOp",
+      "--idp-op",
       "eq"
     ],
     "exitCode": 0,
@@ -828,14 +828,14 @@
     ]
   },
   {
-    "case": "--idpOp value 1",
+    "case": "--idp-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--idpOp",
+      "--idp-op",
       "neq"
     ],
     "exitCode": 0,
@@ -860,21 +860,21 @@
     ]
   },
   {
-    "case": "only --non-identityOp",
+    "case": "only --non-identity-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--non-identityOp",
+      "--non-identity-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?non_identityOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -892,21 +892,21 @@
     ]
   },
   {
-    "case": "--non-identityOp value 1",
+    "case": "--non-identity-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--non-identityOp",
+      "--non-identity-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?non_identityOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -924,21 +924,21 @@
     ]
   },
   {
-    "case": "only --user-idOp",
+    "case": "only --user-id-op",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--user-idOp",
+      "--user-id-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?user_idOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -956,21 +956,21 @@
     ]
   },
   {
-    "case": "--user-idOp value 1",
+    "case": "--user-id-op value 1",
     "argv": [
       "zero-trust",
       "access",
       "logs",
       "access-requests",
       "list",
-      "--user-idOp",
+      "--user-id-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?user_idOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1044,23 +1044,23 @@
       "--email-exact=false",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
-      "--allowedOp",
+      "--allowed-op",
       "neq",
-      "--country-codeOp",
+      "--country-code-op",
       "neq",
-      "--app-typeOp",
+      "--app-type-op",
       "neq",
-      "--app-uidOp",
+      "--app-uid-op",
       "neq",
-      "--ray-idOp",
+      "--ray-id-op",
       "neq",
-      "--emailOp",
+      "--email-op",
       "neq",
-      "--idpOp",
+      "--idp-op",
       "neq",
-      "--non-identityOp",
+      "--non-identity-op",
       "neq",
-      "--user-idOp",
+      "--user-id-op",
       "neq",
       "--fields",
       "second value &/?+ü"
@@ -1069,7 +1069,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&email=regression%40example.com&email_exact=false&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&emailOp=neq&idpOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&email=regression%40example.com&email_exact=false&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&country_codeOp=neq&app_typeOp=neq&app_uidOp=neq&ray_idOp=neq&emailOp=neq&idpOp=neq&non_identityOp=neq&user_idOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1101,22 +1101,22 @@
       "--per-page",
       "1",
       "--email-exact=true",
-      "--allowedOp",
+      "--allowed-op",
       "eq",
-      "--app-typeOp",
+      "--app-type-op",
       "eq",
-      "--ray-idOp",
+      "--ray-id-op",
       "eq",
-      "--idpOp",
+      "--idp-op",
       "eq",
-      "--user-idOp",
+      "--user-id-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?direction=desc&until=regression%20value%20%26%2F%3F%2B%C3%BC&per_page=1&email_exact=true&allowedOp=eq&idpOp=eq",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?direction=desc&until=regression%20value%20%26%2F%3F%2B%C3%BC&per_page=1&email_exact=true&allowedOp=eq&app_typeOp=eq&ray_idOp=eq&idpOp=eq&user_idOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1151,13 +1151,13 @@
       "regression@example.com",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
-      "--country-codeOp",
+      "--country-code-op",
       "neq",
-      "--app-uidOp",
+      "--app-uid-op",
       "neq",
-      "--emailOp",
+      "--email-op",
       "neq",
-      "--non-identityOp",
+      "--non-identity-op",
       "neq",
       "--fields",
       "second value &/?+ü"
@@ -1166,7 +1166,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&since=second%20value%20%26%2F%3F%2B%C3%BC&page=2&email=regression%40example.com&user_id=0123456789abcdef0123456789abcdef&emailOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&since=second%20value%20%26%2F%3F%2B%C3%BC&page=2&email=regression%40example.com&user_id=0123456789abcdef0123456789abcdef&country_codeOp=neq&app_uidOp=neq&emailOp=neq&non_identityOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1198,13 +1198,13 @@
       "--email",
       "regression@example.com",
       "--email-exact=true",
-      "--country-codeOp",
+      "--country-code-op",
       "eq",
-      "--app-typeOp",
+      "--app-type-op",
       "eq",
-      "--emailOp",
+      "--email-op",
       "eq",
-      "--idpOp",
+      "--idp-op",
       "eq",
       "--fields",
       "regression value &/?+ü"
@@ -1213,7 +1213,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?since=regression%20value%20%26%2F%3F%2B%C3%BC&until=regression%20value%20%26%2F%3F%2B%C3%BC&email=regression%40example.com&email_exact=true&emailOp=eq&idpOp=eq&fields=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?since=regression%20value%20%26%2F%3F%2B%C3%BC&until=regression%20value%20%26%2F%3F%2B%C3%BC&email=regression%40example.com&email_exact=true&country_codeOp=eq&app_typeOp=eq&emailOp=eq&idpOp=eq&fields=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1248,22 +1248,22 @@
       "2",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
-      "--allowedOp",
+      "--allowed-op",
       "neq",
-      "--app-uidOp",
+      "--app-uid-op",
       "neq",
-      "--ray-idOp",
+      "--ray-id-op",
       "neq",
-      "--non-identityOp",
+      "--non-identity-op",
       "neq",
-      "--user-idOp",
+      "--user-id-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&page=2&per_page=2&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&page=2&per_page=2&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&app_uidOp=neq&ray_idOp=neq&non_identityOp=neq&user_idOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1295,20 +1295,20 @@
       "--email",
       "regression@example.com",
       "--email-exact=true",
-      "--app-uidOp",
+      "--app-uid-op",
       "eq",
-      "--ray-idOp",
+      "--ray-id-op",
       "eq",
-      "--emailOp",
+      "--email-op",
       "eq",
-      "--idpOp",
+      "--idp-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?page=1&per_page=1&email=regression%40example.com&email_exact=true&emailOp=eq&idpOp=eq",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?page=1&per_page=1&email=regression%40example.com&email_exact=true&app_uidOp=eq&ray_idOp=eq&emailOp=eq&idpOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1343,15 +1343,15 @@
       "second value &/?+ü",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
-      "--allowedOp",
+      "--allowed-op",
       "neq",
-      "--country-codeOp",
+      "--country-code-op",
       "neq",
-      "--app-typeOp",
+      "--app-type-op",
       "neq",
-      "--non-identityOp",
+      "--non-identity-op",
       "neq",
-      "--user-idOp",
+      "--user-id-op",
       "neq",
       "--fields",
       "second value &/?+ü"
@@ -1360,7 +1360,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&country_codeOp=neq&app_typeOp=neq&non_identityOp=neq&user_idOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1387,26 +1387,26 @@
       "list",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
-      "--allowedOp",
+      "--allowed-op",
       "eq",
-      "--country-codeOp",
+      "--country-code-op",
       "eq",
-      "--app-typeOp",
+      "--app-type-op",
       "eq",
-      "--app-uidOp",
+      "--app-uid-op",
       "eq",
-      "--ray-idOp",
+      "--ray-id-op",
       "eq",
-      "--emailOp",
+      "--email-op",
       "eq",
-      "--idpOp",
+      "--idp-op",
       "eq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?user_id=0123456789abcdef0123456789abcdef&allowedOp=eq&emailOp=eq&idpOp=eq",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?user_id=0123456789abcdef0123456789abcdef&allowedOp=eq&country_codeOp=eq&app_typeOp=eq&app_uidOp=eq&ray_idOp=eq&emailOp=eq&idpOp=eq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1446,9 +1446,9 @@
       "--email",
       "regression@example.com",
       "--email-exact=false",
-      "--non-identityOp",
+      "--non-identity-op",
       "neq",
-      "--user-idOp",
+      "--user-id-op",
       "neq",
       "--fields",
       "second value &/?+ü"
@@ -1457,7 +1457,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&email=regression%40example.com&email_exact=false&fields=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&email=regression%40example.com&email_exact=false&non_identityOp=neq&user_idOp=neq&fields=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1482,9 +1482,9 @@
       "logs",
       "access-requests",
       "list",
-      "--non-identityOp",
+      "--non-identity-op",
       "eq",
-      "--user-idOp",
+      "--user-id-op",
       "eq",
       "--fields",
       "regression value &/?+ü"
@@ -1493,7 +1493,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?fields=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?non_identityOp=eq&user_idOp=eq&fields=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1535,26 +1535,26 @@
       "--email-exact=false",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
-      "--allowedOp",
+      "--allowed-op",
       "neq",
-      "--country-codeOp",
+      "--country-code-op",
       "neq",
-      "--app-typeOp",
+      "--app-type-op",
       "neq",
-      "--app-uidOp",
+      "--app-uid-op",
       "neq",
-      "--ray-idOp",
+      "--ray-id-op",
       "neq",
-      "--emailOp",
+      "--email-op",
       "neq",
-      "--idpOp",
+      "--idp-op",
       "neq"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&email=regression%40example.com&email_exact=false&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&emailOp=neq&idpOp=neq",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/access_requests?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&email=regression%40example.com&email_exact=false&user_id=0123456789abcdef0123456789abcdef&allowedOp=neq&country_codeOp=neq&app_typeOp=neq&app_uidOp=neq&ray_idOp=neq&emailOp=neq&idpOp=neq",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

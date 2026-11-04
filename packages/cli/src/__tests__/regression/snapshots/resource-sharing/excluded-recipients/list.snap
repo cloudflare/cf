@@ -7,7 +7,7 @@
       "list"
     ],
     "exitCode": 1,
-    "error": "Missing required arguments: account-id-path, share-id",
+    "error": "Missing required argument: share-id",
     "requests": []
   },
   {
@@ -16,8 +16,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -25,7 +23,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -48,8 +46,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--page",
@@ -59,7 +55,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients?page=1",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients?page=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -82,8 +78,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--per-page",
@@ -93,7 +87,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients?per_page=1",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients?per_page=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -116,8 +110,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--page",
@@ -129,7 +121,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients?page=2&per_page=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients?page=2&per_page=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -152,8 +144,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--page",
@@ -163,7 +153,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients?page=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients?page=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -186,8 +176,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--quiet"
@@ -196,7 +184,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -219,8 +207,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--zone",
@@ -230,7 +216,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -253,8 +239,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--profile",
@@ -266,7 +250,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/excluded-recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -289,8 +273,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--local"
@@ -321,8 +303,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--local",
@@ -355,8 +335,6 @@
       "resource-sharing",
       "excluded-recipients",
       "list",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
       "--dry-run"

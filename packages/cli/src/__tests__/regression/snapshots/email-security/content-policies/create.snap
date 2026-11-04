@@ -56,6 +56,53 @@
     ]
   },
   {
+    "case": "only --expires-at",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "create",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--pattern",
+      "*.sql",
+      "--targets",
+      "regression value &/?+ü",
+      "--expires-at",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true,
+          "expires_at": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "pattern": "*.sql",
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
     "case": "only --notes",
     "argv": [
       "email-security",
@@ -204,6 +251,8 @@
       "*.sql",
       "--targets",
       "regression value &/?+ü",
+      "--expires-at",
+      "second value &/?+ü",
       "--notes",
       "second value &/?+ü"
     ],
@@ -218,7 +267,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "135",
+          "content-length": "170",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -228,8 +277,56 @@
         },
         "body": {
           "enabled": true,
+          "expires_at": "second value &/?+ü",
           "name": "regression value &/?+ü",
           "notes": "second value &/?+ü",
+          "pattern": "*.sql",
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "create",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--pattern",
+      "*.sql",
+      "--targets",
+      "regression value &/?+ü",
+      "--expires-at",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true,
+          "expires_at": "second value &/?+ü",
+          "name": "regression value &/?+ü",
           "pattern": "*.sql",
           "targets": [
             "regression value &/?+ü"
@@ -580,6 +677,56 @@
             "regression": "second"
           }
         ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "create",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--pattern",
+      "*.sql",
+      "--targets",
+      "regression value &/?+ü",
+      "--expires-at",
+      "regression value &/?+ü",
+      "--notes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true,
+          "expires_at": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notes": "regression value &/?+ü",
+          "pattern": "*.sql",
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
       }
     ]
   }

@@ -5,19 +5,39 @@
       "dns-firewall",
       "create"
     ],
-    "exitCode": 1,
-    "error": "--name is required. Pass --name <value> or run interactively.",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
   },
   {
     "case": "required",
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -55,10 +75,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--attack-mitigation-enabled=true"
     ],
     "exitCode": 0,
@@ -72,7 +88,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "185",
+          "content-length": "123",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -86,11 +102,7 @@
           },
           "maximum_cache_ttl": 900,
           "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
           "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
           "dns_firewall_ip_count": 2
         }
       }
@@ -101,11 +113,636 @@
     "argv": [
       "dns-firewall",
       "create",
+      "--attack-mitigation-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attack_mitigation": {
+            "enabled": false
+          },
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attack-mitigation-only-when-upstream-unhealthy",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--attack-mitigation-only-when-upstream-unhealthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attack_mitigation": {
+            "only_when_upstream_unhealthy": true
+          },
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "--attack-mitigation-only-when-upstream-unhealthy value 1",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--attack-mitigation-only-when-upstream-unhealthy=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attack_mitigation": {
+            "only_when_upstream_unhealthy": false
+          },
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deprecate-any-requests",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--deprecate-any-requests=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deprecate_any_requests": true,
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "--deprecate-any-requests value 1",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--deprecate-any-requests=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deprecate_any_requests": false,
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ecs-fallback",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--ecs-fallback=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "106",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ecs_fallback": true,
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ecs-fallback value 1",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--ecs-fallback=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ecs_fallback": false,
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --maximum-cache-ttl",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--maximum-cache-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "84",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 1,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --minimum-cache-ttl",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--minimum-cache-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 1,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "dns-firewall",
+      "create",
       "--name",
-      "regression value &/?+ü",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --negative-cache-ttl",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--negative-cache-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "negative_cache_ttl": 1,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ratelimit",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--ratelimit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "ratelimit": 1,
+          "retries": 2,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retries",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--retries",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 1,
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --upstream-ips",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--upstream-ips",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "upstream_ips": [
+            "192.0.2.1"
+          ],
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dns-firewall-ip-count",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--dns-firewall-ip-count",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "maximum_cache_ttl": 900,
+          "minimum_cache_ttl": 60,
+          "retries": 2,
+          "dns_firewall_ip_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--attack-mitigation-enabled=false",
+      "--attack-mitigation-only-when-upstream-unhealthy=false",
+      "--deprecate-any-requests=false",
+      "--ecs-fallback=false",
+      "--maximum-cache-ttl",
+      "2",
+      "--minimum-cache-ttl",
+      "2",
+      "--name",
+      "second value &/?+ü",
+      "--negative-cache-ttl",
+      "2",
+      "--ratelimit",
+      "2",
+      "--retries",
+      "2",
       "--upstream-ips",
       "192.0.2.1",
-      "--attack-mitigation-enabled=false"
+      "192.0.2.1",
+      "--dns-firewall-ip-count",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "317",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attack_mitigation": {
+            "enabled": false,
+            "only_when_upstream_unhealthy": false
+          },
+          "deprecate_any_requests": false,
+          "ecs_fallback": false,
+          "maximum_cache_ttl": 2,
+          "minimum_cache_ttl": 2,
+          "name": "second value &/?+ü",
+          "negative_cache_ttl": 2,
+          "ratelimit": 2,
+          "retries": 2,
+          "upstream_ips": [
+            "192.0.2.1",
+            "192.0.2.1"
+          ],
+          "dns_firewall_ip_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "dns-firewall",
+      "create",
+      "--attack-mitigation-only-when-upstream-unhealthy=true",
+      "--ecs-fallback=true",
+      "--minimum-cache-ttl",
+      "1",
+      "--negative-cache-ttl",
+      "1",
+      "--retries",
+      "1",
+      "--dns-firewall-ip-count",
+      "1"
     ],
     "exitCode": 0,
     "requests": [
@@ -128,562 +765,33 @@
         },
         "body": {
           "attack_mitigation": {
-            "enabled": false
-          },
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --attack-mitigation-only-when-upstream-unhealthy",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--attack-mitigation-only-when-upstream-unhealthy=true"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "206",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "attack_mitigation": {
             "only_when_upstream_unhealthy": true
           },
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "--attack-mitigation-only-when-upstream-unhealthy value 1",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--attack-mitigation-only-when-upstream-unhealthy=false"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "207",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "attack_mitigation": {
-            "only_when_upstream_unhealthy": false
-          },
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --deprecate-any-requests",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--deprecate-any-requests=true"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "178",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "deprecate_any_requests": true,
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "--deprecate-any-requests value 1",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--deprecate-any-requests=false"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "179",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "deprecate_any_requests": false,
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --ecs-fallback",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--ecs-fallback=true"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "168",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
           "ecs_fallback": true,
           "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "--ecs-fallback value 1",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--ecs-fallback=false"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "169",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ecs_fallback": false,
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --maximum-cache-ttl",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--maximum-cache-ttl",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "146",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 1,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --minimum-cache-ttl",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--minimum-cache-ttl",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "147",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 900,
           "minimum_cache_ttl": 1,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --negative-cache-ttl",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--negative-cache-ttl",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "171",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
           "negative_cache_ttl": 1,
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --ratelimit",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--ratelimit",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "162",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "ratelimit": 1,
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --retries",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--retries",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "148",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
           "retries": 1,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --dns-firewall-ip-count",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--dns-firewall-ip-count",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "148",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
           "dns_firewall_ip_count": 1
         }
       }
     ]
   },
   {
-    "case": "pairwise 0",
+    "case": "pairwise 3",
     "argv": [
       "dns-firewall",
       "create",
+      "--attack-mitigation-enabled=false",
+      "--deprecate-any-requests=false",
+      "--maximum-cache-ttl",
+      "2",
       "--name",
-      "regression value &/?+ü",
+      "second value &/?+ü",
+      "--ratelimit",
+      "2",
       "--upstream-ips",
+      "192.0.2.1",
       "192.0.2.1"
     ],
     "exitCode": 0,
@@ -697,178 +805,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "148",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 1",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--attack-mitigation-enabled=false",
-      "--attack-mitigation-only-when-upstream-unhealthy=false",
-      "--deprecate-any-requests=false",
-      "--ecs-fallback=false",
-      "--maximum-cache-ttl",
-      "2",
-      "--minimum-cache-ttl",
-      "2",
-      "--negative-cache-ttl",
-      "2",
-      "--ratelimit",
-      "2",
-      "--retries",
-      "2",
-      "--dns-firewall-ip-count",
-      "2"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "309",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "attack_mitigation": {
-            "enabled": false,
-            "only_when_upstream_unhealthy": false
-          },
-          "deprecate_any_requests": false,
-          "ecs_fallback": false,
-          "maximum_cache_ttl": 2,
-          "minimum_cache_ttl": 2,
-          "name": "regression value &/?+ü",
-          "negative_cache_ttl": 2,
-          "ratelimit": 2,
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 2",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--attack-mitigation-only-when-upstream-unhealthy=true",
-      "--ecs-fallback=true",
-      "--minimum-cache-ttl",
-      "1",
-      "--ratelimit",
-      "1",
-      "--dns-firewall-ip-count",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "239",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "attack_mitigation": {
-            "only_when_upstream_unhealthy": true
-          },
-          "ecs_fallback": true,
-          "maximum_cache_ttl": 900,
-          "minimum_cache_ttl": 1,
-          "name": "regression value &/?+ü",
-          "ratelimit": 1,
-          "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
-          "dns_firewall_ip_count": 1
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "dns-firewall",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
-      "--attack-mitigation-enabled=false",
-      "--deprecate-any-requests=false",
-      "--maximum-cache-ttl",
-      "2",
-      "--negative-cache-ttl",
-      "2",
-      "--retries",
-      "2"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dns_firewall",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "238",
+          "content-length": "237",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -883,10 +820,11 @@
           "deprecate_any_requests": false,
           "maximum_cache_ttl": 2,
           "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
-          "negative_cache_ttl": 2,
+          "name": "second value &/?+ü",
+          "ratelimit": 2,
           "retries": 2,
           "upstream_ips": [
+            "192.0.2.1",
             "192.0.2.1"
           ],
           "dns_firewall_ip_count": 2
@@ -899,15 +837,15 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--deprecate-any-requests=true",
       "--ecs-fallback=true",
+      "--name",
+      "regression value &/?+ü",
       "--negative-cache-ttl",
       "1",
-      "--ratelimit",
+      "--upstream-ips",
+      "192.0.2.1",
+      "--dns-firewall-ip-count",
       "1"
     ],
     "exitCode": 0,
@@ -921,7 +859,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "235",
+          "content-length": "221",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -936,12 +874,11 @@
           "minimum_cache_ttl": 60,
           "name": "regression value &/?+ü",
           "negative_cache_ttl": 1,
-          "ratelimit": 1,
           "retries": 2,
           "upstream_ips": [
             "192.0.2.1"
           ],
-          "dns_firewall_ip_count": 2
+          "dns_firewall_ip_count": 1
         }
       }
     ]
@@ -951,19 +888,15 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--attack-mitigation-enabled=false",
       "--attack-mitigation-only-when-upstream-unhealthy=false",
       "--maximum-cache-ttl",
       "2",
       "--minimum-cache-ttl",
       "2",
-      "--retries",
+      "--ratelimit",
       "2",
-      "--dns-firewall-ip-count",
+      "--retries",
       "2"
     ],
     "exitCode": 0,
@@ -977,7 +910,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "220",
+          "content-length": "172",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -992,11 +925,8 @@
           },
           "maximum_cache_ttl": 2,
           "minimum_cache_ttl": 2,
-          "name": "regression value &/?+ü",
+          "ratelimit": 2,
           "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
           "dns_firewall_ip_count": 2
         }
       }
@@ -1007,17 +937,13 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--maximum-cache-ttl",
       "1",
       "--minimum-cache-ttl",
       "1",
+      "--name",
+      "regression value &/?+ü",
       "--negative-cache-ttl",
-      "1",
-      "--ratelimit",
       "1"
     ],
     "exitCode": 0,
@@ -1031,7 +957,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "182",
+          "content-length": "139",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1044,11 +970,7 @@
           "minimum_cache_ttl": 1,
           "name": "regression value &/?+ü",
           "negative_cache_ttl": 1,
-          "ratelimit": 1,
           "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
           "dns_firewall_ip_count": 2
         }
       }
@@ -1059,16 +981,17 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--attack-mitigation-enabled=false",
       "--attack-mitigation-only-when-upstream-unhealthy=false",
       "--deprecate-any-requests=false",
       "--ecs-fallback=false",
+      "--ratelimit",
+      "2",
       "--retries",
       "2",
+      "--upstream-ips",
+      "192.0.2.1",
+      "192.0.2.1",
       "--dns-firewall-ip-count",
       "2"
     ],
@@ -1083,7 +1006,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "275",
+          "content-length": "268",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1100,9 +1023,10 @@
           "ecs_fallback": false,
           "maximum_cache_ttl": 900,
           "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
+          "ratelimit": 2,
           "retries": 2,
           "upstream_ips": [
+            "192.0.2.1",
             "192.0.2.1"
           ],
           "dns_firewall_ip_count": 2
@@ -1115,12 +1039,12 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
+      "--ratelimit",
+      "1",
       "--retries",
       "1",
+      "--upstream-ips",
+      "192.0.2.1",
       "--dns-firewall-ip-count",
       "1"
     ],
@@ -1135,7 +1059,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "148",
+          "content-length": "129",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1146,7 +1070,7 @@
         "body": {
           "maximum_cache_ttl": 900,
           "minimum_cache_ttl": 60,
-          "name": "regression value &/?+ü",
+          "ratelimit": 1,
           "retries": 1,
           "upstream_ips": [
             "192.0.2.1"
@@ -1161,10 +1085,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--attack-mitigation-enabled=false",
       "--attack-mitigation-only-when-upstream-unhealthy=false",
       "--deprecate-any-requests=false",
@@ -1173,9 +1093,9 @@
       "2",
       "--minimum-cache-ttl",
       "2",
+      "--name",
+      "second value &/?+ü",
       "--negative-cache-ttl",
-      "2",
-      "--ratelimit",
       "2"
     ],
     "exitCode": 0,
@@ -1189,7 +1109,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "309",
+          "content-length": "262",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1206,13 +1126,9 @@
           "ecs_fallback": false,
           "maximum_cache_ttl": 2,
           "minimum_cache_ttl": 2,
-          "name": "regression value &/?+ü",
+          "name": "second value &/?+ü",
           "negative_cache_ttl": 2,
-          "ratelimit": 2,
           "retries": 2,
-          "upstream_ips": [
-            "192.0.2.1"
-          ],
           "dns_firewall_ip_count": 2
         }
       }
@@ -1223,10 +1139,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -1265,10 +1177,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -1308,10 +1216,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -1353,10 +1257,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -1394,10 +1294,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -1437,10 +1333,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -1453,10 +1345,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "@<body.json>"
     ],
@@ -1494,10 +1382,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -1512,7 +1396,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1520,14 +1404,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1536,10 +1420,6 @@
     "argv": [
       "dns-firewall",
       "create",
-      "--name",
-      "regression value &/?+ü",
-      "--upstream-ips",
-      "192.0.2.1",
       "--attack-mitigation-enabled=true",
       "--attack-mitigation-only-when-upstream-unhealthy=true",
       "--deprecate-any-requests=true",
@@ -1548,12 +1428,16 @@
       "1",
       "--minimum-cache-ttl",
       "1",
+      "--name",
+      "regression value &/?+ü",
       "--negative-cache-ttl",
       "1",
       "--ratelimit",
       "1",
       "--retries",
       "1",
+      "--upstream-ips",
+      "192.0.2.1",
       "--dns-firewall-ip-count",
       "1"
     ],

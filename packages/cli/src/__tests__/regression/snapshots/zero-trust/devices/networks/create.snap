@@ -8,7 +8,7 @@
       "create"
     ],
     "exitCode": 1,
-    "error": "--config-tls-sockaddr is required. Pass --config-tls-sockaddr <value> or run interactively.",
+    "error": "--network-config-tls-sockaddr is required. Pass --network-config-tls-sockaddr <value> or run interactively.",
     "requests": []
   },
   {
@@ -18,7 +18,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -58,19 +58,19 @@
     ]
   },
   {
-    "case": "only --config-sha256",
+    "case": "only --network-config-sha256",
     "argv": [
       "zero-trust",
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--type",
       "tls",
-      "--config-sha256",
+      "--network-config-sha256",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -110,7 +110,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -153,13 +153,13 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--type",
       "tls",
-      "--config-sha256",
+      "--network-config-sha256",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -199,7 +199,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -246,7 +246,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -294,7 +294,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -344,7 +344,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -390,7 +390,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -438,7 +438,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -458,7 +458,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -504,7 +504,7 @@
       "devices",
       "networks",
       "create",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -524,7 +524,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "69",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -532,15 +532,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
-          },
-          "type": "tls"
-        }
+          }
+        ]
       }
     ]
   }

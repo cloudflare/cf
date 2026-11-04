@@ -17,8 +17,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -26,7 +24,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -52,51 +50,12 @@
     ]
   },
   {
-    "case": "only --account-id",
-    "argv": [
-      "resource-sharing",
-      "recipients",
-      "create",
-      "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
-      "--account-id",
-      "0123456789abcdef0123456789abcdef"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "49",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "account_id": "0123456789abcdef0123456789abcdef"
-        }
-      }
-    ]
-  },
-  {
     "case": "only --organization-id",
     "argv": [
       "resource-sharing",
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--organization-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -104,7 +63,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -132,8 +91,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--recipient-account-id",
       "192.0.2.1"
     ],
@@ -141,7 +98,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -168,15 +125,13 @@
       "resource-sharing",
       "recipients",
       "create",
-      "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü"
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -202,10 +157,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
-      "--account-id",
-      "0123456789abcdef0123456789abcdef",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
       "--recipient-account-id",
@@ -215,14 +166,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "137",
+          "content-length": "89",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -231,89 +182,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "account_id": "0123456789abcdef0123456789abcdef",
           "organization_id": "0123456789abcdef0123456789abcdef",
           "recipient_account_id": "192.0.2.1"
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "resource-sharing",
-      "recipients",
-      "create",
-      "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
-      "--account-id",
-      "0123456789abcdef0123456789abcdef",
-      "--recipient-account-id",
-      "192.0.2.1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "84",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "account_id": "0123456789abcdef0123456789abcdef",
-          "recipient_account_id": "192.0.2.1"
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 5",
-    "argv": [
-      "resource-sharing",
-      "recipients",
-      "create",
-      "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
-      "--account-id",
-      "0123456789abcdef0123456789abcdef",
-      "--organization-id",
-      "0123456789abcdef0123456789abcdef"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "102",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "account_id": "0123456789abcdef0123456789abcdef",
-          "organization_id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -325,8 +195,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -335,7 +203,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -367,8 +235,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -378,7 +244,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -410,8 +276,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -423,7 +287,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -455,8 +319,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -496,8 +358,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -539,8 +399,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -555,8 +413,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "@<body.json>"
     ],
@@ -564,7 +420,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -596,8 +452,6 @@
       "recipients",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--account-id-path",
-      "regression value &/?+ü",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -605,7 +459,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/shares/0123456789abcdef0123456789abcdef/recipients",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/recipients",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

@@ -1,8 +1,0 @@
-{
-  "argv": [
-    "intel",
-    "attack-surface-report",
-    "issues"
-  ],
-  "requests": []
-}

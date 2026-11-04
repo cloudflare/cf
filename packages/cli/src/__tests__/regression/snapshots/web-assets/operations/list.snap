@@ -403,18 +403,21 @@
       "desc",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--method",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--endpoint",
       "https://example.com/a?x=1&y=two",
       "--feature",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations?page=2&per_page=2&order=host&direction=desc&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&feature=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations?page=2&per_page=2&order=host&direction=desc&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&feature=second%20value%20%26%2F%3F%2B%C3%BC&feature=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -479,6 +482,7 @@
       "host",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--endpoint",
       "https://example.com/a?x=1&y=two"
     ],
@@ -486,7 +490,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations?page=2&order=host&host=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations?page=2&order=host&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -551,14 +555,16 @@
       "2",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--method",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

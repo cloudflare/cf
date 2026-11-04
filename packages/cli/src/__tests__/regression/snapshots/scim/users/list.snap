@@ -28,12 +28,12 @@
     ]
   },
   {
-    "case": "only --startIndex",
+    "case": "only --start-index",
     "argv": [
       "scim",
       "users",
       "list",
-      "--startIndex",
+      "--start-index",
       "1"
     ],
     "exitCode": 0,
@@ -123,7 +123,7 @@
       "scim",
       "users",
       "list",
-      "--startIndex",
+      "--start-index",
       "2",
       "--count",
       "2",
@@ -157,7 +157,7 @@
       "scim",
       "users",
       "list",
-      "--startIndex",
+      "--start-index",
       "2",
       "--filter",
       "second value &/?+ü"
@@ -189,7 +189,7 @@
       "scim",
       "users",
       "list",
-      "--startIndex",
+      "--start-index",
       "2",
       "--count",
       "2"

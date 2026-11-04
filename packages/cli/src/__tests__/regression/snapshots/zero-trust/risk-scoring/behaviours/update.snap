@@ -8,7 +8,7 @@
       "update"
     ],
     "exitCode": 1,
-    "error": "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.",
+    "error": "--behaviors is required (or pass --body with this field set).",
     "requests": []
   },
   {
@@ -18,8 +18,24 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "risk-scoring",
+      "behaviours",
+      "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -32,7 +48,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "41",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -41,11 +57,9 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
+          "behaviors": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -57,38 +71,15 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   },
   {
     "case": "global zone",
@@ -97,39 +88,16 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   },
   {
     "case": "global profile and mode",
@@ -138,6 +106,8 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -145,34 +115,9 @@
       "--mode",
       "regression"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   },
   {
     "case": "local",
@@ -181,37 +126,15 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   },
   {
     "case": "local with persistence",
@@ -220,39 +143,17 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
       "--persist-to",
       "regression-state"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   },
   {
     "case": "dry-run",
@@ -261,11 +162,14 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
     ],
-    "exitCode": 0,
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
     "requests": []
   },
   {
@@ -275,37 +179,14 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "@<body.json>"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   },
   {
     "case": "array body",
@@ -314,37 +195,13 @@
       "risk-scoring",
       "behaviours",
       "update",
+      "--behaviors",
+      "{\"regression\":\"json value\"}",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/zt_risk_scoring/behaviors",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "48",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": [
-          {
-            "regression": "first"
-          },
-          {
-            "regression": "second"
-          }
-        ]
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at behaviors (for --behaviors).",
+    "requests": []
   }
 ]

@@ -5,36 +5,17 @@
       "rulesets",
       "create"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "18",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": ""
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--id is required. Pass --id <value> or run interactively.",
+    "requests": []
   },
   {
     "case": "required",
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -72,6 +53,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=true"
     ],
     "exitCode": 0,
@@ -85,7 +68,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "18",
+          "content-length": "58",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -94,7 +77,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "description": ""
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -104,6 +88,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false"
     ],
     "exitCode": 0,
@@ -117,7 +103,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "18",
+          "content-length": "58",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -126,7 +112,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "description": ""
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -136,6 +123,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--description",
       "192.0.2.1"
     ],
@@ -150,7 +139,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "27",
+          "content-length": "67",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -159,7 +148,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "description": "192.0.2.1"
+          "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -169,6 +159,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü"
     ],
@@ -183,7 +175,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "51",
+          "content-length": "91",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -193,6 +185,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "regression value &/?+ü"
         }
       }
@@ -203,6 +196,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--kind",
       "managed"
     ],
@@ -217,7 +212,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "35",
+          "content-length": "75",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -227,6 +222,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "kind": "managed"
         }
       }
@@ -237,6 +233,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--kind",
       "custom"
     ],
@@ -251,7 +249,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "34",
+          "content-length": "74",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -261,6 +259,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "kind": "custom"
         }
       }
@@ -271,6 +270,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--kind",
       "root"
     ],
@@ -285,7 +286,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "32",
+          "content-length": "72",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -295,6 +296,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "kind": "root"
         }
       }
@@ -305,6 +307,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--kind",
       "zone"
     ],
@@ -319,7 +323,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "32",
+          "content-length": "72",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -329,6 +333,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "kind": "zone"
         }
       }
@@ -339,6 +344,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "ddos_l4"
     ],
@@ -353,7 +360,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "36",
+          "content-length": "76",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -363,6 +370,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "ddos_l4"
         }
       }
@@ -373,6 +381,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "ddos_l7"
     ],
@@ -387,7 +397,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "36",
+          "content-length": "76",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -397,6 +407,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "ddos_l7"
         }
       }
@@ -407,6 +418,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_config_settings"
     ],
@@ -421,7 +434,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "49",
+          "content-length": "89",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -431,6 +444,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_config_settings"
         }
       }
@@ -441,6 +455,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_custom_errors"
     ],
@@ -455,7 +471,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "47",
+          "content-length": "87",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -465,6 +481,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_custom_errors"
         }
       }
@@ -475,6 +492,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_log_custom_fields"
     ],
@@ -489,7 +508,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "51",
+          "content-length": "91",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -499,6 +518,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_log_custom_fields"
         }
       }
@@ -509,6 +529,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_ratelimit"
     ],
@@ -523,7 +545,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "43",
+          "content-length": "83",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -533,6 +555,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_ratelimit"
         }
       }
@@ -543,6 +566,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_request_cache_settings"
     ],
@@ -557,7 +582,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "96",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -567,6 +592,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_request_cache_settings"
         }
       }
@@ -577,6 +603,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_request_dynamic_redirect"
     ],
@@ -591,7 +619,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "58",
+          "content-length": "98",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -601,6 +629,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_request_dynamic_redirect"
         }
       }
@@ -611,6 +640,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_request_firewall_custom"
     ],
@@ -625,7 +656,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "57",
+          "content-length": "97",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -635,6 +666,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "http_request_firewall_custom"
         }
       }
@@ -645,8 +677,641 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "http_request_firewall_managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_firewall_managed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 10",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_request_late_transform"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_late_transform"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 11",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_request_origin"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_origin"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 12",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_request_redirect"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_redirect"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 13",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_request_sanitize"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_sanitize"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 14",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_request_sbfm"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_sbfm"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 15",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_request_transform"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_request_transform"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 16",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_response_cache_settings"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_response_cache_settings"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 17",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_response_compression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_response_compression"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 18",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_response_firewall_custom"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_response_firewall_custom"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 19",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_response_firewall_managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "99",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_response_firewall_managed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 20",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "http_response_headers_transform"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "http_response_headers_transform"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 21",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "magic_transit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "magic_transit"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 22",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "magic_transit_ids_managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "magic_transit_ids_managed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 23",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "magic_transit_managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "magic_transit_managed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--phase value 24",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--phase",
+      "magic_transit_ratelimit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "phase": "magic_transit_ratelimit"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rules",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rules",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "rulesets",
+      "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -669,521 +1334,7 @@
         },
         "body": {
           "description": "",
-          "phase": "http_request_firewall_managed"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 10",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_request_late_transform"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "56",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_request_late_transform"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 11",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_request_origin"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "48",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_request_origin"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 12",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_request_redirect"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "50",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_request_redirect"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 13",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_request_sanitize"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "50",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_request_sanitize"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 14",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_request_sbfm"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "46",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_request_sbfm"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 15",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_request_transform"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "51",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_request_transform"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 16",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_response_cache_settings"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "57",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_response_cache_settings"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 17",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_response_compression"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "54",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_response_compression"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 18",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_response_firewall_managed"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "59",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_response_firewall_managed"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 19",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "http_response_headers_transform"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "60",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "http_response_headers_transform"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 20",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "magic_transit"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "magic_transit"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 21",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "magic_transit_ids_managed"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "54",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "magic_transit_ids_managed"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 22",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "magic_transit_managed"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "50",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "magic_transit_managed"
-        }
-      }
-    ]
-  },
-  {
-    "case": "--phase value 23",
-    "argv": [
-      "rulesets",
-      "create",
-      "--phase",
-      "magic_transit_ratelimit"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "52",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "phase": "magic_transit_ratelimit"
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --rules",
-    "argv": [
-      "rulesets",
-      "create",
-      "--rules",
-      "[{\"regression\":\"item\"}]"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "50",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "",
-          "rules": [
-            {
-              "regression": "item"
-            }
-          ]
+          "id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -1193,6 +1344,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--description",
       "192.0.2.1",
@@ -1216,7 +1369,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "122",
+          "content-length": "162",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1226,6 +1379,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "second value &/?+ü",
           "kind": "custom",
           "phase": "ddos_l7",
@@ -1243,6 +1397,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--description",
       "192.0.2.1",
       "--kind",
@@ -1261,7 +1417,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "76",
+          "content-length": "116",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1271,6 +1427,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "kind": "managed",
           "rules": [
             {
@@ -1286,6 +1443,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--name",
       "second value &/?+ü",
@@ -1303,7 +1462,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "65",
+          "content-length": "105",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1313,6 +1472,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "second value &/?+ü",
           "phase": "ddos_l7"
         }
@@ -1324,6 +1484,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
       "--kind",
@@ -1340,7 +1502,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "68",
+          "content-length": "108",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1350,6 +1512,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "regression value &/?+ü",
           "kind": "managed"
         }
@@ -1361,6 +1524,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--description",
       "192.0.2.1",
@@ -1380,7 +1545,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "77",
+          "content-length": "117",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1390,6 +1555,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "ddos_l7",
           "rules": [
             {
@@ -1405,6 +1571,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--phase",
       "ddos_l4",
       "--rules",
@@ -1421,7 +1589,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "68",
+          "content-length": "108",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1431,6 +1599,7 @@
         },
         "body": {
           "description": "",
+          "id": "0123456789abcdef0123456789abcdef",
           "phase": "ddos_l4",
           "rules": [
             {
@@ -1446,6 +1615,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--description",
       "192.0.2.1",
@@ -1465,7 +1636,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "72",
+          "content-length": "112",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1475,6 +1646,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "second value &/?+ü",
           "kind": "custom"
         }
@@ -1486,6 +1658,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -1524,6 +1698,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -1563,6 +1739,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -1604,6 +1782,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -1641,6 +1821,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -1680,6 +1862,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -1736,6 +1920,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -1748,6 +1934,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "@<body.json>"
     ],
@@ -1785,6 +1973,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -1799,7 +1989,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1807,14 +1997,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1823,6 +2013,8 @@
     "argv": [
       "rulesets",
       "create",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=true",
       "--description",
       "192.0.2.1",
@@ -1846,7 +2038,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "127",
+          "content-length": "167",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1856,6 +2048,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "regression value &/?+ü",
           "kind": "managed",
           "phase": "ddos_l4",

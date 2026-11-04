@@ -67,19 +67,44 @@
     ]
   },
   {
-    "case": "only --cacheTTL",
+    "case": "only --cache-ttl",
     "argv": [
       "browser-run",
       "crawl",
       "create",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
-      "--cacheTTL",
+      "--cache-ttl",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/crawl?cacheTTL=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 1",
@@ -89,12 +114,37 @@
       "create",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
-      "--cacheTTL",
+      "--cache-ttl",
       "2"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/crawl?cacheTTL=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -391,11 +441,29 @@
       "browser-run",
       "crawl",
       "create",
-      "--cacheTTL",
+      "--cache-ttl",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/crawl?cacheTTL=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   }
 ]

@@ -30,19 +30,36 @@
     ]
   },
   {
-    "case": "only --appID",
+    "case": "only --app-id",
     "argv": [
       "spectrum",
       "analytics",
       "aggregates",
       "currents",
       "get",
-      "--appID",
-      "regression value &/?+ü"
+      "--app-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: appID",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/aggregate/current?appID=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   },
   {
     "case": "only --colo-name",
@@ -84,29 +101,31 @@
       "aggregates",
       "currents",
       "get",
-      "--appID",
-      "second value &/?+ü",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
       "--colo-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: appID",
-    "requests": []
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "spectrum",
-      "analytics",
-      "aggregates",
-      "currents",
-      "get",
-      "--appID",
-      "second value &/?+ü"
-    ],
-    "exitCode": 1,
-    "error": "Unknown argument: appID",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/aggregate/current?appID=0123456789abcdef0123456789abcdef&colo_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   },
   {
     "case": "global quiet",

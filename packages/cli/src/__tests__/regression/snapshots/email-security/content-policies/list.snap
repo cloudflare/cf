@@ -326,6 +326,64 @@
     ]
   },
   {
+    "case": "only --expired",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "list",
+      "--expired=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?expired=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--expired value 1",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "list",
+      "--expired=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?expired=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "pairwise 1",
     "argv": [
       "email-security",
@@ -343,13 +401,14 @@
       "desc",
       "--enabled=false",
       "--name",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--expired=false"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&enabled=false&name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&enabled=false&name=second%20value%20%26%2F%3F%2B%C3%BC&expired=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -376,13 +435,14 @@
       "1",
       "--order",
       "name",
-      "--enabled=true"
+      "--enabled=true",
+      "--expired=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?per_page=1&order=name&enabled=true",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?per_page=1&order=name&enabled=true&expired=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -446,13 +506,14 @@
       "--order",
       "name",
       "--name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--expired=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?search=regression%20value%20%26%2F%3F%2B%C3%BC&order=name&name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?search=regression%20value%20%26%2F%3F%2B%C3%BC&order=name&name=regression%20value%20%26%2F%3F%2B%C3%BC&expired=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -514,13 +575,14 @@
       "asc",
       "--enabled=true",
       "--name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--expired=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?direction=asc&enabled=true&name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies?direction=asc&enabled=true&name=regression%20value%20%26%2F%3F%2B%C3%BC&expired=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

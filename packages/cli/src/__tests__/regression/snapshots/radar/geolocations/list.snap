@@ -88,19 +88,19 @@
     ]
   },
   {
-    "case": "only --geoId",
+    "case": "only --geo-id",
     "argv": [
       "radar",
       "geolocations",
       "list",
-      "--geoId",
-      "regression value &/?+ü"
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/geolocations?geoId=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/geolocations?geoId=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -217,8 +217,8 @@
       "2",
       "--offset",
       "2",
-      "--geoId",
-      "second value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--location",
       "second value &/?+ü",
       "--format",
@@ -228,7 +228,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/geolocations?limit=2&offset=2&geoId=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/geolocations?limit=2&offset=2&geoId=0123456789abcdef0123456789abcdef&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -285,8 +285,8 @@
       "list",
       "--limit",
       "2",
-      "--geoId",
-      "second value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--format",
       "CSV"
     ],
@@ -294,7 +294,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/geolocations?limit=2&geoId=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/geolocations?limit=2&geoId=0123456789abcdef0123456789abcdef&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -317,8 +317,8 @@
       "radar",
       "geolocations",
       "list",
-      "--geoId",
-      "regression value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--location",
       "regression value &/?+ü"
     ],
@@ -326,7 +326,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/geolocations?geoId=regression%20value%20%26%2F%3F%2B%C3%BC&location=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/geolocations?geoId=0123456789abcdef0123456789abcdef&location=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -387,8 +387,8 @@
       "2",
       "--offset",
       "2",
-      "--geoId",
-      "second value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--location",
       "second value &/?+ü"
     ],
@@ -396,7 +396,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/geolocations?limit=2&offset=2&geoId=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/geolocations?limit=2&offset=2&geoId=0123456789abcdef0123456789abcdef&location=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

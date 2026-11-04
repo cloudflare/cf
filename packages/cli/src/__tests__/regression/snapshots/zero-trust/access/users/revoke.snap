@@ -68,14 +68,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user?devices=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "49",
+          "content-length": "34",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -84,7 +84,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "devices": true,
           "email": "regression@example.com"
         }
       }
@@ -106,14 +105,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user?devices=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "50",
+          "content-length": "34",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -122,7 +121,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "devices": false,
           "email": "regression@example.com"
         }
       }
@@ -298,14 +296,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user?devices=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "124",
+          "content-length": "108",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -314,7 +312,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "devices": false,
           "email": "regression@example.com",
           "user_uid": "0123456789abcdef0123456789abcdef",
           "warp_session_reauth": false
@@ -339,14 +336,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user?devices=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "78",
+          "content-length": "62",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -355,7 +352,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "devices": false,
           "email": "regression@example.com",
           "warp_session_reauth": false
         }
@@ -380,14 +376,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user?devices=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "96",
+          "content-length": "80",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -396,7 +392,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "devices": false,
           "email": "regression@example.com",
           "user_uid": "0123456789abcdef0123456789abcdef"
         }
@@ -766,7 +761,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -774,14 +769,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -804,14 +799,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user?devices=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "122",
+          "content-length": "107",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -820,10 +815,45 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "devices": true,
           "email": "regression@example.com",
           "user_uid": "0123456789abcdef0123456789abcdef",
           "warp_session_reauth": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "zero-trust",
+      "access",
+      "users",
+      "revoke",
+      "--email",
+      "regression@example.com",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations/revoke_user",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "email": "regression@example.com"
         }
       }
     ]

@@ -45,7 +45,7 @@
     ]
   },
   {
-    "case": "only --page",
+    "case": "only --cursor",
     "argv": [
       "security-insights",
       "partners",
@@ -55,14 +55,14 @@
       "regression value &/?+ü",
       "--domain",
       "example.com",
-      "--page",
-      "1"
+      "--cursor",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/partners/regression%20value%20%26%2F%3F%2B%C3%BC/shadow-zones/example.com/hosts?page=1",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/partners/regression%20value%20%26%2F%3F%2B%C3%BC/shadow-zones/example.com/hosts?cursor=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -125,8 +125,8 @@
       "regression value &/?+ü",
       "--domain",
       "example.com",
-      "--page",
-      "2",
+      "--cursor",
+      "second value &/?+ü",
       "--per-page",
       "2"
     ],
@@ -134,7 +134,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/partners/regression%20value%20%26%2F%3F%2B%C3%BC/shadow-zones/example.com/hosts?page=2&per_page=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/partners/regression%20value%20%26%2F%3F%2B%C3%BC/shadow-zones/example.com/hosts?cursor=second+value+%26%2F%3F%2B%C3%BC&per_page=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -162,14 +162,14 @@
       "regression value &/?+ü",
       "--domain",
       "example.com",
-      "--page",
-      "2"
+      "--cursor",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/partners/regression%20value%20%26%2F%3F%2B%C3%BC/shadow-zones/example.com/hosts?page=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/partners/regression%20value%20%26%2F%3F%2B%C3%BC/shadow-zones/example.com/hosts?cursor=second+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

@@ -270,9 +270,34 @@
       "--position-index",
       "2"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-before and position-after are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/rules?dry_run=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "position": {
+            "before": "second value &/?+ü",
+            "after": "second value &/?+ü",
+            "index": 2
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -286,9 +311,33 @@
       "--position-index",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-before and position-index are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "position": {
+            "before": "regression value &/?+ü",
+            "index": 1
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -340,9 +389,33 @@
       "--position-index",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-after and position-index are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "position": {
+            "after": "regression value &/?+ü",
+            "index": 1
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -718,7 +791,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -726,14 +799,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -752,8 +825,33 @@
       "--position-index",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-before and position-after are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/rules?dry_run=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "position": {
+            "before": "regression value &/?+ü",
+            "after": "regression value &/?+ü",
+            "index": 1
+          }
+        }
+      }
+    ]
   }
 ]

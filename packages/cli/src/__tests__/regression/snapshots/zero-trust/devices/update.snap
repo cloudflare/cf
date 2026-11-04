@@ -50,6 +50,55 @@
     ]
   },
   {
+    "case": "only --tags",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "tags": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "update",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--body is required unless at least one JSON map flag is provided (--tags).",
+    "requests": []
+  },
+  {
     "case": "global quiet",
     "argv": [
       "zero-trust",
@@ -327,7 +376,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -335,45 +384,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
-      }
-    ]
-  },
-  {
-    "case": "field flags",
-    "argv": [
-      "zero-trust",
-      "devices",
-      "update",
-      "0123456789abcdef0123456789abcdef"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "2",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {}
+        ]
       }
     ]
   }

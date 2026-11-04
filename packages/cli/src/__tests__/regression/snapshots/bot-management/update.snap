@@ -66,6 +66,531 @@
     ]
   },
   {
+    "case": "only --ai-agents-anthropic-agent",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-anthropic-agent",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "anthropic_agent": "disabled"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-anthropic-agent value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-anthropic-agent",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "anthropic_agent": "block"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-anthropic-agent value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-anthropic-agent",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "anthropic_agent": "only_on_ad_pages"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-agents-google-agent",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-google-agent",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "google_agent": "disabled"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-google-agent value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-google-agent",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "google_agent": "block"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-google-agent value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-google-agent",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "google_agent": "only_on_ad_pages"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-agents-instinct",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-instinct",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "instinct": "disabled"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-instinct value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-instinct",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "instinct": "block"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-instinct value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-instinct",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "instinct": "only_on_ad_pages"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-agents-muse",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-muse",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "muse": "disabled"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-muse value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-muse",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "muse": "block"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-muse value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-muse",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "muse": "only_on_ad_pages"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-agents-openai-agent",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-openai-agent",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "openai_agent": "disabled"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-openai-agent value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-openai-agent",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "openai_agent": "block"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-agents-openai-agent value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-openai-agent",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "openai_agent": "only_on_ad_pages"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --ai-bots-migration-opt-out",
     "argv": [
       "bot-management",
@@ -2009,6 +2534,16 @@
     "argv": [
       "bot-management",
       "update",
+      "--ai-agents-anthropic-agent",
+      "block",
+      "--ai-agents-google-agent",
+      "block",
+      "--ai-agents-instinct",
+      "block",
+      "--ai-agents-muse",
+      "block",
+      "--ai-agents-openai-agent",
+      "block",
       "--ai-bots-migration-opt-out=false",
       "--ai-bots-protection",
       "disabled",
@@ -2063,7 +2598,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "916",
+          "content-length": "1036",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2072,6 +2607,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "google_agent": "block",
+            "instinct": "block",
+            "muse": "block",
+            "openai_agent": "block"
+          },
           "ai_bots_migration_opt_out": false,
           "ai_bots_protection": "disabled",
           "ai_search": "block",
@@ -2111,27 +2653,31 @@
     "argv": [
       "bot-management",
       "update",
-      "--ai-bots-protection",
-      "block",
-      "--ai-training",
+      "--ai-agents-google-agent",
       "disabled",
-      "--bot-preference-sync-enabled=true",
-      "--content-bots-protection",
-      "block",
-      "--enable-js=true",
-      "--jsd-api-results-enabled=true",
-      "--stale-zone-configuration-optimize-wordpress=true",
-      "--stale-zone-configuration-sbfm-likely-automated",
+      "--ai-agents-muse",
+      "disabled",
+      "--ai-bots-migration-opt-out=true",
+      "--ai-search",
+      "disabled",
+      "--ai-user",
+      "disabled",
+      "--cf-robots-variant",
+      "off",
+      "--crawler-protection",
+      "enabled",
+      "--is-robots-txt-managed=true",
+      "--fight-mode=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
       "regression value &/?+ü",
-      "--stale-zone-configuration-sbfm-verified-bots",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
       "regression value &/?+ü",
-      "--stale-zone-configuration-fight-mode=true",
-      "--sbfm-definitely-automated",
+      "--stale-zone-configuration-suppress-session-score=true",
+      "--optimize-wordpress=true",
+      "--sbfm-static-resource-protection=true",
+      "--sbfm-likely-automated",
       "allow",
-      "--sbfm-verified-bots",
-      "allow",
-      "--auto-update-model=true",
-      "--suppress-session-score=true"
+      "--bm-cookie-enabled=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -2144,7 +2690,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "462",
+          "content-length": "535",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2153,22 +2699,26 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "ai_bots_protection": "block",
-          "ai_training": "disabled",
-          "bot_preference_sync_enabled": true,
-          "content_bots_protection": "block",
-          "enable_js": true,
-          "jsd_api_results_enabled": true,
-          "stale_zone_configuration": {
-            "optimize_wordpress": true,
-            "sbfm_likely_automated": "regression value &/?+ü",
-            "sbfm_verified_bots": "regression value &/?+ü",
-            "fight_mode": true
+          "ai_agents": {
+            "google_agent": "disabled",
+            "muse": "disabled"
           },
-          "sbfm_definitely_automated": "allow",
-          "sbfm_verified_bots": "allow",
-          "auto_update_model": true,
-          "suppress_session_score": true
+          "ai_bots_migration_opt_out": true,
+          "ai_search": "disabled",
+          "ai_user": "disabled",
+          "cf_robots_variant": "off",
+          "crawler_protection": "enabled",
+          "is_robots_txt_managed": true,
+          "fight_mode": true,
+          "stale_zone_configuration": {
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_static_resource_protection": "regression value &/?+ü",
+            "suppress_session_score": true
+          },
+          "optimize_wordpress": true,
+          "sbfm_static_resource_protection": true,
+          "sbfm_likely_automated": "allow",
+          "bm_cookie_enabled": true
         }
       }
     ]
@@ -2178,292 +2728,32 @@
     "argv": [
       "bot-management",
       "update",
-      "--ai-bots-migration-opt-out=false",
-      "--ai-search",
+      "--ai-agents-anthropic-agent",
       "block",
-      "--ai-user",
+      "--ai-agents-instinct",
       "block",
-      "--cf-robots-variant",
-      "policy_only",
-      "--crawler-protection",
-      "disabled",
-      "--is-robots-txt-managed=false",
-      "--fight-mode=false",
-      "--stale-zone-configuration-sbfm-definitely-automated",
-      "second value &/?+ü",
-      "--stale-zone-configuration-sbfm-static-resource-protection",
-      "second value &/?+ü",
-      "--stale-zone-configuration-suppress-session-score=false",
-      "--optimize-wordpress=false",
-      "--sbfm-static-resource-protection=false",
-      "--sbfm-likely-automated",
+      "--ai-agents-openai-agent",
       "block",
-      "--bm-cookie-enabled=false"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "479",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ai_bots_migration_opt_out": false,
-          "ai_search": "block",
-          "ai_user": "block",
-          "cf_robots_variant": "policy_only",
-          "crawler_protection": "disabled",
-          "is_robots_txt_managed": false,
-          "fight_mode": false,
-          "stale_zone_configuration": {
-            "sbfm_definitely_automated": "second value &/?+ü",
-            "sbfm_static_resource_protection": "second value &/?+ü",
-            "suppress_session_score": false
-          },
-          "optimize_wordpress": false,
-          "sbfm_static_resource_protection": false,
-          "sbfm_likely_automated": "block",
-          "bm_cookie_enabled": false
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 4",
-    "argv": [
-      "bot-management",
-      "update",
-      "--ai-search",
-      "disabled",
-      "--ai-training",
-      "disabled",
-      "--cf-robots-variant",
-      "off",
-      "--content-bots-protection",
-      "block",
-      "--is-robots-txt-managed=true",
-      "--jsd-api-results-enabled=true",
-      "--stale-zone-configuration-sbfm-definitely-automated",
-      "regression value &/?+ü",
-      "--stale-zone-configuration-sbfm-likely-automated",
-      "regression value &/?+ü",
-      "--stale-zone-configuration-suppress-session-score=true",
-      "--stale-zone-configuration-fight-mode=true",
-      "--sbfm-static-resource-protection=true",
-      "--sbfm-verified-bots",
-      "allow",
-      "--bm-cookie-enabled=true",
-      "--suppress-session-score=true"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "473",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ai_search": "disabled",
-          "ai_training": "disabled",
-          "cf_robots_variant": "off",
-          "content_bots_protection": "block",
-          "is_robots_txt_managed": true,
-          "jsd_api_results_enabled": true,
-          "stale_zone_configuration": {
-            "sbfm_definitely_automated": "regression value &/?+ü",
-            "sbfm_likely_automated": "regression value &/?+ü",
-            "suppress_session_score": true,
-            "fight_mode": true
-          },
-          "sbfm_static_resource_protection": true,
-          "sbfm_verified_bots": "allow",
-          "bm_cookie_enabled": true,
-          "suppress_session_score": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 5",
-    "argv": [
-      "bot-management",
-      "update",
-      "--ai-bots-migration-opt-out=false",
       "--ai-bots-protection",
       "disabled",
-      "--ai-user",
-      "block",
-      "--bot-preference-sync-enabled=false",
-      "--crawler-protection",
-      "disabled",
-      "--enable-js=false",
-      "--fight-mode=false",
-      "--stale-zone-configuration-optimize-wordpress=false",
-      "--stale-zone-configuration-sbfm-static-resource-protection",
-      "second value &/?+ü",
-      "--stale-zone-configuration-sbfm-verified-bots",
-      "second value &/?+ü",
-      "--optimize-wordpress=false",
-      "--sbfm-definitely-automated",
-      "block",
-      "--sbfm-likely-automated",
-      "block",
-      "--auto-update-model=false"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "466",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ai_bots_migration_opt_out": false,
-          "ai_bots_protection": "disabled",
-          "ai_user": "block",
-          "bot_preference_sync_enabled": false,
-          "crawler_protection": "disabled",
-          "enable_js": false,
-          "fight_mode": false,
-          "stale_zone_configuration": {
-            "optimize_wordpress": false,
-            "sbfm_static_resource_protection": "second value &/?+ü",
-            "sbfm_verified_bots": "second value &/?+ü"
-          },
-          "optimize_wordpress": false,
-          "sbfm_definitely_automated": "block",
-          "sbfm_likely_automated": "block",
-          "auto_update_model": false
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 6",
-    "argv": [
-      "bot-management",
-      "update",
-      "--ai-user",
-      "disabled",
-      "--bot-preference-sync-enabled=true",
-      "--cf-robots-variant",
-      "off",
-      "--content-bots-protection",
-      "block",
-      "--fight-mode=true",
-      "--stale-zone-configuration-optimize-wordpress=true",
-      "--stale-zone-configuration-sbfm-definitely-automated",
-      "regression value &/?+ü",
-      "--stale-zone-configuration-sbfm-likely-automated",
-      "regression value &/?+ü",
-      "--optimize-wordpress=true",
-      "--sbfm-definitely-automated",
-      "allow",
-      "--sbfm-static-resource-protection=true",
-      "--sbfm-verified-bots",
-      "allow"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "424",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ai_user": "disabled",
-          "bot_preference_sync_enabled": true,
-          "cf_robots_variant": "off",
-          "content_bots_protection": "block",
-          "fight_mode": true,
-          "stale_zone_configuration": {
-            "optimize_wordpress": true,
-            "sbfm_definitely_automated": "regression value &/?+ü",
-            "sbfm_likely_automated": "regression value &/?+ü"
-          },
-          "optimize_wordpress": true,
-          "sbfm_definitely_automated": "allow",
-          "sbfm_static_resource_protection": true,
-          "sbfm_verified_bots": "allow"
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 7",
-    "argv": [
-      "bot-management",
-      "update",
-      "--ai-bots-migration-opt-out=false",
-      "--ai-bots-protection",
-      "disabled",
-      "--ai-search",
-      "block",
       "--ai-training",
       "disallow",
-      "--crawler-protection",
+      "--bot-preference-sync-enabled=false",
+      "--content-bots-protection",
       "disabled",
       "--enable-js=false",
-      "--is-robots-txt-managed=false",
       "--jsd-api-results-enabled=false",
-      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "--stale-zone-configuration-optimize-wordpress=false",
+      "--stale-zone-configuration-sbfm-likely-automated",
       "second value &/?+ü",
       "--stale-zone-configuration-sbfm-verified-bots",
       "second value &/?+ü",
-      "--stale-zone-configuration-suppress-session-score=false",
       "--stale-zone-configuration-fight-mode=false",
-      "--sbfm-likely-automated",
+      "--sbfm-definitely-automated",
+      "block",
+      "--sbfm-verified-bots",
       "block",
       "--auto-update-model=false",
-      "--bm-cookie-enabled=false",
       "--suppress-session-score=false"
     ],
     "exitCode": 0,
@@ -2477,7 +2767,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "517",
+          "content-length": "549",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2486,23 +2776,332 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "ai_bots_migration_opt_out": false,
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "instinct": "block",
+            "openai_agent": "block"
+          },
           "ai_bots_protection": "disabled",
-          "ai_search": "block",
           "ai_training": "disallow",
-          "crawler_protection": "disabled",
+          "bot_preference_sync_enabled": false,
+          "content_bots_protection": "disabled",
           "enable_js": false,
-          "is_robots_txt_managed": false,
           "jsd_api_results_enabled": false,
           "stale_zone_configuration": {
-            "sbfm_static_resource_protection": "second value &/?+ü",
+            "optimize_wordpress": false,
+            "sbfm_likely_automated": "second value &/?+ü",
             "sbfm_verified_bots": "second value &/?+ü",
-            "suppress_session_score": false,
             "fight_mode": false
           },
-          "sbfm_likely_automated": "block",
+          "sbfm_definitely_automated": "block",
+          "sbfm_verified_bots": "block",
           "auto_update_model": false,
-          "bm_cookie_enabled": false,
+          "suppress_session_score": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-instinct",
+      "disabled",
+      "--ai-agents-muse",
+      "disabled",
+      "--ai-bots-protection",
+      "block",
+      "--ai-search",
+      "disabled",
+      "--bot-preference-sync-enabled=true",
+      "--cf-robots-variant",
+      "off",
+      "--enable-js=true",
+      "--is-robots-txt-managed=true",
+      "--stale-zone-configuration-optimize-wordpress=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=true",
+      "--sbfm-definitely-automated",
+      "allow",
+      "--sbfm-static-resource-protection=true",
+      "--auto-update-model=true",
+      "--bm-cookie-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "525",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "instinct": "disabled",
+            "muse": "disabled"
+          },
+          "ai_bots_protection": "block",
+          "ai_search": "disabled",
+          "bot_preference_sync_enabled": true,
+          "cf_robots_variant": "off",
+          "enable_js": true,
+          "is_robots_txt_managed": true,
+          "stale_zone_configuration": {
+            "optimize_wordpress": true,
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_verified_bots": "regression value &/?+ü",
+            "suppress_session_score": true
+          },
+          "sbfm_definitely_automated": "allow",
+          "sbfm_static_resource_protection": true,
+          "auto_update_model": true,
+          "bm_cookie_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-anthropic-agent",
+      "block",
+      "--ai-agents-google-agent",
+      "block",
+      "--ai-agents-openai-agent",
+      "block",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-training",
+      "disallow",
+      "--ai-user",
+      "block",
+      "--content-bots-protection",
+      "disabled",
+      "--crawler-protection",
+      "disabled",
+      "--jsd-api-results-enabled=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-fight-mode=false",
+      "--optimize-wordpress=false",
+      "--sbfm-verified-bots",
+      "block",
+      "--sbfm-likely-automated",
+      "block",
+      "--suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "553",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "google_agent": "block",
+            "openai_agent": "block"
+          },
+          "ai_bots_migration_opt_out": false,
+          "ai_training": "disallow",
+          "ai_user": "block",
+          "content_bots_protection": "disabled",
+          "crawler_protection": "disabled",
+          "jsd_api_results_enabled": false,
+          "fight_mode": false,
+          "stale_zone_configuration": {
+            "sbfm_likely_automated": "second value &/?+ü",
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "fight_mode": false
+          },
+          "optimize_wordpress": false,
+          "sbfm_verified_bots": "block",
+          "sbfm_likely_automated": "block",
+          "suppress_session_score": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-openai-agent",
+      "disabled",
+      "--ai-bots-migration-opt-out=true",
+      "--ai-bots-protection",
+      "block",
+      "--ai-search",
+      "disabled",
+      "--content-bots-protection",
+      "block",
+      "--crawler-protection",
+      "enabled",
+      "--enable-js=true",
+      "--is-robots-txt-managed=true",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=true",
+      "--sbfm-verified-bots",
+      "allow",
+      "--sbfm-likely-automated",
+      "allow",
+      "--auto-update-model=true",
+      "--bm-cookie-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "564",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "openai_agent": "disabled"
+          },
+          "ai_bots_migration_opt_out": true,
+          "ai_bots_protection": "block",
+          "ai_search": "disabled",
+          "content_bots_protection": "block",
+          "crawler_protection": "enabled",
+          "enable_js": true,
+          "is_robots_txt_managed": true,
+          "stale_zone_configuration": {
+            "sbfm_likely_automated": "regression value &/?+ü",
+            "sbfm_static_resource_protection": "regression value &/?+ü",
+            "sbfm_verified_bots": "regression value &/?+ü",
+            "suppress_session_score": true
+          },
+          "sbfm_verified_bots": "allow",
+          "sbfm_likely_automated": "allow",
+          "auto_update_model": true,
+          "bm_cookie_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-anthropic-agent",
+      "block",
+      "--ai-agents-google-agent",
+      "block",
+      "--ai-agents-instinct",
+      "block",
+      "--ai-agents-muse",
+      "block",
+      "--ai-training",
+      "disallow",
+      "--ai-user",
+      "block",
+      "--bot-preference-sync-enabled=false",
+      "--cf-robots-variant",
+      "policy_only",
+      "--jsd-api-results-enabled=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-optimize-wordpress=false",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-fight-mode=false",
+      "--optimize-wordpress=false",
+      "--sbfm-definitely-automated",
+      "block",
+      "--sbfm-static-resource-protection=false",
+      "--suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "521",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "google_agent": "block",
+            "instinct": "block",
+            "muse": "block"
+          },
+          "ai_training": "disallow",
+          "ai_user": "block",
+          "bot_preference_sync_enabled": false,
+          "cf_robots_variant": "policy_only",
+          "jsd_api_results_enabled": false,
+          "fight_mode": false,
+          "stale_zone_configuration": {
+            "optimize_wordpress": false,
+            "sbfm_definitely_automated": "second value &/?+ü",
+            "fight_mode": false
+          },
+          "optimize_wordpress": false,
+          "sbfm_definitely_automated": "block",
+          "sbfm_static_resource_protection": false,
           "suppress_session_score": false
         }
       }
@@ -2513,22 +3112,30 @@
     "argv": [
       "bot-management",
       "update",
+      "--ai-training",
+      "disabled",
+      "--ai-user",
+      "disabled",
+      "--bot-preference-sync-enabled=true",
+      "--cf-robots-variant",
+      "off",
+      "--content-bots-protection",
+      "block",
       "--crawler-protection",
       "enabled",
       "--enable-js=true",
       "--is-robots-txt-managed=true",
-      "--jsd-api-results-enabled=true",
-      "--fight-mode=true",
-      "--stale-zone-configuration-optimize-wordpress=true",
-      "--stale-zone-configuration-sbfm-definitely-automated",
-      "regression value &/?+ü",
-      "--stale-zone-configuration-sbfm-likely-automated",
-      "regression value &/?+ü",
+      "--stale-zone-configuration-fight-mode=true",
+      "--optimize-wordpress=true",
+      "--sbfm-definitely-automated",
+      "allow",
+      "--sbfm-static-resource-protection=true",
+      "--sbfm-verified-bots",
+      "allow",
       "--sbfm-likely-automated",
       "allow",
       "--auto-update-model=true",
-      "--bm-cookie-enabled=true",
-      "--suppress-session-score=true"
+      "--bm-cookie-enabled=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -2541,7 +3148,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "398",
+          "content-length": "478",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2550,20 +3157,24 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "ai_training": "disabled",
+          "ai_user": "disabled",
+          "bot_preference_sync_enabled": true,
+          "cf_robots_variant": "off",
+          "content_bots_protection": "block",
           "crawler_protection": "enabled",
           "enable_js": true,
           "is_robots_txt_managed": true,
-          "jsd_api_results_enabled": true,
-          "fight_mode": true,
           "stale_zone_configuration": {
-            "optimize_wordpress": true,
-            "sbfm_definitely_automated": "regression value &/?+ü",
-            "sbfm_likely_automated": "regression value &/?+ü"
+            "fight_mode": true
           },
+          "optimize_wordpress": true,
+          "sbfm_definitely_automated": "allow",
+          "sbfm_static_resource_protection": true,
+          "sbfm_verified_bots": "allow",
           "sbfm_likely_automated": "allow",
           "auto_update_model": true,
-          "bm_cookie_enabled": true,
-          "suppress_session_score": true
+          "bm_cookie_enabled": true
         }
       }
     ]
@@ -2573,32 +3184,34 @@
     "argv": [
       "bot-management",
       "update",
+      "--ai-agents-anthropic-agent",
+      "block",
+      "--ai-agents-google-agent",
+      "block",
+      "--ai-agents-instinct",
+      "block",
+      "--ai-agents-muse",
+      "block",
+      "--ai-agents-openai-agent",
+      "block",
       "--ai-bots-migration-opt-out=false",
       "--ai-bots-protection",
       "disabled",
       "--ai-search",
       "block",
-      "--ai-training",
-      "disallow",
-      "--ai-user",
-      "block",
-      "--bot-preference-sync-enabled=false",
-      "--cf-robots-variant",
-      "policy_only",
-      "--content-bots-protection",
-      "disabled",
+      "--jsd-api-results-enabled=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-optimize-wordpress=false",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "second value &/?+ü",
       "--stale-zone-configuration-sbfm-static-resource-protection",
       "second value &/?+ü",
       "--stale-zone-configuration-sbfm-verified-bots",
       "second value &/?+ü",
       "--stale-zone-configuration-suppress-session-score=false",
-      "--stale-zone-configuration-fight-mode=false",
-      "--optimize-wordpress=false",
-      "--sbfm-definitely-automated",
-      "block",
-      "--sbfm-static-resource-protection=false",
-      "--sbfm-verified-bots",
-      "block"
+      "--suppress-session-score=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -2611,7 +3224,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "547",
+          "content-length": "571",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2620,24 +3233,27 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "google_agent": "block",
+            "instinct": "block",
+            "muse": "block",
+            "openai_agent": "block"
+          },
           "ai_bots_migration_opt_out": false,
           "ai_bots_protection": "disabled",
           "ai_search": "block",
-          "ai_training": "disallow",
-          "ai_user": "block",
-          "bot_preference_sync_enabled": false,
-          "cf_robots_variant": "policy_only",
-          "content_bots_protection": "disabled",
+          "jsd_api_results_enabled": false,
+          "fight_mode": false,
           "stale_zone_configuration": {
+            "optimize_wordpress": false,
+            "sbfm_definitely_automated": "second value &/?+ü",
+            "sbfm_likely_automated": "second value &/?+ü",
             "sbfm_static_resource_protection": "second value &/?+ü",
             "sbfm_verified_bots": "second value &/?+ü",
-            "suppress_session_score": false,
-            "fight_mode": false
+            "suppress_session_score": false
           },
-          "optimize_wordpress": false,
-          "sbfm_definitely_automated": "block",
-          "sbfm_static_resource_protection": false,
-          "sbfm_verified_bots": "block"
+          "suppress_session_score": false
         }
       }
     ]
@@ -2647,6 +3263,13 @@
     "argv": [
       "bot-management",
       "update",
+      "--jsd-api-results-enabled=true",
+      "--fight-mode=true",
+      "--stale-zone-configuration-optimize-wordpress=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
       "--stale-zone-configuration-sbfm-static-resource-protection",
       "regression value &/?+ü",
       "--stale-zone-configuration-sbfm-verified-bots",
@@ -2662,8 +3285,7 @@
       "--sbfm-likely-automated",
       "allow",
       "--auto-update-model=true",
-      "--bm-cookie-enabled=true",
-      "--suppress-session-score=true"
+      "--bm-cookie-enabled=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -2676,7 +3298,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "427",
+          "content-length": "576",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2685,7 +3307,12 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "jsd_api_results_enabled": true,
+          "fight_mode": true,
           "stale_zone_configuration": {
+            "optimize_wordpress": true,
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_likely_automated": "regression value &/?+ü",
             "sbfm_static_resource_protection": "regression value &/?+ü",
             "sbfm_verified_bots": "regression value &/?+ü",
             "suppress_session_score": true,
@@ -2697,8 +3324,7 @@
           "sbfm_verified_bots": "allow",
           "sbfm_likely_automated": "allow",
           "auto_update_model": true,
-          "bm_cookie_enabled": true,
-          "suppress_session_score": true
+          "bm_cookie_enabled": true
         }
       }
     ]
@@ -2708,6 +3334,94 @@
     "argv": [
       "bot-management",
       "update",
+      "--ai-agents-anthropic-agent",
+      "block",
+      "--ai-agents-google-agent",
+      "block",
+      "--ai-agents-instinct",
+      "block",
+      "--ai-agents-muse",
+      "block",
+      "--ai-agents-openai-agent",
+      "block",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-bots-protection",
+      "disabled",
+      "--ai-search",
+      "block",
+      "--ai-training",
+      "disallow",
+      "--ai-user",
+      "block",
+      "--bot-preference-sync-enabled=false",
+      "--cf-robots-variant",
+      "policy_only",
+      "--content-bots-protection",
+      "disabled",
+      "--crawler-protection",
+      "disabled",
+      "--enable-js=false",
+      "--is-robots-txt-managed=false",
+      "--suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "468",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "google_agent": "block",
+            "instinct": "block",
+            "muse": "block",
+            "openai_agent": "block"
+          },
+          "ai_bots_migration_opt_out": false,
+          "ai_bots_protection": "disabled",
+          "ai_search": "block",
+          "ai_training": "disallow",
+          "ai_user": "block",
+          "bot_preference_sync_enabled": false,
+          "cf_robots_variant": "policy_only",
+          "content_bots_protection": "disabled",
+          "crawler_protection": "disabled",
+          "enable_js": false,
+          "is_robots_txt_managed": false,
+          "suppress_session_score": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-agents-anthropic-agent",
+      "block",
+      "--ai-agents-google-agent",
+      "block",
+      "--ai-agents-instinct",
+      "block",
+      "--ai-agents-muse",
+      "block",
+      "--ai-agents-openai-agent",
+      "block",
       "--ai-bots-migration-opt-out=false",
       "--ai-bots-protection",
       "disabled",
@@ -2732,7 +3446,23 @@
       "--stale-zone-configuration-sbfm-definitely-automated",
       "second value &/?+ü",
       "--stale-zone-configuration-sbfm-likely-automated",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "second value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=false",
+      "--stale-zone-configuration-fight-mode=false",
+      "--optimize-wordpress=false",
+      "--sbfm-definitely-automated",
+      "block",
+      "--sbfm-static-resource-protection=false",
+      "--sbfm-verified-bots",
+      "block",
+      "--sbfm-likely-automated",
+      "block",
+      "--auto-update-model=false",
+      "--bm-cookie-enabled=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -2745,7 +3475,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "520",
+          "content-length": "1005",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2754,6 +3484,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "ai_agents": {
+            "anthropic_agent": "block",
+            "google_agent": "block",
+            "instinct": "block",
+            "muse": "block",
+            "openai_agent": "block"
+          },
           "ai_bots_migration_opt_out": false,
           "ai_bots_protection": "disabled",
           "ai_search": "block",
@@ -2770,8 +3507,19 @@
           "stale_zone_configuration": {
             "optimize_wordpress": false,
             "sbfm_definitely_automated": "second value &/?+ü",
-            "sbfm_likely_automated": "second value &/?+ü"
-          }
+            "sbfm_likely_automated": "second value &/?+ü",
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "sbfm_verified_bots": "second value &/?+ü",
+            "suppress_session_score": false,
+            "fight_mode": false
+          },
+          "optimize_wordpress": false,
+          "sbfm_definitely_automated": "block",
+          "sbfm_static_resource_protection": false,
+          "sbfm_verified_bots": "block",
+          "sbfm_likely_automated": "block",
+          "auto_update_model": false,
+          "bm_cookie_enabled": false
         }
       }
     ]
@@ -3118,6 +3866,16 @@
     "argv": [
       "bot-management",
       "update",
+      "--ai-agents-anthropic-agent",
+      "disabled",
+      "--ai-agents-google-agent",
+      "disabled",
+      "--ai-agents-instinct",
+      "disabled",
+      "--ai-agents-muse",
+      "disabled",
+      "--ai-agents-openai-agent",
+      "disabled",
       "--ai-bots-migration-opt-out=true",
       "--ai-bots-protection",
       "block",
@@ -3172,7 +3930,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "909",
+          "content-length": "1044",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -3181,6 +3939,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "ai_agents": {
+            "anthropic_agent": "disabled",
+            "google_agent": "disabled",
+            "instinct": "disabled",
+            "muse": "disabled",
+            "openai_agent": "disabled"
+          },
           "ai_bots_migration_opt_out": true,
           "ai_bots_protection": "block",
           "ai_search": "disabled",

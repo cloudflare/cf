@@ -49,6 +49,664 @@
     ]
   },
   {
+    "case": "only --redirects",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--redirects",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_redirects",
+            {
+              "filename": "_redirects",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --routes-json",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--routes-json",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_routes.json",
+            {
+              "filename": "_routes.json",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --worker-bundle",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--worker-bundle",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_worker.bundle",
+            {
+              "filename": "_worker.bundle",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --worker-js",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--worker-js",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_worker.js",
+            {
+              "filename": "_worker.js",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --functions-filepath-routing-config-json",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--functions-filepath-routing-config-json",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "functions-filepath-routing-config.json",
+            {
+              "filename": "functions-filepath-routing-config.json",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--redirects",
+      "second value &/?+ü",
+      "--routes-json",
+      "second value &/?+ü",
+      "--worker-bundle",
+      "second value &/?+ü",
+      "--worker-js",
+      "second value &/?+ü",
+      "--functions-filepath-routing-config-json",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_redirects",
+            {
+              "filename": "_redirects",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_routes.json",
+            {
+              "filename": "_routes.json",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_worker.bundle",
+            {
+              "filename": "_worker.bundle",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_worker.js",
+            {
+              "filename": "_worker.js",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "functions-filepath-routing-config.json",
+            {
+              "filename": "functions-filepath-routing-config.json",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--routes-json",
+      "regression value &/?+ü",
+      "--worker-js",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_routes.json",
+            {
+              "filename": "_routes.json",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ],
+          [
+            "_worker.js",
+            {
+              "filename": "_worker.js",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--redirects",
+      "second value &/?+ü",
+      "--worker-bundle",
+      "second value &/?+ü",
+      "--functions-filepath-routing-config-json",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_redirects",
+            {
+              "filename": "_redirects",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_worker.bundle",
+            {
+              "filename": "_worker.bundle",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "functions-filepath-routing-config.json",
+            {
+              "filename": "functions-filepath-routing-config.json",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--worker-bundle",
+      "regression value &/?+ü",
+      "--worker-js",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_worker.bundle",
+            {
+              "filename": "_worker.bundle",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ],
+          [
+            "_worker.js",
+            {
+              "filename": "_worker.js",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--redirects",
+      "second value &/?+ü",
+      "--routes-json",
+      "second value &/?+ü",
+      "--functions-filepath-routing-config-json",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_redirects",
+            {
+              "filename": "_redirects",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_routes.json",
+            {
+              "filename": "_routes.json",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "functions-filepath-routing-config.json",
+            {
+              "filename": "functions-filepath-routing-config.json",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "pages",
+      "deployments",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--redirects",
+      "second value &/?+ü",
+      "--routes-json",
+      "second value &/?+ü",
+      "--worker-bundle",
+      "second value &/?+ü",
+      "--worker-js",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "_headers",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "_redirects",
+            {
+              "filename": "_redirects",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_routes.json",
+            {
+              "filename": "_routes.json",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_worker.bundle",
+            {
+              "filename": "_worker.bundle",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "_worker.js",
+            {
+              "filename": "_worker.js",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
     "case": "global quiet",
     "argv": [
       "pages",
@@ -339,6 +997,16 @@
       "pages",
       "deployments",
       "create",
+      "regression value &/?+ü",
+      "--redirects",
+      "regression value &/?+ü",
+      "--routes-json",
+      "regression value &/?+ü",
+      "--worker-bundle",
+      "regression value &/?+ü",
+      "--worker-js",
+      "regression value &/?+ü",
+      "--functions-filepath-routing-config-json",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -360,7 +1028,48 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": []
+        "body": [
+          [
+            "_redirects",
+            {
+              "filename": "_redirects",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ],
+          [
+            "_routes.json",
+            {
+              "filename": "_routes.json",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ],
+          [
+            "_worker.bundle",
+            {
+              "filename": "_worker.bundle",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ],
+          [
+            "_worker.js",
+            {
+              "filename": "_worker.js",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ],
+          [
+            "functions-filepath-routing-config.json",
+            {
+              "filename": "functions-filepath-routing-config.json",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
       }
     ]
   },

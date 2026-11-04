@@ -21,6 +21,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -68,6 +70,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -88,7 +92,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "113",
+          "content-length": "150",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -98,6 +102,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -117,6 +126,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -137,7 +148,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "139",
+          "content-length": "176",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -147,6 +158,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -167,6 +183,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -186,7 +204,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "113",
+          "content-length": "150",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -196,6 +214,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -215,6 +238,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -234,7 +259,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "114",
+          "content-length": "151",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -244,6 +269,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -263,6 +293,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -283,7 +315,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "144",
+          "content-length": "181",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -293,6 +325,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -317,6 +354,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -337,7 +376,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "113",
+          "content-length": "150",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -347,6 +386,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -366,6 +410,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -386,7 +432,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "115",
+          "content-length": "152",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -396,6 +442,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -415,6 +466,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -435,7 +488,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "147",
+          "content-length": "184",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -445,6 +498,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -469,6 +527,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-type",
       "group",
       "--name",
@@ -516,6 +576,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -534,7 +596,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "113",
+          "content-length": "150",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -544,6 +606,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -563,6 +630,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -592,7 +661,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "207",
+          "content-length": "244",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -602,6 +671,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -632,6 +706,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -656,7 +732,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "204",
+          "content-length": "241",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -666,6 +742,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -696,6 +777,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -719,7 +802,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "116",
+          "content-length": "153",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -729,6 +812,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -748,6 +836,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -769,7 +859,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "144",
+          "content-length": "181",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -779,6 +869,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -803,6 +898,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -829,7 +926,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "175",
+          "content-length": "212",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -839,6 +936,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -864,6 +966,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -886,7 +990,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "147",
+          "content-length": "184",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -896,6 +1000,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -920,6 +1029,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -945,7 +1056,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "171",
+          "content-length": "208",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -955,6 +1066,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },
@@ -980,6 +1096,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1028,6 +1146,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1077,6 +1197,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1128,6 +1250,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1175,6 +1299,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1224,6 +1350,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1246,6 +1374,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1293,6 +1423,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1313,7 +1445,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1321,14 +1453,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1341,6 +1473,8 @@
       "approvals",
       "resubmit",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1370,7 +1504,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "204",
+          "content-length": "241",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1380,6 +1514,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },

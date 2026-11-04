@@ -7,9 +7,30 @@
       "proxy-endpoints",
       "create"
     ],
-    "exitCode": 1,
-    "error": "The ip variant requires ips, which cannot be supplied as flags. Pass --body with a complete request body.",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/proxy_endpoints",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "13",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "kind": "ip"
+        }
+      }
+    ]
   },
   {
     "case": "required",
@@ -60,9 +81,30 @@
       "--kind",
       "ip"
     ],
-    "exitCode": 1,
-    "error": "The ip variant requires ips, which cannot be supplied as flags. Pass --body with a complete request body.",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/proxy_endpoints",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "13",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "kind": "ip"
+        }
+      }
+    ]
   },
   {
     "case": "--kind value 1",

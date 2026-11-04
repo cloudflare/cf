@@ -19,7 +19,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -44,16 +44,16 @@
     ]
   },
   {
-    "case": "only --targetingKey",
+    "case": "only --targeting-key",
     "argv": [
       "flagship",
       "apps",
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
-      "--targetingKey",
+      "--targeting-key",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -85,9 +85,9 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
-      "--targetingKey",
+      "--targeting-key",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -119,7 +119,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
       "--quiet"
     ],
@@ -152,7 +152,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
       "--zone",
       "abcdef0123456789abcdef0123456789"
@@ -186,7 +186,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
       "--profile",
       "default",
@@ -222,7 +222,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
       "--local"
     ],
@@ -254,7 +254,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
       "--local",
       "--persist-to",
@@ -288,7 +288,7 @@
       "evaluate",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--flagKey",
+      "--flag-key",
       "regression value &/?+ü",
       "--dry-run"
     ],

@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "only --rpkiStatus",
+    "case": "only --rpki-status",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "pfx2as",
-      "--rpkiStatus",
+      "--rpki-status",
       "VALID"
     ],
     "exitCode": 0,
@@ -122,13 +122,13 @@
     ]
   },
   {
-    "case": "--rpkiStatus value 1",
+    "case": "--rpki-status value 1",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "pfx2as",
-      "--rpkiStatus",
+      "--rpki-status",
       "INVALID"
     ],
     "exitCode": 0,
@@ -153,13 +153,13 @@
     ]
   },
   {
-    "case": "--rpkiStatus value 2",
+    "case": "--rpki-status value 2",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "pfx2as",
-      "--rpkiStatus",
+      "--rpki-status",
       "UNKNOWN"
     ],
     "exitCode": 0,
@@ -184,13 +184,13 @@
     ]
   },
   {
-    "case": "only --longestPrefixMatch",
+    "case": "only --longest-prefix-match",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "pfx2as",
-      "--longestPrefixMatch=true"
+      "--longest-prefix-match=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -214,13 +214,13 @@
     ]
   },
   {
-    "case": "--longestPrefixMatch value 1",
+    "case": "--longest-prefix-match value 1",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "pfx2as",
-      "--longestPrefixMatch=false"
+      "--longest-prefix-match=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -316,9 +316,9 @@
       "second value &/?+ü",
       "--origin",
       "2",
-      "--rpkiStatus",
+      "--rpki-status",
       "INVALID",
-      "--longestPrefixMatch=false",
+      "--longest-prefix-match=false",
       "--format",
       "CSV"
     ],
@@ -352,7 +352,7 @@
       "pfx2as",
       "--origin",
       "1",
-      "--longestPrefixMatch=true"
+      "--longest-prefix-match=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -384,7 +384,7 @@
       "pfx2as",
       "--prefix",
       "second value &/?+ü",
-      "--rpkiStatus",
+      "--rpki-status",
       "INVALID",
       "--format",
       "CSV"
@@ -417,9 +417,9 @@
       "bgp",
       "routes",
       "pfx2as",
-      "--rpkiStatus",
+      "--rpki-status",
       "VALID",
-      "--longestPrefixMatch=true"
+      "--longest-prefix-match=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -488,9 +488,9 @@
       "second value &/?+ü",
       "--origin",
       "2",
-      "--rpkiStatus",
+      "--rpki-status",
       "INVALID",
-      "--longestPrefixMatch=false"
+      "--longest-prefix-match=false"
     ],
     "exitCode": 0,
     "requests": [

@@ -50,6 +50,216 @@
     ]
   },
   {
+    "case": "only --confirm-query",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confirm-query=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "confirm_query": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--confirm-query value 1",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "confirm_query": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dataset-scope-type",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-scope-type",
+      "default"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataset_scope": {
+            "type": "default"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--dataset-scope-type value 1",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-scope-type",
+      "datasets"
+    ],
+    "exitCode": 1,
+    "error": "Invalid dataset_scope: `/dataset_ids` is required. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
+  },
+  {
+    "case": "only --dataset-scope-dataset-ids",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-scope-dataset-ids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--dataset-scope-type is required when any --dataset-scope-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --digest-interval-hours",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--digest-interval-hours",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "digest_interval_hours": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --intent-clauses",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--intent-indicators, --intent-unsupported-terms are required when any --intent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --intent-indicators",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--intent-indicators",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--intent-clauses, --intent-unsupported-terms are required when any --intent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --intent-unsupported-terms",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--intent-unsupported-terms",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--intent-clauses, --intent-indicators are required when any --intent-* flag is set",
+    "requests": []
+  },
+  {
     "case": "only --labels",
     "argv": [
       "cloudforce-one",
@@ -82,6 +292,146 @@
           "labels": [
             "regression value &/?+ü"
           ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --model",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "model": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notification-mode",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--notification-mode",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "notification_mode": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--notification-mode value 1",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--notification-mode",
+      "immediate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "notification_mode": "immediate"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--notification-mode value 2",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--notification-mode",
+      "digest"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "notification_mode": "digest"
         }
       }
     ]
@@ -122,6 +472,104 @@
     ]
   },
   {
+    "case": "only --query-branches",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--query-branches",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid JSON in --query-branches. Expected valid JSON.",
+    "requests": []
+  },
+  {
+    "case": "only --query-version",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--query-version",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--query-branches is required when any --query-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --query-source",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--query-source",
+      "generated"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "query_source": "generated"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--query-source value 1",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--query-source",
+      "edited"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "query_source": "edited"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --requirement",
     "argv": [
       "cloudforce-one",
@@ -152,6 +600,111 @@
         },
         "body": {
           "requirement": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "draft"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "draft"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--status value 1",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "active"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "active"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --title",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--title",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "title": "regression value &/?+ü"
         }
       }
     ]
@@ -229,46 +782,49 @@
       "priority-intelligence",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false",
+      "--dataset-scope-type",
+      "datasets",
+      "--dataset-scope-dataset-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--digest-interval-hours",
+      "2",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-indicators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--intent-unsupported-terms",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--labels",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--model",
+      "second value &/?+ü",
+      "--notification-mode",
+      "immediate",
       "--priority",
       "2",
+      "--query-branches",
+      "second value &/?+ü",
+      "--query-version",
+      "2",
+      "--query-source",
+      "edited",
       "--requirement",
+      "second value &/?+ü",
+      "--status",
+      "active",
+      "--title",
       "second value &/?+ü",
       "--tlp",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "133",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "labels": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
-          "priority": 2,
-          "requirement": "second value &/?+ü",
-          "tlp": "second value &/?+ü"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid JSON in --query-branches. Expected valid JSON.",
+    "requests": []
   },
   {
     "case": "pairwise 2",
@@ -277,36 +833,28 @@
       "priority-intelligence",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--priority",
+      "--dataset-scope-type",
+      "default",
+      "--digest-interval-hours",
       "1",
+      "--intent-indicators",
+      "regression value &/?+ü",
+      "--labels",
+      "regression value &/?+ü",
+      "--notification-mode",
+      "none",
+      "--query-branches",
+      "regression value &/?+ü",
+      "--query-source",
+      "generated",
+      "--status",
+      "draft",
       "--tlp",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "46",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "priority": 1,
-          "tlp": "regression value &/?+ü"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--intent-clauses, --intent-unsupported-terms are required when any --intent-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 3",
@@ -315,10 +863,207 @@
       "priority-intelligence",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false",
+      "--dataset-scope-dataset-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-unsupported-terms",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--model",
+      "second value &/?+ü",
+      "--priority",
+      "2",
+      "--query-version",
+      "2",
+      "--requirement",
+      "second value &/?+ü",
+      "--title",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--dataset-scope-type is required when any --dataset-scope-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-scope-dataset-ids",
+      "regression value &/?+ü",
+      "--digest-interval-hours",
+      "1",
+      "--intent-unsupported-terms",
+      "regression value &/?+ü",
+      "--labels",
+      "regression value &/?+ü",
+      "--priority",
+      "1",
+      "--query-branches",
+      "regression value &/?+ü",
+      "--requirement",
+      "regression value &/?+ü",
+      "--status",
+      "draft"
+    ],
+    "exitCode": 1,
+    "error": "--dataset-scope-type is required when any --dataset-scope-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false",
+      "--dataset-scope-type",
+      "datasets",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-indicators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--model",
+      "second value &/?+ü",
+      "--notification-mode",
+      "immediate",
+      "--query-version",
+      "2",
+      "--query-source",
+      "edited",
+      "--title",
+      "second value &/?+ü",
+      "--tlp",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--intent-unsupported-terms is required when any --intent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-indicators",
+      "regression value &/?+ü",
+      "--intent-unsupported-terms",
+      "regression value &/?+ü",
+      "--labels",
+      "regression value &/?+ü",
+      "--query-version",
+      "1",
+      "--query-source",
+      "generated",
+      "--requirement",
+      "regression value &/?+ü",
+      "--status",
+      "draft"
+    ],
+    "exitCode": 1,
+    "error": "--query-branches is required when any --query-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false",
+      "--dataset-scope-type",
+      "datasets",
+      "--dataset-scope-dataset-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--digest-interval-hours",
+      "2",
+      "--model",
+      "second value &/?+ü",
+      "--notification-mode",
+      "immediate",
+      "--priority",
+      "2",
+      "--query-branches",
+      "second value &/?+ü",
+      "--title",
+      "second value &/?+ü",
+      "--tlp",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid JSON in --query-branches. Expected valid JSON.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--model",
+      "regression value &/?+ü",
+      "--notification-mode",
+      "none",
+      "--priority",
+      "1",
+      "--query-branches",
+      "regression value &/?+ü",
+      "--query-version",
+      "1",
+      "--query-source",
+      "generated",
+      "--requirement",
+      "regression value &/?+ü",
+      "--status",
+      "draft"
+    ],
+    "exitCode": 1,
+    "error": "Invalid JSON in --query-branches. Expected valid JSON.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "cloudforce-one",
+      "priority-intelligence",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false",
+      "--dataset-scope-type",
+      "datasets",
+      "--dataset-scope-dataset-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--digest-interval-hours",
+      "2",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-indicators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--intent-unsupported-terms",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--labels",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--requirement",
+      "--title",
+      "second value &/?+ü",
+      "--tlp",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -332,7 +1077,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "92",
+          "content-length": "428",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -341,23 +1086,48 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "confirm_query": false,
+          "dataset_scope": {
+            "type": "datasets",
+            "dataset_ids": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "digest_interval_hours": 2,
+          "intent": {
+            "clauses": [
+              {
+                "regression": "item"
+              }
+            ],
+            "indicators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "unsupported_terms": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
           "labels": [
             "second value &/?+ü",
             "second value &/?+ü"
           ],
-          "requirement": "second value &/?+ü"
+          "title": "second value &/?+ü",
+          "tlp": "second value &/?+ü"
         }
       }
     ]
   },
   {
-    "case": "pairwise 4",
+    "case": "pairwise 10",
     "argv": [
       "cloudforce-one",
       "priority-intelligence",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--requirement",
+      "--title",
       "regression value &/?+ü",
       "--tlp",
       "regression value &/?+ü"
@@ -373,7 +1143,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "73",
+          "content-length": "67",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -382,53 +1152,58 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "requirement": "regression value &/?+ü",
+          "title": "regression value &/?+ü",
           "tlp": "regression value &/?+ü"
         }
       }
     ]
   },
   {
-    "case": "pairwise 5",
+    "case": "pairwise 11",
     "argv": [
       "cloudforce-one",
       "priority-intelligence",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--confirm-query=false",
+      "--dataset-scope-type",
+      "datasets",
+      "--dataset-scope-dataset-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--digest-interval-hours",
+      "2",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-indicators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--intent-unsupported-terms",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--labels",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--model",
+      "second value &/?+ü",
+      "--notification-mode",
+      "immediate",
       "--priority",
-      "2"
+      "2",
+      "--query-branches",
+      "second value &/?+ü",
+      "--query-version",
+      "2",
+      "--query-source",
+      "edited",
+      "--requirement",
+      "second value &/?+ü",
+      "--status",
+      "active"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "69",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "labels": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
-          "priority": 2
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid JSON in --query-branches. Expected valid JSON.",
+    "requests": []
   },
   {
     "case": "global quiet",
@@ -708,7 +1483,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -716,14 +1491,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -734,43 +1509,44 @@
       "priority-intelligence",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--confirm-query=true",
+      "--dataset-scope-type",
+      "default",
+      "--dataset-scope-dataset-ids",
+      "regression value &/?+ü",
+      "--digest-interval-hours",
+      "1",
+      "--intent-clauses",
+      "[{\"regression\":\"item\"}]",
+      "--intent-indicators",
+      "regression value &/?+ü",
+      "--intent-unsupported-terms",
+      "regression value &/?+ü",
       "--labels",
       "regression value &/?+ü",
+      "--model",
+      "regression value &/?+ü",
+      "--notification-mode",
+      "none",
       "--priority",
       "1",
+      "--query-branches",
+      "regression value &/?+ü",
+      "--query-version",
+      "1",
+      "--query-source",
+      "generated",
       "--requirement",
+      "regression value &/?+ü",
+      "--status",
+      "draft",
+      "--title",
       "regression value &/?+ü",
       "--tlp",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/priority-intelligence/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "123",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "labels": [
-            "regression value &/?+ü"
-          ],
-          "priority": 1,
-          "requirement": "regression value &/?+ü",
-          "tlp": "regression value &/?+ü"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid JSON in --query-branches. Expected valid JSON.",
+    "requests": []
   }
 ]

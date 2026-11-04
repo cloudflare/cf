@@ -90,6 +90,47 @@
     ]
   },
   {
+    "case": "only --acknowledgements",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "acknowledgements": {
+            "regression": "json value"
+          },
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --auto-renew",
     "argv": [
       "registrar-sandbox",
@@ -164,6 +205,47 @@
     ]
   },
   {
+    "case": "only --contact-extensions",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_renew": false,
+          "contact_extensions": {
+            "regression": "json value"
+          },
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --contacts-administrator-email",
     "argv": [
       "registrar-sandbox",
@@ -175,7 +257,7 @@
       "regression@example.com"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -190,7 +272,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -205,7 +287,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -220,7 +302,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-phone are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -235,7 +317,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -250,7 +332,7 @@
       "regression@example.com"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-billing-phone, --contacts-billing-postal-info-name are required when any --contacts-billing-* flag is set",
     "requests": []
   },
   {
@@ -265,7 +347,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name are required when any --contacts-billing-* flag is set",
     "requests": []
   },
   {
@@ -280,7 +362,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-billing-email, --contacts-billing-postal-info-name are required when any --contacts-billing-* flag is set",
     "requests": []
   },
   {
@@ -295,7 +377,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-billing-email, --contacts-billing-phone are required when any --contacts-billing-* flag is set",
     "requests": []
   },
   {
@@ -310,7 +392,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name are required when any --contacts-billing-* flag is set",
     "requests": []
   },
   {
@@ -325,7 +407,7 @@
       "regression@example.com"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -340,7 +422,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -355,7 +437,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-email, --contacts-registrant-postal-info-name are required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -370,7 +452,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-email, --contacts-registrant-phone are required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -385,7 +467,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -400,7 +482,7 @@
       "regression@example.com"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-technical-* flag is set",
     "requests": []
   },
   {
@@ -415,7 +497,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-technical-* flag is set",
     "requests": []
   },
   {
@@ -430,7 +512,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-technical-email, --contacts-technical-postal-info-name are required when any --contacts-technical-* flag is set",
     "requests": []
   },
   {
@@ -445,7 +527,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "error": "--contacts-technical-email, --contacts-technical-phone are required when any --contacts-technical-* flag is set",
     "requests": []
   },
   {
@@ -460,7 +542,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-technical-* flag is set",
     "requests": []
   },
   {
@@ -624,7 +706,11 @@
       "example.com",
       "--prefer",
       "second value &/?+ü",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
       "--auto-renew=false",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
       "--contacts-administrator-email",
       "regression@example.com",
       "--contacts-administrator-fax",
@@ -681,7 +767,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "849",
+          "content-length": "945",
           "content-type": "application/json",
           "host": "api.test",
           "prefer": "second value &/?+ü",
@@ -691,7 +777,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "acknowledgements": {
+            "regression": "json value"
+          },
           "auto_renew": false,
+          "contact_extensions": {
+            "regression": "json value"
+          },
           "contacts": {
             "administrator": {
               "email": "regression@example.com",
@@ -745,7 +837,10 @@
       "create",
       "--domain-name",
       "example.com",
-      "--auto-renew=true",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
       "--contacts-administrator-fax",
       "regression value &/?+ü",
       "--contacts-administrator-postal-info-name",
@@ -770,7 +865,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-phone are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -783,6 +878,7 @@
       "example.com",
       "--prefer",
       "second value &/?+ü",
+      "--auto-renew=false",
       "--contacts-administrator-email",
       "regression@example.com",
       "--contacts-administrator-phone",
@@ -807,7 +903,7 @@
       "redaction"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-postal-info-name is required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -818,33 +914,32 @@
       "create",
       "--domain-name",
       "example.com",
-      "--contacts-administrator-email",
+      "--auto-renew=true",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
+      "--contacts-administrator-phone",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-billing-fax",
+      "regression value &/?+ü",
+      "--contacts-billing-phone",
+      "regression value &/?+ü",
+      "--contacts-registrant-email",
       "regression@example.com",
-      "--contacts-administrator-fax",
+      "--contacts-registrant-fax",
       "regression value &/?+ü",
-      "--contacts-administrator-postal-info-organization",
+      "--contacts-registrant-postal-info-organization",
       "regression value &/?+ü",
-      "--contacts-billing-email",
+      "--contacts-technical-email",
       "regression@example.com",
-      "--contacts-billing-postal-info-name",
+      "--contacts-technical-postal-info-name",
       "regression value &/?+ü",
-      "--contacts-billing-postal-info-organization",
-      "regression value &/?+ü",
-      "--contacts-registrant-phone",
-      "regression value &/?+ü",
-      "--contacts-registrant-postal-info-name",
-      "regression value &/?+ü",
-      "--contacts-technical-fax",
-      "regression value &/?+ü",
-      "--contacts-technical-phone",
-      "regression value &/?+ü",
-      "--privacy-mode",
-      "off",
-      "--years",
-      "1"
+      "--contacts-technical-postal-info-organization",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-phone, --contacts-registrant-email, --contacts-technical-email, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email is required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -857,30 +952,35 @@
       "example.com",
       "--prefer",
       "second value &/?+ü",
-      "--auto-renew=false",
-      "--contacts-administrator-phone",
-      "second value &/?+ü",
-      "--contacts-administrator-postal-info-name",
-      "second value &/?+ü",
-      "--contacts-billing-fax",
-      "second value &/?+ü",
-      "--contacts-billing-phone",
-      "second value &/?+ü",
-      "--contacts-registrant-email",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
+      "--contacts-administrator-email",
       "regression@example.com",
-      "--contacts-registrant-fax",
+      "--contacts-administrator-fax",
       "second value &/?+ü",
-      "--contacts-registrant-postal-info-organization",
+      "--contacts-administrator-postal-info-organization",
       "second value &/?+ü",
-      "--contacts-technical-email",
+      "--contacts-billing-email",
       "regression@example.com",
-      "--contacts-technical-postal-info-name",
+      "--contacts-billing-postal-info-name",
       "second value &/?+ü",
-      "--contacts-technical-postal-info-organization",
-      "second value &/?+ü"
+      "--contacts-billing-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-registrant-phone",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-technical-fax",
+      "second value &/?+ü",
+      "--contacts-technical-phone",
+      "second value &/?+ü",
+      "--privacy-mode",
+      "redaction",
+      "--years",
+      "2"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-billing-email, --contacts-billing-postal-info-name, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -891,33 +991,33 @@
       "create",
       "--domain-name",
       "example.com",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "regression value &/?+ü",
       "--contacts-administrator-phone",
       "regression value &/?+ü",
       "--contacts-administrator-postal-info-name",
       "regression value &/?+ü",
-      "--contacts-administrator-postal-info-organization",
+      "--contacts-billing-postal-info-name",
       "regression value &/?+ü",
-      "--contacts-billing-email",
-      "regression@example.com",
+      "--contacts-billing-postal-info-organization",
+      "regression value &/?+ü",
       "--contacts-registrant-email",
       "regression@example.com",
       "--contacts-registrant-fax",
       "regression value &/?+ü",
-      "--contacts-registrant-phone",
+      "--contacts-technical-fax",
       "regression value &/?+ü",
-      "--contacts-registrant-postal-info-name",
+      "--contacts-technical-phone",
       "regression value &/?+ü",
       "--contacts-technical-postal-info-name",
       "regression value &/?+ü",
       "--contacts-technical-postal-info-organization",
-      "regression value &/?+ü",
-      "--privacy-mode",
-      "off",
-      "--years",
-      "1"
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-technical-email, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "error": "--contacts-billing-email, --contacts-billing-phone are required when any --contacts-billing-* flag is set",
     "requests": []
   },
   {
@@ -930,30 +1030,34 @@
       "example.com",
       "--prefer",
       "second value &/?+ü",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
       "--auto-renew=false",
-      "--contacts-administrator-email",
-      "regression@example.com",
-      "--contacts-administrator-fax",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
+      "--contacts-administrator-postal-info-organization",
       "second value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
       "--contacts-billing-fax",
       "second value &/?+ü",
       "--contacts-billing-phone",
       "second value &/?+ü",
-      "--contacts-billing-postal-info-name",
+      "--contacts-registrant-phone",
       "second value &/?+ü",
-      "--contacts-billing-postal-info-organization",
+      "--contacts-registrant-postal-info-name",
       "second value &/?+ü",
       "--contacts-registrant-postal-info-organization",
       "second value &/?+ü",
       "--contacts-technical-email",
       "regression@example.com",
-      "--contacts-technical-fax",
-      "second value &/?+ü",
-      "--contacts-technical-phone",
-      "second value &/?+ü"
+      "--privacy-mode",
+      "redaction",
+      "--years",
+      "2"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -964,6 +1068,10 @@
       "create",
       "--domain-name",
       "example.com",
+      "--contacts-administrator-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
       "--contacts-billing-fax",
       "regression value &/?+ü",
       "--contacts-billing-phone",
@@ -976,13 +1084,13 @@
       "regression@example.com",
       "--contacts-registrant-fax",
       "regression value &/?+ü",
-      "--contacts-registrant-phone",
-      "regression value &/?+ü",
-      "--contacts-registrant-postal-info-name",
-      "regression value &/?+ü"
+      "--privacy-mode",
+      "off",
+      "--years",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name are required when any --contacts-administrator-* flag is set",
     "requests": []
   },
   {
@@ -995,7 +1103,11 @@
       "example.com",
       "--prefer",
       "second value &/?+ü",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
       "--auto-renew=false",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
       "--contacts-administrator-email",
       "regression@example.com",
       "--contacts-administrator-fax",
@@ -1004,10 +1116,10 @@
       "second value &/?+ü",
       "--contacts-administrator-postal-info-name",
       "second value &/?+ü",
-      "--contacts-administrator-postal-info-organization",
+      "--contacts-registrant-phone",
       "second value &/?+ü",
-      "--contacts-billing-email",
-      "regression@example.com",
+      "--contacts-registrant-postal-info-name",
+      "second value &/?+ü",
       "--contacts-registrant-postal-info-organization",
       "second value &/?+ü",
       "--contacts-technical-email",
@@ -1019,14 +1131,10 @@
       "--contacts-technical-postal-info-name",
       "second value &/?+ü",
       "--contacts-technical-postal-info-organization",
-      "second value &/?+ü",
-      "--privacy-mode",
-      "redaction",
-      "--years",
-      "2"
+      "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-email is required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -1037,6 +1145,10 @@
       "create",
       "--domain-name",
       "example.com",
+      "--contacts-registrant-phone",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü",
       "--contacts-registrant-postal-info-organization",
       "regression value &/?+ü",
       "--contacts-technical-email",
@@ -1055,7 +1167,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-email is required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -1068,7 +1180,11 @@
       "example.com",
       "--prefer",
       "second value &/?+ü",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
       "--auto-renew=false",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
       "--contacts-administrator-email",
       "regression@example.com",
       "--contacts-administrator-fax",
@@ -1092,14 +1208,10 @@
       "--contacts-registrant-email",
       "regression@example.com",
       "--contacts-registrant-fax",
-      "second value &/?+ü",
-      "--contacts-registrant-phone",
-      "second value &/?+ü",
-      "--contacts-registrant-postal-info-name",
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "error": "--contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-registrant-* flag is set",
     "requests": []
   },
   {
@@ -1417,7 +1529,11 @@
       "example.com",
       "--prefer",
       "regression value &/?+ü",
+      "--acknowledgements",
+      "{\"regression\":\"json value\"}",
       "--auto-renew=true",
+      "--contact-extensions",
+      "{\"regression\":\"json value\"}",
       "--contacts-administrator-email",
       "regression@example.com",
       "--contacts-administrator-fax",
@@ -1474,7 +1590,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "906",
+          "content-length": "1002",
           "content-type": "application/json",
           "host": "api.test",
           "prefer": "regression value &/?+ü",
@@ -1484,7 +1600,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "acknowledgements": {
+            "regression": "json value"
+          },
           "auto_renew": true,
+          "contact_extensions": {
+            "regression": "json value"
+          },
           "contacts": {
             "administrator": {
               "email": "regression@example.com",

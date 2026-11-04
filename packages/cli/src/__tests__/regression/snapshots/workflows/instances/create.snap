@@ -85,6 +85,80 @@
     ]
   },
   {
+    "case": "only --instance-retention-error",
+    "argv": [
+      "workflows",
+      "instances",
+      "create",
+      "regression value &/?+ü",
+      "--instance-retention-error",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "instance_retention": {
+            "error_retention": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --instance-retention-success",
+    "argv": [
+      "workflows",
+      "instances",
+      "create",
+      "regression value &/?+ü",
+      "--instance-retention-success",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "instance_retention": {
+            "success_retention": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --location-hint",
     "argv": [
       "workflows",
@@ -544,6 +618,10 @@
       "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
+      "--instance-retention-error",
+      "second value &/?+ü",
+      "--instance-retention-success",
+      "second value &/?+ü",
       "--location-hint",
       "weur",
       "--params",
@@ -560,7 +638,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "116",
+          "content-length": "221",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -570,8 +648,52 @@
         },
         "body": {
           "instance_id": "0123456789abcdef0123456789abcdef",
+          "instance_retention": {
+            "error_retention": "second value &/?+ü",
+            "success_retention": "second value &/?+ü"
+          },
           "location_hint": "weur",
           "params": "{\"regression\":\"json value\"}"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workflows",
+      "instances",
+      "create",
+      "regression value &/?+ü",
+      "--instance-retention-error",
+      "regression value &/?+ü",
+      "--location-hint",
+      "wnam"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "instance_retention": {
+            "error_retention": "regression value &/?+ü"
+          },
+          "location_hint": "wnam"
         }
       }
     ]
@@ -585,8 +707,51 @@
       "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
+      "--instance-retention-success",
+      "second value &/?+ü",
       "--params",
       "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "instance_id": "0123456789abcdef0123456789abcdef",
+          "instance_retention": {
+            "success_retention": "second value &/?+ü"
+          },
+          "params": "{\"regression\":\"json value\"}"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workflows",
+      "instances",
+      "create",
+      "regression value &/?+ü",
+      "--instance-retention-success",
+      "regression value &/?+ü",
+      "--location-hint",
+      "wnam"
     ],
     "exitCode": 0,
     "requests": [
@@ -608,8 +773,10 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "instance_id": "0123456789abcdef0123456789abcdef",
-          "params": "{\"regression\":\"json value\"}"
+          "instance_retention": {
+            "success_retention": "regression value &/?+ü"
+          },
+          "location_hint": "wnam"
         }
       }
     ]
@@ -623,6 +790,53 @@
       "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
+      "--instance-retention-error",
+      "second value &/?+ü",
+      "--params",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "instance_id": "0123456789abcdef0123456789abcdef",
+          "instance_retention": {
+            "error_retention": "second value &/?+ü"
+          },
+          "params": "{\"regression\":\"json value\"}"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "workflows",
+      "instances",
+      "create",
+      "regression value &/?+ü",
+      "--instance-id",
+      "0123456789abcdef0123456789abcdef",
+      "--instance-retention-error",
+      "second value &/?+ü",
+      "--instance-retention-success",
+      "second value &/?+ü",
       "--location-hint",
       "weur"
     ],
@@ -637,7 +851,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "73",
+          "content-length": "178",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -647,6 +861,10 @@
         },
         "body": {
           "instance_id": "0123456789abcdef0123456789abcdef",
+          "instance_retention": {
+            "error_retention": "second value &/?+ü",
+            "success_retention": "second value &/?+ü"
+          },
           "location_hint": "weur"
         }
       }
@@ -930,7 +1148,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -938,14 +1156,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -958,6 +1176,10 @@
       "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
+      "--instance-retention-error",
+      "regression value &/?+ü",
+      "--instance-retention-success",
+      "regression value &/?+ü",
       "--location-hint",
       "wnam",
       "--params",
@@ -974,7 +1196,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "116",
+          "content-length": "229",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -984,6 +1206,10 @@
         },
         "body": {
           "instance_id": "0123456789abcdef0123456789abcdef",
+          "instance_retention": {
+            "error_retention": "regression value &/?+ü",
+            "success_retention": "regression value &/?+ü"
+          },
           "location_hint": "wnam",
           "params": "{\"regression\":\"json value\"}"
         }

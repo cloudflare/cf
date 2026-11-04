@@ -88,12 +88,12 @@
     ]
   },
   {
-    "case": "only --botCategory",
+    "case": "only --bot-category",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "SEARCH_ENGINE_CRAWLER"
     ],
     "exitCode": 0,
@@ -118,12 +118,12 @@
     ]
   },
   {
-    "case": "--botCategory value 1",
+    "case": "--bot-category value 1",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "SEARCH_ENGINE_OPTIMIZATION"
     ],
     "exitCode": 0,
@@ -148,12 +148,12 @@
     ]
   },
   {
-    "case": "--botCategory value 2",
+    "case": "--bot-category value 2",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "MONITORING_AND_ANALYTICS"
     ],
     "exitCode": 0,
@@ -178,12 +178,12 @@
     ]
   },
   {
-    "case": "--botCategory value 3",
+    "case": "--bot-category value 3",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "ADVERTISING_AND_MARKETING"
     ],
     "exitCode": 0,
@@ -208,12 +208,12 @@
     ]
   },
   {
-    "case": "--botCategory value 4",
+    "case": "--bot-category value 4",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "SOCIAL_MEDIA_MARKETING"
     ],
     "exitCode": 0,
@@ -238,12 +238,12 @@
     ]
   },
   {
-    "case": "--botCategory value 5",
+    "case": "--bot-category value 5",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "PAGE_PREVIEW"
     ],
     "exitCode": 0,
@@ -268,12 +268,12 @@
     ]
   },
   {
-    "case": "--botCategory value 6",
+    "case": "--bot-category value 6",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "ACADEMIC_RESEARCH"
     ],
     "exitCode": 0,
@@ -298,12 +298,12 @@
     ]
   },
   {
-    "case": "--botCategory value 7",
+    "case": "--bot-category value 7",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "SECURITY"
     ],
     "exitCode": 0,
@@ -328,12 +328,12 @@
     ]
   },
   {
-    "case": "--botCategory value 8",
+    "case": "--bot-category value 8",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "ACCESSIBILITY"
     ],
     "exitCode": 0,
@@ -358,12 +358,12 @@
     ]
   },
   {
-    "case": "--botCategory value 9",
+    "case": "--bot-category value 9",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "WEBHOOKS"
     ],
     "exitCode": 0,
@@ -388,12 +388,12 @@
     ]
   },
   {
-    "case": "--botCategory value 10",
+    "case": "--bot-category value 10",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "FEED_FETCHER"
     ],
     "exitCode": 0,
@@ -418,12 +418,12 @@
     ]
   },
   {
-    "case": "--botCategory value 11",
+    "case": "--bot-category value 11",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "AI_CRAWLER"
     ],
     "exitCode": 0,
@@ -448,12 +448,12 @@
     ]
   },
   {
-    "case": "--botCategory value 12",
+    "case": "--bot-category value 12",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "AGGREGATOR"
     ],
     "exitCode": 0,
@@ -478,12 +478,12 @@
     ]
   },
   {
-    "case": "--botCategory value 13",
+    "case": "--bot-category value 13",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "AI_ASSISTANT"
     ],
     "exitCode": 0,
@@ -508,12 +508,12 @@
     ]
   },
   {
-    "case": "--botCategory value 14",
+    "case": "--bot-category value 14",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "AI_SEARCH"
     ],
     "exitCode": 0,
@@ -538,12 +538,12 @@
     ]
   },
   {
-    "case": "--botCategory value 15",
+    "case": "--bot-category value 15",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "ARCHIVER"
     ],
     "exitCode": 0,
@@ -568,12 +568,12 @@
     ]
   },
   {
-    "case": "only --botOperator",
+    "case": "only --bot-operator",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botOperator",
+      "--bot-operator",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -658,12 +658,12 @@
     ]
   },
   {
-    "case": "only --botVerificationStatus",
+    "case": "only --bot-verification-status",
     "argv": [
       "radar",
       "bots",
       "list",
-      "--botVerificationStatus",
+      "--bot-verification-status",
       "VERIFIED"
     ],
     "exitCode": 0,
@@ -757,13 +757,13 @@
       "2",
       "--offset",
       "2",
-      "--botCategory",
+      "--bot-category",
       "SEARCH_ENGINE_OPTIMIZATION",
-      "--botOperator",
+      "--bot-operator",
       "second value &/?+ü",
       "--kind",
       "BOT",
-      "--botVerificationStatus",
+      "--bot-verification-status",
       "VERIFIED",
       "--format",
       "CSV"
@@ -797,9 +797,9 @@
       "list",
       "--offset",
       "1",
-      "--botOperator",
+      "--bot-operator",
       "regression value &/?+ü",
-      "--botVerificationStatus",
+      "--bot-verification-status",
       "VERIFIED"
     ],
     "exitCode": 0,
@@ -831,7 +831,7 @@
       "list",
       "--limit",
       "2",
-      "--botCategory",
+      "--bot-category",
       "SEARCH_ENGINE_OPTIMIZATION",
       "--kind",
       "BOT",
@@ -865,9 +865,9 @@
       "radar",
       "bots",
       "list",
-      "--botCategory",
+      "--bot-category",
       "SEARCH_ENGINE_CRAWLER",
-      "--botOperator",
+      "--bot-operator",
       "regression value &/?+ü",
       "--format",
       "JSON"
@@ -905,7 +905,7 @@
       "2",
       "--kind",
       "BOT",
-      "--botVerificationStatus",
+      "--bot-verification-status",
       "VERIFIED"
     ],
     "exitCode": 0,
@@ -937,7 +937,7 @@
       "list",
       "--kind",
       "AGENT",
-      "--botVerificationStatus",
+      "--bot-verification-status",
       "VERIFIED",
       "--format",
       "JSON"
@@ -973,9 +973,9 @@
       "2",
       "--offset",
       "2",
-      "--botCategory",
+      "--bot-category",
       "SEARCH_ENGINE_OPTIMIZATION",
-      "--botOperator",
+      "--bot-operator",
       "second value &/?+ü"
     ],
     "exitCode": 0,

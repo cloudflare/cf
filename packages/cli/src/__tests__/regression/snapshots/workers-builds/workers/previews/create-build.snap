@@ -143,7 +143,24 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed-repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --seed-repo-files",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-files",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -160,7 +177,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-provider, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -177,7 +194,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -194,7 +211,7 @@
       "github"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -211,7 +228,7 @@
       "gitlab"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -228,7 +245,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-provider are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-provider are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -281,6 +298,8 @@
       "second value &/?+ü",
       "--seed-repo-branch",
       "second value &/?+ü",
+      "--seed-repo-files",
+      "[{\"regression\":\"item\"}]",
       "--seed-repo-owner",
       "second value &/?+ü",
       "--seed-repo-path",
@@ -301,7 +320,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "227",
+          "content-length": "259",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -314,6 +333,11 @@
           "commit_hash": "second value &/?+ü",
           "seed_repo": {
             "branch": "second value &/?+ü",
+            "files": [
+              {
+                "regression": "item"
+              }
+            ],
             "owner": "second value &/?+ü",
             "path": "second value &/?+ü",
             "provider": "gitlab",
@@ -335,13 +359,15 @@
       "192.0.2.1",
       "--commit-hash",
       "regression value &/?+ü",
-      "--seed-repo-owner",
+      "--seed-repo-files",
+      "[{\"regression\":\"item\"}]",
+      "--seed-repo-path",
       "regression value &/?+ü",
-      "--seed-repo-provider",
-      "github"
+      "--seed-repo-repository",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-repository is required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-provider are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -358,13 +384,13 @@
       "second value &/?+ü",
       "--seed-repo-branch",
       "second value &/?+ü",
-      "--seed-repo-path",
+      "--seed-repo-owner",
       "second value &/?+ü",
-      "--seed-repo-repository",
-      "second value &/?+ü"
+      "--seed-repo-provider",
+      "gitlab"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-provider are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-repository is required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -379,13 +405,15 @@
       "192.0.2.1",
       "--seed-repo-branch",
       "regression value &/?+ü",
-      "--seed-repo-owner",
-      "regression value &/?+ü",
+      "--seed-repo-files",
+      "[{\"regression\":\"item\"}]",
+      "--seed-repo-provider",
+      "github",
       "--seed-repo-repository",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-provider is required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner is required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -402,13 +430,13 @@
       "second value &/?+ü",
       "--commit-hash",
       "second value &/?+ü",
-      "--seed-repo-path",
+      "--seed-repo-owner",
       "second value &/?+ü",
-      "--seed-repo-provider",
-      "gitlab"
+      "--seed-repo-path",
+      "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-provider, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -421,6 +449,8 @@
       "0123456789abcdef0123456789abcdef",
       "--script-tag",
       "192.0.2.1",
+      "--seed-repo-owner",
+      "regression value &/?+ü",
       "--seed-repo-path",
       "regression value &/?+ü",
       "--seed-repo-provider",
@@ -428,9 +458,35 @@
       "--seed-repo-repository",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--seed-repo-owner is required when any --seed_repo-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "141",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "seed_repo": {
+            "owner": "regression value &/?+ü",
+            "path": "regression value &/?+ü",
+            "provider": "github",
+            "repository": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -448,11 +504,11 @@
       "second value &/?+ü",
       "--seed-repo-branch",
       "second value &/?+ü",
-      "--seed-repo-owner",
-      "second value &/?+ü"
+      "--seed-repo-files",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 1,
-    "error": "--seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed-repo-* flag is set",
     "requests": []
   },
   {
@@ -792,6 +848,8 @@
       "regression value &/?+ü",
       "--seed-repo-branch",
       "regression value &/?+ü",
+      "--seed-repo-files",
+      "[{\"regression\":\"item\"}]",
       "--seed-repo-owner",
       "regression value &/?+ü",
       "--seed-repo-path",
@@ -812,7 +870,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "251",
+          "content-length": "283",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -825,6 +883,11 @@
           "commit_hash": "regression value &/?+ü",
           "seed_repo": {
             "branch": "regression value &/?+ü",
+            "files": [
+              {
+                "regression": "item"
+              }
+            ],
             "owner": "regression value &/?+ü",
             "path": "regression value &/?+ü",
             "provider": "github",

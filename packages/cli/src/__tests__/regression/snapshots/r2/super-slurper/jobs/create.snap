@@ -164,7 +164,7 @@
       "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-endpoint -> source-secret-access-key-id source-endpoint -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -206,7 +206,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-region -> source-secret-access-key-id source-region -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -220,7 +220,7 @@
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-secret-access-key-id -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -234,7 +234,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-secret-secret-access-key -> source-secret-access-key-id",
     "requests": []
   },
   {
@@ -248,7 +248,7 @@
       "regression@example.com"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-secret-client-email -> source-secret-private-key",
     "requests": []
   },
   {
@@ -262,7 +262,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-secret-private-key -> source-secret-client-email",
     "requests": []
   },
   {
@@ -318,7 +318,7 @@
       "default"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-jurisdiction -> source-secret-access-key-id source-jurisdiction -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -332,7 +332,7 @@
       "eu"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-jurisdiction -> source-secret-access-key-id source-jurisdiction -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -346,7 +346,7 @@
       "us"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-jurisdiction -> source-secret-access-key-id source-jurisdiction -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -360,7 +360,7 @@
       "fedramp"
     ],
     "exitCode": 1,
-    "error": "--source-bucket, --source-vendor are required when any --source-* flag is set",
+    "error": "Missing dependent arguments:\n source-jurisdiction -> source-secret-access-key-id source-jurisdiction -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -546,7 +546,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments source-region and source-secret-private-key are mutually exclusive",
+    "error": "Missing dependent arguments:\n source-region -> source-secret-access-key-id source-secret-secret-access-key -> source-secret-access-key-id source-secret-private-key -> source-secret-client-email source-jurisdiction -> source-secret-access-key-id",
     "requests": []
   },
   {
@@ -575,7 +575,7 @@
       "r2"
     ],
     "exitCode": 1,
-    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "error": "Missing dependent arguments:\n source-endpoint -> source-secret-secret-access-key source-secret-access-key-id -> source-secret-secret-access-key source-secret-client-email -> source-secret-private-key",
     "requests": []
   },
   {
@@ -632,7 +632,7 @@
       "r2"
     ],
     "exitCode": 1,
-    "error": "Arguments source-region and source-secret-client-email are mutually exclusive",
+    "error": "Missing dependent arguments:\n source-region -> source-secret-access-key-id source-region -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -690,7 +690,7 @@
       "r2"
     ],
     "exitCode": 1,
-    "error": "Arguments source-endpoint and source-secret-client-email are mutually exclusive",
+    "error": "Missing dependent arguments:\n source-endpoint -> source-secret-access-key-id source-endpoint -> source-secret-secret-access-key source-jurisdiction -> source-secret-access-key-id source-jurisdiction -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -718,7 +718,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments source-secret-client-email and source-jurisdiction are mutually exclusive",
+    "error": "Missing dependent arguments:\n source-jurisdiction -> source-secret-access-key-id source-jurisdiction -> source-secret-secret-access-key",
     "requests": []
   },
   {
@@ -1073,7 +1073,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1081,14 +1081,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },

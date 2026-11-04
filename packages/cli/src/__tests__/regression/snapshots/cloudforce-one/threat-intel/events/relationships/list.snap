@@ -1,0 +1,895 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: event-id, dataset-id",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "ancestors"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=ancestors&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "descendants"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=descendants&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 2",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "both"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=both&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --max-depth",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--max-depth",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?maxDepth=1&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --relationship-types",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--relationship-types",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?relationshipTypes=192.0.2.1&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --indicator-type-ids",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-type-ids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?indicatorTypeIds=regression%20value%20%26%2F%3F%2B%C3%BC&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-parent",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-parent=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef&includeParent=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-parent value 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-parent=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef&includeParent=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page-size",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page-size",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef&pageSize=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "descendants",
+      "--max-depth",
+      "2",
+      "--relationship-types",
+      "192.0.2.1",
+      "--indicator-type-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--include-parent=false",
+      "--page",
+      "2",
+      "--page-size",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=descendants&maxDepth=2&relationshipTypes=192.0.2.1&indicatorTypeIds=second%20value%20%26%2F%3F%2B%C3%BC&indicatorTypeIds=second%20value%20%26%2F%3F%2B%C3%BC&datasetId=0123456789abcdef0123456789abcdef&includeParent=false&page=2&pageSize=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--max-depth",
+      "1",
+      "--indicator-type-ids",
+      "regression value &/?+ü",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?maxDepth=1&indicatorTypeIds=regression%20value%20%26%2F%3F%2B%C3%BC&datasetId=0123456789abcdef0123456789abcdef&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "descendants",
+      "--relationship-types",
+      "192.0.2.1",
+      "--include-parent=false",
+      "--page-size",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=descendants&relationshipTypes=192.0.2.1&datasetId=0123456789abcdef0123456789abcdef&includeParent=false&pageSize=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--relationship-types",
+      "192.0.2.1",
+      "--indicator-type-ids",
+      "regression value &/?+ü",
+      "--page-size",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?relationshipTypes=192.0.2.1&indicatorTypeIds=regression%20value%20%26%2F%3F%2B%C3%BC&datasetId=0123456789abcdef0123456789abcdef&pageSize=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "descendants",
+      "--max-depth",
+      "2",
+      "--include-parent=false",
+      "--page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=descendants&maxDepth=2&datasetId=0123456789abcdef0123456789abcdef&includeParent=false&page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-parent=true",
+      "--page",
+      "1",
+      "--page-size",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef&includeParent=true&page=1&pageSize=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "descendants",
+      "--max-depth",
+      "2",
+      "--relationship-types",
+      "192.0.2.1",
+      "--indicator-type-ids",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?direction=descendants&maxDepth=2&relationshipTypes=192.0.2.1&indicatorTypeIds=second%20value%20%26%2F%3F%2B%C3%BC&indicatorTypeIds=second%20value%20%26%2F%3F%2B%C3%BC&datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/by-id/0123456789abcdef0123456789abcdef/relationships?datasetId=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "threat-intel",
+      "events",
+      "relationships",
+      "list",
+      "--event-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

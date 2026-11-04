@@ -26,39 +26,20 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "only --subtype",
@@ -76,6 +57,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--subtype",
@@ -92,7 +79,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "238",
+          "content-length": "390",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -106,6 +93,15 @@
           "first_request_seen_at": "regression value &/?+ü",
           "last_request_seen_at": "regression value &/?+ü",
           "requests": 1,
+          "requests_by_attribute": {
+            "regression": "json value"
+          },
+          "requests_by_score": {
+            "regression": "json value"
+          },
+          "requests_by_score_src": {
+            "regression": "json value"
+          },
           "subtype": "regression value &/?+ü",
           "type": "false_positive"
         }
@@ -128,39 +124,20 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--type",
       "false_negative"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "pairwise 0",
@@ -178,6 +155,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive"
     ],
@@ -192,7 +175,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "202",
+          "content-length": "354",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -206,6 +189,15 @@
           "first_request_seen_at": "regression value &/?+ü",
           "last_request_seen_at": "regression value &/?+ü",
           "requests": 1,
+          "requests_by_attribute": {
+            "regression": "json value"
+          },
+          "requests_by_score": {
+            "regression": "json value"
+          },
+          "requests_by_score_src": {
+            "regression": "json value"
+          },
           "type": "false_positive"
         }
       }
@@ -227,6 +219,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--subtype",
@@ -243,7 +241,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "234",
+          "content-length": "386",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -257,6 +255,15 @@
           "first_request_seen_at": "regression value &/?+ü",
           "last_request_seen_at": "regression value &/?+ü",
           "requests": 1,
+          "requests_by_attribute": {
+            "regression": "json value"
+          },
+          "requests_by_score": {
+            "regression": "json value"
+          },
+          "requests_by_score_src": {
+            "regression": "json value"
+          },
           "subtype": "second value &/?+ü",
           "type": "false_positive"
         }
@@ -279,40 +286,21 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "global zone",
@@ -330,6 +318,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
@@ -337,34 +331,9 @@
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "global profile and mode",
@@ -382,6 +351,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
@@ -391,34 +366,9 @@
       "--mode",
       "regression"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "local",
@@ -436,39 +386,21 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "local with persistence",
@@ -486,6 +418,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
@@ -494,33 +432,9 @@
       "--persist-to",
       "regression-state"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "zone by domain",
@@ -538,6 +452,12 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
@@ -545,7 +465,8 @@
       "--zone",
       "regression-d5fd0402ef2b.example.com"
     ],
-    "exitCode": 0,
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
     "requests": [
       {
         "method": "GET",
@@ -563,31 +484,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": null
-      },
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
       }
     ]
   },
@@ -607,13 +503,20 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
     ],
-    "exitCode": 0,
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
     "requests": []
   },
   {
@@ -632,39 +535,20 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
       "@<body.json>"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   },
   {
     "case": "array body",
@@ -682,39 +566,19 @@
       "regression value &/?+ü",
       "--requests",
       "1",
+      "--requests-by-attribute",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score",
+      "{\"regression\":\"json value\"}",
+      "--requests-by-score-src",
+      "{\"regression\":\"json value\"}",
       "--type",
       "false_positive",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management/feedback",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "48",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": [
-          {
-            "regression": "first"
-          },
-          {
-            "regression": "second"
-          }
-        ]
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at requests_by_attribute (for --requests-by-attribute).",
+    "requests": []
   }
 ]

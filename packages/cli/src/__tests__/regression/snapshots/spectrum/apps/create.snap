@@ -873,6 +873,48 @@
     ]
   },
   {
+    "case": "only --origin-port",
+    "argv": [
+      "spectrum",
+      "apps",
+      "create",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-port",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "ip_firewall": false,
+          "origin_port": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off",
+          "tls": "off",
+          "traffic_type": "direct"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --origin-worker-id",
     "argv": [
       "spectrum",
@@ -1517,6 +1559,8 @@
       "2",
       "--origin-dns-type",
       "AAAA",
+      "--origin-port",
+      "second value &/?+ü",
       "--origin-worker-id",
       "0123456789abcdef0123456789abcdef",
       "--proxy-protocol",
@@ -1528,9 +1572,59 @@
       "--virtual-network-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 1,
-    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "557",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "name": "second value &/?+ü",
+            "type": "ADDRESS"
+          },
+          "edge_ips": {
+            "connectivity": "ipv4",
+            "type": "static",
+            "ips": [
+              "192.0.2.1",
+              "192.0.2.1"
+            ]
+          },
+          "ip_firewall": false,
+          "origin_direct": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "origin_dns": {
+            "name": "second value &/?+ü",
+            "ttl": 2,
+            "type": "AAAA"
+          },
+          "origin_port": "second value &/?+ü",
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "v1",
+          "tls": "flexible",
+          "traffic_type": "http",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -1550,16 +1644,58 @@
       "regression value &/?+ü",
       "--origin-dns-ttl",
       "1",
-      "--origin-worker-id",
-      "0123456789abcdef0123456789abcdef",
-      "--tls",
+      "--origin-port",
+      "regression value &/?+ü",
+      "--proxy-protocol",
       "off",
-      "--virtual-network-id",
-      "0123456789abcdef0123456789abcdef"
+      "--traffic-type",
+      "direct"
     ],
-    "exitCode": 1,
-    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "346",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "name": "regression value &/?+ü"
+          },
+          "edge_ips": {
+            "connectivity": "all",
+            "ips": [
+              "192.0.2.1"
+            ]
+          },
+          "ip_firewall": false,
+          "origin_direct": [
+            "regression value &/?+ü"
+          ],
+          "origin_dns": {
+            "ttl": 1
+          },
+          "origin_port": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off",
+          "tls": "off",
+          "traffic_type": "direct"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -1579,10 +1715,12 @@
       "second value &/?+ü",
       "--origin-dns-type",
       "AAAA",
-      "--proxy-protocol",
-      "v1",
-      "--traffic-type",
-      "http"
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tls",
+      "flexible",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -1595,7 +1733,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "253",
+          "content-length": "371",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1616,10 +1754,12 @@
             "name": "second value &/?+ü",
             "type": "AAAA"
           },
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
           "protocol": "regression value &/?+ü",
-          "proxy_protocol": "v1",
-          "tls": "off",
-          "traffic_type": "http"
+          "proxy_protocol": "off",
+          "tls": "flexible",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -1641,12 +1781,12 @@
       "regression value &/?+ü",
       "--origin-dns-type",
       "A",
-      "--origin-worker-id",
-      "0123456789abcdef0123456789abcdef",
+      "--origin-port",
+      "regression value &/?+ü",
+      "--tls",
+      "off",
       "--traffic-type",
-      "direct",
-      "--virtual-network-id",
-      "0123456789abcdef0123456789abcdef"
+      "direct"
     ],
     "exitCode": 0,
     "requests": [
@@ -1659,7 +1799,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "380",
+          "content-length": "310",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1682,12 +1822,11 @@
           "origin_dns": {
             "type": "A"
           },
-          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "origin_port": "regression value &/?+ü",
           "protocol": "regression value &/?+ü",
           "proxy_protocol": "off",
           "tls": "off",
-          "traffic_type": "direct",
-          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+          "traffic_type": "direct"
         }
       }
     ]
@@ -1712,10 +1851,12 @@
       "second value &/?+ü",
       "--origin-dns-ttl",
       "2",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
       "--proxy-protocol",
       "v1",
-      "--tls",
-      "flexible"
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -1728,7 +1869,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "298",
+          "content-length": "403",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1753,10 +1894,12 @@
             "name": "second value &/?+ü",
             "ttl": 2
           },
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
           "protocol": "regression value &/?+ü",
           "proxy_protocol": "v1",
-          "tls": "flexible",
-          "traffic_type": "direct"
+          "tls": "off",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -1776,14 +1919,14 @@
       "--ip-firewall=true",
       "--origin-direct",
       "regression value &/?+ü",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
       "--proxy-protocol",
       "off",
       "--tls",
       "off",
       "--traffic-type",
-      "direct",
-      "--virtual-network-id",
-      "0123456789abcdef0123456789abcdef"
+      "direct"
     ],
     "exitCode": 0,
     "requests": [
@@ -1796,7 +1939,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "293",
+          "content-length": "291",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1816,11 +1959,11 @@
           "origin_direct": [
             "regression value &/?+ü"
           ],
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
           "protocol": "regression value &/?+ü",
           "proxy_protocol": "off",
           "tls": "off",
-          "traffic_type": "direct",
-          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+          "traffic_type": "direct"
         }
       }
     ]
@@ -1846,7 +1989,9 @@
       "2",
       "--origin-dns-type",
       "AAAA",
-      "--origin-worker-id",
+      "--origin-port",
+      "second value &/?+ü",
+      "--virtual-network-id",
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
@@ -1860,7 +2005,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "353",
+          "content-length": "391",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1883,11 +2028,12 @@
             "ttl": 2,
             "type": "AAAA"
           },
-          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "origin_port": "second value &/?+ü",
           "protocol": "regression value &/?+ü",
           "proxy_protocol": "off",
           "tls": "off",
-          "traffic_type": "direct"
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -1906,6 +2052,8 @@
       "1",
       "--origin-dns-type",
       "A",
+      "--origin-port",
+      "regression value &/?+ü",
       "--origin-worker-id",
       "0123456789abcdef0123456789abcdef",
       "--proxy-protocol",
@@ -1913,9 +2061,7 @@
       "--tls",
       "off",
       "--traffic-type",
-      "direct",
-      "--virtual-network-id",
-      "0123456789abcdef0123456789abcdef"
+      "direct"
     ],
     "exitCode": 0,
     "requests": [
@@ -1928,7 +2074,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "321",
+          "content-length": "305",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1944,12 +2090,12 @@
             "ttl": 1,
             "type": "A"
           },
+          "origin_port": "regression value &/?+ü",
           "origin_worker_id": "0123456789abcdef0123456789abcdef",
           "protocol": "regression value &/?+ü",
           "proxy_protocol": "off",
           "tls": "off",
-          "traffic_type": "direct",
-          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+          "traffic_type": "direct"
         }
       }
     ]
@@ -1977,11 +2123,150 @@
       "--ip-firewall=false",
       "--origin-direct",
       "second value &/?+ü",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 1,
-    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "399",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "name": "second value &/?+ü",
+            "type": "ADDRESS"
+          },
+          "edge_ips": {
+            "connectivity": "ipv4",
+            "type": "static",
+            "ips": [
+              "192.0.2.1",
+              "192.0.2.1"
+            ]
+          },
+          "ip_firewall": false,
+          "origin_direct": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off",
+          "tls": "off",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "spectrum",
+      "apps",
+      "create",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false",
+      "--dns-name",
+      "second value &/?+ü",
+      "--dns-type",
+      "ADDRESS",
+      "--edge-ips-connectivity",
+      "ipv4",
+      "--edge-ips-type",
+      "static",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ip-firewall=false",
+      "--origin-direct",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--origin-dns-name",
+      "second value &/?+ü",
+      "--origin-dns-ttl",
+      "2",
+      "--origin-dns-type",
+      "AAAA",
+      "--origin-port",
+      "second value &/?+ü",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--proxy-protocol",
+      "v1",
+      "--tls",
+      "flexible",
+      "--traffic-type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "501",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "name": "second value &/?+ü",
+            "type": "ADDRESS"
+          },
+          "edge_ips": {
+            "connectivity": "ipv4",
+            "type": "static",
+            "ips": [
+              "192.0.2.1",
+              "192.0.2.1"
+            ]
+          },
+          "ip_firewall": false,
+          "origin_direct": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "origin_dns": {
+            "name": "second value &/?+ü",
+            "ttl": 2,
+            "type": "AAAA"
+          },
+          "origin_port": "second value &/?+ü",
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "v1",
+          "tls": "flexible",
+          "traffic_type": "http"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -2375,6 +2660,8 @@
       "1",
       "--origin-dns-type",
       "A",
+      "--origin-port",
+      "regression value &/?+ü",
       "--origin-worker-id",
       "0123456789abcdef0123456789abcdef",
       "--proxy-protocol",
@@ -2386,8 +2673,56 @@
       "--virtual-network-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 1,
-    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "530",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": true,
+          "dns": {
+            "name": "regression value &/?+ü",
+            "type": "CNAME"
+          },
+          "edge_ips": {
+            "connectivity": "all",
+            "type": "dynamic",
+            "ips": [
+              "192.0.2.1"
+            ]
+          },
+          "ip_firewall": true,
+          "origin_direct": [
+            "regression value &/?+ü"
+          ],
+          "origin_dns": {
+            "name": "regression value &/?+ü",
+            "ttl": 1,
+            "type": "A"
+          },
+          "origin_port": "regression value &/?+ü",
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off",
+          "tls": "off",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
   }
 ]

@@ -58,12 +58,12 @@
     ]
   },
   {
-    "case": "only --perPage",
+    "case": "only --per-page",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--perPage",
+      "--per-page",
       "1"
     ],
     "exitCode": 0,
@@ -148,12 +148,12 @@
     ]
   },
   {
-    "case": "only --orderBy",
+    "case": "only --order-by",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "id"
     ],
     "exitCode": 0,
@@ -178,12 +178,12 @@
     ]
   },
   {
-    "case": "--orderBy value 1",
+    "case": "--order-by value 1",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "service"
     ],
     "exitCode": 0,
@@ -208,12 +208,12 @@
     ]
   },
   {
-    "case": "--orderBy value 2",
+    "case": "--order-by value 2",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "title"
     ],
     "exitCode": 0,
@@ -238,12 +238,12 @@
     ]
   },
   {
-    "case": "--orderBy value 3",
+    "case": "--order-by value 3",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "type"
     ],
     "exitCode": 0,
@@ -268,12 +268,12 @@
     ]
   },
   {
-    "case": "--orderBy value 4",
+    "case": "--order-by value 4",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "status"
     ],
     "exitCode": 0,
@@ -298,12 +298,12 @@
     ]
   },
   {
-    "case": "--orderBy value 5",
+    "case": "--order-by value 5",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "statusUpdated"
     ],
     "exitCode": 0,
@@ -328,12 +328,12 @@
     ]
   },
   {
-    "case": "--orderBy value 6",
+    "case": "--order-by value 6",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "count"
     ],
     "exitCode": 0,
@@ -358,12 +358,12 @@
     ]
   },
   {
-    "case": "--orderBy value 7",
+    "case": "--order-by value 7",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "firstObserved"
     ],
     "exitCode": 0,
@@ -388,12 +388,12 @@
     ]
   },
   {
-    "case": "--orderBy value 8",
+    "case": "--order-by value 8",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "lastObserved"
     ],
     "exitCode": 0,
@@ -418,12 +418,12 @@
     ]
   },
   {
-    "case": "--orderBy value 9",
+    "case": "--order-by value 9",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "created"
     ],
     "exitCode": 0,
@@ -448,12 +448,12 @@
     ]
   },
   {
-    "case": "--orderBy value 10",
+    "case": "--order-by value 10",
     "argv": [
       "o11y",
       "issues",
       "list",
-      "--orderBy",
+      "--order-by",
       "updated"
     ],
     "exitCode": 0,
@@ -665,11 +665,11 @@
       "list",
       "--page",
       "2",
-      "--perPage",
+      "--per-page",
       "2",
       "--order",
       "desc",
-      "--orderBy",
+      "--order-by",
       "service",
       "--search",
       "second value &/?+ü",
@@ -707,9 +707,9 @@
       "o11y",
       "issues",
       "list",
-      "--perPage",
+      "--per-page",
       "1",
-      "--orderBy",
+      "--order-by",
       "id",
       "--service",
       "regression value &/?+ü",
@@ -781,7 +781,7 @@
       "list",
       "--order",
       "asc",
-      "--orderBy",
+      "--order-by",
       "id",
       "--type",
       "regression value &/?+ü",
@@ -817,7 +817,7 @@
       "list",
       "--page",
       "2",
-      "--perPage",
+      "--per-page",
       "2",
       "--search",
       "second value &/?+ü",
@@ -889,11 +889,11 @@
       "list",
       "--page",
       "2",
-      "--perPage",
+      "--per-page",
       "2",
       "--order",
       "desc",
-      "--orderBy",
+      "--order-by",
       "service"
     ],
     "exitCode": 0,

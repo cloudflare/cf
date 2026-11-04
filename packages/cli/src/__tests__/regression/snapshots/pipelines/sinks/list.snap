@@ -88,6 +88,126 @@
     ]
   },
   {
+    "case": "only --order-by",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--order-by",
+      "name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?order_by=name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order-by value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--order-by",
+      "created_at"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?order_by=created_at",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "only --page",
     "argv": [
       "pipelines",
@@ -157,6 +277,146 @@
       "192.0.2.1",
       "--name",
       "second value &/?+ü",
+      "--order-by",
+      "created_at",
+      "--direction",
+      "desc",
+      "--page",
+      "2",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?pipeline_id=192.0.2.1&name=second%20value%20%26%2F%3F%2B%C3%BC&order_by=created_at&direction=desc&page=2&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--name",
+      "regression value &/?+ü",
+      "--direction",
+      "asc",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?name=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--pipeline-id",
+      "192.0.2.1",
+      "--order-by",
+      "created_at",
+      "--page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?pipeline_id=192.0.2.1&order_by=created_at&page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--order-by",
+      "name",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?order_by=name&direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "list",
+      "--pipeline-id",
+      "192.0.2.1",
+      "--name",
+      "second value &/?+ü",
       "--page",
       "2",
       "--per-page",
@@ -184,71 +444,7 @@
     ]
   },
   {
-    "case": "pairwise 2",
-    "argv": [
-      "pipelines",
-      "sinks",
-      "list",
-      "--name",
-      "regression value &/?+ü",
-      "--per-page",
-      "1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?name=regression%20value%20%26%2F%3F%2B%C3%BC&per_page=1",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "pipelines",
-      "sinks",
-      "list",
-      "--pipeline-id",
-      "192.0.2.1",
-      "--page",
-      "2"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?pipeline_id=192.0.2.1&page=2",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
-  },
-  {
-    "case": "pairwise 4",
+    "case": "pairwise 6",
     "argv": [
       "pipelines",
       "sinks",
@@ -280,7 +476,7 @@
     ]
   },
   {
-    "case": "pairwise 5",
+    "case": "pairwise 7",
     "argv": [
       "pipelines",
       "sinks",
@@ -288,13 +484,17 @@
       "--pipeline-id",
       "192.0.2.1",
       "--name",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--order-by",
+      "created_at",
+      "--direction",
+      "desc"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?pipeline_id=192.0.2.1&name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks?pipeline_id=192.0.2.1&name=second%20value%20%26%2F%3F%2B%C3%BC&order_by=created_at&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

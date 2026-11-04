@@ -737,6 +737,7 @@
       "BCC",
       "--domain",
       "example.com",
+      "example.com",
       "--active-delivery-mode",
       "BCC",
       "--integration-id",
@@ -748,7 +749,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/domains?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&allowed_delivery_mode=BCC&domain=example.com&active_delivery_mode=BCC&integration_id=0123456789abcdef0123456789abcdef&status=ACTIVE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/domains?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&allowed_delivery_mode=BCC&domain=example.com&domain=example.com&active_delivery_mode=BCC&integration_id=0123456789abcdef0123456789abcdef&status=ACTIVE",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -817,6 +818,7 @@
       "desc",
       "--domain",
       "example.com",
+      "example.com",
       "--integration-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -824,7 +826,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/domains?page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&domain=example.com&integration_id=0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/domains?page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&domain=example.com&domain=example.com&integration_id=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1045,6 +1047,7 @@
       "BCC",
       "--domain",
       "example.com",
+      "example.com",
       "--active-delivery-mode",
       "BCC"
     ],
@@ -1052,7 +1055,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/domains?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&allowed_delivery_mode=BCC&domain=example.com&active_delivery_mode=BCC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/domains?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&allowed_delivery_mode=BCC&domain=example.com&domain=example.com&active_delivery_mode=BCC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

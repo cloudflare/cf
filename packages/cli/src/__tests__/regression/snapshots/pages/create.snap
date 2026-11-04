@@ -336,6 +336,51 @@
     ]
   },
   {
+    "case": "only --deployment-configs-preview-ai-bindings",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --deployment-configs-preview-always-use-latest-compatibility-date",
     "argv": [
       "pages",
@@ -346,9 +391,36 @@
       "regression value &/?+ü",
       "--deployment-configs-preview-always-use-latest-compatibility-date=true"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "always_use_latest_compatibility_date": true
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-preview-always-use-latest-compatibility-date value 1",
@@ -361,9 +433,126 @@
       "regression value &/?+ü",
       "--deployment-configs-preview-always-use-latest-compatibility-date=false"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "always_use_latest_compatibility_date": false
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-analytics-engine-datasets",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-browsers",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "browsers": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-build-image-major-version",
@@ -377,9 +566,36 @@
       "--deployment-configs-preview-build-image-major-version",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "build_image_major_version": 1
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-compatibility-date",
@@ -393,9 +609,36 @@
       "--deployment-configs-preview-compatibility-date",
       "2026-01-02T03:04:05Z"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "compatibility_date": "2026-01-02T03:04:05Z"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-compatibility-flags",
@@ -409,9 +652,173 @@
       "--deployment-configs-preview-compatibility-flags",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "compatibility_flags": [
+                "regression value &/?+ü"
+              ]
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-d1-databases",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "d1_databases": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-durable-object-namespaces",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "durable_object_namespaces": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-env-vars",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "env_vars": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-fail-open",
@@ -424,9 +831,36 @@
       "regression value &/?+ü",
       "--deployment-configs-preview-fail-open=true"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "fail_open": true
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-preview-fail-open value 1",
@@ -439,9 +873,126 @@
       "regression value &/?+ü",
       "--deployment-configs-preview-fail-open=false"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "fail_open": false
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-hyperdrive-bindings",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-kv-namespaces",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "kv_namespaces": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-limits-cpu-ms",
@@ -455,9 +1006,83 @@
       "--deployment-configs-preview-limits-cpu-ms",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "137",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "limits": {
+                "cpu_ms": 1
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-mtls-certificates",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "mtls_certificates": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-placement-mode",
@@ -471,9 +1096,173 @@
       "--deployment-configs-preview-placement-mode",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "placement": {
+                "mode": "regression value &/?+ü"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-queue-producers",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "queue_producers": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-r2-buckets",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "r2_buckets": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-services",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "services": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-usage-model",
@@ -487,9 +1276,36 @@
       "--deployment-configs-preview-usage-model",
       "standard"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "usage_model": "standard"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-preview-usage-model value 1",
@@ -503,9 +1319,36 @@
       "--deployment-configs-preview-usage-model",
       "bundled"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "usage_model": "bundled"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-preview-usage-model value 2",
@@ -519,9 +1362,81 @@
       "--deployment-configs-preview-usage-model",
       "unbound"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "usage_model": "unbound"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-preview-vectorize-bindings",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "164",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "vectorize_bindings": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-preview-wrangler-config-hash",
@@ -535,9 +1450,81 @@
       "--deployment-configs-preview-wrangler-config-hash",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "164",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "wrangler_config_hash": "regression value &/?+ü"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-ai-bindings",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-always-use-latest-compatibility-date",
@@ -550,9 +1537,36 @@
       "regression value &/?+ü",
       "--deployment-configs-production-always-use-latest-compatibility-date=true"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "always_use_latest_compatibility_date": true
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-production-always-use-latest-compatibility-date value 1",
@@ -565,9 +1579,126 @@
       "regression value &/?+ü",
       "--deployment-configs-production-always-use-latest-compatibility-date=false"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "always_use_latest_compatibility_date": false
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-analytics-engine-datasets",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-browsers",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "browsers": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-build-image-major-version",
@@ -581,9 +1712,36 @@
       "--deployment-configs-production-build-image-major-version",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "build_image_major_version": 1
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-compatibility-date",
@@ -597,9 +1755,36 @@
       "--deployment-configs-production-compatibility-date",
       "2026-01-02T03:04:05Z"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "compatibility_date": "2026-01-02T03:04:05Z"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-compatibility-flags",
@@ -613,9 +1798,173 @@
       "--deployment-configs-production-compatibility-flags",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "compatibility_flags": [
+                "regression value &/?+ü"
+              ]
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-d1-databases",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "d1_databases": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-durable-object-namespaces",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "durable_object_namespaces": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-env-vars",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "env_vars": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-fail-open",
@@ -628,9 +1977,36 @@
       "regression value &/?+ü",
       "--deployment-configs-production-fail-open=true"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "fail_open": true
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-production-fail-open value 1",
@@ -643,9 +2019,126 @@
       "regression value &/?+ü",
       "--deployment-configs-production-fail-open=false"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "fail_open": false
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-hyperdrive-bindings",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-kv-namespaces",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "kv_namespaces": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-limits-cpu-ms",
@@ -659,9 +2152,83 @@
       "--deployment-configs-production-limits-cpu-ms",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "limits": {
+                "cpu_ms": 1
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-mtls-certificates",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "166",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "mtls_certificates": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-placement-mode",
@@ -675,9 +2242,173 @@
       "--deployment-configs-production-placement-mode",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "placement": {
+                "mode": "regression value &/?+ü"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-queue-producers",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "164",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "queue_producers": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-r2-buckets",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "r2_buckets": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-services",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "services": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-usage-model",
@@ -691,9 +2422,36 @@
       "--deployment-configs-production-usage-model",
       "standard"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "143",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "usage_model": "standard"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-production-usage-model value 1",
@@ -707,9 +2465,36 @@
       "--deployment-configs-production-usage-model",
       "bundled"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "usage_model": "bundled"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "--deployment-configs-production-usage-model value 2",
@@ -723,9 +2508,81 @@
       "--deployment-configs-production-usage-model",
       "unbound"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "usage_model": "unbound"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deployment-configs-production-vectorize-bindings",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "vectorize_bindings": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --deployment-configs-production-wrangler-config-hash",
@@ -739,9 +2596,36 @@
       "--deployment-configs-production-wrangler-config-hash",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "wrangler_config_hash": "regression value &/?+ü"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "only --source-config-deployments-enabled",
@@ -1163,7 +3047,13 @@
       "second value &/?+ü",
       "--build-config-web-analytics-token",
       "second value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-always-use-latest-compatibility-date=false",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-build-image-major-version",
       "2",
       "--deployment-configs-preview-compatibility-date",
@@ -1171,16 +3061,42 @@
       "--deployment-configs-preview-compatibility-flags",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-fail-open=false",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-limits-cpu-ms",
       "2",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-placement-mode",
       "second value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-usage-model",
       "bundled",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-wrangler-config-hash",
       "second value &/?+ü",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-always-use-latest-compatibility-date=false",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-build-image-major-version",
       "2",
       "--deployment-configs-production-compatibility-date",
@@ -1188,13 +3104,33 @@
       "--deployment-configs-production-compatibility-flags",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-fail-open=false",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-limits-cpu-ms",
       "2",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-placement-mode",
       "second value &/?+ü",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-usage-model",
       "bundled",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-wrangler-config-hash",
       "second value &/?+ü",
       "--source-config-deployments-enabled=false",
@@ -1238,7 +3174,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1678",
+          "content-length": "2862",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1257,39 +3193,117 @@
           },
           "deployment_configs": {
             "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
               "always_use_latest_compatibility_date": false,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
               "build_image_major_version": 2,
               "compatibility_date": "2026-01-02T03:04:05Z",
               "compatibility_flags": [
                 "second value &/?+ü",
                 "second value &/?+ü"
               ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
               "fail_open": false,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
               "limits": {
                 "cpu_ms": 2
+              },
+              "mtls_certificates": {
+                "regression": "json value"
               },
               "placement": {
                 "mode": "second value &/?+ü"
               },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
               "usage_model": "bundled",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
               "wrangler_config_hash": "second value &/?+ü"
             },
             "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
               "always_use_latest_compatibility_date": false,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
               "build_image_major_version": 2,
               "compatibility_date": "2026-01-02T03:04:05Z",
               "compatibility_flags": [
                 "second value &/?+ü",
                 "second value &/?+ü"
               ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
               "fail_open": false,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
               "limits": {
                 "cpu_ms": 2
+              },
+              "mtls_certificates": {
+                "regression": "json value"
               },
               "placement": {
                 "mode": "second value &/?+ü"
               },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
               "usage_model": "bundled",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
               "wrangler_config_hash": "second value &/?+ü"
             }
           },
@@ -1344,20 +3358,46 @@
       "regression value &/?+ü",
       "--build-config-web-analytics-token",
       "regression value &/?+ü",
-      "--deployment-configs-preview-build-image-major-version",
-      "1",
-      "--deployment-configs-preview-compatibility-flags",
-      "regression value &/?+ü",
+      "--deployment-configs-preview-always-use-latest-compatibility-date=true",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-compatibility-date",
+      "2026-01-02T03:04:05Z",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-limits-cpu-ms",
       "1",
+      "--deployment-configs-preview-placement-mode",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-usage-model",
       "standard",
+      "--deployment-configs-preview-wrangler-config-hash",
+      "regression value &/?+ü",
       "--deployment-configs-production-always-use-latest-compatibility-date=true",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-compatibility-date",
       "2026-01-02T03:04:05Z",
-      "--deployment-configs-production-fail-open=true",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-limits-cpu-ms",
+      "1",
       "--deployment-configs-production-placement-mode",
       "regression value &/?+ü",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-usage-model",
+      "standard",
       "--deployment-configs-production-wrangler-config-hash",
       "regression value &/?+ü",
       "--source-config-owner",
@@ -1374,9 +3414,107 @@
       "--source-type",
       "github"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1448",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "build_config": {
+            "build_command": "regression value &/?+ü",
+            "root_dir": "regression value &/?+ü",
+            "web_analytics_token": "regression value &/?+ü"
+          },
+          "deployment_configs": {
+            "preview": {
+              "always_use_latest_compatibility_date": true,
+              "browsers": {
+                "regression": "json value"
+              },
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 1
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "usage_model": "standard",
+              "wrangler_config_hash": "regression value &/?+ü"
+            },
+            "production": {
+              "always_use_latest_compatibility_date": true,
+              "browsers": {
+                "regression": "json value"
+              },
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 1
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "usage_model": "standard",
+              "wrangler_config_hash": "regression value &/?+ü"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü",
+          "source": {
+            "config": {
+              "owner": "regression value &/?+ü",
+              "path_excludes": [
+                "regression value &/?+ü"
+              ],
+              "pr_comments_enabled": true,
+              "preview_branch_includes": [
+                "regression value &/?+ü"
+              ],
+              "production_branch": "regression value &/?+ü",
+              "repo_id": "0123456789abcdef0123456789abcdef"
+            },
+            "type": "github"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -1392,23 +3530,50 @@
       "second value &/?+ü",
       "--build-config-web-analytics-tag",
       "second value &/?+ü",
-      "--deployment-configs-preview-always-use-latest-compatibility-date=false",
-      "--deployment-configs-preview-compatibility-date",
-      "2026-01-02T03:04:05Z",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-build-image-major-version",
+      "2",
+      "--deployment-configs-preview-compatibility-flags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-fail-open=false",
-      "--deployment-configs-preview-placement-mode",
-      "second value &/?+ü",
-      "--deployment-configs-preview-wrangler-config-hash",
-      "second value &/?+ü",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-build-image-major-version",
       "2",
       "--deployment-configs-production-compatibility-flags",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--deployment-configs-production-limits-cpu-ms",
-      "2",
-      "--deployment-configs-production-usage-model",
-      "bundled",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-fail-open=false",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--source-config-deployments-enabled=false",
       "--source-config-owner-id",
       "0123456789abcdef0123456789abcdef",
@@ -1425,7 +3590,7 @@
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
+    "error": "--source-type is required when any --source-* flag is set",
     "requests": []
   },
   {
@@ -1441,37 +3606,166 @@
       "regression value &/?+ü",
       "--build-config-root-dir",
       "regression value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-always-use-latest-compatibility-date=true",
       "--deployment-configs-preview-build-image-major-version",
       "1",
-      "--deployment-configs-preview-fail-open=true",
+      "--deployment-configs-preview-compatibility-date",
+      "2026-01-02T03:04:05Z",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-limits-cpu-ms",
       "1",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-wrangler-config-hash",
       "regression value &/?+ü",
-      "--deployment-configs-production-always-use-latest-compatibility-date=true",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-compatibility-flags",
       "regression value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-fail-open=true",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-placement-mode",
+      "regression value &/?+ü",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-usage-model",
       "standard",
-      "--deployment-configs-production-wrangler-config-hash",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
       "regression value &/?+ü",
-      "--source-config-owner-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-path-excludes",
+      "--source-config-path-includes",
       "regression value &/?+ü",
-      "--source-config-preview-branch-excludes",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
       "regression value &/?+ü",
-      "--source-config-preview-branch-includes",
+      "--source-config-repo-name",
       "regression value &/?+ü",
-      "--source-config-production-deployments-enabled=true",
-      "--source-config-repo-id",
-      "0123456789abcdef0123456789abcdef"
+      "--source-type",
+      "github"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1437",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "build_config": {
+            "destination_dir": "regression value &/?+ü",
+            "root_dir": "regression value &/?+ü"
+          },
+          "deployment_configs": {
+            "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": true,
+              "build_image_major_version": 1,
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 1
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
+              "wrangler_config_hash": "regression value &/?+ü"
+            },
+            "production": {
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "compatibility_flags": [
+                "regression value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "fail_open": true,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "standard"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü",
+          "source": {
+            "config": {
+              "deployments_enabled": true,
+              "owner": "regression value &/?+ü",
+              "path_includes": [
+                "regression value &/?+ü"
+              ],
+              "pr_comments_enabled": true,
+              "preview_deployment_setting": "all",
+              "production_branch": "regression value &/?+ü",
+              "repo_name": "regression value &/?+ü"
+            },
+            "type": "github"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -1489,41 +3783,66 @@
       "second value &/?+ü",
       "--build-config-web-analytics-token",
       "second value &/?+ü",
-      "--deployment-configs-preview-compatibility-date",
-      "2026-01-02T03:04:05Z",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-compatibility-flags",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-fail-open=false",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-placement-mode",
       "second value &/?+ü",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-usage-model",
       "bundled",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-always-use-latest-compatibility-date=false",
       "--deployment-configs-production-build-image-major-version",
       "2",
       "--deployment-configs-production-compatibility-date",
       "2026-01-02T03:04:05Z",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-limits-cpu-ms",
       "2",
-      "--deployment-configs-production-placement-mode",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-wrangler-config-hash",
       "second value &/?+ü",
-      "--source-config-deployments-enabled=false",
-      "--source-config-owner",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
       "second value &/?+ü",
-      "--source-config-path-includes",
+      "second value &/?+ü",
+      "--source-config-preview-branch-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--source-config-pr-comments-enabled=false",
-      "--source-config-preview-deployment-setting",
-      "none",
-      "--source-config-production-branch",
+      "--source-config-preview-branch-includes",
       "second value &/?+ü",
-      "--source-config-repo-name",
       "second value &/?+ü",
-      "--source-type",
-      "gitlab"
+      "--source-config-production-deployments-enabled=false",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms is required when any --deployment_configs-* flag is set",
+    "error": "--source-type is required when any --source-* flag is set",
     "requests": []
   },
   {
@@ -1539,39 +3858,171 @@
       "regression value &/?+ü",
       "--build-config-web-analytics-token",
       "regression value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-always-use-latest-compatibility-date=true",
-      "--deployment-configs-preview-build-image-major-version",
-      "1",
+      "--deployment-configs-preview-compatibility-flags",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-placement-mode",
       "regression value &/?+ü",
-      "--deployment-configs-preview-usage-model",
-      "standard",
-      "--deployment-configs-preview-wrangler-config-hash",
-      "regression value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-always-use-latest-compatibility-date=true",
-      "--deployment-configs-production-limits-cpu-ms",
-      "1",
-      "--deployment-configs-production-placement-mode",
-      "regression value &/?+ü",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-fail-open=true",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-usage-model",
       "standard",
-      "--deployment-configs-production-wrangler-config-hash",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
       "regression value &/?+ü",
       "--source-config-path-includes",
       "regression value &/?+ü",
       "--source-config-pr-comments-enabled=true",
-      "--source-config-preview-branch-excludes",
-      "regression value &/?+ü",
-      "--source-config-preview-branch-includes",
-      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
       "--source-config-repo-name",
       "regression value &/?+ü",
       "--source-type",
       "github"
     ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms is required when any --deployment_configs-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1511",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "build_config": {
+            "web_analytics_tag": "regression value &/?+ü",
+            "web_analytics_token": "regression value &/?+ü"
+          },
+          "deployment_configs": {
+            "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": true,
+              "compatibility_flags": [
+                "regression value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              }
+            },
+            "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": true,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "fail_open": true,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "standard"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü",
+          "source": {
+            "config": {
+              "owner_id": "0123456789abcdef0123456789abcdef",
+              "path_excludes": [
+                "regression value &/?+ü"
+              ],
+              "path_includes": [
+                "regression value &/?+ü"
+              ],
+              "pr_comments_enabled": true,
+              "production_deployments_enabled": true,
+              "repo_id": "0123456789abcdef0123456789abcdef",
+              "repo_name": "regression value &/?+ü"
+            },
+            "type": "github"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -1589,14 +4040,29 @@
       "second value &/?+ü",
       "--build-config-root-dir",
       "second value &/?+ü",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-build-image-major-version",
+      "2",
       "--deployment-configs-preview-compatibility-date",
       "2026-01-02T03:04:05Z",
-      "--deployment-configs-preview-compatibility-flags",
-      "second value &/?+ü",
-      "second value &/?+ü",
       "--deployment-configs-preview-fail-open=false",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-limits-cpu-ms",
       "2",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-usage-model",
+      "bundled",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-wrangler-config-hash",
+      "second value &/?+ü",
       "--deployment-configs-production-build-image-major-version",
       "2",
       "--deployment-configs-production-compatibility-date",
@@ -1604,25 +4070,36 @@
       "--deployment-configs-production-compatibility-flags",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--deployment-configs-production-fail-open=false",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-limits-cpu-ms",
+      "2",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-placement-mode",
+      "second value &/?+ü",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-wrangler-config-hash",
+      "second value &/?+ü",
       "--source-config-deployments-enabled=false",
       "--source-config-owner",
       "second value &/?+ü",
-      "--source-config-owner-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-path-excludes",
+      "--source-config-preview-branch-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-config-preview-branch-includes",
       "second value &/?+ü",
       "second value &/?+ü",
       "--source-config-preview-deployment-setting",
       "none",
       "--source-config-production-branch",
-      "second value &/?+ü",
-      "--source-config-production-deployments-enabled=false",
-      "--source-config-repo-id",
-      "0123456789abcdef0123456789abcdef"
+      "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--deployment-configs-preview-placement-mode, --deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
+    "error": "--source-type is required when any --source-* flag is set",
     "requests": []
   },
   {
@@ -1634,199 +4111,56 @@
       "regression value &/?+ü",
       "--production-branch",
       "regression value &/?+ü",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-build-image-major-version",
+      "1",
       "--deployment-configs-preview-compatibility-date",
       "2026-01-02T03:04:05Z",
       "--deployment-configs-preview-compatibility-flags",
       "regression value &/?+ü",
-      "--deployment-configs-preview-fail-open=true",
-      "--deployment-configs-preview-limits-cpu-ms",
-      "1",
-      "--deployment-configs-preview-placement-mode",
-      "regression value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-usage-model",
       "standard",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-wrangler-config-hash",
       "regression value &/?+ü",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-always-use-latest-compatibility-date=true",
-      "--source-config-deployments-enabled=true",
-      "--source-config-owner",
-      "regression value &/?+ü",
-      "--source-config-owner-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-path-excludes",
-      "regression value &/?+ü",
-      "--source-config-path-includes",
-      "regression value &/?+ü",
-      "--source-config-pr-comments-enabled=true",
-      "--source-config-preview-branch-excludes",
-      "regression value &/?+ü",
-      "--source-config-preview-branch-includes",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 1,
-    "error": "--deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "pairwise 9",
-    "argv": [
-      "pages",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--production-branch",
-      "regression value &/?+ü",
-      "--build-config-build-caching=false",
-      "--build-config-build-command",
-      "second value &/?+ü",
-      "--build-config-destination-dir",
-      "second value &/?+ü",
-      "--build-config-root-dir",
-      "second value &/?+ü",
-      "--build-config-web-analytics-tag",
-      "second value &/?+ü",
-      "--build-config-web-analytics-token",
-      "second value &/?+ü",
-      "--deployment-configs-preview-always-use-latest-compatibility-date=false",
-      "--deployment-configs-preview-build-image-major-version",
-      "2",
-      "--deployment-configs-production-build-image-major-version",
-      "2",
-      "--deployment-configs-production-compatibility-date",
-      "2026-01-02T03:04:05Z",
-      "--deployment-configs-production-compatibility-flags",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--deployment-configs-production-fail-open=false",
-      "--deployment-configs-production-limits-cpu-ms",
-      "2",
-      "--deployment-configs-production-placement-mode",
-      "second value &/?+ü",
-      "--deployment-configs-production-usage-model",
-      "bundled",
-      "--deployment-configs-production-wrangler-config-hash",
-      "second value &/?+ü",
-      "--source-config-preview-deployment-setting",
-      "none",
-      "--source-config-production-branch",
-      "second value &/?+ü",
-      "--source-config-production-deployments-enabled=false",
-      "--source-config-repo-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-repo-name",
-      "second value &/?+ü",
-      "--source-type",
-      "gitlab"
-    ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "pairwise 10",
-    "argv": [
-      "pages",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--production-branch",
-      "regression value &/?+ü",
-      "--deployment-configs-production-build-image-major-version",
-      "1",
-      "--deployment-configs-production-compatibility-date",
-      "2026-01-02T03:04:05Z",
-      "--deployment-configs-production-compatibility-flags",
-      "regression value &/?+ü",
-      "--deployment-configs-production-fail-open=true",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-limits-cpu-ms",
       "1",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-placement-mode",
       "regression value &/?+ü",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-usage-model",
       "standard",
-      "--deployment-configs-production-wrangler-config-hash",
-      "regression value &/?+ü",
-      "--source-config-deployments-enabled=true",
-      "--source-config-owner",
-      "regression value &/?+ü",
-      "--source-config-owner-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-path-excludes",
-      "regression value &/?+ü",
-      "--source-config-path-includes",
-      "regression value &/?+ü",
-      "--source-config-pr-comments-enabled=true",
       "--source-config-preview-branch-excludes",
       "regression value &/?+ü",
       "--source-config-preview-branch-includes",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 1,
-    "error": "--deployment-configs-preview-limits-cpu-ms, --deployment-configs-preview-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "pairwise 11",
-    "argv": [
-      "pages",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--production-branch",
-      "regression value &/?+ü",
-      "--build-config-build-caching=false",
-      "--build-config-build-command",
-      "second value &/?+ü",
-      "--build-config-destination-dir",
-      "second value &/?+ü",
-      "--build-config-root-dir",
-      "second value &/?+ü",
-      "--build-config-web-analytics-tag",
-      "second value &/?+ü",
-      "--build-config-web-analytics-token",
-      "second value &/?+ü",
-      "--deployment-configs-preview-always-use-latest-compatibility-date=false",
-      "--deployment-configs-preview-build-image-major-version",
-      "2",
-      "--deployment-configs-preview-compatibility-date",
-      "2026-01-02T03:04:05Z",
-      "--deployment-configs-preview-compatibility-flags",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--deployment-configs-preview-fail-open=false",
-      "--deployment-configs-preview-limits-cpu-ms",
-      "2",
-      "--deployment-configs-preview-placement-mode",
-      "second value &/?+ü",
-      "--deployment-configs-preview-usage-model",
-      "bundled",
-      "--deployment-configs-preview-wrangler-config-hash",
-      "second value &/?+ü",
-      "--deployment-configs-production-always-use-latest-compatibility-date=false",
-      "--source-config-preview-deployment-setting",
-      "none",
-      "--source-config-production-branch",
-      "second value &/?+ü",
-      "--source-config-production-deployments-enabled=false",
-      "--source-config-repo-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-repo-name",
-      "second value &/?+ü",
-      "--source-type",
-      "gitlab"
-    ],
-    "exitCode": 1,
-    "error": "--deployment-configs-production-limits-cpu-ms, --deployment-configs-production-placement-mode are required when any --deployment_configs-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "pairwise 12",
-    "argv": [
-      "pages",
-      "create",
-      "--name",
-      "regression value &/?+ü",
-      "--production-branch",
       "regression value &/?+ü",
       "--source-config-preview-deployment-setting",
       "all",
@@ -1851,7 +4185,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "320",
+          "content-length": "1490",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1860,10 +4194,677 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "deployment_configs": {
+            "preview": {
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "build_image_major_version": 1,
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "compatibility_flags": [
+                "regression value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "standard",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
+              "wrangler_config_hash": "regression value &/?+ü"
+            },
+            "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": true,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 1
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "standard"
+            }
+          },
           "name": "regression value &/?+ü",
           "production_branch": "regression value &/?+ü",
           "source": {
             "config": {
+              "preview_branch_excludes": [
+                "regression value &/?+ü"
+              ],
+              "preview_branch_includes": [
+                "regression value &/?+ü"
+              ],
+              "preview_deployment_setting": "all",
+              "production_branch": "regression value &/?+ü",
+              "production_deployments_enabled": true,
+              "repo_id": "0123456789abcdef0123456789abcdef",
+              "repo_name": "regression value &/?+ü"
+            },
+            "type": "github"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--build-config-build-caching=false",
+      "--build-config-build-command",
+      "second value &/?+ü",
+      "--build-config-destination-dir",
+      "second value &/?+ü",
+      "--build-config-root-dir",
+      "second value &/?+ü",
+      "--build-config-web-analytics-tag",
+      "second value &/?+ü",
+      "--build-config-web-analytics-token",
+      "second value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-always-use-latest-compatibility-date=false",
+      "--deployment-configs-preview-fail-open=false",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-limits-cpu-ms",
+      "2",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-placement-mode",
+      "second value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-build-image-major-version",
+      "2",
+      "--deployment-configs-production-compatibility-date",
+      "2026-01-02T03:04:05Z",
+      "--deployment-configs-production-compatibility-flags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-fail-open=false",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-wrangler-config-hash",
+      "second value &/?+ü",
+      "--source-config-deployments-enabled=false",
+      "--source-config-owner",
+      "second value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-config-pr-comments-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--source-type is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-fail-open=true",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-limits-cpu-ms",
+      "1",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-placement-mode",
+      "regression value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-usage-model",
+      "standard",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-wrangler-config-hash",
+      "regression value &/?+ü",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-always-use-latest-compatibility-date=true",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-wrangler-config-hash",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--source-type",
+      "github"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1456",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "preview": {
+              "fail_open": true,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 1
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "standard",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
+              "wrangler_config_hash": "regression value &/?+ü"
+            },
+            "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": true,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
+              "wrangler_config_hash": "regression value &/?+ü"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü",
+          "source": {
+            "config": {
+              "deployments_enabled": true,
+              "owner": "regression value &/?+ü",
+              "owner_id": "0123456789abcdef0123456789abcdef",
+              "path_excludes": [
+                "regression value &/?+ü"
+              ],
+              "path_includes": [
+                "regression value &/?+ü"
+              ],
+              "pr_comments_enabled": true,
+              "preview_branch_excludes": [
+                "regression value &/?+ü"
+              ],
+              "preview_branch_includes": [
+                "regression value &/?+ü"
+              ],
+              "preview_deployment_setting": "all",
+              "production_branch": "regression value &/?+ü",
+              "production_deployments_enabled": true,
+              "repo_id": "0123456789abcdef0123456789abcdef",
+              "repo_name": "regression value &/?+ü"
+            },
+            "type": "github"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--build-config-build-caching=false",
+      "--build-config-build-command",
+      "second value &/?+ü",
+      "--build-config-destination-dir",
+      "second value &/?+ü",
+      "--build-config-root-dir",
+      "second value &/?+ü",
+      "--build-config-web-analytics-tag",
+      "second value &/?+ü",
+      "--build-config-web-analytics-token",
+      "second value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-always-use-latest-compatibility-date=false",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-build-image-major-version",
+      "2",
+      "--deployment-configs-preview-compatibility-date",
+      "2026-01-02T03:04:05Z",
+      "--deployment-configs-preview-compatibility-flags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-build-image-major-version",
+      "2",
+      "--deployment-configs-production-compatibility-date",
+      "2026-01-02T03:04:05Z",
+      "--deployment-configs-production-compatibility-flags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-fail-open=false",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-limits-cpu-ms",
+      "2",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-placement-mode",
+      "second value &/?+ü",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-usage-model",
+      "bundled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1483",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "build_config": {
+            "build_caching": false,
+            "build_command": "second value &/?+ü",
+            "destination_dir": "second value &/?+ü",
+            "root_dir": "second value &/?+ü",
+            "web_analytics_tag": "second value &/?+ü",
+            "web_analytics_token": "second value &/?+ü"
+          },
+          "deployment_configs": {
+            "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": false,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "build_image_major_version": 2,
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "compatibility_flags": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              }
+            },
+            "production": {
+              "build_image_major_version": 2,
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "compatibility_flags": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "fail_open": false,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 2
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "second value &/?+ü"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "bundled"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "pages",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--production-branch",
+      "regression value &/?+ü",
+      "--deployment-configs-production-build-image-major-version",
+      "1",
+      "--deployment-configs-production-compatibility-date",
+      "2026-01-02T03:04:05Z",
+      "--deployment-configs-production-compatibility-flags",
+      "regression value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-fail-open=true",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-limits-cpu-ms",
+      "1",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-placement-mode",
+      "regression value &/?+ü",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-usage-model",
+      "standard",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-wrangler-config-hash",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--source-type",
+      "github"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1427",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deployment_configs": {
+            "production": {
+              "build_image_major_version": 1,
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "compatibility_flags": [
+                "regression value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "fail_open": true,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 1
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "regression value &/?+ü"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "standard",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
+              "wrangler_config_hash": "regression value &/?+ü"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü",
+          "source": {
+            "config": {
+              "deployments_enabled": true,
+              "owner": "regression value &/?+ü",
+              "owner_id": "0123456789abcdef0123456789abcdef",
+              "path_excludes": [
+                "regression value &/?+ü"
+              ],
+              "path_includes": [
+                "regression value &/?+ü"
+              ],
+              "pr_comments_enabled": true,
+              "preview_branch_excludes": [
+                "regression value &/?+ü"
+              ],
+              "preview_branch_includes": [
+                "regression value &/?+ü"
+              ],
               "preview_deployment_setting": "all",
               "production_branch": "regression value &/?+ü",
               "production_deployments_enabled": true,
@@ -1896,7 +4897,13 @@
       "second value &/?+ü",
       "--build-config-web-analytics-token",
       "second value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-always-use-latest-compatibility-date=false",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-build-image-major-version",
       "2",
       "--deployment-configs-preview-compatibility-date",
@@ -1904,54 +4911,147 @@
       "--deployment-configs-preview-compatibility-flags",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-fail-open=false",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-limits-cpu-ms",
       "2",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-placement-mode",
       "second value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-usage-model",
       "bundled",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-wrangler-config-hash",
       "second value &/?+ü",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-always-use-latest-compatibility-date=false",
-      "--deployment-configs-production-build-image-major-version",
-      "2",
-      "--deployment-configs-production-compatibility-date",
-      "2026-01-02T03:04:05Z",
-      "--deployment-configs-production-compatibility-flags",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--deployment-configs-production-fail-open=false",
-      "--deployment-configs-production-limits-cpu-ms",
-      "2",
-      "--deployment-configs-production-placement-mode",
-      "second value &/?+ü",
-      "--deployment-configs-production-usage-model",
-      "bundled",
-      "--deployment-configs-production-wrangler-config-hash",
-      "second value &/?+ü",
-      "--source-config-deployments-enabled=false",
-      "--source-config-owner",
-      "second value &/?+ü",
-      "--source-config-owner-id",
-      "0123456789abcdef0123456789abcdef",
-      "--source-config-path-excludes",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--source-config-path-includes",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--source-config-pr-comments-enabled=false",
-      "--source-config-preview-branch-excludes",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--source-config-preview-branch-includes",
-      "second value &/?+ü",
-      "second value &/?+ü"
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}"
     ],
-    "exitCode": 1,
-    "error": "--source-type is required when any --source-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1479",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "build_config": {
+            "build_caching": false,
+            "build_command": "second value &/?+ü",
+            "destination_dir": "second value &/?+ü",
+            "root_dir": "second value &/?+ü",
+            "web_analytics_tag": "second value &/?+ü",
+            "web_analytics_token": "second value &/?+ü"
+          },
+          "deployment_configs": {
+            "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": false,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
+              "build_image_major_version": 2,
+              "compatibility_date": "2026-01-02T03:04:05Z",
+              "compatibility_flags": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
+              "fail_open": false,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
+              "limits": {
+                "cpu_ms": 2
+              },
+              "mtls_certificates": {
+                "regression": "json value"
+              },
+              "placement": {
+                "mode": "second value &/?+ü"
+              },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
+              "usage_model": "bundled",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
+              "wrangler_config_hash": "second value &/?+ü"
+            },
+            "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
+              "always_use_latest_compatibility_date": false,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "production_branch": "regression value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -2247,7 +5347,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2255,14 +5355,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2286,36 +5386,88 @@
       "regression value &/?+ü",
       "--build-config-web-analytics-token",
       "regression value &/?+ü",
+      "--deployment-configs-preview-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-always-use-latest-compatibility-date=true",
+      "--deployment-configs-preview-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-build-image-major-version",
       "1",
       "--deployment-configs-preview-compatibility-date",
       "2026-01-02T03:04:05Z",
       "--deployment-configs-preview-compatibility-flags",
       "regression value &/?+ü",
+      "--deployment-configs-preview-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-env-vars",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-fail-open=true",
+      "--deployment-configs-preview-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-limits-cpu-ms",
       "1",
+      "--deployment-configs-preview-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-placement-mode",
       "regression value &/?+ü",
+      "--deployment-configs-preview-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-preview-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-usage-model",
       "standard",
+      "--deployment-configs-preview-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-preview-wrangler-config-hash",
       "regression value &/?+ü",
+      "--deployment-configs-production-ai-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-always-use-latest-compatibility-date=true",
+      "--deployment-configs-production-analytics-engine-datasets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-browsers",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-build-image-major-version",
       "1",
       "--deployment-configs-production-compatibility-date",
       "2026-01-02T03:04:05Z",
       "--deployment-configs-production-compatibility-flags",
       "regression value &/?+ü",
+      "--deployment-configs-production-d1-databases",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-durable-object-namespaces",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-env-vars",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-fail-open=true",
+      "--deployment-configs-production-hyperdrive-bindings",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-kv-namespaces",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-limits-cpu-ms",
       "1",
+      "--deployment-configs-production-mtls-certificates",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-placement-mode",
       "regression value &/?+ü",
+      "--deployment-configs-production-queue-producers",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-r2-buckets",
+      "{\"regression\":\"json value\"}",
+      "--deployment-configs-production-services",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-usage-model",
       "standard",
+      "--deployment-configs-production-vectorize-bindings",
+      "{\"regression\":\"json value\"}",
       "--deployment-configs-production-wrangler-config-hash",
       "regression value &/?+ü",
       "--source-config-deployments-enabled=true",
@@ -2355,7 +5507,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1611",
+          "content-length": "2795",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2374,37 +5526,115 @@
           },
           "deployment_configs": {
             "preview": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
               "always_use_latest_compatibility_date": true,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
               "build_image_major_version": 1,
               "compatibility_date": "2026-01-02T03:04:05Z",
               "compatibility_flags": [
                 "regression value &/?+ü"
               ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
               "fail_open": true,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
               "limits": {
                 "cpu_ms": 1
+              },
+              "mtls_certificates": {
+                "regression": "json value"
               },
               "placement": {
                 "mode": "regression value &/?+ü"
               },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
               "usage_model": "standard",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
               "wrangler_config_hash": "regression value &/?+ü"
             },
             "production": {
+              "ai_bindings": {
+                "regression": "json value"
+              },
               "always_use_latest_compatibility_date": true,
+              "analytics_engine_datasets": {
+                "regression": "json value"
+              },
+              "browsers": {
+                "regression": "json value"
+              },
               "build_image_major_version": 1,
               "compatibility_date": "2026-01-02T03:04:05Z",
               "compatibility_flags": [
                 "regression value &/?+ü"
               ],
+              "d1_databases": {
+                "regression": "json value"
+              },
+              "durable_object_namespaces": {
+                "regression": "json value"
+              },
+              "env_vars": {
+                "regression": "json value"
+              },
               "fail_open": true,
+              "hyperdrive_bindings": {
+                "regression": "json value"
+              },
+              "kv_namespaces": {
+                "regression": "json value"
+              },
               "limits": {
                 "cpu_ms": 1
+              },
+              "mtls_certificates": {
+                "regression": "json value"
               },
               "placement": {
                 "mode": "regression value &/?+ü"
               },
+              "queue_producers": {
+                "regression": "json value"
+              },
+              "r2_buckets": {
+                "regression": "json value"
+              },
+              "services": {
+                "regression": "json value"
+              },
               "usage_model": "standard",
+              "vectorize_bindings": {
+                "regression": "json value"
+              },
               "wrangler_config_hash": "regression value &/?+ü"
             }
           },

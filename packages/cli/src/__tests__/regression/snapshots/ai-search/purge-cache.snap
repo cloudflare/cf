@@ -14,6 +14,35 @@
     "argv": [
       "ai-search",
       "purge-cache",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --namespace",
+    "argv": [
+      "ai-search",
+      "purge-cache",
       "0123456789abcdef0123456789abcdef",
       "--namespace",
       "regression value &/?+ü"
@@ -41,20 +70,49 @@
     ]
   },
   {
-    "case": "global quiet",
+    "case": "pairwise 1",
     "argv": [
       "ai-search",
       "purge-cache",
       "0123456789abcdef0123456789abcdef",
       "--namespace",
-      "regression value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "ai-search",
+      "purge-cache",
+      "0123456789abcdef0123456789abcdef",
       "--quiet"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/purge_cache",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -78,8 +136,6 @@
       "ai-search",
       "purge-cache",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
@@ -87,7 +143,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/purge_cache",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -111,8 +167,6 @@
       "ai-search",
       "purge-cache",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--profile",
       "default",
       "--mode",
@@ -122,7 +176,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/purge_cache",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -146,15 +200,13 @@
       "ai-search",
       "purge-cache",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--local"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/purge_cache",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -177,8 +229,6 @@
       "ai-search",
       "purge-cache",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--local",
       "--persist-to",
       "regression-state"
@@ -187,7 +237,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/purge_cache",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/purge_cache",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -210,8 +260,6 @@
       "ai-search",
       "purge-cache",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--dry-run"
     ],
     "exitCode": 0,

@@ -381,9 +381,38 @@
       "--position-after",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-index and position-before are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "197",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "description": "192.0.2.1",
+          "enabled": false,
+          "expression": "regression value &/?+ü",
+          "position": {
+            "index": 2,
+            "before": "second value &/?+ü",
+            "after": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -452,9 +481,36 @@
       "--position-after",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-index and position-after are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "description": "192.0.2.1",
+          "expression": "regression value &/?+ü",
+          "position": {
+            "index": 2,
+            "after": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -474,9 +530,35 @@
       "--position-before",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-index and position-before are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "expression": "regression value &/?+ü",
+          "position": {
+            "index": 1,
+            "before": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -549,9 +631,37 @@
       "--position-before",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-index and position-before are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "description": "192.0.2.1",
+          "enabled": false,
+          "expression": "regression value &/?+ü",
+          "position": {
+            "index": 2,
+            "before": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -950,7 +1060,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "87",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -958,15 +1068,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
-          },
-          "action": "bypass_waiting_room"
-        }
+          }
+        ]
       }
     ]
   },
@@ -993,8 +1102,37 @@
       "--position-after",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-index and position-before are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "204",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "expression": "regression value &/?+ü",
+          "position": {
+            "index": 1,
+            "before": "regression value &/?+ü",
+            "after": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   }
 ]

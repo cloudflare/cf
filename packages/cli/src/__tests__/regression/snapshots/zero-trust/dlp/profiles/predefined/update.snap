@@ -211,7 +211,7 @@
       "--context-awareness-enabled=true"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-skip-files is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -226,7 +226,7 @@
       "--context-awareness-enabled=false"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-skip-files is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -241,7 +241,7 @@
       "--context-awareness-skip-files=true"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-enabled is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -256,7 +256,7 @@
       "--context-awareness-skip-files=false"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-enabled is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -480,7 +480,7 @@
       "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-skip-files is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -499,7 +499,7 @@
       "--ocr-enabled=false"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-enabled is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -517,7 +517,7 @@
       "--ocr-enabled=true"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-skip-files is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -537,7 +537,7 @@
       "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-enabled is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -555,7 +555,7 @@
       "--ocr-enabled=true"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-enabled is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -575,7 +575,7 @@
       "--context-awareness-enabled=false"
     ],
     "exitCode": 1,
-    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "error": "--context-awareness-skip-files is required when any --context-awareness-* flag is set",
     "requests": []
   },
   {
@@ -872,7 +872,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -880,14 +880,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },

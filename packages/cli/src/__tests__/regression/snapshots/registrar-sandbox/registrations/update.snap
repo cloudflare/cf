@@ -70,15 +70,16 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
-          "prefer": "regression value &/?+Ã¼",
+          "prefer": "regression value &/?+ü",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },
@@ -169,14 +170,15 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },
@@ -238,15 +240,16 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
-          "prefer": "second value &/?+Ã¼",
+          "prefer": "second value &/?+ü",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },

@@ -155,6 +155,78 @@
     ]
   },
   {
+    "case": "only --type",
+    "argv": [
+      "accounts",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "standard"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "accounts",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "enterprise"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "enterprise"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --unit-id",
     "argv": [
       "accounts",
@@ -235,6 +307,8 @@
       "--idempotency-key",
       "second value &/?+ü",
       "--standalone=false",
+      "--type",
+      "enterprise",
       "--unit-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -249,7 +323,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "102",
+          "content-length": "122",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "second value &/?+ü",
@@ -261,6 +335,47 @@
         "body": {
           "name": "regression value &/?+ü",
           "standalone": false,
+          "type": "enterprise",
+          "unit": {
+            "id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "accounts",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--standalone=true",
+      "--unit-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "standalone": true,
           "unit": {
             "id": "0123456789abcdef0123456789abcdef"
           }
@@ -277,6 +392,45 @@
       "regression value &/?+ü",
       "--idempotency-key",
       "second value &/?+ü",
+      "--type",
+      "enterprise"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "idempotency-key": "second value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "enterprise"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "accounts",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "standard",
       "--unit-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -291,10 +445,9 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "83",
+          "content-length": "101",
           "content-type": "application/json",
           "host": "api.test",
-          "idempotency-key": "second value &/?+ü",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
@@ -302,6 +455,7 @@
         },
         "body": {
           "name": "regression value &/?+ü",
+          "type": "standard",
           "unit": {
             "id": "0123456789abcdef0123456789abcdef"
           }
@@ -654,6 +808,8 @@
       "--idempotency-key",
       "regression value &/?+ü",
       "--standalone=true",
+      "--type",
+      "standard",
       "--unit-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -668,7 +824,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "101",
+          "content-length": "119",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "regression value &/?+ü",
@@ -680,6 +836,7 @@
         "body": {
           "name": "regression value &/?+ü",
           "standalone": true,
+          "type": "standard",
           "unit": {
             "id": "0123456789abcdef0123456789abcdef"
           }

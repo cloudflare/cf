@@ -49,6 +49,39 @@ describe("regression coverage and request recording", () => {
 		}
 	});
 
+	it("exercises option aliases, preserving boolean values", () => {
+		const command = catalogue.commands.find(
+			(entry) => entry.command === "cf zones delete"
+		);
+		if (!command) {
+			throw new Error("Missing destructive-command fixture");
+		}
+		const scenario = commandCases(command).find(
+			(entry) => entry.name === "option alias -f"
+		);
+		expect(scenario?.args).toContain("-f=true");
+		expect(scenario?.args).not.toContain("--force");
+		const synthetic = {
+			...command,
+			options: [
+				{
+					name: "enabled",
+					type: "boolean" as const,
+					required: false,
+					description: "",
+					alias: ["e", "enable"],
+				},
+			],
+		};
+		for (const flag of ["-e", "--enable"]) {
+			expect(
+				commandCases(synthetic).find(
+					(entry) => entry.name === `option alias ${flag}`
+				)?.args
+			).toContain(`${flag}=true`);
+		}
+	});
+
 	it("covers all four presence states for every optional-flag pair", () => {
 		for (let size = 2; size <= 64; size++) {
 			const rows = presenceRows(size);
@@ -81,6 +114,25 @@ describe("regression coverage and request recording", () => {
 		);
 		expect(field?.args).toContain("--roles");
 		expect(field?.args).not.toContain("--body");
+	});
+
+	it("uses JSON objects for current generated map flags", () => {
+		const command = catalogue.commands.find(
+			(entry) => entry.command === "cf o11y destinations create"
+		);
+		if (!command) {
+			throw new Error("Missing JSON map fixture");
+		}
+		const args =
+			commandCases(command).find(
+				(entry) =>
+					entry.args.includes("--configuration-headers") &&
+					!entry.args.includes("--body")
+			)?.args ?? [];
+		expect(args).not.toContain("--body");
+		expect(
+			JSON.parse(String(args[args.indexOf("--configuration-headers") + 1]))
+		).toEqual({ regression: "json value" });
 	});
 
 	it("retains JSON structure, repeated query parameters and headers", async () => {

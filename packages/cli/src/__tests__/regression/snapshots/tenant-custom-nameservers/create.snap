@@ -14,7 +14,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -24,7 +24,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -54,7 +54,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--ns-set",
@@ -64,7 +64,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -91,7 +91,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü"
     ],
@@ -99,7 +99,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -126,7 +126,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--ns-set",
@@ -136,7 +136,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -163,7 +163,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -174,7 +174,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -204,7 +204,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -216,7 +216,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -246,7 +246,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -260,7 +260,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -290,7 +290,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -301,7 +301,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -330,7 +330,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -343,7 +343,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -372,7 +372,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -387,7 +387,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -397,7 +397,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -427,7 +427,7 @@
     "argv": [
       "tenant-custom-nameservers",
       "create",
-      "regression value &/?+ü",
+      "0123456789abcdef0123456789abcdef",
       "--ns-name",
       "regression value &/?+ü",
       "--body",
@@ -437,7 +437,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -460,46 +460,6 @@
             "regression": "second"
           }
         ]
-      }
-    ]
-  },
-  {
-    "case": "alternate <tenant-tag>",
-    "argv": [
-      "tenant-custom-nameservers",
-      "create",
-      "second value &/?+ü",
-      "--ns-name",
-      "regression value &/?+ü",
-      "--body",
-      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/tenants/second%20value%20%26%2F%3F%2B%C3%BC/custom_ns",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
       }
     ]
   }

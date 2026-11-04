@@ -148,6 +148,47 @@
     ]
   },
   {
+    "case": "only --filter-by-tags",
+    "argv": [
+      "billing",
+      "usage",
+      "query",
+      "--filter-by-tags",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billable/usage",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "FilterBy": {
+            "Tags": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "Metric": "usage"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --group-by",
     "argv": [
       "billing",
@@ -340,6 +381,8 @@
       "--filter-by-product-family-ids",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--filter-by-tags",
+      "[{\"regression\":\"item\"}]",
       "--group-by",
       "[{\"regression\":\"item\"}]",
       "--metric",
@@ -360,7 +403,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "268",
+          "content-length": "299",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -377,6 +420,11 @@
             "ProductFamilyIds": [
               "second value &/?+ü",
               "second value &/?+ü"
+            ],
+            "Tags": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "GroupBy": [
@@ -401,53 +449,6 @@
       "query",
       "--filter-by-product-family-ids",
       "regression value &/?+ü",
-      "--metric",
-      "usage",
-      "--time-period-to",
-      "2026-01-02T03:04:05Z"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billable/usage",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "121",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "FilterBy": {
-            "ProductFamilyIds": [
-              "regression value &/?+ü"
-            ]
-          },
-          "Metric": "usage",
-          "TimePeriod": {
-            "To": "2026-01-02T03:04:05Z"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "billing",
-      "usage",
-      "query",
-      "--filter-by-billable-metric-ids",
-      "second value &/?+ü",
-      "second value &/?+ü",
       "--group-by",
       "[{\"regression\":\"item\"}]",
       "--time-period-from",
@@ -464,7 +465,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "176",
+          "content-length": "157",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -474,9 +475,8 @@
         },
         "body": {
           "FilterBy": {
-            "BillableMetricIds": [
-              "second value &/?+ü",
-              "second value &/?+ü"
+            "ProductFamilyIds": [
+              "regression value &/?+ü"
             ]
           },
           "GroupBy": [
@@ -493,15 +493,20 @@
     ]
   },
   {
-    "case": "pairwise 4",
+    "case": "pairwise 3",
     "argv": [
       "billing",
       "usage",
       "query",
-      "--group-by",
+      "--filter-by-billable-metric-ids",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--filter-by-tags",
       "[{\"regression\":\"item\"}]",
       "--metric",
-      "usage"
+      "cost",
+      "--time-period-to",
+      "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
@@ -514,7 +519,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "52",
+          "content-length": "170",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -523,12 +528,74 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "FilterBy": {
+            "BillableMetricIds": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "Tags": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "Metric": "cost",
+          "TimePeriod": {
+            "To": "2026-01-02T03:04:05Z"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "billing",
+      "usage",
+      "query",
+      "--filter-by-tags",
+      "[{\"regression\":\"item\"}]",
+      "--group-by",
+      "[{\"regression\":\"item\"}]",
+      "--time-period-to",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billable/usage",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "FilterBy": {
+            "Tags": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "GroupBy": [
             {
               "regression": "item"
             }
           ],
-          "Metric": "usage"
+          "Metric": "usage",
+          "TimePeriod": {
+            "To": "2026-01-02T03:04:05Z"
+          }
         }
       }
     ]
@@ -545,9 +612,9 @@
       "--filter-by-product-family-ids",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--metric",
+      "cost",
       "--time-period-from",
-      "2026-01-02T03:04:05Z",
-      "--time-period-to",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -561,7 +628,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "235",
+          "content-length": "206",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -580,10 +647,9 @@
               "second value &/?+ü"
             ]
           },
-          "Metric": "usage",
+          "Metric": "cost",
           "TimePeriod": {
-            "From": "2026-01-02T03:04:05Z",
-            "To": "2026-01-02T03:04:05Z"
+            "From": "2026-01-02T03:04:05Z"
           }
         }
       }
@@ -595,6 +661,8 @@
       "billing",
       "usage",
       "query",
+      "--metric",
+      "usage",
       "--time-period-from",
       "2026-01-02T03:04:05Z",
       "--time-period-to",
@@ -641,10 +709,10 @@
       "--filter-by-product-family-ids",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--group-by",
+      "--filter-by-tags",
       "[{\"regression\":\"item\"}]",
-      "--metric",
-      "cost"
+      "--group-by",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -657,7 +725,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "195",
+          "content-length": "227",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -674,6 +742,11 @@
             "ProductFamilyIds": [
               "second value &/?+ü",
               "second value &/?+ü"
+            ],
+            "Tags": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "GroupBy": [
@@ -681,7 +754,7 @@
               "regression": "item"
             }
           ],
-          "Metric": "cost"
+          "Metric": "usage"
         }
       }
     ]
@@ -956,7 +1029,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -964,14 +1037,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -985,6 +1058,8 @@
       "regression value &/?+ü",
       "--filter-by-product-family-ids",
       "regression value &/?+ü",
+      "--filter-by-tags",
+      "[{\"regression\":\"item\"}]",
       "--group-by",
       "[{\"regression\":\"item\"}]",
       "--metric",
@@ -1005,7 +1080,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "233",
+          "content-length": "264",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1020,6 +1095,11 @@
             ],
             "ProductFamilyIds": [
               "regression value &/?+ü"
+            ],
+            "Tags": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "GroupBy": [

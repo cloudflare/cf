@@ -8,7 +8,7 @@
       "create"
     ],
     "exitCode": 1,
-    "error": "--application is required (one of: ANTHROPIC, AWS, BITBUCKET, BOX, CONFLUENCE, DROPBOX, GITHUB, GOOGLE_CLOUD_PLATFORM, GOOGLE_WORKSPACE, JIRA, MICROSOFT_INTERNAL, OPENAI, SALESFORCE, SERVICENOW, SLACK). Pass --application <value> or run interactively.",
+    "error": "--application is required (one of: ANTHROPIC, AWS, BITBUCKET, BOX, CONFLUENCE, DROPBOX, GITHUB, GOOGLE_CLOUD_PLATFORM, GOOGLE_WORKSPACE, JIRA, MICROSOFT_INTERNAL, OPENAI, SALESFORCE, SERVICENOW, SLACK, ZOOM). Pass --application <value> or run interactively.",
     "requests": []
   },
   {
@@ -20,39 +20,18 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "only --auth-method",
@@ -63,7 +42,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--auth-method",
       "regression value &/?+ü"
@@ -79,7 +62,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "100",
+          "content-length": "182",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -90,7 +73,13 @@
         "body": {
           "application": "ANTHROPIC",
           "auth_method": "regression value &/?+ü",
-          "name": "regression value &/?+ü"
+          "credentials": {
+            "regression": "json value"
+          },
+          "name": "regression value &/?+ü",
+          "use_cases": [
+            "regression value &/?+ü"
+          ]
         }
       }
     ]
@@ -104,7 +93,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--dlp-profiles",
       "regression value &/?+ü"
@@ -120,7 +113,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "103",
+          "content-length": "185",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -130,10 +123,16 @@
         },
         "body": {
           "application": "ANTHROPIC",
+          "credentials": {
+            "regression": "json value"
+          },
           "dlp_profiles": [
             "regression value &/?+ü"
           ],
-          "name": "regression value &/?+ü"
+          "name": "regression value &/?+ü",
+          "use_cases": [
+            "regression value &/?+ü"
+          ]
         }
       }
     ]
@@ -147,7 +146,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--permissions",
       "regression value &/?+ü"
@@ -163,7 +166,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "102",
+          "content-length": "184",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -173,50 +176,13 @@
         },
         "body": {
           "application": "ANTHROPIC",
+          "credentials": {
+            "regression": "json value"
+          },
           "name": "regression value &/?+ü",
           "permissions": [
             "regression value &/?+ü"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --use-cases",
-    "argv": [
-      "zero-trust",
-      "casb",
-      "integrations",
-      "create",
-      "--application",
-      "ANTHROPIC",
-      "--name",
-      "regression value &/?+ü",
-      "--use-cases",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "application": "ANTHROPIC",
-          "name": "regression value &/?+ü",
+          ],
           "use_cases": [
             "regression value &/?+ü"
           ]
@@ -231,41 +197,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "AWS"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 2",
@@ -274,41 +219,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "BITBUCKET"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 3",
@@ -317,41 +241,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "BOX"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 4",
@@ -360,41 +263,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "CONFLUENCE"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 5",
@@ -403,41 +285,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "DROPBOX"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 6",
@@ -446,41 +307,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "GITHUB"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 7",
@@ -489,41 +329,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "GOOGLE_CLOUD_PLATFORM"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 8",
@@ -532,41 +351,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "GOOGLE_WORKSPACE"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 9",
@@ -575,41 +373,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "JIRA"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 10",
@@ -618,41 +395,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "MICROSOFT_INTERNAL"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 11",
@@ -661,41 +417,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "OPENAI"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 12",
@@ -704,41 +439,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "SALESFORCE"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 13",
@@ -747,41 +461,20 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "SERVICENOW"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "required --application value 14",
@@ -790,41 +483,42 @@
       "casb",
       "integrations",
       "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--application",
       "SLACK"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
+  },
+  {
+    "case": "required --application value 15",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "integrations",
+      "create",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
+      "--name",
+      "regression value &/?+ü",
+      "--use-cases",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--application",
+      "ZOOM"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "pairwise 0",
@@ -835,205 +529,9 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "60",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "application": "ANTHROPIC",
-          "name": "regression value &/?+ü"
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 1",
-    "argv": [
-      "zero-trust",
-      "casb",
-      "integrations",
-      "create",
-      "--application",
-      "ANTHROPIC",
-      "--name",
-      "regression value &/?+ü",
-      "--auth-method",
-      "second value &/?+ü",
-      "--dlp-profiles",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--permissions",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--use-cases",
-      "second value &/?+ü",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "275",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "application": "ANTHROPIC",
-          "auth_method": "second value &/?+ü",
-          "dlp_profiles": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
-          "name": "regression value &/?+ü",
-          "permissions": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
-          "use_cases": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 2",
-    "argv": [
-      "zero-trust",
-      "casb",
-      "integrations",
-      "create",
-      "--application",
-      "ANTHROPIC",
-      "--name",
-      "regression value &/?+ü",
-      "--dlp-profiles",
-      "regression value &/?+ü",
-      "--use-cases",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "143",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "application": "ANTHROPIC",
-          "dlp_profiles": [
-            "regression value &/?+ü"
-          ],
-          "name": "regression value &/?+ü",
-          "use_cases": [
-            "regression value &/?+ü"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "zero-trust",
-      "casb",
-      "integrations",
-      "create",
-      "--application",
-      "ANTHROPIC",
-      "--name",
-      "regression value &/?+ü",
-      "--auth-method",
-      "second value &/?+ü",
-      "--permissions",
-      "second value &/?+ü",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "156",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "application": "ANTHROPIC",
-          "auth_method": "second value &/?+ü",
-          "name": "regression value &/?+ü",
-          "permissions": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 4",
-    "argv": [
-      "zero-trust",
-      "casb",
-      "integrations",
-      "create",
-      "--application",
-      "ANTHROPIC",
-      "--name",
-      "regression value &/?+ü",
-      "--permissions",
       "regression value &/?+ü",
       "--use-cases",
       "regression value &/?+ü"
@@ -1059,9 +557,132 @@
         },
         "body": {
           "application": "ANTHROPIC",
+          "credentials": {
+            "regression": "json value"
+          },
+          "name": "regression value &/?+ü",
+          "use_cases": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "integrations",
+      "create",
+      "--application",
+      "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
+      "--name",
+      "regression value &/?+ü",
+      "--use-cases",
+      "regression value &/?+ü",
+      "--auth-method",
+      "second value &/?+ü",
+      "--dlp-profiles",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--permissions",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "299",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "application": "ANTHROPIC",
+          "auth_method": "second value &/?+ü",
+          "credentials": {
+            "regression": "json value"
+          },
+          "dlp_profiles": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
           "name": "regression value &/?+ü",
           "permissions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "use_cases": [
             "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "integrations",
+      "create",
+      "--application",
+      "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
+      "--name",
+      "regression value &/?+ü",
+      "--use-cases",
+      "regression value &/?+ü",
+      "--auth-method",
+      "second value &/?+ü",
+      "--permissions",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "application": "ANTHROPIC",
+          "auth_method": "second value &/?+ü",
+          "credentials": {
+            "regression": "json value"
+          },
+          "name": "regression value &/?+ü",
+          "permissions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
           ],
           "use_cases": [
             "regression value &/?+ü"
@@ -1079,7 +700,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--auth-method",
       "second value &/?+ü",
@@ -1098,7 +723,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "157",
+          "content-length": "239",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1109,11 +734,17 @@
         "body": {
           "application": "ANTHROPIC",
           "auth_method": "second value &/?+ü",
+          "credentials": {
+            "regression": "json value"
+          },
           "dlp_profiles": [
             "second value &/?+ü",
             "second value &/?+ü"
           ],
-          "name": "regression value &/?+ü"
+          "name": "regression value &/?+ü",
+          "use_cases": [
+            "regression value &/?+ü"
+          ]
         }
       }
     ]
@@ -1127,40 +758,19 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "global zone",
@@ -1171,41 +781,20 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "global profile and mode",
@@ -1216,7 +805,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -1225,34 +818,9 @@
       "--mode",
       "regression"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "local",
@@ -1263,39 +831,19 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "local with persistence",
@@ -1306,7 +854,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -1314,33 +866,9 @@
       "--persist-to",
       "regression-state"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "dry-run",
@@ -1351,13 +879,18 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
     ],
-    "exitCode": 0,
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
     "requests": []
   },
   {
@@ -1369,39 +902,18 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "@<body.json>"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "array body",
@@ -1412,40 +924,18 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "48",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": [
-          {
-            "regression": "first"
-          },
-          {
-            "regression": "second"
-          }
-        ]
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at credentials (for --credentials).",
+    "requests": []
   },
   {
     "case": "field flags",
@@ -1456,15 +946,17 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--auth-method",
       "regression value &/?+ü",
       "--dlp-profiles",
       "regression value &/?+ü",
       "--permissions",
-      "regression value &/?+ü",
-      "--use-cases",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -1478,7 +970,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "225",
+          "content-length": "267",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1489,6 +981,9 @@
         "body": {
           "application": "ANTHROPIC",
           "auth_method": "regression value &/?+ü",
+          "credentials": {
+            "regression": "json value"
+          },
           "dlp_profiles": [
             "regression value &/?+ü"
           ],
@@ -1512,7 +1007,11 @@
       "create",
       "--application",
       "ANTHROPIC",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--name",
+      "regression value &/?+ü",
+      "--use-cases",
       "regression value &/?+ü",
       "--file",
       "<payload.txt>"

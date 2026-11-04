@@ -40,7 +40,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "56",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -53,7 +53,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]
@@ -330,7 +331,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "56",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -343,7 +344,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]
@@ -379,7 +381,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "56",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -392,7 +394,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]
@@ -430,7 +433,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "56",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -443,7 +446,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]
@@ -490,7 +494,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]
@@ -539,7 +544,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]
@@ -595,7 +601,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "56",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -608,7 +614,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "vendor": "r2"
         }
       }
     ]

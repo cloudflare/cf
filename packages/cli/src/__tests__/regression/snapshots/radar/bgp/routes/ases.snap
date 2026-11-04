@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "only --sortBy",
+    "case": "only --sort-by",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "cone"
     ],
     "exitCode": 0,
@@ -122,13 +122,13 @@
     ]
   },
   {
-    "case": "--sortBy value 1",
+    "case": "--sort-by value 1",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "pfxs"
     ],
     "exitCode": 0,
@@ -153,13 +153,13 @@
     ]
   },
   {
-    "case": "--sortBy value 2",
+    "case": "--sort-by value 2",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "ipv4"
     ],
     "exitCode": 0,
@@ -184,13 +184,13 @@
     ]
   },
   {
-    "case": "--sortBy value 3",
+    "case": "--sort-by value 3",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "ipv6"
     ],
     "exitCode": 0,
@@ -215,13 +215,13 @@
     ]
   },
   {
-    "case": "--sortBy value 4",
+    "case": "--sort-by value 4",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "rpki_valid"
     ],
     "exitCode": 0,
@@ -246,13 +246,13 @@
     ]
   },
   {
-    "case": "--sortBy value 5",
+    "case": "--sort-by value 5",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "rpki_invalid"
     ],
     "exitCode": 0,
@@ -277,13 +277,13 @@
     ]
   },
   {
-    "case": "--sortBy value 6",
+    "case": "--sort-by value 6",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "rpki_unknown"
     ],
     "exitCode": 0,
@@ -308,13 +308,13 @@
     ]
   },
   {
-    "case": "only --sortOrder",
+    "case": "only --sort-order",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -339,13 +339,13 @@
     ]
   },
   {
-    "case": "--sortOrder value 1",
+    "case": "--sort-order value 1",
     "argv": [
       "radar",
       "bgp",
       "routes",
       "ases",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
@@ -442,9 +442,9 @@
       "second value &/?+ü",
       "--limit",
       "2",
-      "--sortBy",
+      "--sort-by",
       "pfxs",
-      "--sortOrder",
+      "--sort-order",
       "DESC",
       "--format",
       "CSV"
@@ -479,7 +479,7 @@
       "ases",
       "--limit",
       "1",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -512,7 +512,7 @@
       "ases",
       "--location",
       "second value &/?+ü",
-      "--sortBy",
+      "--sort-by",
       "pfxs",
       "--format",
       "CSV"
@@ -545,9 +545,9 @@
       "bgp",
       "routes",
       "ases",
-      "--sortBy",
+      "--sort-by",
       "cone",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -617,9 +617,9 @@
       "second value &/?+ü",
       "--limit",
       "2",
-      "--sortBy",
+      "--sort-by",
       "pfxs",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,

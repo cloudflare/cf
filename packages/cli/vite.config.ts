@@ -52,6 +52,11 @@ export default defineConfig({
 				dependsOn: ["task:generate"],
 				cache: false,
 			},
+			"task:test:regression": {
+				command: "vp test run --config regression.config.ts",
+				dependsOn: ["task:generate"],
+				cache: false,
+			},
 			"task:test:watch": {
 				command: "vp test watch",
 				dependsOn: ["task:generate"],

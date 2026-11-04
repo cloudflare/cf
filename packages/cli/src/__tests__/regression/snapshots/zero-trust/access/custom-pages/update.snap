@@ -148,6 +148,51 @@
     ]
   },
   {
+    "case": "only --created-at",
+    "argv": [
+      "zero-trust",
+      "access",
+      "custom-pages",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-html",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "identity_denied",
+      "--created-at",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/custom_pages/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "138",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "created_at": "regression value &/?+ü",
+          "custom_html": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "identity_denied"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --uid",
     "argv": [
       "zero-trust",
@@ -188,6 +233,51 @@
           "name": "regression value &/?+ü",
           "type": "identity_denied",
           "uid": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --updated-at",
+    "argv": [
+      "zero-trust",
+      "access",
+      "custom-pages",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-html",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "identity_denied",
+      "--updated-at",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/custom_pages/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_html": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "identity_denied",
+          "updated_at": "2026-01-02T03:04:05Z"
         }
       }
     ]
@@ -390,6 +480,61 @@
       "2",
       "--contract-version",
       "2",
+      "--created-at",
+      "second value &/?+ü",
+      "--uid",
+      "0123456789abcdef0123456789abcdef",
+      "--updated-at",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/custom_pages/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "246",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "app_count": 2,
+          "contract_version": 2,
+          "created_at": "second value &/?+ü",
+          "custom_html": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "identity_denied",
+          "uid": "0123456789abcdef0123456789abcdef",
+          "updated_at": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "access",
+      "custom-pages",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-html",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "identity_denied",
+      "--contract-version",
+      "1",
       "--uid",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -404,7 +549,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "175",
+          "content-length": "161",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -413,8 +558,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "app_count": 2,
-          "contract_version": 2,
+          "contract_version": 1,
           "custom_html": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "type": "identity_denied",
@@ -439,6 +583,57 @@
       "identity_denied",
       "--app-count",
       "2",
+      "--created-at",
+      "second value &/?+ü",
+      "--updated-at",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/custom_pages/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "app_count": 2,
+          "created_at": "second value &/?+ü",
+          "custom_html": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "identity_denied",
+          "updated_at": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "access",
+      "custom-pages",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-html",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "identity_denied",
+      "--created-at",
+      "regression value &/?+ü",
       "--uid",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -453,7 +648,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "154",
+          "content-length": "179",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -462,7 +657,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "app_count": 2,
+          "created_at": "regression value &/?+ü",
           "custom_html": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "type": "identity_denied",
@@ -488,7 +683,9 @@
       "--app-count",
       "2",
       "--contract-version",
-      "2"
+      "2",
+      "--updated-at",
+      "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
@@ -501,7 +698,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "134",
+          "content-length": "170",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -514,7 +711,62 @@
           "contract_version": 2,
           "custom_html": "regression value &/?+ü",
           "name": "regression value &/?+ü",
-          "type": "identity_denied"
+          "type": "identity_denied",
+          "updated_at": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "access",
+      "custom-pages",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-html",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "identity_denied",
+      "--app-count",
+      "2",
+      "--contract-version",
+      "2",
+      "--created-at",
+      "second value &/?+ü",
+      "--uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/custom_pages/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "210",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "app_count": 2,
+          "contract_version": 2,
+          "created_at": "second value &/?+ü",
+          "custom_html": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "identity_denied",
+          "uid": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -890,8 +1142,12 @@
       "1",
       "--contract-version",
       "1",
+      "--created-at",
+      "regression value &/?+ü",
       "--uid",
-      "0123456789abcdef0123456789abcdef"
+      "0123456789abcdef0123456789abcdef",
+      "--updated-at",
+      "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
@@ -904,7 +1160,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "175",
+          "content-length": "250",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -915,10 +1171,12 @@
         "body": {
           "app_count": 1,
           "contract_version": 1,
+          "created_at": "regression value &/?+ü",
           "custom_html": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "type": "identity_denied",
-          "uid": "0123456789abcdef0123456789abcdef"
+          "uid": "0123456789abcdef0123456789abcdef",
+          "updated_at": "2026-01-02T03:04:05Z"
         }
       }
     ]

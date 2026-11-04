@@ -464,6 +464,50 @@
     ]
   },
   {
+    "case": "only --http-config-header",
+    "argv": [
+      "healthchecks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "header": {
+              "regression": "json value"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --http-config-method",
     "argv": [
       "healthchecks",
@@ -1016,6 +1060,8 @@
       "second value &/?+ü",
       "second value &/?+ü",
       "--http-config-follow-redirects=false",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
       "--http-config-method",
       "HEAD",
       "--http-config-path",
@@ -1047,7 +1093,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "553",
+          "content-length": "590",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1072,6 +1118,9 @@
               "second value &/?+ü"
             ],
             "follow_redirects": false,
+            "header": {
+              "regression": "json value"
+            },
             "method": "HEAD",
             "path": "second value &/?+ü",
             "port": 2
@@ -1107,15 +1156,16 @@
       "--http-config-expected-body",
       "regression value &/?+ü",
       "--http-config-follow-redirects=true",
-      "--http-config-path",
-      "regression value &/?+ü",
-      "--interval",
+      "--http-config-method",
+      "GET",
+      "--http-config-port",
       "1",
-      "--suspended=true",
-      "--tcp-config-port",
+      "--retries",
       "1",
-      "--type",
-      "regression value &/?+ü"
+      "--tcp-config-method",
+      "connection_established",
+      "--timeout",
+      "1"
     ],
     "exitCode": 0,
     "requests": [
@@ -1128,7 +1178,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "306",
+          "content-length": "283",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1143,15 +1193,15 @@
           "http_config": {
             "expected_body": "regression value &/?+ü",
             "follow_redirects": true,
-            "path": "regression value &/?+ü"
-          },
-          "interval": 1,
-          "name": "regression value &/?+ü",
-          "suspended": true,
-          "tcp_config": {
+            "method": "GET",
             "port": 1
           },
-          "type": "regression value &/?+ü"
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "tcp_config": {
+            "method": "connection_established"
+          },
+          "timeout": 1
         }
       }
     ]
@@ -1175,16 +1225,17 @@
       "--http-config-expected-codes",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--http-config-method",
-      "HEAD",
-      "--http-config-port",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--interval",
       "2",
-      "--retries",
+      "--suspended=false",
+      "--tcp-config-port",
       "2",
-      "--tcp-config-method",
-      "connection_established",
-      "--timeout",
-      "2"
+      "--type",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -1197,7 +1248,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "344",
+          "content-length": "396",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1218,15 +1269,18 @@
               "second value &/?+ü",
               "second value &/?+ü"
             ],
-            "method": "HEAD",
+            "header": {
+              "regression": "json value"
+            },
+            "path": "second value &/?+ü"
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "suspended": false,
+          "tcp_config": {
             "port": 2
           },
-          "name": "regression value &/?+ü",
-          "retries": 2,
-          "tcp_config": {
-            "method": "connection_established"
-          },
-          "timeout": 2
+          "type": "second value &/?+ü"
         }
       }
     ]
@@ -1248,14 +1302,15 @@
       "--http-config-expected-codes",
       "regression value &/?+ü",
       "--http-config-follow-redirects=true",
+      "--http-config-path",
+      "regression value &/?+ü",
       "--http-config-port",
       "1",
-      "--interval",
-      "1",
+      "--suspended=true",
       "--tcp-config-method",
       "connection_established",
-      "--tcp-config-port",
-      "1"
+      "--type",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -1268,7 +1323,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "273",
+          "content-length": "334",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1285,14 +1340,15 @@
               "regression value &/?+ü"
             ],
             "follow_redirects": true,
+            "path": "regression value &/?+ü",
             "port": 1
           },
-          "interval": 1,
           "name": "regression value &/?+ü",
+          "suspended": true,
           "tcp_config": {
-            "method": "connection_established",
-            "port": 1
-          }
+            "method": "connection_established"
+          },
+          "type": "regression value &/?+ü"
         }
       }
     ]
@@ -1315,17 +1371,18 @@
       "--http-config-allow-insecure=false",
       "--http-config-expected-body",
       "second value &/?+ü",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
       "--http-config-method",
       "HEAD",
-      "--http-config-path",
-      "second value &/?+ü",
+      "--interval",
+      "2",
       "--retries",
       "2",
-      "--suspended=false",
-      "--timeout",
+      "--tcp-config-port",
       "2",
-      "--type",
-      "second value &/?+ü"
+      "--timeout",
+      "2"
     ],
     "exitCode": 0,
     "requests": [
@@ -1338,7 +1395,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "333",
+          "content-length": "331",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1356,14 +1413,18 @@
           "http_config": {
             "allow_insecure": false,
             "expected_body": "second value &/?+ü",
-            "method": "HEAD",
-            "path": "second value &/?+ü"
+            "header": {
+              "regression": "json value"
+            },
+            "method": "HEAD"
           },
+          "interval": 2,
           "name": "regression value &/?+ü",
           "retries": 2,
-          "suspended": false,
-          "timeout": 2,
-          "type": "second value &/?+ü"
+          "tcp_config": {
+            "port": 2
+          },
+          "timeout": 2
         }
       }
     ]
@@ -1384,13 +1445,13 @@
       "--http-config-expected-codes",
       "regression value &/?+ü",
       "--http-config-follow-redirects=true",
+      "--interval",
+      "1",
       "--retries",
       "1",
       "--suspended=true",
       "--tcp-config-method",
-      "connection_established",
-      "--tcp-config-port",
-      "1"
+      "connection_established"
     ],
     "exitCode": 0,
     "requests": [
@@ -1403,7 +1464,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "292",
+          "content-length": "296",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1421,12 +1482,12 @@
             ],
             "follow_redirects": true
           },
+          "interval": 1,
           "name": "regression value &/?+ü",
           "retries": 1,
           "suspended": true,
           "tcp_config": {
-            "method": "connection_established",
-            "port": 1
+            "method": "connection_established"
           }
         }
       }
@@ -1451,13 +1512,15 @@
       "2",
       "--description",
       "192.0.2.1",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
       "--http-config-method",
       "HEAD",
       "--http-config-path",
       "second value &/?+ü",
       "--http-config-port",
       "2",
-      "--interval",
+      "--tcp-config-port",
       "2",
       "--timeout",
       "2",
@@ -1475,7 +1538,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "316",
+          "content-length": "364",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1493,12 +1556,17 @@
           "consecutive_successes": 2,
           "description": "192.0.2.1",
           "http_config": {
+            "header": {
+              "regression": "json value"
+            },
             "method": "HEAD",
             "path": "second value &/?+ü",
             "port": 2
           },
-          "interval": 2,
           "name": "regression value &/?+ü",
+          "tcp_config": {
+            "port": 2
+          },
           "timeout": 2,
           "type": "second value &/?+ü"
         }
@@ -1515,6 +1583,8 @@
       "192.0.2.1",
       "--name",
       "regression value &/?+ü",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
       "--http-config-method",
       "GET",
       "--http-config-path",
@@ -1527,9 +1597,7 @@
       "1",
       "--suspended=true",
       "--tcp-config-method",
-      "connection_established",
-      "--tcp-config-port",
-      "1"
+      "connection_established"
     ],
     "exitCode": 0,
     "requests": [
@@ -1542,7 +1610,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "229",
+          "content-length": "257",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1553,6 +1621,9 @@
         "body": {
           "address": "192.0.2.1",
           "http_config": {
+            "header": {
+              "regression": "json value"
+            },
             "method": "GET",
             "path": "regression value &/?+ü",
             "port": 1
@@ -1562,8 +1633,7 @@
           "retries": 1,
           "suspended": true,
           "tcp_config": {
-            "method": "connection_established",
-            "port": 1
+            "method": "connection_established"
           }
         }
       }
@@ -1595,6 +1665,8 @@
       "second value &/?+ü",
       "second value &/?+ü",
       "--http-config-follow-redirects=false",
+      "--tcp-config-port",
+      "2",
       "--timeout",
       "2",
       "--type",
@@ -1611,7 +1683,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "398",
+          "content-length": "422",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1638,6 +1710,9 @@
             "follow_redirects": false
           },
           "name": "regression value &/?+ü",
+          "tcp_config": {
+            "port": 2
+          },
           "timeout": 2,
           "type": "second value &/?+ü"
         }
@@ -1654,6 +1729,8 @@
       "192.0.2.1",
       "--name",
       "regression value &/?+ü",
+      "--tcp-config-port",
+      "1",
       "--timeout",
       "1",
       "--type",
@@ -1670,7 +1747,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "101",
+          "content-length": "125",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1681,6 +1758,9 @@
         "body": {
           "address": "192.0.2.1",
           "name": "regression value &/?+ü",
+          "tcp_config": {
+            "port": 1
+          },
           "timeout": 1,
           "type": "regression value &/?+ü"
         }
@@ -1713,6 +1793,8 @@
       "second value &/?+ü",
       "second value &/?+ü",
       "--http-config-follow-redirects=false",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
       "--http-config-method",
       "HEAD",
       "--http-config-path",
@@ -1725,9 +1807,7 @@
       "2",
       "--suspended=false",
       "--tcp-config-method",
-      "connection_established",
-      "--tcp-config-port",
-      "2"
+      "connection_established"
     ],
     "exitCode": 0,
     "requests": [
@@ -1740,7 +1820,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "512",
+          "content-length": "540",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1765,6 +1845,9 @@
               "second value &/?+ü"
             ],
             "follow_redirects": false,
+            "header": {
+              "regression": "json value"
+            },
             "method": "HEAD",
             "path": "second value &/?+ü",
             "port": 2
@@ -1774,8 +1857,7 @@
           "retries": 2,
           "suspended": false,
           "tcp_config": {
-            "method": "connection_established",
-            "port": 2
+            "method": "connection_established"
           }
         }
       }
@@ -2187,6 +2269,8 @@
       "--http-config-expected-codes",
       "regression value &/?+ü",
       "--http-config-follow-redirects=true",
+      "--http-config-header",
+      "{\"regression\":\"json value\"}",
       "--http-config-method",
       "GET",
       "--http-config-path",
@@ -2218,7 +2302,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "525",
+          "content-length": "562",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2241,6 +2325,9 @@
               "regression value &/?+ü"
             ],
             "follow_redirects": true,
+            "header": {
+              "regression": "json value"
+            },
             "method": "GET",
             "path": "regression value &/?+ü",
             "port": 1

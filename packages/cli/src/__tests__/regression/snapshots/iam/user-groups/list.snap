@@ -88,12 +88,12 @@
     ]
   },
   {
-    "case": "only --fuzzyName",
+    "case": "only --fuzzy-name",
     "argv": [
       "iam",
       "user-groups",
       "list",
-      "--fuzzyName",
+      "--fuzzy-name",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -247,7 +247,7 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "second value &/?+ü",
-      "--fuzzyName",
+      "--fuzzy-name",
       "second value &/?+ü",
       "--page",
       "2",
@@ -319,7 +319,7 @@
       "list",
       "--id",
       "0123456789abcdef0123456789abcdef",
-      "--fuzzyName",
+      "--fuzzy-name",
       "second value &/?+ü",
       "--per-page",
       "2"
@@ -351,7 +351,7 @@
       "iam",
       "user-groups",
       "list",
-      "--fuzzyName",
+      "--fuzzy-name",
       "regression value &/?+ü",
       "--page",
       "1"
@@ -455,7 +455,7 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "second value &/?+ü",
-      "--fuzzyName",
+      "--fuzzy-name",
       "second value &/?+ü",
       "--page",
       "2"

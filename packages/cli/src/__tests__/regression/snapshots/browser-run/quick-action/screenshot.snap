@@ -26,7 +26,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -70,17 +70,38 @@
     ]
   },
   {
-    "case": "only --cacheTTL",
+    "case": "only --cache-ttl",
     "argv": [
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot?cacheTTL=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --browser",
@@ -111,7 +132,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -146,7 +167,7 @@
         },
         "body": {
           "actionTimeout": 1,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -185,7 +206,7 @@
               "regression": "item"
             }
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -224,7 +245,7 @@
               "regression": "item"
             }
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -261,7 +282,44 @@
           "allowRequestPattern": [
             "regression value &/?+ü"
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-resource-types",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--allow-resource-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -321,7 +379,7 @@
         },
         "body": {
           "bestAttempt": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -355,7 +413,7 @@
         },
         "body": {
           "bestAttempt": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -394,7 +452,7 @@
               "regression": "item"
             }
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -429,7 +487,7 @@
         },
         "body": {
           "emulateMediaType": "regression value &/?+ü",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -466,7 +524,7 @@
           "gotoOptions": {
             "referer": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -503,7 +561,7 @@
           "gotoOptions": {
             "referrerPolicy": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -540,7 +598,7 @@
           "gotoOptions": {
             "timeout": 1
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -575,7 +633,7 @@
         },
         "body": {
           "html": "regression value &/?+ü",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -612,7 +670,44 @@
           "rejectRequestPattern": [
             "regression value &/?+ü"
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reject-resource-types",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--reject-resource-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -625,9 +720,33 @@
       "screenshot",
       "--screenshot-options-capture-beyond-viewport=true"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "captureBeyondViewport": true
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "--screenshot-options-capture-beyond-viewport value 1",
@@ -637,9 +756,33 @@
       "screenshot",
       "--screenshot-options-capture-beyond-viewport=false"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "179",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "captureBeyondViewport": false
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --screenshot-options-clip-height",
@@ -651,7 +794,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
+    "error": "--screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshot-options-clip-* flag is set",
     "requests": []
   },
   {
@@ -664,7 +807,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
+    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshot-options-clip-* flag is set",
     "requests": []
   },
   {
@@ -677,7 +820,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
+    "error": "--screenshot-options-clip-height, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshot-options-clip-* flag is set",
     "requests": []
   },
   {
@@ -690,7 +833,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
+    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-y are required when any --screenshot-options-clip-* flag is set",
     "requests": []
   },
   {
@@ -703,8 +846,82 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x are required when any --screenshotOptions-* flag is set",
+    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x are required when any --screenshot-options-clip-* flag is set",
     "requests": []
+  },
+  {
+    "case": "only --screenshot-options-encoding",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--screenshot-options-encoding",
+      "binary"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "encoding": "binary"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--screenshot-options-encoding value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--screenshot-options-encoding",
+      "base64"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "encoding": "base64"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --screenshot-options-from-surface",
@@ -714,9 +931,33 @@
       "screenshot",
       "--screenshot-options-from-surface=true"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "fromSurface": true
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "--screenshot-options-from-surface value 1",
@@ -726,9 +967,33 @@
       "screenshot",
       "--screenshot-options-from-surface=false"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "fromSurface": false
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --screenshot-options-full-page",
@@ -738,9 +1003,33 @@
       "screenshot",
       "--screenshot-options-full-page=true"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "fullPage": true
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "--screenshot-options-full-page value 1",
@@ -750,9 +1039,33 @@
       "screenshot",
       "--screenshot-options-full-page=false"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "166",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "fullPage": false
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --screenshot-options-omit-background",
@@ -762,9 +1075,33 @@
       "screenshot",
       "--screenshot-options-omit-background=true"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "omitBackground": true
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "--screenshot-options-omit-background value 1",
@@ -774,9 +1111,33 @@
       "screenshot",
       "--screenshot-options-omit-background=false"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "omitBackground": false
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --screenshot-options-optimize-for-speed",
@@ -786,9 +1147,33 @@
       "screenshot",
       "--screenshot-options-optimize-for-speed=true"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "optimizeForSpeed": true
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "--screenshot-options-optimize-for-speed value 1",
@@ -798,9 +1183,33 @@
       "screenshot",
       "--screenshot-options-optimize-for-speed=false"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "optimizeForSpeed": false
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --screenshot-options-quality",
@@ -811,9 +1220,144 @@
       "--screenshot-options-quality",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "quality": 1
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --screenshot-options-type",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--screenshot-options-type",
+      "png"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "type": "png"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--screenshot-options-type value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--screenshot-options-type",
+      "jpeg"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "type": "jpeg"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--screenshot-options-type value 2",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--screenshot-options-type",
+      "webp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "screenshotOptions": {
+            "type": "webp"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --scroll-page",
@@ -844,7 +1388,7 @@
         },
         "body": {
           "scrollPage": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -878,7 +1422,7 @@
         },
         "body": {
           "scrollPage": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -913,7 +1457,44 @@
         },
         "body": {
           "selector": "regression value &/?+ü",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --set-extra-httpheaders",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "screenshot",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -947,7 +1528,7 @@
         },
         "body": {
           "setJavaScriptEnabled": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -981,7 +1562,7 @@
         },
         "body": {
           "setJavaScriptEnabled": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1016,7 +1597,7 @@
         },
         "body": {
           "url": "https://example.com/a?x=1&y=two",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1175,7 +1756,7 @@
       "--wait-for-selector-hidden=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1187,7 +1768,7 @@
       "--wait-for-selector-hidden=false"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1219,7 +1800,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "waitForSelector": {
             "selector": "regression value &/?+ü"
           }
@@ -1237,7 +1818,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1249,7 +1830,7 @@
       "--wait-for-selector-visible=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1261,7 +1842,7 @@
       "--wait-for-selector-visible=false"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1293,7 +1874,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "waitForTimeout": 1
         }
       }
@@ -1327,7 +1908,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1360,7 +1941,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1371,7 +1952,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1382,6 +1963,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -1404,6 +1988,9 @@
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=false",
       "--screenshot-options-clip-height",
       "2",
@@ -1415,15 +2002,21 @@
       "2",
       "--screenshot-options-clip-y",
       "2",
+      "--screenshot-options-encoding",
+      "base64",
       "--screenshot-options-from-surface=false",
       "--screenshot-options-full-page=false",
       "--screenshot-options-omit-background=false",
       "--screenshot-options-optimize-for-speed=false",
       "--screenshot-options-quality",
       "2",
+      "--screenshot-options-type",
+      "jpeg",
       "--scroll-page=false",
       "--selector",
       "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=false",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -1448,9 +2041,113 @@
       "2",
       "--text=false"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1339",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "rejectRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "screenshotOptions": {
+            "captureBeyondViewport": false,
+            "clip": {
+              "height": 2,
+              "scale": 2,
+              "width": 2,
+              "x": 2,
+              "y": 2
+            },
+            "encoding": "base64",
+            "fromSurface": false,
+            "fullPage": false,
+            "omitBackground": false,
+            "optimizeForSpeed": false,
+            "quality": 2,
+            "type": "jpeg"
+          },
+          "scrollPage": false,
+          "selector": "second value &/?+ü",
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": false,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "second value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 2,
+            "hasTouch": false,
+            "height": 2,
+            "isLandscape": false,
+            "isMobile": false,
+            "width": 2
+          },
+          "waitForSelector": {
+            "hidden": false,
+            "selector": "second value &/?+ü",
+            "timeout": 2,
+            "visible": false
+          },
+          "waitForTimeout": 2
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -1464,15 +2161,16 @@
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
       "regression value &/?+ü",
-      "--authenticate-username",
+      "--authenticate-password",
       "regression value &/?+ü",
-      "--cookies",
-      "[{\"regression\":\"item\"}]",
-      "--goto-options-referer",
+      "--best-attempt=true",
+      "--emulate-media-type",
       "regression value &/?+ü",
-      "--goto-options-timeout",
-      "1",
-      "--reject-request-pattern",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
+      "--html",
+      "regression value &/?+ü",
+      "--reject-resource-types",
       "regression value &/?+ü",
       "--screenshot-options-clip-height",
       "1",
@@ -1480,23 +2178,28 @@
       "1",
       "--screenshot-options-clip-y",
       "1",
-      "--screenshot-options-full-page=true",
-      "--screenshot-options-optimize-for-speed=true",
-      "--scroll-page=true",
-      "--set-java-script-enabled=true",
-      "--user-agent",
-      "regression value &/?+ü",
-      "--viewport-has-touch=true",
-      "--viewport-is-landscape=true",
-      "--viewport-width",
+      "--screenshot-options-from-surface=true",
+      "--screenshot-options-omit-background=true",
+      "--screenshot-options-quality",
       "1",
-      "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-selector-visible=true",
-      "--text=true"
+      "--scroll-page=true",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--viewport-device-scale-factor",
+      "1",
+      "--viewport-height",
+      "1",
+      "--viewport-is-mobile=true",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-timeout",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--authenticate-password is required when any --authenticate-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1505,47 +2208,53 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--action-timeout",
       "2",
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
-      "--authenticate-password",
+      "--allow-resource-types",
       "second value &/?+ü",
-      "--best-attempt=false",
-      "--emulate-media-type",
       "second value &/?+ü",
-      "--goto-options-referrer-policy",
+      "--authenticate-username",
       "second value &/?+ü",
-      "--html",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--goto-options-referer",
+      "second value &/?+ü",
+      "--goto-options-timeout",
+      "2",
+      "--reject-request-pattern",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=false",
       "--screenshot-options-clip-scale",
       "2",
       "--screenshot-options-clip-x",
       "2",
-      "--screenshot-options-from-surface=false",
-      "--screenshot-options-omit-background=false",
-      "--screenshot-options-quality",
-      "2",
+      "--screenshot-options-encoding",
+      "base64",
+      "--screenshot-options-full-page=false",
+      "--screenshot-options-optimize-for-speed=false",
+      "--screenshot-options-type",
+      "jpeg",
       "--selector",
       "second value &/?+ü",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--viewport-device-scale-factor",
+      "--set-java-script-enabled=false",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-has-touch=false",
+      "--viewport-is-landscape=false",
+      "--viewport-width",
       "2",
-      "--viewport-height",
-      "2",
-      "--viewport-is-mobile=false",
-      "--wait-for-selector-hidden=false",
-      "--wait-for-selector-timeout",
-      "2",
-      "--wait-for-timeout",
-      "2"
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
+      "--wait-for-selector-visible=false",
+      "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1558,43 +2267,45 @@
       "1",
       "--add-script-tag",
       "[{\"regression\":\"item\"}]",
+      "--allow-resource-types",
+      "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
-      "--authenticate-username",
-      "regression value &/?+ü",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
       "--emulate-media-type",
       "regression value &/?+ü",
-      "--goto-options-referer",
-      "regression value &/?+ü",
+      "--goto-options-timeout",
+      "1",
       "--html",
       "regression value &/?+ü",
-      "--reject-request-pattern",
-      "regression value &/?+ü",
-      "--screenshot-options-clip-scale",
+      "--screenshot-options-capture-beyond-viewport=true",
+      "--screenshot-options-clip-height",
       "1",
-      "--screenshot-options-clip-width",
+      "--screenshot-options-clip-x",
       "1",
-      "--screenshot-options-from-surface=true",
+      "--screenshot-options-clip-y",
+      "1",
       "--screenshot-options-full-page=true",
-      "--screenshot-options-quality",
-      "1",
+      "--screenshot-options-omit-background=true",
+      "--screenshot-options-type",
+      "png",
       "--scroll-page=true",
+      "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "regression value &/?+ü",
+      "--viewport-has-touch=true",
       "--viewport-height",
       "1",
-      "--viewport-is-landscape=true",
-      "--wait-for-selector-hidden=true",
-      "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-timeout",
+      "--viewport-width",
       "1",
-      "--text=true"
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1603,7 +2314,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1612,37 +2323,47 @@
       "--allow-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
       "--best-attempt=false",
-      "--cookies",
-      "[{\"regression\":\"item\"}]",
+      "--goto-options-referer",
+      "second value &/?+ü",
       "--goto-options-referrer-policy",
       "second value &/?+ü",
-      "--goto-options-timeout",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--screenshot-options-clip-scale",
       "2",
-      "--screenshot-options-capture-beyond-viewport=false",
-      "--screenshot-options-clip-height",
+      "--screenshot-options-clip-width",
       "2",
-      "--screenshot-options-clip-x",
-      "2",
-      "--screenshot-options-clip-y",
-      "2",
-      "--screenshot-options-omit-background=false",
+      "--screenshot-options-encoding",
+      "base64",
+      "--screenshot-options-from-surface=false",
       "--screenshot-options-optimize-for-speed=false",
+      "--screenshot-options-quality",
+      "2",
       "--selector",
       "second value &/?+ü",
-      "--set-java-script-enabled=false",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--user-agent",
+      "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
-      "--viewport-has-touch=false",
+      "--viewport-is-landscape=false",
       "--viewport-is-mobile=false",
-      "--viewport-width",
-      "2",
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
       "--wait-for-selector-timeout",
       "2",
-      "--wait-for-selector-visible=false"
+      "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1655,9 +2376,11 @@
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
       "regression value &/?+ü",
+      "--allow-resource-types",
+      "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
-      "--authenticate-username",
+      "--goto-options-referer",
       "regression value &/?+ü",
       "--goto-options-referrer-policy",
       "regression value &/?+ü",
@@ -1665,30 +2388,37 @@
       "1",
       "--html",
       "regression value &/?+ü",
-      "--reject-request-pattern",
-      "regression value &/?+ü",
+      "--screenshot-options-clip-scale",
+      "1",
+      "--screenshot-options-clip-width",
+      "1",
       "--screenshot-options-clip-x",
       "1",
       "--screenshot-options-clip-y",
       "1",
-      "--screenshot-options-from-surface=true",
-      "--screenshot-options-full-page=true",
-      "--selector",
-      "regression value &/?+ü",
-      "--set-java-script-enabled=true",
-      "--url",
-      "https://example.com/a?x=1&y=two",
+      "--screenshot-options-optimize-for-speed=true",
+      "--screenshot-options-quality",
+      "1",
+      "--screenshot-options-type",
+      "png",
+      "--scroll-page=true",
       "--user-agent",
       "regression value &/?+ü",
-      "--viewport-is-mobile=true",
-      "--viewport-width",
+      "--viewport-device-scale-factor",
       "1",
-      "--wait-for-selector-hidden=true",
+      "--viewport-has-touch=true",
+      "--viewport-height",
+      "1",
       "--wait-for-selector-selector",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width are required when any --screenshotOptions-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1697,7 +2427,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1705,40 +2435,43 @@
       "2",
       "--add-script-tag",
       "[{\"regression\":\"item\"}]",
+      "--authenticate-username",
+      "second value &/?+ü",
       "--best-attempt=false",
       "--cookies",
       "[{\"regression\":\"item\"}]",
       "--emulate-media-type",
       "second value &/?+ü",
-      "--goto-options-referer",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=false",
       "--screenshot-options-clip-height",
       "2",
-      "--screenshot-options-clip-scale",
-      "2",
-      "--screenshot-options-clip-width",
-      "2",
+      "--screenshot-options-encoding",
+      "base64",
+      "--screenshot-options-from-surface=false",
+      "--screenshot-options-full-page=false",
       "--screenshot-options-omit-background=false",
-      "--screenshot-options-optimize-for-speed=false",
-      "--screenshot-options-quality",
-      "2",
-      "--scroll-page=false",
-      "--viewport-device-scale-factor",
-      "2",
-      "--viewport-has-touch=false",
-      "--viewport-height",
-      "2",
+      "--selector",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
       "--viewport-is-landscape=false",
-      "--wait-for-selector-timeout",
+      "--viewport-is-mobile=false",
+      "--viewport-width",
       "2",
-      "--wait-for-selector-visible=false",
-      "--wait-for-timeout",
-      "2",
+      "--wait-for-selector-hidden=false",
       "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1747,6 +2480,8 @@
       "browser-run",
       "quick-action",
       "screenshot",
+      "--authenticate-username",
+      "regression value &/?+ü",
       "--best-attempt=true",
       "--cookies",
       "[{\"regression\":\"item\"}]",
@@ -1760,29 +2495,32 @@
       "1",
       "--html",
       "regression value &/?+ü",
-      "--reject-request-pattern",
-      "regression value &/?+ü",
+      "--screenshot-options-encoding",
+      "binary",
+      "--screenshot-options-from-surface=true",
+      "--screenshot-options-full-page=true",
       "--screenshot-options-omit-background=true",
       "--screenshot-options-optimize-for-speed=true",
       "--screenshot-options-quality",
       "1",
+      "--screenshot-options-type",
+      "png",
       "--scroll-page=true",
-      "--selector",
-      "regression value &/?+ü",
-      "--set-java-script-enabled=true",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--user-agent",
+      "--viewport-is-landscape=true",
+      "--viewport-is-mobile=true",
+      "--viewport-width",
+      "1",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-selector",
       "regression value &/?+ü",
       "--wait-for-selector-timeout",
       "1",
       "--wait-for-selector-visible=true",
       "--wait-for-timeout",
-      "1",
-      "--text=true"
+      "1"
     ],
     "exitCode": 1,
-    "error": "--screenshot-options-clip-height, --screenshot-options-clip-width, --screenshot-options-clip-x, --screenshot-options-clip-y are required when any --screenshotOptions-* flag is set",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1791,7 +2529,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1804,9 +2542,16 @@
       "--allow-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--allow-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--authenticate-password",
       "second value &/?+ü",
-      "--authenticate-username",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=false",
       "--screenshot-options-clip-height",
@@ -1819,23 +2564,24 @@
       "2",
       "--screenshot-options-clip-y",
       "2",
-      "--screenshot-options-from-surface=false",
-      "--screenshot-options-full-page=false",
+      "--selector",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
       "--viewport-has-touch=false",
       "--viewport-height",
       "2",
-      "--viewport-is-landscape=false",
-      "--viewport-is-mobile=false",
-      "--viewport-width",
-      "2",
-      "--wait-for-selector-hidden=false",
-      "--wait-for-selector-selector",
-      "second value &/?+ü"
+      "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1844,6 +2590,10 @@
       "browser-run",
       "quick-action",
       "screenshot",
+      "--reject-request-pattern",
+      "regression value &/?+ü",
+      "--reject-resource-types",
+      "regression value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=true",
       "--screenshot-options-clip-height",
       "1",
@@ -1855,20 +2605,18 @@
       "1",
       "--screenshot-options-clip-y",
       "1",
+      "--screenshot-options-encoding",
+      "binary",
       "--screenshot-options-from-surface=true",
       "--screenshot-options-full-page=true",
       "--screenshot-options-omit-background=true",
       "--screenshot-options-optimize-for-speed=true",
       "--screenshot-options-quality",
       "1",
+      "--screenshot-options-type",
+      "png",
       "--scroll-page=true",
-      "--selector",
-      "regression value &/?+ü",
-      "--set-java-script-enabled=true",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "regression value &/?+ü"
+      "--text=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -1881,7 +2629,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "358",
+          "content-length": "475",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1890,6 +2638,12 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
           "screenshotOptions": {
             "captureBeyondViewport": true,
             "clip": {
@@ -1899,17 +2653,16 @@
               "x": 1,
               "y": 1
             },
+            "encoding": "binary",
             "fromSurface": true,
             "fullPage": true,
             "omitBackground": true,
             "optimizeForSpeed": true,
-            "quality": 1
+            "quality": 1,
+            "type": "png"
           },
           "scrollPage": true,
-          "selector": "regression value &/?+ü",
-          "setJavaScriptEnabled": true,
-          "url": "https://example.com/a?x=1&y=two",
-          "userAgent": "regression value &/?+ü"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1920,7 +2673,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1931,6 +2684,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -1950,8 +2706,14 @@
       "2",
       "--html",
       "second value &/?+ü",
-      "--reject-request-pattern",
+      "--selector",
       "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
       "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
@@ -1969,12 +2731,89 @@
       "2",
       "--wait-for-selector-visible=false",
       "--wait-for-timeout",
-      "2",
-      "--text=false"
+      "2"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "948",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "selector": "second value &/?+ü",
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": false,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "second value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 2,
+            "hasTouch": false,
+            "height": 2,
+            "isLandscape": false,
+            "isMobile": false,
+            "width": 2
+          },
+          "waitForSelector": {
+            "hidden": false,
+            "selector": "second value &/?+ü",
+            "timeout": 2,
+            "visible": false
+          },
+          "waitForTimeout": 2
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 12",
@@ -1982,6 +2821,15 @@
       "browser-run",
       "quick-action",
       "screenshot",
+      "--selector",
+      "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=true",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "regression value &/?+ü",
       "--viewport-device-scale-factor",
       "1",
       "--viewport-has-touch=true",
@@ -2012,7 +2860,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "351",
+          "content-length": "418",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2021,7 +2869,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "selector": "regression value &/?+ü",
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": true,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "regression value &/?+ü",
           "viewport": {
             "deviceScaleFactor": 1,
             "hasTouch": true,
@@ -2047,7 +2901,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2058,6 +2912,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -2080,6 +2937,9 @@
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=false",
       "--screenshot-options-clip-height",
       "2",
@@ -2091,24 +2951,104 @@
       "2",
       "--screenshot-options-clip-y",
       "2",
+      "--screenshot-options-encoding",
+      "base64",
       "--screenshot-options-from-surface=false",
       "--screenshot-options-full-page=false",
       "--screenshot-options-omit-background=false",
       "--screenshot-options-optimize-for-speed=false",
       "--screenshot-options-quality",
       "2",
-      "--scroll-page=false",
-      "--selector",
-      "second value &/?+ü",
-      "--set-java-script-enabled=false",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "second value &/?+ü"
+      "--screenshot-options-type",
+      "jpeg",
+      "--scroll-page=false"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1054",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "rejectRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "screenshotOptions": {
+            "captureBeyondViewport": false,
+            "clip": {
+              "height": 2,
+              "scale": 2,
+              "width": 2,
+              "x": 2,
+              "y": 2
+            },
+            "encoding": "base64",
+            "fromSurface": false,
+            "fullPage": false,
+            "omitBackground": false,
+            "optimizeForSpeed": false,
+            "quality": 2,
+            "type": "jpeg"
+          },
+          "scrollPage": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -2405,7 +3345,7 @@
       "browser-run",
       "quick-action",
       "screenshot",
-      "--cacheTTL",
+      "--cache-ttl",
       "1",
       "--browser",
       "kitesurf",
@@ -2416,6 +3356,8 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "regression value &/?+ü",
+      "--allow-resource-types",
       "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
@@ -2436,6 +3378,8 @@
       "regression value &/?+ü",
       "--reject-request-pattern",
       "regression value &/?+ü",
+      "--reject-resource-types",
+      "regression value &/?+ü",
       "--screenshot-options-capture-beyond-viewport=true",
       "--screenshot-options-clip-height",
       "1",
@@ -2447,15 +3391,21 @@
       "1",
       "--screenshot-options-clip-y",
       "1",
+      "--screenshot-options-encoding",
+      "binary",
       "--screenshot-options-from-surface=true",
       "--screenshot-options-full-page=true",
       "--screenshot-options-omit-background=true",
       "--screenshot-options-optimize-for-speed=true",
       "--screenshot-options-quality",
       "1",
+      "--screenshot-options-type",
+      "png",
       "--scroll-page=true",
       "--selector",
       "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -2480,8 +3430,108 @@
       "1",
       "--text=true"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/screenshot?cacheTTL=1&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1289",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 1,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "regression value &/?+ü",
+            "username": "regression value &/?+ü"
+          },
+          "bestAttempt": true,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "regression value &/?+ü",
+          "gotoOptions": {
+            "referer": "regression value &/?+ü",
+            "referrerPolicy": "regression value &/?+ü",
+            "timeout": 1
+          },
+          "html": "regression value &/?+ü",
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "screenshotOptions": {
+            "captureBeyondViewport": true,
+            "clip": {
+              "height": 1,
+              "scale": 1,
+              "width": 1,
+              "x": 1,
+              "y": 1
+            },
+            "encoding": "binary",
+            "fromSurface": true,
+            "fullPage": true,
+            "omitBackground": true,
+            "optimizeForSpeed": true,
+            "quality": 1,
+            "type": "png"
+          },
+          "scrollPage": true,
+          "selector": "regression value &/?+ü",
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": true,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "regression value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 1,
+            "hasTouch": true,
+            "height": 1,
+            "isLandscape": true,
+            "isMobile": true,
+            "width": 1
+          },
+          "waitForSelector": {
+            "hidden": true,
+            "selector": "regression value &/?+ü",
+            "timeout": 1,
+            "visible": true
+          },
+          "waitForTimeout": 1
+        }
+      }
+    ]
   }
 ]

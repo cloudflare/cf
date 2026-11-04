@@ -118,6 +118,41 @@
     ]
   },
   {
+    "case": "only --expires-at",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--expires-at",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expires_at": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --name",
     "argv": [
       "email-security",
@@ -298,6 +333,8 @@
       "edit",
       "0123456789abcdef0123456789abcdef",
       "--enabled=false",
+      "--expires-at",
+      "second value &/?+ü",
       "--name",
       "second value &/?+ü",
       "--notes",
@@ -319,7 +356,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "150",
+          "content-length": "185",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -329,6 +366,7 @@
         },
         "body": {
           "enabled": false,
+          "expires_at": "second value &/?+ü",
           "name": "second value &/?+ü",
           "notes": "second value &/?+ü",
           "pattern": "*.sql",
@@ -347,10 +385,12 @@
       "content-policies",
       "edit",
       "0123456789abcdef0123456789abcdef",
-      "--name",
+      "--expires-at",
       "regression value &/?+ü",
-      "--pattern",
-      "*.sql"
+      "--notes",
+      "regression value &/?+ü",
+      "--targets",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -363,7 +403,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "52",
+          "content-length": "112",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -372,8 +412,11 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "name": "regression value &/?+ü",
-          "pattern": "*.sql"
+          "expires_at": "regression value &/?+ü",
+          "notes": "regression value &/?+ü",
+          "targets": [
+            "regression value &/?+ü"
+          ]
         }
       }
     ]
@@ -386,51 +429,8 @@
       "edit",
       "0123456789abcdef0123456789abcdef",
       "--enabled=false",
-      "--notes",
+      "--name",
       "second value &/?+ü",
-      "--targets",
-      "second value &/?+ü",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "103",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "enabled": false,
-          "notes": "second value &/?+ü",
-          "targets": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 4",
-    "argv": [
-      "email-security",
-      "content-policies",
-      "edit",
-      "0123456789abcdef0123456789abcdef",
-      "--notes",
-      "regression value &/?+ü",
       "--pattern",
       "*.sql"
     ],
@@ -445,7 +445,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "53",
+          "content-length": "64",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -454,8 +454,47 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "notes": "regression value &/?+ü",
+          "enabled": false,
+          "name": "second value &/?+ü",
           "pattern": "*.sql"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--notes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "notes": "regression value &/?+ü"
         }
       }
     ]
@@ -468,8 +507,10 @@
       "edit",
       "0123456789abcdef0123456789abcdef",
       "--enabled=false",
-      "--name",
+      "--expires-at",
       "second value &/?+ü",
+      "--pattern",
+      "*.sql",
       "--targets",
       "second value &/?+ü",
       "second value &/?+ü"
@@ -485,7 +526,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "102",
+          "content-length": "126",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -495,10 +536,51 @@
         },
         "body": {
           "enabled": false,
-          "name": "second value &/?+ü",
+          "expires_at": "second value &/?+ü",
+          "pattern": "*.sql",
           "targets": [
             "second value &/?+ü",
             "second value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "email-security",
+      "content-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern",
+      "*.sql",
+      "--targets",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/content_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pattern": "*.sql",
+          "targets": [
+            "regression value &/?+ü"
           ]
         }
       }
@@ -512,12 +594,12 @@
       "edit",
       "0123456789abcdef0123456789abcdef",
       "--enabled=false",
+      "--expires-at",
+      "second value &/?+ü",
       "--name",
       "second value &/?+ü",
       "--notes",
-      "second value &/?+ü",
-      "--pattern",
-      "*.sql"
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -530,7 +612,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "94",
+          "content-length": "111",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -540,9 +622,9 @@
         },
         "body": {
           "enabled": false,
+          "expires_at": "second value &/?+ü",
           "name": "second value &/?+ü",
-          "notes": "second value &/?+ü",
-          "pattern": "*.sql"
+          "notes": "second value &/?+ü"
         }
       }
     ]
@@ -852,6 +934,8 @@
       "edit",
       "0123456789abcdef0123456789abcdef",
       "--enabled=true",
+      "--expires-at",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--notes",
@@ -872,7 +956,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "139",
+          "content-length": "178",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -882,6 +966,7 @@
         },
         "body": {
           "enabled": true,
+          "expires_at": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "notes": "regression value &/?+ü",
           "pattern": "*.sql",

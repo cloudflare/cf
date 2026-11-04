@@ -88,6 +88,36 @@
     ]
   },
   {
+    "case": "only --cursor",
+    "argv": [
+      "accounts",
+      "categories",
+      "list",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/resource-library/categories?cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "pairwise 1",
     "argv": [
       "accounts",
@@ -96,13 +126,15 @@
       "--limit",
       "2",
       "--offset",
-      "2"
+      "2",
+      "--cursor",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/resource-library/categories?limit=2&offset=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/resource-library/categories?limit=2&offset=2&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -126,13 +158,47 @@
       "categories",
       "list",
       "--limit",
+      "2",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/resource-library/categories?limit=2&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "accounts",
+      "categories",
+      "list",
+      "--limit",
+      "2",
+      "--offset",
       "2"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/resource-library/categories?limit=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/resource-library/categories?limit=2&offset=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

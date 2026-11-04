@@ -60,13 +60,13 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "bgp",
       "ips",
       "timeseries",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "bgp",
       "ips",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -122,13 +122,13 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "bgp",
       "ips",
       "timeseries",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -215,13 +215,13 @@
     ]
   },
   {
-    "case": "only --ipVersion",
+    "case": "only --ip-version",
     "argv": [
       "radar",
       "bgp",
       "ips",
       "timeseries",
-      "--ipVersion",
+      "--ip-version",
       "192.0.2.1"
     ],
     "exitCode": 0,
@@ -246,13 +246,13 @@
     ]
   },
   {
-    "case": "only --includeDelay",
+    "case": "only --include-delay",
     "argv": [
       "radar",
       "bgp",
       "ips",
       "timeseries",
-      "--includeDelay=true"
+      "--include-delay=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -276,13 +276,13 @@
     ]
   },
   {
-    "case": "--includeDelay value 1",
+    "case": "--include-delay value 1",
     "argv": [
       "radar",
       "bgp",
       "ips",
       "timeseries",
-      "--includeDelay=false"
+      "--include-delay=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -376,19 +376,26 @@
       "timeseries",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--asn",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--location",
       "second value &/?+ü",
-      "--ipVersion",
+      "second value &/?+ü",
+      "--ip-version",
       "192.0.2.1",
-      "--includeDelay=false",
+      "192.0.2.1",
+      "--include-delay=false",
       "--format",
       "CSV"
     ],
@@ -396,7 +403,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&includeDelay=false&format=CSV",
+        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&ipVersion=192.0.2.1&includeDelay=false&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -420,13 +427,13 @@
       "bgp",
       "ips",
       "timeseries",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--location",
       "regression value &/?+ü",
-      "--includeDelay=true"
+      "--include-delay=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -458,11 +465,15 @@
       "timeseries",
       "--name",
       "second value &/?+ü",
-      "--dateStart",
+      "second value &/?+ü",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--asn",
       "second value &/?+ü",
-      "--ipVersion",
+      "second value &/?+ü",
+      "--ip-version",
+      "192.0.2.1",
       "192.0.2.1",
       "--format",
       "CSV"
@@ -471,7 +482,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&format=CSV",
+        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&ipVersion=192.0.2.1&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -495,13 +506,13 @@
       "bgp",
       "ips",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--ipVersion",
+      "--ip-version",
       "192.0.2.1",
-      "--includeDelay=true"
+      "--include-delay=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -533,11 +544,15 @@
       "timeseries",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--asn",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--location",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--format",
       "CSV"
@@ -546,7 +561,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -574,9 +589,9 @@
       "regression value &/?+ü",
       "--location",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "192.0.2.1",
-      "--includeDelay=true"
+      "--include-delay=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -608,11 +623,15 @@
       "timeseries",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -621,7 +640,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
+        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -647,25 +666,32 @@
       "timeseries",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--asn",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--location",
       "second value &/?+ü",
-      "--ipVersion",
+      "second value &/?+ü",
+      "--ip-version",
       "192.0.2.1",
-      "--includeDelay=false"
+      "192.0.2.1",
+      "--include-delay=false"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&includeDelay=false",
+        "url": "https://api.test/client/v4/radar/bgp/ips/timeseries?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&ipVersion=192.0.2.1&includeDelay=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

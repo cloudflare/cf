@@ -96,9 +96,33 @@
       "--profile-business-address",
       "192.0.2.1"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-email, --profile-business-name, --profile-business-phone, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --profile-business-email",
@@ -110,9 +134,33 @@
       "--profile-business-email",
       "regression@example.com"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-name, --profile-business-phone, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_email": "regression@example.com"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --profile-business-name",
@@ -124,9 +172,33 @@
       "--profile-business-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-email, --profile-business-phone, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --profile-business-phone",
@@ -138,9 +210,33 @@
       "--profile-business-phone",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-email, --profile-business-name, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "89",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_phone": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --profile-external-metadata",
@@ -152,9 +248,33 @@
       "--profile-external-metadata",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-email, --profile-business-name, --profile-business-phone are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "external_metadata": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 0",
@@ -258,9 +378,35 @@
       "--profile-external-metadata",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-email, --profile-business-phone are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_address": "192.0.2.1",
+            "business_name": "regression value &/?+ü",
+            "external_metadata": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -276,9 +422,37 @@
       "--profile-business-phone",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-name, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "parent": {
+            "id": "0123456789abcdef0123456789abcdef"
+          },
+          "profile": {
+            "business_email": "regression@example.com",
+            "business_phone": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -292,9 +466,34 @@
       "--profile-business-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-phone, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_email": "regression@example.com",
+            "business_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -312,9 +511,38 @@
       "--profile-external-metadata",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-email, --profile-business-name are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "209",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "parent": {
+            "id": "0123456789abcdef0123456789abcdef"
+          },
+          "profile": {
+            "business_address": "192.0.2.1",
+            "business_phone": "second value &/?+ü",
+            "external_metadata": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 6",
@@ -328,9 +556,34 @@
       "--profile-external-metadata",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-address, --profile-business-email, --profile-business-name are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "profile": {
+            "business_phone": "regression value &/?+ü",
+            "external_metadata": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -348,9 +601,38 @@
       "--profile-business-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--profile-business-phone, --profile-external-metadata are required when any --profile-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "208",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "parent": {
+            "id": "0123456789abcdef0123456789abcdef"
+          },
+          "profile": {
+            "business_address": "192.0.2.1",
+            "business_email": "regression@example.com",
+            "business_name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -630,7 +912,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -638,14 +920,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },

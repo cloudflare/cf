@@ -17,15 +17,15 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -49,8 +49,8 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--quiet"
     ],
@@ -58,7 +58,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -82,8 +82,8 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--zone",
       "abcdef0123456789abcdef0123456789"
@@ -92,7 +92,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -116,8 +116,8 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--profile",
       "default",
@@ -128,7 +128,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -152,8 +152,8 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--local"
     ],
@@ -161,7 +161,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -184,8 +184,8 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--local",
       "--persist-to",
@@ -195,7 +195,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -218,8 +218,8 @@
       "issues",
       "remove",
       "regression value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--dry-run"
     ],
@@ -233,15 +233,47 @@
       "issues",
       "remove",
       "second value &/?+ü",
-      "--groupId",
-      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
       "--force"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/regression%20value%20%26%2F%3F%2B%C3%BC/members/second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "o11y",
+      "issues",
+      "remove",
+      "regression value &/?+ü",
+      "--group-id",
+      "0123456789abcdef0123456789abcdef",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/issues/groups/0123456789abcdef0123456789abcdef/members/regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

@@ -163,6 +163,45 @@
     ]
   },
   {
+    "case": "only --meta",
+    "argv": [
+      "stream",
+      "videos",
+      "edit",
+      "regression value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "regression": "json value"
+          },
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
     "case": "only --public-details-channel-link",
     "argv": [
       "stream",
@@ -583,6 +622,8 @@
       "second value &/?+ü",
       "--max-duration-seconds",
       "2",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--public-details-channel-link",
       "second value &/?+ü",
       "--public-details-logo",
@@ -612,7 +653,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "440",
+          "content-length": "475",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -627,6 +668,9 @@
           ],
           "creator": "second value &/?+ü",
           "maxDurationSeconds": 2,
+          "meta": {
+            "regression": "json value"
+          },
           "publicDetails": {
             "channel_link": "second value &/?+ü",
             "logo": "second value &/?+ü",
@@ -651,15 +695,16 @@
       "regression value &/?+ü",
       "--creator",
       "regression value &/?+ü",
-      "--public-details-channel-link",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--public-details-logo",
       "regression value &/?+ü",
-      "--public-details-share-link",
+      "--public-details-title",
       "regression value &/?+ü",
-      "--require-signed-urls=true",
-      "--thumbnail-timestamp-pct",
-      "1",
-      "--upload-expiry",
-      "regression value &/?+ü"
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--uid",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -672,7 +717,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "227",
+          "content-length": "296",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -682,13 +727,17 @@
         },
         "body": {
           "creator": "regression value &/?+ü",
-          "publicDetails": {
-            "channel_link": "regression value &/?+ü",
-            "share_link": "regression value &/?+ü"
+          "meta": {
+            "regression": "json value"
           },
-          "requireSignedURLs": true,
-          "thumbnailTimestampPct": 1,
-          "uploadExpiry": "regression value &/?+ü"
+          "publicDetails": {
+            "logo": "regression value &/?+ü",
+            "title": "regression value &/?+ü"
+          },
+          "requireSignedURLs": false,
+          "scheduledDeletion": "regression value &/?+ü",
+          "thumbnailTimestampPct": 0,
+          "uid": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -705,14 +754,15 @@
       "second value &/?+ü",
       "--max-duration-seconds",
       "2",
-      "--public-details-logo",
+      "--public-details-channel-link",
       "second value &/?+ü",
-      "--public-details-title",
+      "--public-details-share-link",
       "second value &/?+ü",
-      "--scheduled-deletion",
-      "second value &/?+ü",
-      "--uid",
-      "0123456789abcdef0123456789abcdef"
+      "--require-signed-urls=false",
+      "--thumbnail-timestamp-pct",
+      "2",
+      "--upload-expiry",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -725,7 +775,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "299",
+          "content-length": "266",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -740,13 +790,12 @@
           ],
           "maxDurationSeconds": 2,
           "publicDetails": {
-            "logo": "second value &/?+ü",
-            "title": "second value &/?+ü"
+            "channel_link": "second value &/?+ü",
+            "share_link": "second value &/?+ü"
           },
           "requireSignedURLs": false,
-          "scheduledDeletion": "second value &/?+ü",
-          "thumbnailTimestampPct": 0,
-          "uid": "0123456789abcdef0123456789abcdef"
+          "thumbnailTimestampPct": 2,
+          "uploadExpiry": "second value &/?+ü"
         }
       }
     ]
@@ -760,15 +809,16 @@
       "regression value &/?+ü",
       "--max-duration-seconds",
       "1",
-      "--public-details-channel-link",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--public-details-share-link",
       "regression value &/?+ü",
       "--public-details-title",
       "regression value &/?+ü",
-      "--require-signed-urls=true",
+      "--thumbnail-timestamp-pct",
+      "1",
       "--uid",
-      "0123456789abcdef0123456789abcdef",
-      "--upload-expiry",
-      "regression value &/?+ü"
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -781,7 +831,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "250",
+          "content-length": "243",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -791,14 +841,16 @@
         },
         "body": {
           "maxDurationSeconds": 1,
+          "meta": {
+            "regression": "json value"
+          },
           "publicDetails": {
-            "channel_link": "regression value &/?+ü",
+            "share_link": "regression value &/?+ü",
             "title": "regression value &/?+ü"
           },
-          "requireSignedURLs": true,
-          "thumbnailTimestampPct": 0,
-          "uid": "0123456789abcdef0123456789abcdef",
-          "uploadExpiry": "regression value &/?+ü"
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 1,
+          "uid": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -815,14 +867,15 @@
       "second value &/?+ü",
       "--creator",
       "second value &/?+ü",
+      "--public-details-channel-link",
+      "second value &/?+ü",
       "--public-details-logo",
       "second value &/?+ü",
-      "--public-details-share-link",
-      "second value &/?+ü",
+      "--require-signed-urls=false",
       "--scheduled-deletion",
       "second value &/?+ü",
-      "--thumbnail-timestamp-pct",
-      "2"
+      "--upload-expiry",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -835,7 +888,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "272",
+          "content-length": "311",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -850,12 +903,13 @@
           ],
           "creator": "second value &/?+ü",
           "publicDetails": {
-            "logo": "second value &/?+ü",
-            "share_link": "second value &/?+ü"
+            "channel_link": "second value &/?+ü",
+            "logo": "second value &/?+ü"
           },
           "requireSignedURLs": false,
           "scheduledDeletion": "second value &/?+ü",
-          "thumbnailTimestampPct": 2
+          "thumbnailTimestampPct": 0,
+          "uploadExpiry": "second value &/?+ü"
         }
       }
     ]
@@ -867,13 +921,16 @@
       "videos",
       "edit",
       "regression value &/?+ü",
+      "--public-details-channel-link",
+      "regression value &/?+ü",
       "--public-details-logo",
       "regression value &/?+ü",
       "--public-details-share-link",
       "regression value &/?+ü",
       "--public-details-title",
       "regression value &/?+ü",
-      "--require-signed-urls=true"
+      "--upload-expiry",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -886,7 +943,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "176",
+          "content-length": "259",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -896,12 +953,14 @@
         },
         "body": {
           "publicDetails": {
+            "channel_link": "regression value &/?+ü",
             "logo": "regression value &/?+ü",
             "share_link": "regression value &/?+ü",
             "title": "regression value &/?+ü"
           },
-          "requireSignedURLs": true,
-          "thumbnailTimestampPct": 0
+          "requireSignedURLs": false,
+          "thumbnailTimestampPct": 0,
+          "uploadExpiry": "regression value &/?+ü"
         }
       }
     ]
@@ -920,16 +979,15 @@
       "second value &/?+ü",
       "--max-duration-seconds",
       "2",
-      "--public-details-channel-link",
-      "second value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--require-signed-urls=false",
       "--scheduled-deletion",
       "second value &/?+ü",
       "--thumbnail-timestamp-pct",
       "2",
       "--uid",
-      "0123456789abcdef0123456789abcdef",
-      "--upload-expiry",
-      "second value &/?+ü"
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -942,7 +1000,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "346",
+          "content-length": "289",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -957,14 +1015,13 @@
           ],
           "creator": "second value &/?+ü",
           "maxDurationSeconds": 2,
-          "publicDetails": {
-            "channel_link": "second value &/?+ü"
+          "meta": {
+            "regression": "json value"
           },
           "requireSignedURLs": false,
           "scheduledDeletion": "second value &/?+ü",
           "thumbnailTimestampPct": 2,
-          "uid": "0123456789abcdef0123456789abcdef",
-          "uploadExpiry": "second value &/?+ü"
+          "uid": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -976,6 +1033,7 @@
       "videos",
       "edit",
       "regression value &/?+ü",
+      "--require-signed-urls=true",
       "--scheduled-deletion",
       "regression value &/?+ü",
       "--thumbnail-timestamp-pct",
@@ -996,7 +1054,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "181",
+          "content-length": "180",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1005,7 +1063,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "requireSignedURLs": false,
+          "requireSignedURLs": true,
           "scheduledDeletion": "regression value &/?+ü",
           "thumbnailTimestampPct": 1,
           "uid": "0123456789abcdef0123456789abcdef",
@@ -1028,6 +1086,8 @@
       "second value &/?+ü",
       "--max-duration-seconds",
       "2",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--public-details-channel-link",
       "second value &/?+ü",
       "--public-details-logo",
@@ -1035,8 +1095,7 @@
       "--public-details-share-link",
       "second value &/?+ü",
       "--public-details-title",
-      "second value &/?+ü",
-      "--require-signed-urls=false"
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -1049,7 +1108,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "320",
+          "content-length": "355",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1064,6 +1123,9 @@
           ],
           "creator": "second value &/?+ü",
           "maxDurationSeconds": 2,
+          "meta": {
+            "regression": "json value"
+          },
           "publicDetails": {
             "channel_link": "second value &/?+ü",
             "logo": "second value &/?+ü",
@@ -1354,7 +1416,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1362,14 +1424,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1386,6 +1448,8 @@
       "regression value &/?+ü",
       "--max-duration-seconds",
       "1",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--public-details-channel-link",
       "regression value &/?+ü",
       "--public-details-logo",
@@ -1415,7 +1479,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "449",
+          "content-length": "484",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1429,6 +1493,9 @@
           ],
           "creator": "regression value &/?+ü",
           "maxDurationSeconds": 1,
+          "meta": {
+            "regression": "json value"
+          },
           "publicDetails": {
             "channel_link": "regression value &/?+ü",
             "logo": "regression value &/?+ü",

@@ -393,6 +393,49 @@
     "requests": []
   },
   {
+    "case": "only --schema-fields",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schema": {
+            "fields": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --schema-inferred",
     "argv": [
       "pipelines",
@@ -602,6 +645,8 @@
       "second value &/?+ü",
       "second value &/?+ü",
       "--http-enabled=false",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
       "--schema-inferred=false",
       "--worker-binding-enabled=false"
     ],
@@ -625,7 +670,9 @@
       "1",
       "--http-cors-origins",
       "regression value &/?+ü",
-      "--schema-inferred=true"
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--worker-binding-enabled=true"
     ],
     "exitCode": 1,
     "error": "Arguments format-timestamp-format and format-row-group-bytes are mutually exclusive",
@@ -646,7 +693,7 @@
       "snappy",
       "--http-authentication=false",
       "--http-enabled=false",
-      "--worker-binding-enabled=false"
+      "--schema-inferred=false"
     ],
     "exitCode": 1,
     "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
@@ -666,6 +713,7 @@
       "--http-authentication=true",
       "--http-cors-origins",
       "regression value &/?+ü",
+      "--schema-inferred=true",
       "--worker-binding-enabled=true"
     ],
     "exitCode": 1,
@@ -689,7 +737,8 @@
       "--format-row-group-bytes",
       "2",
       "--http-enabled=false",
-      "--schema-inferred=false"
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 1,
     "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
@@ -731,6 +780,8 @@
       "--format-type",
       "parquet",
       "--http-enabled=false",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
       "--schema-inferred=false",
       "--worker-binding-enabled=false"
     ],
@@ -747,6 +798,8 @@
       "--name",
       "regression value &/?+ü",
       "--http-enabled=true",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
       "--schema-inferred=true",
       "--worker-binding-enabled=true"
     ],
@@ -1068,7 +1121,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1076,14 +1129,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1110,6 +1163,8 @@
       "--http-cors-origins",
       "regression value &/?+ü",
       "--http-enabled=true",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
       "--schema-inferred=true",
       "--worker-binding-enabled=true"
     ],

@@ -4319,6 +4319,129 @@
     ]
   },
   {
+    "case": "only --mechanisms-email",
+    "argv": [
+      "alerting",
+      "policies",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/alerting/v3/policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mechanisms-pagerduty",
+    "argv": [
+      "alerting",
+      "policies",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/alerting/v3/policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mechanisms": {
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mechanisms-webhooks",
+    "argv": [
+      "alerting",
+      "policies",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/alerting/v3/policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mechanisms": {
+            "webhooks": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --name",
     "argv": [
       "alerting",
@@ -4530,6 +4653,12 @@
       "--filters-zones",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "second value &/?+ü"
     ],
@@ -4544,7 +4673,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "2950",
+          "content-length": "3068",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -4735,6 +4864,23 @@
               "second value &/?+ü"
             ]
           },
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "name": "second value &/?+ü"
         }
       }
@@ -4793,6 +4939,10 @@
       "--filters-type",
       "regression value &/?+ü",
       "--filters-zones",
+      "regression value &/?+ü",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--name",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -4806,7 +4956,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1000",
+          "content-length": "1084",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -4884,7 +5034,15 @@
             "zones": [
               "regression value &/?+ü"
             ]
-          }
+          },
+          "mechanisms": {
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "name": "regression value &/?+ü"
         }
       }
     ]
@@ -4966,8 +5124,10 @@
       "--filters-where",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--name",
-      "second value &/?+ü"
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -4980,7 +5140,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1464",
+          "content-length": "1517",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5081,7 +5241,18 @@
               "second value &/?+ü"
             ]
           },
-          "name": "second value &/?+ü"
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
         }
       }
     ]
@@ -5139,6 +5310,10 @@
       "--filters-where",
       "regression value &/?+ü",
       "--filters-zones",
+      "regression value &/?+ü",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
+      "--name",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -5152,7 +5327,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1014",
+          "content-length": "1097",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5230,7 +5405,15 @@
             "zones": [
               "regression value &/?+ü"
             ]
-          }
+          },
+          "mechanisms": {
+            "webhooks": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "name": "regression value &/?+ü"
         }
       }
     ]
@@ -5312,8 +5495,10 @@
       "--filters-type",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--name",
-      "second value &/?+ü"
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -5326,7 +5511,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1494",
+          "content-length": "1548",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5427,7 +5612,18 @@
               "second value &/?+ü"
             ]
           },
-          "name": "second value &/?+ü"
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
         }
       }
     ]
@@ -5660,6 +5856,12 @@
       "--filters-tunnel-id",
       "0123456789abcdef0123456789abcdef",
       "0123456789abcdef0123456789abcdef",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "second value &/?+ü"
     ],
@@ -5674,7 +5876,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1552",
+          "content-length": "1670",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5767,6 +5969,23 @@
             "tunnel_id": [
               "0123456789abcdef0123456789abcdef",
               "0123456789abcdef0123456789abcdef"
+            ]
+          },
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "name": "second value &/?+ü"
@@ -6002,6 +6221,12 @@
       "--filters-target-ip",
       "192.0.2.1",
       "192.0.2.1",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "second value &/?+ü"
     ],
@@ -6016,7 +6241,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1402",
+          "content-length": "1520",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6111,6 +6336,23 @@
               "192.0.2.1"
             ]
           },
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "name": "second value &/?+ü"
         }
       }
@@ -6155,6 +6397,12 @@
       "0123456789abcdef0123456789abcdef",
       "--filters-protocol",
       "regression value &/?+ü",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "regression value &/?+ü"
     ],
@@ -6169,7 +6417,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "748",
+          "content-length": "866",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6226,6 +6474,23 @@
             ],
             "protocol": [
               "regression value &/?+ü"
+            ]
+          },
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "name": "regression value &/?+ü"
@@ -6513,6 +6778,12 @@
       "regression value &/?+ü",
       "--filters-zones",
       "regression value &/?+ü",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "regression value &/?+ü"
     ],
@@ -6527,7 +6798,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "688",
+          "content-length": "806",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6584,6 +6855,23 @@
             ],
             "zones": [
               "regression value &/?+ü"
+            ]
+          },
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "name": "regression value &/?+ü"
@@ -7110,7 +7398,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -7118,14 +7406,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -7231,6 +7519,12 @@
       "regression value &/?+ü",
       "--filters-zones",
       "regression value &/?+ü",
+      "--mechanisms-email",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-pagerduty",
+      "[{\"regression\":\"item\"}]",
+      "--mechanisms-webhooks",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "regression value &/?+ü"
     ],
@@ -7245,7 +7539,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "2050",
+          "content-length": "2168",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -7390,6 +7684,23 @@
             ],
             "zones": [
               "regression value &/?+ü"
+            ]
+          },
+          "mechanisms": {
+            "email": [
+              {
+                "regression": "item"
+              }
+            ],
+            "pagerduty": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhooks": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "name": "regression value &/?+ü"

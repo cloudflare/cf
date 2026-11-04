@@ -60,13 +60,13 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "annotations",
       "outages",
       "locations",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "annotations",
       "outages",
       "locations",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -122,13 +122,13 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "annotations",
       "outages",
       "locations",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -223,11 +223,11 @@
       "locations",
       "--limit",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -260,9 +260,9 @@
       "annotations",
       "outages",
       "locations",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -295,7 +295,7 @@
       "locations",
       "--limit",
       "2",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -328,9 +328,9 @@
       "annotations",
       "outages",
       "locations",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -363,7 +363,7 @@
       "locations",
       "--limit",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -398,11 +398,11 @@
       "locations",
       "--limit",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,

@@ -231,37 +231,24 @@
       "get",
       "--dimensions",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--sort",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--until",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--metrics",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--filters",
       "second value &/?+ü",
       "--since",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/events/summary?dimensions=second%20value%20%26%2F%3F%2B%C3%BC&sort=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&metrics=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&since=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 2",
@@ -309,31 +296,16 @@
       "get",
       "--dimensions",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--until",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--filters",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/events/summary?dimensions=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -379,7 +351,9 @@
       "get",
       "--dimensions",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--sort",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--filters",
       "second value &/?+ü",
@@ -390,7 +364,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/events/summary?dimensions=second%20value%20%26%2F%3F%2B%C3%BC&sort=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&since=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/events/summary?dimensions=second%20value%20%26%2F%3F%2B%C3%BC&dimensions=second%20value%20%26%2F%3F%2B%C3%BC&sort=second%20value%20%26%2F%3F%2B%C3%BC&sort=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&since=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -451,33 +425,20 @@
       "get",
       "--dimensions",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--sort",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--until",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--metrics",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/analytics/events/summary?dimensions=second%20value%20%26%2F%3F%2B%C3%BC&sort=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&metrics=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "global quiet",

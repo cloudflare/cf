@@ -88,12 +88,12 @@
     ]
   },
   {
-    "case": "only --sortField",
+    "case": "only --sort-field",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortField",
+      "--sort-field",
       "id"
     ],
     "exitCode": 0,
@@ -118,12 +118,12 @@
     ]
   },
   {
-    "case": "--sortField value 1",
+    "case": "--sort-field value 1",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortField",
+      "--sort-field",
       "user_id"
     ],
     "exitCode": 0,
@@ -148,12 +148,12 @@
     ]
   },
   {
-    "case": "--sortField value 2",
+    "case": "--sort-field value 2",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortField",
+      "--sort-field",
       "description"
     ],
     "exitCode": 0,
@@ -178,12 +178,12 @@
     ]
   },
   {
-    "case": "--sortField value 3",
+    "case": "--sort-field value 3",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortField",
+      "--sort-field",
       "created_at"
     ],
     "exitCode": 0,
@@ -208,12 +208,12 @@
     ]
   },
   {
-    "case": "--sortField value 4",
+    "case": "--sort-field value 4",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortField",
+      "--sort-field",
       "updated_at"
     ],
     "exitCode": 0,
@@ -238,12 +238,12 @@
     ]
   },
   {
-    "case": "only --sortOrder",
+    "case": "only --sort-order",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
@@ -268,12 +268,12 @@
     ]
   },
   {
-    "case": "--sortOrder value 1",
+    "case": "--sort-order value 1",
     "argv": [
       "zaraz",
       "history",
       "list",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -307,9 +307,9 @@
       "2",
       "--limit",
       "2",
-      "--sortField",
+      "--sort-field",
       "user_id",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -341,7 +341,7 @@
       "list",
       "--limit",
       "1",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
@@ -373,7 +373,7 @@
       "list",
       "--offset",
       "2",
-      "--sortField",
+      "--sort-field",
       "user_id"
     ],
     "exitCode": 0,
@@ -403,9 +403,9 @@
       "zaraz",
       "history",
       "list",
-      "--sortField",
+      "--sort-field",
       "id",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,

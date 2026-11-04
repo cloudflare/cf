@@ -1338,9 +1338,34 @@
       "--recording-config-audio-config-channel",
       "mono"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "audio_config": {
+              "channel": "mono"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-audio-config-channel value 1",
@@ -1355,9 +1380,34 @@
       "--recording-config-audio-config-channel",
       "stereo"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "audio_config": {
+              "channel": "stereo"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-audio-config-codec",
@@ -1372,9 +1422,34 @@
       "--recording-config-audio-config-codec",
       "MP3"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "audio_config": {
+              "codec": "MP3"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-audio-config-codec value 1",
@@ -1389,9 +1464,34 @@
       "--recording-config-audio-config-codec",
       "AAC"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "audio_config": {
+              "codec": "AAC"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-audio-config-export-file",
@@ -1405,9 +1505,34 @@
       "0123456789abcdef0123456789abcdef",
       "--recording-config-audio-config-export-file=true"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "audio_config": {
+              "export_file": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-audio-config-export-file value 1",
@@ -1421,9 +1546,34 @@
       "0123456789abcdef0123456789abcdef",
       "--recording-config-audio-config-export-file=false"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "audio_config": {
+              "export_file": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-file-name-prefix",
@@ -1438,9 +1588,32 @@
       "--recording-config-file-name-prefix",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "file_name_prefix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-live-streaming-config-rtmp-url",
@@ -1455,9 +1628,34 @@
       "--recording-config-live-streaming-config-rtmp-url",
       "https://example.com/a?x=1&y=two"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-max-seconds",
@@ -1472,9 +1670,32 @@
       "--recording-config-max-seconds",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "max_seconds": 1
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-realtimekit-bucket-config-enabled",
@@ -1559,6 +1780,216 @@
     ]
   },
   {
+    "case": "only --recording-config-storage-config-type",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-storage-config-type",
+      "gcs"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "storage_config": {
+              "type": "gcs"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--recording-config-storage-config-type value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-storage-config-type",
+      "aws"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "storage_config": {
+              "type": "aws"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--recording-config-storage-config-type value 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-storage-config-type",
+      "azure"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "storage_config": {
+              "type": "azure"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--recording-config-storage-config-type value 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-storage-config-type",
+      "digitalocean"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "storage_config": {
+              "type": "digitalocean"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--recording-config-storage-config-type value 4",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-storage-config-type",
+      "sftp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "storage_config": {
+              "type": "sftp"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --recording-config-video-config-codec",
     "argv": [
       "realtime",
@@ -1571,9 +2002,34 @@
       "--recording-config-video-config-codec",
       "H264"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "codec": "H264"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-video-config-codec value 1",
@@ -1588,9 +2044,34 @@
       "--recording-config-video-config-codec",
       "VP8"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "codec": "VP8"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-video-config-codec value 2",
@@ -1605,9 +2086,34 @@
       "--recording-config-video-config-codec",
       "VP9"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "codec": "VP9"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-video-config-export-file",
@@ -1621,9 +2127,34 @@
       "0123456789abcdef0123456789abcdef",
       "--recording-config-video-config-export-file=true"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "export_file": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-video-config-export-file value 1",
@@ -1637,9 +2168,34 @@
       "0123456789abcdef0123456789abcdef",
       "--recording-config-video-config-export-file=false"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "export_file": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-video-config-height",
@@ -1654,9 +2210,34 @@
       "--recording-config-video-config-height",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "height": 1
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-video-config-watermark-position",
@@ -1671,9 +2252,36 @@
       "--recording-config-video-config-watermark-position",
       "left top"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "watermark": {
+                "position": "left top"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-video-config-watermark-position value 1",
@@ -1688,9 +2296,36 @@
       "--recording-config-video-config-watermark-position",
       "right top"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "watermark": {
+                "position": "right top"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-video-config-watermark-position value 2",
@@ -1705,9 +2340,36 @@
       "--recording-config-video-config-watermark-position",
       "left bottom"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "watermark": {
+                "position": "left bottom"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--recording-config-video-config-watermark-position value 3",
@@ -1722,9 +2384,36 @@
       "--recording-config-video-config-watermark-position",
       "right bottom"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "watermark": {
+                "position": "right bottom"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-video-config-watermark-url",
@@ -1739,9 +2428,36 @@
       "--recording-config-video-config-watermark-url",
       "https://example.com/a?x=1&y=two"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "watermark": {
+                "url": "https://example.com/a?x=1&y=two"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --recording-config-video-config-width",
@@ -1756,9 +2472,34 @@
       "--recording-config-video-config-width",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "video_config": {
+              "width": 1
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --session-keep-alive-time-in-secs",
@@ -2131,6 +2872,8 @@
       "--recording-config-max-seconds",
       "2",
       "--recording-config-realtimekit-bucket-config-enabled=false",
+      "--recording-config-storage-config-type",
+      "aws",
       "--recording-config-video-config-codec",
       "VP8",
       "--recording-config-video-config-export-file=false",
@@ -2162,7 +2905,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "827",
+          "content-length": "859",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2202,6 +2945,9 @@
             "max_seconds": 2,
             "realtimekit_bucket_config": {
               "enabled": false
+            },
+            "storage_config": {
+              "type": "aws"
             },
             "video_config": {
               "codec": "VP8",
@@ -2245,15 +2991,16 @@
       "--recording-config-live-streaming-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
       "--recording-config-realtimekit-bucket-config-enabled=true",
-      "--recording-config-video-config-export-file=true",
-      "--recording-config-video-config-watermark-position",
-      "left top",
-      "--recording-config-video-config-width",
+      "--recording-config-video-config-codec",
+      "H264",
+      "--recording-config-video-config-height",
       "1",
-      "--status",
-      "ACTIVE",
-      "--title",
-      "regression value &/?+ü"
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--session-keep-alive-time-in-secs",
+      "1",
+      "--summarize-on-end=true",
+      "--transcribe-on-end=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -2266,7 +3013,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "471",
+          "content-length": "519",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2299,15 +3046,16 @@
               "enabled": true
             },
             "video_config": {
-              "export_file": true,
+              "codec": "H264",
+              "height": 1,
               "watermark": {
-                "position": "left top"
-              },
-              "width": 1
+                "url": "https://example.com/a?x=1&y=two"
+              }
             }
           },
-          "status": "ACTIVE",
-          "title": "regression value &/?+ü"
+          "session_keep_alive_time_in_secs": 1,
+          "summarize_on_end": true,
+          "transcribe_on_end": true
         }
       }
     ]
@@ -2336,20 +3084,71 @@
       "second value &/?+ü",
       "--recording-config-max-seconds",
       "2",
-      "--recording-config-video-config-codec",
-      "VP8",
-      "--recording-config-video-config-height",
+      "--recording-config-storage-config-type",
+      "aws",
+      "--recording-config-video-config-export-file=false",
+      "--recording-config-video-config-watermark-position",
+      "right top",
+      "--recording-config-video-config-width",
       "2",
-      "--recording-config-video-config-watermark-url",
-      "https://example.com/a?x=1&y=two",
-      "--session-keep-alive-time-in-secs",
-      "2",
-      "--summarize-on-end=false",
-      "--transcribe-on-end=false"
+      "--status",
+      "INACTIVE",
+      "--title",
+      "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "443",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting",
+              "word_limit": 2
+            },
+            "transcription": {
+              "language": "en-IN"
+            }
+          },
+          "live_stream_on_start": false,
+          "record_on_start": false,
+          "recording_config": {
+            "audio_config": {
+              "codec": "AAC"
+            },
+            "file_name_prefix": "second value &/?+ü",
+            "max_seconds": 2,
+            "storage_config": {
+              "type": "aws"
+            },
+            "video_config": {
+              "export_file": false,
+              "watermark": {
+                "position": "right top"
+              },
+              "width": 2
+            }
+          },
+          "status": "INACTIVE",
+          "title": "second value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -2373,14 +3172,15 @@
       "--recording-config-max-seconds",
       "1",
       "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-video-config-export-file=true",
       "--recording-config-video-config-height",
       "1",
-      "--recording-config-video-config-watermark-position",
-      "left top",
+      "--recording-config-video-config-width",
+      "1",
       "--session-keep-alive-time-in-secs",
       "1",
-      "--status",
-      "ACTIVE",
+      "--title",
+      "regression value &/?+ü",
       "--transcribe-on-end=true"
     ],
     "exitCode": 0,
@@ -2394,7 +3194,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "414",
+          "content-length": "423",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2425,14 +3225,13 @@
               "enabled": true
             },
             "video_config": {
+              "export_file": true,
               "height": 1,
-              "watermark": {
-                "position": "left top"
-              }
+              "width": 1
             }
           },
           "session_keep_alive_time_in_secs": 1,
-          "status": "ACTIVE",
+          "title": "regression value &/?+ü",
           "transcribe_on_end": true
         }
       }
@@ -2462,20 +3261,73 @@
       "second value &/?+ü",
       "--recording-config-live-streaming-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
+      "--recording-config-storage-config-type",
+      "aws",
       "--recording-config-video-config-codec",
       "VP8",
-      "--recording-config-video-config-export-file=false",
+      "--recording-config-video-config-watermark-position",
+      "right top",
       "--recording-config-video-config-watermark-url",
       "https://example.com/a?x=1&y=two",
-      "--recording-config-video-config-width",
-      "2",
-      "--summarize-on-end=false",
-      "--title",
-      "second value &/?+ü"
+      "--status",
+      "INACTIVE",
+      "--summarize-on-end=false"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "528",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting",
+              "text_format": "markdown"
+            },
+            "transcription": {
+              "language": "en-IN",
+              "profanity_filter": false
+            }
+          },
+          "record_on_start": false,
+          "recording_config": {
+            "audio_config": {
+              "channel": "stereo"
+            },
+            "file_name_prefix": "second value &/?+ü",
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "storage_config": {
+              "type": "aws"
+            },
+            "video_config": {
+              "codec": "VP8",
+              "watermark": {
+                "position": "right top",
+                "url": "https://example.com/a?x=1&y=two"
+              }
+            }
+          },
+          "status": "INACTIVE",
+          "summarize_on_end": false
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 6",
@@ -2499,14 +3351,14 @@
       "--recording-config-max-seconds",
       "1",
       "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-video-config-watermark-position",
+      "left top",
       "--recording-config-video-config-watermark-url",
       "https://example.com/a?x=1&y=two",
       "--recording-config-video-config-width",
       "1",
       "--session-keep-alive-time-in-secs",
-      "1",
-      "--status",
-      "ACTIVE"
+      "1"
     ],
     "exitCode": 0,
     "requests": [
@@ -2519,7 +3371,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "457",
+          "content-length": "461",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2547,13 +3399,13 @@
             },
             "video_config": {
               "watermark": {
+                "position": "left top",
                 "url": "https://example.com/a?x=1&y=two"
               },
               "width": 1
             }
           },
-          "session_keep_alive_time_in_secs": 1,
-          "status": "ACTIVE"
+          "session_keep_alive_time_in_secs": 1
         }
       }
     ]
@@ -2583,21 +3435,76 @@
       "--recording-config-audio-config-codec",
       "AAC",
       "--recording-config-audio-config-export-file=false",
+      "--recording-config-storage-config-type",
+      "aws",
       "--recording-config-video-config-codec",
       "VP8",
       "--recording-config-video-config-export-file=false",
       "--recording-config-video-config-height",
       "2",
-      "--recording-config-video-config-watermark-position",
-      "right top",
+      "--status",
+      "INACTIVE",
       "--summarize-on-end=false",
       "--title",
       "second value &/?+ü",
       "--transcribe-on-end=false"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "468",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting",
+              "text_format": "markdown",
+              "word_limit": 2
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            }
+          },
+          "record_on_start": false,
+          "recording_config": {
+            "audio_config": {
+              "channel": "stereo",
+              "codec": "AAC",
+              "export_file": false
+            },
+            "storage_config": {
+              "type": "aws"
+            },
+            "video_config": {
+              "codec": "VP8",
+              "export_file": false,
+              "height": 2
+            }
+          },
+          "status": "INACTIVE",
+          "summarize_on_end": false,
+          "title": "second value &/?+ü",
+          "transcribe_on_end": false
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 8",
@@ -2622,6 +3529,8 @@
       "--recording-config-max-seconds",
       "1",
       "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--status",
+      "ACTIVE",
       "--summarize-on-end=true",
       "--title",
       "regression value &/?+ü",
@@ -2638,7 +3547,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "372",
+          "content-length": "390",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2663,6 +3572,7 @@
               "enabled": true
             }
           },
+          "status": "ACTIVE",
           "summarize_on_end": true,
           "title": "regression value &/?+ü",
           "transcribe_on_end": true
@@ -2694,6 +3604,8 @@
       "--ai-config-transcription-profanity-filter=false",
       "--live-stream-on-start=false",
       "--persist-chat=false",
+      "--recording-config-storage-config-type",
+      "aws",
       "--recording-config-video-config-codec",
       "VP8",
       "--recording-config-video-config-export-file=false",
@@ -2706,13 +3618,64 @@
       "--recording-config-video-config-width",
       "2",
       "--session-keep-alive-time-in-secs",
-      "2",
-      "--status",
-      "INACTIVE"
+      "2"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "490",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting",
+              "text_format": "markdown",
+              "word_limit": 2
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "language": "en-IN",
+              "profanity_filter": false
+            }
+          },
+          "live_stream_on_start": false,
+          "persist_chat": false,
+          "recording_config": {
+            "storage_config": {
+              "type": "aws"
+            },
+            "video_config": {
+              "codec": "VP8",
+              "export_file": false,
+              "height": 2,
+              "watermark": {
+                "position": "right top",
+                "url": "https://example.com/a?x=1&y=two"
+              },
+              "width": 2
+            }
+          },
+          "session_keep_alive_time_in_secs": 2
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 10",
@@ -2724,6 +3687,8 @@
       "0123456789abcdef0123456789abcdef",
       "--app-id",
       "0123456789abcdef0123456789abcdef",
+      "--recording-config-storage-config-type",
+      "gcs",
       "--recording-config-video-config-codec",
       "H264",
       "--recording-config-video-config-export-file=true",
@@ -2744,9 +3709,49 @@
       "regression value &/?+ü",
       "--transcribe-on-end=true"
     ],
-    "exitCode": 1,
-    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "339",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "recording_config": {
+            "storage_config": {
+              "type": "gcs"
+            },
+            "video_config": {
+              "codec": "H264",
+              "export_file": true,
+              "height": 1,
+              "watermark": {
+                "position": "left top",
+                "url": "https://example.com/a?x=1&y=two"
+              },
+              "width": 1
+            }
+          },
+          "session_keep_alive_time_in_secs": 1,
+          "status": "ACTIVE",
+          "summarize_on_end": true,
+          "title": "regression value &/?+ü",
+          "transcribe_on_end": true
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 11",
@@ -3145,7 +4150,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -3153,14 +4158,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -3200,6 +4205,8 @@
       "--recording-config-max-seconds",
       "1",
       "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-storage-config-type",
+      "gcs",
       "--recording-config-video-config-codec",
       "H264",
       "--recording-config-video-config-export-file=true",
@@ -3231,7 +4238,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "807",
+          "content-length": "839",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -3270,6 +4277,9 @@
             "max_seconds": 1,
             "realtimekit_bucket_config": {
               "enabled": true
+            },
+            "storage_config": {
+              "type": "gcs"
             },
             "video_config": {
               "codec": "H264",

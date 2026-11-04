@@ -158,34 +158,9 @@
       "file",
       "--input-exists=true"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "72",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "exists": true
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-exists -> input-operating-system input-exists -> input-path",
+    "requests": []
   },
   {
     "case": "--input-exists value 1",
@@ -202,34 +177,9 @@
       "file",
       "--input-exists=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "73",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "exists": false
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-exists -> input-operating-system input-exists -> input-path",
+    "requests": []
   },
   {
     "case": "only --input-operating-system",
@@ -517,34 +467,9 @@
       "--input-path",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "91",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "path": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-path -> input-operating-system",
+    "requests": []
   },
   {
     "case": "only --input-sha256",
@@ -562,34 +487,9 @@
       "--input-sha256",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "93",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "sha256": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-sha256 -> input-operating-system input-sha256 -> input-path",
+    "requests": []
   },
   {
     "case": "only --input-thumbprint",
@@ -607,34 +507,9 @@
       "--input-thumbprint",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "97",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "thumbprint": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-thumbprint -> input-operating-system input-thumbprint -> input-path",
+    "requests": []
   },
   {
     "case": "only --input-id",
@@ -697,34 +572,9 @@
       "--input-domain",
       "example.com"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "81",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "domain": "example.com"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-domain -> input-operating-system",
+    "requests": []
   },
   {
     "case": "only --input-operator",
@@ -967,34 +817,9 @@
       "--input-os-distro-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "101",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "os_distro_name": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-os-distro-name -> input-operating-system input-os-distro-name -> input-operator input-os-distro-name -> input-version",
+    "requests": []
   },
   {
     "case": "only --input-os-distro-revision",
@@ -1012,34 +837,9 @@
       "--input-os-distro-revision",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "105",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "os_distro_revision": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-os-distro-revision -> input-operating-system input-os-distro-revision -> input-operator input-os-distro-revision -> input-version",
+    "requests": []
   },
   {
     "case": "only --input-os-version-extra",
@@ -1057,34 +857,9 @@
       "--input-os-version-extra",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "103",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "os_version_extra": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-os-version-extra -> input-operating-system input-os-version-extra -> input-operator input-os-version-extra -> input-version",
+    "requests": []
   },
   {
     "case": "only --input-version",
@@ -1102,9 +877,34 @@
       "--input-version",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-version -> input-operating-system input-version -> input-operator",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "input": {
+            "version": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
   },
   {
     "case": "only --input-enabled",
@@ -1360,7 +1160,7 @@
       "--input-check-private-key=true"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-check-private-key -> input-certificate-id input-check-private-key -> input-operating-system",
+    "error": "Missing dependent arguments:\n input-check-private-key -> input-operating-system input-check-private-key -> input-certificate-id",
     "requests": []
   },
   {
@@ -1379,7 +1179,7 @@
       "--input-check-private-key=false"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-check-private-key -> input-certificate-id input-check-private-key -> input-operating-system",
+    "error": "Missing dependent arguments:\n input-check-private-key -> input-operating-system input-check-private-key -> input-certificate-id",
     "requests": []
   },
   {
@@ -1398,36 +1198,9 @@
       "--input-extended-key-usage",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "107",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "extended_key_usage": [
-              "regression value &/?+ü"
-            ]
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-extended-key-usage -> input-operating-system input-extended-key-usage -> input-certificate-id input-extended-key-usage -> input-check-private-key",
+    "requests": []
   },
   {
     "case": "only --input-locations-paths",
@@ -1445,38 +1218,9 @@
       "--input-locations-paths",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "108",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "locations": {
-              "paths": [
-                "regression value &/?+ü"
-              ]
-            }
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-locations-paths -> input-operating-system input-locations-paths -> input-certificate-id input-locations-paths -> input-check-private-key",
+    "requests": []
   },
   {
     "case": "only --input-locations-trust-stores",
@@ -1494,38 +1238,9 @@
       "--input-locations-trust-stores",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "115",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "locations": {
-              "trust_stores": [
-                "regression value &/?+ü"
-              ]
-            }
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-locations-trust-stores -> input-operating-system input-locations-trust-stores -> input-certificate-id input-locations-trust-stores -> input-check-private-key",
+    "requests": []
   },
   {
     "case": "only --input-subject-alternative-names",
@@ -1543,36 +1258,9 @@
       "--input-subject-alternative-names",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "114",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "subject_alternative_names": [
-              "regression value &/?+ü"
-            ]
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-subject-alternative-names -> input-operating-system input-subject-alternative-names -> input-certificate-id input-subject-alternative-names -> input-check-private-key",
+    "requests": []
   },
   {
     "case": "only --input-update-window-days",
@@ -1635,34 +1323,9 @@
       "--input-compliance-status",
       "compliant"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "90",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "compliance_status": "compliant"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-compliance-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-compliance-status value 1",
@@ -1680,34 +1343,9 @@
       "--input-compliance-status",
       "noncompliant"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "93",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "compliance_status": "noncompliant"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-compliance-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-compliance-status value 2",
@@ -1725,34 +1363,9 @@
       "--input-compliance-status",
       "unknown"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "88",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "compliance_status": "unknown"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-compliance-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-compliance-status value 3",
@@ -1770,34 +1383,9 @@
       "--input-compliance-status",
       "notapplicable"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "94",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "compliance_status": "notapplicable"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-compliance-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-compliance-status value 4",
@@ -1815,34 +1403,9 @@
       "--input-compliance-status",
       "ingraceperiod"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "94",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "compliance_status": "ingraceperiod"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-compliance-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-compliance-status value 5",
@@ -1860,34 +1423,9 @@
       "--input-compliance-status",
       "error"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "86",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "compliance_status": "error"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-compliance-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-connection-id",
@@ -1950,34 +1488,9 @@
       "--input-last-seen",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "96",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "last_seen": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-last-seen -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-os",
@@ -1995,34 +1508,9 @@
       "--input-os",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "89",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "os": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-os -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-overall",
@@ -2040,34 +1528,9 @@
       "--input-overall",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "94",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "overall": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-overall -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-sensor-config",
@@ -2085,34 +1548,9 @@
       "--input-sensor-config",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "sensor_config": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-sensor-config -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-state",
@@ -2130,34 +1568,9 @@
       "--input-state",
       "online"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "75",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "state": "online"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-state value 1",
@@ -2175,34 +1588,9 @@
       "--input-state",
       "offline"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "76",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "state": "offline"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-state value 2",
@@ -2220,34 +1608,9 @@
       "--input-state",
       "unknown"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "76",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "state": "unknown"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-version-operator",
@@ -2265,34 +1628,9 @@
       "--input-version-operator",
       "<"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "80",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "versionOperator": "<"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-version-operator value 1",
@@ -2310,34 +1648,9 @@
       "--input-version-operator",
       "<="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "81",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "versionOperator": "<="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-version-operator value 2",
@@ -2355,34 +1668,9 @@
       "--input-version-operator",
       ">"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "80",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "versionOperator": ">"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-version-operator value 3",
@@ -2400,34 +1688,9 @@
       "--input-version-operator",
       ">="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "81",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "versionOperator": ">="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-version-operator value 4",
@@ -2445,34 +1708,9 @@
       "--input-version-operator",
       "=="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "81",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "versionOperator": "=="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-auth-state",
@@ -2490,36 +1728,9 @@
       "--input-auth-state",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "99",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "auth_state": [
-              "regression value &/?+ü"
-            ]
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-auth-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-count-operator",
@@ -2537,34 +1748,9 @@
       "--input-count-operator",
       "<"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "78",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "countOperator": "<"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-count-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-count-operator value 1",
@@ -2582,34 +1768,9 @@
       "--input-count-operator",
       "<="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "79",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "countOperator": "<="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-count-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-count-operator value 2",
@@ -2627,34 +1788,9 @@
       "--input-count-operator",
       ">"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "78",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "countOperator": ">"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-count-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-count-operator value 3",
@@ -2672,34 +1808,9 @@
       "--input-count-operator",
       ">="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "79",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "countOperator": ">="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-count-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-count-operator value 4",
@@ -2717,34 +1828,9 @@
       "--input-count-operator",
       "=="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "79",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "countOperator": "=="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-count-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-issue-count",
@@ -2762,34 +1848,9 @@
       "--input-issue-count",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "98",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "issue_count": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-issue-count -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-eid-last-seen",
@@ -2807,34 +1868,9 @@
       "--input-eid-last-seen",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "eid_last_seen": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-eid-last-seen -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-risk-level",
@@ -2852,34 +1888,9 @@
       "--input-risk-level",
       "low"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "77",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "risk_level": "low"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-risk-level -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-risk-level value 1",
@@ -2897,34 +1908,9 @@
       "--input-risk-level",
       "medium"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "80",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "risk_level": "medium"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-risk-level -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-risk-level value 2",
@@ -2942,34 +1928,9 @@
       "--input-risk-level",
       "high"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "78",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "risk_level": "high"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-risk-level -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-risk-level value 3",
@@ -2987,34 +1948,9 @@
       "--input-risk-level",
       "critical"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "82",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "risk_level": "critical"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-risk-level -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-score-operator",
@@ -3032,34 +1968,9 @@
       "--input-score-operator",
       "<"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "78",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "scoreOperator": "<"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-score-operator value 1",
@@ -3077,34 +1988,9 @@
       "--input-score-operator",
       "<="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "79",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "scoreOperator": "<="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-score-operator value 2",
@@ -3122,34 +2008,9 @@
       "--input-score-operator",
       ">"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "78",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "scoreOperator": ">"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-score-operator value 3",
@@ -3167,34 +2028,9 @@
       "--input-score-operator",
       ">="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "79",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "scoreOperator": ">="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-score-operator value 4",
@@ -3212,34 +2048,9 @@
       "--input-score-operator",
       "=="
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "79",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "scoreOperator": "=="
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score-operator -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-total-score",
@@ -3257,34 +2068,9 @@
       "--input-total-score",
       "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "74",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "total_score": 1
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-total-score -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-active-threats",
@@ -3302,34 +2088,9 @@
       "--input-active-threats",
       "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "77",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "active_threats": 1
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-active-threats -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-infected",
@@ -3346,34 +2107,9 @@
       "file",
       "--input-infected=true"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "74",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "infected": true
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-infected -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-infected value 1",
@@ -3390,34 +2126,9 @@
       "file",
       "--input-infected=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "75",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "infected": false
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-infected -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-is-active",
@@ -3434,34 +2145,9 @@
       "file",
       "--input-is-active=true"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "75",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "is_active": true
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-is-active -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-is-active value 1",
@@ -3478,34 +2164,9 @@
       "file",
       "--input-is-active=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "76",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "is_active": false
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-is-active -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-network-status",
@@ -3523,34 +2184,9 @@
       "--input-network-status",
       "connected"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "87",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "network_status": "connected"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-network-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-network-status value 1",
@@ -3568,34 +2204,9 @@
       "--input-network-status",
       "disconnected"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "90",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "network_status": "disconnected"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-network-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-network-status value 2",
@@ -3613,34 +2224,9 @@
       "--input-network-status",
       "disconnecting"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "91",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "network_status": "disconnecting"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-network-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-network-status value 3",
@@ -3658,34 +2244,9 @@
       "--input-network-status",
       "connecting"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "88",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "network_status": "connecting"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-network-status -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-operational-state",
@@ -3703,34 +2264,9 @@
       "--input-operational-state",
       "na"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "83",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "na"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-operational-state value 1",
@@ -3748,34 +2284,9 @@
       "--input-operational-state",
       "partially_disabled"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "99",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "partially_disabled"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-operational-state value 2",
@@ -3793,34 +2304,9 @@
       "--input-operational-state",
       "auto_fully_disabled"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "auto_fully_disabled"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-operational-state value 3",
@@ -3838,34 +2324,9 @@
       "--input-operational-state",
       "fully_disabled"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "95",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "fully_disabled"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-operational-state value 4",
@@ -3883,34 +2344,9 @@
       "--input-operational-state",
       "auto_partially_disabled"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "104",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "auto_partially_disabled"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-operational-state value 5",
@@ -3928,34 +2364,9 @@
       "--input-operational-state",
       "disabled_error"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "95",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "disabled_error"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "--input-operational-state value 6",
@@ -3973,34 +2384,9 @@
       "--input-operational-state",
       "db_corruption"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "94",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "input": {
-            "operational_state": "db_corruption"
-          },
-          "name": "regression value &/?+ü",
-          "type": "file"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-operational-state -> input-connection-id",
+    "requests": []
   },
   {
     "case": "only --input-score",
@@ -4019,7 +2405,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-score -> input-connection-id input-score -> input-operator",
+    "error": "Missing dependent arguments:\n input-score -> input-operator input-score -> input-connection-id",
     "requests": []
   },
   {
@@ -5318,7 +3704,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-score -> input-connection-id",
+    "error": "Missing dependent arguments:\n input-sha256 -> input-path input-compliance-status -> input-connection-id input-last-seen -> input-connection-id input-overall -> input-connection-id input-state -> input-connection-id input-auth-state -> input-connection-id input-issue-count -> input-connection-id input-risk-level -> input-connection-id input-total-score -> input-connection-id input-infected -> input-connection-id input-network-status -> input-connection-id input-score -> input-connection-id",
     "requests": []
   },
   {
@@ -5382,7 +3768,7 @@
       "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-enabled -> input-operating-system input-cn -> input-certificate-id",
+    "error": "Missing dependent arguments:\n input-exists -> input-operating-system input-path -> input-operating-system input-thumbprint -> input-operating-system input-domain -> input-operating-system input-os-distro-name -> input-operating-system input-os-distro-name -> input-operator input-os-distro-name -> input-version input-os-version-extra -> input-operating-system input-os-version-extra -> input-operator input-os-version-extra -> input-version input-enabled -> input-operating-system input-cn -> input-certificate-id input-extended-key-usage -> input-operating-system input-extended-key-usage -> input-certificate-id input-extended-key-usage -> input-check-private-key input-locations-trust-stores -> input-operating-system input-locations-trust-stores -> input-certificate-id input-locations-trust-stores -> input-check-private-key",
     "requests": []
   },
   {
@@ -5444,7 +3830,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-cn -> input-certificate-id input-check-private-key -> input-certificate-id",
+    "error": "Missing dependent arguments:\n input-exists -> input-path input-thumbprint -> input-path input-os-distro-name -> input-operator input-os-distro-name -> input-version input-os-distro-revision -> input-operator input-os-distro-revision -> input-version input-cn -> input-certificate-id input-check-private-key -> input-certificate-id input-locations-trust-stores -> input-certificate-id input-subject-alternative-names -> input-certificate-id",
     "requests": []
   },
   {
@@ -5577,7 +3963,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-version -> input-operating-system input-version -> input-operator input-enabled -> input-operating-system input-score -> input-connection-id input-score -> input-operator",
+    "error": "Missing dependent arguments:\n input-path -> input-operating-system input-sha256 -> input-operating-system input-thumbprint -> input-operating-system input-os-version-extra -> input-operating-system input-os-version-extra -> input-operator input-enabled -> input-operating-system input-extended-key-usage -> input-operating-system input-extended-key-usage -> input-certificate-id input-extended-key-usage -> input-check-private-key input-locations-paths -> input-operating-system input-locations-paths -> input-certificate-id input-locations-paths -> input-check-private-key input-locations-trust-stores -> input-operating-system input-locations-trust-stores -> input-certificate-id input-locations-trust-stores -> input-check-private-key input-subject-alternative-names -> input-operating-system input-subject-alternative-names -> input-certificate-id input-subject-alternative-names -> input-check-private-key input-os -> input-connection-id input-overall -> input-connection-id input-sensor-config -> input-connection-id input-state -> input-connection-id input-eid-last-seen -> input-connection-id input-risk-level -> input-connection-id input-score-operator -> input-connection-id input-total-score -> input-connection-id input-operational-state -> input-connection-id input-score -> input-operator input-score -> input-connection-id",
     "requests": []
   },
   {
@@ -5639,7 +4025,7 @@
       "disconnected"
     ],
     "exitCode": 1,
-    "error": "Arguments input-exists and input-domain are mutually exclusive",
+    "error": "Missing dependent arguments:\n input-exists -> input-path input-os-distro-name -> input-version input-os-distro-revision -> input-version",
     "requests": []
   },
   {
@@ -5702,7 +4088,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-version -> input-operating-system input-enabled -> input-operating-system",
+    "error": "Missing dependent arguments:\n input-domain -> input-operating-system input-os-distro-name -> input-operating-system input-os-distro-revision -> input-operating-system input-os-version-extra -> input-operating-system input-enabled -> input-operating-system",
     "requests": []
   },
   {
@@ -5770,7 +4156,7 @@
       "2"
     ],
     "exitCode": 1,
-    "error": "Arguments input-exists and input-id are mutually exclusive",
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id input-auth-state -> input-connection-id input-count-operator -> input-connection-id input-issue-count -> input-connection-id input-eid-last-seen -> input-connection-id input-risk-level -> input-connection-id input-score-operator -> input-connection-id input-total-score -> input-connection-id",
     "requests": []
   },
   {
@@ -5818,7 +4204,7 @@
       "online"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-check-private-key -> input-operating-system",
+    "error": "Missing dependent arguments:\n input-check-private-key -> input-operating-system input-extended-key-usage -> input-operating-system input-locations-paths -> input-operating-system input-locations-trust-stores -> input-operating-system input-subject-alternative-names -> input-operating-system",
     "requests": []
   },
   {
@@ -5947,7 +4333,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n input-score -> input-connection-id input-score -> input-operator",
+    "error": "Missing dependent arguments:\n input-version-operator -> input-connection-id input-auth-state -> input-connection-id input-count-operator -> input-connection-id input-issue-count -> input-connection-id input-eid-last-seen -> input-connection-id input-risk-level -> input-connection-id input-score-operator -> input-connection-id input-total-score -> input-connection-id input-active-threats -> input-connection-id input-infected -> input-connection-id input-is-active -> input-connection-id input-network-status -> input-connection-id input-operational-state -> input-connection-id input-score -> input-operator input-score -> input-connection-id",
     "requests": []
   },
   {
@@ -6360,7 +4746,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6368,14 +4754,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },

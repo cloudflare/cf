@@ -719,6 +719,7 @@
       "list",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--seen-after",
       "second value &/?+ü",
       "--seen-before",
@@ -739,6 +740,7 @@
       "second value &/?+ü",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--device-id",
       "0123456789abcdef0123456789abcdef",
       "--policy-id",
@@ -750,7 +752,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&status=all&registration_type=browser_extension&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=user.name&sort_order=desc&cursor=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&device.id=0123456789abcdef0123456789abcdef&policy.id=0123456789abcdef0123456789abcdef&include=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&status=all&registration_type=browser_extension&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=user.name&sort_order=desc&cursor=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&device.id=0123456789abcdef0123456789abcdef&policy.id=0123456789abcdef0123456789abcdef&include=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -819,6 +821,7 @@
       "list",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--seen-before",
       "second value &/?+ü",
       "--registration-type",
@@ -829,6 +832,7 @@
       "desc",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--policy-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -836,7 +840,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&registration_type=browser_extension&search=second%20value%20%26%2F%3F%2B%C3%BC&sort_order=desc&id=0123456789abcdef0123456789abcdef&policy.id=0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&user.id=0123456789abcdef0123456789abcdef&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&registration_type=browser_extension&search=second%20value%20%26%2F%3F%2B%C3%BC&sort_order=desc&id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&policy.id=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -903,6 +907,7 @@
       "list",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--seen-after",
       "second value &/?+ü",
       "--registration-type",
@@ -922,7 +927,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&registration_type=browser_extension&per_page=2&sort_order=desc&cursor=second%20value%20%26%2F%3F%2B%C3%BC&policy.id=0123456789abcdef0123456789abcdef&include=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&registration_type=browser_extension&per_page=2&sort_order=desc&cursor=second%20value%20%26%2F%3F%2B%C3%BC&policy.id=0123456789abcdef0123456789abcdef&include=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -989,6 +994,7 @@
       "list",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--seen-after",
       "second value &/?+ü",
       "--seen-before",
@@ -1001,6 +1007,7 @@
       "second value &/?+ü",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--device-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -1008,7 +1015,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&status=all&sort_order=desc&cursor=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&device.id=0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&status=all&sort_order=desc&cursor=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&device.id=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1075,6 +1082,7 @@
       "list",
       "--user-id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--seen-after",
       "second value &/?+ü",
       "--seen-before",
@@ -1094,7 +1102,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&status=all&registration_type=browser_extension&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=user.name",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/registrations?user.id=0123456789abcdef0123456789abcdef&user.id=0123456789abcdef0123456789abcdef&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&status=all&registration_type=browser_extension&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=user.name",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

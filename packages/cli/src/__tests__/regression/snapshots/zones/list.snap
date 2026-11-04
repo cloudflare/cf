@@ -588,6 +588,7 @@
       "pending",
       "--type",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--account-id",
       "0123456789abcdef0123456789abcdef",
       "--account-name",
@@ -607,7 +608,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&status=pending&type=second%20value%20%26%2F%3F%2B%C3%BC&account.id=0123456789abcdef0123456789abcdef&account.name=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order=status&direction=desc&match=all",
+        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&status=pending&type=second%20value%20%26%2F%3F%2B%C3%BC,second%20value%20%26%2F%3F%2B%C3%BC&account.id=0123456789abcdef0123456789abcdef&account.name=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order=status&direction=desc&match=all",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -670,6 +671,7 @@
       "second value &/?+ü",
       "--type",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--account-name",
       "second value &/?+ü",
       "--per-page",
@@ -681,7 +683,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&type=second%20value%20%26%2F%3F%2B%C3%BC&account.name=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&direction=desc",
+        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&type=second%20value%20%26%2F%3F%2B%C3%BC,second%20value%20%26%2F%3F%2B%C3%BC&account.name=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -818,6 +820,7 @@
       "pending",
       "--type",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--account-id",
       "0123456789abcdef0123456789abcdef",
       "--direction",
@@ -829,7 +832,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&status=pending&type=second%20value%20%26%2F%3F%2B%C3%BC&account.id=0123456789abcdef0123456789abcdef&direction=desc&match=all",
+        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&status=pending&type=second%20value%20%26%2F%3F%2B%C3%BC,second%20value%20%26%2F%3F%2B%C3%BC&account.id=0123456789abcdef0123456789abcdef&direction=desc&match=all",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -888,6 +891,7 @@
       "pending",
       "--type",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--account-id",
       "0123456789abcdef0123456789abcdef",
       "--account-name",
@@ -903,7 +907,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&status=pending&type=second%20value%20%26%2F%3F%2B%C3%BC&account.id=0123456789abcdef0123456789abcdef&account.name=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order=status",
+        "url": "https://api.test/client/v4/zones?name=second%20value%20%26%2F%3F%2B%C3%BC&status=pending&type=second%20value%20%26%2F%3F%2B%C3%BC,second%20value%20%26%2F%3F%2B%C3%BC&account.id=0123456789abcdef0123456789abcdef&account.name=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order=status",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

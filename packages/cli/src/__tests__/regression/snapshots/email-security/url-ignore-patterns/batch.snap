@@ -458,7 +458,53 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "email-security",
+      "url-ignore-patterns",
+      "batch",
+      "--deletes",
+      "[{\"regression\":\"item\"}]",
+      "--patches",
+      "[{\"regression\":\"item\"}]",
+      "--posts",
+      "[{\"regression\":\"item\"}]",
+      "--puts",
+      "[{\"regression\":\"item\"}]",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/url_ignore_patterns/batch",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -467,12 +513,26 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "0": {
-            "regression": "first"
-          },
-          "1": {
-            "regression": "second"
-          }
+          "deletes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "patches": [
+            {
+              "regression": "item"
+            }
+          ],
+          "posts": [
+            {
+              "regression": "item"
+            }
+          ],
+          "puts": [
+            {
+              "regression": "item"
+            }
+          ]
         }
       }
     ]

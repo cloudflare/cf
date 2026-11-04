@@ -19,8 +19,26 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -33,7 +51,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "36",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -42,11 +60,9 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
+          "meta": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -60,38 +76,15 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
   },
   {
     "case": "global zone",
@@ -102,39 +95,16 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
   },
   {
     "case": "global profile and mode",
@@ -145,6 +115,8 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -152,34 +124,9 @@
       "--mode",
       "regression"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
   },
   {
     "case": "local",
@@ -190,37 +137,15 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
   },
   {
     "case": "local with persistence",
@@ -231,39 +156,17 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
       "--persist-to",
       "regression-state"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "gzip, deflate",
-          "accept-language": "*",
-          "connection": "keep-alive",
-          "content-type": "application/json",
-          "host": "localhost",
-          "sec-fetch-mode": "cors",
-          "transfer-encoding": "chunked",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
   },
   {
     "case": "dry-run",
@@ -274,11 +177,14 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
     ],
-    "exitCode": 0,
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
     "requests": []
   },
   {
@@ -290,37 +196,14 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "@<body.json>"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
   },
   {
     "case": "array body",
@@ -331,51 +214,13 @@
       "0123456789abcdef0123456789abcdef",
       "--share-id",
       "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "56",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "0": {
-            "regression": "first"
-          },
-          "1": {
-            "regression": "second"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "field flags",
-    "argv": [
-      "resource-sharing",
-      "resources",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--share-id",
-      "0123456789abcdef0123456789abcdef"
-    ],
     "exitCode": 1,
-    "error": "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.",
+    "error": "--body must include a JSON object at meta (for --meta).",
     "requests": []
   }
 ]

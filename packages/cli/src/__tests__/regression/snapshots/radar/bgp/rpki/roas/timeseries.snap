@@ -30,14 +30,14 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "roas",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -62,14 +62,14 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "roas",
       "timeseries",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -453,17 +453,20 @@
       "rpki",
       "roas",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--metric",
       "validPfxsV4Ratio",
       "--asn",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--location",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--name",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--format",
       "CSV"
@@ -472,7 +475,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&metric=validPfxsV4Ratio&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&metric=validPfxsV4Ratio&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -497,7 +500,7 @@
       "rpki",
       "roas",
       "timeseries",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--asn",
       "regression value &/?+ü",
@@ -533,11 +536,12 @@
       "rpki",
       "roas",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--metric",
       "validPfxsV4Ratio",
       "--location",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--format",
       "CSV"
@@ -546,7 +550,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&metric=validPfxsV4Ratio&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&metric=validPfxsV4Ratio&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -607,20 +611,22 @@
       "rpki",
       "roas",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--name",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -681,20 +687,21 @@
       "rpki",
       "roas",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--metric",
       "validPfxsV4Ratio",
       "--asn",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&metric=validPfxsV4Ratio&asn=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/bgp/rpki/roas/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&metric=validPfxsV4Ratio&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

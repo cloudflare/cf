@@ -52,29 +52,29 @@
     ]
   },
   {
-    "case": "only --config-sha256",
+    "case": "only --network-config-sha256",
     "argv": [
       "zero-trust",
       "devices",
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-sha256",
+      "--network-config-sha256",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--config-tls-sockaddr is required when any --config-* flag is set",
+    "error": "--network-config-tls-sockaddr is required when any --config-* flag is set",
     "requests": []
   },
   {
-    "case": "only --config-tls-sockaddr",
+    "case": "only --network-config-tls-sockaddr",
     "argv": [
       "zero-trust",
       "devices",
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -216,9 +216,9 @@
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-sha256",
+      "--network-config-sha256",
       "second value &/?+ü",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "second value &/?+ü",
       "--name",
       "second value &/?+ü",
@@ -263,7 +263,7 @@
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--type",
       "tls"
@@ -304,13 +304,13 @@
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-sha256",
+      "--network-config-sha256",
       "second value &/?+ü",
       "--name",
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--config-tls-sockaddr is required when any --config-* flag is set",
+    "error": "--network-config-tls-sockaddr is required when any --config-* flag is set",
     "requests": []
   },
   {
@@ -360,9 +360,9 @@
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-sha256",
+      "--network-config-sha256",
       "second value &/?+ü",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -679,7 +679,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -687,14 +687,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -706,9 +706,9 @@
       "networks",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-sha256",
+      "--network-config-sha256",
       "regression value &/?+ü",
-      "--config-tls-sockaddr",
+      "--network-config-tls-sockaddr",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",

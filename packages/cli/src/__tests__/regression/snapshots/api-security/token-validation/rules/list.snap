@@ -380,6 +380,7 @@
       "2",
       "--token-configuration",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--action",
       "block",
       "--enabled=false",
@@ -396,7 +397,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&action=block&enabled=false&id=0123456789abcdef0123456789abcdef&rule_id=0123456789abcdef0123456789abcdef&host=second%20value%20%26%2F%3F%2B%C3%BC&hostname=example.com",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&action=block&enabled=false&id=0123456789abcdef0123456789abcdef&rule_id=0123456789abcdef0123456789abcdef&host=second%20value%20%26%2F%3F%2B%C3%BC&hostname=example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -461,6 +462,7 @@
       "2",
       "--token-configuration",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--enabled=false",
       "--rule-id",
       "0123456789abcdef0123456789abcdef",
@@ -471,7 +473,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&enabled=false&rule_id=0123456789abcdef0123456789abcdef&hostname=example.com",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&enabled=false&rule_id=0123456789abcdef0123456789abcdef&hostname=example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -612,6 +614,7 @@
       "2",
       "--token-configuration",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--action",
       "block",
       "--hostname",
@@ -621,7 +624,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&action=block&hostname=example.com",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&action=block&hostname=example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -651,6 +654,7 @@
       "2",
       "--token-configuration",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--action",
       "block",
       "--enabled=false",
@@ -665,7 +669,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&action=block&enabled=false&id=0123456789abcdef0123456789abcdef&rule_id=0123456789abcdef0123456789abcdef&host=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules?per_page=2&page=2&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&token_configuration=second%20value%20%26%2F%3F%2B%C3%BC&action=block&enabled=false&id=0123456789abcdef0123456789abcdef&rule_id=0123456789abcdef0123456789abcdef&host=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

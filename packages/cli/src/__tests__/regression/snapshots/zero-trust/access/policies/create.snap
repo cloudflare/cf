@@ -57,6 +57,744 @@
     ]
   },
   {
+    "case": "only --approval-groups",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --approval-required",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-required=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_required": true,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--approval-required value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-required=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_required": false,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1"
+              ]
+            }
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1"
+              ]
+            }
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --isolation-required",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--isolation-required=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "isolation_required": true,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--isolation-required value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--isolation-required=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "isolation_required": false,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-allowed-authenticators",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ]
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-mfa-disabled",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--mfa-config-mfa-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "mfa_disabled": true
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-config-mfa-disabled value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--mfa-config-mfa-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "mfa_disabled": false
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-session-duration",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "session_duration": "regression value &/?+ü"
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --purpose-justification-prompt",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--purpose-justification-prompt",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "purpose_justification_prompt": "regression value &/?+ü",
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --purpose-justification-required",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--purpose-justification-required=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "purpose_justification_required": true,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--purpose-justification-required value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--purpose-justification-required=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "purpose_justification_required": false,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-duration",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "session_duration": "regression value &/?+ü",
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --exclude",
     "argv": [
       "zero-trust",
@@ -104,6 +842,54 @@
             }
           ],
           "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --policy-resolution-account-id",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -353,6 +1139,127 @@
       "[{\"regression\":\"item\"}]",
       "--name",
       "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]",
+      "--approval-required=false",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--isolation-required=false",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-config-mfa-disabled=false",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--purpose-justification-prompt",
+      "second value &/?+ü",
+      "--purpose-justification-required=false",
+      "--session-duration",
+      "second value &/?+ü",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--require",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "766",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "approval_required": false,
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            }
+          },
+          "isolation_required": false,
+          "mfa_config": {
+            "allowed_authenticators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "mfa_disabled": false,
+            "session_duration": "second value &/?+ü"
+          },
+          "purpose_justification_prompt": "second value &/?+ü",
+          "purpose_justification_required": false,
+          "session_duration": "second value &/?+ü",
+          "decision": "allow",
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef",
+          "require": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-required=true",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü",
+      "--purpose-justification-required=true",
       "--exclude",
       "[{\"regression\":\"item\"}]",
       "--require",
@@ -369,7 +1276,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "155",
+          "content-length": "418",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -378,6 +1285,21 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "approval_required": true,
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1"
+              ]
+            }
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ],
+            "session_duration": "regression value &/?+ü"
+          },
+          "purpose_justification_required": true,
           "decision": "allow",
           "exclude": [
             {
@@ -395,6 +1317,554 @@
               "regression": "item"
             }
           ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--isolation-required=false",
+      "--mfa-config-mfa-disabled=false",
+      "--purpose-justification-prompt",
+      "second value &/?+ü",
+      "--session-duration",
+      "second value &/?+ü",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "451",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            }
+          },
+          "isolation_required": false,
+          "mfa_config": {
+            "mfa_disabled": false
+          },
+          "purpose_justification_prompt": "second value &/?+ü",
+          "session_duration": "second value &/?+ü",
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1",
+      "--mfa-config-mfa-disabled=true",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--exclude",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "391",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1"
+              ],
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1"
+              ]
+            }
+          },
+          "mfa_config": {
+            "mfa_disabled": true,
+            "session_duration": "regression value &/?+ü"
+          },
+          "session_duration": "regression value &/?+ü",
+          "decision": "allow",
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]",
+      "--approval-required=false",
+      "--isolation-required=false",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--purpose-justification-prompt",
+      "second value &/?+ü",
+      "--purpose-justification-required=false",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--require",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "460",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "approval_required": false,
+          "isolation_required": false,
+          "mfa_config": {
+            "allowed_authenticators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "purpose_justification_prompt": "second value &/?+ü",
+          "purpose_justification_required": false,
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef",
+          "require": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--isolation-required=true",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-mfa-disabled=true",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--require",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "346",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "isolation_required": true,
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ],
+            "mfa_disabled": true,
+            "session_duration": "regression value &/?+ü"
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef",
+          "require": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]",
+      "--approval-required=false",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--purpose-justification-prompt",
+      "second value &/?+ü",
+      "--purpose-justification-required=false",
+      "--session-duration",
+      "second value &/?+ü",
+      "--exclude",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "491",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "approval_required": false,
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            }
+          },
+          "purpose_justification_prompt": "second value &/?+ü",
+          "purpose_justification_required": false,
+          "session_duration": "second value &/?+ü",
+          "decision": "allow",
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--purpose-justification-prompt",
+      "regression value &/?+ü",
+      "--purpose-justification-required=true",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--require",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "361",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "purpose_justification_prompt": "regression value &/?+ü",
+          "purpose_justification_required": true,
+          "session_duration": "regression value &/?+ü",
+          "decision": "allow",
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef",
+          "require": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]",
+      "--approval-required=false",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--isolation-required=false",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-config-mfa-disabled=false",
+      "--mfa-config-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "499",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "approval_required": false,
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ]
+            }
+          },
+          "isolation_required": false,
+          "mfa_config": {
+            "allowed_authenticators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "mfa_disabled": false,
+            "session_duration": "second value &/?+ü"
+          },
+          "decision": "allow",
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü"
         }
       }
     ]
@@ -741,6 +2211,113 @@
             "regression": "second"
           }
         ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "access",
+      "policies",
+      "create",
+      "--decision",
+      "allow",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "regression value &/?+ü",
+      "--approval-groups",
+      "[{\"regression\":\"item\"}]",
+      "--approval-required=true",
+      "--connection-rules-rdp-allowed-clipboard-local-to-remote-formats",
+      "192.0.2.1",
+      "--connection-rules-rdp-allowed-clipboard-remote-to-local-formats",
+      "192.0.2.1",
+      "--isolation-required=true",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-mfa-disabled=true",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü",
+      "--purpose-justification-prompt",
+      "regression value &/?+ü",
+      "--purpose-justification-required=true",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--policy-resolution-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--require",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "732",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "approval_groups": [
+            {
+              "regression": "item"
+            }
+          ],
+          "approval_required": true,
+          "connection_rules": {
+            "rdp": {
+              "allowed_clipboard_local_to_remote_formats": [
+                "192.0.2.1"
+              ],
+              "allowed_clipboard_remote_to_local_formats": [
+                "192.0.2.1"
+              ]
+            }
+          },
+          "isolation_required": true,
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ],
+            "mfa_disabled": true,
+            "session_duration": "regression value &/?+ü"
+          },
+          "purpose_justification_prompt": "regression value &/?+ü",
+          "purpose_justification_required": true,
+          "session_duration": "regression value &/?+ü",
+          "decision": "allow",
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "policy_resolution_account_id": "0123456789abcdef0123456789abcdef",
+          "require": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
       }
     ]
   }

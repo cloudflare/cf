@@ -586,6 +586,7 @@
       "organization",
       "--resource-types",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--order",
       "created",
       "--direction",
@@ -597,13 +598,14 @@
       "--include-resources=false",
       "--include-recipient-counts=false",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&order=created&direction=desc&page=2&per_page=2&include_resources=false&include_recipient_counts=false&tag=regression-image%3Alatest",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&order=created&direction=desc&page=2&per_page=2&include_resources=false&include_recipient_counts=false&tag=regression-image%3Alatest&tag=regression-image%3Alatest",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -671,13 +673,14 @@
       "2",
       "--include-resources=false",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&target_type=organization&order=created&page=2&include_resources=false&tag=regression-image%3Alatest",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&target_type=organization&order=created&page=2&include_resources=false&tag=regression-image%3Alatest&tag=regression-image%3Alatest",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -816,16 +819,18 @@
       "organization",
       "--resource-types",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--include-resources=false",
       "--include-recipient-counts=false",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&include_resources=false&include_recipient_counts=false&tag=regression-image%3Alatest",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&include_resources=false&include_recipient_counts=false&tag=regression-image%3Alatest&tag=regression-image%3Alatest",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -886,6 +891,7 @@
       "organization",
       "--resource-types",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--order",
       "created",
       "--direction",
@@ -899,7 +905,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&order=created&direction=desc&page=2&per_page=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&order=created&direction=desc&page=2&per_page=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

@@ -504,6 +504,7 @@
       "organization",
       "--resource-types",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--order",
       "created",
       "--direction",
@@ -517,7 +518,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&order=created&direction=desc&page=2&per_page=2",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&order=created&direction=desc&page=2&per_page=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -739,13 +740,14 @@
       "--target-type",
       "organization",
       "--resource-types",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/shares?status=deleting&kind=received&target_type=organization&resource_types=second%20value%20%26%2F%3F%2B%C3%BC&resource_types=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

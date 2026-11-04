@@ -192,6 +192,53 @@
     ]
   },
   {
+    "case": "only --meta",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--meta",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "meta": {
+            "regression": "json value"
+          },
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
     "case": "only --name",
     "argv": [
       "stream",
@@ -564,6 +611,8 @@
       "second value &/?+ü",
       "--input",
       "second value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--name",
       "second value &/?+ü",
       "--require-signed-urls=false",
@@ -587,7 +636,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "418",
+          "content-length": "453",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -604,6 +653,9 @@
           "creator": "second value &/?+ü",
           "endTimeSeconds": 1,
           "input": "second value &/?+ü",
+          "meta": {
+            "regression": "json value"
+          },
           "name": "second value &/?+ü",
           "requireSignedURLs": false,
           "scheduledDeletion": "second value &/?+ü",
@@ -631,12 +683,13 @@
       "1",
       "--creator",
       "regression value &/?+ü",
-      "--name",
-      "regression value &/?+ü",
-      "--scheduled-deletion",
-      "regression value &/?+ü",
-      "--url",
-      "https://example.com/a?x=1&y=two"
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--require-signed-urls=true",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -649,7 +702,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "282",
+          "content-length": "252",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -661,12 +714,15 @@
           "clippedFromVideoUID": "192.0.2.1",
           "creator": "regression value &/?+ü",
           "endTimeSeconds": 1,
-          "name": "regression value &/?+ü",
-          "requireSignedURLs": false,
-          "scheduledDeletion": "regression value &/?+ü",
+          "meta": {
+            "regression": "json value"
+          },
+          "requireSignedURLs": true,
           "startTimeSeconds": 1,
-          "thumbnailTimestampPct": 0,
-          "url": "https://example.com/a?x=1&y=two"
+          "thumbnailTimestampPct": 1,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
         }
       }
     ]
@@ -688,11 +744,12 @@
       "second value &/?+ü",
       "--input",
       "second value &/?+ü",
-      "--require-signed-urls=false",
-      "--thumbnail-timestamp-pct",
-      "2",
-      "--watermark-uid",
-      "0123456789abcdef0123456789abcdef"
+      "--name",
+      "second value &/?+ü",
+      "--scheduled-deletion",
+      "second value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 0,
     "requests": [
@@ -705,7 +762,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "275",
+          "content-length": "331",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -721,12 +778,12 @@
           "clippedFromVideoUID": "192.0.2.1",
           "endTimeSeconds": 1,
           "input": "second value &/?+ü",
+          "name": "second value &/?+ü",
           "requireSignedURLs": false,
+          "scheduledDeletion": "second value &/?+ü",
           "startTimeSeconds": 1,
-          "thumbnailTimestampPct": 2,
-          "watermark": {
-            "uid": "0123456789abcdef0123456789abcdef"
-          }
+          "thumbnailTimestampPct": 0,
+          "url": "https://example.com/a?x=1&y=two"
         }
       }
     ]
@@ -745,12 +802,12 @@
       "1",
       "--input",
       "regression value &/?+ü",
-      "--name",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--scheduled-deletion",
       "regression value &/?+ü",
       "--thumbnail-timestamp-pct",
-      "1",
-      "--url",
-      "https://example.com/a?x=1&y=two"
+      "1"
     ],
     "exitCode": 0,
     "requests": [
@@ -763,7 +820,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "234",
+          "content-length": "242",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -775,11 +832,13 @@
           "clippedFromVideoUID": "192.0.2.1",
           "endTimeSeconds": 1,
           "input": "regression value &/?+ü",
-          "name": "regression value &/?+ü",
+          "meta": {
+            "regression": "json value"
+          },
           "requireSignedURLs": false,
+          "scheduledDeletion": "regression value &/?+ü",
           "startTimeSeconds": 1,
-          "thumbnailTimestampPct": 1,
-          "url": "https://example.com/a?x=1&y=two"
+          "thumbnailTimestampPct": 1
         }
       }
     ]
@@ -801,9 +860,11 @@
       "second value &/?+ü",
       "--creator",
       "second value &/?+ü",
-      "--require-signed-urls=false",
-      "--scheduled-deletion",
+      "--name",
       "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
       "--watermark-uid",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -818,7 +879,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "319",
+          "content-length": "346",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -834,10 +895,11 @@
           "clippedFromVideoUID": "192.0.2.1",
           "creator": "second value &/?+ü",
           "endTimeSeconds": 1,
+          "name": "second value &/?+ü",
           "requireSignedURLs": false,
-          "scheduledDeletion": "second value &/?+ü",
           "startTimeSeconds": 1,
           "thumbnailTimestampPct": 0,
+          "url": "https://example.com/a?x=1&y=two",
           "watermark": {
             "uid": "0123456789abcdef0123456789abcdef"
           }
@@ -857,13 +919,13 @@
       "1",
       "--start-time-seconds",
       "1",
+      "--name",
+      "regression value &/?+ü",
       "--require-signed-urls=true",
       "--scheduled-deletion",
       "regression value &/?+ü",
       "--thumbnail-timestamp-pct",
-      "1",
-      "--url",
-      "https://example.com/a?x=1&y=two"
+      "1"
     ],
     "exitCode": 0,
     "requests": [
@@ -876,7 +938,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "212",
+          "content-length": "205",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -887,11 +949,11 @@
         "body": {
           "clippedFromVideoUID": "192.0.2.1",
           "endTimeSeconds": 1,
+          "name": "regression value &/?+ü",
           "requireSignedURLs": true,
           "scheduledDeletion": "regression value &/?+ü",
           "startTimeSeconds": 1,
-          "thumbnailTimestampPct": 1,
-          "url": "https://example.com/a?x=1&y=two"
+          "thumbnailTimestampPct": 1
         }
       }
     ]
@@ -915,8 +977,10 @@
       "second value &/?+ü",
       "--input",
       "second value &/?+ü",
-      "--name",
-      "second value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--url",
+      "https://example.com/a?x=1&y=two",
       "--watermark-uid",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -931,7 +995,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "336",
+          "content-length": "382",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -948,10 +1012,63 @@
           "creator": "second value &/?+ü",
           "endTimeSeconds": 1,
           "input": "second value &/?+ü",
-          "name": "second value &/?+ü",
+          "meta": {
+            "regression": "json value"
+          },
           "requireSignedURLs": false,
           "startTimeSeconds": 1,
           "thumbnailTimestampPct": 0,
+          "url": "https://example.com/a?x=1&y=two",
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "222",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0,
+          "url": "https://example.com/a?x=1&y=two",
           "watermark": {
             "uid": "0123456789abcdef0123456789abcdef"
           }
@@ -978,15 +1095,15 @@
       "second value &/?+ü",
       "--input",
       "second value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--name",
       "second value &/?+ü",
       "--require-signed-urls=false",
       "--scheduled-deletion",
       "second value &/?+ü",
       "--thumbnail-timestamp-pct",
-      "2",
-      "--url",
-      "https://example.com/a?x=1&y=two"
+      "2"
     ],
     "exitCode": 0,
     "requests": [
@@ -999,7 +1116,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "363",
+          "content-length": "358",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1016,12 +1133,14 @@
           "creator": "second value &/?+ü",
           "endTimeSeconds": 1,
           "input": "second value &/?+ü",
+          "meta": {
+            "regression": "json value"
+          },
           "name": "second value &/?+ü",
           "requireSignedURLs": false,
           "scheduledDeletion": "second value &/?+ü",
           "startTimeSeconds": 1,
-          "thumbnailTimestampPct": 2,
-          "url": "https://example.com/a?x=1&y=two"
+          "thumbnailTimestampPct": 2
         }
       }
     ]
@@ -1344,7 +1463,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1352,14 +1471,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1381,6 +1500,8 @@
       "regression value &/?+ü",
       "--input",
       "regression value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--name",
       "regression value &/?+ü",
       "--require-signed-urls=true",
@@ -1404,7 +1525,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "415",
+          "content-length": "450",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1420,6 +1541,9 @@
           "creator": "regression value &/?+ü",
           "endTimeSeconds": 1,
           "input": "regression value &/?+ü",
+          "meta": {
+            "regression": "json value"
+          },
           "name": "regression value &/?+ü",
           "requireSignedURLs": true,
           "scheduledDeletion": "regression value &/?+ü",

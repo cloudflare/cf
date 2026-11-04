@@ -136,6 +136,45 @@
     ]
   },
   {
+    "case": "only --protection-mode",
+    "argv": [
+      "magic-transit",
+      "advanced-tcp-protection",
+      "configs",
+      "syn",
+      "protection",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protection-mode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/advanced_tcp_protection/configs/syn_protection/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --rate-sensitivity",
     "argv": [
       "magic-transit",
@@ -224,6 +263,8 @@
       "second value &/?+ü",
       "--mitigation-type",
       "second value &/?+ü",
+      "--protection-mode",
+      "second value &/?+ü",
       "--rate-sensitivity",
       "second value &/?+ü"
     ],
@@ -238,7 +279,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "124",
+          "content-length": "153",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -249,7 +290,50 @@
         "body": {
           "burst_sensitivity": "second value &/?+ü",
           "mitigation_type": "second value &/?+ü",
+          "mode": "second value &/?+ü",
           "rate_sensitivity": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-transit",
+      "advanced-tcp-protection",
+      "configs",
+      "syn",
+      "protection",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--mitigation-type",
+      "regression value &/?+ü",
+      "--rate-sensitivity",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/advanced_tcp_protection/configs/syn_protection/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mitigation_type": "regression value &/?+ü",
+          "rate_sensitivity": "regression value &/?+ü"
         }
       }
     ]
@@ -267,7 +351,7 @@
       "0123456789abcdef0123456789abcdef",
       "--burst-sensitivity",
       "second value &/?+ü",
-      "--rate-sensitivity",
+      "--protection-mode",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -281,7 +365,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "84",
+          "content-length": "72",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -291,7 +375,49 @@
         },
         "body": {
           "burst_sensitivity": "second value &/?+ü",
-          "rate_sensitivity": "second value &/?+ü"
+          "mode": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-transit",
+      "advanced-tcp-protection",
+      "configs",
+      "syn",
+      "protection",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protection-mode",
+      "regression value &/?+ü",
+      "--rate-sensitivity",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/advanced_tcp_protection/configs/syn_protection/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "regression value &/?+ü",
+          "rate_sensitivity": "regression value &/?+ü"
         }
       }
     ]
@@ -648,7 +774,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -656,14 +782,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -682,6 +808,8 @@
       "regression value &/?+ü",
       "--mitigation-type",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--rate-sensitivity",
       "regression value &/?+ü"
     ],
@@ -696,7 +824,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "136",
+          "content-length": "169",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -707,6 +835,7 @@
         "body": {
           "burst_sensitivity": "regression value &/?+ü",
           "mitigation_type": "regression value &/?+ü",
+          "mode": "regression value &/?+ü",
           "rate_sensitivity": "regression value &/?+ü"
         }
       }

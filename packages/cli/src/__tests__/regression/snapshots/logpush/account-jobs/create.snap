@@ -64,7 +64,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "audit_logs"
+      "ai_gateway_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -79,7 +79,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "audit_logs_v2"
+      "audit_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -94,7 +94,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "biso_user_actions"
+      "audit_logs_v2"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -109,7 +109,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "casb_findings"
+      "biso_user_actions"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -124,7 +124,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "device_posture_results"
+      "casb_findings"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -139,7 +139,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "dex_application_tests"
+      "device_posture_results"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -154,7 +154,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "dex_device_state_events"
+      "dex_application_tests"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -169,7 +169,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "dlp_forensic_copies"
+      "dex_device_state_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -184,7 +184,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "dns_firewall_logs"
+      "dlp_forensic_copies"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -199,7 +199,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "dns_logs"
+      "dns_firewall_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -214,7 +214,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "email_security_alerts"
+      "dns_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -229,7 +229,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "email_security_post_delivery_events"
+      "email_security_alerts"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -244,7 +244,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "firewall_events"
+      "email_security_post_delivery_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -259,7 +259,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "gateway_dns"
+      "firewall_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -274,7 +274,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "gateway_http"
+      "gateway_dns"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -289,7 +289,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "gateway_network"
+      "gateway_http"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -304,7 +304,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "http_requests"
+      "gateway_network"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -319,7 +319,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "ipsec_logs"
+      "http_requests"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -334,7 +334,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "magic_bgp_logs"
+      "ipsec_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -349,7 +349,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "magic_ids_detections"
+      "magic_bgp_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -364,7 +364,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "mcp_portal_logs"
+      "magic_ids_detections"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -379,7 +379,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "mnm_flow_logs"
+      "mcp_portal_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -394,7 +394,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "nel_reports"
+      "mnm_flow_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -409,7 +409,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "network_analytics_logs"
+      "nel_reports"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -424,7 +424,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "page_shield_events"
+      "network_analytics_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -439,7 +439,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "sinkhole_http_logs"
+      "page_shield_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -454,7 +454,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "spectrum_events"
+      "sinkhole_http_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -469,7 +469,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "ssh_logs"
+      "spectrum_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -484,7 +484,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "turnstile_events"
+      "ssh_logs"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -499,7 +499,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "warp_config_changes"
+      "turnstile_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -514,7 +514,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "warp_toggle_changes"
+      "warp_config_changes"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -529,7 +529,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "websocket_analytics"
+      "warp_toggle_changes"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -544,7 +544,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "workers_trace_events"
+      "websocket_analytics"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -559,7 +559,7 @@
       "--destination-conf",
       "regression value &/?+ü",
       "--dataset",
-      "zaraz_events"
+      "workers_trace_events"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -567,6 +567,21 @@
   },
   {
     "case": "--dataset value 36",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--dataset",
+      "zaraz_events"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "--dataset value 37",
     "argv": [
       "logpush",
       "account-jobs",
@@ -732,6 +747,51 @@
       "regression value &/?+ü",
       "--logpull-options",
       "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --max-upload-bytes",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--max-upload-bytes",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --max-upload-interval-seconds",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--max-upload-interval-seconds",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
+    "requests": []
+  },
+  {
+    "case": "only --max-upload-records",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "create",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--max-upload-records",
+      "1"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -1096,6 +1156,12 @@
       "edge",
       "--logpull-options",
       "second value &/?+ü",
+      "--max-upload-bytes",
+      "2",
+      "--max-upload-interval-seconds",
+      "2",
+      "--max-upload-records",
+      "2",
       "--name",
       "second value &/?+ü",
       "--output-options-cve-2021-44228=false",
@@ -1137,7 +1203,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "763",
+          "content-length": "839",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1154,6 +1220,9 @@
           "frequency": "low",
           "kind": "edge",
           "logpull_options": "second value &/?+ü",
+          "max_upload_bytes": 2,
+          "max_upload_interval_seconds": 2,
+          "max_upload_records": 2,
           "name": "second value &/?+ü",
           "output_options": {
             "CVE-2021-44228": false,
@@ -1190,21 +1259,23 @@
       "--filter-attack-traffic=true",
       "--kind",
       "edge",
-      "--name",
-      "regression value &/?+ü",
-      "--output-options-batch-prefix",
-      "regression value &/?+ü",
-      "--output-options-field-delimiter",
-      "regression value &/?+ü",
-      "--output-options-merge-subrequests=true",
-      "--output-options-record-delimiter",
-      "regression value &/?+ü",
-      "--output-options-record-suffix",
-      "regression value &/?+ü",
-      "--output-options-sample-rate",
+      "--max-upload-bytes",
       "1",
-      "--ownership-challenge",
-      "192.0.2.1"
+      "--max-upload-records",
+      "1",
+      "--output-options-cve-2021-44228=true",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-prefix",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "unixnano"
     ],
     "exitCode": 0,
     "requests": [
@@ -1217,7 +1288,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "448",
+          "content-length": "456",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1232,16 +1303,19 @@
           "filter_attack_traffic": true,
           "frequency": "high",
           "kind": "edge",
-          "name": "regression value &/?+ü",
+          "max_upload_bytes": 1,
+          "max_upload_records": 1,
           "output_options": {
-            "batch_prefix": "regression value &/?+ü",
-            "field_delimiter": "regression value &/?+ü",
-            "merge_subrequests": true,
-            "record_delimiter": "regression value &/?+ü",
-            "record_suffix": "regression value &/?+ü",
-            "sample_rate": 1
-          },
-          "ownership_challenge": "192.0.2.1"
+            "CVE-2021-44228": true,
+            "batch_suffix": "regression value &/?+ü",
+            "field_names": [
+              "regression value &/?+ü"
+            ],
+            "output_type": "ndjson",
+            "record_prefix": "regression value &/?+ü",
+            "record_template": "regression value &/?+ü",
+            "timestamp_format": "unixnano"
+          }
         }
       }
     ]
@@ -1262,20 +1336,23 @@
       "low",
       "--logpull-options",
       "second value &/?+ü",
-      "--output-options-cve-2021-44228=false",
-      "--output-options-batch-suffix",
+      "--max-upload-interval-seconds",
+      "2",
+      "--name",
       "second value &/?+ü",
-      "--output-options-field-names",
+      "--output-options-batch-prefix",
       "second value &/?+ü",
+      "--output-options-field-delimiter",
       "second value &/?+ü",
-      "--output-options-output-type",
-      "csv",
-      "--output-options-record-prefix",
+      "--output-options-merge-subrequests=false",
+      "--output-options-record-delimiter",
       "second value &/?+ü",
-      "--output-options-record-template",
+      "--output-options-record-suffix",
       "second value &/?+ü",
-      "--output-options-timestamp-format",
-      "unix"
+      "--output-options-sample-rate",
+      "2",
+      "--ownership-challenge",
+      "192.0.2.1"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -1294,20 +1371,23 @@
       "--filter-attack-traffic=true",
       "--logpull-options",
       "regression value &/?+ü",
+      "--max-upload-bytes",
+      "1",
       "--name",
       "regression value &/?+ü",
-      "--output-options-batch-suffix",
-      "regression value &/?+ü",
+      "--output-options-cve-2021-44228=true",
       "--output-options-field-delimiter",
       "regression value &/?+ü",
-      "--output-options-output-type",
-      "ndjson",
+      "--output-options-field-names",
+      "regression value &/?+ü",
       "--output-options-record-delimiter",
       "regression value &/?+ü",
-      "--output-options-record-template",
+      "--output-options-record-prefix",
       "regression value &/?+ü",
       "--output-options-sample-rate",
-      "1"
+      "1",
+      "--output-options-timestamp-format",
+      "unixnano"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -1328,19 +1408,21 @@
       "low",
       "--kind",
       "edge",
-      "--output-options-cve-2021-44228=false",
+      "--max-upload-interval-seconds",
+      "2",
+      "--max-upload-records",
+      "2",
       "--output-options-batch-prefix",
       "second value &/?+ü",
-      "--output-options-field-names",
-      "second value &/?+ü",
+      "--output-options-batch-suffix",
       "second value &/?+ü",
       "--output-options-merge-subrequests=false",
-      "--output-options-record-prefix",
-      "second value &/?+ü",
+      "--output-options-output-type",
+      "csv",
       "--output-options-record-suffix",
       "second value &/?+ü",
-      "--output-options-timestamp-format",
-      "unix",
+      "--output-options-record-template",
+      "second value &/?+ü",
       "--ownership-challenge",
       "192.0.2.1"
     ],
@@ -1355,7 +1437,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "469",
+          "content-length": "474",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1370,17 +1452,15 @@
           "filter_attack_traffic": false,
           "frequency": "low",
           "kind": "edge",
+          "max_upload_interval_seconds": 2,
+          "max_upload_records": 2,
           "output_options": {
-            "CVE-2021-44228": false,
             "batch_prefix": "second value &/?+ü",
-            "field_names": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
+            "batch_suffix": "second value &/?+ü",
             "merge_subrequests": false,
-            "record_prefix": "second value &/?+ü",
+            "output_type": "csv",
             "record_suffix": "second value &/?+ü",
-            "timestamp_format": "unix"
+            "record_template": "second value &/?+ü"
           },
           "ownership_challenge": "192.0.2.1"
         }
@@ -1401,19 +1481,24 @@
       "edge",
       "--logpull-options",
       "regression value &/?+ü",
-      "--name",
+      "--max-upload-bytes",
+      "1",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
       "regression value &/?+ü",
       "--output-options-field-names",
       "regression value &/?+ü",
-      "--output-options-merge-subrequests=true",
-      "--output-options-output-type",
-      "ndjson",
-      "--output-options-record-delimiter",
+      "--output-options-record-suffix",
       "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
       "--output-options-timestamp-format",
-      "unixnano",
-      "--ownership-challenge",
-      "192.0.2.1"
+      "unixnano"
     ],
     "exitCode": 0,
     "requests": [
@@ -1426,7 +1511,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "446",
+          "content-length": "535",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1442,17 +1527,19 @@
           "frequency": "high",
           "kind": "edge",
           "logpull_options": "regression value &/?+ü",
-          "name": "regression value &/?+ü",
+          "max_upload_bytes": 1,
           "output_options": {
+            "batch_prefix": "regression value &/?+ü",
+            "batch_suffix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
             "field_names": [
               "regression value &/?+ü"
             ],
-            "merge_subrequests": true,
-            "output_type": "ndjson",
-            "record_delimiter": "regression value &/?+ü",
+            "record_suffix": "regression value &/?+ü",
+            "record_template": "regression value &/?+ü",
+            "sample_rate": 1,
             "timestamp_format": "unixnano"
-          },
-          "ownership_challenge": "192.0.2.1"
+          }
         }
       }
     ]
@@ -1471,21 +1558,22 @@
       "--filter",
       "second value &/?+ü",
       "--filter-attack-traffic=false",
+      "--max-upload-interval-seconds",
+      "2",
+      "--max-upload-records",
+      "2",
+      "--name",
+      "second value &/?+ü",
       "--output-options-cve-2021-44228=false",
-      "--output-options-batch-prefix",
-      "second value &/?+ü",
-      "--output-options-batch-suffix",
-      "second value &/?+ü",
-      "--output-options-field-delimiter",
+      "--output-options-merge-subrequests=false",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-delimiter",
       "second value &/?+ü",
       "--output-options-record-prefix",
       "second value &/?+ü",
-      "--output-options-record-suffix",
-      "second value &/?+ü",
-      "--output-options-record-template",
-      "second value &/?+ü",
-      "--output-options-sample-rate",
-      "2"
+      "--ownership-challenge",
+      "192.0.2.1"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -1499,6 +1587,12 @@
       "create",
       "--destination-conf",
       "regression value &/?+ü",
+      "--max-upload-interval-seconds",
+      "1",
+      "--max-upload-records",
+      "1",
+      "--name",
+      "regression value &/?+ü",
       "--output-options-cve-2021-44228=true",
       "--output-options-batch-prefix",
       "regression value &/?+ü",
@@ -1508,11 +1602,8 @@
       "regression value &/?+ü",
       "--output-options-field-names",
       "regression value &/?+ü",
-      "--output-options-merge-subrequests=true",
-      "--output-options-output-type",
-      "ndjson",
-      "--output-options-record-delimiter",
-      "regression value &/?+ü"
+      "--ownership-challenge",
+      "192.0.2.1"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: kind, Given: \"\", Choices: \"edge\"",
@@ -1538,7 +1629,12 @@
       "edge",
       "--logpull-options",
       "second value &/?+ü",
-      "--name",
+      "--max-upload-bytes",
+      "2",
+      "--output-options-merge-subrequests=false",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-delimiter",
       "second value &/?+ü",
       "--output-options-record-prefix",
       "second value &/?+ü",
@@ -1549,9 +1645,7 @@
       "--output-options-sample-rate",
       "2",
       "--output-options-timestamp-format",
-      "unix",
-      "--ownership-challenge",
-      "192.0.2.1"
+      "unix"
     ],
     "exitCode": 0,
     "requests": [
@@ -1564,7 +1658,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "479",
+          "content-length": "524",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1581,15 +1675,17 @@
           "frequency": "low",
           "kind": "edge",
           "logpull_options": "second value &/?+ü",
-          "name": "second value &/?+ü",
+          "max_upload_bytes": 2,
           "output_options": {
+            "merge_subrequests": false,
+            "output_type": "csv",
+            "record_delimiter": "second value &/?+ü",
             "record_prefix": "second value &/?+ü",
             "record_suffix": "second value &/?+ü",
             "record_template": "second value &/?+ü",
             "sample_rate": 2,
             "timestamp_format": "unix"
-          },
-          "ownership_challenge": "192.0.2.1"
+          }
         }
       }
     ]
@@ -1601,6 +1697,11 @@
       "account-jobs",
       "create",
       "--destination-conf",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
       "regression value &/?+ü",
       "--output-options-record-prefix",
       "regression value &/?+ü",
@@ -1639,6 +1740,12 @@
       "edge",
       "--logpull-options",
       "second value &/?+ü",
+      "--max-upload-bytes",
+      "2",
+      "--max-upload-interval-seconds",
+      "2",
+      "--max-upload-records",
+      "2",
       "--name",
       "second value &/?+ü",
       "--output-options-cve-2021-44228=false",
@@ -1650,11 +1757,6 @@
       "second value &/?+ü",
       "--output-options-field-names",
       "second value &/?+ü",
-      "second value &/?+ü",
-      "--output-options-merge-subrequests=false",
-      "--output-options-output-type",
-      "csv",
-      "--output-options-record-delimiter",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -1668,7 +1770,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "571",
+          "content-length": "560",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1685,6 +1787,9 @@
           "frequency": "low",
           "kind": "edge",
           "logpull_options": "second value &/?+ü",
+          "max_upload_bytes": 2,
+          "max_upload_interval_seconds": 2,
+          "max_upload_records": 2,
           "name": "second value &/?+ü",
           "output_options": {
             "CVE-2021-44228": false,
@@ -1694,10 +1799,7 @@
             "field_names": [
               "second value &/?+ü",
               "second value &/?+ü"
-            ],
-            "merge_subrequests": false,
-            "output_type": "csv",
-            "record_delimiter": "second value &/?+ü"
+            ]
           }
         }
       }
@@ -1872,6 +1974,12 @@
       "edge",
       "--logpull-options",
       "regression value &/?+ü",
+      "--max-upload-bytes",
+      "1",
+      "--max-upload-interval-seconds",
+      "1",
+      "--max-upload-records",
+      "1",
       "--name",
       "regression value &/?+ü",
       "--output-options-cve-2021-44228=true",
@@ -1912,7 +2020,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "773",
+          "content-length": "849",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1929,6 +2037,9 @@
           "frequency": "high",
           "kind": "edge",
           "logpull_options": "regression value &/?+ü",
+          "max_upload_bytes": 1,
+          "max_upload_interval_seconds": 1,
+          "max_upload_records": 1,
           "name": "regression value &/?+ü",
           "output_options": {
             "CVE-2021-44228": true,

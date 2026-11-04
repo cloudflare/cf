@@ -17,6 +17,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -56,6 +58,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=true"
     ],
     "exitCode": 0,
@@ -69,7 +73,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "2",
+          "content-length": "41",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -77,7 +81,9 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {}
+        "body": {
+          "id": "0123456789abcdef0123456789abcdef"
+        }
       }
     ]
   },
@@ -88,6 +94,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false"
     ],
     "exitCode": 0,
@@ -101,7 +109,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "2",
+          "content-length": "41",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -109,7 +117,9 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {}
+        "body": {
+          "id": "0123456789abcdef0123456789abcdef"
+        }
       }
     ]
   },
@@ -120,6 +130,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--description",
       "192.0.2.1"
     ],
@@ -134,7 +146,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "27",
+          "content-length": "67",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -143,7 +155,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "description": "192.0.2.1"
+          "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -155,6 +168,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü"
     ],
@@ -169,7 +184,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "34",
+          "content-length": "74",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -178,6 +193,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "regression value &/?+ü"
         }
       }
@@ -190,6 +206,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--rules",
       "[{\"regression\":\"item\"}]"
     ],
@@ -204,7 +222,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "33",
+          "content-length": "73",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -213,6 +231,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "rules": [
             {
               "regression": "item"
@@ -228,7 +247,9 @@
       "rulesets",
       "entrypoint",
       "update",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
@@ -241,7 +262,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "2",
+          "content-length": "41",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -249,7 +270,9 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {}
+        "body": {
+          "id": "0123456789abcdef0123456789abcdef"
+        }
       }
     ]
   },
@@ -260,6 +283,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--description",
       "192.0.2.1",
@@ -279,7 +304,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "88",
+          "content-length": "128",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -289,6 +314,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "second value &/?+ü",
           "rules": [
             {
@@ -306,6 +332,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--description",
       "192.0.2.1",
       "--rules",
@@ -322,7 +350,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "59",
+          "content-length": "99",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -332,6 +360,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "rules": [
             {
               "regression": "item"
@@ -348,6 +377,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--name",
       "second value &/?+ü"
@@ -363,7 +394,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "30",
+          "content-length": "70",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -372,6 +403,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "second value &/?+ü"
         }
       }
@@ -384,6 +416,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
       "--rules",
@@ -400,7 +434,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "66",
+          "content-length": "106",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -409,6 +443,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "regression value &/?+ü",
           "rules": [
             {
@@ -426,6 +461,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=false",
       "--description",
       "192.0.2.1"
@@ -441,7 +478,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "27",
+          "content-length": "67",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -450,7 +487,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "description": "192.0.2.1"
+          "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -462,6 +500,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -502,6 +542,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -543,6 +585,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -586,6 +630,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -625,6 +671,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -666,6 +714,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -724,6 +774,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -738,6 +790,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "@<body.json>"
     ],
@@ -777,6 +831,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -791,7 +847,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -799,14 +855,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -817,6 +873,8 @@
       "entrypoint",
       "update",
       "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--validate-only=true",
       "--description",
       "192.0.2.1",
@@ -836,7 +894,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "92",
+          "content-length": "132",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -846,6 +904,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "id": "0123456789abcdef0123456789abcdef",
           "name": "regression value &/?+ü",
           "rules": [
             {
@@ -863,6 +922,8 @@
       "entrypoint",
       "update",
       "second value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],

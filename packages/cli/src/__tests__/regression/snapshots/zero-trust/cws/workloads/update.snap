@@ -98,6 +98,50 @@
     ]
   },
   {
+    "case": "only --tags",
+    "argv": [
+      "zero-trust",
+      "cws",
+      "workloads",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cws/workloads/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "filter": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "pairwise 0",
     "argv": [
       "zero-trust",
@@ -132,6 +176,53 @@
         "body": {
           "filter": "regression value &/?+ü",
           "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "cws",
+      "workloads",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cws/workloads/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "filter": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -454,7 +545,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -462,14 +553,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

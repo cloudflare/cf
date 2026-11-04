@@ -284,6 +284,76 @@
     ]
   },
   {
+    "case": "only --product",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "findings",
+      "export",
+      "--product",
+      "SaaS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "product": "SaaS"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--product value 1",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "findings",
+      "export",
+      "--product",
+      "Cloud"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "product": "Cloud"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --search",
     "argv": [
       "zero-trust",
@@ -409,6 +479,8 @@
       "2026-01-02T03:04:05Z",
       "--orders",
       "[{\"regression\":\"item\"}]",
+      "--product",
+      "Cloud",
       "--search",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -434,9 +506,9 @@
       "0123456789abcdef0123456789abcdef",
       "--min-affliction-date",
       "2026-01-02T03:04:05Z",
-      "--search",
-      "regression value &/?+ü",
-      "--vendors",
+      "--product",
+      "SaaS",
+      "--severities",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -450,7 +522,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "173",
+          "content-length": "158",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -463,8 +535,8 @@
             "0123456789abcdef0123456789abcdef"
           ],
           "min_affliction_date": "2026-01-02T03:04:05Z",
-          "search": "regression value &/?+ü",
-          "vendors": [
+          "product": "SaaS",
+          "severities": [
             "regression value &/?+ü"
           ]
         }
@@ -483,44 +555,16 @@
       "2026-01-02T03:04:05Z",
       "--orders",
       "[{\"regression\":\"item\"}]",
-      "--severities",
+      "--search",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--vendors",
       "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/export",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "154",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ignored": false,
-          "max_affliction_date": "2026-01-02T03:04:05Z",
-          "orders": [
-            {
-              "regression": "item"
-            }
-          ],
-          "severities": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -533,9 +577,9 @@
       "2026-01-02T03:04:05Z",
       "--min-affliction-date",
       "2026-01-02T03:04:05Z",
-      "--severities",
+      "--search",
       "regression value &/?+ü",
-      "--vendors",
+      "--severities",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -549,7 +593,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "170",
+          "content-length": "167",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -560,10 +604,8 @@
         "body": {
           "max_affliction_date": "2026-01-02T03:04:05Z",
           "min_affliction_date": "2026-01-02T03:04:05Z",
+          "search": "regression value &/?+ü",
           "severities": [
-            "regression value &/?+ü"
-          ],
-          "vendors": [
             "regression value &/?+ü"
           ]
         }
@@ -583,13 +625,50 @@
       "0123456789abcdef0123456789abcdef",
       "--orders",
       "[{\"regression\":\"item\"}]",
-      "--search",
+      "--product",
+      "Cloud",
+      "--vendors",
       "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Unknown command: second value &/?+ü",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "213",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ignored": false,
+          "integration_id": [
+            "0123456789abcdef0123456789abcdef",
+            "0123456789abcdef0123456789abcdef"
+          ],
+          "orders": [
+            {
+              "regression": "item"
+            }
+          ],
+          "product": "Cloud",
+          "vendors": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ]
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 6",
@@ -600,11 +679,11 @@
       "export",
       "--orders",
       "[{\"regression\":\"item\"}]",
+      "--product",
+      "SaaS",
       "--search",
       "regression value &/?+ü",
       "--severities",
-      "regression value &/?+ü",
-      "--vendors",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -618,7 +697,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "148",
+          "content-length": "127",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -632,11 +711,9 @@
               "regression": "item"
             }
           ],
+          "product": "SaaS",
           "search": "regression value &/?+ü",
           "severities": [
-            "regression value &/?+ü"
-          ],
-          "vendors": [
             "regression value &/?+ü"
           ]
         }
@@ -657,7 +734,10 @@
       "--max-affliction-date",
       "2026-01-02T03:04:05Z",
       "--min-affliction-date",
-      "2026-01-02T03:04:05Z"
+      "2026-01-02T03:04:05Z",
+      "--vendors",
+      "second value &/?+ü",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -670,7 +750,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "196",
+          "content-length": "252",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -685,10 +765,44 @@
             "0123456789abcdef0123456789abcdef"
           ],
           "max_affliction_date": "2026-01-02T03:04:05Z",
-          "min_affliction_date": "2026-01-02T03:04:05Z"
+          "min_affliction_date": "2026-01-02T03:04:05Z",
+          "vendors": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ]
         }
       }
     ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "findings",
+      "export",
+      "--ignored=false",
+      "--integration-id",
+      "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
+      "--max-affliction-date",
+      "2026-01-02T03:04:05Z",
+      "--min-affliction-date",
+      "2026-01-02T03:04:05Z",
+      "--orders",
+      "[{\"regression\":\"item\"}]",
+      "--product",
+      "Cloud",
+      "--search",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--severities",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "global quiet",
@@ -968,7 +1082,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -976,14 +1090,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1003,6 +1117,8 @@
       "2026-01-02T03:04:05Z",
       "--orders",
       "[{\"regression\":\"item\"}]",
+      "--product",
+      "SaaS",
       "--search",
       "regression value &/?+ü",
       "--severities",
@@ -1021,7 +1137,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "307",
+          "content-length": "324",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1041,6 +1157,7 @@
               "regression": "item"
             }
           ],
+          "product": "SaaS",
           "search": "regression value &/?+ü",
           "severities": [
             "regression value &/?+ü"

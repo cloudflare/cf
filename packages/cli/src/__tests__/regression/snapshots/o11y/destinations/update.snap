@@ -17,10 +17,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
@@ -55,16 +51,85 @@
     ]
   },
   {
+    "case": "only --configuration-headers",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-type, --configuration-url are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --configuration-replace-headers",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-replace-headers=true"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers, --configuration-type, --configuration-url are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--configuration-replace-headers value 1",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-replace-headers=false"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers, --configuration-type, --configuration-url are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --configuration-type",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-type",
+      "logpush"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers, --configuration-url are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --configuration-url",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers, --configuration-type are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
     "case": "required --enabled value 1",
     "argv": [
       "o11y",
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--enabled=false"
@@ -105,10 +170,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true"
     ],
     "exitCode": 0,
@@ -122,7 +183,48 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "91",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-replace-headers=false",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/destinations/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -132,6 +234,10 @@
         },
         "body": {
           "configuration": {
+            "headers": {
+              "regression": "json value"
+            },
+            "replaceHeaders": false,
             "type": "logpush",
             "url": "https://example.com/a?x=1&y=two"
           },
@@ -141,16 +247,78 @@
     ]
   },
   {
+    "case": "pairwise 2",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-replace-headers=true",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers, --configuration-type are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-type",
+      "logpush"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-url is required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers is required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-replace-headers=false"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-type, --configuration-url are required when any --configuration-* flag is set",
+    "requests": []
+  },
+  {
     "case": "global quiet",
     "argv": [
       "o11y",
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -192,10 +360,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -238,10 +402,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -286,10 +446,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -330,10 +486,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -376,10 +528,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -395,10 +543,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "@<body.json>"
@@ -439,10 +583,6 @@
       "destinations",
       "update",
       "regression value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
@@ -458,7 +598,53 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "o11y",
+      "destinations",
+      "update",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-replace-headers=true",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/destinations/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -467,12 +653,15 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "0": {
-            "regression": "first"
+          "configuration": {
+            "headers": {
+              "regression": "json value"
+            },
+            "replaceHeaders": true,
+            "type": "logpush",
+            "url": "https://example.com/a?x=1&y=two"
           },
-          "1": {
-            "regression": "second"
-          }
+          "enabled": true
         }
       }
     ]
@@ -484,10 +673,6 @@
       "destinations",
       "update",
       "second value &/?+ü",
-      "--configuration-type",
-      "logpush",
-      "--configuration-url",
-      "https://example.com/a?x=1&y=two",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"

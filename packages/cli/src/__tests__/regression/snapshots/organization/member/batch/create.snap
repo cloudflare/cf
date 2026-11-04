@@ -19,8 +19,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -54,7 +52,7 @@
     ]
   },
   {
-    "case": "pairwise 0",
+    "case": "only --members",
     "argv": [
       "organization",
       "member",
@@ -94,6 +92,38 @@
     ]
   },
   {
+    "case": "pairwise 0",
+    "argv": [
+      "organization",
+      "member",
+      "batch",
+      "create",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members:batchCreate",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
     "case": "global quiet",
     "argv": [
       "organization",
@@ -101,8 +131,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -144,8 +172,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -188,8 +214,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -234,8 +258,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -276,8 +298,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -320,8 +340,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -337,8 +355,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "@<body.json>"
     ],
@@ -379,8 +395,6 @@
       "batch",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--members",
-      "[{\"regression\":\"item\"}]",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -395,7 +409,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -403,14 +417,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

@@ -105,32 +105,9 @@
       "--speed",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/interconnects",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "104",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "account": "regression value &/?+ü",
-          "type": "regression value &/?+ü",
-          "speed": "regression value &/?+ü"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n speed -> slot-id",
+    "requests": []
   },
   {
     "case": "only --bandwidth",
@@ -429,7 +406,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n pairing-key -> bandwidth",
+    "error": "Missing dependent arguments:\n speed -> slot-id pairing-key -> bandwidth",
     "requests": []
   },
   {

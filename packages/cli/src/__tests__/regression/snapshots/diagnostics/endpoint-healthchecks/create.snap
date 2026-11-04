@@ -34,7 +34,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "62",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -47,7 +47,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]
@@ -194,7 +195,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "62",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -207,7 +208,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]
@@ -238,7 +240,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "62",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -251,7 +253,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]
@@ -284,7 +287,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "62",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -297,7 +300,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]
@@ -339,7 +343,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]
@@ -383,7 +388,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]
@@ -429,7 +435,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "62",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -442,7 +448,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "check_type": "icmp"
         }
       }
     ]

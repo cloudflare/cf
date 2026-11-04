@@ -52,14 +52,14 @@
     ]
   },
   {
-    "case": "only --config-upstreams-enabled",
+    "case": "only --relay-config-upstreams-enabled",
     "argv": [
       "realtime",
       "moq",
       "relays",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-upstreams-enabled=true"
+      "--relay-config-upstreams-enabled=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -91,14 +91,14 @@
     ]
   },
   {
-    "case": "--config-upstreams-enabled value 1",
+    "case": "--relay-config-upstreams-enabled value 1",
     "argv": [
       "realtime",
       "moq",
       "relays",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-upstreams-enabled=false"
+      "--relay-config-upstreams-enabled=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -123,6 +123,50 @@
           "config": {
             "upstreams": {
               "enabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --relay-config-upstreams-upstreams",
+    "argv": [
+      "realtime",
+      "moq",
+      "relays",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--relay-config-upstreams-upstreams",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/moq/relays/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "upstreams": {
+              "upstreams": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           }
         }
@@ -205,7 +249,56 @@
       "relays",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-upstreams-enabled=false",
+      "--relay-config-upstreams-enabled=false",
+      "--relay-config-upstreams-upstreams",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/moq/relays/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "upstreams": {
+              "enabled": false,
+              "upstreams": [
+                {
+                  "regression": "item"
+                }
+              ]
+            }
+          },
+          "name": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "realtime",
+      "moq",
+      "relays",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--relay-config-upstreams-enabled=false",
       "--name",
       "second value &/?+ü"
     ],
@@ -235,6 +328,52 @@
             }
           },
           "name": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "realtime",
+      "moq",
+      "relays",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--relay-config-upstreams-enabled=false",
+      "--relay-config-upstreams-upstreams",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/moq/relays/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "upstreams": {
+              "enabled": false,
+              "upstreams": [
+                {
+                  "regression": "item"
+                }
+              ]
+            }
+          }
         }
       }
     ]
@@ -525,7 +664,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -533,14 +672,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -552,7 +691,9 @@
       "relays",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--config-upstreams-enabled=true",
+      "--relay-config-upstreams-enabled=true",
+      "--relay-config-upstreams-upstreams",
+      "[{\"regression\":\"item\"}]",
       "--name",
       "regression value &/?+ü"
     ],
@@ -567,7 +708,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "74",
+          "content-length": "110",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -578,7 +719,12 @@
         "body": {
           "config": {
             "upstreams": {
-              "enabled": true
+              "enabled": true,
+              "upstreams": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
           "name": "regression value &/?+ü"

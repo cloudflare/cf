@@ -52,6 +52,21 @@
     ]
   },
   {
+    "case": "only --condition-conditions",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--condition-operator, --condition-type are required when any --condition-* flag is set",
+    "requests": []
+  },
+  {
     "case": "only --condition-operator",
     "argv": [
       "cloudforce-one",
@@ -63,7 +78,7 @@
       "and"
     ],
     "exitCode": 1,
-    "error": "--condition-type is required when any --condition-* flag is set",
+    "error": "--condition-conditions, --condition-type are required when any --condition-* flag is set",
     "requests": []
   },
   {
@@ -78,7 +93,7 @@
       "or"
     ],
     "exitCode": 1,
-    "error": "--condition-type is required when any --condition-* flag is set",
+    "error": "--condition-conditions, --condition-type are required when any --condition-* flag is set",
     "requests": []
   },
   {
@@ -93,7 +108,7 @@
       "group"
     ],
     "exitCode": 1,
-    "error": "--condition-operator is required when any --condition-* flag is set",
+    "error": "--condition-conditions, --condition-operator are required when any --condition-* flag is set",
     "requests": []
   },
   {
@@ -430,6 +445,8 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "or",
       "--condition-type",
@@ -457,7 +474,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "202",
+          "content-length": "239",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -467,6 +484,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "or",
             "type": "group"
           },
@@ -496,16 +518,17 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--condition-type",
-      "group",
-      "--enabled=true",
-      "--name",
-      "regression value &/?+ü",
-      "--strings",
-      "[{\"regression\":\"item\"}]"
+      "--condition-operator",
+      "and",
+      "--description",
+      "192.0.2.1",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--status",
+      "silent"
     ],
     "exitCode": 1,
-    "error": "--condition-operator is required when any --condition-* flag is set",
+    "error": "--condition-conditions, --condition-type are required when any --condition-* flag is set",
     "requests": []
   },
   {
@@ -516,17 +539,18 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--condition-operator",
-      "or",
-      "--description",
-      "192.0.2.1",
-      "--meta",
+      "--condition-conditions",
       "[{\"regression\":\"item\"}]",
-      "--status",
-      "blocking"
+      "--condition-type",
+      "group",
+      "--enabled=false",
+      "--name",
+      "second value &/?+ü",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 1,
-    "error": "--condition-type is required when any --condition-* flag is set",
+    "error": "--condition-operator is required when any --condition-* flag is set",
     "requests": []
   },
   {
@@ -537,45 +561,18 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--condition-type",
+      "group",
       "--description",
       "192.0.2.1",
-      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
       "--status",
-      "silent",
-      "--strings",
-      "[{\"regression\":\"item\"}]"
+      "silent"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "94",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "192.0.2.1",
-          "enabled": true,
-          "status": "silent",
-          "strings": [
-            {
-              "regression": "item"
-            }
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--condition-conditions, --condition-operator are required when any --condition-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 5",
@@ -585,48 +582,19 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "or",
-      "--condition-type",
-      "group",
+      "--enabled=false",
       "--meta",
       "[{\"regression\":\"item\"}]",
-      "--name",
-      "second value &/?+ü"
+      "--strings",
+      "[{\"regression\":\"item\"}]"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "106",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "condition": {
-            "operator": "or",
-            "type": "group"
-          },
-          "meta": [
-            {
-              "regression": "item"
-            }
-          ],
-          "name": "second value &/?+ü"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--condition-type is required when any --condition-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 6",
@@ -636,14 +604,13 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--enabled=true",
       "--meta",
       "[{\"regression\":\"item\"}]",
       "--name",
       "regression value &/?+ü",
       "--status",
-      "silent",
-      "--strings",
-      "[{\"regression\":\"item\"}]"
+      "silent"
     ],
     "exitCode": 0,
     "requests": [
@@ -656,7 +623,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "117",
+          "content-length": "98",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -665,18 +632,14 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "enabled": true,
           "meta": [
             {
               "regression": "item"
             }
           ],
           "name": "regression value &/?+ü",
-          "status": "silent",
-          "strings": [
-            {
-              "regression": "item"
-            }
-          ]
+          "status": "silent"
         }
       }
     ]
@@ -689,13 +652,16 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "or",
       "--condition-type",
       "group",
       "--description",
       "192.0.2.1",
-      "--enabled=false"
+      "--strings",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -708,7 +674,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "88",
+          "content-length": "143",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -718,11 +684,86 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "or",
             "type": "group"
           },
           "description": "192.0.2.1",
-          "enabled": false
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
+      "--condition-operator",
+      "or",
+      "--condition-type",
+      "group",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--name",
+      "second value &/?+ü",
+      "--status",
+      "blocking"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
+            "operator": "or",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "second value &/?+ü",
+          "status": "blocking"
         }
       }
     ]
@@ -1013,7 +1054,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1021,14 +1062,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1040,6 +1081,8 @@
       "email",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--condition-conditions",
+      "[{\"regression\":\"item\"}]",
       "--condition-operator",
       "and",
       "--condition-type",
@@ -1067,7 +1110,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "204",
+          "content-length": "241",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1077,6 +1120,11 @@
         },
         "body": {
           "condition": {
+            "conditions": [
+              {
+                "regression": "item"
+              }
+            ],
             "operator": "and",
             "type": "group"
           },

@@ -111,54 +111,9 @@
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "792",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "git_repository": {
-            "branch": "regression value &/?+ü",
-            "provider_account_id": "0123456789abcdef0123456789abcdef",
-            "provider_account_name": "regression value &/?+ü",
-            "provider_type": "github",
-            "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
-          },
-          "previews_base_config": {
-            "build_caching_enabled": true,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "root_directory": "/"
-          },
-          "previews_enabled": true,
-          "production_settings": {
-            "build_caching_enabled": true,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "root_directory": "/"
-          },
-          "script_tag": "192.0.2.1"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   },
   {
     "case": "only --previews-base-config-build-caching-enabled",
@@ -311,6 +266,93 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-environment-variables",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "798",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "environment_variables": {
+              "regression": "json value"
+            },
             "root_directory": "/"
           },
           "previews_enabled": true,
@@ -743,6 +785,93 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "script_tag": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-environment-variables",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "798",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü",
+            "provider_account_id": "0123456789abcdef0123456789abcdef",
+            "provider_account_name": "regression value &/?+ü",
+            "provider_type": "github",
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "root_directory": "/"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "environment_variables": {
+              "regression": "json value"
+            },
             "root_directory": "/"
           },
           "script_tag": "192.0.2.1"
@@ -1386,6 +1515,8 @@
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef",
       "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--previews-base-config-path-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -1395,6 +1526,8 @@
       "--previews-base-config-root-directory",
       "second value &/?+ü",
       "--production-settings-build-caching-enabled=false",
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--production-settings-path-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -1404,70 +1537,9 @@
       "--production-settings-root-directory",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "1078",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "git_repository": {
-            "branch": "regression value &/?+ü",
-            "provider_account_id": "0123456789abcdef0123456789abcdef",
-            "provider_account_name": "regression value &/?+ü",
-            "provider_type": "github",
-            "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
-          },
-          "previews_base_config": {
-            "build_caching_enabled": false,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "path_includes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "root_directory": "second value &/?+ü"
-          },
-          "previews_enabled": true,
-          "production_settings": {
-            "build_caching_enabled": false,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "path_includes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "root_directory": "second value &/?+ü"
-          },
-          "script_tag": "192.0.2.1"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   },
   {
     "case": "pairwise 2",
@@ -1503,9 +1575,12 @@
       "--script-tag",
       "192.0.2.1",
       "--previews-base-config-build-caching-enabled=true",
-      "--previews-base-config-path-includes",
+      "--previews-base-config-path-excludes",
       "regression value &/?+ü",
-      "--production-settings-build-caching-enabled=true",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü",
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--production-settings-path-includes",
       "regression value &/?+ü"
     ],
@@ -1520,7 +1595,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "834",
+          "content-length": "908",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1542,10 +1617,10 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
-            "path_includes": [
+            "path_excludes": [
               "regression value &/?+ü"
             ],
-            "root_directory": "/"
+            "root_directory": "regression value &/?+ü"
           },
           "previews_enabled": true,
           "production_settings": {
@@ -1553,6 +1628,9 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
+            "environment_variables": {
+              "regression": "json value"
+            },
             "path_includes": [
               "regression value &/?+ü"
             ],
@@ -1598,73 +1676,21 @@
       "192.0.2.1",
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef",
-      "--previews-base-config-path-excludes",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}",
+      "--previews-base-config-path-includes",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--previews-base-config-root-directory",
-      "second value &/?+ü",
+      "--production-settings-build-caching-enabled=false",
       "--production-settings-path-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
       "--production-settings-root-directory",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "952",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "git_repository": {
-            "branch": "regression value &/?+ü",
-            "provider_account_id": "0123456789abcdef0123456789abcdef",
-            "provider_account_name": "regression value &/?+ü",
-            "provider_type": "github",
-            "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
-          },
-          "previews_base_config": {
-            "build_caching_enabled": true,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "root_directory": "second value &/?+ü"
-          },
-          "previews_enabled": true,
-          "production_settings": {
-            "build_caching_enabled": true,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "root_directory": "second value &/?+ü"
-          },
-          "script_tag": "192.0.2.1"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -1699,13 +1725,14 @@
       "regression value &/?+ü",
       "--script-tag",
       "192.0.2.1",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--previews-base-config-path-excludes",
       "regression value &/?+ü",
-      "--previews-base-config-path-includes",
-      "regression value &/?+ü",
-      "--production-settings-path-excludes",
-      "regression value &/?+ü",
-      "--production-settings-path-includes",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}",
+      "--production-settings-root-directory",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -1719,7 +1746,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "922",
+          "content-length": "916",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1741,10 +1768,10 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
+            "environment_variables": {
+              "regression": "json value"
+            },
             "path_excludes": [
-              "regression value &/?+ü"
-            ],
-            "path_includes": [
               "regression value &/?+ü"
             ],
             "root_directory": "/"
@@ -1755,13 +1782,10 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "regression value &/?+ü"
-            ],
-            "path_includes": [
-              "regression value &/?+ü"
-            ],
-            "root_directory": "/"
+            "environment_variables": {
+              "regression": "json value"
+            },
+            "root_directory": "regression value &/?+ü"
           },
           "script_tag": "192.0.2.1"
         }
@@ -1804,60 +1828,21 @@
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef",
       "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--previews-base-config-root-directory",
       "second value &/?+ü",
-      "--production-settings-build-caching-enabled=false",
-      "--production-settings-root-directory",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-path-includes",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "830",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "git_repository": {
-            "branch": "regression value &/?+ü",
-            "provider_account_id": "0123456789abcdef0123456789abcdef",
-            "provider_account_name": "regression value &/?+ü",
-            "provider_type": "github",
-            "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
-          },
-          "previews_base_config": {
-            "build_caching_enabled": false,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "root_directory": "second value &/?+ü"
-          },
-          "previews_enabled": true,
-          "production_settings": {
-            "build_caching_enabled": false,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "root_directory": "second value &/?+ü"
-          },
-          "script_tag": "192.0.2.1"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   },
   {
     "case": "pairwise 6",
@@ -1892,13 +1877,13 @@
       "regression value &/?+ü",
       "--script-tag",
       "192.0.2.1",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
       "--previews-base-config-root-directory",
       "regression value &/?+ü",
       "--production-settings-build-caching-enabled=true",
-      "--production-settings-path-excludes",
-      "regression value &/?+ü",
-      "--production-settings-path-includes",
-      "regression value &/?+ü"
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -1911,7 +1896,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "856",
+          "content-length": "864",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1933,6 +1918,9 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
             "root_directory": "regression value &/?+ü"
           },
           "previews_enabled": true,
@@ -1941,12 +1929,9 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "regression value &/?+ü"
-            ],
-            "path_includes": [
-              "regression value &/?+ü"
-            ],
+            "environment_variables": {
+              "regression": "json value"
+            },
             "root_directory": "/"
           },
           "script_tag": "192.0.2.1"
@@ -1990,14 +1975,63 @@
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef",
       "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--previews-base-config-path-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--previews-base-config-path-includes",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-path-includes",
       "second value &/?+ü",
       "second value &/?+ü",
       "--production-settings-root-directory",
       "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "builds",
+      "workers",
+      "create",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--git-repository-provider-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-provider-account-name",
+      "regression value &/?+ü",
+      "--git-repository-provider-type",
+      "github",
+      "--git-repository-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--git-repository-repo-name",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--script-tag",
+      "192.0.2.1",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-root-directory",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -2010,7 +2044,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "935",
+          "content-length": "856",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2025,22 +2059,13 @@
             "provider_account_name": "regression value &/?+ü",
             "provider_type": "github",
             "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
+            "repo_name": "regression value &/?+ü"
           },
           "previews_base_config": {
-            "build_caching_enabled": false,
+            "build_caching_enabled": true,
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "path_includes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
             "root_directory": "/"
           },
           "previews_enabled": true,
@@ -2049,7 +2074,13 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
-            "root_directory": "second value &/?+ü"
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
           },
           "script_tag": "192.0.2.1"
         }
@@ -2092,6 +2123,8 @@
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef",
       "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--previews-base-config-path-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -2101,77 +2134,12 @@
       "--previews-base-config-root-directory",
       "second value &/?+ü",
       "--production-settings-build-caching-enabled=false",
-      "--production-settings-path-excludes",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--production-settings-path-includes",
-      "second value &/?+ü",
-      "second value &/?+ü"
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "1060",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "git_repository": {
-            "branch": "regression value &/?+ü",
-            "provider_account_id": "0123456789abcdef0123456789abcdef",
-            "provider_account_name": "regression value &/?+ü",
-            "provider_type": "github",
-            "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
-          },
-          "previews_base_config": {
-            "build_caching_enabled": false,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "path_includes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "root_directory": "second value &/?+ü"
-          },
-          "previews_enabled": true,
-          "production_settings": {
-            "build_caching_enabled": false,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "path_includes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "root_directory": "/"
-          },
-          "script_tag": "192.0.2.1"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   },
   {
     "case": "global quiet",
@@ -2659,7 +2627,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2667,14 +2635,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2714,6 +2682,8 @@
       "--git-repository-grant-id",
       "0123456789abcdef0123456789abcdef",
       "--previews-base-config-build-caching-enabled=true",
+      "--previews-base-config-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--previews-base-config-path-excludes",
       "regression value &/?+ü",
       "--previews-base-config-path-includes",
@@ -2721,6 +2691,8 @@
       "--previews-base-config-root-directory",
       "regression value &/?+ü",
       "--production-settings-build-caching-enabled=true",
+      "--production-settings-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--production-settings-path-excludes",
       "regression value &/?+ü",
       "--production-settings-path-includes",
@@ -2728,65 +2700,8 @@
       "--production-settings-root-directory",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "1012",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "git_repository": {
-            "branch": "regression value &/?+ü",
-            "provider_account_id": "0123456789abcdef0123456789abcdef",
-            "provider_account_name": "regression value &/?+ü",
-            "provider_type": "github",
-            "repo_id": "0123456789abcdef0123456789abcdef",
-            "repo_name": "regression value &/?+ü",
-            "grant_id": "0123456789abcdef0123456789abcdef"
-          },
-          "previews_base_config": {
-            "build_caching_enabled": true,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "regression value &/?+ü"
-            ],
-            "path_includes": [
-              "regression value &/?+ü"
-            ],
-            "root_directory": "regression value &/?+ü"
-          },
-          "previews_enabled": true,
-          "production_settings": {
-            "build_caching_enabled": true,
-            "build_command": "regression value &/?+ü",
-            "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "regression value &/?+ü"
-            ],
-            "path_includes": [
-              "regression value &/?+ü"
-            ],
-            "root_directory": "regression value &/?+ü"
-          },
-          "script_tag": "192.0.2.1"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Invalid git_repository: `/grant_id` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   }
 ]

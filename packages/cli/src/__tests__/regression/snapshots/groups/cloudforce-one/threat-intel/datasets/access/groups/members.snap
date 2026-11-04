@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "cloudforce-one",
+    "threat-intel",
+    "datasets",
+    "access",
+    "groups",
+    "members"
+  ],
+  "requests": []
+}

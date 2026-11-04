@@ -17,16 +17,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -60,20 +50,152 @@
     ]
   },
   {
-    "case": "pairwise 0",
+    "case": "only --business-address",
     "argv": [
       "organization",
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
       "--business-address",
-      "192.0.2.1",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_address": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --business-email",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
       "--business-email",
-      "regression@example.com",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --business-name",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
       "--business-name",
-      "regression value &/?+ü",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --business-phone",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
       "--business-phone",
-      "regression value &/?+ü",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_phone": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --external-metadata",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
       "--external-metadata",
       "regression value &/?+ü"
     ],
@@ -88,7 +210,81 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "205",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "external_metadata": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-address",
+      "192.0.2.1",
+      "--business-email",
+      "regression@example.com",
+      "--business-name",
+      "second value &/?+ü",
+      "--business-phone",
+      "second value &/?+ü",
+      "--external-metadata",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -99,9 +295,211 @@
         "body": {
           "business_address": "192.0.2.1",
           "business_email": "regression@example.com",
+          "business_name": "second value &/?+ü",
+          "business_phone": "second value &/?+ü",
+          "external_metadata": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-email",
+      "regression@example.com",
+      "--business-phone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_email": "regression@example.com",
+          "business_phone": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-address",
+      "192.0.2.1",
+      "--business-name",
+      "second value &/?+ü",
+      "--external-metadata",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_address": "192.0.2.1",
+          "business_name": "second value &/?+ü",
+          "external_metadata": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-name",
+      "regression value &/?+ü",
+      "--business-phone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
           "business_name": "regression value &/?+ü",
-          "business_phone": "regression value &/?+ü",
-          "external_metadata": "regression value &/?+ü"
+          "business_phone": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-address",
+      "192.0.2.1",
+      "--business-email",
+      "regression@example.com",
+      "--external-metadata",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_address": "192.0.2.1",
+          "business_email": "regression@example.com",
+          "external_metadata": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-address",
+      "192.0.2.1",
+      "--business-email",
+      "regression@example.com",
+      "--business-name",
+      "second value &/?+ü",
+      "--business-phone",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "business_address": "192.0.2.1",
+          "business_email": "regression@example.com",
+          "business_name": "second value &/?+ü",
+          "business_phone": "second value &/?+ü"
         }
       }
     ]
@@ -113,16 +511,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -163,16 +551,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -214,16 +592,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -267,16 +635,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -316,16 +674,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -367,16 +715,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -391,16 +729,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "@<body.json>"
     ],
@@ -440,16 +768,6 @@
       "profile",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--business-address",
-      "192.0.2.1",
-      "--business-email",
-      "regression@example.com",
-      "--business-name",
-      "regression value &/?+ü",
-      "--business-phone",
-      "regression value &/?+ü",
-      "--external-metadata",
-      "regression value &/?+ü",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -464,7 +782,55 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "organization",
+      "profile",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--business-address",
+      "192.0.2.1",
+      "--business-email",
+      "regression@example.com",
+      "--business-name",
+      "regression value &/?+ü",
+      "--business-phone",
+      "regression value &/?+ü",
+      "--external-metadata",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -473,12 +839,11 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "0": {
-            "regression": "first"
-          },
-          "1": {
-            "regression": "second"
-          }
+          "business_address": "192.0.2.1",
+          "business_email": "regression@example.com",
+          "business_name": "regression value &/?+ü",
+          "business_phone": "regression value &/?+ü",
+          "external_metadata": "regression value &/?+ü"
         }
       }
     ]

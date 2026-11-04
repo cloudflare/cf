@@ -775,7 +775,9 @@
       "browser_extension",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest",
       "--last-seen-registration-policy-id",
       "0123456789abcdef0123456789abcdef",
@@ -786,7 +788,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices?cursor=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=id&sort_order=desc&last_seen_user.email=regression%40example.com&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&active_registrations=only&has_registration_type=browser_extension&id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&last_seen_registration.policy.id=0123456789abcdef0123456789abcdef&include=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices?cursor=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=id&sort_order=desc&last_seen_user.email=regression%40example.com&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&seen_before=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&active_registrations=only&has_registration_type=browser_extension&id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&tag=regression-image%3Alatest&last_seen_registration.policy.id=0123456789abcdef0123456789abcdef&include=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -863,6 +865,7 @@
       "only",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--last-seen-registration-policy-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -870,7 +873,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices?cursor=second%20value%20%26%2F%3F%2B%C3%BC&sort_order=desc&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&active_registrations=only&id=0123456789abcdef0123456789abcdef&last_seen_registration.policy.id=0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices?cursor=second%20value%20%26%2F%3F%2B%C3%BC&sort_order=desc&seen_after=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&active_registrations=only&id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&last_seen_registration.policy.id=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1031,14 +1034,16 @@
       "browser_extension",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices?cursor=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=id&sort_order=desc&last_seen_user.email=regression%40example.com&active_registrations=only&has_registration_type=browser_extension&id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/physical-devices?cursor=second%20value%20%26%2F%3F%2B%C3%BC&sort_by=id&sort_order=desc&last_seen_user.email=regression%40example.com&active_registrations=only&has_registration_type=browser_extension&id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&tag=regression-image%3Alatest",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

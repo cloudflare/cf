@@ -30,14 +30,14 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "changes",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -62,14 +62,14 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "changes",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -126,14 +126,14 @@
     ]
   },
   {
-    "case": "only --includeAsnInfo",
+    "case": "only --include-asn-info",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "changes",
-      "--includeAsnInfo=true"
+      "--include-asn-info=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -157,14 +157,14 @@
     ]
   },
   {
-    "case": "--includeAsnInfo value 1",
+    "case": "--include-asn-info value 1",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "changes",
-      "--includeAsnInfo=false"
+      "--include-asn-info=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -259,13 +259,13 @@
       "rpki",
       "aspa",
       "changes",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--asn",
       "2",
-      "--includeAsnInfo=false",
+      "--include-asn-info=false",
       "--format",
       "CSV"
     ],
@@ -298,9 +298,9 @@
       "rpki",
       "aspa",
       "changes",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--includeAsnInfo=true"
+      "--include-asn-info=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -331,7 +331,7 @@
       "rpki",
       "aspa",
       "changes",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--asn",
       "2",
@@ -369,7 +369,7 @@
       "changes",
       "--asn",
       "1",
-      "--includeAsnInfo=true"
+      "--include-asn-info=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -400,9 +400,9 @@
       "rpki",
       "aspa",
       "changes",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -436,13 +436,13 @@
       "rpki",
       "aspa",
       "changes",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--asn",
       "2",
-      "--includeAsnInfo=false"
+      "--include-asn-info=false"
     ],
     "exitCode": 0,
     "requests": [

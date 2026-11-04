@@ -75,32 +75,9 @@
       "edit",
       "--value-cache-by-device-type=true"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "39",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "value": {
-            "cache_by_device_type": true
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-enabled value-cache-by-device-type -> value-wordpress value-cache-by-device-type -> value-wp-plugin",
+    "requests": []
   },
   {
     "case": "--value-cache-by-device-type value 1",
@@ -110,32 +87,9 @@
       "edit",
       "--value-cache-by-device-type=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "40",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "value": {
-            "cache_by_device_type": false
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-enabled value-cache-by-device-type -> value-wordpress value-cache-by-device-type -> value-wp-plugin",
+    "requests": []
   },
   {
     "case": "only --value-cf",
@@ -194,34 +148,9 @@
       "--value-hostnames",
       "example.com"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "39",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "value": {
-            "hostnames": [
-              "example.com"
-            ]
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-hostnames -> value-cf value-hostnames -> value-enabled value-hostnames -> value-wordpress value-hostnames -> value-wp-plugin",
+    "requests": []
   },
   {
     "case": "only --value-recheck",
@@ -231,32 +160,9 @@
       "edit",
       "--value-recheck=true"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "26",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "value": {
-            "recheck": true
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-recheck -> value-cf value-recheck -> value-enabled value-recheck -> value-wordpress value-recheck -> value-wp-plugin",
+    "requests": []
   },
   {
     "case": "--value-recheck value 1",
@@ -266,32 +172,9 @@
       "edit",
       "--value-recheck=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "27",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "value": {
-            "recheck": false
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-recheck -> value-cf value-recheck -> value-enabled value-recheck -> value-wordpress value-recheck -> value-wp-plugin",
+    "requests": []
   },
   {
     "case": "only --value-wordpress",
@@ -405,7 +288,7 @@
       "--value-wordpress=true"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wp-plugin value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
+    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wp-plugin value-hostnames -> value-enabled value-hostnames -> value-wp-plugin value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
     "requests": []
   },
   {
@@ -420,7 +303,7 @@
       "--value-wp-plugin=false"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-wordpress value-enabled -> value-cf value-enabled -> value-wordpress value-recheck -> value-cf value-recheck -> value-wordpress value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
     "requests": []
   },
   {
@@ -435,7 +318,7 @@
       "--value-wp-plugin=true"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
+    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-hostnames -> value-cf value-hostnames -> value-wordpress value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
     "requests": []
   },
   {
@@ -450,7 +333,7 @@
       "--value-wordpress=false"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wp-plugin value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-enabled value-cache-by-device-type -> value-wp-plugin value-cf -> value-enabled value-cf -> value-wp-plugin value-recheck -> value-enabled value-recheck -> value-wp-plugin value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
     "requests": []
   },
   {
@@ -464,7 +347,7 @@
       "--value-wp-plugin=true"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n value-wordpress -> value-cf value-wordpress -> value-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-enabled",
+    "error": "Missing dependent arguments:\n value-recheck -> value-cf value-recheck -> value-enabled value-wordpress -> value-cf value-wordpress -> value-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-enabled",
     "requests": []
   },
   {
@@ -481,7 +364,7 @@
       "example.com"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n value-cf -> value-wordpress value-cf -> value-wp-plugin value-enabled -> value-wordpress value-enabled -> value-wp-plugin",
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-wordpress value-cache-by-device-type -> value-wp-plugin value-cf -> value-wordpress value-cf -> value-wp-plugin value-enabled -> value-wordpress value-enabled -> value-wp-plugin value-hostnames -> value-wordpress value-hostnames -> value-wp-plugin",
     "requests": []
   },
   {
@@ -811,7 +694,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -819,14 +702,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },

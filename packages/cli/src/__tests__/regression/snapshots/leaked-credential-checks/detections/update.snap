@@ -50,6 +50,41 @@
     ]
   },
   {
+    "case": "only --id",
+    "argv": [
+      "leaked-credential-checks",
+      "detections",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/leaked-credential-checks/detections/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --password",
     "argv": [
       "leaked-credential-checks",
@@ -157,6 +192,8 @@
       "detections",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--password",
       "second value &/?+ü",
       "--username",
@@ -173,7 +210,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "67",
+          "content-length": "107",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -182,6 +219,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "password": "second value &/?+ü",
           "username": "second value &/?+ü"
         }
@@ -194,6 +232,46 @@
       "leaked-credential-checks",
       "detections",
       "update",
+      "0123456789abcdef0123456789abcdef",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--username",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/leaked-credential-checks/detections/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "id": "0123456789abcdef0123456789abcdef",
+          "username": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "leaked-credential-checks",
+      "detections",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--id",
       "0123456789abcdef0123456789abcdef",
       "--password",
       "second value &/?+ü"
@@ -209,7 +287,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "34",
+          "content-length": "74",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -218,6 +296,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "password": "second value &/?+ü"
         }
       }
@@ -585,6 +664,8 @@
       "detections",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
       "--password",
       "regression value &/?+ü",
       "--username",
@@ -601,7 +682,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "75",
+          "content-length": "115",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -610,6 +691,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "id": "0123456789abcdef0123456789abcdef",
           "password": "regression value &/?+ü",
           "username": "regression value &/?+ü"
         }

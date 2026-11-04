@@ -15,15 +15,15 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -46,8 +46,8 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--quiet"
     ],
@@ -55,7 +55,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -78,8 +78,8 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--zone",
       "abcdef0123456789abcdef0123456789"
@@ -88,7 +88,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -111,8 +111,8 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--profile",
       "default",
@@ -123,7 +123,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -146,8 +146,8 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--local"
     ],
@@ -155,7 +155,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -177,8 +177,8 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--local",
       "--persist-to",
@@ -188,7 +188,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/regression%20value%20%26%2F%3F%2B%C3%BC/custom_ns/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -210,12 +210,43 @@
       "tenant-custom-nameservers",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--tenant-tag",
-      "regression value &/?+ü",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
       "--force",
       "--dry-run"
     ],
     "exitCode": 0,
     "requests": []
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "tenant-custom-nameservers",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--tenant-id",
+      "0123456789abcdef0123456789abcdef",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/tenants/0123456789abcdef0123456789abcdef/custom_ns/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   }
 ]

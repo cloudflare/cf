@@ -219,7 +219,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "error": "--lan-1-lan-id is required when any --lan-1-* flag is set",
     "requests": []
   },
   {
@@ -236,7 +236,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "error": "--lan-1-lan-id is required when any --lan-1-* flag is set",
     "requests": []
   },
   {
@@ -253,7 +253,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "error": "--lan-1-lan-id is required when any --lan-1-* flag is set",
     "requests": []
   },
   {
@@ -310,7 +310,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "error": "--lan-2-lan-id is required when any --lan-2-* flag is set",
     "requests": []
   },
   {
@@ -327,7 +327,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "error": "--lan-2-lan-id is required when any --lan-2-* flag is set",
     "requests": []
   },
   {
@@ -344,7 +344,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "error": "--lan-2-lan-id is required when any --lan-2-* flag is set",
     "requests": []
   },
   {
@@ -601,7 +601,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "error": "--lan-1-lan-id is required when any --lan-1-* flag is set",
     "requests": []
   },
   {
@@ -722,7 +722,7 @@
       "--unidirectional=false"
     ],
     "exitCode": 1,
-    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "error": "--lan-1-lan-id is required when any --lan-1-* flag is set",
     "requests": []
   },
   {
@@ -746,7 +746,7 @@
       "--unidirectional=true"
     ],
     "exitCode": 1,
-    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "error": "--lan-1-lan-id is required when any --lan-1-* flag is set",
     "requests": []
   },
   {
@@ -804,7 +804,7 @@
       "--unidirectional=true"
     ],
     "exitCode": 1,
-    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "error": "--lan-2-lan-id is required when any --lan-2-* flag is set",
     "requests": []
   },
   {

@@ -226,6 +226,47 @@
     ]
   },
   {
+    "case": "only --tags",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--hostname",
+      "example.com",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "hostname": "example.com",
+          "tags": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "pairwise 0",
     "argv": [
       "zero-trust",
@@ -278,7 +319,9 @@
       "--ip-ipv6-ip-addr",
       "192.0.2.1",
       "--ip-ipv6-virtual-network-id",
-      "192.0.2.1"
+      "192.0.2.1",
+      "--tags",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -291,7 +334,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "161",
+          "content-length": "196",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -310,6 +353,9 @@
               "ip_addr": "192.0.2.1",
               "virtual_network_id": "192.0.2.1"
             }
+          },
+          "tags": {
+            "regression": "json value"
           }
         }
       }
@@ -376,7 +422,9 @@
       "--ip-ipv4-ip-addr",
       "192.0.2.1",
       "--ip-ipv6-ip-addr",
-      "192.0.2.1"
+      "192.0.2.1",
+      "--tags",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -389,7 +437,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "95",
+          "content-length": "130",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -406,6 +454,9 @@
             "ipv6": {
               "ip_addr": "192.0.2.1"
             }
+          },
+          "tags": {
+            "regression": "json value"
           }
         }
       }
@@ -470,6 +521,61 @@
       "--ip-ipv4-ip-addr",
       "192.0.2.1",
       "--ip-ipv4-virtual-network-id",
+      "192.0.2.1",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "hostname": "example.com",
+          "ip": {
+            "ipv4": {
+              "ip_addr": "192.0.2.1",
+              "virtual_network_id": "192.0.2.1"
+            }
+          },
+          "tags": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--hostname",
+      "example.com",
+      "--ip-ipv4-ip-addr",
+      "192.0.2.1",
+      "--ip-ipv4-virtual-network-id",
+      "192.0.2.1",
+      "--ip-ipv6-ip-addr",
+      "192.0.2.1",
+      "--ip-ipv6-virtual-network-id",
       "192.0.2.1"
     ],
     "exitCode": 0,
@@ -483,7 +589,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "97",
+          "content-length": "161",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -495,6 +601,10 @@
           "hostname": "example.com",
           "ip": {
             "ipv4": {
+              "ip_addr": "192.0.2.1",
+              "virtual_network_id": "192.0.2.1"
+            },
+            "ipv6": {
               "ip_addr": "192.0.2.1",
               "virtual_network_id": "192.0.2.1"
             }
@@ -805,7 +915,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -813,14 +923,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

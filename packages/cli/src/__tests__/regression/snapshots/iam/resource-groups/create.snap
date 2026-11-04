@@ -18,6 +18,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -57,7 +59,9 @@
       "resource-groups",
       "create",
       "--name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -70,7 +74,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "34",
+          "content-length": "78",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -79,7 +83,14 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "name": "regression value &/?+ü"
+          "name": "regression value &/?+ü",
+          "scope": {
+            "objects": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
         }
       }
     ]
@@ -92,6 +103,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -133,6 +146,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -175,6 +190,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -219,6 +236,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -259,6 +278,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -301,6 +322,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -316,6 +339,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "@<body.json>"
     ],
@@ -356,6 +381,8 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--scope-objects",
+      "[{\"regression\":\"item\"}]",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -370,7 +397,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -378,14 +405,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

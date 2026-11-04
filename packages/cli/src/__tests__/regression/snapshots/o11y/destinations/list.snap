@@ -58,12 +58,12 @@
     ]
   },
   {
-    "case": "only --perPage",
+    "case": "only --per-page",
     "argv": [
       "o11y",
       "destinations",
       "list",
-      "--perPage",
+      "--per-page",
       "1"
     ],
     "exitCode": 0,
@@ -148,12 +148,12 @@
     ]
   },
   {
-    "case": "only --orderBy",
+    "case": "only --order-by",
     "argv": [
       "o11y",
       "destinations",
       "list",
-      "--orderBy",
+      "--order-by",
       "created"
     ],
     "exitCode": 0,
@@ -178,12 +178,12 @@
     ]
   },
   {
-    "case": "--orderBy value 1",
+    "case": "--order-by value 1",
     "argv": [
       "o11y",
       "destinations",
       "list",
-      "--orderBy",
+      "--order-by",
       "updated"
     ],
     "exitCode": 0,
@@ -215,11 +215,11 @@
       "list",
       "--page",
       "2",
-      "--perPage",
+      "--per-page",
       "2",
       "--order",
       "desc",
-      "--orderBy",
+      "--order-by",
       "updated"
     ],
     "exitCode": 0,
@@ -249,9 +249,9 @@
       "o11y",
       "destinations",
       "list",
-      "--perPage",
+      "--per-page",
       "1",
-      "--orderBy",
+      "--order-by",
       "created"
     ],
     "exitCode": 0,
@@ -315,7 +315,7 @@
       "list",
       "--order",
       "asc",
-      "--orderBy",
+      "--order-by",
       "created"
     ],
     "exitCode": 0,
@@ -347,7 +347,7 @@
       "list",
       "--page",
       "2",
-      "--perPage",
+      "--per-page",
       "2"
     ],
     "exitCode": 0,

@@ -42,14 +42,14 @@
     ]
   },
   {
-    "case": "only --liveViewUrlExpiresInMs",
+    "case": "only --live-view-url-expires-in-ms",
     "argv": [
       "browser-run",
       "devtools",
       "json",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1"
     ],
     "exitCode": 0,
@@ -81,7 +81,7 @@
       "json",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "2"
     ],
     "exitCode": 0,

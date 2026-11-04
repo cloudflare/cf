@@ -68,6 +68,42 @@
     ]
   },
   {
+    "case": "only --bot-overrides",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "edit",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/pay-per-crawl/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_overrides": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --enabled",
     "argv": [
       "pay-per-crawl",
@@ -173,6 +209,8 @@
       "pay-per-crawl",
       "config",
       "edit",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
       "--enabled=false",
       "--price-usd-microcents",
       "2"
@@ -188,7 +226,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "86",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -197,8 +235,88 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "bot_overrides": {
+            "regression": "json value"
+          },
           "enabled": false,
           "price_usd_microcents": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "edit",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--price-usd-microcents",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/pay-per-crawl/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_overrides": {
+            "regression": "json value"
+          },
+          "price_usd_microcents": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "pay-per-crawl",
+      "config",
+      "edit",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/pay-per-crawl/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bot_overrides": {
+            "regression": "json value"
+          },
+          "enabled": false
         }
       }
     ]
@@ -555,6 +673,8 @@
       "pay-per-crawl",
       "config",
       "edit",
+      "--bot-overrides",
+      "{\"regression\":\"json value\"}",
       "--enabled=true",
       "--price-usd-microcents",
       "1"
@@ -570,7 +690,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "41",
+          "content-length": "85",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -579,6 +699,9 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "bot_overrides": {
+            "regression": "json value"
+          },
           "enabled": true,
           "price_usd_microcents": 1
         }

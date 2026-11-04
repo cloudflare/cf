@@ -266,6 +266,90 @@
     ]
   },
   {
+    "case": "only --selector-exclude",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "selector": {
+            "exclude": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --selector-include",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "selector": {
+            "include": [
+              {
+                "regression": "item"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --title",
     "argv": [
       "api-security",
@@ -462,6 +546,10 @@
       "--enabled=false",
       "--expression",
       "second value &/?+ü",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]",
       "--title",
       "second value &/?+ü",
       "--position-index",
@@ -487,6 +575,8 @@
       "192.0.2.1",
       "--expression",
       "regression value &/?+ü",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]",
       "--position-index",
       "1",
       "--position-after",
@@ -507,6 +597,8 @@
       "--action",
       "block",
       "--enabled=false",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
       "--title",
       "second value &/?+ü",
       "--position-before",
@@ -523,7 +615,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "108",
+          "content-length": "155",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -534,6 +626,13 @@
         "body": {
           "action": "block",
           "enabled": false,
+          "selector": {
+            "exclude": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "title": "second value &/?+ü",
           "position": {
             "before": "second value &/?+ü"
@@ -553,14 +652,40 @@
       "--enabled=true",
       "--expression",
       "regression value &/?+ü",
-      "--position-before",
+      "--title",
       "regression value &/?+ü",
-      "--position-after",
-      "regression value &/?+ü"
+      "--position-index",
+      "1"
     ],
-    "exitCode": 1,
-    "error": "Arguments position-before and position-after are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true,
+          "expression": "regression value &/?+ü",
+          "title": "regression value &/?+ü",
+          "position": {
+            "index": 1
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -574,6 +699,136 @@
       "block",
       "--description",
       "192.0.2.1",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]",
+      "--position-before",
+      "second value &/?+ü",
+      "--position-after",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-before and position-after are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]",
+      "--title",
+      "regression value &/?+ü",
+      "--position-index",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "selector": {
+            "exclude": [
+              {
+                "regression": "item"
+              }
+            ],
+            "include": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "title": "regression value &/?+ü",
+          "position": {
+            "index": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "block",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--expression",
+      "second value &/?+ü",
+      "--position-before",
+      "second value &/?+ü",
+      "--position-after",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-before and position-after are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--position-before",
+      "regression value &/?+ü",
+      "--position-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-before and position-after are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "block",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--expression",
+      "second value &/?+ü",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]",
       "--title",
       "second value &/?+ü",
       "--position-index",
@@ -590,74 +845,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "97",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "action": "block",
-          "description": "192.0.2.1",
-          "title": "second value &/?+ü",
-          "position": {
-            "index": 2
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 6",
-    "argv": [
-      "api-security",
-      "token-validation",
-      "rules",
-      "edit",
-      "0123456789abcdef0123456789abcdef",
-      "--title",
-      "regression value &/?+ü",
-      "--position-index",
-      "1",
-      "--position-before",
-      "regression value &/?+ü",
-      "--position-after",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 1,
-    "error": "Arguments position-index and position-before are mutually exclusive",
-    "requests": []
-  },
-  {
-    "case": "pairwise 7",
-    "argv": [
-      "api-security",
-      "token-validation",
-      "rules",
-      "edit",
-      "0123456789abcdef0123456789abcdef",
-      "--action",
-      "block",
-      "--description",
-      "192.0.2.1",
-      "--enabled=false",
-      "--expression",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "95",
+          "content-length": "229",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -669,7 +857,23 @@
           "action": "block",
           "description": "192.0.2.1",
           "enabled": false,
-          "expression": "second value &/?+ü"
+          "expression": "second value &/?+ü",
+          "selector": {
+            "exclude": [
+              {
+                "regression": "item"
+              }
+            ],
+            "include": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "title": "second value &/?+ü",
+          "position": {
+            "index": 2
+          }
         }
       }
     ]
@@ -1053,6 +1257,10 @@
       "--enabled=true",
       "--expression",
       "regression value &/?+ü",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]",
       "--title",
       "regression value &/?+ü",
       "--position-index",

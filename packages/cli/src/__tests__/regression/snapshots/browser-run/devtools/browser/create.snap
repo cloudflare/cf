@@ -231,13 +231,13 @@
     ]
   },
   {
-    "case": "only --liveViewUrlExpiresInMs",
+    "case": "only --live-view-url-expires-in-ms",
     "argv": [
       "browser-run",
       "devtools",
       "browser",
       "create",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1"
     ],
     "exitCode": 0,
@@ -416,7 +416,7 @@
       "2",
       "--lab=false",
       "--targets=false",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "2",
       "--recording=false",
       "--guardrails-allowed-domain-sets",
@@ -468,7 +468,7 @@
       "browser",
       "create",
       "--lab=true",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1",
       "--guardrails-allowed-domain-sets",
       "example.com"
@@ -555,7 +555,7 @@
       "browser",
       "create",
       "--targets=true",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1",
       "--guardrails-allowed-domains",
       "example.com"
@@ -690,7 +690,7 @@
       "2",
       "--lab=false",
       "--targets=false",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "2"
     ],
     "exitCode": 0,
@@ -994,7 +994,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1002,14 +1002,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1024,7 +1024,7 @@
       "1",
       "--lab=true",
       "--targets=true",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1",
       "--recording=true",
       "--guardrails-allowed-domain-sets",

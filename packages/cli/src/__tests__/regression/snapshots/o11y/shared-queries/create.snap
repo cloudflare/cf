@@ -79,7 +79,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "143",
+          "content-length": "155",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -89,6 +89,7 @@
         },
         "body": {
           "chart": true,
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -126,7 +127,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "144",
+          "content-length": "156",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -136,6 +137,7 @@
         },
         "body": {
           "chart": false,
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -174,7 +176,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "169",
+          "content-length": "181",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -184,6 +186,7 @@
         },
         "body": {
           "chartType": "timeseries_and_aggregate",
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -222,7 +225,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "155",
+          "content-length": "167",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -232,6 +235,7 @@
         },
         "body": {
           "chartType": "timeseries",
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -270,7 +274,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "154",
+          "content-length": "166",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -280,6 +284,7 @@
         },
         "body": {
           "chartType": "aggregate",
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -318,7 +323,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "157",
+          "content-length": "169",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -328,6 +333,7 @@
         },
         "body": {
           "chartType": "distribution",
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -365,7 +371,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "145",
+          "content-length": "157",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -375,6 +381,7 @@
         },
         "body": {
           "compare": true,
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -412,7 +419,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "146",
+          "content-length": "158",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -422,6 +429,7 @@
         },
         "body": {
           "compare": false,
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -460,7 +468,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "156",
+          "content-length": "168",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -470,6 +478,7 @@
         },
         "body": {
           "distributionScale": "log",
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -508,7 +517,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "159",
+          "content-length": "171",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -518,6 +527,101 @@
         },
         "body": {
           "distributionScale": "linear",
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --preview",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--preview=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "141",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": true,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--preview value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--preview=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -556,7 +660,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "146",
+          "content-length": "158",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -565,6 +669,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "granularity": 1,
           "ignoreSeries": false,
           "limit": 50,
@@ -603,7 +708,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "129",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -612,6 +717,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": true,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -649,7 +755,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "130",
+          "content-length": "142",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -658,6 +764,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -696,7 +803,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "129",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -705,6 +812,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 1,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -743,7 +851,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "165",
+          "content-length": "177",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -752,6 +860,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "offset": "regression value &/?+ü",
@@ -791,7 +900,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "143",
+          "content-length": "155",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -800,6 +909,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "offsetBy": 1,
@@ -839,7 +949,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "174",
+          "content-length": "186",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -848,9 +958,65 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "offsetDirection": "regression value &/?+ü",
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-calculations",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "queryId": "0123456789abcdef0123456789abcdef",
           "timeframe": {
             "from": 1,
@@ -876,9 +1042,43 @@
       "--parameters-datasets",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "datasets": [
+              "regression value &/?+ü"
+            ]
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "only --parameters-filter-combination",
@@ -895,9 +1095,41 @@
       "--parameters-filter-combination",
       "and"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "183",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "filterCombination": "and"
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "--parameters-filter-combination value 1",
@@ -914,9 +1146,41 @@
       "--parameters-filter-combination",
       "or"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "filterCombination": "or"
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "--parameters-filter-combination value 2",
@@ -933,9 +1197,41 @@
       "--parameters-filter-combination",
       "AND"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "183",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "filterCombination": "AND"
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "--parameters-filter-combination value 3",
@@ -952,9 +1248,206 @@
       "--parameters-filter-combination",
       "OR"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "filterCombination": "OR"
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-filters",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "191",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-group-bys",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-havings",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "191",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "only --parameters-limit",
@@ -971,9 +1464,41 @@
       "--parameters-limit",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "limit": 1
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "only --parameters-needle-is-regex",
@@ -989,9 +1514,43 @@
       "1",
       "--parameters-needle-is-regex=true"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "183",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "needle": {
+              "isRegex": true
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "--parameters-needle-is-regex value 1",
@@ -1007,9 +1566,43 @@
       "1",
       "--parameters-needle-is-regex=false"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "needle": {
+              "isRegex": false
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "only --parameters-needle-match-case",
@@ -1025,9 +1618,43 @@
       "1",
       "--parameters-needle-match-case=true"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "185",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "needle": {
+              "matchCase": true
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "--parameters-needle-match-case value 1",
@@ -1043,9 +1670,43 @@
       "1",
       "--parameters-needle-match-case=false"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "needle": {
+              "matchCase": false
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "only --parameters-order-by-order",
@@ -1063,7 +1724,7 @@
       "asc"
     ],
     "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "error": "--parameters-order-by-value is required when any --parameters-order-by-* flag is set",
     "requests": []
   },
   {
@@ -1082,7 +1743,7 @@
       "desc"
     ],
     "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "error": "--parameters-order-by-value is required when any --parameters-order-by-* flag is set",
     "requests": []
   },
   {
@@ -1111,7 +1772,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "191",
+          "content-length": "203",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1120,6 +1781,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "parameters": {
@@ -1163,7 +1825,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "124",
+          "content-length": "136",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1172,6 +1834,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1210,7 +1873,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "124",
+          "content-length": "136",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1219,6 +1882,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1257,7 +1921,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "130",
+          "content-length": "142",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1266,6 +1930,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1304,7 +1969,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "129",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1313,6 +1978,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1351,7 +2017,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "126",
+          "content-length": "138",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1360,6 +2026,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1398,7 +2065,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "124",
+          "content-length": "136",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1407,6 +2074,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1443,7 +2111,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "130",
+          "content-length": "142",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1452,6 +2120,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1482,6 +2151,7 @@
       "--compare=false",
       "--distribution-scale",
       "linear",
+      "--preview=false",
       "--granularity",
       "2",
       "--ignore-series=false",
@@ -1493,11 +2163,19 @@
       "2",
       "--offset-direction",
       "second value &/?+ü",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
       "--parameters-datasets",
       "second value &/?+ü",
       "second value &/?+ü",
       "--parameters-filter-combination",
       "or",
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
       "--parameters-limit",
       "2",
       "--parameters-needle-is-regex=false",
@@ -1520,7 +2198,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "516",
+          "content-length": "670",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1533,6 +2211,7 @@
           "chartType": "timeseries",
           "compare": false,
           "distributionScale": "linear",
+          "dry": false,
           "granularity": 2,
           "ignoreSeries": false,
           "limit": 2,
@@ -1540,11 +2219,31 @@
           "offsetBy": 2,
           "offsetDirection": "second value &/?+ü",
           "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ],
             "datasets": [
               "second value &/?+ü",
               "second value &/?+ü"
             ],
             "filterCombination": "or",
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ],
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ],
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ],
             "limit": 2,
             "needle": {
               "isRegex": false,
@@ -1581,22 +2280,80 @@
       "timeseries_and_aggregate",
       "--distribution-scale",
       "log",
-      "--ignore-series=true",
-      "--offset",
-      "regression value &/?+ü",
-      "--offset-direction",
-      "regression value &/?+ü",
+      "--granularity",
+      "1",
+      "--limit",
+      "1",
+      "--offset-by",
+      "1",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
       "--parameters-filter-combination",
       "and",
-      "--parameters-needle-is-regex=true",
-      "--parameters-order-by-order",
-      "asc",
-      "--view",
-      "traces"
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-value",
+      "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "434",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "chartType": "timeseries_and_aggregate",
+          "distributionScale": "log",
+          "dry": false,
+          "granularity": 1,
+          "ignoreSeries": false,
+          "limit": 1,
+          "offsetBy": 1,
+          "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ],
+            "filterCombination": "and",
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ],
+            "limit": 1,
+            "needle": {
+              "matchCase": true
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -1612,69 +2369,28 @@
       "1",
       "--chart=false",
       "--compare=false",
-      "--granularity",
-      "2",
-      "--limit",
-      "2",
-      "--offset-by",
-      "2",
+      "--preview=false",
+      "--ignore-series=false",
+      "--offset",
+      "second value &/?+ü",
+      "--offset-direction",
+      "second value &/?+ü",
       "--parameters-datasets",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--parameters-limit",
-      "2",
-      "--parameters-needle-match-case=false",
-      "--parameters-order-by-value",
-      "second value &/?+ü"
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-needle-is-regex=false",
+      "--parameters-order-by-order",
+      "desc",
+      "--view",
+      "events"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "341",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "chart": false,
-          "compare": false,
-          "granularity": 2,
-          "ignoreSeries": false,
-          "limit": 2,
-          "offsetBy": 2,
-          "parameters": {
-            "datasets": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "limit": 2,
-            "needle": {
-              "matchCase": false
-            },
-            "orderBy": {
-              "value": "second value &/?+ü"
-            }
-          },
-          "queryId": "0123456789abcdef0123456789abcdef",
-          "timeframe": {
-            "from": 1,
-            "to": 1
-          },
-          "view": "calculations"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-order-by-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -1691,21 +2407,78 @@
       "--compare=true",
       "--distribution-scale",
       "log",
+      "--ignore-series=true",
       "--limit",
       "1",
-      "--offset",
+      "--offset-direction",
       "regression value &/?+ü",
-      "--parameters-datasets",
-      "regression value &/?+ü",
-      "--parameters-filter-combination",
-      "and",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-needle-is-regex=true",
       "--parameters-needle-match-case=true",
-      "--parameters-order-by-order",
-      "asc"
+      "--view",
+      "traces"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "385",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "compare": true,
+          "distributionScale": "log",
+          "dry": false,
+          "ignoreSeries": true,
+          "limit": 1,
+          "offsetDirection": "regression value &/?+ü",
+          "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ],
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ],
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ],
+            "needle": {
+              "isRegex": true,
+              "matchCase": true
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "traces"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -1722,20 +2495,26 @@
       "--chart=false",
       "--chart-type",
       "timeseries",
+      "--preview=false",
       "--granularity",
       "2",
-      "--ignore-series=false",
+      "--offset",
+      "second value &/?+ü",
       "--offset-by",
       "2",
-      "--offset-direction",
+      "--parameters-datasets",
       "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
       "--parameters-limit",
       "2",
-      "--parameters-needle-is-regex=false",
+      "--parameters-order-by-order",
+      "desc",
       "--parameters-order-by-value",
-      "second value &/?+ü",
-      "--view",
-      "events"
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -1748,7 +2527,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "326",
+          "content-length": "439",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1759,17 +2538,26 @@
         "body": {
           "chart": false,
           "chartType": "timeseries",
+          "dry": false,
           "granularity": 2,
           "ignoreSeries": false,
           "limit": 50,
+          "offset": "second value &/?+ü",
           "offsetBy": 2,
-          "offsetDirection": "second value &/?+ü",
           "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ],
             "limit": 2,
-            "needle": {
-              "isRegex": false
-            },
             "orderBy": {
+              "order": "desc",
               "value": "second value &/?+ü"
             }
           },
@@ -1778,7 +2566,7 @@
             "from": 1,
             "to": 1
           },
-          "view": "events"
+          "view": "calculations"
         }
       }
     ]
@@ -1795,23 +2583,80 @@
       "1",
       "--timeframe-to",
       "1",
+      "--preview=true",
       "--granularity",
       "1",
       "--ignore-series=true",
       "--limit",
       "1",
-      "--offset",
+      "--parameters-datasets",
       "regression value &/?+ü",
-      "--parameters-limit",
-      "1",
-      "--parameters-needle-is-regex=true",
-      "--parameters-needle-match-case=true",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]",
       "--parameters-order-by-order",
-      "asc"
+      "asc",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--view",
+      "traces"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "358",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": true,
+          "granularity": 1,
+          "ignoreSeries": true,
+          "limit": 1,
+          "parameters": {
+            "datasets": [
+              "regression value &/?+ü"
+            ],
+            "filterCombination": "and",
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ],
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ],
+            "orderBy": {
+              "order": "asc",
+              "value": "regression value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "traces"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -1831,19 +2676,20 @@
       "--compare=false",
       "--distribution-scale",
       "linear",
+      "--offset",
+      "second value &/?+ü",
       "--offset-by",
       "2",
       "--offset-direction",
       "second value &/?+ü",
-      "--parameters-datasets",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--parameters-filter-combination",
-      "or",
-      "--parameters-order-by-value",
-      "second value &/?+ü",
-      "--view",
-      "events"
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false",
+      "--parameters-needle-match-case=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -1856,7 +2702,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "400",
+          "content-length": "453",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1869,18 +2715,27 @@
           "chartType": "timeseries",
           "compare": false,
           "distributionScale": "linear",
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
+          "offset": "second value &/?+ü",
           "offsetBy": 2,
           "offsetDirection": "second value &/?+ü",
           "parameters": {
-            "datasets": [
-              "second value &/?+ü",
-              "second value &/?+ü"
+            "calculations": [
+              {
+                "regression": "item"
+              }
             ],
-            "filterCombination": "or",
-            "orderBy": {
-              "value": "second value &/?+ü"
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ],
+            "limit": 2,
+            "needle": {
+              "isRegex": false,
+              "matchCase": false
             }
           },
           "queryId": "0123456789abcdef0123456789abcdef",
@@ -1888,7 +2743,7 @@
             "from": 1,
             "to": 1
           },
-          "view": "events"
+          "view": "calculations"
         }
       }
     ]
@@ -1905,24 +2760,79 @@
       "1",
       "--timeframe-to",
       "1",
+      "--offset",
+      "regression value &/?+ü",
       "--offset-by",
       "1",
       "--offset-direction",
       "regression value &/?+ü",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
       "--parameters-datasets",
       "regression value &/?+ü",
       "--parameters-filter-combination",
       "and",
-      "--parameters-limit",
-      "1",
-      "--parameters-needle-is-regex=true",
-      "--parameters-needle-match-case=true",
-      "--parameters-order-by-order",
-      "asc"
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "422",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dry": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "offset": "regression value &/?+ü",
+          "offsetBy": 1,
+          "offsetDirection": "regression value &/?+ü",
+          "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ],
+            "datasets": [
+              "regression value &/?+ü"
+            ],
+            "filterCombination": "and",
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ],
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 9",
@@ -1942,13 +2852,20 @@
       "--compare=false",
       "--distribution-scale",
       "linear",
+      "--preview=false",
       "--granularity",
       "2",
       "--ignore-series=false",
       "--limit",
       "2",
-      "--offset",
-      "second value &/?+ü",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false",
+      "--parameters-needle-match-case=false",
+      "--parameters-order-by-order",
+      "desc",
       "--parameters-order-by-value",
       "second value &/?+ü",
       "--view",
@@ -1965,7 +2882,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "311",
+          "content-length": "396",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1978,12 +2895,23 @@
           "chartType": "timeseries",
           "compare": false,
           "distributionScale": "linear",
+          "dry": false,
           "granularity": 2,
           "ignoreSeries": false,
           "limit": 2,
-          "offset": "second value &/?+ü",
           "parameters": {
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ],
+            "limit": 2,
+            "needle": {
+              "isRegex": false,
+              "matchCase": false
+            },
             "orderBy": {
+              "order": "desc",
               "value": "second value &/?+ü"
             }
           },
@@ -2009,6 +2937,14 @@
       "1",
       "--timeframe-to",
       "1",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-is-regex=true",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc",
       "--parameters-order-by-value",
       "regression value &/?+ü",
       "--view",
@@ -2025,7 +2961,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "185",
+          "content-length": "298",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2034,10 +2970,22 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "dry": false,
           "ignoreSeries": false,
           "limit": 50,
           "parameters": {
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ],
+            "limit": 1,
+            "needle": {
+              "isRegex": true,
+              "matchCase": true
+            },
             "orderBy": {
+              "order": "asc",
               "value": "regression value &/?+ü"
             }
           },
@@ -2069,6 +3017,7 @@
       "--compare=false",
       "--distribution-scale",
       "linear",
+      "--preview=false",
       "--granularity",
       "2",
       "--ignore-series=false",
@@ -2080,21 +3029,80 @@
       "2",
       "--offset-direction",
       "second value &/?+ü",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
       "--parameters-datasets",
       "second value &/?+ü",
       "second value &/?+ü",
       "--parameters-filter-combination",
       "or",
-      "--parameters-limit",
-      "2",
-      "--parameters-needle-is-regex=false",
-      "--parameters-needle-match-case=false",
-      "--parameters-order-by-order",
-      "desc"
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]"
     ],
-    "exitCode": 1,
-    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "530",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "chart": false,
+          "chartType": "timeseries",
+          "compare": false,
+          "distributionScale": "linear",
+          "dry": false,
+          "granularity": 2,
+          "ignoreSeries": false,
+          "limit": 2,
+          "offset": "second value &/?+ü",
+          "offsetBy": 2,
+          "offsetDirection": "second value &/?+ü",
+          "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ],
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ],
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -2414,7 +3422,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2422,14 +3430,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2451,6 +3459,7 @@
       "--compare=true",
       "--distribution-scale",
       "log",
+      "--preview=true",
       "--granularity",
       "1",
       "--ignore-series=true",
@@ -2462,10 +3471,18 @@
       "1",
       "--offset-direction",
       "regression value &/?+ü",
+      "--parameters-calculations",
+      "[{\"regression\":\"item\"}]",
       "--parameters-datasets",
       "regression value &/?+ü",
       "--parameters-filter-combination",
       "and",
+      "--parameters-filters",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-group-bys",
+      "[{\"regression\":\"item\"}]",
+      "--parameters-havings",
+      "[{\"regression\":\"item\"}]",
       "--parameters-limit",
       "1",
       "--parameters-needle-is-regex=true",
@@ -2488,7 +3505,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "516",
+          "content-length": "669",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2501,6 +3518,7 @@
           "chartType": "timeseries_and_aggregate",
           "compare": true,
           "distributionScale": "log",
+          "dry": true,
           "granularity": 1,
           "ignoreSeries": true,
           "limit": 1,
@@ -2508,10 +3526,30 @@
           "offsetBy": 1,
           "offsetDirection": "regression value &/?+ü",
           "parameters": {
+            "calculations": [
+              {
+                "regression": "item"
+              }
+            ],
             "datasets": [
               "regression value &/?+ü"
             ],
             "filterCombination": "and",
+            "filters": [
+              {
+                "regression": "item"
+              }
+            ],
+            "groupBys": [
+              {
+                "regression": "item"
+              }
+            ],
+            "havings": [
+              {
+                "regression": "item"
+              }
+            ],
             "limit": 1,
             "needle": {
               "isRegex": true,

@@ -17,8 +17,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -31,14 +29,14 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "60",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -51,26 +49,25 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
   },
   {
-    "case": "pairwise 0",
+    "case": "only --namespace",
     "argv": [
       "ai-search",
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
       "cancel",
-      "--force"
+      "--force",
+      "--namespace",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -98,14 +95,90 @@
     ]
   },
   {
+    "case": "pairwise 0",
+    "argv": [
+      "ai-search",
+      "jobs",
+      "cancel",
+      "0123456789abcdef0123456789abcdef",
+      "--instance-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "cancel",
+      "--force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "cancel"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "jobs",
+      "cancel",
+      "0123456789abcdef0123456789abcdef",
+      "--instance-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "cancel",
+      "--force",
+      "--namespace",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "cancel"
+        }
+      }
+    ]
+  },
+  {
     "case": "global quiet",
     "argv": [
       "ai-search",
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -119,14 +192,14 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "60",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -139,8 +212,7 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
@@ -152,8 +224,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -168,14 +238,14 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "60",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -188,8 +258,7 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
@@ -201,8 +270,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -219,14 +286,14 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "60",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -239,8 +306,7 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
@@ -252,8 +318,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -267,7 +331,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -286,8 +350,7 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
@@ -299,8 +362,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -316,7 +377,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -335,8 +396,7 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
@@ -348,8 +408,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -369,8 +427,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -383,14 +439,14 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "60",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -403,8 +459,7 @@
           "items": [
             1,
             2
-          ],
-          "action": "cancel"
+          ]
         }
       }
     ]
@@ -416,8 +471,6 @@
       "jobs",
       "cancel",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--action",
@@ -430,14 +483,57 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "74",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "ai-search",
+      "jobs",
+      "cancel",
+      "0123456789abcdef0123456789abcdef",
+      "--instance-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "cancel",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -446,12 +542,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "0": {
-            "regression": "first"
-          },
-          "1": {
-            "regression": "second"
-          },
           "action": "cancel"
         }
       }

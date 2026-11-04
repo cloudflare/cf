@@ -967,6 +967,70 @@
     ]
   },
   {
+    "case": "--feedback value 1",
+    "argv": [
+      "ai-gateway",
+      "logs",
+      "list",
+      "--gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feedback",
+      "0"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?feedback=0",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--feedback value 2",
+    "argv": [
+      "ai-gateway",
+      "logs",
+      "list",
+      "--gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feedback",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?feedback=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "only --success",
     "argv": [
       "ai-gateway",
@@ -1270,6 +1334,7 @@
       "desc",
       "--filters",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--meta-info=false",
       "--direction",
       "desc",
@@ -1298,7 +1363,7 @@
       "--max-duration",
       "2",
       "--feedback",
-      "-1",
+      "0",
       "--success=false",
       "--cached=false",
       "--model",
@@ -1316,7 +1381,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order_by=provider&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&meta_info=false&direction=desc&start_date=2026-01-02T03%3A04%3A05Z&end_date=2026-01-02T03%3A04%3A05Z&min_cost=2&max_cost=2&min_tokens_in=2&max_tokens_in=2&min_tokens_out=2&max_tokens_out=2&min_total_tokens=2&max_total_tokens=2&min_duration=2&max_duration=2&feedback=-1&success=false&cached=false&model=second%20value%20%26%2F%3F%2B%C3%BC&model_type=second%20value%20%26%2F%3F%2B%C3%BC&provider=second%20value%20%26%2F%3F%2B%C3%BC&request_content_type=second%20value%20%26%2F%3F%2B%C3%BC&response_content_type=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order_by=provider&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&meta_info=false&direction=desc&start_date=2026-01-02T03%3A04%3A05Z&end_date=2026-01-02T03%3A04%3A05Z&min_cost=2&max_cost=2&min_tokens_in=2&max_tokens_in=2&min_tokens_out=2&max_tokens_out=2&min_total_tokens=2&max_total_tokens=2&min_duration=2&max_duration=2&feedback=0&success=false&cached=false&model=second%20value%20%26%2F%3F%2B%C3%BC&model_type=second%20value%20%26%2F%3F%2B%C3%BC&provider=second%20value%20%26%2F%3F%2B%C3%BC&request_content_type=second%20value%20%26%2F%3F%2B%C3%BC&response_content_type=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1418,7 +1483,7 @@
       "--min-duration",
       "2",
       "--feedback",
-      "-1",
+      "0",
       "--cached=false",
       "--model-type",
       "second value &/?+ü",
@@ -1429,7 +1494,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&order_by_direction=desc&meta_info=false&start_date=2026-01-02T03%3A04%3A05Z&min_cost=2&min_tokens_in=2&min_tokens_out=2&min_total_tokens=2&min_duration=2&feedback=-1&cached=false&model_type=second%20value%20%26%2F%3F%2B%C3%BC&request_content_type=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&order_by_direction=desc&meta_info=false&start_date=2026-01-02T03%3A04%3A05Z&min_cost=2&min_tokens_in=2&min_tokens_out=2&min_total_tokens=2&min_duration=2&feedback=0&cached=false&model_type=second%20value%20%26%2F%3F%2B%C3%BC&request_content_type=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1518,6 +1583,7 @@
       "desc",
       "--filters",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--start-date",
       "2026-01-02T03:04:05Z",
       "--end-date",
@@ -1531,7 +1597,7 @@
       "--max-total-tokens",
       "2",
       "--feedback",
-      "-1",
+      "0",
       "--success=false",
       "--model-type",
       "second value &/?+ü",
@@ -1542,7 +1608,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&start_date=2026-01-02T03%3A04%3A05Z&end_date=2026-01-02T03%3A04%3A05Z&min_tokens_in=2&max_tokens_in=2&min_total_tokens=2&max_total_tokens=2&feedback=-1&success=false&model_type=second%20value%20%26%2F%3F%2B%C3%BC&provider=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&start_date=2026-01-02T03%3A04%3A05Z&end_date=2026-01-02T03%3A04%3A05Z&min_tokens_in=2&max_tokens_in=2&min_total_tokens=2&max_total_tokens=2&feedback=0&success=false&model_type=second%20value%20%26%2F%3F%2B%C3%BC&provider=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1746,6 +1812,7 @@
       "desc",
       "--filters",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--meta-info=false",
       "--direction",
       "desc",
@@ -1758,7 +1825,7 @@
       "--max-duration",
       "2",
       "--feedback",
-      "-1",
+      "0",
       "--success=false",
       "--cached=false",
       "--model",
@@ -1768,7 +1835,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order_by=provider&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&meta_info=false&direction=desc&min_total_tokens=2&max_total_tokens=2&min_duration=2&max_duration=2&feedback=-1&success=false&cached=false&model=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order_by=provider&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&meta_info=false&direction=desc&min_total_tokens=2&max_total_tokens=2&min_duration=2&max_duration=2&feedback=0&success=false&cached=false&model=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1857,6 +1924,7 @@
       "desc",
       "--filters",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--meta-info=false",
       "--direction",
       "desc",
@@ -1881,7 +1949,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order_by=provider&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&meta_info=false&direction=desc&start_date=2026-01-02T03%3A04%3A05Z&end_date=2026-01-02T03%3A04%3A05Z&min_cost=2&max_cost=2&min_tokens_in=2&max_tokens_in=2&min_tokens_out=2&max_tokens_out=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs?search=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2&order_by=provider&order_by_direction=desc&filters=second%20value%20%26%2F%3F%2B%C3%BC&filters=second%20value%20%26%2F%3F%2B%C3%BC&meta_info=false&direction=desc&start_date=2026-01-02T03%3A04%3A05Z&end_date=2026-01-02T03%3A04%3A05Z&min_cost=2&max_cost=2&min_tokens_in=2&max_tokens_in=2&min_tokens_out=2&max_tokens_out=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

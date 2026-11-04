@@ -14,6 +14,46 @@
     "argv": [
       "basin-catalog",
       "enable",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/basin-catalog/regression%20value%20%26%2F%3F%2B%C3%BC/enable",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --credential-token",
+    "argv": [
+      "basin-catalog",
+      "enable",
+      "regression value &/?+ü",
+      "--credential-token",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -27,14 +67,85 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "50",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "credential": {
+            "token": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "basin-catalog",
+      "enable",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/basin-catalog/regression%20value%20%26%2F%3F%2B%C3%BC/enable",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "basin-catalog",
+      "enable",
+      "regression value &/?+ü",
+      "--credential-token",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/basin-catalog/regression%20value%20%26%2F%3F%2B%C3%BC/enable",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "credential": {
+            "token": "second value &/?+ü"
+          }
+        }
       }
     ]
   },
@@ -44,6 +155,8 @@
       "basin-catalog",
       "enable",
       "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
     ],
     "exitCode": 0,
@@ -57,14 +170,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -74,6 +194,8 @@
       "basin-catalog",
       "enable",
       "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
@@ -88,14 +210,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -105,6 +234,8 @@
       "basin-catalog",
       "enable",
       "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
       "default",
       "--mode",
@@ -121,14 +252,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -138,6 +276,8 @@
       "basin-catalog",
       "enable",
       "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
     ],
     "exitCode": 0,
@@ -150,14 +290,21 @@
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-type": "application/json",
           "host": "localhost",
           "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -167,6 +314,8 @@
       "basin-catalog",
       "enable",
       "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
       "--persist-to",
       "regression-state"
@@ -181,14 +330,21 @@
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-type": "application/json",
           "host": "localhost",
           "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -198,17 +354,98 @@
       "basin-catalog",
       "enable",
       "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
     ],
     "exitCode": 0,
     "requests": []
   },
   {
+    "case": "body from file",
+    "argv": [
+      "basin-catalog",
+      "enable",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/basin-catalog/regression%20value%20%26%2F%3F%2B%C3%BC/enable",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "basin-catalog",
+      "enable",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/basin-catalog/regression%20value%20%26%2F%3F%2B%C3%BC/enable",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "case": "alternate <bucket-name>",
     "argv": [
       "basin-catalog",
       "enable",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
     "exitCode": 0,
     "requests": [
@@ -221,14 +458,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   }

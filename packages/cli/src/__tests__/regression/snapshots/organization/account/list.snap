@@ -55,7 +55,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -73,21 +73,21 @@
     ]
   },
   {
-    "case": "only --account-pubname-startsWith",
+    "case": "only --account-pubname-starts-with",
     "argv": [
       "organization",
       "account",
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--account-pubname-startsWith",
+      "--account-pubname-starts-with",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.startsWith=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -105,21 +105,21 @@
     ]
   },
   {
-    "case": "only --account-pubname-endsWith",
+    "case": "only --account-pubname-ends-with",
     "argv": [
       "organization",
       "account",
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--account-pubname-endsWith",
+      "--account-pubname-ends-with",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.endsWith=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -151,7 +151,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.contains=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.contains=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -183,7 +183,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -201,21 +201,21 @@
     ]
   },
   {
-    "case": "only --name-startsWith",
+    "case": "only --name-starts-with",
     "argv": [
       "organization",
       "account",
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--name-startsWith",
+      "--name-starts-with",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.startsWith=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -233,21 +233,21 @@
     ]
   },
   {
-    "case": "only --name-endsWith",
+    "case": "only --name-ends-with",
     "argv": [
       "organization",
       "account",
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--name-endsWith",
+      "--name-ends-with",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.endsWith=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -279,7 +279,71 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.contains=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.contains=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "active"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?status=active",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--status value 1",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "deleted"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?status=deleted",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -517,6 +581,70 @@
     ]
   },
   {
+    "case": "only --page",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "only --page-token",
     "argv": [
       "organization",
@@ -531,7 +659,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page_token=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page_token=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -581,6 +709,38 @@
     ]
   },
   {
+    "case": "only --accept",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--accept",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "regression value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "pairwise 1",
     "argv": [
       "organization",
@@ -590,38 +750,46 @@
       "0123456789abcdef0123456789abcdef",
       "--account-pubname",
       "second value &/?+ü",
-      "--account-pubname-startsWith",
+      "--account-pubname-starts-with",
       "second value &/?+ü",
-      "--account-pubname-endsWith",
+      "--account-pubname-ends-with",
       "second value &/?+ü",
       "--account-pubname-contains",
       "second value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "second value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "second value &/?+ü",
       "--name-contains",
       "second value &/?+ü",
+      "--status",
+      "deleted",
       "--order-by",
       "account_name",
       "--direction",
       "desc",
       "--include-tags=false",
       "--include-total=false",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
       "--page-token",
       "second value &/?+ü",
       "--page-size",
-      "2"
+      "2",
+      "--accept",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second%20value%20%26%2F%3F%2B%C3%BC&account_pubname.contains=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&order_by=account_name&direction=desc&include_tags=false&include_total=false&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&name.contains=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&direction=desc&include_tags=false&include_total=false&page=2&per_page=2&page_token=second+value+%26%2F%3F%2B%C3%BC&page_size=2",
         "headers": {
-          "accept": "*/*",
+          "accept": "second value &/?+Ã¼",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
@@ -644,27 +812,31 @@
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--account-pubname-startsWith",
+      "--account-pubname-starts-with",
       "regression value &/?+ü",
       "--account-pubname-contains",
       "regression value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "regression value &/?+ü",
       "--name-contains",
       "regression value &/?+ü",
-      "--direction",
-      "asc",
-      "--include-total=true",
-      "--page-size",
-      "1"
+      "--order-by",
+      "account_name",
+      "--include-tags=true",
+      "--page",
+      "1",
+      "--page-token",
+      "regression value &/?+ü",
+      "--accept",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.contains=regression%20value%20%26%2F%3F%2B%C3%BC&name.contains=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&include_total=true&page_size=1",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.startsWith=regression+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=regression+value+%26%2F%3F%2B%C3%BC&name.startsWith=regression+value+%26%2F%3F%2B%C3%BC&name.contains=regression+value+%26%2F%3F%2B%C3%BC&order_by=account_name&include_tags=true&page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
-          "accept": "*/*",
+          "accept": "regression value &/?+Ã¼",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
@@ -689,23 +861,27 @@
       "0123456789abcdef0123456789abcdef",
       "--account-pubname",
       "second value &/?+ü",
-      "--account-pubname-endsWith",
+      "--account-pubname-ends-with",
       "second value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "second value &/?+ü",
-      "--order-by",
-      "account_name",
-      "--include-tags=false",
-      "--page-token",
-      "second value &/?+ü"
+      "--status",
+      "deleted",
+      "--direction",
+      "desc",
+      "--include-total=false",
+      "--per-page",
+      "2",
+      "--page-size",
+      "2"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&order_by=account_name&include_tags=false&page_token=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&status=deleted&direction=desc&include_total=false&per_page=2&page_size=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -730,22 +906,27 @@
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--account-pubname-endsWith",
+      "--account-pubname-ends-with",
       "regression value &/?+ü",
       "--account-pubname-contains",
       "regression value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "regression value &/?+ü",
       "--name-contains",
       "regression value &/?+ü",
+      "--direction",
+      "asc",
       "--include-tags=true",
-      "--include-total=true"
+      "--per-page",
+      "1",
+      "--page-token",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.contains=regression%20value%20%26%2F%3F%2B%C3%BC&name.contains=regression%20value%20%26%2F%3F%2B%C3%BC&include_tags=true&include_total=true",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.endsWith=regression+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=regression+value+%26%2F%3F%2B%C3%BC&name.endsWith=regression+value+%26%2F%3F%2B%C3%BC&name.contains=regression+value+%26%2F%3F%2B%C3%BC&direction=asc&include_tags=true&per_page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -772,28 +953,31 @@
       "0123456789abcdef0123456789abcdef",
       "--account-pubname",
       "second value &/?+ü",
-      "--account-pubname-startsWith",
+      "--account-pubname-starts-with",
       "second value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "second value &/?+ü",
+      "--status",
+      "deleted",
       "--order-by",
       "account_name",
-      "--direction",
-      "desc",
-      "--page-token",
-      "second value &/?+ü",
+      "--include-total=false",
+      "--page",
+      "2",
       "--page-size",
-      "2"
+      "2",
+      "--accept",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&order_by=account_name&direction=desc&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&include_total=false&page=2&page_size=2",
         "headers": {
-          "accept": "*/*",
+          "accept": "second value &/?+Ã¼",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
@@ -818,22 +1002,25 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "regression value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "regression value &/?+ü",
       "--name-contains",
       "regression value &/?+ü",
+      "--include-total=true",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
       "--page-token",
-      "regression value &/?+ü",
-      "--page-size",
-      "1"
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name=regression%20value%20%26%2F%3F%2B%C3%BC&name.contains=regression%20value%20%26%2F%3F%2B%C3%BC&page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name=regression+value+%26%2F%3F%2B%C3%BC&name.startsWith=regression+value+%26%2F%3F%2B%C3%BC&name.endsWith=regression+value+%26%2F%3F%2B%C3%BC&name.contains=regression+value+%26%2F%3F%2B%C3%BC&include_total=true&page=1&per_page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -860,26 +1047,31 @@
       "0123456789abcdef0123456789abcdef",
       "--account-pubname",
       "second value &/?+ü",
-      "--account-pubname-startsWith",
+      "--account-pubname-starts-with",
       "second value &/?+ü",
-      "--account-pubname-endsWith",
+      "--account-pubname-ends-with",
       "second value &/?+ü",
       "--account-pubname-contains",
       "second value &/?+ü",
+      "--status",
+      "deleted",
       "--order-by",
       "account_name",
       "--direction",
       "desc",
       "--include-tags=false",
-      "--include-total=false"
+      "--page-size",
+      "2",
+      "--accept",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second%20value%20%26%2F%3F%2B%C3%BC&account_pubname.contains=second%20value%20%26%2F%3F%2B%C3%BC&order_by=account_name&direction=desc&include_tags=false&include_total=false",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&direction=desc&include_tags=false&page_size=2",
         "headers": {
-          "accept": "*/*",
+          "accept": "second value &/?+Ã¼",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
@@ -902,22 +1094,26 @@
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "active",
       "--order-by",
       "account_name",
       "--direction",
       "asc",
       "--include-tags=true",
       "--include-total=true",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
       "--page-token",
-      "regression value &/?+ü",
-      "--page-size",
-      "1"
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?order_by=account_name&direction=asc&include_tags=true&include_total=true&page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?status=active&order_by=account_name&direction=asc&include_tags=true&include_total=true&page=1&per_page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -944,26 +1140,124 @@
       "0123456789abcdef0123456789abcdef",
       "--account-pubname",
       "second value &/?+ü",
-      "--account-pubname-startsWith",
+      "--account-pubname-starts-with",
       "second value &/?+ü",
-      "--account-pubname-endsWith",
+      "--account-pubname-ends-with",
       "second value &/?+ü",
       "--account-pubname-contains",
       "second value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "second value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "second value &/?+ü",
       "--name-contains",
+      "second value &/?+ü",
+      "--page-size",
+      "2",
+      "--accept",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second%20value%20%26%2F%3F%2B%C3%BC&account_pubname.contains=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&name.contains=second+value+%26%2F%3F%2B%C3%BC&page_size=2",
+        "headers": {
+          "accept": "second value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page-size",
+      "1",
+      "--accept",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page_size=1",
+        "headers": {
+          "accept": "regression value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-starts-with",
+      "second value &/?+ü",
+      "--account-pubname-ends-with",
+      "second value &/?+ü",
+      "--account-pubname-contains",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--name-starts-with",
+      "second value &/?+ü",
+      "--name-ends-with",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--status",
+      "deleted",
+      "--order-by",
+      "account_name",
+      "--direction",
+      "desc",
+      "--include-tags=false",
+      "--include-total=false",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--page-token",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&name.contains=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&direction=desc&include_tags=false&include_total=false&page=2&per_page=2&page_token=second+value+%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

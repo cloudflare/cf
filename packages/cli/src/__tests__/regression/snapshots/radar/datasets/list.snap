@@ -88,12 +88,12 @@
     ]
   },
   {
-    "case": "only --datasetType",
+    "case": "only --dataset-type",
     "argv": [
       "radar",
       "datasets",
       "list",
-      "--datasetType",
+      "--dataset-type",
       "RANKING_BUCKET"
     ],
     "exitCode": 0,
@@ -118,12 +118,12 @@
     ]
   },
   {
-    "case": "--datasetType value 1",
+    "case": "--dataset-type value 1",
     "argv": [
       "radar",
       "datasets",
       "list",
-      "--datasetType",
+      "--dataset-type",
       "REPORT"
     ],
     "exitCode": 0,
@@ -247,7 +247,7 @@
       "2",
       "--offset",
       "2",
-      "--datasetType",
+      "--dataset-type",
       "REPORT",
       "--date",
       "2026-01-02T03:04:05Z",
@@ -315,7 +315,7 @@
       "list",
       "--limit",
       "2",
-      "--datasetType",
+      "--dataset-type",
       "REPORT",
       "--format",
       "CSV"
@@ -347,7 +347,7 @@
       "radar",
       "datasets",
       "list",
-      "--datasetType",
+      "--dataset-type",
       "RANKING_BUCKET",
       "--date",
       "2026-01-02T03:04:05Z"
@@ -417,7 +417,7 @@
       "2",
       "--offset",
       "2",
-      "--datasetType",
+      "--dataset-type",
       "REPORT",
       "--date",
       "2026-01-02T03:04:05Z"

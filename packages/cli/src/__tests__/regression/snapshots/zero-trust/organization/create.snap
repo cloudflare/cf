@@ -17,7 +17,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -28,6 +28,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -92,7 +93,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "162",
+          "content-length": "200",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -103,6 +104,7 @@
         "body": {
           "allow_authenticate_via_warp": true,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -129,7 +131,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -140,6 +142,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -167,7 +170,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "191",
+          "content-length": "229",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -179,6 +182,7 @@
           "allow_authenticate_via_warp": false,
           "auth_domain": "example.com",
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -205,7 +209,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "162",
+          "content-length": "200",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -216,6 +220,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": true,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -242,7 +247,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -253,6 +258,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -279,7 +285,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "194",
+          "content-length": "232",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -291,6 +297,7 @@
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
           "deny_unmatched_requests": true,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -317,7 +324,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "195",
+          "content-length": "233",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -329,6 +336,7 @@
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
           "deny_unmatched_requests": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -356,7 +364,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "237",
+          "content-length": "275",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -370,6 +378,83 @@
           "deny_unmatched_requests_exempted_zone_names": [
             "regression value &/?+ü"
           ],
+          "disable_end_user_app_creation": false,
+          "is_ui_read_only": false,
+          "mfa_required_for_all_apps": false,
+          "warp_auth_non_browser_401": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --disable-end-user-app-creation",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "create",
+      "--disable-end-user-app-creation=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": true,
+          "is_ui_read_only": false,
+          "mfa_required_for_all_apps": false,
+          "warp_auth_non_browser_401": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "--disable-end-user-app-creation value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "create",
+      "--disable-end-user-app-creation=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "201",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -396,7 +481,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "162",
+          "content-length": "200",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -407,6 +492,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": true,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -433,7 +519,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -444,6 +530,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -471,7 +558,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "225",
+          "content-length": "263",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -482,6 +569,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "background_color": "regression value &/?+ü"
@@ -512,7 +600,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "220",
+          "content-length": "258",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -523,6 +611,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "footer_text": "regression value &/?+ü"
@@ -553,7 +642,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "220",
+          "content-length": "258",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -564,6 +653,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "header_text": "regression value &/?+ü"
@@ -594,7 +684,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "218",
+          "content-length": "256",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -605,6 +695,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "logo_path": "regression value &/?+ü"
@@ -635,7 +726,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "219",
+          "content-length": "257",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -646,6 +737,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "text_color": "regression value &/?+ü"
@@ -676,7 +768,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "231",
+          "content-length": "269",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -687,6 +779,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_config": {
             "allowed_authenticators": [
@@ -719,7 +812,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "236",
+          "content-length": "274",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -730,6 +823,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_config": {
             "amr_matching_session_duration": "regression value &/?+ü"
@@ -760,7 +854,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "223",
+          "content-length": "261",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -771,6 +865,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_config": {
             "required_aaguids": "regression value &/?+ü"
@@ -801,7 +896,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "223",
+          "content-length": "261",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -812,6 +907,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_config": {
             "session_duration": "regression value &/?+ü"
@@ -842,7 +938,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "213",
+          "content-length": "251",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -853,6 +949,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "pin_policy": "never"
@@ -883,7 +980,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "212",
+          "content-length": "250",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -894,6 +991,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "pin_policy": "once"
@@ -924,7 +1022,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "214",
+          "content-length": "252",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -935,6 +1033,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "pin_policy": "always"
@@ -964,7 +1063,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "219",
+          "content-length": "257",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -975,6 +1074,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "require_fips_device": true
@@ -1004,7 +1104,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "220",
+          "content-length": "258",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1015,6 +1115,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "require_fips_device": false
@@ -1045,7 +1146,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "235",
+          "content-length": "273",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1056,6 +1157,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "ssh_key_size": [
@@ -1088,7 +1190,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "235",
+          "content-length": "273",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1099,6 +1201,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "ssh_key_type": [
@@ -1131,7 +1234,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "215",
+          "content-length": "253",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1142,6 +1245,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "touch_policy": "never"
@@ -1172,7 +1276,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "216",
+          "content-length": "254",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1183,6 +1287,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "touch_policy": "always"
@@ -1213,7 +1318,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "216",
+          "content-length": "254",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1224,6 +1329,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
             "touch_policy": "cached"
@@ -1253,7 +1359,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "162",
+          "content-length": "200",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1264,6 +1370,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": true,
           "warp_auth_non_browser_401": false
@@ -1290,7 +1397,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1301,6 +1408,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -1328,7 +1436,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "196",
+          "content-length": "234",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1339,6 +1447,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "name": "regression value &/?+ü",
@@ -1357,7 +1466,7 @@
       "disable"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1370,7 +1479,7 @@
       "delete"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1382,7 +1491,7 @@
       "--service-token-inactivity-enabled=true"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1394,7 +1503,7 @@
       "--service-token-inactivity-enabled=false"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1407,7 +1516,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1430,7 +1539,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "208",
+          "content-length": "246",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1441,6 +1550,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "session_duration": "regression value &/?+ü",
@@ -1468,7 +1578,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "196",
+          "content-length": "234",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1479,6 +1589,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "strict_service_token_auth": true,
@@ -1506,7 +1617,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "197",
+          "content-length": "235",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1517,6 +1628,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "strict_service_token_auth": false,
@@ -1545,7 +1657,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "218",
+          "content-length": "256",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1556,6 +1668,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "ui_read_only_toggle_reason": "regression value &/?+ü",
@@ -1584,7 +1697,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "223",
+          "content-length": "261",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1595,6 +1708,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
@@ -1622,7 +1736,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "162",
+          "content-length": "200",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1633,6 +1747,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": true
@@ -1659,7 +1774,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1670,6 +1785,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -1697,7 +1813,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "218",
+          "content-length": "256",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1708,6 +1824,7 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false,
@@ -1730,6 +1847,7 @@
       "--deny-unmatched-requests-exempted-zone-names",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--disable-end-user-app-creation=false",
       "--is-ui-read-only=false",
       "--login-design-background-color",
       "second value &/?+ü",
@@ -1791,7 +1909,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1318",
+          "content-length": "1356",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1808,6 +1926,7 @@
             "second value &/?+ü",
             "second value &/?+ü"
           ],
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "background_color": "second value &/?+ü",
@@ -1864,32 +1983,33 @@
       "--auth-domain",
       "example.com",
       "--deny-unmatched-requests=true",
-      "--is-ui-read-only=true",
-      "--login-design-footer-text",
+      "--disable-end-user-app-creation=true",
+      "--login-design-background-color",
       "regression value &/?+ü",
-      "--login-design-logo-path",
+      "--login-design-header-text",
       "regression value &/?+ü",
-      "--mfa-config-allowed-authenticators",
+      "--login-design-text-color",
       "regression value &/?+ü",
-      "--mfa-config-required-aaguids",
+      "--mfa-config-amr-matching-session-duration",
       "regression value &/?+ü",
-      "--mfa-piv-key-requirements-pin-policy",
-      "never",
-      "--mfa-piv-key-requirements-ssh-key-size",
+      "--mfa-config-session-duration",
       "regression value &/?+ü",
-      "--mfa-piv-key-requirements-touch-policy",
-      "never",
-      "--name",
+      "--mfa-piv-key-requirements-require-fips-device=true",
+      "--mfa-piv-key-requirements-ssh-key-type",
       "regression value &/?+ü",
-      "--service-token-inactivity-enabled=true",
-      "--session-duration",
-      "regression value &/?+ü",
-      "--ui-read-only-toggle-reason",
-      "regression value &/?+ü",
-      "--warp-auth-non-browser-401=true"
+      "--mfa-required-for-all-apps=true",
+      "--service-token-inactivity-action",
+      "disable",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "1",
+      "--strict-service-token-auth=true",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-session-duration",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-enabled is required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1903,33 +2023,34 @@
       "--deny-unmatched-requests-exempted-zone-names",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--login-design-background-color",
+      "--is-ui-read-only=false",
+      "--login-design-footer-text",
       "second value &/?+ü",
-      "--login-design-header-text",
+      "--login-design-logo-path",
       "second value &/?+ü",
-      "--login-design-text-color",
-      "second value &/?+ü",
-      "--mfa-config-amr-matching-session-duration",
-      "second value &/?+ü",
-      "--mfa-config-session-duration",
-      "second value &/?+ü",
-      "--mfa-piv-key-requirements-require-fips-device=false",
-      "--mfa-piv-key-requirements-ssh-key-type",
+      "--mfa-config-allowed-authenticators",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--mfa-required-for-all-apps=false",
-      "--service-token-inactivity-action",
-      "delete",
-      "--service-token-inactivity-inactivity-threshold-days",
-      "2",
-      "--strict-service-token-auth=false",
-      "--user-seat-expiration-inactive-time",
-      "2026-01-02T03:04:05Z",
-      "--warp-auth-session-duration",
-      "second value &/?+ü"
+      "--mfa-config-required-aaguids",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always",
+      "--name",
+      "second value &/?+ü",
+      "--service-token-inactivity-enabled=false",
+      "--session-duration",
+      "second value &/?+ü",
+      "--ui-read-only-toggle-reason",
+      "second value &/?+ü",
+      "--warp-auth-non-browser-401=false"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-enabled is required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1940,33 +2061,34 @@
       "create",
       "--auto-redirect-to-identity=true",
       "--deny-unmatched-requests=true",
+      "--is-ui-read-only=true",
       "--login-design-background-color",
       "regression value &/?+ü",
-      "--login-design-footer-text",
+      "--login-design-logo-path",
       "regression value &/?+ü",
       "--login-design-text-color",
       "regression value &/?+ü",
-      "--mfa-config-allowed-authenticators",
+      "--mfa-config-required-aaguids",
       "regression value &/?+ü",
       "--mfa-config-session-duration",
       "regression value &/?+ü",
-      "--mfa-piv-key-requirements-pin-policy",
-      "never",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "regression value &/?+ü",
       "--mfa-piv-key-requirements-ssh-key-type",
       "regression value &/?+ü",
-      "--mfa-piv-key-requirements-touch-policy",
-      "never",
+      "--name",
+      "regression value &/?+ü",
       "--service-token-inactivity-action",
       "disable",
-      "--service-token-inactivity-enabled=true",
-      "--strict-service-token-auth=true",
-      "--ui-read-only-toggle-reason",
+      "--session-duration",
       "regression value &/?+ü",
+      "--strict-service-token-auth=true",
+      "--warp-auth-non-browser-401=true",
       "--warp-auth-session-duration",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-inactivity-threshold-days is required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -1981,32 +2103,32 @@
       "--deny-unmatched-requests-exempted-zone-names",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--is-ui-read-only=false",
+      "--disable-end-user-app-creation=false",
+      "--login-design-footer-text",
+      "second value &/?+ü",
       "--login-design-header-text",
       "second value &/?+ü",
-      "--login-design-logo-path",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--mfa-config-amr-matching-session-duration",
       "second value &/?+ü",
-      "--mfa-config-required-aaguids",
-      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
       "--mfa-piv-key-requirements-require-fips-device=false",
-      "--mfa-piv-key-requirements-ssh-key-size",
-      "second value &/?+ü",
-      "second value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always",
       "--mfa-required-for-all-apps=false",
-      "--name",
-      "second value &/?+ü",
+      "--service-token-inactivity-enabled=false",
       "--service-token-inactivity-inactivity-threshold-days",
       "2",
-      "--session-duration",
+      "--ui-read-only-toggle-reason",
       "second value &/?+ü",
       "--user-seat-expiration-inactive-time",
-      "2026-01-02T03:04:05Z",
-      "--warp-auth-non-browser-401=false"
+      "2026-01-02T03:04:05Z"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action is required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -2017,10 +2139,11 @@
       "create",
       "--deny-unmatched-requests-exempted-zone-names",
       "regression value &/?+ü",
+      "--disable-end-user-app-creation=true",
       "--is-ui-read-only=true",
       "--login-design-background-color",
       "regression value &/?+ü",
-      "--login-design-footer-text",
+      "--mfa-config-allowed-authenticators",
       "regression value &/?+ü",
       "--mfa-config-amr-matching-session-duration",
       "regression value &/?+ü",
@@ -2028,14 +2151,15 @@
       "regression value &/?+ü",
       "--mfa-config-session-duration",
       "regression value &/?+ü",
-      "--mfa-piv-key-requirements-pin-policy",
+      "--mfa-piv-key-requirements-touch-policy",
       "never",
       "--mfa-required-for-all-apps=true",
       "--name",
       "regression value &/?+ü",
       "--service-token-inactivity-action",
       "disable",
-      "--service-token-inactivity-enabled=true",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü",
       "--user-seat-expiration-inactive-time",
       "2026-01-02T03:04:05Z",
       "--warp-auth-non-browser-401=true",
@@ -2043,7 +2167,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-inactivity-threshold-days is required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -2057,15 +2181,16 @@
       "example.com",
       "--auto-redirect-to-identity=false",
       "--deny-unmatched-requests=false",
+      "--login-design-footer-text",
+      "second value &/?+ü",
       "--login-design-header-text",
       "second value &/?+ü",
       "--login-design-logo-path",
       "second value &/?+ü",
       "--login-design-text-color",
       "second value &/?+ü",
-      "--mfa-config-allowed-authenticators",
-      "second value &/?+ü",
-      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
       "--mfa-piv-key-requirements-require-fips-device=false",
       "--mfa-piv-key-requirements-ssh-key-size",
       "second value &/?+ü",
@@ -2073,18 +2198,15 @@
       "--mfa-piv-key-requirements-ssh-key-type",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--mfa-piv-key-requirements-touch-policy",
-      "always",
+      "--service-token-inactivity-enabled=false",
       "--service-token-inactivity-inactivity-threshold-days",
       "2",
       "--session-duration",
       "second value &/?+ü",
-      "--strict-service-token-auth=false",
-      "--ui-read-only-toggle-reason",
-      "second value &/?+ü"
+      "--strict-service-token-auth=false"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action is required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -2093,6 +2215,8 @@
       "zero-trust",
       "organization",
       "create",
+      "--login-design-footer-text",
+      "regression value &/?+ü",
       "--login-design-header-text",
       "regression value &/?+ü",
       "--login-design-logo-path",
@@ -2107,8 +2231,7 @@
       "regression value &/?+ü",
       "--mfa-config-session-duration",
       "regression value &/?+ü",
-      "--mfa-piv-key-requirements-pin-policy",
-      "never",
+      "--service-token-inactivity-enabled=true",
       "--service-token-inactivity-inactivity-threshold-days",
       "1",
       "--session-duration",
@@ -2123,7 +2246,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-action is required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -2140,11 +2263,12 @@
       "--deny-unmatched-requests-exempted-zone-names",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--disable-end-user-app-creation=false",
       "--is-ui-read-only=false",
       "--login-design-background-color",
       "second value &/?+ü",
-      "--login-design-footer-text",
-      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
       "--mfa-piv-key-requirements-require-fips-device=false",
       "--mfa-piv-key-requirements-ssh-key-size",
       "second value &/?+ü",
@@ -2158,11 +2282,10 @@
       "--name",
       "second value &/?+ü",
       "--service-token-inactivity-action",
-      "delete",
-      "--service-token-inactivity-enabled=false"
+      "delete"
     ],
     "exitCode": 1,
-    "error": "--service-token-inactivity-inactivity-threshold-days is required when any --service_token_inactivity-* flag is set",
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service-token-inactivity-* flag is set",
     "requests": []
   },
   {
@@ -2171,6 +2294,8 @@
       "zero-trust",
       "organization",
       "create",
+      "--mfa-piv-key-requirements-pin-policy",
+      "never",
       "--mfa-piv-key-requirements-require-fips-device=true",
       "--mfa-piv-key-requirements-ssh-key-size",
       "regression value &/?+ü",
@@ -2208,7 +2333,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "700",
+          "content-length": "759",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2219,8 +2344,10 @@
         "body": {
           "allow_authenticate_via_warp": false,
           "auto_redirect_to_identity": false,
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "mfa_piv_key_requirements": {
+            "pin_policy": "never",
             "require_fips_device": true,
             "ssh_key_size": [
               "regression value &/?+ü"
@@ -2261,6 +2388,7 @@
       "--deny-unmatched-requests-exempted-zone-names",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--disable-end-user-app-creation=false",
       "--is-ui-read-only=false",
       "--login-design-background-color",
       "second value &/?+ü",
@@ -2280,9 +2408,7 @@
       "--mfa-config-required-aaguids",
       "second value &/?+ü",
       "--mfa-config-session-duration",
-      "second value &/?+ü",
-      "--mfa-piv-key-requirements-pin-policy",
-      "once"
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -2295,7 +2421,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "785",
+          "content-length": "774",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2312,6 +2438,7 @@
             "second value &/?+ü",
             "second value &/?+ü"
           ],
+          "disable_end_user_app_creation": false,
           "is_ui_read_only": false,
           "login_design": {
             "background_color": "second value &/?+ü",
@@ -2328,9 +2455,6 @@
             "amr_matching_session_duration": "second value &/?+ü",
             "required_aaguids": "second value &/?+ü",
             "session_duration": "second value &/?+ü"
-          },
-          "mfa_piv_key_requirements": {
-            "pin_policy": "once"
           },
           "mfa_required_for_all_apps": false,
           "warp_auth_non_browser_401": false
@@ -2665,7 +2789,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2673,14 +2797,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2697,6 +2821,7 @@
       "--deny-unmatched-requests=true",
       "--deny-unmatched-requests-exempted-zone-names",
       "regression value &/?+ü",
+      "--disable-end-user-app-creation=true",
       "--is-ui-read-only=true",
       "--login-design-background-color",
       "regression value &/?+ü",
@@ -2755,7 +2880,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1286",
+          "content-length": "1323",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2771,6 +2896,7 @@
           "deny_unmatched_requests_exempted_zone_names": [
             "regression value &/?+ü"
           ],
+          "disable_end_user_app_creation": true,
           "is_ui_read_only": true,
           "login_design": {
             "background_color": "regression value &/?+ü",

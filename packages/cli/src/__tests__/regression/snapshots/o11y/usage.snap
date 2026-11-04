@@ -23,7 +23,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -56,7 +56,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC&tz=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&tz=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -89,7 +89,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC&tz=second+value+%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&tz=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -121,7 +121,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -154,7 +154,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -189,7 +189,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -221,7 +221,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -254,7 +254,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/usage?from=regression+value+%26%2F%3F%2B%C3%BC&to=regression+value+%26%2F%3F%2B%C3%BC",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/usage?from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",

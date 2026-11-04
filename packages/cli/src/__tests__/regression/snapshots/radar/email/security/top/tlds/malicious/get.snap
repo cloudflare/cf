@@ -118,7 +118,7 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "email",
@@ -128,7 +128,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -153,7 +153,7 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "email",
@@ -163,7 +163,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -188,7 +188,7 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "email",
@@ -198,7 +198,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -363,7 +363,7 @@
     ]
   },
   {
-    "case": "only --tlsVersion",
+    "case": "only --tls-version",
     "argv": [
       "radar",
       "email",
@@ -373,7 +373,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--tlsVersion",
+      "--tls-version",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -398,7 +398,7 @@
     ]
   },
   {
-    "case": "only --tldCategory",
+    "case": "only --tld-category",
     "argv": [
       "radar",
       "email",
@@ -408,7 +408,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--tldCategory",
+      "--tld-category",
       "CLASSIC"
     ],
     "exitCode": 0,
@@ -433,7 +433,7 @@
     ]
   },
   {
-    "case": "--tldCategory value 1",
+    "case": "--tld-category value 1",
     "argv": [
       "radar",
       "email",
@@ -443,7 +443,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--tldCategory",
+      "--tld-category",
       "COUNTRY"
     ],
     "exitCode": 0,
@@ -552,23 +552,32 @@
       "2",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--arc",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--dkim",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--dmarc",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--spf",
       "second value &/?+ü",
-      "--tlsVersion",
       "second value &/?+ü",
-      "--tldCategory",
+      "--tls-version",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--tld-category",
       "COUNTRY",
       "--format",
       "CSV"
@@ -577,7 +586,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&arc=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dmarc=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tldCategory=COUNTRY&format=CSV",
+        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&arc=second%20value%20%26%2F%3F%2B%C3%BC&arc=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dmarc=second%20value%20%26%2F%3F%2B%C3%BC&dmarc=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tldCategory=COUNTRY&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -607,13 +616,13 @@
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--arc",
       "regression value &/?+ü",
       "--dmarc",
       "regression value &/?+ü",
-      "--tlsVersion",
+      "--tls-version",
       "regression value &/?+ü",
       "--format",
       "JSON"
@@ -652,22 +661,26 @@
       "regression value &/?+ü",
       "--limit",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--dkim",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--spf",
       "second value &/?+ü",
-      "--tldCategory",
+      "second value &/?+ü",
+      "--tld-category",
       "COUNTRY"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dkim=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tldCategory=COUNTRY",
+        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tldCategory=COUNTRY",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -695,15 +708,15 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--dkim",
       "regression value &/?+ü",
       "--dmarc",
       "regression value &/?+ü",
-      "--tldCategory",
+      "--tld-category",
       "CLASSIC",
       "--format",
       "JSON"
@@ -744,20 +757,25 @@
       "2",
       "--name",
       "second value &/?+ü",
-      "--dateEnd",
+      "second value &/?+ü",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--arc",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--spf",
       "second value &/?+ü",
-      "--tlsVersion",
+      "second value &/?+ü",
+      "--tls-version",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&arc=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&arc=second%20value%20%26%2F%3F%2B%C3%BC&arc=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -785,7 +803,7 @@
       "malicious",
       "get",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--arc",
       "regression value &/?+ü",
@@ -830,15 +848,20 @@
       "2",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--spf",
       "second value &/?+ü",
-      "--tlsVersion",
       "second value &/?+ü",
-      "--tldCategory",
+      "--tls-version",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--tld-category",
       "COUNTRY",
       "--format",
       "CSV"
@@ -847,7 +870,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&spf=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tldCategory=COUNTRY&format=CSV",
+        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&spf=second%20value%20%26%2F%3F%2B%C3%BC&spf=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tlsVersion=second%20value%20%26%2F%3F%2B%C3%BC&tldCategory=COUNTRY&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -877,9 +900,9 @@
       "regression value &/?+ü",
       "--spf",
       "regression value &/?+ü",
-      "--tlsVersion",
+      "--tls-version",
       "regression value &/?+ü",
-      "--tldCategory",
+      "--tld-category",
       "CLASSIC",
       "--format",
       "JSON"
@@ -920,24 +943,31 @@
       "2",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--arc",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--dkim",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--dmarc",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&arc=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dmarc=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/email/security/top/tlds/malicious/regression%20value%20%26%2F%3F%2B%C3%BC?limit=2&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&arc=second%20value%20%26%2F%3F%2B%C3%BC&arc=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dkim=second%20value%20%26%2F%3F%2B%C3%BC&dmarc=second%20value%20%26%2F%3F%2B%C3%BC&dmarc=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

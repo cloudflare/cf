@@ -52,90 +52,6 @@
     ]
   },
   {
-    "case": "only --member-status",
-    "argv": [
-      "organization",
-      "member",
-      "create",
-      "0123456789abcdef0123456789abcdef",
-      "--member-user-email",
-      "regression@example.com",
-      "--member-status",
-      "active"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "72",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "member": {
-            "status": "active",
-            "user": {
-              "email": "regression@example.com"
-            }
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "--member-status value 1",
-    "argv": [
-      "organization",
-      "member",
-      "create",
-      "0123456789abcdef0123456789abcdef",
-      "--member-user-email",
-      "regression@example.com",
-      "--member-status",
-      "canceled"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "74",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "member": {
-            "status": "canceled",
-            "user": {
-              "email": "regression@example.com"
-            }
-          }
-        }
-      }
-    ]
-  },
-  {
     "case": "pairwise 0",
     "argv": [
       "organization",
@@ -468,7 +384,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -476,14 +392,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

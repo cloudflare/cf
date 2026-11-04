@@ -430,6 +430,48 @@
     ]
   },
   {
+    "case": "only --remote-subnets",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--remote-subnets",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "remote_subnets": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "case": "only --routed-subnets",
     "argv": [
       "magic-transit",
@@ -525,7 +567,24 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-dhcp-server-dhcp-options",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -542,7 +601,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -559,7 +618,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -576,7 +635,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -593,7 +652,24 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --static-addressing-dhcp-server-reservations",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -610,7 +686,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -627,7 +703,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -723,6 +799,8 @@
       "second value &/?+ü",
       "--physport",
       "2",
+      "--remote-subnets",
+      "[{\"regression\":\"item\"}]",
       "--routed-subnets",
       "[{\"regression\":\"item\"}]",
       "--static-addressing-address",
@@ -730,6 +808,8 @@
       "--static-addressing-dhcp-relay-server-addresses",
       "192.0.2.1",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-dhcp-server-dhcp-pool-end",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dhcp-pool-start",
@@ -739,6 +819,8 @@
       "--static-addressing-dhcp-server-dns-servers",
       "192.0.2.1",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
       "--static-addressing-secondary-address",
       "192.0.2.1",
       "--static-addressing-virtual-address",
@@ -757,7 +839,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "519",
+          "content-length": "642",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -775,6 +857,11 @@
             "static_prefix": "second value &/?+ü"
           },
           "physport": 2,
+          "remote_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
           "routed_subnets": [
             {
               "regression": "item"
@@ -789,13 +876,21 @@
               ]
             },
             "dhcp_server": {
+              "dhcp_options": [
+                {
+                  "regression": "item"
+                }
+              ],
               "dhcp_pool_end": "192.0.2.1",
               "dhcp_pool_start": "192.0.2.1",
               "dns_server": "192.0.2.1",
               "dns_servers": [
                 "192.0.2.1",
                 "192.0.2.1"
-              ]
+              ],
+              "reservations": {
+                "regression": "json value"
+              }
             },
             "secondary_address": "192.0.2.1",
             "virtual_address": "192.0.2.1"
@@ -819,20 +914,70 @@
       "--is-prioritized=true",
       "--nat-static-prefix",
       "regression value &/?+ü",
-      "--routed-subnets",
+      "--remote-subnets",
       "[{\"regression\":\"item\"}]",
-      "--static-addressing-dhcp-relay-server-addresses",
+      "--static-addressing-address",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-dhcp-server-dhcp-pool-start",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dns-servers",
       "192.0.2.1",
-      "--static-addressing-virtual-address",
-      "192.0.2.1"
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "331",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ha_link": true,
+          "is_prioritized": true,
+          "nat": {
+            "static_prefix": "regression value &/?+ü"
+          },
+          "remote_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "dhcp_server": {
+              "dhcp_options": [
+                {
+                  "regression": "item"
+                }
+              ],
+              "dhcp_pool_start": "192.0.2.1",
+              "dns_servers": [
+                "192.0.2.1"
+              ]
+            },
+            "secondary_address": "192.0.2.1"
+          },
+          "vlan_tag": 1
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -851,53 +996,23 @@
       "second value &/?+ü",
       "--physport",
       "2",
-      "--static-addressing-address",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-relay-server-addresses",
+      "192.0.2.1",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dhcp-pool-end",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dns-server",
       "192.0.2.1",
-      "--static-addressing-secondary-address",
-      "192.0.2.1",
-      "--vlan-tag",
-      "2"
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
+      "--static-addressing-virtual-address",
+      "192.0.2.1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "233",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bond_id": 2,
-          "is_breakout": false,
-          "name": "second value &/?+ü",
-          "physport": 2,
-          "static_addressing": {
-            "address": "192.0.2.1",
-            "dhcp_server": {
-              "dhcp_pool_end": "192.0.2.1",
-              "dns_server": "192.0.2.1"
-            },
-            "secondary_address": "192.0.2.1"
-          },
-          "vlan_tag": 2
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -913,19 +1028,23 @@
       "--is-prioritized=true",
       "--physport",
       "1",
-      "--routed-subnets",
+      "--remote-subnets",
       "[{\"regression\":\"item\"}]",
-      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "--static-addressing-dhcp-relay-server-addresses",
       "192.0.2.1",
-      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-server-dns-server",
       "192.0.2.1",
-      "--static-addressing-secondary-address",
+      "--static-addressing-dhcp-server-dns-servers",
       "192.0.2.1",
       "--static-addressing-virtual-address",
-      "192.0.2.1"
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -945,18 +1064,18 @@
       "second value &/?+ü",
       "--nat-static-prefix",
       "second value &/?+ü",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-address",
       "192.0.2.1",
-      "--static-addressing-dhcp-relay-server-addresses",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
       "192.0.2.1",
-      "--static-addressing-dhcp-server-dns-server",
-      "192.0.2.1",
-      "--static-addressing-dhcp-server-dns-servers",
-      "192.0.2.1",
-      "192.0.2.1",
-      "--vlan-tag",
-      "2"
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
+      "--static-addressing-secondary-address",
+      "192.0.2.1"
     ],
     "exitCode": 0,
     "requests": [
@@ -969,7 +1088,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "302",
+          "content-length": "338",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -984,23 +1103,22 @@
           "nat": {
             "static_prefix": "second value &/?+ü"
           },
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
           "static_addressing": {
             "address": "192.0.2.1",
-            "dhcp_relay": {
-              "server_addresses": [
-                "192.0.2.1",
-                "192.0.2.1"
-              ]
-            },
             "dhcp_server": {
-              "dns_server": "192.0.2.1",
-              "dns_servers": [
-                "192.0.2.1",
-                "192.0.2.1"
-              ]
-            }
-          },
-          "vlan_tag": 2
+              "dhcp_pool_end": "192.0.2.1",
+              "dhcp_pool_start": "192.0.2.1",
+              "reservations": {
+                "regression": "json value"
+              }
+            },
+            "secondary_address": "192.0.2.1"
+          }
         }
       }
     ]
@@ -1021,19 +1139,19 @@
       "regression value &/?+ü",
       "--physport",
       "1",
-      "--routed-subnets",
+      "--remote-subnets",
       "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "192.0.2.1",
       "--static-addressing-dhcp-server-dns-server",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dns-servers",
-      "192.0.2.1",
-      "--static-addressing-secondary-address",
-      "192.0.2.1",
-      "--static-addressing-virtual-address",
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
     "requests": []
   },
   {
@@ -1051,14 +1169,20 @@
       "--ha-link=false",
       "--is-breakout=false",
       "--is-prioritized=false",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-address",
       "192.0.2.1",
       "--static-addressing-dhcp-relay-server-addresses",
       "192.0.2.1",
       "192.0.2.1",
-      "--static-addressing-dhcp-server-dhcp-pool-end",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
+      "--static-addressing-secondary-address",
       "192.0.2.1",
-      "--static-addressing-dhcp-server-dhcp-pool-start",
+      "--static-addressing-virtual-address",
       "192.0.2.1",
       "--vlan-tag",
       "2"
@@ -1074,7 +1198,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "263",
+          "content-length": "390",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1087,6 +1211,11 @@
           "ha_link": false,
           "is_breakout": false,
           "is_prioritized": false,
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
           "static_addressing": {
             "address": "192.0.2.1",
             "dhcp_relay": {
@@ -1096,9 +1225,17 @@
               ]
             },
             "dhcp_server": {
-              "dhcp_pool_end": "192.0.2.1",
-              "dhcp_pool_start": "192.0.2.1"
-            }
+              "dhcp_options": [
+                {
+                  "regression": "item"
+                }
+              ],
+              "reservations": {
+                "regression": "json value"
+              }
+            },
+            "secondary_address": "192.0.2.1",
+            "virtual_address": "192.0.2.1"
           },
           "vlan_tag": 2
         }
@@ -1115,10 +1252,14 @@
       "0123456789abcdef0123456789abcdef",
       "--site-id",
       "0123456789abcdef0123456789abcdef",
+      "--routed-subnets",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-address",
       "192.0.2.1",
       "--static-addressing-dhcp-relay-server-addresses",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-dhcp-server-dhcp-pool-end",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dhcp-pool-start",
@@ -1126,10 +1267,6 @@
       "--static-addressing-dhcp-server-dns-server",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dns-servers",
-      "192.0.2.1",
-      "--static-addressing-secondary-address",
-      "192.0.2.1",
-      "--static-addressing-virtual-address",
       "192.0.2.1"
     ],
     "exitCode": 0,
@@ -1143,7 +1280,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "282",
+          "content-length": "300",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1152,6 +1289,11 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "routed_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
           "static_addressing": {
             "address": "192.0.2.1",
             "dhcp_relay": {
@@ -1160,15 +1302,18 @@
               ]
             },
             "dhcp_server": {
+              "dhcp_options": [
+                {
+                  "regression": "item"
+                }
+              ],
               "dhcp_pool_end": "192.0.2.1",
               "dhcp_pool_start": "192.0.2.1",
               "dns_server": "192.0.2.1",
               "dns_servers": [
                 "192.0.2.1"
               ]
-            },
-            "secondary_address": "192.0.2.1",
-            "virtual_address": "192.0.2.1"
+            }
           }
         }
       }
@@ -1195,49 +1340,43 @@
       "second value &/?+ü",
       "--physport",
       "2",
-      "--routed-subnets",
+      "--remote-subnets",
       "[{\"regression\":\"item\"}]",
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1",
       "--vlan-tag",
       "2"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/lans/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "214",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bond_id": 2,
-          "ha_link": false,
-          "is_breakout": false,
-          "is_prioritized": false,
-          "name": "second value &/?+ü",
-          "nat": {
-            "static_prefix": "second value &/?+ü"
-          },
-          "physport": 2,
-          "routed_subnets": [
-            {
-              "regression": "item"
-            }
-          ],
-          "vlan_tag": 2
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "lans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-virtual-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--static-addressing-address is required when any --static-addressing-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 11",
@@ -1260,6 +1399,8 @@
       "second value &/?+ü",
       "--physport",
       "2",
+      "--remote-subnets",
+      "[{\"regression\":\"item\"}]",
       "--routed-subnets",
       "[{\"regression\":\"item\"}]",
       "--static-addressing-address",
@@ -1267,6 +1408,8 @@
       "--static-addressing-dhcp-relay-server-addresses",
       "192.0.2.1",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-dhcp-server-dhcp-pool-end",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dhcp-pool-start",
@@ -1275,10 +1418,6 @@
       "192.0.2.1",
       "--static-addressing-dhcp-server-dns-servers",
       "192.0.2.1",
-      "192.0.2.1",
-      "--static-addressing-secondary-address",
-      "192.0.2.1",
-      "--static-addressing-virtual-address",
       "192.0.2.1"
     ],
     "exitCode": 0,
@@ -1292,7 +1431,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "506",
+          "content-length": "524",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1310,6 +1449,11 @@
             "static_prefix": "second value &/?+ü"
           },
           "physport": 2,
+          "remote_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
           "routed_subnets": [
             {
               "regression": "item"
@@ -1324,6 +1468,11 @@
               ]
             },
             "dhcp_server": {
+              "dhcp_options": [
+                {
+                  "regression": "item"
+                }
+              ],
               "dhcp_pool_end": "192.0.2.1",
               "dhcp_pool_start": "192.0.2.1",
               "dns_server": "192.0.2.1",
@@ -1331,9 +1480,7 @@
                 "192.0.2.1",
                 "192.0.2.1"
               ]
-            },
-            "secondary_address": "192.0.2.1",
-            "virtual_address": "192.0.2.1"
+            }
           }
         }
       }
@@ -1681,12 +1828,16 @@
       "regression value &/?+ü",
       "--physport",
       "1",
+      "--remote-subnets",
+      "[{\"regression\":\"item\"}]",
       "--routed-subnets",
       "[{\"regression\":\"item\"}]",
       "--static-addressing-address",
       "192.0.2.1",
       "--static-addressing-dhcp-relay-server-addresses",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-dhcp-options",
+      "[{\"regression\":\"item\"}]",
       "--static-addressing-dhcp-server-dhcp-pool-end",
       "192.0.2.1",
       "--static-addressing-dhcp-server-dhcp-pool-start",
@@ -1695,6 +1846,8 @@
       "192.0.2.1",
       "--static-addressing-dhcp-server-dns-servers",
       "192.0.2.1",
+      "--static-addressing-dhcp-server-reservations",
+      "{\"regression\":\"json value\"}",
       "--static-addressing-secondary-address",
       "192.0.2.1",
       "--static-addressing-virtual-address",
@@ -1713,7 +1866,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "500",
+          "content-length": "623",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1731,6 +1884,11 @@
             "static_prefix": "regression value &/?+ü"
           },
           "physport": 1,
+          "remote_subnets": [
+            {
+              "regression": "item"
+            }
+          ],
           "routed_subnets": [
             {
               "regression": "item"
@@ -1744,12 +1902,20 @@
               ]
             },
             "dhcp_server": {
+              "dhcp_options": [
+                {
+                  "regression": "item"
+                }
+              ],
               "dhcp_pool_end": "192.0.2.1",
               "dhcp_pool_start": "192.0.2.1",
               "dns_server": "192.0.2.1",
               "dns_servers": [
                 "192.0.2.1"
-              ]
+              ],
+              "reservations": {
+                "regression": "json value"
+              }
             },
             "secondary_address": "192.0.2.1",
             "virtual_address": "192.0.2.1"

@@ -26,6 +26,136 @@
       "--app-id",
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expires-on",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--expires-on",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expires_on": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --not-before",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--not-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "not_before": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
@@ -39,14 +169,102 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--expires-on",
+      "second value &/?+ü",
+      "--not-before",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expires_on": "second value &/?+ü",
+          "not_before": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--expires-on",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expires_on": "second value &/?+ü"
+        }
       }
     ]
   },
@@ -64,6 +282,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
     ],
     "exitCode": 0,
@@ -77,14 +297,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -102,6 +329,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
@@ -116,14 +345,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -141,6 +377,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
       "default",
       "--mode",
@@ -157,14 +395,21 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "42",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -182,6 +427,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
     ],
     "exitCode": 0,
@@ -194,14 +441,21 @@
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-type": "application/json",
           "host": "localhost",
           "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -219,6 +473,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
       "--persist-to",
       "regression-state"
@@ -233,14 +489,21 @@
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-type": "application/json",
           "host": "localhost",
           "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
       }
     ]
   },
@@ -258,9 +521,149 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
     ],
     "exitCode": 0,
     "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "tokens",
+      "refresh",
+      "192.0.2.1",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--expires-on",
+      "regression value &/?+ü",
+      "--not-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants/192.0.2.1/token",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expires_on": "regression value &/?+ü",
+          "not_before": "regression value &/?+ü"
+        }
+      }
+    ]
   }
 ]

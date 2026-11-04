@@ -17,8 +17,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -26,7 +24,73 @@
     "requests": [
       {
         "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --namespace",
+    "argv": [
+      "ai-search",
+      "jobs",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--instance-id",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
         "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "jobs",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--instance-id",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -50,8 +114,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--quiet"
@@ -60,7 +122,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -84,8 +146,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--zone",
@@ -95,7 +155,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -119,8 +179,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--profile",
@@ -132,7 +190,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -156,8 +214,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--local"
@@ -166,7 +222,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -189,8 +245,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--local",
@@ -201,7 +255,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/jobs/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -224,8 +278,6 @@
       "jobs",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--instance-id",
       "0123456789abcdef0123456789abcdef",
       "--dry-run"

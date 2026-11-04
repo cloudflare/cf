@@ -613,33 +613,20 @@
       "2",
       "--search",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--remediation-statuses",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--finding-instance-ids",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--asset-ids",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/0123456789abcdef0123456789abcdef/instances?archived=false&cursor=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&max_affliction_date=2026-01-02T03%3A04%3A05Z&min_affliction_date=2026-01-02T03%3A04%3A05Z&order=asset.name&page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&remediation_statuses=second%20value%20%26%2F%3F%2B%C3%BC&finding_instance_ids=second%20value%20%26%2F%3F%2B%C3%BC&asset_ids=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 2",
@@ -704,29 +691,14 @@
       "2",
       "--search",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--finding-instance-ids",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/0123456789abcdef0123456789abcdef/instances?archived=false&direction=desc&min_affliction_date=2026-01-02T03%3A04%3A05Z&page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&finding_instance_ids=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -791,29 +763,14 @@
       "asset.name",
       "--search",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--remediation-statuses",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/0123456789abcdef0123456789abcdef/instances?archived=false&cursor=second%20value%20%26%2F%3F%2B%C3%BC&min_affliction_date=2026-01-02T03%3A04%3A05Z&order=asset.name&search=second%20value%20%26%2F%3F%2B%C3%BC&remediation_statuses=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 6",
@@ -874,33 +831,20 @@
       "2026-01-02T03:04:05Z",
       "--search",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--remediation-statuses",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--finding-instance-ids",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--asset-ids",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/findings/0123456789abcdef0123456789abcdef/instances?archived=false&cursor=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc&max_affliction_date=2026-01-02T03%3A04%3A05Z&search=second%20value%20%26%2F%3F%2B%C3%BC&remediation_statuses=second%20value%20%26%2F%3F%2B%C3%BC&finding_instance_ids=second%20value%20%26%2F%3F%2B%C3%BC&asset_ids=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 8",

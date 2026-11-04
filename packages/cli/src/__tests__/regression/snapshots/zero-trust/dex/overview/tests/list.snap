@@ -62,14 +62,14 @@
     ]
   },
   {
-    "case": "only --testName",
+    "case": "only --test-name",
     "argv": [
       "zero-trust",
       "dex",
       "overview",
       "tests",
       "list",
-      "--testName",
+      "--test-name",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -94,21 +94,21 @@
     ]
   },
   {
-    "case": "only --deviceId",
+    "case": "only --device-id",
     "argv": [
       "zero-trust",
       "dex",
       "overview",
       "tests",
       "list",
-      "--deviceId",
-      "regression value &/?+ü"
+      "--device-id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?deviceId=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -295,10 +295,11 @@
       "list",
       "--colo",
       "second value &/?+ü",
-      "--testName",
+      "--test-name",
       "second value &/?+ü",
-      "--deviceId",
-      "second value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--registration-id",
       "0123456789abcdef0123456789abcdef",
       "--page",
@@ -312,7 +313,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?colo=second%20value%20%26%2F%3F%2B%C3%BC&testName=second%20value%20%26%2F%3F%2B%C3%BC&deviceId=second%20value%20%26%2F%3F%2B%C3%BC&registration_id=0123456789abcdef0123456789abcdef&page=2&per_page=2&kind=traceroute",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?colo=second%20value%20%26%2F%3F%2B%C3%BC&testName=second%20value%20%26%2F%3F%2B%C3%BC&deviceId=0123456789abcdef0123456789abcdef&deviceId=0123456789abcdef0123456789abcdef&registration_id=0123456789abcdef0123456789abcdef&page=2&per_page=2&kind=traceroute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -337,7 +338,7 @@
       "overview",
       "tests",
       "list",
-      "--testName",
+      "--test-name",
       "regression value &/?+ü",
       "--registration-id",
       "0123456789abcdef0123456789abcdef",
@@ -375,8 +376,9 @@
       "list",
       "--colo",
       "second value &/?+ü",
-      "--deviceId",
-      "second value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--page",
       "2",
       "--kind",
@@ -386,7 +388,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?colo=second%20value%20%26%2F%3F%2B%C3%BC&deviceId=second%20value%20%26%2F%3F%2B%C3%BC&page=2&kind=traceroute",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?colo=second%20value%20%26%2F%3F%2B%C3%BC&deviceId=0123456789abcdef0123456789abcdef&deviceId=0123456789abcdef0123456789abcdef&page=2&kind=traceroute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -411,8 +413,8 @@
       "overview",
       "tests",
       "list",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--registration-id",
       "0123456789abcdef0123456789abcdef",
       "--kind",
@@ -422,7 +424,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&registration_id=0123456789abcdef0123456789abcdef&kind=http",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?deviceId=0123456789abcdef0123456789abcdef&registration_id=0123456789abcdef0123456789abcdef&kind=http",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -449,7 +451,7 @@
       "list",
       "--colo",
       "second value &/?+ü",
-      "--testName",
+      "--test-name",
       "second value &/?+ü",
       "--page",
       "2",
@@ -523,10 +525,11 @@
       "list",
       "--colo",
       "second value &/?+ü",
-      "--testName",
+      "--test-name",
       "second value &/?+ü",
-      "--deviceId",
-      "second value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--registration-id",
       "0123456789abcdef0123456789abcdef"
     ],
@@ -534,7 +537,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?colo=second%20value%20%26%2F%3F%2B%C3%BC&testName=second%20value%20%26%2F%3F%2B%C3%BC&deviceId=second%20value%20%26%2F%3F%2B%C3%BC&registration_id=0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/tests/overview?colo=second%20value%20%26%2F%3F%2B%C3%BC&testName=second%20value%20%26%2F%3F%2B%C3%BC&deviceId=0123456789abcdef0123456789abcdef&deviceId=0123456789abcdef0123456789abcdef&registration_id=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

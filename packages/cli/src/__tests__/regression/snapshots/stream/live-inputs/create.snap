@@ -247,6 +247,44 @@
     ]
   },
   {
+    "case": "only --meta",
+    "argv": [
+      "stream",
+      "live-inputs",
+      "create",
+      "--meta",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/live_inputs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true,
+          "meta": {
+            "regression": "json value"
+          },
+          "preferLowLatency": false
+        }
+      }
+    ]
+  },
+  {
     "case": "only --prefer-low-latency",
     "argv": [
       "stream",
@@ -629,6 +667,8 @@
       "--delete-recording-after-days",
       "2",
       "--enabled=false",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--prefer-low-latency=false",
       "--recording-allowed-origins",
       "second value &/?+ü",
@@ -651,7 +691,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "279",
+          "content-length": "314",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "second value &/?+ü",
@@ -664,6 +704,9 @@
           "defaultCreator": "second value &/?+ü",
           "deleteRecordingAfterDays": 2,
           "enabled": false,
+          "meta": {
+            "regression": "json value"
+          },
           "preferLowLatency": false,
           "recording": {
             "allowedOrigins": [
@@ -688,10 +731,112 @@
       "--default-creator",
       "regression value &/?+ü",
       "--enabled=true",
+      "--prefer-low-latency=true",
+      "--recording-hide-live-viewer-count=true",
+      "--recording-require-signed-urls=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/live_inputs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "defaultCreator": "regression value &/?+ü",
+          "enabled": true,
+          "preferLowLatency": true,
+          "recording": {
+            "hideLiveViewerCount": true,
+            "requireSignedURLs": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "stream",
+      "live-inputs",
+      "create",
+      "--idempotency-key",
+      "second value &/?+ü",
+      "--delete-recording-after-days",
+      "2",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--recording-allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--recording-mode",
+      "automatic",
+      "--recording-timeout-seconds",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/live_inputs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "idempotency-key": "second value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deleteRecordingAfterDays": 2,
+          "enabled": true,
+          "meta": {
+            "regression": "json value"
+          },
+          "preferLowLatency": false,
+          "recording": {
+            "allowedOrigins": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "mode": "automatic",
+            "timeoutSeconds": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "stream",
+      "live-inputs",
+      "create",
+      "--delete-recording-after-days",
+      "1",
+      "--enabled=true",
       "--recording-allowed-origins",
       "regression value &/?+ü",
-      "--recording-mode",
-      "off",
+      "--recording-hide-live-viewer-count=true",
       "--recording-timeout-seconds",
       "1"
     ],
@@ -715,105 +860,15 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "defaultCreator": "regression value &/?+ü",
+          "deleteRecordingAfterDays": 1,
           "enabled": true,
           "preferLowLatency": false,
           "recording": {
             "allowedOrigins": [
               "regression value &/?+ü"
             ],
-            "mode": "off",
-            "timeoutSeconds": 1
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "stream",
-      "live-inputs",
-      "create",
-      "--idempotency-key",
-      "second value &/?+ü",
-      "--delete-recording-after-days",
-      "2",
-      "--prefer-low-latency=false",
-      "--recording-hide-live-viewer-count=false",
-      "--recording-require-signed-urls=false"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/live_inputs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "138",
-          "content-type": "application/json",
-          "host": "api.test",
-          "idempotency-key": "second value &/?+ü",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "deleteRecordingAfterDays": 2,
-          "enabled": true,
-          "preferLowLatency": false,
-          "recording": {
-            "hideLiveViewerCount": false,
-            "requireSignedURLs": false
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 4",
-    "argv": [
-      "stream",
-      "live-inputs",
-      "create",
-      "--delete-recording-after-days",
-      "1",
-      "--enabled=true",
-      "--recording-hide-live-viewer-count=true",
-      "--recording-mode",
-      "off"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/live_inputs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "124",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "deleteRecordingAfterDays": 1,
-          "enabled": true,
-          "preferLowLatency": false,
-          "recording": {
             "hideLiveViewerCount": true,
-            "mode": "off"
+            "timeoutSeconds": 1
           }
         }
       }
@@ -829,13 +884,12 @@
       "second value &/?+ü",
       "--default-creator",
       "second value &/?+ü",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--prefer-low-latency=false",
-      "--recording-allowed-origins",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--recording-require-signed-urls=false",
-      "--recording-timeout-seconds",
-      "2"
+      "--recording-mode",
+      "automatic",
+      "--recording-require-signed-urls=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -848,7 +902,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "202",
+          "content-length": "174",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "second value &/?+ü",
@@ -860,14 +914,13 @@
         "body": {
           "defaultCreator": "second value &/?+ü",
           "enabled": true,
+          "meta": {
+            "regression": "json value"
+          },
           "preferLowLatency": false,
           "recording": {
-            "allowedOrigins": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "requireSignedURLs": false,
-            "timeoutSeconds": 2
+            "mode": "automatic",
+            "requireSignedURLs": false
           }
         }
       }
@@ -879,12 +932,12 @@
       "stream",
       "live-inputs",
       "create",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--prefer-low-latency=true",
       "--recording-allowed-origins",
       "regression value &/?+ü",
-      "--recording-hide-live-viewer-count=true",
-      "--recording-mode",
-      "off"
+      "--recording-hide-live-viewer-count=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -897,7 +950,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "139",
+          "content-length": "161",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -907,13 +960,15 @@
         },
         "body": {
           "enabled": true,
+          "meta": {
+            "regression": "json value"
+          },
           "preferLowLatency": true,
           "recording": {
             "allowedOrigins": [
               "regression value &/?+ü"
             ],
-            "hideLiveViewerCount": true,
-            "mode": "off"
+            "hideLiveViewerCount": true
           }
         }
       }
@@ -932,6 +987,8 @@
       "--delete-recording-after-days",
       "2",
       "--enabled=false",
+      "--recording-mode",
+      "automatic",
       "--recording-require-signed-urls=false",
       "--recording-timeout-seconds",
       "2"
@@ -947,7 +1004,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "169",
+          "content-length": "188",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "second value &/?+ü",
@@ -962,6 +1019,7 @@
           "enabled": false,
           "preferLowLatency": false,
           "recording": {
+            "mode": "automatic",
             "requireSignedURLs": false,
             "timeoutSeconds": 2
           }
@@ -975,6 +1033,8 @@
       "stream",
       "live-inputs",
       "create",
+      "--recording-mode",
+      "off",
       "--recording-require-signed-urls=true",
       "--recording-timeout-seconds",
       "1"
@@ -990,7 +1050,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "99",
+          "content-length": "112",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1002,6 +1062,7 @@
           "enabled": true,
           "preferLowLatency": false,
           "recording": {
+            "mode": "off",
             "requireSignedURLs": true,
             "timeoutSeconds": 1
           }
@@ -1022,13 +1083,13 @@
       "--delete-recording-after-days",
       "2",
       "--enabled=false",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--prefer-low-latency=false",
       "--recording-allowed-origins",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--recording-hide-live-viewer-count=false",
-      "--recording-mode",
-      "automatic"
+      "--recording-hide-live-viewer-count=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -1041,7 +1102,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "234",
+          "content-length": "250",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "second value &/?+ü",
@@ -1054,14 +1115,16 @@
           "defaultCreator": "second value &/?+ü",
           "deleteRecordingAfterDays": 2,
           "enabled": false,
+          "meta": {
+            "regression": "json value"
+          },
           "preferLowLatency": false,
           "recording": {
             "allowedOrigins": [
               "second value &/?+ü",
               "second value &/?+ü"
             ],
-            "hideLiveViewerCount": false,
-            "mode": "automatic"
+            "hideLiveViewerCount": false
           }
         }
       }
@@ -1369,6 +1432,8 @@
       "--delete-recording-after-days",
       "1",
       "--enabled=true",
+      "--meta",
+      "{\"regression\":\"json value\"}",
       "--prefer-low-latency=true",
       "--recording-allowed-origins",
       "regression value &/?+ü",
@@ -1390,7 +1455,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "255",
+          "content-length": "290",
           "content-type": "application/json",
           "host": "api.test",
           "idempotency-key": "regression value &/?+ü",
@@ -1403,6 +1468,9 @@
           "defaultCreator": "regression value &/?+ü",
           "deleteRecordingAfterDays": 1,
           "enabled": true,
+          "meta": {
+            "regression": "json value"
+          },
           "preferLowLatency": true,
           "recording": {
             "allowedOrigins": [

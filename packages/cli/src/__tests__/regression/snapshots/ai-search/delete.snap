@@ -15,15 +15,75 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --namespace",
+    "argv": [
+      "ai-search",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
         "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--namespace",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -46,8 +106,6 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force",
       "--quiet"
     ],
@@ -55,7 +113,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -78,8 +136,6 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force",
       "--zone",
       "abcdef0123456789abcdef0123456789"
@@ -88,7 +144,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -111,8 +167,6 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force",
       "--profile",
       "default",
@@ -123,7 +177,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -146,8 +200,6 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force",
       "--local"
     ],
@@ -155,7 +207,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -177,8 +229,6 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force",
       "--local",
       "--persist-to",
@@ -188,7 +238,7 @@
     "requests": [
       {
         "method": "DELETE",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -210,12 +260,39 @@
       "ai-search",
       "delete",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--force",
       "--dry-run"
     ],
     "exitCode": 0,
     "requests": []
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "ai-search",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   }
 ]

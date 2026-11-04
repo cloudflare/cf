@@ -56,6 +56,48 @@
     ]
   },
   {
+    "case": "only --layers",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "tracks",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--layers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings/track",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "layers": {
+            "regression": "json value"
+          },
+          "meeting_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --user-ids",
     "argv": [
       "realtime",
@@ -145,6 +187,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--layers",
+      "{\"regression\":\"json value\"}",
       "--user-ids",
       "second value &/?+ü",
       "second value &/?+ü"
@@ -160,7 +204,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "106",
+          "content-length": "143",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -169,6 +213,9 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "layers": {
+            "regression": "json value"
+          },
           "meeting_id": "0123456789abcdef0123456789abcdef",
           "user_ids": [
             "second value &/?+ü",
@@ -488,7 +535,53 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "tracks",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--layers",
+      "{\"regression\":\"json value\"}",
+      "--user-ids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings/track",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -497,12 +590,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "0": {
-            "regression": "first"
+          "layers": {
+            "regression": "json value"
           },
-          "1": {
-            "regression": "second"
-          }
+          "meeting_id": "0123456789abcdef0123456789abcdef",
+          "user_ids": [
+            "regression value &/?+ü"
+          ]
         }
       }
     ]

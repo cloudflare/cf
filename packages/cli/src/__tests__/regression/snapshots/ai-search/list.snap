@@ -5,12 +5,29 @@
       "ai-search",
       "list"
     ],
-    "exitCode": 1,
-    "error": "Missing required argument: namespace",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   },
   {
-    "case": "required",
+    "case": "only --namespace",
     "argv": [
       "ai-search",
       "list",
@@ -43,8 +60,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--page",
       "1"
     ],
@@ -52,7 +67,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?page=1",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?page=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -74,8 +89,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--per-page",
       "1"
     ],
@@ -83,7 +96,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?per_page=1",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?per_page=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -105,8 +118,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--search",
       "regression value &/?+ü"
     ],
@@ -114,7 +125,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?search=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?search=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -136,8 +147,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--hostname",
       "example.com"
     ],
@@ -145,7 +154,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?hostname=example.com",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?hostname=example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -167,8 +176,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--order-by",
       "created_at"
     ],
@@ -176,7 +183,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?order_by=created_at",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?order_by=created_at",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -198,8 +205,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--order-by-direction",
       "asc"
     ],
@@ -207,7 +212,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?order_by_direction=asc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?order_by_direction=asc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -229,8 +234,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--order-by-direction",
       "desc"
     ],
@@ -238,7 +241,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?order_by_direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?order_by_direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -261,7 +264,7 @@
       "ai-search",
       "list",
       "--namespace",
-      "regression value &/?+ü",
+      "second value &/?+ü",
       "--page",
       "2",
       "--per-page",
@@ -279,7 +282,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&hostname=example.com&order_by=created_at&order_by_direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&hostname=example.com&order_by=created_at&order_by_direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -301,20 +304,18 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
-      "--per-page",
+      "--page",
       "1",
-      "--hostname",
-      "example.com",
-      "--order-by-direction",
-      "asc"
+      "--search",
+      "regression value &/?+ü",
+      "--order-by",
+      "created_at"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?per_page=1&hostname=example.com&order_by_direction=asc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?page=1&search=regression%20value%20%26%2F%3F%2B%C3%BC&order_by=created_at",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -337,19 +338,19 @@
       "ai-search",
       "list",
       "--namespace",
-      "regression value &/?+ü",
-      "--page",
-      "2",
-      "--search",
       "second value &/?+ü",
-      "--order-by",
-      "created_at"
+      "--per-page",
+      "2",
+      "--hostname",
+      "example.com",
+      "--order-by-direction",
+      "desc"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order_by=created_at",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances?per_page=2&hostname=example.com&order_by_direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -371,18 +372,18 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
+      "--per-page",
+      "1",
       "--search",
       "regression value &/?+ü",
-      "--hostname",
-      "example.com"
+      "--order-by-direction",
+      "asc"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?search=regression%20value%20%26%2F%3F%2B%C3%BC&hostname=example.com",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?per_page=1&search=regression%20value%20%26%2F%3F%2B%C3%BC&order_by_direction=asc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -405,21 +406,19 @@
       "ai-search",
       "list",
       "--namespace",
-      "regression value &/?+ü",
+      "second value &/?+ü",
       "--page",
       "2",
-      "--per-page",
-      "2",
+      "--hostname",
+      "example.com",
       "--order-by",
-      "created_at",
-      "--order-by-direction",
-      "desc"
+      "created_at"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&per_page=2&order_by=created_at&order_by_direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&hostname=example.com&order_by=created_at",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -441,8 +440,8 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
+      "--hostname",
+      "example.com",
       "--order-by",
       "created_at",
       "--order-by-direction",
@@ -452,7 +451,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?order_by=created_at&order_by_direction=asc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances?hostname=example.com&order_by=created_at&order_by_direction=asc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -475,21 +474,19 @@
       "ai-search",
       "list",
       "--namespace",
-      "regression value &/?+ü",
+      "second value &/?+ü",
       "--page",
       "2",
       "--per-page",
       "2",
       "--search",
-      "second value &/?+ü",
-      "--hostname",
-      "example.com"
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&hostname=example.com",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -511,15 +508,13 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--quiet"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -541,8 +536,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
@@ -550,7 +543,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -572,8 +565,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--profile",
       "default",
       "--mode",
@@ -583,7 +574,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -605,15 +596,13 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--local"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -634,8 +623,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--local",
       "--persist-to",
       "regression-state"
@@ -644,7 +631,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -665,8 +652,6 @@
     "argv": [
       "ai-search",
       "list",
-      "--namespace",
-      "regression value &/?+ü",
       "--dry-run"
     ],
     "exitCode": 0,

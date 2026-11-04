@@ -109,7 +109,7 @@
     ]
   },
   {
-    "case": "only --fuzzyEmail",
+    "case": "only --fuzzy-email",
     "argv": [
       "iam",
       "user-groups",
@@ -117,14 +117,14 @@
       "list",
       "--user-group-id",
       "0123456789abcdef0123456789abcdef",
-      "--fuzzyEmail",
-      "regression value &/?+ü"
+      "--fuzzy-email",
+      "regression@example.com"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?fuzzyEmail=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?fuzzyEmail=regression%40example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -220,8 +220,8 @@
       "2",
       "--per-page",
       "2",
-      "--fuzzyEmail",
-      "second value &/?+ü",
+      "--fuzzy-email",
+      "regression@example.com",
       "--direction",
       "desc"
     ],
@@ -229,7 +229,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?page=2&per_page=2&fuzzyEmail=second%20value%20%26%2F%3F%2B%C3%BC&direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?page=2&per_page=2&fuzzyEmail=regression%40example.com&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -292,14 +292,14 @@
       "0123456789abcdef0123456789abcdef",
       "--page",
       "2",
-      "--fuzzyEmail",
-      "second value &/?+ü"
+      "--fuzzy-email",
+      "regression@example.com"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?page=2&fuzzyEmail=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?page=2&fuzzyEmail=regression%40example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -325,8 +325,8 @@
       "list",
       "--user-group-id",
       "0123456789abcdef0123456789abcdef",
-      "--fuzzyEmail",
-      "regression value &/?+ü",
+      "--fuzzy-email",
+      "regression@example.com",
       "--direction",
       "asc"
     ],
@@ -334,7 +334,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?fuzzyEmail=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/iam/user_groups/0123456789abcdef0123456789abcdef/members?fuzzyEmail=regression%40example.com&direction=asc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

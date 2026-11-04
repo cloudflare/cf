@@ -85,18 +85,18 @@
     ]
   },
   {
-    "case": "only --name-startsWith",
+    "case": "only --name-starts-with",
     "argv": [
       "organization",
       "list",
-      "--name-startsWith",
+      "--name-starts-with",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations",
+        "url": "https://api.test/client/v4/organizations?name.startsWith=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -114,18 +114,18 @@
     ]
   },
   {
-    "case": "only --name-endsWith",
+    "case": "only --name-ends-with",
     "argv": [
       "organization",
       "list",
-      "--name-endsWith",
+      "--name-ends-with",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations",
+        "url": "https://api.test/client/v4/organizations?name.endsWith=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -288,6 +288,122 @@
     ]
   },
   {
+    "case": "only --member-email",
+    "argv": [
+      "organization",
+      "list",
+      "--member-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations?member.email=regression%40example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --order-by",
+    "argv": [
+      "organization",
+      "list",
+      "--order-by",
+      "name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations?order_by=name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "organization",
+      "list",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "organization",
+      "list",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "only --page-token",
     "argv": [
       "organization",
@@ -352,11 +468,12 @@
       "list",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "second value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "second value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "second value &/?+ü",
       "--name-contains",
       "second value &/?+ü",
@@ -368,6 +485,12 @@
       "second value &/?+ü",
       "--parent-id",
       "0123456789abcdef0123456789abcdef",
+      "--member-email",
+      "regression@example.com",
+      "--order-by",
+      "name",
+      "--direction",
+      "desc",
       "--page-token",
       "second value &/?+ü",
       "--page-size",
@@ -377,7 +500,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.account=second%20value%20%26%2F%3F%2B%C3%BC&containing.user=second%20value%20%26%2F%3F%2B%C3%BC&containing.organization=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
+        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.startsWith=second%20value%20%26%2F%3F%2B%C3%BC&name.endsWith=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.account=second%20value%20%26%2F%3F%2B%C3%BC&containing.user=second%20value%20%26%2F%3F%2B%C3%BC&containing.organization=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&member.email=regression%40example.com&order_by=name&direction=desc&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -401,20 +524,24 @@
       "list",
       "--name",
       "regression value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "regression value &/?+ü",
       "--containing-account",
       "regression value &/?+ü",
       "--containing-organization",
       "regression value &/?+ü",
-      "--page-token",
-      "regression value &/?+ü"
+      "--member-email",
+      "regression@example.com",
+      "--direction",
+      "asc",
+      "--page-size",
+      "1"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?name=regression%20value%20%26%2F%3F%2B%C3%BC&containing.account=regression%20value%20%26%2F%3F%2B%C3%BC&containing.organization=regression%20value%20%26%2F%3F%2B%C3%BC&page_token=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations?name=regression%20value%20%26%2F%3F%2B%C3%BC&name.endsWith=regression%20value%20%26%2F%3F%2B%C3%BC&containing.account=regression%20value%20%26%2F%3F%2B%C3%BC&containing.organization=regression%20value%20%26%2F%3F%2B%C3%BC&member.email=regression%40example.com&direction=asc&page_size=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -438,7 +565,8 @@
       "list",
       "--id",
       "0123456789abcdef0123456789abcdef",
-      "--name-startsWith",
+      "0123456789abcdef0123456789abcdef",
+      "--name-starts-with",
       "second value &/?+ü",
       "--name-contains",
       "second value &/?+ü",
@@ -446,14 +574,16 @@
       "second value &/?+ü",
       "--parent-id",
       "0123456789abcdef0123456789abcdef",
-      "--page-size",
-      "2"
+      "--order-by",
+      "name",
+      "--page-token",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.user=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&page_size=2",
+        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&name.startsWith=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.user=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&order_by=name&page_token=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -475,22 +605,24 @@
     "argv": [
       "organization",
       "list",
-      "--name-startsWith",
+      "--name-starts-with",
       "regression value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "regression value &/?+ü",
       "--containing-user",
       "regression value &/?+ü",
       "--containing-organization",
       "regression value &/?+ü",
-      "--page-size",
-      "1"
+      "--order-by",
+      "name",
+      "--direction",
+      "asc"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?containing.user=regression%20value%20%26%2F%3F%2B%C3%BC&containing.organization=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
+        "url": "https://api.test/client/v4/organizations?name.startsWith=regression%20value%20%26%2F%3F%2B%C3%BC&name.endsWith=regression%20value%20%26%2F%3F%2B%C3%BC&containing.user=regression%20value%20%26%2F%3F%2B%C3%BC&containing.organization=regression%20value%20%26%2F%3F%2B%C3%BC&order_by=name&direction=asc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -514,6 +646,7 @@
       "list",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "second value &/?+ü",
       "--name-contains",
@@ -522,14 +655,18 @@
       "second value &/?+ü",
       "--parent-id",
       "0123456789abcdef0123456789abcdef",
+      "--member-email",
+      "regression@example.com",
       "--page-token",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--page-size",
+      "2"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.account=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&page_token=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.account=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&member.email=regression%40example.com&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -558,13 +695,17 @@
       "--containing-user",
       "regression value &/?+ü",
       "--containing-organization",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--page-token",
+      "regression value &/?+ü",
+      "--page-size",
+      "1"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?name.contains=regression%20value%20%26%2F%3F%2B%C3%BC&containing.account=regression%20value%20%26%2F%3F%2B%C3%BC&containing.user=regression%20value%20%26%2F%3F%2B%C3%BC&containing.organization=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations?name.contains=regression%20value%20%26%2F%3F%2B%C3%BC&containing.account=regression%20value%20%26%2F%3F%2B%C3%BC&containing.user=regression%20value%20%26%2F%3F%2B%C3%BC&containing.organization=regression%20value%20%26%2F%3F%2B%C3%BC&page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -588,24 +729,27 @@
       "list",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "second value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "second value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "second value &/?+ü",
       "--parent-id",
       "0123456789abcdef0123456789abcdef",
-      "--page-token",
-      "second value &/?+ü",
-      "--page-size",
-      "2"
+      "--member-email",
+      "regression@example.com",
+      "--order-by",
+      "name",
+      "--direction",
+      "desc"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
+        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.startsWith=second%20value%20%26%2F%3F%2B%C3%BC&name.endsWith=second%20value%20%26%2F%3F%2B%C3%BC&parent.id=0123456789abcdef0123456789abcdef&member.email=regression%40example.com&order_by=name&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -629,6 +773,12 @@
       "list",
       "--parent-id",
       "0123456789abcdef0123456789abcdef",
+      "--member-email",
+      "regression@example.com",
+      "--order-by",
+      "name",
+      "--direction",
+      "asc",
       "--page-token",
       "regression value &/?+ü",
       "--page-size",
@@ -638,7 +788,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?parent.id=0123456789abcdef0123456789abcdef&page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
+        "url": "https://api.test/client/v4/organizations?parent.id=0123456789abcdef0123456789abcdef&member.email=regression%40example.com&order_by=name&direction=asc&page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -662,11 +812,12 @@
       "list",
       "--id",
       "0123456789abcdef0123456789abcdef",
+      "0123456789abcdef0123456789abcdef",
       "--name",
       "second value &/?+ü",
-      "--name-startsWith",
+      "--name-starts-with",
       "second value &/?+ü",
-      "--name-endsWith",
+      "--name-ends-with",
       "second value &/?+ü",
       "--name-contains",
       "second value &/?+ü",
@@ -681,7 +832,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.account=second%20value%20%26%2F%3F%2B%C3%BC&containing.user=second%20value%20%26%2F%3F%2B%C3%BC&containing.organization=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations?id=0123456789abcdef0123456789abcdef&id=0123456789abcdef0123456789abcdef&name=second%20value%20%26%2F%3F%2B%C3%BC&name.startsWith=second%20value%20%26%2F%3F%2B%C3%BC&name.endsWith=second%20value%20%26%2F%3F%2B%C3%BC&name.contains=second%20value%20%26%2F%3F%2B%C3%BC&containing.account=second%20value%20%26%2F%3F%2B%C3%BC&containing.user=second%20value%20%26%2F%3F%2B%C3%BC&containing.organization=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

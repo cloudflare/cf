@@ -17,8 +17,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -26,7 +24,87 @@
     "requests": [
       {
         "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --namespace",
+    "argv": [
+      "ai-search",
+      "items",
+      "upload",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
         "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "items",
+      "upload",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--namespace",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -57,8 +135,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -67,7 +143,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -98,8 +174,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -109,7 +183,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -140,8 +214,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -153,7 +225,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -184,8 +256,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -194,7 +264,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -222,8 +292,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -234,7 +302,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -262,8 +330,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -278,8 +344,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "@<body.json>"
     ],
@@ -287,7 +351,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -318,8 +382,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -327,7 +389,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -362,7 +424,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.",
+    "error": "--body or --file is required for this command. Pass --body '<value>' or --file path/to/file.",
     "requests": []
   },
   {
@@ -372,8 +434,6 @@
       "items",
       "upload",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--file",
       "<payload.txt>"
     ],
@@ -381,7 +441,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

@@ -438,6 +438,48 @@
     ]
   },
   {
+    "case": "only --settings-environment-variables",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "environment_variables": {
+              "regression": "json value"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --settings-path-excludes",
     "argv": [
       "workers-builds",
@@ -616,6 +658,8 @@
       "0123456789abcdef0123456789abcdef",
       "--settings-deploy-command",
       "second value &/?+ü",
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--settings-path-excludes",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -636,7 +680,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "408",
+          "content-length": "460",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -653,6 +697,9 @@
             "build_command": "second value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "second value &/?+ü",
+            "environment_variables": {
+              "regression": "json value"
+            },
             "path_excludes": [
               "second value &/?+ü",
               "second value &/?+ü"
@@ -681,9 +728,9 @@
       "--settings-build-caching-enabled=true",
       "--settings-build-token-uuid",
       "0123456789abcdef0123456789abcdef",
-      "--settings-path-excludes",
-      "regression value &/?+ü",
-      "--settings-root-directory",
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}",
+      "--settings-path-includes",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -697,7 +744,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "203",
+          "content-length": "212",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -710,10 +757,12 @@
           "settings": {
             "build_caching_enabled": true,
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "path_excludes": [
+            "environment_variables": {
+              "regression": "json value"
+            },
+            "path_includes": [
               "regression value &/?+ü"
-            ],
-            "root_directory": "regression value &/?+ü"
+            ]
           }
         }
       }
@@ -736,8 +785,10 @@
       "second value &/?+ü",
       "--settings-deploy-command",
       "second value &/?+ü",
-      "--settings-path-includes",
+      "--settings-path-excludes",
       "second value &/?+ü",
+      "second value &/?+ü",
+      "--settings-root-directory",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -751,7 +802,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "203",
+          "content-length": "242",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -765,10 +816,11 @@
           "settings": {
             "build_command": "second value &/?+ü",
             "deploy_command": "second value &/?+ü",
-            "path_includes": [
+            "path_excludes": [
               "second value &/?+ü",
               "second value &/?+ü"
-            ]
+            ],
+            "root_directory": "second value &/?+ü"
           }
         }
       }
@@ -789,7 +841,9 @@
       "--settings-build-caching-enabled=true",
       "--settings-deploy-command",
       "regression value &/?+ü",
-      "--settings-path-excludes",
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}",
+      "--settings-root-directory",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -803,7 +857,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "165",
+          "content-length": "216",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -816,9 +870,10 @@
           "settings": {
             "build_caching_enabled": true,
             "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "regression value &/?+ü"
-            ]
+            "environment_variables": {
+              "regression": "json value"
+            },
+            "root_directory": "regression value &/?+ü"
           }
         }
       }
@@ -840,10 +895,11 @@
       "second value &/?+ü",
       "--settings-build-token-uuid",
       "0123456789abcdef0123456789abcdef",
+      "--settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--settings-path-includes",
       "second value &/?+ü",
-      "second value &/?+ü",
-      "--settings-root-directory",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -857,7 +913,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "246",
+          "content-length": "269",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -871,11 +927,14 @@
           "settings": {
             "build_command": "second value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
-            "path_includes": [
+            "path_excludes": [
               "second value &/?+ü",
               "second value &/?+ü"
             ],
-            "root_directory": "second value &/?+ü"
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
           }
         }
       }
@@ -897,8 +956,8 @@
       "0123456789abcdef0123456789abcdef",
       "--settings-deploy-command",
       "regression value &/?+ü",
-      "--settings-path-excludes",
-      "regression value &/?+ü"
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -911,7 +970,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "197",
+          "content-length": "205",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -924,9 +983,9 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
-            "path_excludes": [
-              "regression value &/?+ü"
-            ]
+            "environment_variables": {
+              "regression": "json value"
+            }
           }
         }
       }
@@ -947,6 +1006,9 @@
       "--branch",
       "second value &/?+ü",
       "--settings-build-caching-enabled=false",
+      "--settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--settings-path-includes",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -964,7 +1026,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "215",
+          "content-length": "277",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -978,6 +1040,10 @@
           "branch": "second value &/?+ü",
           "settings": {
             "build_caching_enabled": false,
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
             "path_includes": [
               "second value &/?+ü",
               "second value &/?+ü"
@@ -998,6 +1064,8 @@
       "0123456789abcdef0123456789abcdef",
       "--script-tag",
       "192.0.2.1",
+      "--settings-path-excludes",
+      "regression value &/?+ü",
       "--settings-path-includes",
       "regression value &/?+ü",
       "--settings-root-directory",
@@ -1014,7 +1082,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "101",
+          "content-length": "145",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1024,6 +1092,9 @@
         },
         "body": {
           "settings": {
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
             "path_includes": [
               "regression value &/?+ü"
             ],
@@ -1054,9 +1125,8 @@
       "0123456789abcdef0123456789abcdef",
       "--settings-deploy-command",
       "second value &/?+ü",
-      "--settings-path-excludes",
-      "second value &/?+ü",
-      "second value &/?+ü"
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -1069,7 +1139,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "307",
+          "content-length": "297",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1086,10 +1156,9 @@
             "build_command": "second value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "second value &/?+ü",
-            "path_excludes": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ]
+            "environment_variables": {
+              "regression": "json value"
+            }
           }
         }
       }
@@ -1397,7 +1466,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1405,14 +1474,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1437,6 +1506,8 @@
       "0123456789abcdef0123456789abcdef",
       "--settings-deploy-command",
       "regression value &/?+ü",
+      "--settings-environment-variables",
+      "{\"regression\":\"json value\"}",
       "--settings-path-excludes",
       "regression value &/?+ü",
       "--settings-path-includes",
@@ -1455,7 +1526,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "385",
+          "content-length": "437",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1472,6 +1543,9 @@
             "build_command": "regression value &/?+ü",
             "build_token_uuid": "0123456789abcdef0123456789abcdef",
             "deploy_command": "regression value &/?+ü",
+            "environment_variables": {
+              "regression": "json value"
+            },
             "path_excludes": [
               "regression value &/?+ü"
             ],

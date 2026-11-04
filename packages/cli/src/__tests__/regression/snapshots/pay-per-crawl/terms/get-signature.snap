@@ -28,12 +28,12 @@
     ]
   },
   {
-    "case": "only --remote",
+    "case": "only --refresh",
     "argv": [
       "pay-per-crawl",
       "terms",
       "get-signature",
-      "--remote=true"
+      "--refresh=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -57,12 +57,12 @@
     ]
   },
   {
-    "case": "--remote value 1",
+    "case": "--refresh value 1",
     "argv": [
       "pay-per-crawl",
       "terms",
       "get-signature",
-      "--remote=false"
+      "--refresh=false"
     ],
     "exitCode": 0,
     "requests": [

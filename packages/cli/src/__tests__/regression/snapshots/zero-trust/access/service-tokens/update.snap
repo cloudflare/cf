@@ -266,6 +266,44 @@
     ]
   },
   {
+    "case": "only --tags",
+    "argv": [
+      "zero-trust",
+      "access",
+      "service-tokens",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/service_tokens/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "tags": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "pairwise 0",
     "argv": [
       "zero-trust",
@@ -313,7 +351,9 @@
       "--name",
       "second value &/?+ü",
       "--previous-client-secret-expires-at",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--tags",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -326,7 +366,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "163",
+          "content-length": "198",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -339,7 +379,10 @@
           "duration": "second value &/?+ü",
           "enabled": false,
           "name": "second value &/?+ü",
-          "previous_client_secret_expires_at": "second value &/?+ü"
+          "previous_client_secret_expires_at": "second value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -355,7 +398,9 @@
       "--duration",
       "regression value &/?+ü",
       "--name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--tags",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -368,7 +413,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "71",
+          "content-length": "106",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -378,7 +423,10 @@
         },
         "body": {
           "duration": "regression value &/?+ü",
-          "name": "regression value &/?+ü"
+          "name": "regression value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -475,7 +523,9 @@
       "--duration",
       "second value &/?+ü",
       "--previous-client-secret-expires-at",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--tags",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -488,7 +538,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "118",
+          "content-length": "153",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -499,7 +549,51 @@
         "body": {
           "client_secret_version": 2,
           "duration": "second value &/?+ü",
-          "previous_client_secret_expires_at": "second value &/?+ü"
+          "previous_client_secret_expires_at": "second value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "access",
+      "service-tokens",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--previous-client-secret-expires-at",
+      "regression value &/?+ü",
+      "--tags",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/service_tokens/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "previous_client_secret_expires_at": "regression value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -893,7 +987,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -901,14 +995,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -928,7 +1022,9 @@
       "--name",
       "regression value &/?+ü",
       "--previous-client-secret-expires-at",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--tags",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -941,7 +1037,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "174",
+          "content-length": "209",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -954,7 +1050,10 @@
           "duration": "regression value &/?+ü",
           "enabled": true,
           "name": "regression value &/?+ü",
-          "previous_client_secret_expires_at": "regression value &/?+ü"
+          "previous_client_secret_expires_at": "regression value &/?+ü",
+          "tags": {
+            "regression": "json value"
+          }
         }
       }
     ]

@@ -19,240 +19,9 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --description",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--description",
-      "192.0.2.1"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "58",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "192.0.2.1",
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --name",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--name",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "65",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --pattern-regex",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--pattern-regex",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "78",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "pattern": {
-            "regex": "regression value &/?+ü"
-          },
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --pattern-validation",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--pattern-validation",
-      "luhn"
-    ],
-    "exitCode": 1,
-    "error": "--pattern-regex is required when any --pattern-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "required --type value 1",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--enabled=true",
-      "--body",
-      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
-      "--type",
-      "predefined"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "case": "required --type value 2",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--enabled=true",
-      "--body",
-      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
-      "--type",
-      "integration"
     ],
     "exitCode": 0,
     "requests": [
@@ -291,8 +60,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--enabled=false"
@@ -334,8 +101,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true"
     ],
     "exitCode": 0,
@@ -349,7 +114,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "32",
+          "content-length": "16",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -358,215 +123,6 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 1",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--description",
-      "192.0.2.1",
-      "--name",
-      "second value &/?+ü",
-      "--pattern-regex",
-      "second value &/?+ü",
-      "--pattern-validation",
-      "luhn"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "149",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "192.0.2.1",
-          "name": "second value &/?+ü",
-          "pattern": {
-            "regex": "second value &/?+ü",
-            "validation": "luhn"
-          },
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 2",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--name",
-      "regression value &/?+ü",
-      "--pattern-validation",
-      "luhn"
-    ],
-    "exitCode": 1,
-    "error": "--pattern-regex is required when any --pattern-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--description",
-      "192.0.2.1",
-      "--pattern-regex",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "192.0.2.1",
-          "pattern": {
-            "regex": "second value &/?+ü"
-          },
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 4",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--pattern-regex",
-      "regression value &/?+ü",
-      "--pattern-validation",
-      "luhn"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "98",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "pattern": {
-            "regex": "regression value &/?+ü",
-            "validation": "luhn"
-          },
-          "type": "custom",
-          "enabled": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 5",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--description",
-      "192.0.2.1",
-      "--name",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "87",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "192.0.2.1",
-          "name": "second value &/?+ü",
-          "type": "custom",
           "enabled": true
         }
       }
@@ -580,8 +136,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -624,8 +178,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -669,8 +221,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -716,8 +266,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -759,8 +307,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -804,8 +350,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
@@ -822,8 +366,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "@<body.json>"
@@ -865,8 +407,6 @@
       "entries",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
       "--enabled=true",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
@@ -898,58 +438,6 @@
             "regression": "second"
           }
         ]
-      }
-    ]
-  },
-  {
-    "case": "field flags",
-    "argv": [
-      "zero-trust",
-      "dlp",
-      "entries",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--type",
-      "custom",
-      "--enabled=true",
-      "--description",
-      "192.0.2.1",
-      "--name",
-      "regression value &/?+ü",
-      "--pattern-regex",
-      "regression value &/?+ü",
-      "--pattern-validation",
-      "luhn"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/entries/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "157",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "description": "192.0.2.1",
-          "name": "regression value &/?+ü",
-          "pattern": {
-            "regex": "regression value &/?+ü",
-            "validation": "luhn"
-          },
-          "type": "custom",
-          "enabled": true
-        }
       }
     ]
   }

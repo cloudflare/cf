@@ -66,6 +66,25 @@
     "requests": []
   },
   {
+    "case": "only --country-pools",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--country-pools",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
     "case": "only --description",
     "argv": [
       "load-balancers",
@@ -254,6 +273,25 @@
     "requests": []
   },
   {
+    "case": "only --pop-pools",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
     "case": "only --proxied",
     "argv": [
       "load-balancers",
@@ -303,6 +341,44 @@
       "regression value &/?+ü",
       "--random-steering-default-weight",
       "1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "only --random-steering-pool-weights",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "only --region-pools",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--region-pools",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
@@ -1071,6 +1147,8 @@
       "--name",
       "regression value &/?+ü",
       "--adaptive-routing-failover-across-pools=false",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
       "--description",
       "192.0.2.1",
       "--enabled=false",
@@ -1081,9 +1159,15 @@
       "--networks",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
       "--proxied=false",
       "--random-steering-default-weight",
       "2",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
       "--rules",
       "[{\"regression\":\"item\"}]",
       "--session-affinity",
@@ -1118,7 +1202,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "713",
+          "content-length": "883",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1129,6 +1213,9 @@
         "body": {
           "adaptive_routing": {
             "failover_across_pools": false
+          },
+          "country_pools": {
+            "regression": "json value"
           },
           "default_pools": [
             "regression value &/?+ü"
@@ -1145,9 +1232,18 @@
             "second value &/?+ü",
             "second value &/?+ü"
           ],
+          "pop_pools": {
+            "regression": "json value"
+          },
           "proxied": false,
           "random_steering": {
-            "default_weight": 2
+            "default_weight": 2,
+            "pool_weights": {
+              "regression": "json value"
+            }
+          },
+          "region_pools": {
+            "regression": "json value"
           },
           "rules": [
             {
@@ -1185,14 +1281,17 @@
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
-      "--description",
-      "192.0.2.1",
-      "--location-strategy-mode",
-      "pop",
-      "--networks",
-      "regression value &/?+ü",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
+      "--enabled=true",
+      "--location-strategy-prefer-ecs",
+      "always",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
       "--random-steering-default-weight",
       "1",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
       "--session-affinity",
       "none",
       "--session-affinity-attributes-headers",
@@ -1215,7 +1314,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "460",
+          "content-length": "531",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1224,22 +1323,27 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "country_pools": {
+            "regression": "json value"
+          },
           "default_pools": [
             "regression value &/?+ü"
           ],
-          "description": "192.0.2.1",
           "enabled": true,
           "fallback_pool": "regression value &/?+ü",
           "location_strategy": {
-            "mode": "pop"
+            "prefer_ecs": "always"
           },
           "name": "regression value &/?+ü",
-          "networks": [
-            "regression value &/?+ü"
-          ],
+          "pop_pools": {
+            "regression": "json value"
+          },
           "proxied": false,
           "random_steering": {
             "default_weight": 1
+          },
+          "region_pools": {
+            "regression": "json value"
           },
           "session_affinity": "none",
           "session_affinity_attributes": {
@@ -1267,10 +1371,16 @@
       "--name",
       "regression value &/?+ü",
       "--adaptive-routing-failover-across-pools=false",
-      "--enabled=false",
-      "--location-strategy-prefer-ecs",
-      "never",
+      "--description",
+      "192.0.2.1",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--proxied=false",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
       "--rules",
       "[{\"regression\":\"item\"}]",
       "--session-affinity-attributes-drain-duration",
@@ -1299,12 +1409,17 @@
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
       "--enabled=true",
-      "--location-strategy-mode",
-      "pop",
-      "--proxied=true",
-      "--random-steering-default-weight",
-      "1",
+      "--networks",
+      "regression value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
       "--session-affinity-attributes-drain-duration",
       "1",
       "--session-affinity-attributes-headers",
@@ -1333,13 +1448,15 @@
       "--name",
       "regression value &/?+ü",
       "--adaptive-routing-failover-across-pools=false",
-      "--description",
-      "192.0.2.1",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
+      "--location-strategy-mode",
+      "resolver_ip",
       "--location-strategy-prefer-ecs",
       "never",
-      "--networks",
-      "second value &/?+ü",
-      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
       "--rules",
       "[{\"regression\":\"item\"}]",
       "--session-affinity",
@@ -1363,7 +1480,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "514",
+          "content-length": "535",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1375,21 +1492,23 @@
           "adaptive_routing": {
             "failover_across_pools": false
           },
+          "country_pools": {
+            "regression": "json value"
+          },
           "default_pools": [
             "regression value &/?+ü"
           ],
-          "description": "192.0.2.1",
           "enabled": true,
           "fallback_pool": "regression value &/?+ü",
           "location_strategy": {
+            "mode": "resolver_ip",
             "prefer_ecs": "never"
           },
           "name": "regression value &/?+ü",
-          "networks": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
           "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
           "rules": [
             {
               "regression": "item"
@@ -1418,125 +1537,14 @@
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
+      "--location-strategy-mode",
+      "pop",
       "--location-strategy-prefer-ecs",
       "always",
       "--networks",
       "regression value &/?+ü",
-      "--proxied=true",
-      "--random-steering-default-weight",
-      "1",
-      "--session-affinity-attributes-require-all-headers=true",
-      "--session-affinity-attributes-samesite",
-      "Auto",
-      "--session-affinity-attributes-secure",
-      "Auto",
-      "--session-affinity-attributes-zero-downtime-failover",
-      "none"
-    ],
-    "exitCode": 1,
-    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
-    "requests": []
-  },
-  {
-    "case": "pairwise 7",
-    "argv": [
-      "load-balancers",
-      "account",
-      "create",
-      "--default-pools",
-      "regression value &/?+ü",
-      "--fallback-pool",
-      "regression value &/?+ü",
-      "--name",
-      "regression value &/?+ü",
-      "--adaptive-routing-failover-across-pools=false",
-      "--description",
-      "192.0.2.1",
-      "--enabled=false",
-      "--location-strategy-mode",
-      "resolver_ip",
-      "--rules",
-      "[{\"regression\":\"item\"}]",
-      "--session-affinity",
-      "cookie",
-      "--session-affinity-attributes-drain-duration",
-      "2",
-      "--session-affinity-attributes-headers",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--session-affinity-ttl",
-      "2",
-      "--steering-policy",
-      "geo",
-      "--ttl",
-      "2"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "496",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "adaptive_routing": {
-            "failover_across_pools": false
-          },
-          "default_pools": [
-            "regression value &/?+ü"
-          ],
-          "description": "192.0.2.1",
-          "enabled": false,
-          "fallback_pool": "regression value &/?+ü",
-          "location_strategy": {
-            "mode": "resolver_ip"
-          },
-          "name": "regression value &/?+ü",
-          "proxied": false,
-          "rules": [
-            {
-              "regression": "item"
-            }
-          ],
-          "session_affinity": "cookie",
-          "session_affinity_attributes": {
-            "drain_duration": 2,
-            "headers": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ]
-          },
-          "session_affinity_ttl": 2,
-          "steering_policy": "geo",
-          "ttl": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 8",
-    "argv": [
-      "load-balancers",
-      "account",
-      "create",
-      "--default-pools",
-      "regression value &/?+ü",
-      "--fallback-pool",
-      "regression value &/?+ü",
-      "--name",
-      "regression value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
       "--rules",
       "[{\"regression\":\"item\"}]",
       "--session-affinity",
@@ -1544,113 +1552,6 @@
       "--session-affinity-attributes-drain-duration",
       "1",
       "--session-affinity-attributes-headers",
-      "regression value &/?+ü",
-      "--session-affinity-attributes-require-all-headers=true",
-      "--session-affinity-attributes-samesite",
-      "Auto",
-      "--session-affinity-attributes-secure",
-      "Auto",
-      "--session-affinity-attributes-zero-downtime-failover",
-      "none"
-    ],
-    "exitCode": 1,
-    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
-    "requests": []
-  },
-  {
-    "case": "pairwise 9",
-    "argv": [
-      "load-balancers",
-      "account",
-      "create",
-      "--default-pools",
-      "regression value &/?+ü",
-      "--fallback-pool",
-      "regression value &/?+ü",
-      "--name",
-      "regression value &/?+ü",
-      "--adaptive-routing-failover-across-pools=false",
-      "--description",
-      "192.0.2.1",
-      "--enabled=false",
-      "--location-strategy-mode",
-      "resolver_ip",
-      "--location-strategy-prefer-ecs",
-      "never",
-      "--networks",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--proxied=false",
-      "--random-steering-default-weight",
-      "2",
-      "--session-affinity-ttl",
-      "2",
-      "--steering-policy",
-      "geo",
-      "--ttl",
-      "2"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "472",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "adaptive_routing": {
-            "failover_across_pools": false
-          },
-          "default_pools": [
-            "regression value &/?+ü"
-          ],
-          "description": "192.0.2.1",
-          "enabled": false,
-          "fallback_pool": "regression value &/?+ü",
-          "location_strategy": {
-            "mode": "resolver_ip",
-            "prefer_ecs": "never"
-          },
-          "name": "regression value &/?+ü",
-          "networks": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
-          "proxied": false,
-          "random_steering": {
-            "default_weight": 2
-          },
-          "session_affinity": "none",
-          "session_affinity_ttl": 2,
-          "steering_policy": "geo",
-          "ttl": 2
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 10",
-    "argv": [
-      "load-balancers",
-      "account",
-      "create",
-      "--default-pools",
-      "regression value &/?+ü",
-      "--fallback-pool",
-      "regression value &/?+ü",
-      "--name",
       "regression value &/?+ü",
       "--session-affinity-ttl",
       "1",
@@ -1670,7 +1571,258 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "234",
+          "content-length": "491",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "enabled": true,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop",
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "regression value &/?+ü"
+          ],
+          "pop_pools": {
+            "regression": "json value"
+          },
+          "proxied": false,
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ]
+          },
+          "session_affinity_ttl": 1,
+          "steering_policy": "off",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--random-steering-default-weight",
+      "1",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "649",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "country_pools": {
+            "regression": "json value"
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "pop_pools": {
+            "regression": "json value"
+          },
+          "proxied": false,
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "require_all_headers": false,
+            "samesite": "Lax",
+            "secure": "Always",
+            "zero_downtime_failover": "temporary"
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "load-balancers",
+      "account",
+      "create",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--session-affinity-ttl",
+      "1",
+      "--steering-policy",
+      "off",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "359",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1687,6 +1839,12 @@
           "name": "regression value &/?+ü",
           "proxied": false,
           "session_affinity": "none",
+          "session_affinity_attributes": {
+            "require_all_headers": true,
+            "samesite": "Auto",
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          },
           "session_affinity_ttl": 1,
           "steering_policy": "off",
           "ttl": 1
@@ -1707,6 +1865,8 @@
       "--name",
       "regression value &/?+ü",
       "--adaptive-routing-failover-across-pools=false",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
       "--description",
       "192.0.2.1",
       "--enabled=false",
@@ -1717,9 +1877,15 @@
       "--networks",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
       "--proxied=false",
       "--random-steering-default-weight",
       "2",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
       "--rules",
       "[{\"regression\":\"item\"}]",
       "--session-affinity",
@@ -1728,14 +1894,7 @@
       "2",
       "--session-affinity-attributes-headers",
       "second value &/?+ü",
-      "second value &/?+ü",
-      "--session-affinity-attributes-require-all-headers=false",
-      "--session-affinity-attributes-samesite",
-      "Lax",
-      "--session-affinity-attributes-secure",
-      "Always",
-      "--session-affinity-attributes-zero-downtime-failover",
-      "temporary"
+      "second value &/?+ü"
     ],
     "exitCode": 1,
     "error": "Invalid values:\n  Argument: steering-policy, Given: \"\", Choices: \"off\", \"geo\", \"random\", \"dynamic_latency\", \"proximity\", \"least_outstanding_requests\", \"least_connections\"",
@@ -1939,6 +2098,8 @@
       "--name",
       "regression value &/?+ü",
       "--adaptive-routing-failover-across-pools=true",
+      "--country-pools",
+      "{\"regression\":\"json value\"}",
       "--description",
       "192.0.2.1",
       "--enabled=true",
@@ -1948,9 +2109,15 @@
       "always",
       "--networks",
       "regression value &/?+ü",
+      "--pop-pools",
+      "{\"regression\":\"json value\"}",
       "--proxied=true",
       "--random-steering-default-weight",
       "1",
+      "--random-steering-pool-weights",
+      "{\"regression\":\"json value\"}",
+      "--region-pools",
+      "{\"regression\":\"json value\"}",
       "--rules",
       "[{\"regression\":\"item\"}]",
       "--session-affinity",
@@ -1984,7 +2151,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "658",
+          "content-length": "828",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1995,6 +2162,9 @@
         "body": {
           "adaptive_routing": {
             "failover_across_pools": true
+          },
+          "country_pools": {
+            "regression": "json value"
           },
           "default_pools": [
             "regression value &/?+ü"
@@ -2010,9 +2180,18 @@
           "networks": [
             "regression value &/?+ü"
           ],
+          "pop_pools": {
+            "regression": "json value"
+          },
           "proxied": true,
           "random_steering": {
-            "default_weight": 1
+            "default_weight": 1,
+            "pool_weights": {
+              "regression": "json value"
+            }
+          },
+          "region_pools": {
+            "regression": "json value"
           },
           "rules": [
             {

@@ -74,14 +74,14 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "post-quantum",
       "origin",
       "summary",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -106,14 +106,14 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "post-quantum",
       "origin",
       "summary",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -138,14 +138,14 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "post-quantum",
       "origin",
       "summary",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -243,11 +243,15 @@
       "regression value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -256,7 +260,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
+        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -281,9 +285,9 @@
       "origin",
       "summary",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -317,7 +321,9 @@
       "regression value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--dateStart",
+      "second value &/?+ü",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -326,7 +332,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&format=CSV",
+        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -351,9 +357,9 @@
       "origin",
       "summary",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -387,7 +393,9 @@
       "regression value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -396,7 +404,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&format=CSV",
+        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -423,18 +431,22 @@
       "regression value &/?+ü",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z",
+        "url": "https://api.test/client/v4/radar/post_quantum/origin/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

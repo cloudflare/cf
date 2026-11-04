@@ -6,7 +6,7 @@
       "multi-chat-completions"
     ],
     "exitCode": 1,
-    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "error": "--ai-search-options-instance-ids is required (or pass --body with this field set).",
     "requests": []
   },
   {
@@ -14,7 +14,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -26,7 +25,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -52,17 +51,16 @@
     ]
   },
   {
-    "case": "only --ai-search-options-cache-cache-threshold",
+    "case": "only --namespace",
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
-      "--ai-search-options-cache-cache-threshold",
-      "super_strict_match"
+      "--namespace",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -75,7 +73,53 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "290",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "instance_ids": [
+              "regression value &/?+ü"
+            ]
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-cache-cache-threshold",
+    "argv": [
+      "ai-search",
+      "multi-chat-completions",
+      "--ai-search-options-instance-ids",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-cache-cache-threshold",
+      "super_strict_match"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -90,16 +134,7 @@
             },
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -115,7 +150,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -127,14 +161,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "284",
+          "content-length": "144",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -149,16 +183,7 @@
             },
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -174,7 +199,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -186,14 +210,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "287",
+          "content-length": "147",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -208,16 +232,7 @@
             },
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -233,7 +248,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -245,14 +259,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "285",
+          "content-length": "145",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -267,16 +281,7 @@
             },
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -292,7 +297,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -303,14 +307,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "266",
+          "content-length": "126",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -325,16 +329,7 @@
             },
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -350,7 +345,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -361,14 +355,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "267",
+          "content-length": "127",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -383,16 +377,56 @@
             },
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+            ]
+          },
+          "messages": [
+            {
+              "regression": "item"
             }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-custom-metadata",
+    "argv": [
+      "ai-search",
+      "multi-chat-completions",
+      "--ai-search-options-instance-ids",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "custom_metadata": {
+              "regression": "json value"
+            },
+            "instance_ids": [
+              "regression value &/?+ü"
+            ]
           },
           "messages": [
             {
@@ -408,7 +442,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -419,14 +452,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "274",
+          "content-length": "134",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -441,15 +474,6 @@
             ],
             "query_rewrite": {
               "enabled": true
-            },
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
             }
           },
           "messages": [
@@ -466,7 +490,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -477,14 +500,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "275",
+          "content-length": "135",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -499,15 +522,6 @@
             ],
             "query_rewrite": {
               "enabled": false
-            },
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
             }
           },
           "messages": [
@@ -524,7 +538,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -536,14 +549,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "293",
+          "content-length": "153",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -558,15 +571,6 @@
             ],
             "query_rewrite": {
               "model": "regression value &/?+ü"
-            },
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
             }
           },
           "messages": [
@@ -583,7 +587,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -595,14 +598,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "302",
+          "content-length": "162",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -617,15 +620,6 @@
             ],
             "query_rewrite": {
               "rewrite_prompt": "regression value &/?+ü"
-            },
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
             }
           },
           "messages": [
@@ -642,7 +636,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -653,14 +646,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "256",
+          "content-length": "130",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -674,14 +667,7 @@
               "regression value &/?+ü"
             ],
             "reranking": {
-              "enabled": true,
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "enabled": true
             }
           },
           "messages": [
@@ -698,7 +684,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -709,14 +694,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "257",
+          "content-length": "131",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -730,14 +715,7 @@
               "regression value &/?+ü"
             ],
             "reranking": {
-              "enabled": false,
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "enabled": false
             }
           },
           "messages": [
@@ -754,7 +732,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -766,14 +743,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "239",
+          "content-length": "135",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -788,12 +765,6 @@
             ],
             "reranking": {
               "match_threshold": 1
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
             }
           },
           "messages": [
@@ -810,7 +781,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -822,14 +792,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "275",
+          "content-length": "149",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -843,14 +813,60 @@
               "regression value &/?+ü"
             ],
             "reranking": {
-              "match_threshold": 0.4,
               "model": "regression value &/?+ü"
-            },
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-boost-by",
+    "argv": [
+      "ai-search",
+      "multi-chat-completions",
+      "--ai-search-options-instance-ids",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "instance_ids": [
+              "regression value &/?+ü"
+            ],
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
           "messages": [
@@ -867,7 +883,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -879,14 +894,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "241",
+          "content-length": "137",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -899,14 +914,59 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 1,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "context_expansion": 1
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-filters",
+    "argv": [
+      "ai-search",
+      "multi-chat-completions",
+      "--ai-search-options-instance-ids",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "instance_ids": [
+              "regression value &/?+ü"
+            ],
+            "retrieval": {
+              "filters": {
+                "regression": "json value"
+              }
             }
           },
           "messages": [
@@ -923,7 +983,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -935,14 +994,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "263",
+          "content-length": "137",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -955,15 +1014,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "fusion_method": "max",
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "fusion_method": "max"
             }
           },
           "messages": [
@@ -980,7 +1032,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -992,14 +1043,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "263",
+          "content-length": "137",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1012,15 +1063,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "fusion_method": "rrf",
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "fusion_method": "rrf"
             }
           },
           "messages": [
@@ -1037,7 +1081,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1049,14 +1092,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "268",
+          "content-length": "142",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1069,15 +1112,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "keyword_match_mode": "and",
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "keyword_match_mode": "and"
             }
           },
           "messages": [
@@ -1094,7 +1130,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1106,14 +1141,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "267",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1126,15 +1161,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "keyword_match_mode": "or",
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "keyword_match_mode": "or"
             }
           },
           "messages": [
@@ -1151,7 +1179,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1163,14 +1190,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "239",
+          "content-length": "135",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1183,14 +1210,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 1,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "match_threshold": 1
             }
           },
           "messages": [
@@ -1207,7 +1228,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1219,14 +1239,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "240",
+          "content-length": "135",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1239,14 +1259,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 1,
-              "return_on_failure": true
+              "max_num_results": 1
             }
           },
           "messages": [
@@ -1263,7 +1277,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1275,14 +1288,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "267",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1295,15 +1308,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "retrieval_type": "vector",
-              "return_on_failure": true
+              "retrieval_type": "vector"
             }
           },
           "messages": [
@@ -1320,7 +1326,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1332,14 +1337,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "268",
+          "content-length": "142",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1352,15 +1357,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "retrieval_type": "keyword",
-              "return_on_failure": true
+              "retrieval_type": "keyword"
             }
           },
           "messages": [
@@ -1377,7 +1375,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1389,14 +1386,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "267",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1409,15 +1406,8 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "retrieval_type": "hybrid",
-              "return_on_failure": true
+              "retrieval_type": "hybrid"
             }
           },
           "messages": [
@@ -1434,7 +1424,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1445,14 +1434,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "241",
+          "content-length": "140",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1465,13 +1454,7 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
               "return_on_failure": true
             }
           },
@@ -1489,7 +1472,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1500,14 +1482,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "242",
+          "content-length": "141",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1520,13 +1502,7 @@
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
               "return_on_failure": false
             }
           },
@@ -1544,7 +1520,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1556,14 +1531,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "275",
+          "content-length": "135",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1575,16 +1550,7 @@
           "ai_search_options": {
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -1601,7 +1567,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1612,14 +1577,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "255",
+          "content-length": "115",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1631,16 +1596,7 @@
           "ai_search_options": {
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -1657,7 +1613,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1668,14 +1623,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "256",
+          "content-length": "116",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1687,16 +1642,7 @@
           "ai_search_options": {
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -1713,7 +1659,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -1723,14 +1668,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "241",
+          "content-length": "101",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1742,16 +1687,7 @@
           "ai_search_options": {
             "instance_ids": [
               "regression value &/?+ü"
-            ],
-            "reranking": {
-              "match_threshold": 0.4
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
+            ]
           },
           "messages": [
             {
@@ -1767,14 +1703,17 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--namespace",
+      "second value &/?+ü",
       "--ai-search-options-cache-cache-threshold",
       "close_enough",
       "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-query-rewrite-enabled=false",
       "--ai-search-options-query-rewrite-model",
       "second value &/?+ü",
@@ -1785,8 +1724,12 @@
       "2",
       "--ai-search-options-reranking-model",
       "second value &/?+ü",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
       "--ai-search-options-retrieval-context-expansion",
       "2",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-retrieval-fusion-method",
       "rrf",
       "--ai-search-options-retrieval-keyword-match-mode",
@@ -1806,14 +1749,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "565",
+          "content-length": "684",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1826,6 +1769,9 @@
             "cache": {
               "cache_threshold": "close_enough",
               "enabled": false
+            },
+            "custom_metadata": {
+              "regression": "json value"
             },
             "instance_ids": [
               "regression value &/?+ü"
@@ -1841,7 +1787,15 @@
               "model": "second value &/?+ü"
             },
             "retrieval": {
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
               "context_expansion": 2,
+              "filters": {
+                "regression": "json value"
+              },
               "fusion_method": "rrf",
               "keyword_match_mode": "or",
               "match_threshold": 2,
@@ -1866,17 +1820,21 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
-      "--ai-search-options-cache-enabled=true",
+      "--ai-search-options-cache-cache-threshold",
+      "super_strict_match",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-query-rewrite-model",
       "regression value &/?+ü",
       "--ai-search-options-reranking-enabled=true",
       "--ai-search-options-reranking-model",
       "regression value &/?+ü",
+      "--ai-search-options-retrieval-context-expansion",
+      "1",
       "--ai-search-options-retrieval-fusion-method",
       "max",
       "--ai-search-options-retrieval-match-threshold",
@@ -1890,14 +1848,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "447",
+          "content-length": "449",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1908,7 +1866,10 @@
         "body": {
           "ai_search_options": {
             "cache": {
-              "enabled": true
+              "cache_threshold": "super_strict_match"
+            },
+            "custom_metadata": {
+              "regression": "json value"
             },
             "instance_ids": [
               "regression value &/?+ü"
@@ -1918,16 +1879,13 @@
             },
             "reranking": {
               "enabled": true,
-              "match_threshold": 0.4,
               "model": "regression value &/?+ü"
             },
             "retrieval": {
-              "context_expansion": 0,
+              "context_expansion": 1,
               "fusion_method": "max",
               "match_threshold": 1,
-              "max_num_results": 10,
-              "retrieval_type": "vector",
-              "return_on_failure": true
+              "retrieval_type": "vector"
             }
           },
           "messages": [
@@ -1945,20 +1903,22 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
-      "--ai-search-options-cache-cache-threshold",
-      "close_enough",
+      "--namespace",
+      "second value &/?+ü",
+      "--ai-search-options-cache-enabled=false",
       "--ai-search-options-query-rewrite-enabled=false",
       "--ai-search-options-query-rewrite-rewrite-prompt",
       "second value &/?+ü",
       "--ai-search-options-reranking-match-threshold",
       "2",
-      "--ai-search-options-retrieval-context-expansion",
-      "2",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-retrieval-keyword-match-mode",
       "or",
       "--ai-search-options-retrieval-max-num-results",
@@ -1970,14 +1930,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "396",
+          "content-length": "408",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1988,7 +1948,7 @@
         "body": {
           "ai_search_options": {
             "cache": {
-              "cache_threshold": "close_enough"
+              "enabled": false
             },
             "instance_ids": [
               "regression value &/?+ü"
@@ -2001,9 +1961,15 @@
               "match_threshold": 2
             },
             "retrieval": {
-              "context_expansion": 2,
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
+              "filters": {
+                "regression": "json value"
+              },
               "keyword_match_mode": "or",
-              "match_threshold": 0.4,
               "max_num_results": 2,
               "return_on_failure": false
             }
@@ -2023,18 +1989,20 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
-      "--ai-search-options-query-rewrite-enabled=true",
-      "--ai-search-options-query-rewrite-model",
+      "--ai-search-options-cache-enabled=true",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
       "regression value &/?+ü",
-      "--ai-search-options-reranking-match-threshold",
+      "--ai-search-options-reranking-enabled=true",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-retrieval-context-expansion",
       "1",
-      "--ai-search-options-reranking-model",
-      "regression value &/?+ü",
       "--ai-search-options-retrieval-keyword-match-mode",
       "and",
       "--ai-search-options-retrieval-match-threshold",
@@ -2047,14 +2015,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "399",
+          "content-length": "439",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2064,22 +2032,30 @@
         },
         "body": {
           "ai_search_options": {
+            "cache": {
+              "enabled": true
+            },
+            "custom_metadata": {
+              "regression": "json value"
+            },
             "instance_ids": [
               "regression value &/?+ü"
             ],
             "query_rewrite": {
-              "enabled": true,
-              "model": "regression value &/?+ü"
+              "rewrite_prompt": "regression value &/?+ü"
             },
             "reranking": {
-              "match_threshold": 1,
-              "model": "regression value &/?+ü"
+              "enabled": true
             },
             "retrieval": {
-              "context_expansion": 0,
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
+              "context_expansion": 1,
               "keyword_match_mode": "and",
               "match_threshold": 1,
-              "max_num_results": 10,
               "return_on_failure": true
             }
           },
@@ -2098,19 +2074,23 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--namespace",
+      "second value &/?+ü",
       "--ai-search-options-cache-cache-threshold",
       "close_enough",
-      "--ai-search-options-cache-enabled=false",
-      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "--ai-search-options-query-rewrite-enabled=false",
+      "--ai-search-options-query-rewrite-model",
       "second value &/?+ü",
-      "--ai-search-options-reranking-enabled=false",
-      "--ai-search-options-retrieval-context-expansion",
+      "--ai-search-options-reranking-match-threshold",
       "2",
+      "--ai-search-options-reranking-model",
+      "second value &/?+ü",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-retrieval-fusion-method",
       "rrf",
       "--ai-search-options-retrieval-max-num-results",
@@ -2123,14 +2103,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "436",
+          "content-length": "408",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2141,26 +2121,26 @@
         "body": {
           "ai_search_options": {
             "cache": {
-              "cache_threshold": "close_enough",
-              "enabled": false
+              "cache_threshold": "close_enough"
             },
             "instance_ids": [
               "regression value &/?+ü"
             ],
             "query_rewrite": {
-              "rewrite_prompt": "second value &/?+ü"
+              "enabled": false,
+              "model": "second value &/?+ü"
             },
             "reranking": {
-              "enabled": false,
-              "match_threshold": 0.4
+              "match_threshold": 2,
+              "model": "second value &/?+ü"
             },
             "retrieval": {
-              "context_expansion": 2,
+              "filters": {
+                "regression": "json value"
+              },
               "fusion_method": "rrf",
-              "match_threshold": 0.4,
               "max_num_results": 2,
-              "retrieval_type": "keyword",
-              "return_on_failure": true
+              "retrieval_type": "keyword"
             }
           },
           "messages": [
@@ -2178,38 +2158,38 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--ai-search-options-query-rewrite-enabled=true",
+      "--ai-search-options-query-rewrite-model",
+      "regression value &/?+ü",
       "--ai-search-options-query-rewrite-rewrite-prompt",
       "regression value &/?+ü",
       "--ai-search-options-reranking-enabled=true",
-      "--ai-search-options-reranking-match-threshold",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
+      "--ai-search-options-retrieval-fusion-method",
+      "max",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "and",
+      "--ai-search-options-retrieval-match-threshold",
       "1",
-      "--ai-search-options-reranking-model",
-      "regression value &/?+ü",
-      "--ai-search-options-retrieval-max-num-results",
-      "1",
-      "--ai-search-options-retrieval-retrieval-type",
-      "vector",
-      "--ai-search-options-retrieval-return-on-failure=true",
-      "--model",
-      "regression value &/?+ü"
+      "--stream=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "408",
+          "content-length": "375",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2223,19 +2203,20 @@
               "regression value &/?+ü"
             ],
             "query_rewrite": {
+              "enabled": true,
+              "model": "regression value &/?+ü",
               "rewrite_prompt": "regression value &/?+ü"
             },
             "reranking": {
-              "enabled": true,
-              "match_threshold": 1,
-              "model": "regression value &/?+ü"
+              "enabled": true
             },
             "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 1,
-              "retrieval_type": "vector",
-              "return_on_failure": true
+              "filters": {
+                "regression": "json value"
+              },
+              "fusion_method": "max",
+              "keyword_match_mode": "and",
+              "match_threshold": 1
             }
           },
           "messages": [
@@ -2243,7 +2224,7 @@
               "regression": "item"
             }
           ],
-          "model": "regression value &/?+ü"
+          "stream": true
         }
       }
     ]
@@ -2253,39 +2234,45 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--namespace",
+      "second value &/?+ü",
       "--ai-search-options-cache-cache-threshold",
       "close_enough",
       "--ai-search-options-cache-enabled=false",
-      "--ai-search-options-query-rewrite-enabled=false",
-      "--ai-search-options-query-rewrite-model",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
+      "--ai-search-options-reranking-match-threshold",
+      "2",
+      "--ai-search-options-reranking-model",
       "second value &/?+ü",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
       "--ai-search-options-retrieval-context-expansion",
       "2",
-      "--ai-search-options-retrieval-fusion-method",
-      "rrf",
-      "--ai-search-options-retrieval-keyword-match-mode",
-      "or",
-      "--ai-search-options-retrieval-match-threshold",
+      "--ai-search-options-retrieval-max-num-results",
       "2",
-      "--stream=false"
+      "--ai-search-options-retrieval-retrieval-type",
+      "keyword",
+      "--ai-search-options-retrieval-return-on-failure=false",
+      "--model",
+      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "425",
+          "content-length": "444",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2299,23 +2286,26 @@
               "cache_threshold": "close_enough",
               "enabled": false
             },
+            "custom_metadata": {
+              "regression": "json value"
+            },
             "instance_ids": [
               "regression value &/?+ü"
             ],
-            "query_rewrite": {
-              "enabled": false,
+            "reranking": {
+              "match_threshold": 2,
               "model": "second value &/?+ü"
             },
-            "reranking": {
-              "match_threshold": 0.4
-            },
             "retrieval": {
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
               "context_expansion": 2,
-              "fusion_method": "rrf",
-              "keyword_match_mode": "or",
-              "match_threshold": 2,
-              "max_num_results": 10,
-              "return_on_failure": true
+              "max_num_results": 2,
+              "retrieval_type": "keyword",
+              "return_on_failure": false
             }
           },
           "messages": [
@@ -2323,7 +2313,7 @@
               "regression": "item"
             }
           ],
-          "stream": false
+          "model": "second value &/?+ü"
         }
       }
     ]
@@ -2333,32 +2323,32 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--ai-search-options-reranking-match-threshold",
+      "1",
+      "--ai-search-options-reranking-model",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
       "--ai-search-options-retrieval-context-expansion",
       "1",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-retrieval-fusion-method",
       "max",
       "--ai-search-options-retrieval-keyword-match-mode",
       "and",
       "--ai-search-options-retrieval-match-threshold",
-      "1",
-      "--ai-search-options-retrieval-max-num-results",
-      "1",
-      "--ai-search-options-retrieval-retrieval-type",
-      "vector",
-      "--ai-search-options-retrieval-return-on-failure=true",
-      "--model",
-      "regression value &/?+ü"
+      "1"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2379,24 +2369,29 @@
               "regression value &/?+ü"
             ],
             "reranking": {
-              "match_threshold": 0.4
+              "match_threshold": 1,
+              "model": "regression value &/?+ü"
             },
             "retrieval": {
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
               "context_expansion": 1,
+              "filters": {
+                "regression": "json value"
+              },
               "fusion_method": "max",
               "keyword_match_mode": "and",
-              "match_threshold": 1,
-              "max_num_results": 1,
-              "retrieval_type": "vector",
-              "return_on_failure": true
+              "match_threshold": 1
             }
           },
           "messages": [
             {
               "regression": "item"
             }
-          ],
-          "model": "regression value &/?+ü"
+          ]
         }
       }
     ]
@@ -2406,23 +2401,29 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--namespace",
+      "second value &/?+ü",
       "--ai-search-options-cache-cache-threshold",
       "close_enough",
       "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-query-rewrite-enabled=false",
       "--ai-search-options-query-rewrite-model",
       "second value &/?+ü",
       "--ai-search-options-query-rewrite-rewrite-prompt",
       "second value &/?+ü",
       "--ai-search-options-reranking-enabled=false",
-      "--ai-search-options-reranking-match-threshold",
+      "--ai-search-options-retrieval-max-num-results",
       "2",
-      "--ai-search-options-reranking-model",
+      "--ai-search-options-retrieval-retrieval-type",
+      "keyword",
+      "--ai-search-options-retrieval-return-on-failure=false",
+      "--model",
       "second value &/?+ü",
       "--stream=false"
     ],
@@ -2430,14 +2431,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "462",
+          "content-length": "471",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2451,6 +2452,9 @@
               "cache_threshold": "close_enough",
               "enabled": false
             },
+            "custom_metadata": {
+              "regression": "json value"
+            },
             "instance_ids": [
               "regression value &/?+ü"
             ],
@@ -2460,109 +2464,9 @@
               "rewrite_prompt": "second value &/?+ü"
             },
             "reranking": {
-              "enabled": false,
-              "match_threshold": 2,
-              "model": "second value &/?+ü"
-            },
-            "retrieval": {
-              "context_expansion": 0,
-              "match_threshold": 0.4,
-              "max_num_results": 10,
-              "return_on_failure": true
-            }
-          },
-          "messages": [
-            {
-              "regression": "item"
-            }
-          ],
-          "stream": false
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 11",
-    "argv": [
-      "ai-search",
-      "multi-chat-completions",
-      "regression value &/?+ü",
-      "--ai-search-options-instance-ids",
-      "regression value &/?+ü",
-      "--messages",
-      "[{\"regression\":\"item\"}]",
-      "--ai-search-options-cache-cache-threshold",
-      "close_enough",
-      "--ai-search-options-cache-enabled=false",
-      "--ai-search-options-query-rewrite-enabled=false",
-      "--ai-search-options-query-rewrite-model",
-      "second value &/?+ü",
-      "--ai-search-options-query-rewrite-rewrite-prompt",
-      "second value &/?+ü",
-      "--ai-search-options-reranking-enabled=false",
-      "--ai-search-options-reranking-match-threshold",
-      "2",
-      "--ai-search-options-reranking-model",
-      "second value &/?+ü",
-      "--ai-search-options-retrieval-context-expansion",
-      "2",
-      "--ai-search-options-retrieval-fusion-method",
-      "rrf",
-      "--ai-search-options-retrieval-keyword-match-mode",
-      "or",
-      "--ai-search-options-retrieval-match-threshold",
-      "2",
-      "--ai-search-options-retrieval-max-num-results",
-      "2",
-      "--ai-search-options-retrieval-retrieval-type",
-      "keyword",
-      "--ai-search-options-retrieval-return-on-failure=false",
-      "--model",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "550",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "ai_search_options": {
-            "cache": {
-              "cache_threshold": "close_enough",
               "enabled": false
             },
-            "instance_ids": [
-              "regression value &/?+ü"
-            ],
-            "query_rewrite": {
-              "enabled": false,
-              "model": "second value &/?+ü",
-              "rewrite_prompt": "second value &/?+ü"
-            },
-            "reranking": {
-              "enabled": false,
-              "match_threshold": 2,
-              "model": "second value &/?+ü"
-            },
             "retrieval": {
-              "context_expansion": 2,
-              "fusion_method": "rrf",
-              "keyword_match_mode": "or",
-              "match_threshold": 2,
               "max_num_results": 2,
               "retrieval_type": "keyword",
               "return_on_failure": false
@@ -2573,7 +2477,171 @@
               "regression": "item"
             }
           ],
-          "model": "second value &/?+ü"
+          "model": "second value &/?+ü",
+          "stream": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "ai-search",
+      "multi-chat-completions",
+      "--ai-search-options-instance-ids",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-retrieval-max-num-results",
+      "1",
+      "--ai-search-options-retrieval-retrieval-type",
+      "vector",
+      "--ai-search-options-retrieval-return-on-failure=true",
+      "--model",
+      "regression value &/?+ü",
+      "--stream=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "234",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "instance_ids": [
+              "regression value &/?+ü"
+            ],
+            "retrieval": {
+              "max_num_results": 1,
+              "retrieval_type": "vector",
+              "return_on_failure": true
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "model": "regression value &/?+ü",
+          "stream": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "ai-search",
+      "multi-chat-completions",
+      "--ai-search-options-instance-ids",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--namespace",
+      "second value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough",
+      "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
+      "--ai-search-options-query-rewrite-enabled=false",
+      "--ai-search-options-query-rewrite-model",
+      "second value &/?+ü",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "second value &/?+ü",
+      "--ai-search-options-reranking-enabled=false",
+      "--ai-search-options-reranking-match-threshold",
+      "2",
+      "--ai-search-options-reranking-model",
+      "second value &/?+ü",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
+      "--ai-search-options-retrieval-context-expansion",
+      "2",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
+      "--ai-search-options-retrieval-fusion-method",
+      "rrf",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "or",
+      "--ai-search-options-retrieval-match-threshold",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "566",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough",
+              "enabled": false
+            },
+            "custom_metadata": {
+              "regression": "json value"
+            },
+            "instance_ids": [
+              "regression value &/?+ü"
+            ],
+            "query_rewrite": {
+              "enabled": false,
+              "model": "second value &/?+ü",
+              "rewrite_prompt": "second value &/?+ü"
+            },
+            "reranking": {
+              "enabled": false,
+              "match_threshold": 2,
+              "model": "second value &/?+ü"
+            },
+            "retrieval": {
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
+              "context_expansion": 2,
+              "filters": {
+                "regression": "json value"
+              },
+              "fusion_method": "rrf",
+              "keyword_match_mode": "or",
+              "match_threshold": 2
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ]
         }
       }
     ]
@@ -2583,7 +2651,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2596,7 +2663,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2626,7 +2693,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2640,7 +2706,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2670,7 +2736,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2686,7 +2751,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2716,7 +2781,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2729,7 +2793,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -2758,7 +2822,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2773,7 +2836,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -2802,7 +2865,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2819,7 +2881,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2831,7 +2892,7 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2861,7 +2922,6 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
@@ -2873,14 +2933,14 @@
     "requests": [
       {
         "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/chat/completions",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2888,14 +2948,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2904,14 +2964,17 @@
     "argv": [
       "ai-search",
       "multi-chat-completions",
-      "regression value &/?+ü",
       "--ai-search-options-instance-ids",
       "regression value &/?+ü",
       "--messages",
       "[{\"regression\":\"item\"}]",
+      "--namespace",
+      "regression value &/?+ü",
       "--ai-search-options-cache-cache-threshold",
       "super_strict_match",
       "--ai-search-options-cache-enabled=true",
+      "--ai-search-options-custom-metadata",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-query-rewrite-enabled=true",
       "--ai-search-options-query-rewrite-model",
       "regression value &/?+ü",
@@ -2922,8 +2985,12 @@
       "1",
       "--ai-search-options-reranking-model",
       "regression value &/?+ü",
+      "--ai-search-options-retrieval-boost-by",
+      "[{\"regression\":\"item\"}]",
       "--ai-search-options-retrieval-context-expansion",
       "1",
+      "--ai-search-options-retrieval-filters",
+      "{\"regression\":\"json value\"}",
       "--ai-search-options-retrieval-fusion-method",
       "max",
       "--ai-search-options-retrieval-keyword-match-mode",
@@ -2950,7 +3017,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "582",
+          "content-length": "701",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2963,6 +3030,9 @@
             "cache": {
               "cache_threshold": "super_strict_match",
               "enabled": true
+            },
+            "custom_metadata": {
+              "regression": "json value"
             },
             "instance_ids": [
               "regression value &/?+ü"
@@ -2978,7 +3048,15 @@
               "model": "regression value &/?+ü"
             },
             "retrieval": {
+              "boost_by": [
+                {
+                  "regression": "item"
+                }
+              ],
               "context_expansion": 1,
+              "filters": {
+                "regression": "json value"
+              },
               "fusion_method": "max",
               "keyword_match_mode": "and",
               "match_threshold": 1,
@@ -2994,48 +3072,6 @@
           ],
           "model": "regression value &/?+ü",
           "stream": true
-        }
-      }
-    ]
-  },
-  {
-    "case": "alternate <namespace>",
-    "argv": [
-      "ai-search",
-      "multi-chat-completions",
-      "second value &/?+ü",
-      "--ai-search-options-instance-ids",
-      "regression value &/?+ü",
-      "--messages",
-      "[{\"regression\":\"item\"}]",
-      "--body",
-      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/chat/completions",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "42",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "regression": "body &/?+ü",
-          "items": [
-            1,
-            2
-          ]
         }
       }
     ]

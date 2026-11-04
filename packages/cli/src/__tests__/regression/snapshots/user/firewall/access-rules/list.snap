@@ -29,13 +29,13 @@
     ]
   },
   {
-    "case": "only --action",
+    "case": "only --access-rule-mode",
     "argv": [
       "user",
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "block"
     ],
     "exitCode": 0,
@@ -60,13 +60,13 @@
     ]
   },
   {
-    "case": "--action value 1",
+    "case": "--access-rule-mode value 1",
     "argv": [
       "user",
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "challenge"
     ],
     "exitCode": 0,
@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "--action value 2",
+    "case": "--access-rule-mode value 2",
     "argv": [
       "user",
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "whitelist"
     ],
     "exitCode": 0,
@@ -122,13 +122,13 @@
     ]
   },
   {
-    "case": "--action value 3",
+    "case": "--access-rule-mode value 3",
     "argv": [
       "user",
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "js_challenge"
     ],
     "exitCode": 0,
@@ -153,13 +153,13 @@
     ]
   },
   {
-    "case": "--action value 4",
+    "case": "--access-rule-mode value 4",
     "argv": [
       "user",
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "managed_challenge"
     ],
     "exitCode": 0,
@@ -655,7 +655,7 @@
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "challenge",
       "--configuration-target",
       "ip_range",
@@ -739,7 +739,7 @@
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "challenge",
       "--configuration-value",
       "second value &/?+ü",
@@ -815,7 +815,7 @@
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "challenge",
       "--configuration-target",
       "ip_range",
@@ -891,7 +891,7 @@
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "challenge",
       "--configuration-target",
       "ip_range",
@@ -930,7 +930,7 @@
       "firewall",
       "access-rules",
       "list",
-      "--action",
+      "--access-rule-mode",
       "challenge",
       "--configuration-target",
       "ip_range",

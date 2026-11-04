@@ -137,14 +137,14 @@
     ]
   },
   {
-    "case": "only --orderBy",
+    "case": "only --order-by",
     "argv": [
       "brand-protection",
       "logo-matches",
       "get",
       "--query-id",
       "0123456789abcdef0123456789abcdef",
-      "--orderBy",
+      "--order-by",
       "matchedAt"
     ],
     "exitCode": 0,
@@ -169,14 +169,14 @@
     ]
   },
   {
-    "case": "--orderBy value 1",
+    "case": "--order-by value 1",
     "argv": [
       "brand-protection",
       "logo-matches",
       "get",
       "--query-id",
       "0123456789abcdef0123456789abcdef",
-      "--orderBy",
+      "--order-by",
       "domain"
     ],
     "exitCode": 0,
@@ -201,14 +201,14 @@
     ]
   },
   {
-    "case": "--orderBy value 2",
+    "case": "--order-by value 2",
     "argv": [
       "brand-protection",
       "logo-matches",
       "get",
       "--query-id",
       "0123456789abcdef0123456789abcdef",
-      "--orderBy",
+      "--order-by",
       "similarityScore"
     ],
     "exitCode": 0,
@@ -233,14 +233,14 @@
     ]
   },
   {
-    "case": "--orderBy value 3",
+    "case": "--order-by value 3",
     "argv": [
       "brand-protection",
       "logo-matches",
       "get",
       "--query-id",
       "0123456789abcdef0123456789abcdef",
-      "--orderBy",
+      "--order-by",
       "registrar"
     ],
     "exitCode": 0,
@@ -342,7 +342,7 @@
       "second value &/?+ü",
       "--download",
       "second value &/?+ü",
-      "--orderBy",
+      "--order-by",
       "domain",
       "--order",
       "desc"
@@ -378,7 +378,7 @@
       "0123456789abcdef0123456789abcdef",
       "--limit",
       "regression value &/?+ü",
-      "--orderBy",
+      "--order-by",
       "matchedAt"
     ],
     "exitCode": 0,
@@ -448,7 +448,7 @@
       "0123456789abcdef0123456789abcdef",
       "--download",
       "regression value &/?+ü",
-      "--orderBy",
+      "--order-by",
       "matchedAt"
     ],
     "exitCode": 0,
@@ -522,7 +522,7 @@
       "second value &/?+ü",
       "--download",
       "second value &/?+ü",
-      "--orderBy",
+      "--order-by",
       "domain"
     ],
     "exitCode": 0,

@@ -82,6 +82,42 @@
     ]
   },
   {
+    "case": "only --metadata",
+    "argv": [
+      "images",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--metadata",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v1/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "metadata": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --require-signed-urls",
     "argv": [
       "images",
@@ -185,6 +221,47 @@
       "0123456789abcdef0123456789abcdef",
       "--creator",
       "second value &/?+ü",
+      "--metadata",
+      "{\"regression\":\"json value\"}",
+      "--require-signed-urls=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v1/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "creator": "second value &/?+ü",
+          "metadata": {
+            "regression": "json value"
+          },
+          "requireSignedURLs": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "images",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--creator",
+      "second value &/?+ü",
       "--require-signed-urls=false"
     ],
     "exitCode": 0,
@@ -214,13 +291,15 @@
     ]
   },
   {
-    "case": "pairwise 3",
+    "case": "pairwise 5",
     "argv": [
       "images",
       "edit",
       "0123456789abcdef0123456789abcdef",
       "--creator",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--metadata",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -233,7 +312,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "33",
+          "content-length": "72",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -242,7 +321,10 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "creator": "second value &/?+ü"
+          "creator": "second value &/?+ü",
+          "metadata": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -517,7 +599,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -525,14 +607,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -544,6 +626,8 @@
       "0123456789abcdef0123456789abcdef",
       "--creator",
       "regression value &/?+ü",
+      "--metadata",
+      "{\"regression\":\"json value\"}",
       "--require-signed-urls=true"
     ],
     "exitCode": 0,
@@ -557,7 +641,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "62",
+          "content-length": "101",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -567,6 +651,9 @@
         },
         "body": {
           "creator": "regression value &/?+ü",
+          "metadata": {
+            "regression": "json value"
+          },
           "requireSignedURLs": true
         }
       }

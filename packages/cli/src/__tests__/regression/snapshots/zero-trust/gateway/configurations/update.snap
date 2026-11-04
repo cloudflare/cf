@@ -78,9 +78,34 @@
       "update",
       "--settings-activity-log-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-activity-log-enabled value 1",
@@ -91,9 +116,34 @@
       "update",
       "--settings-activity-log-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-enabled-download-phase",
@@ -104,9 +154,34 @@
       "update",
       "--settings-antivirus-enabled-download-phase=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "enabled_download_phase": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-antivirus-enabled-download-phase value 1",
@@ -117,9 +192,34 @@
       "update",
       "--settings-antivirus-enabled-download-phase=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "enabled_download_phase": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-enabled-upload-phase",
@@ -130,9 +230,34 @@
       "update",
       "--settings-antivirus-enabled-upload-phase=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "enabled_upload_phase": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-antivirus-enabled-upload-phase value 1",
@@ -143,9 +268,34 @@
       "update",
       "--settings-antivirus-enabled-upload-phase=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "enabled_upload_phase": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-fail-closed",
@@ -156,9 +306,34 @@
       "update",
       "--settings-antivirus-fail-closed=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "fail_closed": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-antivirus-fail-closed value 1",
@@ -169,9 +344,34 @@
       "update",
       "--settings-antivirus-fail-closed=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "fail_closed": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-notification-settings-enabled",
@@ -182,9 +382,36 @@
       "update",
       "--settings-antivirus-notification-settings-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-antivirus-notification-settings-enabled value 1",
@@ -195,9 +422,36 @@
       "update",
       "--settings-antivirus-notification-settings-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-notification-settings-include-context",
@@ -208,9 +462,36 @@
       "update",
       "--settings-antivirus-notification-settings-include-context=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "include_context": true
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-antivirus-notification-settings-include-context value 1",
@@ -221,9 +502,36 @@
       "update",
       "--settings-antivirus-notification-settings-include-context=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "include_context": false
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-notification-settings-msg",
@@ -235,9 +543,36 @@
       "--settings-antivirus-notification-settings-msg",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "msg": "regression value &/?+ü"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-antivirus-notification-settings-support-url",
@@ -249,9 +584,36 @@
       "--settings-antivirus-notification-settings-support-url",
       "https://example.com/a?x=1&y=two"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-background-color",
@@ -263,9 +625,34 @@
       "--settings-block-page-background-color",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "background_color": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-enabled",
@@ -276,9 +663,34 @@
       "update",
       "--settings-block-page-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-block-page-enabled value 1",
@@ -289,9 +701,34 @@
       "update",
       "--settings-block-page-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-footer-text",
@@ -303,9 +740,34 @@
       "--settings-block-page-footer-text",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "footer_text": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-header-text",
@@ -317,9 +779,34 @@
       "--settings-block-page-header-text",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "header_text": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-include-context",
@@ -330,9 +817,34 @@
       "update",
       "--settings-block-page-include-context=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "include_context": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-block-page-include-context value 1",
@@ -343,9 +855,34 @@
       "update",
       "--settings-block-page-include-context=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "include_context": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-logo-path",
@@ -357,9 +894,34 @@
       "--settings-block-page-logo-path",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "logo_path": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-mailto-address",
@@ -371,9 +933,34 @@
       "--settings-block-page-mailto-address",
       "192.0.2.1"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "mailto_address": "192.0.2.1"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-mailto-subject",
@@ -385,9 +972,34 @@
       "--settings-block-page-mailto-subject",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "mailto_subject": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-mode",
@@ -399,9 +1011,34 @@
       "--settings-block-page-mode",
       "customized_block_page"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "mode": "customized_block_page"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-block-page-mode value 1",
@@ -413,9 +1050,34 @@
       "--settings-block-page-mode",
       "redirect_uri"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "mode": "redirect_uri"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-name",
@@ -427,9 +1089,34 @@
       "--settings-block-page-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "name": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-suppress-footer",
@@ -440,9 +1127,34 @@
       "update",
       "--settings-block-page-suppress-footer=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "suppress_footer": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-block-page-suppress-footer value 1",
@@ -453,9 +1165,34 @@
       "update",
       "--settings-block-page-suppress-footer=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "suppress_footer": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-block-page-target-uri",
@@ -467,9 +1204,34 @@
       "--settings-block-page-target-uri",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "target_uri": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-body-scanning-inspection-mode",
@@ -481,9 +1243,34 @@
       "--settings-body-scanning-inspection-mode",
       "deep"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "body_scanning": {
+              "inspection_mode": "deep"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-body-scanning-inspection-mode value 1",
@@ -495,9 +1282,34 @@
       "--settings-body-scanning-inspection-mode",
       "shallow"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "body_scanning": {
+              "inspection_mode": "shallow"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-browser-isolation-non-identity-enabled",
@@ -508,9 +1320,34 @@
       "update",
       "--settings-browser-isolation-non-identity-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "browser_isolation": {
+              "non_identity_enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-browser-isolation-non-identity-enabled value 1",
@@ -521,9 +1358,34 @@
       "update",
       "--settings-browser-isolation-non-identity-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "browser_isolation": {
+              "non_identity_enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-browser-isolation-url-browser-isolation-enabled",
@@ -534,9 +1396,34 @@
       "update",
       "--settings-browser-isolation-url-browser-isolation-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "browser_isolation": {
+              "url_browser_isolation_enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-browser-isolation-url-browser-isolation-enabled value 1",
@@ -547,9 +1434,34 @@
       "update",
       "--settings-browser-isolation-url-browser-isolation-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "browser_isolation": {
+              "url_browser_isolation_enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-certificate-id",
@@ -561,9 +1473,34 @@
       "--settings-certificate-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 1,
-    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-custom-certificate-enabled",
@@ -574,9 +1511,34 @@
       "update",
       "--settings-custom-certificate-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "custom_certificate": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-custom-certificate-enabled value 1",
@@ -587,9 +1549,34 @@
       "update",
       "--settings-custom-certificate-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "custom_certificate": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-custom-certificate-id",
@@ -602,7 +1589,7 @@
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "error": "--settings-custom-certificate-enabled is required when any --settings-custom-certificate-* flag is set",
     "requests": []
   },
   {
@@ -614,9 +1601,34 @@
       "update",
       "--settings-extended-email-matching-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "extended_email_matching": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-extended-email-matching-enabled value 1",
@@ -627,9 +1639,34 @@
       "update",
       "--settings-extended-email-matching-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "extended_email_matching": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-fips-tls",
@@ -640,9 +1677,34 @@
       "update",
       "--settings-fips-tls=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "fips": {
+              "tls": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-fips-tls value 1",
@@ -653,9 +1715,34 @@
       "update",
       "--settings-fips-tls=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "fips": {
+              "tls": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-host-selector-enabled",
@@ -666,9 +1753,34 @@
       "update",
       "--settings-host-selector-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "host_selector": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-host-selector-enabled value 1",
@@ -679,9 +1791,34 @@
       "update",
       "--settings-host-selector-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "host_selector": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-inspection-mode",
@@ -693,9 +1830,34 @@
       "--settings-inspection-mode",
       "static"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "inspection": {
+              "mode": "static"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-inspection-mode value 1",
@@ -707,9 +1869,34 @@
       "--settings-inspection-mode",
       "dynamic"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "inspection": {
+              "mode": "dynamic"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-max-ttl-secs",
@@ -721,9 +1908,32 @@
       "--settings-max-ttl-secs",
       "1"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "max_ttl_secs": 1
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-protocol-detection-enabled",
@@ -734,9 +1944,34 @@
       "update",
       "--settings-protocol-detection-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "protocol_detection": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-protocol-detection-enabled value 1",
@@ -747,9 +1982,34 @@
       "update",
       "--settings-protocol-detection-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "protocol_detection": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-sandbox-enabled",
@@ -760,9 +2020,34 @@
       "update",
       "--settings-sandbox-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "sandbox": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-sandbox-enabled value 1",
@@ -773,9 +2058,34 @@
       "update",
       "--settings-sandbox-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "sandbox": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-sandbox-fallback-action",
@@ -787,9 +2097,34 @@
       "--settings-sandbox-fallback-action",
       "allow"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "sandbox": {
+              "fallback_action": "allow"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-sandbox-fallback-action value 1",
@@ -801,9 +2136,34 @@
       "--settings-sandbox-fallback-action",
       "block"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "sandbox": {
+              "fallback_action": "block"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --settings-tls-decrypt-enabled",
@@ -814,9 +2174,34 @@
       "update",
       "--settings-tls-decrypt-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "tls_decrypt": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "--settings-tls-decrypt-enabled value 1",
@@ -827,9 +2212,34 @@
       "update",
       "--settings-tls-decrypt-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "tls_decrypt": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 1",
@@ -1018,7 +2428,7 @@
       "allow"
     ],
     "exitCode": 1,
-    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
+    "error": "--settings-custom-certificate-enabled is required when any --settings-custom-certificate-* flag is set",
     "requests": []
   },
   {
@@ -1054,9 +2464,71 @@
       "--settings-sandbox-enabled=false",
       "--settings-tls-decrypt-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "651",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_upload_phase": false,
+              "notification_settings": {
+                "enabled": false,
+                "msg": "second value &/?+ü"
+              }
+            },
+            "block_page": {
+              "background_color": "second value &/?+ü",
+              "footer_text": "second value &/?+ü",
+              "include_context": false,
+              "mailto_address": "192.0.2.1",
+              "mode": "redirect_uri",
+              "suppress_footer": false
+            },
+            "body_scanning": {
+              "inspection_mode": "shallow"
+            },
+            "browser_isolation": {
+              "url_browser_isolation_enabled": false
+            },
+            "custom_certificate": {
+              "enabled": false
+            },
+            "extended_email_matching": {
+              "enabled": false
+            },
+            "host_selector": {
+              "enabled": false
+            },
+            "max_ttl_secs": 2,
+            "sandbox": {
+              "enabled": false
+            },
+            "tls_decrypt": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -1092,9 +2564,66 @@
       "--settings-protocol-detection-enabled=true",
       "--settings-tls-decrypt-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "674",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "enabled_upload_phase": true,
+              "fail_closed": true,
+              "notification_settings": {
+                "msg": "regression value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "footer_text": "regression value &/?+ü",
+              "header_text": "regression value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "regression value &/?+ü",
+              "suppress_footer": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "browser_isolation": {
+              "url_browser_isolation_enabled": true
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": true
+            },
+            "fips": {
+              "tls": true
+            },
+            "max_ttl_secs": 1,
+            "protocol_detection": {
+              "enabled": true
+            },
+            "tls_decrypt": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -1130,9 +2659,69 @@
       "--settings-sandbox-fallback-action",
       "block"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "635",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_download_phase": false,
+              "notification_settings": {
+                "enabled": false,
+                "include_context": false
+              }
+            },
+            "block_page": {
+              "background_color": "second value &/?+ü",
+              "enabled": false,
+              "include_context": false,
+              "logo_path": "second value &/?+ü",
+              "mode": "redirect_uri",
+              "name": "second value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "shallow"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": false
+            },
+            "custom_certificate": {
+              "enabled": false,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "host_selector": {
+              "enabled": false
+            },
+            "inspection": {
+              "mode": "dynamic"
+            },
+            "sandbox": {
+              "enabled": false,
+              "fallback_action": "block"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 6",
@@ -1167,9 +2756,65 @@
       "1",
       "--settings-protocol-detection-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "625",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "antivirus": {
+              "notification_settings": {
+                "enabled": true,
+                "include_context": true,
+                "msg": "regression value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "include_context": true,
+              "logo_path": "regression value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "regression value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "deep"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": true,
+              "url_browser_isolation_enabled": true
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "host_selector": {
+              "enabled": true
+            },
+            "inspection": {
+              "mode": "static"
+            },
+            "max_ttl_secs": 1,
+            "protocol_detection": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -1206,9 +2851,66 @@
       "block",
       "--settings-tls-decrypt-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "625",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_download_phase": false,
+              "enabled_upload_phase": false,
+              "fail_closed": false
+            },
+            "block_page": {
+              "background_color": "second value &/?+ü",
+              "enabled": false,
+              "footer_text": "second value &/?+ü",
+              "header_text": "second value &/?+ü",
+              "mode": "redirect_uri",
+              "name": "second value &/?+ü",
+              "suppress_footer": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "custom_certificate": {
+              "enabled": false,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": false
+            },
+            "fips": {
+              "tls": false
+            },
+            "sandbox": {
+              "enabled": false,
+              "fallback_action": "block"
+            },
+            "tls_decrypt": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 8",
@@ -1243,9 +2945,61 @@
       "1",
       "--settings-protocol-detection-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "562",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "background_color": "regression value &/?+ü",
+              "enabled": true,
+              "footer_text": "regression value &/?+ü",
+              "header_text": "regression value &/?+ü",
+              "include_context": true,
+              "logo_path": "regression value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "regression value &/?+ü"
+            },
+            "custom_certificate": {
+              "enabled": true,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": true
+            },
+            "fips": {
+              "tls": true
+            },
+            "host_selector": {
+              "enabled": true
+            },
+            "inspection": {
+              "mode": "static"
+            },
+            "max_ttl_secs": 1,
+            "protocol_detection": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 9",
@@ -1282,9 +3036,68 @@
       "block",
       "--settings-tls-decrypt-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "685",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_download_phase": false,
+              "enabled_upload_phase": false,
+              "fail_closed": false,
+              "notification_settings": {
+                "enabled": false,
+                "include_context": false,
+                "msg": "second value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "mode": "redirect_uri",
+              "name": "second value &/?+ü",
+              "suppress_footer": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "shallow"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": false,
+              "url_browser_isolation_enabled": false
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "sandbox": {
+              "enabled": false,
+              "fallback_action": "block"
+            },
+            "tls_decrypt": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 10",
@@ -1416,9 +3229,62 @@
       "block",
       "--settings-tls-decrypt-enabled=false"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "639",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_download_phase": false,
+              "enabled_upload_phase": false,
+              "fail_closed": false,
+              "notification_settings": {
+                "enabled": false,
+                "include_context": false,
+                "msg": "second value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "background_color": "second value &/?+ü",
+              "enabled": false,
+              "footer_text": "second value &/?+ü",
+              "header_text": "second value &/?+ü",
+              "include_context": false,
+              "logo_path": "second value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "second value &/?+ü"
+            },
+            "sandbox": {
+              "enabled": false,
+              "fallback_action": "block"
+            },
+            "tls_decrypt": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 12",
@@ -1432,9 +3298,38 @@
       "allow",
       "--settings-tls-decrypt-enabled=true"
     ],
-    "exitCode": 1,
-    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "sandbox": {
+              "enabled": true,
+              "fallback_action": "allow"
+            },
+            "tls_decrypt": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 13",

@@ -7,28 +7,9 @@
       "access-rules",
       "create"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "2",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {}
-      }
-    ]
+    "exitCode": 1,
+    "error": "--access-rule-mode is required (one of: block, challenge, whitelist, js_challenge, managed_challenge). Pass --access-rule-mode <value> or run interactively.",
+    "requests": []
   },
   {
     "case": "required",
@@ -37,6 +18,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -76,6 +59,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ip"
     ],
@@ -90,7 +75,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "33",
+          "content-length": "59",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -101,7 +86,9 @@
         "body": {
           "configuration": {
             "target": "ip"
-          }
+          },
+          "mode": "block",
+          "notes": ""
         }
       }
     ]
@@ -113,6 +100,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ip6"
     ],
@@ -127,7 +116,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "34",
+          "content-length": "60",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -138,7 +127,9 @@
         "body": {
           "configuration": {
             "target": "ip6"
-          }
+          },
+          "mode": "block",
+          "notes": ""
         }
       }
     ]
@@ -150,6 +141,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ip_range"
     ],
@@ -164,7 +157,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "39",
+          "content-length": "65",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -175,7 +168,9 @@
         "body": {
           "configuration": {
             "target": "ip_range"
-          }
+          },
+          "mode": "block",
+          "notes": ""
         }
       }
     ]
@@ -187,6 +182,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "asn"
     ],
@@ -201,7 +198,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "34",
+          "content-length": "60",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -212,7 +209,9 @@
         "body": {
           "configuration": {
             "target": "asn"
-          }
+          },
+          "mode": "block",
+          "notes": ""
         }
       }
     ]
@@ -224,84 +223,10 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "country"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "38",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "target": "country"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --configuration-value",
-    "argv": [
-      "user",
-      "firewall",
-      "access-rules",
-      "create",
-      "--configuration-value",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "53",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "value": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 1",
-    "argv": [
-      "user",
-      "firewall",
-      "access-rules",
-      "create",
-      "--configuration-target",
-      "ip6",
-      "--configuration-value",
-      "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -324,9 +249,422 @@
         },
         "body": {
           "configuration": {
+            "target": "country"
+          },
+          "mode": "block",
+          "notes": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-value",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--access-rule-mode",
+      "block",
+      "--configuration-value",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
+            "value": "regression value &/?+ü"
+          },
+          "mode": "block",
+          "notes": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notes",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--access-rule-mode",
+      "block",
+      "--notes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "block",
+          "notes": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 1",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 2",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "whitelist"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 3",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "js_challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 4",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "managed_challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--access-rule-mode",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "block",
+          "notes": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--access-rule-mode",
+      "block",
+      "--configuration-target",
+      "ip6",
+      "--configuration-value",
+      "second value &/?+ü",
+      "--notes",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
             "target": "ip6",
             "value": "second value &/?+ü"
-          }
+          },
+          "mode": "block",
+          "notes": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--access-rule-mode",
+      "block",
+      "--configuration-target",
+      "ip6",
+      "--notes",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
+            "target": "ip6"
+          },
+          "mode": "block",
+          "notes": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "user",
+      "firewall",
+      "access-rules",
+      "create",
+      "--access-rule-mode",
+      "block",
+      "--configuration-target",
+      "ip6",
+      "--configuration-value",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/firewall/access_rules/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
+            "target": "ip6",
+            "value": "second value &/?+ü"
+          },
+          "mode": "block",
+          "notes": ""
         }
       }
     ]
@@ -338,6 +676,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -378,6 +718,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -419,6 +761,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -462,6 +806,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -501,6 +847,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -542,6 +890,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -556,6 +906,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "@<body.json>"
     ],
@@ -595,6 +947,8 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -609,7 +963,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -617,14 +971,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -635,9 +989,13 @@
       "firewall",
       "access-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ip",
       "--configuration-value",
+      "regression value &/?+ü",
+      "--notes",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -651,7 +1009,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "67",
+          "content-length": "116",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -663,7 +1021,9 @@
           "configuration": {
             "target": "ip",
             "value": "regression value &/?+ü"
-          }
+          },
+          "mode": "block",
+          "notes": "regression value &/?+ü"
         }
       }
     ]

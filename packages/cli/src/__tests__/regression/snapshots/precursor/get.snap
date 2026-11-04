@@ -5,6 +5,18 @@
       "precursor",
       "get"
     ],
+    "exitCode": 1,
+    "error": "Missing required argument: cloudflare-version",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "precursor",
+      "get",
+      "--cloudflare-version",
+      "regression value &/?+ü"
+    ],
     "exitCode": 0,
     "requests": [
       {
@@ -15,6 +27,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -31,6 +44,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--quiet"
     ],
     "exitCode": 0,
@@ -43,6 +58,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -59,6 +75,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--zone",
       "abcdef0123456789abcdef0123456789"
     ],
@@ -72,6 +90,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -88,6 +107,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--profile",
       "default",
       "--mode",
@@ -103,6 +124,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -119,6 +141,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--local"
     ],
     "exitCode": 0,
@@ -130,6 +154,7 @@
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "localhost",
           "sec-fetch-mode": "cors",
@@ -146,6 +171,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--local",
       "--persist-to",
       "regression-state"
@@ -159,6 +186,7 @@
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "localhost",
           "sec-fetch-mode": "cors",
@@ -175,6 +203,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--zone",
       "regression-5d2b6d6176fa.example.com"
     ],
@@ -205,6 +235,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+Ã¼",
           "connection": "keep-alive",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -221,6 +252,8 @@
     "argv": [
       "precursor",
       "get",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--dry-run"
     ],
     "exitCode": 0,

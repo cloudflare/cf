@@ -398,33 +398,9 @@
       "--integration-custom-database-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "99",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "custom_database_name": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-database-branch-name integration-custom-database-name -> integration-database-name integration-custom-database-name -> integration-organization-name integration-custom-database-name -> integration-provider integration-custom-database-name -> integration-scheme",
+    "requests": []
   },
   {
     "case": "only --integration-database-branch-name",
@@ -436,33 +412,9 @@
       "--integration-database-branch-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "99",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "database_branch_name": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-branch-name -> integration-database-name integration-database-branch-name -> integration-organization-name integration-database-branch-name -> integration-provider integration-database-branch-name -> integration-scheme",
+    "requests": []
   },
   {
     "case": "only --integration-database-name",
@@ -474,33 +426,9 @@
       "--integration-database-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "92",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "database_name": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-name -> integration-database-branch-name integration-database-name -> integration-organization-name integration-database-name -> integration-provider integration-database-name -> integration-scheme",
+    "requests": []
   },
   {
     "case": "only --integration-organization-name",
@@ -512,33 +440,9 @@
       "--integration-organization-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "96",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "organization_name": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-organization-name -> integration-database-branch-name integration-organization-name -> integration-database-name integration-organization-name -> integration-provider integration-organization-name -> integration-scheme",
+    "requests": []
   },
   {
     "case": "only --integration-provider",
@@ -550,33 +454,9 @@
       "--integration-provider",
       "planetscale"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "75",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "provider": "planetscale"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-provider -> integration-database-branch-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-provider -> integration-scheme",
+    "requests": []
   },
   {
     "case": "only --integration-scheme",
@@ -588,33 +468,9 @@
       "--integration-scheme",
       "postgres"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "70",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "scheme": "postgres"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name integration-scheme -> integration-provider",
+    "requests": []
   },
   {
     "case": "--integration-scheme value 1",
@@ -626,33 +482,9 @@
       "--integration-scheme",
       "postgresql"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "72",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "scheme": "postgresql"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name integration-scheme -> integration-provider",
+    "requests": []
   },
   {
     "case": "--integration-scheme value 2",
@@ -664,33 +496,163 @@
       "--integration-scheme",
       "mysql"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "67",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "scheme": "mysql"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name integration-scheme -> integration-provider",
+    "requests": []
+  },
+  {
+    "case": "only --origin-database",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-database -> origin-password origin-database -> origin-scheme origin-database -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-password",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-password -> origin-database origin-password -> origin-scheme origin-password -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-scheme",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-scheme -> origin-database origin-scheme -> origin-password origin-scheme -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "--origin-scheme value 1",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgresql"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-scheme -> origin-database origin-scheme -> origin-password origin-scheme -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "--origin-scheme value 2",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "mysql"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-scheme -> origin-database origin-scheme -> origin-password origin-scheme -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-user",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-user",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-user -> origin-database origin-user -> origin-password origin-user -> origin-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --origin-host",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-host -> origin-database origin-host -> origin-password origin-host -> origin-scheme origin-host -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-port",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-port -> origin-host origin-port -> origin-database origin-port -> origin-password origin-port -> origin-scheme origin-port -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-access-client-id",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-id -> origin-access-client-secret origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-access-client-secret",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-secret -> origin-host origin-access-client-secret -> origin-access-client-id origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-service-id",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-service-id -> origin-database origin-service-id -> origin-password origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
   },
   {
     "case": "pairwise 0",
@@ -751,46 +713,29 @@
       "--integration-provider",
       "planetscale",
       "--integration-scheme",
-      "postgresql"
+      "postgresql",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-password",
+      "second value &/?+ü",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-user",
+      "second value &/?+ü",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-port",
+      "2",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "438",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
-            "mtls_certificate_id": "0123456789abcdef0123456789abcdef",
-            "sslmode": "verify-ca"
-          },
-          "name": "regression value &/?+ü",
-          "origin_connection_limit": 2,
-          "integration": {
-            "custom_database_name": "second value &/?+ü",
-            "database_branch_name": "second value &/?+ü",
-            "database_name": "second value &/?+ü",
-            "organization_name": "second value &/?+ü",
-            "provider": "planetscale",
-            "scheme": "postgresql"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Arguments integration-custom-database-name and origin-database are mutually exclusive",
+    "requests": []
   },
   {
     "case": "pairwise 2",
@@ -808,41 +753,19 @@
       "--integration-organization-name",
       "regression value &/?+ü",
       "--integration-scheme",
-      "postgres"
+      "postgres",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-access-client-secret",
+      "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "259",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "mtls_certificate_id": "0123456789abcdef0123456789abcdef"
-          },
-          "name": "regression value &/?+ü",
-          "origin_connection_limit": 1,
-          "integration": {
-            "database_branch_name": "regression value &/?+ü",
-            "organization_name": "regression value &/?+ü",
-            "scheme": "postgres"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-branch-name -> integration-database-name integration-database-branch-name -> integration-provider integration-organization-name -> integration-database-name integration-organization-name -> integration-provider integration-scheme -> integration-database-name integration-scheme -> integration-provider origin-password -> origin-database origin-password -> origin-scheme origin-user -> origin-database origin-user -> origin-scheme origin-port -> origin-host origin-port -> origin-database origin-port -> origin-scheme origin-access-client-secret -> origin-host origin-access-client-secret -> origin-access-client-id origin-access-client-secret -> origin-database origin-access-client-secret -> origin-scheme",
+    "requests": []
   },
   {
     "case": "pairwise 3",
@@ -860,41 +783,21 @@
       "--integration-database-name",
       "second value &/?+ü",
       "--integration-provider",
-      "planetscale"
+      "planetscale",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "244",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
-            "sslmode": "verify-ca"
-          },
-          "name": "regression value &/?+ü",
-          "integration": {
-            "custom_database_name": "second value &/?+ü",
-            "database_name": "second value &/?+ü",
-            "provider": "planetscale"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-database-branch-name integration-custom-database-name -> integration-organization-name integration-custom-database-name -> integration-scheme integration-database-name -> integration-database-branch-name integration-database-name -> integration-organization-name integration-database-name -> integration-scheme integration-provider -> integration-database-branch-name integration-provider -> integration-organization-name integration-provider -> integration-scheme origin-database -> origin-password origin-database -> origin-user origin-scheme -> origin-password origin-scheme -> origin-user origin-host -> origin-password origin-host -> origin-user origin-access-client-id -> origin-access-client-secret origin-access-client-id -> origin-password origin-access-client-id -> origin-user origin-service-id -> origin-password origin-service-id -> origin-user",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -910,40 +813,21 @@
       "--integration-database-name",
       "regression value &/?+ü",
       "--integration-organization-name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "195",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "sslmode": "require"
-          },
-          "name": "regression value &/?+ü",
-          "origin_connection_limit": 1,
-          "integration": {
-            "database_name": "regression value &/?+ü",
-            "organization_name": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-name -> integration-database-branch-name integration-database-name -> integration-provider integration-database-name -> integration-scheme integration-organization-name -> integration-database-branch-name integration-organization-name -> integration-provider integration-organization-name -> integration-scheme origin-database -> origin-scheme origin-database -> origin-user origin-password -> origin-scheme origin-password -> origin-user origin-host -> origin-scheme origin-host -> origin-user origin-port -> origin-scheme origin-port -> origin-user origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
   },
   {
     "case": "pairwise 5",
@@ -963,42 +847,19 @@
       "--integration-provider",
       "planetscale",
       "--integration-scheme",
-      "postgresql"
+      "postgresql",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-user",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "308",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
-            "mtls_certificate_id": "0123456789abcdef0123456789abcdef"
-          },
-          "name": "regression value &/?+ü",
-          "integration": {
-            "custom_database_name": "second value &/?+ü",
-            "database_branch_name": "second value &/?+ü",
-            "provider": "planetscale",
-            "scheme": "postgresql"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-database-name integration-custom-database-name -> integration-organization-name integration-database-branch-name -> integration-database-name integration-database-branch-name -> integration-organization-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name origin-scheme -> origin-database origin-scheme -> origin-password origin-user -> origin-database origin-user -> origin-password origin-access-client-id -> origin-host origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-secret -> origin-host origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password",
+    "requests": []
   },
   {
     "case": "pairwise 6",
@@ -1014,38 +875,19 @@
       "--integration-database-name",
       "regression value &/?+ü",
       "--integration-organization-name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "236",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "custom_database_name": "regression value &/?+ü",
-            "database_branch_name": "regression value &/?+ü",
-            "database_name": "regression value &/?+ü",
-            "organization_name": "regression value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-provider integration-custom-database-name -> integration-scheme integration-database-branch-name -> integration-provider integration-database-branch-name -> integration-scheme integration-database-name -> integration-provider integration-database-name -> integration-scheme integration-organization-name -> integration-provider integration-organization-name -> integration-scheme origin-scheme -> origin-database origin-scheme -> origin-password origin-user -> origin-database origin-user -> origin-password origin-host -> origin-database origin-host -> origin-password origin-port -> origin-database origin-port -> origin-password",
+    "requests": []
   },
   {
     "case": "pairwise 7",
@@ -1065,42 +907,21 @@
       "--integration-provider",
       "planetscale",
       "--integration-scheme",
-      "postgresql"
+      "postgresql",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-password",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "268",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
-            "mtls_certificate_id": "0123456789abcdef0123456789abcdef",
-            "sslmode": "verify-ca"
-          },
-          "name": "regression value &/?+ü",
-          "origin_connection_limit": 2,
-          "integration": {
-            "provider": "planetscale",
-            "scheme": "postgresql"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-provider -> integration-database-branch-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name origin-database -> origin-scheme origin-database -> origin-user origin-password -> origin-scheme origin-password -> origin-user origin-access-client-id -> origin-host origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user origin-access-client-secret -> origin-host origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
   },
   {
     "case": "pairwise 8",
@@ -1112,36 +933,23 @@
       "--integration-provider",
       "planetscale",
       "--integration-scheme",
-      "postgres"
+      "postgres",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "95",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "integration": {
-            "provider": "planetscale",
-            "scheme": "postgres"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-provider -> integration-database-branch-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name",
+    "requests": []
   },
   {
     "case": "pairwise 9",
@@ -1165,44 +973,79 @@
       "--integration-database-name",
       "second value &/?+ü",
       "--integration-organization-name",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "391",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
-            "mtls_certificate_id": "0123456789abcdef0123456789abcdef",
-            "sslmode": "verify-ca"
-          },
-          "name": "regression value &/?+ü",
-          "origin_connection_limit": 2,
-          "integration": {
-            "custom_database_name": "second value &/?+ü",
-            "database_branch_name": "second value &/?+ü",
-            "database_name": "second value &/?+ü",
-            "organization_name": "second value &/?+ü"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-provider integration-custom-database-name -> integration-scheme integration-database-branch-name -> integration-provider integration-database-branch-name -> integration-scheme integration-database-name -> integration-provider integration-database-name -> integration-scheme integration-organization-name -> integration-provider integration-organization-name -> integration-scheme origin-access-client-id -> origin-host origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user origin-access-client-secret -> origin-host origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user origin-service-id -> origin-database origin-service-id -> origin-password origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user origin-access-client-secret -> origin-host origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user origin-service-id -> origin-database origin-service-id -> origin-password origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-connection-limit",
+      "2",
+      "--integration-custom-database-name",
+      "second value &/?+ü",
+      "--integration-database-branch-name",
+      "second value &/?+ü",
+      "--integration-database-name",
+      "second value &/?+ü",
+      "--integration-organization-name",
+      "second value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgresql",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-password",
+      "second value &/?+ü",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-user",
+      "second value &/?+ü",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-port",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-custom-database-name and origin-database are mutually exclusive",
+    "requests": []
   },
   {
     "case": "global quiet",
@@ -1527,45 +1370,28 @@
       "--integration-provider",
       "planetscale",
       "--integration-scheme",
-      "postgres"
+      "postgres",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "450",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "mtls": {
-            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
-            "mtls_certificate_id": "0123456789abcdef0123456789abcdef",
-            "sslmode": "require"
-          },
-          "name": "regression value &/?+ü",
-          "origin_connection_limit": 1,
-          "integration": {
-            "custom_database_name": "regression value &/?+ü",
-            "database_branch_name": "regression value &/?+ü",
-            "database_name": "regression value &/?+ü",
-            "organization_name": "regression value &/?+ü",
-            "provider": "planetscale",
-            "scheme": "postgres"
-          }
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Arguments integration-custom-database-name and origin-database are mutually exclusive",
+    "requests": []
   }
 ]

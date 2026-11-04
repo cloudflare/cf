@@ -150,7 +150,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-count -> from-name",
     "requests": []
   },
   {
@@ -212,7 +212,7 @@
       "do"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-type -> from-name",
     "requests": []
   },
   {
@@ -231,7 +231,7 @@
       "sleep"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-type -> from-name",
     "requests": []
   },
   {
@@ -250,7 +250,7 @@
       "waitForEvent"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-type -> from-name",
     "requests": []
   },
   {
@@ -465,7 +465,7 @@
       "do"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-count -> from-name from-type -> from-name",
     "requests": []
   },
   {
@@ -551,7 +551,7 @@
       "2"
     ],
     "exitCode": 1,
-    "error": "Arguments rollback and from-count are mutually exclusive",
+    "error": "Missing dependent arguments:\n from-count -> from-name",
     "requests": []
   },
   {
@@ -914,5 +914,43 @@
     "exitCode": 1,
     "error": "Arguments rollback and from-count are mutually exclusive",
     "requests": []
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "pause"
+        }
+      }
+    ]
   }
 ]

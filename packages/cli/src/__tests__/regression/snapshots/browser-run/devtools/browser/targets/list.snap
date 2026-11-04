@@ -45,7 +45,7 @@
     ]
   },
   {
-    "case": "only --liveViewUrlExpiresInMs",
+    "case": "only --live-view-url-expires-in-ms",
     "argv": [
       "browser-run",
       "devtools",
@@ -54,7 +54,7 @@
       "list",
       "--session-id",
       "0123456789abcdef0123456789abcdef",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1"
     ],
     "exitCode": 0,
@@ -88,7 +88,7 @@
       "list",
       "--session-id",
       "0123456789abcdef0123456789abcdef",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "2"
     ],
     "exitCode": 0,

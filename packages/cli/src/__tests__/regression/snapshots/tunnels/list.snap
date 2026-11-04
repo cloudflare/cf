@@ -506,9 +506,12 @@
       "second value &/?+ü",
       "--include-prefix",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--exclude-prefix",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--tun-types",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--status",
       "degraded",
@@ -517,26 +520,9 @@
       "--page",
       "2"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&existed_at=second%20value%20%26%2F%3F%2B%C3%BC&uuid=0123456789abcdef0123456789abcdef&was_active_at=second%20value%20%26%2F%3F%2B%C3%BC&was_inactive_at=second%20value%20%26%2F%3F%2B%C3%BC&include_prefix=second%20value%20%26%2F%3F%2B%C3%BC&exclude_prefix=second%20value%20%26%2F%3F%2B%C3%BC&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&status=degraded&per_page=2&page=2",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown commands: second value &/?+ü, second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 2",
@@ -589,31 +575,16 @@
       "second value &/?+ü",
       "--include-prefix",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--tun-types",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--per-page",
       "2"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&existed_at=second%20value%20%26%2F%3F%2B%C3%BC&was_active_at=second%20value%20%26%2F%3F%2B%C3%BC&include_prefix=second%20value%20%26%2F%3F%2B%C3%BC&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -668,6 +639,7 @@
       "second value &/?+ü",
       "--tun-types",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--status",
       "degraded"
     ],
@@ -675,7 +647,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&was_active_at=second%20value%20%26%2F%3F%2B%C3%BC&was_inactive_at=second%20value%20%26%2F%3F%2B%C3%BC&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&status=degraded",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&was_active_at=second%20value%20%26%2F%3F%2B%C3%BC&was_inactive_at=second%20value%20%26%2F%3F%2B%C3%BC&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&status=degraded",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -741,6 +713,7 @@
       "0123456789abcdef0123456789abcdef",
       "--tun-types",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--status",
       "degraded",
       "--per-page",
@@ -752,7 +725,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&existed_at=second%20value%20%26%2F%3F%2B%C3%BC&uuid=0123456789abcdef0123456789abcdef&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&status=degraded&per_page=2&page=2",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&existed_at=second%20value%20%26%2F%3F%2B%C3%BC&uuid=0123456789abcdef0123456789abcdef&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&tun_types=second%20value%20%26%2F%3F%2B%C3%BC&status=degraded&per_page=2&page=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -822,29 +795,14 @@
       "second value &/?+ü",
       "--include-prefix",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--exclude-prefix",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/tunnels?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&existed_at=second%20value%20%26%2F%3F%2B%C3%BC&uuid=0123456789abcdef0123456789abcdef&was_active_at=second%20value%20%26%2F%3F%2B%C3%BC&was_inactive_at=second%20value%20%26%2F%3F%2B%C3%BC&include_prefix=second%20value%20%26%2F%3F%2B%C3%BC&exclude_prefix=second%20value%20%26%2F%3F%2B%C3%BC",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown commands: second value &/?+ü, second value &/?+ü",
+    "requests": []
   },
   {
     "case": "global quiet",

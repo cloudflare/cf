@@ -45,7 +45,7 @@
     ]
   },
   {
-    "case": "only --sortBy",
+    "case": "only --sort-by",
     "argv": [
       "zero-trust",
       "dex",
@@ -55,7 +55,7 @@
       "regression value &/?+ü",
       "--to",
       "regression value &/?+ü",
-      "--sortBy",
+      "--sort-by",
       "fleet-status-usage"
     ],
     "exitCode": 0,
@@ -80,7 +80,7 @@
     ]
   },
   {
-    "case": "--sortBy value 1",
+    "case": "--sort-by value 1",
     "argv": [
       "zero-trust",
       "dex",
@@ -90,7 +90,7 @@
       "regression value &/?+ü",
       "--to",
       "regression value &/?+ü",
-      "--sortBy",
+      "--sort-by",
       "application-tests-usage"
     ],
     "exitCode": 0,

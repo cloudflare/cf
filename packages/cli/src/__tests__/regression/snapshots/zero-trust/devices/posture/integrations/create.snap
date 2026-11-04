@@ -59,7 +59,7 @@
     ]
   },
   {
-    "case": "only --config-api-url",
+    "case": "only --integration-config-api-url",
     "argv": [
       "zero-trust",
       "devices",
@@ -72,7 +72,7 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-api-url",
+      "--integration-config-api-url",
       "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 0,
@@ -106,7 +106,7 @@
     ]
   },
   {
-    "case": "only --config-auth-url",
+    "case": "only --integration-config-auth-url",
     "argv": [
       "zero-trust",
       "devices",
@@ -119,15 +119,15 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-auth-url",
+      "--integration-config-auth-url",
       "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-auth-url -> config-api-url config-auth-url -> config-client-id config-auth-url -> config-client-secret",
+    "error": "Missing dependent arguments:\n integration-config-auth-url -> integration-config-api-url integration-config-auth-url -> integration-config-client-id integration-config-auth-url -> integration-config-client-secret",
     "requests": []
   },
   {
-    "case": "only --config-client-id",
+    "case": "only --integration-config-client-id",
     "argv": [
       "zero-trust",
       "devices",
@@ -140,41 +140,15 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-client-id",
+      "--integration-config-client-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "152",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "config": {
-            "client_id": "0123456789abcdef0123456789abcdef"
-          },
-          "interval": "regression value &/?+ü",
-          "name": "regression value &/?+ü",
-          "type": "workspace_one"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-client-id -> integration-config-client-secret",
+    "requests": []
   },
   {
-    "case": "only --config-client-secret",
+    "case": "only --integration-config-client-secret",
     "argv": [
       "zero-trust",
       "devices",
@@ -187,7 +161,7 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-client-secret",
+      "--integration-config-client-secret",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -221,7 +195,7 @@
     ]
   },
   {
-    "case": "only --config-customer-id",
+    "case": "only --integration-config-customer-id",
     "argv": [
       "zero-trust",
       "devices",
@@ -234,83 +208,15 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-customer-id",
-      "0123456789abcdef0123456789abcdef"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "154",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "config": {
-            "customer_id": "0123456789abcdef0123456789abcdef"
-          },
-          "interval": "regression value &/?+ü",
-          "name": "regression value &/?+ü",
-          "type": "workspace_one"
-        }
-      }
-    ]
-  },
-  {
-    "case": "only --config-client-key",
-    "argv": [
-      "zero-trust",
-      "devices",
-      "posture",
-      "integrations",
-      "create",
-      "--interval",
-      "regression value &/?+ü",
-      "--name",
-      "regression value &/?+ü",
-      "--type",
-      "workspace_one",
-      "--config-client-key",
-      "regression value &/?+ü"
-    ],
-    "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-client-key -> config-api-url config-client-key -> config-customer-id config-client-key -> config-client-secret",
-    "requests": []
-  },
-  {
-    "case": "only --config-access-client-id",
-    "argv": [
-      "zero-trust",
-      "devices",
-      "posture",
-      "integrations",
-      "create",
-      "--interval",
-      "regression value &/?+ü",
-      "--name",
-      "regression value &/?+ü",
-      "--type",
-      "workspace_one",
-      "--config-access-client-id",
+      "--integration-config-customer-id",
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-access-client-id -> config-api-url config-access-client-id -> config-access-client-secret",
+    "error": "Missing dependent arguments:\n integration-config-customer-id -> integration-config-client-secret",
     "requests": []
   },
   {
-    "case": "only --config-access-client-secret",
+    "case": "only --integration-config-client-key",
     "argv": [
       "zero-trust",
       "devices",
@@ -323,11 +229,53 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-access-client-secret",
+      "--integration-config-client-key",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-access-client-secret -> config-api-url config-access-client-secret -> config-access-client-id",
+    "error": "Missing dependent arguments:\n integration-config-client-key -> integration-config-api-url integration-config-client-key -> integration-config-client-secret integration-config-client-key -> integration-config-customer-id",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-access-client-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-access-client-id -> integration-config-api-url",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-access-client-secret",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--integration-config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-access-client-secret -> integration-config-api-url",
     "requests": []
   },
   {
@@ -708,25 +656,25 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-api-url",
+      "--integration-config-api-url",
       "https://example.com/a?x=1&y=two",
-      "--config-auth-url",
+      "--integration-config-auth-url",
       "https://example.com/a?x=1&y=two",
-      "--config-client-id",
+      "--integration-config-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-secret",
+      "--integration-config-client-secret",
       "second value &/?+ü",
-      "--config-customer-id",
+      "--integration-config-customer-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-key",
+      "--integration-config-client-key",
       "second value &/?+ü",
-      "--config-access-client-id",
+      "--integration-config-access-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-access-client-secret",
+      "--integration-config-access-client-secret",
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments config-api-url and config-customer-id are mutually exclusive",
+    "error": "Arguments integration-config-auth-url and integration-config-customer-id are mutually exclusive",
     "requests": []
   },
   {
@@ -743,17 +691,17 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-auth-url",
+      "--integration-config-auth-url",
       "https://example.com/a?x=1&y=two",
-      "--config-client-secret",
+      "--integration-config-client-secret",
       "regression value &/?+ü",
-      "--config-client-key",
+      "--integration-config-client-key",
       "regression value &/?+ü",
-      "--config-access-client-secret",
+      "--integration-config-access-client-secret",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-auth-url -> config-api-url config-auth-url -> config-client-id config-client-key -> config-api-url config-client-key -> config-customer-id config-access-client-secret -> config-api-url config-access-client-secret -> config-access-client-id",
+    "error": "Missing dependent arguments:\n integration-config-auth-url -> integration-config-api-url integration-config-auth-url -> integration-config-client-id integration-config-client-key -> integration-config-api-url integration-config-client-key -> integration-config-customer-id integration-config-access-client-secret -> integration-config-api-url",
     "requests": []
   },
   {
@@ -770,17 +718,17 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-api-url",
+      "--integration-config-api-url",
       "https://example.com/a?x=1&y=two",
-      "--config-client-id",
+      "--integration-config-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-customer-id",
+      "--integration-config-customer-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-access-client-id",
+      "--integration-config-access-client-id",
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-access-client-id -> config-access-client-secret",
+    "error": "Missing dependent arguments:\n integration-config-client-id -> integration-config-client-secret integration-config-customer-id -> integration-config-client-secret",
     "requests": []
   },
   {
@@ -797,17 +745,17 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-client-id",
+      "--integration-config-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-secret",
+      "--integration-config-client-secret",
       "regression value &/?+ü",
-      "--config-access-client-id",
+      "--integration-config-access-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-access-client-secret",
+      "--integration-config-access-client-secret",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-access-client-id -> config-api-url config-access-client-secret -> config-api-url",
+    "error": "Missing dependent arguments:\n integration-config-access-client-id -> integration-config-api-url integration-config-access-client-secret -> integration-config-api-url",
     "requests": []
   },
   {
@@ -824,17 +772,17 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-api-url",
+      "--integration-config-api-url",
       "https://example.com/a?x=1&y=two",
-      "--config-auth-url",
+      "--integration-config-auth-url",
       "https://example.com/a?x=1&y=two",
-      "--config-customer-id",
+      "--integration-config-customer-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-key",
+      "--integration-config-client-key",
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-auth-url -> config-client-id config-auth-url -> config-client-secret config-client-key -> config-client-secret",
+    "error": "Missing dependent arguments:\n integration-config-auth-url -> integration-config-client-id integration-config-auth-url -> integration-config-client-secret integration-config-customer-id -> integration-config-client-secret integration-config-client-key -> integration-config-client-secret",
     "requests": []
   },
   {
@@ -851,17 +799,17 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-customer-id",
+      "--integration-config-customer-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-key",
+      "--integration-config-client-key",
       "regression value &/?+ü",
-      "--config-access-client-id",
+      "--integration-config-access-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-access-client-secret",
+      "--integration-config-access-client-secret",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n config-client-key -> config-api-url config-client-key -> config-client-secret config-access-client-id -> config-api-url config-access-client-secret -> config-api-url",
+    "error": "Missing dependent arguments:\n integration-config-customer-id -> integration-config-client-secret integration-config-client-key -> integration-config-api-url integration-config-client-key -> integration-config-client-secret integration-config-access-client-id -> integration-config-api-url integration-config-access-client-secret -> integration-config-api-url",
     "requests": []
   },
   {
@@ -878,18 +826,47 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-api-url",
+      "--integration-config-api-url",
       "https://example.com/a?x=1&y=two",
-      "--config-auth-url",
+      "--integration-config-auth-url",
       "https://example.com/a?x=1&y=two",
-      "--config-client-id",
+      "--integration-config-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-secret",
+      "--integration-config-client-secret",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments config-api-url and config-client-id are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "279",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "api_url": "https://example.com/a?x=1&y=two",
+            "auth_url": "https://example.com/a?x=1&y=two",
+            "client_id": "0123456789abcdef0123456789abcdef",
+            "client_secret": "second value &/?+ü"
+          },
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -1225,7 +1202,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1233,14 +1210,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1258,25 +1235,25 @@
       "regression value &/?+ü",
       "--type",
       "workspace_one",
-      "--config-api-url",
+      "--integration-config-api-url",
       "https://example.com/a?x=1&y=two",
-      "--config-auth-url",
+      "--integration-config-auth-url",
       "https://example.com/a?x=1&y=two",
-      "--config-client-id",
+      "--integration-config-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-secret",
+      "--integration-config-client-secret",
       "regression value &/?+ü",
-      "--config-customer-id",
+      "--integration-config-customer-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-client-key",
+      "--integration-config-client-key",
       "regression value &/?+ü",
-      "--config-access-client-id",
+      "--integration-config-access-client-id",
       "0123456789abcdef0123456789abcdef",
-      "--config-access-client-secret",
+      "--integration-config-access-client-secret",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments config-api-url and config-customer-id are mutually exclusive",
+    "error": "Arguments integration-config-auth-url and integration-config-customer-id are mutually exclusive",
     "requests": []
   }
 ]

@@ -18,6 +18,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -59,6 +61,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--settings-abuse-contact-email",
       "regression@example.com"
     ],
@@ -73,7 +77,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "134",
+          "content-length": "152",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -86,7 +90,8 @@
           "name": "regression value &/?+ü",
           "settings": {
             "abuse_contact_email": "regression@example.com"
-          }
+          },
+          "type": "standard"
         }
       }
     ]
@@ -100,6 +105,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--settings-enforce-twofactor=true"
     ],
     "exitCode": 0,
@@ -113,7 +120,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "112",
+          "content-length": "130",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -126,7 +133,8 @@
           "name": "regression value &/?+ü",
           "settings": {
             "enforce_twofactor": true
-          }
+          },
+          "type": "standard"
         }
       }
     ]
@@ -140,6 +148,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--settings-enforce-twofactor=false"
     ],
     "exitCode": 0,
@@ -153,7 +163,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "113",
+          "content-length": "131",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -166,20 +176,25 @@
           "name": "regression value &/?+ü",
           "settings": {
             "enforce_twofactor": false
-          }
+          },
+          "type": "standard"
         }
       }
     ]
   },
   {
-    "case": "pairwise 0",
+    "case": "required --type value 1",
     "argv": [
       "accounts",
       "update",
       "--id",
       "0123456789abcdef0123456789abcdef",
       "--name",
-      "regression value &/?+ü"
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "enterprise"
     ],
     "exitCode": 0,
     "requests": [
@@ -192,7 +207,48 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "74",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "accounts",
+      "update",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "standard"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -202,7 +258,8 @@
         },
         "body": {
           "id": "0123456789abcdef0123456789abcdef",
-          "name": "regression value &/?+ü"
+          "name": "regression value &/?+ü",
+          "type": "standard"
         }
       }
     ]
@@ -216,6 +273,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--settings-abuse-contact-email",
       "regression@example.com",
       "--settings-enforce-twofactor=false"
@@ -231,7 +290,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "160",
+          "content-length": "178",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -245,7 +304,8 @@
           "settings": {
             "abuse_contact_email": "regression@example.com",
             "enforce_twofactor": false
-          }
+          },
+          "type": "standard"
         }
       }
     ]
@@ -259,6 +319,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -301,6 +363,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -344,6 +408,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -389,6 +455,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -430,6 +498,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -473,6 +543,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -489,6 +561,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "@<body.json>"
     ],
@@ -530,6 +604,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -572,6 +648,8 @@
       "0123456789abcdef0123456789abcdef",
       "--name",
       "regression value &/?+ü",
+      "--type",
+      "standard",
       "--settings-abuse-contact-email",
       "regression@example.com",
       "--settings-enforce-twofactor=true"
@@ -587,7 +665,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "159",
+          "content-length": "177",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -601,7 +679,8 @@
           "settings": {
             "abuse_contact_email": "regression@example.com",
             "enforce_twofactor": true
-          }
+          },
+          "type": "standard"
         }
       }
     ]

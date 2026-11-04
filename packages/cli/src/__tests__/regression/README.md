@@ -9,8 +9,9 @@ pnpm --filter cf test:regression -t 'cf zones list$' -u
 pnpm --filter cf test:regression --shard=1/12
 ```
 
-Install against the frozen lockfile and run `pnpm generate` first when preparing
-a fresh checkout. The suite has twelve command files balanced by case count.
+Install against the frozen lockfile when preparing a fresh checkout.
+The regression task regenerates commands before testing. The suite has twelve
+command files balanced by case count.
 Locally, Vitest runs them in parallel worker forks. CI runs the separate
 `.github/workflows/regression.yml` workflow as twelve GitHub Actions shards,
 each running one file. Each fork owns its temporary working directory, MSW
@@ -31,7 +32,7 @@ bounded rather than an exponential Cartesian product; it covers flag presence,
 not every combination of values. Invalid combinations remain in the baseline
 with their exit code and error, alongside successful requests.
 
-The real CLI parser, command modules, SDK and HTTP clients run against MSW.
+The real CLI parser, command modules and API clients run against MSW.
 Invocations use deterministic dummy API-token credentials in the environment.
 Mock responses are empty success envelopes, apart from the zone-name lookup
 used by `--zone <domain>`. Every command must reach its declared method and

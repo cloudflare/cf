@@ -100,6 +100,46 @@
     ]
   },
   {
+    "case": "only --filter-mode",
+    "argv": [
+      "magic-transit",
+      "advanced-tcp-protection",
+      "configs",
+      "tcp",
+      "flow",
+      "protection",
+      "filters",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter-mode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "pairwise 0",
     "argv": [
       "magic-transit",
@@ -137,6 +177,49 @@
   },
   {
     "case": "pairwise 1",
+    "argv": [
+      "magic-transit",
+      "advanced-tcp-protection",
+      "configs",
+      "tcp",
+      "flow",
+      "protection",
+      "filters",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--expression",
+      "second value &/?+ü",
+      "--filter-mode",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expression": "second value &/?+ü",
+          "mode": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
     "argv": [
       "magic-transit",
       "advanced-tcp-protection",
@@ -509,6 +592,49 @@
             "regression": "second"
           }
         ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-transit",
+      "advanced-tcp-protection",
+      "configs",
+      "tcp",
+      "flow",
+      "protection",
+      "filters",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--expression",
+      "regression value &/?+ü",
+      "--filter-mode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expression": "regression value &/?+ü",
+          "mode": "regression value &/?+ü"
+        }
       }
     ]
   }

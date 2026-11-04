@@ -79,16 +79,17 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
-          "cf-r2-jurisdiction": "regression value &/?+Ã¼",
+          "cf-r2-jurisdiction": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },
@@ -388,14 +389,15 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },

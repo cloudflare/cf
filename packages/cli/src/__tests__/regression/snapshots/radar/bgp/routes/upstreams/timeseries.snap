@@ -44,7 +44,7 @@
     ]
   },
   {
-    "case": "only --ipVersion",
+    "case": "only --ip-version",
     "argv": [
       "radar",
       "bgp",
@@ -52,7 +52,7 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv4"
     ],
     "exitCode": 0,
@@ -77,7 +77,7 @@
     ]
   },
   {
-    "case": "--ipVersion value 1",
+    "case": "--ip-version value 1",
     "argv": [
       "radar",
       "bgp",
@@ -85,7 +85,7 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6"
     ],
     "exitCode": 0,
@@ -110,7 +110,7 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "bgp",
@@ -118,7 +118,7 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -143,7 +143,7 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "bgp",
@@ -151,7 +151,7 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -283,11 +283,11 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--limit",
       "2",
@@ -324,7 +324,7 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--limit",
       "1"
@@ -359,9 +359,9 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -396,7 +396,7 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--limit",
       "1"
@@ -431,9 +431,9 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -468,11 +468,11 @@
       "upstreams",
       "timeseries",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--limit",
       "2"

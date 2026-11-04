@@ -146,7 +146,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-count -> from-name",
     "requests": []
   },
   {
@@ -206,7 +206,7 @@
       "do"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-type -> from-name",
     "requests": []
   },
   {
@@ -224,7 +224,7 @@
       "sleep"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-type -> from-name",
     "requests": []
   },
   {
@@ -242,7 +242,7 @@
       "waitForEvent"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-type -> from-name",
     "requests": []
   },
   {
@@ -451,7 +451,7 @@
       "do"
     ],
     "exitCode": 1,
-    "error": "--from-name is required when any --from-* flag is set",
+    "error": "Missing dependent arguments:\n from-count -> from-name from-type -> from-name",
     "requests": []
   },
   {
@@ -534,7 +534,7 @@
       "2"
     ],
     "exitCode": 1,
-    "error": "Arguments rollback and from-count are mutually exclusive",
+    "error": "Missing dependent arguments:\n from-count -> from-name",
     "requests": []
   },
   {

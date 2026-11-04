@@ -153,13 +153,13 @@
     ]
   },
   {
-    "case": "only --orderBy",
+    "case": "only --order-by",
     "argv": [
       "radar",
       "entities",
       "asns",
       "list",
-      "--orderBy",
+      "--order-by",
       "ASN"
     ],
     "exitCode": 0,
@@ -184,13 +184,13 @@
     ]
   },
   {
-    "case": "--orderBy value 1",
+    "case": "--order-by value 1",
     "argv": [
       "radar",
       "entities",
       "asns",
       "list",
-      "--orderBy",
+      "--order-by",
       "POPULATION"
     ],
     "exitCode": 0,
@@ -291,7 +291,7 @@
       "second value &/?+ü",
       "--location",
       "second value &/?+ü",
-      "--orderBy",
+      "--order-by",
       "POPULATION",
       "--format",
       "CSV"
@@ -363,7 +363,7 @@
       "2",
       "--asn",
       "second value &/?+ü",
-      "--orderBy",
+      "--order-by",
       "POPULATION"
     ],
     "exitCode": 0,
@@ -431,7 +431,7 @@
       "2",
       "--offset",
       "2",
-      "--orderBy",
+      "--order-by",
       "POPULATION",
       "--format",
       "CSV"
@@ -464,7 +464,7 @@
       "entities",
       "asns",
       "list",
-      "--orderBy",
+      "--order-by",
       "ASN",
       "--format",
       "JSON"

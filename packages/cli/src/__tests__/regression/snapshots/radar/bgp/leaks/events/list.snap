@@ -94,14 +94,14 @@
     ]
   },
   {
-    "case": "only --eventId",
+    "case": "only --event-id",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--eventId",
+      "--event-id",
       "1"
     ],
     "exitCode": 0,
@@ -126,14 +126,14 @@
     ]
   },
   {
-    "case": "only --leakAsn",
+    "case": "only --leak-asn",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--leakAsn",
+      "--leak-asn",
       "1"
     ],
     "exitCode": 0,
@@ -158,14 +158,14 @@
     ]
   },
   {
-    "case": "only --involvedAsn",
+    "case": "only --involved-asn",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--involvedAsn",
+      "--involved-asn",
       "1"
     ],
     "exitCode": 0,
@@ -190,14 +190,14 @@
     ]
   },
   {
-    "case": "only --involvedCountry",
+    "case": "only --involved-country",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--involvedCountry",
+      "--involved-country",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -222,14 +222,14 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -254,14 +254,14 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -286,14 +286,14 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -318,14 +318,14 @@
     ]
   },
   {
-    "case": "only --sortBy",
+    "case": "only --sort-by",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortBy",
+      "--sort-by",
       "ID"
     ],
     "exitCode": 0,
@@ -350,14 +350,14 @@
     ]
   },
   {
-    "case": "--sortBy value 1",
+    "case": "--sort-by value 1",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortBy",
+      "--sort-by",
       "LEAKS"
     ],
     "exitCode": 0,
@@ -382,14 +382,14 @@
     ]
   },
   {
-    "case": "--sortBy value 2",
+    "case": "--sort-by value 2",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortBy",
+      "--sort-by",
       "PEERS"
     ],
     "exitCode": 0,
@@ -414,14 +414,14 @@
     ]
   },
   {
-    "case": "--sortBy value 3",
+    "case": "--sort-by value 3",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortBy",
+      "--sort-by",
       "PREFIXES"
     ],
     "exitCode": 0,
@@ -446,14 +446,14 @@
     ]
   },
   {
-    "case": "--sortBy value 4",
+    "case": "--sort-by value 4",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortBy",
+      "--sort-by",
       "ORIGINS"
     ],
     "exitCode": 0,
@@ -478,14 +478,14 @@
     ]
   },
   {
-    "case": "--sortBy value 5",
+    "case": "--sort-by value 5",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortBy",
+      "--sort-by",
       "TIME"
     ],
     "exitCode": 0,
@@ -510,14 +510,14 @@
     ]
   },
   {
-    "case": "only --sortOrder",
+    "case": "only --sort-order",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -542,14 +542,14 @@
     ]
   },
   {
-    "case": "--sortOrder value 1",
+    "case": "--sort-order value 1",
     "argv": [
       "radar",
       "bgp",
       "leaks",
       "events",
       "list",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
@@ -649,23 +649,23 @@
       "2",
       "--per-page",
       "2",
-      "--eventId",
+      "--event-id",
       "2",
-      "--leakAsn",
+      "--leak-asn",
       "2",
-      "--involvedAsn",
+      "--involved-asn",
       "2",
-      "--involvedCountry",
+      "--involved-country",
       "second value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--sortBy",
+      "--sort-by",
       "LEAKS",
-      "--sortOrder",
+      "--sort-order",
       "DESC",
       "--format",
       "CSV"
@@ -701,13 +701,13 @@
       "list",
       "--per-page",
       "1",
-      "--leakAsn",
+      "--leak-asn",
       "1",
-      "--involvedCountry",
+      "--involved-country",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--sortBy",
+      "--sort-by",
       "ID",
       "--format",
       "JSON"
@@ -743,15 +743,15 @@
       "list",
       "--page",
       "2",
-      "--eventId",
+      "--event-id",
       "2",
-      "--involvedAsn",
+      "--involved-asn",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
@@ -783,15 +783,15 @@
       "leaks",
       "events",
       "list",
-      "--eventId",
+      "--event-id",
       "1",
-      "--leakAsn",
+      "--leak-asn",
       "1",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--sortOrder",
+      "--sort-order",
       "ASC",
       "--format",
       "JSON"
@@ -829,13 +829,13 @@
       "2",
       "--per-page",
       "2",
-      "--involvedAsn",
+      "--involved-asn",
       "2",
-      "--involvedCountry",
+      "--involved-country",
       "second value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--sortBy",
+      "--sort-by",
       "LEAKS"
     ],
     "exitCode": 0,
@@ -867,13 +867,13 @@
       "leaks",
       "events",
       "list",
-      "--involvedAsn",
+      "--involved-asn",
       "1",
-      "--involvedCountry",
+      "--involved-country",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -909,15 +909,15 @@
       "2",
       "--per-page",
       "2",
-      "--eventId",
+      "--event-id",
       "2",
-      "--leakAsn",
+      "--leak-asn",
       "2",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--sortBy",
+      "--sort-by",
       "LEAKS",
-      "--sortOrder",
+      "--sort-order",
       "DESC",
       "--format",
       "CSV"
@@ -951,11 +951,11 @@
       "leaks",
       "events",
       "list",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--sortBy",
+      "--sort-by",
       "ID",
-      "--sortOrder",
+      "--sort-order",
       "ASC",
       "--format",
       "JSON"
@@ -993,17 +993,17 @@
       "2",
       "--per-page",
       "2",
-      "--eventId",
+      "--event-id",
       "2",
-      "--leakAsn",
+      "--leak-asn",
       "2",
-      "--involvedAsn",
+      "--involved-asn",
       "2",
-      "--involvedCountry",
+      "--involved-country",
       "second value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,

@@ -416,6 +416,55 @@
     ]
   },
   {
+    "case": "only --endpoints-doh-networks",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "ecs_support": false,
+          "endpoints": {
+            "doh": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --endpoints-doh-require-token",
     "argv": [
       "zero-trust",
@@ -584,6 +633,55 @@
           "endpoints": {
             "dot": {
               "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoints-dot-networks",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "ecs_support": false,
+          "endpoints": {
+            "dot": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
           "name": "regression value &/?+ü"
@@ -768,6 +866,55 @@
     ]
   },
   {
+    "case": "only --endpoints-ipv6-networks",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-ipv6-networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "ecs_support": false,
+          "endpoints": {
+            "ipv6": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --max-ttl-mode",
     "argv": [
       "zero-trust",
@@ -909,7 +1056,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--max-ttl-mode is required when any --max_ttl-* flag is set",
+    "error": "--max-ttl-mode is required when any --max-ttl-* flag is set",
     "requests": []
   },
   {
@@ -1010,10 +1157,16 @@
       "192.0.2.1",
       "--ecs-support=false",
       "--endpoints-doh-enabled=false",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-doh-require-token=false",
       "--endpoints-dot-enabled=false",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-ipv4-enabled=false",
       "--endpoints-ipv6-enabled=false",
+      "--endpoints-ipv6-networks",
+      "[{\"regression\":\"item\"}]",
       "--max-ttl-mode",
       "override",
       "--max-ttl-ttl-secs",
@@ -1032,7 +1185,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "348",
+          "content-length": "453",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1048,16 +1201,31 @@
           "endpoints": {
             "doh": {
               "enabled": false,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ],
               "require_token": false
             },
             "dot": {
-              "enabled": false
+              "enabled": false,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             },
             "ipv4": {
               "enabled": false
             },
             "ipv6": {
-              "enabled": false
+              "enabled": false,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
           "max_ttl": {
@@ -1085,56 +1253,18 @@
       "regression value &/?+ü",
       "--dns64-enabled=true",
       "--ecs-support=true",
-      "--endpoints-doh-require-token=true",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]",
+      "--endpoints-dot-enabled=true",
       "--endpoints-ipv4-enabled=true",
-      "--max-ttl-mode",
-      "inherit",
-      "--networks",
-      "[{\"regression\":\"item\"}]"
+      "--endpoints-ipv6-networks",
+      "[{\"regression\":\"item\"}]",
+      "--max-ttl-ttl-secs",
+      "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "228",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "client_default": false,
-          "dns64_enabled": true,
-          "ecs_support": true,
-          "endpoints": {
-            "doh": {
-              "require_token": true
-            },
-            "ipv4": {
-              "enabled": true
-            }
-          },
-          "max_ttl": {
-            "mode": "inherit"
-          },
-          "name": "regression value &/?+ü",
-          "networks": [
-            {
-              "regression": "item"
-            }
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--max-ttl-mode is required when any --max-ttl-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 3",
@@ -1149,14 +1279,67 @@
       "--dns-destination-ips-id",
       "192.0.2.1",
       "--endpoints-doh-enabled=false",
-      "--endpoints-dot-enabled=false",
+      "--endpoints-doh-require-token=false",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-ipv6-enabled=false",
-      "--max-ttl-ttl-secs",
-      "2"
+      "--max-ttl-mode",
+      "override",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
     ],
-    "exitCode": 1,
-    "error": "--max-ttl-mode is required when any --max_ttl-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "329",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "dns_destination_ips_id": "192.0.2.1",
+          "ecs_support": false,
+          "endpoints": {
+            "doh": {
+              "enabled": false,
+              "require_token": false
+            },
+            "dot": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            },
+            "ipv6": {
+              "enabled": false
+            }
+          },
+          "max_ttl": {
+            "mode": "override"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -1170,16 +1353,63 @@
       "--dns-destination-ips-id",
       "192.0.2.1",
       "--ecs-support=true",
+      "--endpoints-doh-require-token=true",
       "--endpoints-dot-enabled=true",
-      "--endpoints-ipv4-enabled=true",
-      "--max-ttl-ttl-secs",
-      "1",
+      "--endpoints-ipv6-enabled=true",
+      "--endpoints-ipv6-networks",
+      "[{\"regression\":\"item\"}]",
       "--networks",
       "[{\"regression\":\"item\"}]"
     ],
-    "exitCode": 1,
-    "error": "--max-ttl-mode is required when any --max_ttl-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "295",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "dns_destination_ips_id": "192.0.2.1",
+          "ecs_support": true,
+          "endpoints": {
+            "doh": {
+              "require_token": true
+            },
+            "dot": {
+              "enabled": true
+            },
+            "ipv6": {
+              "enabled": true,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            }
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -1193,10 +1423,15 @@
       "--client-default=false",
       "--dns64-enabled=false",
       "--endpoints-doh-enabled=false",
-      "--endpoints-doh-require-token=false",
-      "--endpoints-ipv6-enabled=false",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]",
+      "--endpoints-ipv4-enabled=false",
       "--max-ttl-mode",
-      "override"
+      "override",
+      "--max-ttl-ttl-secs",
+      "2"
     ],
     "exitCode": 0,
     "requests": [
@@ -1209,7 +1444,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "214",
+          "content-length": "283",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1224,14 +1459,26 @@
           "endpoints": {
             "doh": {
               "enabled": false,
-              "require_token": false
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             },
-            "ipv6": {
+            "dot": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            },
+            "ipv4": {
               "enabled": false
             }
           },
           "max_ttl": {
-            "mode": "override"
+            "mode": "override",
+            "ttl_secs": 2
           },
           "name": "regression value &/?+ü"
         }
@@ -1248,9 +1495,16 @@
       "--name",
       "regression value &/?+ü",
       "--endpoints-doh-enabled=true",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-doh-require-token=true",
       "--endpoints-dot-enabled=true",
-      "--endpoints-ipv4-enabled=true"
+      "--max-ttl-mode",
+      "inherit",
+      "--max-ttl-ttl-secs",
+      "1",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -1263,7 +1517,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "204",
+          "content-length": "292",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1278,16 +1532,27 @@
           "endpoints": {
             "doh": {
               "enabled": true,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ],
               "require_token": true
             },
             "dot": {
               "enabled": true
-            },
-            "ipv4": {
-              "enabled": true
             }
           },
-          "name": "regression value &/?+ü"
+          "max_ttl": {
+            "mode": "inherit",
+            "ttl_secs": 1
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
         }
       }
     ]
@@ -1306,12 +1571,11 @@
       "--dns-destination-ips-id",
       "192.0.2.1",
       "--ecs-support=false",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]",
+      "--endpoints-ipv4-enabled=false",
       "--endpoints-ipv6-enabled=false",
-      "--max-ttl-mode",
-      "override",
-      "--max-ttl-ttl-secs",
-      "2",
-      "--networks",
+      "--endpoints-ipv6-networks",
       "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
@@ -1325,7 +1589,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "253",
+          "content-length": "278",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1339,20 +1603,26 @@
           "dns_destination_ips_id": "192.0.2.1",
           "ecs_support": false,
           "endpoints": {
-            "ipv6": {
+            "dot": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            },
+            "ipv4": {
               "enabled": false
+            },
+            "ipv6": {
+              "enabled": false,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
-          "max_ttl": {
-            "mode": "override",
-            "ttl_secs": 2
-          },
-          "name": "regression value &/?+ü",
-          "networks": [
-            {
-              "regression": "item"
-            }
-          ]
+          "name": "regression value &/?+ü"
         }
       }
     ]
@@ -1366,7 +1636,12 @@
       "create",
       "--name",
       "regression value &/?+ü",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]",
+      "--endpoints-ipv4-enabled=true",
       "--endpoints-ipv6-enabled=true",
+      "--endpoints-ipv6-networks",
+      "[{\"regression\":\"item\"}]",
       "--max-ttl-mode",
       "inherit",
       "--max-ttl-ttl-secs",
@@ -1385,7 +1660,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "214",
+          "content-length": "316",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1398,8 +1673,23 @@
           "dns64_enabled": false,
           "ecs_support": false,
           "endpoints": {
-            "ipv6": {
+            "dot": {
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
+            },
+            "ipv4": {
               "enabled": true
+            },
+            "ipv6": {
+              "enabled": true,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
           "max_ttl": {
@@ -1431,9 +1721,10 @@
       "192.0.2.1",
       "--ecs-support=false",
       "--endpoints-doh-enabled=false",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-doh-require-token=false",
-      "--endpoints-dot-enabled=false",
-      "--endpoints-ipv4-enabled=false"
+      "--endpoints-dot-enabled=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -1446,7 +1737,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "245",
+          "content-length": "255",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1462,12 +1753,14 @@
           "endpoints": {
             "doh": {
               "enabled": false,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ],
               "require_token": false
             },
             "dot": {
-              "enabled": false
-            },
-            "ipv4": {
               "enabled": false
             }
           },
@@ -1770,7 +2063,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1778,14 +2071,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1804,10 +2097,16 @@
       "192.0.2.1",
       "--ecs-support=true",
       "--endpoints-doh-enabled=true",
+      "--endpoints-doh-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-doh-require-token=true",
       "--endpoints-dot-enabled=true",
+      "--endpoints-dot-networks",
+      "[{\"regression\":\"item\"}]",
       "--endpoints-ipv4-enabled=true",
       "--endpoints-ipv6-enabled=true",
+      "--endpoints-ipv6-networks",
+      "[{\"regression\":\"item\"}]",
       "--max-ttl-mode",
       "inherit",
       "--max-ttl-ttl-secs",
@@ -1826,7 +2125,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "339",
+          "content-length": "444",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1842,16 +2141,31 @@
           "endpoints": {
             "doh": {
               "enabled": true,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ],
               "require_token": true
             },
             "dot": {
-              "enabled": true
+              "enabled": true,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             },
             "ipv4": {
               "enabled": true
             },
             "ipv6": {
-              "enabled": true
+              "enabled": true,
+              "networks": [
+                {
+                  "regression": "item"
+                }
+              ]
             }
           },
           "max_ttl": {

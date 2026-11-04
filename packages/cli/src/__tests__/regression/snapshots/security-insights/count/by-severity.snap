@@ -274,22 +274,28 @@
       "--dismissed=false",
       "--issue-class",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--issue-type",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--product",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--source",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--severity",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--subject",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&product=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&severity=second%20value%20%26%2F%3F%2B%C3%BC&subject=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&product=second%20value%20%26%2F%3F%2B%C3%BC&product=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&severity=second%20value%20%26%2F%3F%2B%C3%BC&severity=second%20value%20%26%2F%3F%2B%C3%BC&subject=second%20value%20%26%2F%3F%2B%C3%BC&subject=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -349,16 +355,19 @@
       "--dismissed=false",
       "--issue-type",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--source",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--subject",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&subject=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&subject=second%20value%20%26%2F%3F%2B%C3%BC&subject=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -418,16 +427,19 @@
       "--dismissed=false",
       "--issue-class",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--source",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--severity",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&severity=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&source=second%20value%20%26%2F%3F%2B%C3%BC&severity=second%20value%20%26%2F%3F%2B%C3%BC&severity=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -487,16 +499,19 @@
       "--dismissed=false",
       "--issue-class",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--issue-type",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--product",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&product=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/security-center/insights/severity?dismissed=false&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_class=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&issue_type=second%20value%20%26%2F%3F%2B%C3%BC&product=second%20value%20%26%2F%3F%2B%C3%BC&product=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

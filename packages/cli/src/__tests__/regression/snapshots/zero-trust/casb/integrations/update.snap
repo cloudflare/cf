@@ -52,6 +52,44 @@
     ]
   },
   {
+    "case": "only --credentials",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--credentials",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "credentials": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --dlp-profiles",
     "argv": [
       "zero-trust",
@@ -221,14 +259,15 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },
@@ -240,6 +279,8 @@
       "integrations",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--dlp-profiles",
       "second value &/?+ü",
       "second value &/?+ü",
@@ -265,9 +306,9 @@
       "integrations",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--name",
+      "--dlp-profiles",
       "regression value &/?+ü",
-      "--use-cases",
+      "--permissions",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -281,7 +322,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "74",
+          "content-length": "86",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -290,8 +331,10 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "name": "regression value &/?+ü",
-          "use_cases": [
+          "dlp_profiles": [
+            "regression value &/?+ü"
+          ],
+          "permissions": [
             "regression value &/?+ü"
           ]
         }
@@ -306,44 +349,18 @@
       "integrations",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--dlp-profiles",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
+      "--name",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--permissions",
+      "--use-cases",
       "second value &/?+ü",
       "second value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "122",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "dlp_profiles": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ],
-          "permissions": [
-            "second value &/?+ü",
-            "second value &/?+ü"
-          ]
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -353,9 +370,9 @@
       "integrations",
       "update",
       "0123456789abcdef0123456789abcdef",
-      "--permissions",
+      "--name",
       "regression value &/?+ü",
-      "--use-cases",
+      "--permissions",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -369,7 +386,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "83",
+          "content-length": "76",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -378,10 +395,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "name": "regression value &/?+ü",
           "permissions": [
-            "regression value &/?+ü"
-          ],
-          "use_cases": [
             "regression value &/?+ü"
           ]
         }
@@ -396,10 +411,67 @@
       "integrations",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
+      "--dlp-profiles",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--use-cases",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/one/integrations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "credentials": {
+            "regression": "json value"
+          },
+          "dlp_profiles": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "use_cases": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--dlp-profiles",
       "second value &/?+ü",
       "second value &/?+ü",
       "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--permissions",
       "second value &/?+ü",
       "second value &/?+ü"
     ],
@@ -720,6 +792,8 @@
       "integrations",
       "update",
       "0123456789abcdef0123456789abcdef",
+      "--credentials",
+      "{\"regression\":\"json value\"}",
       "--dlp-profiles",
       "regression value &/?+ü",
       "--name",
@@ -740,7 +814,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "159",
+          "content-length": "201",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -749,6 +823,9 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "credentials": {
+            "regression": "json value"
+          },
           "dlp_profiles": [
             "regression value &/?+ü"
           ],

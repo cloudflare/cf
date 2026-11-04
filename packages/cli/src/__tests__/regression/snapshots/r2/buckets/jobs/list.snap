@@ -43,7 +43,7 @@
     ]
   },
   {
-    "case": "only --jobType",
+    "case": "only --job-type",
     "argv": [
       "r2",
       "buckets",
@@ -51,7 +51,7 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--jobType",
+      "--job-type",
       "prefixDelete"
     ],
     "exitCode": 0,
@@ -76,7 +76,7 @@
     ]
   },
   {
-    "case": "--jobType value 1",
+    "case": "--job-type value 1",
     "argv": [
       "r2",
       "buckets",
@@ -84,7 +84,7 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--jobType",
+      "--job-type",
       "storageClassMigration"
     ],
     "exitCode": 0,
@@ -274,7 +274,7 @@
     ]
   },
   {
-    "case": "only --maxKeys",
+    "case": "only --max-keys",
     "argv": [
       "r2",
       "buckets",
@@ -282,7 +282,7 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--maxKeys",
+      "--max-keys",
       "1"
     ],
     "exitCode": 0,
@@ -307,7 +307,7 @@
     ]
   },
   {
-    "case": "only --continuationToken",
+    "case": "only --continuation-token",
     "argv": [
       "r2",
       "buckets",
@@ -315,7 +315,7 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--continuationToken",
+      "--continuation-token",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -382,13 +382,13 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--jobType",
+      "--job-type",
       "storageClassMigration",
       "--status",
       "RUNNING",
-      "--maxKeys",
+      "--max-keys",
       "2",
-      "--continuationToken",
+      "--continuation-token",
       "second value &/?+ü",
       "--cf-r2-jurisdiction",
       "second value &/?+ü"
@@ -426,7 +426,7 @@
       "regression value &/?+ü",
       "--status",
       "ENQUEUED",
-      "--continuationToken",
+      "--continuation-token",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -459,9 +459,9 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--jobType",
+      "--job-type",
       "storageClassMigration",
-      "--maxKeys",
+      "--max-keys",
       "2",
       "--cf-r2-jurisdiction",
       "second value &/?+ü"
@@ -497,9 +497,9 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--maxKeys",
+      "--max-keys",
       "1",
-      "--continuationToken",
+      "--continuation-token",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -532,7 +532,7 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--jobType",
+      "--job-type",
       "storageClassMigration",
       "--status",
       "RUNNING",
@@ -570,13 +570,13 @@
       "list",
       "--bucket-name",
       "regression value &/?+ü",
-      "--jobType",
+      "--job-type",
       "storageClassMigration",
       "--status",
       "RUNNING",
-      "--maxKeys",
+      "--max-keys",
       "2",
-      "--continuationToken",
+      "--continuation-token",
       "second value &/?+ü"
     ],
     "exitCode": 0,

@@ -49,13 +49,13 @@
     ]
   },
   {
-    "case": "only --showHistoric",
+    "case": "only --show-historic",
     "argv": [
       "brand-protection",
       "submit",
       "--image-data",
       "regression value &/?+ü",
-      "--showHistoric",
+      "--show-historic",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -238,7 +238,7 @@
       "submit",
       "--image-data",
       "regression value &/?+ü",
-      "--showHistoric",
+      "--show-historic",
       "second value &/?+ü",
       "--download",
       "second value &/?+ü",
@@ -320,7 +320,7 @@
       "submit",
       "--image-data",
       "regression value &/?+ü",
-      "--showHistoric",
+      "--show-historic",
       "second value &/?+ü",
       "--score-threshold",
       "2"
@@ -398,7 +398,7 @@
       "submit",
       "--image-data",
       "regression value &/?+ü",
-      "--showHistoric",
+      "--show-historic",
       "second value &/?+ü",
       "--download",
       "second value &/?+ü"
@@ -708,7 +708,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -716,14 +716,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -734,7 +734,7 @@
       "submit",
       "--image-data",
       "regression value &/?+ü",
-      "--showHistoric",
+      "--show-historic",
       "regression value &/?+ü",
       "--download",
       "regression value &/?+ü",

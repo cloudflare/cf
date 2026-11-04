@@ -57,6 +57,108 @@
     ]
   },
   {
+    "case": "only --actions-remediation-types",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "policies",
+      "create",
+      "--applies-to-all-integrations=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actions-remediation-types",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "201",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actions": {
+            "remediation_types": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "applies_to_all_integrations": true,
+          "display_name": "regression value &/?+ü",
+          "enabled": true,
+          "finding_type_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --actions-webhook-configs",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "policies",
+      "create",
+      "--applies-to-all-integrations=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actions-webhook-configs",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "199",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actions": {
+            "webhook_configs": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "applies_to_all_integrations": true,
+          "display_name": "regression value &/?+ü",
+          "enabled": true,
+          "finding_type_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --description",
     "argv": [
       "zero-trust",
@@ -293,6 +395,10 @@
       "--enabled=true",
       "--finding-type-id",
       "0123456789abcdef0123456789abcdef",
+      "--actions-remediation-types",
+      "[{\"regression\":\"item\"}]",
+      "--actions-webhook-configs",
+      "[{\"regression\":\"item\"}]",
       "--description",
       "192.0.2.1",
       "--integration-ids",
@@ -310,7 +416,180 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "235",
+          "content-length": "333",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actions": {
+            "remediation_types": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhook_configs": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "applies_to_all_integrations": true,
+          "description": "192.0.2.1",
+          "display_name": "regression value &/?+ü",
+          "enabled": true,
+          "finding_type_id": "0123456789abcdef0123456789abcdef",
+          "integration_ids": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "policies",
+      "create",
+      "--applies-to-all-integrations=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actions-webhook-configs",
+      "[{\"regression\":\"item\"}]",
+      "--integration-ids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "245",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actions": {
+            "webhook_configs": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "applies_to_all_integrations": true,
+          "display_name": "regression value &/?+ü",
+          "enabled": true,
+          "finding_type_id": "0123456789abcdef0123456789abcdef",
+          "integration_ids": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "policies",
+      "create",
+      "--applies-to-all-integrations=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actions-remediation-types",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "227",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actions": {
+            "remediation_types": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "applies_to_all_integrations": true,
+          "description": "192.0.2.1",
+          "display_name": "regression value &/?+ü",
+          "enabled": true,
+          "finding_type_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "policies",
+      "create",
+      "--applies-to-all-integrations=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--integration-ids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "217",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -325,9 +604,66 @@
           "enabled": true,
           "finding_type_id": "0123456789abcdef0123456789abcdef",
           "integration_ids": [
-            "second value &/?+ü",
-            "second value &/?+ü"
+            "regression value &/?+ü"
           ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "casb",
+      "policies",
+      "create",
+      "--applies-to-all-integrations=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--finding-type-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actions-remediation-types",
+      "[{\"regression\":\"item\"}]",
+      "--actions-webhook-configs",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/data-security/posture/policies",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "243",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actions": {
+            "remediation_types": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhook_configs": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "applies_to_all_integrations": true,
+          "display_name": "regression value &/?+ü",
+          "enabled": true,
+          "finding_type_id": "0123456789abcdef0123456789abcdef"
         }
       }
     ]
@@ -658,7 +994,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -666,14 +1002,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -690,6 +1026,10 @@
       "--enabled=true",
       "--finding-type-id",
       "0123456789abcdef0123456789abcdef",
+      "--actions-remediation-types",
+      "[{\"regression\":\"item\"}]",
+      "--actions-webhook-configs",
+      "[{\"regression\":\"item\"}]",
       "--description",
       "192.0.2.1",
       "--integration-ids",
@@ -706,7 +1046,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "217",
+          "content-length": "315",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -715,6 +1055,18 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "actions": {
+            "remediation_types": [
+              {
+                "regression": "item"
+              }
+            ],
+            "webhook_configs": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "applies_to_all_integrations": true,
           "description": "192.0.2.1",
           "display_name": "regression value &/?+ü",

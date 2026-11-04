@@ -464,6 +464,76 @@
     ]
   },
   {
+    "case": "only --enable-device-credential-authentication",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "default",
+      "update",
+      "--enable-device-credential-authentication=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enable_device_credential_authentication": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enable-device-credential-authentication value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "default",
+      "update",
+      "--enable-device-credential-authentication=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enable_device_credential_authentication": false
+        }
+      }
+    ]
+  },
+  {
     "case": "only --exclude",
     "argv": [
       "zero-trust",
@@ -574,6 +644,34 @@
     ]
   },
   {
+    "case": "only --global-acceleration-allow-manual-override",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "default",
+      "update",
+      "--global-acceleration-allow-manual-override=true"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--global-acceleration-allow-manual-override value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "default",
+      "update",
+      "--global-acceleration-allow-manual-override=false"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
+    "requests": []
+  },
+  {
     "case": "only --global-acceleration-api-endpoints",
     "argv": [
       "zero-trust",
@@ -585,7 +683,7 @@
       "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -599,7 +697,7 @@
       "--global-acceleration-autoswitch=true"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -613,7 +711,7 @@
       "--global-acceleration-autoswitch=false"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -627,7 +725,7 @@
       "--global-acceleration-enabled=true"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -641,7 +739,7 @@
       "--global-acceleration-enabled=false"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -656,7 +754,7 @@
       "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -671,7 +769,7 @@
       "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1226,7 +1324,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--virtual-networks-default is required when any --virtual_networks-* flag is set",
+    "error": "--virtual-networks-default is required when any --virtual-networks-* flag is set",
     "requests": []
   },
   {
@@ -1241,7 +1339,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--virtual-networks-allowed is required when any --virtual_networks-* flag is set",
+    "error": "--virtual-networks-allowed is required when any --virtual-networks-* flag is set",
     "requests": []
   },
   {
@@ -1262,9 +1360,11 @@
       "--disable-auto-fallback=false",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
+      "--enable-device-credential-authentication=false",
       "--exclude",
       "[{\"regression\":\"item\"}]",
       "--exclude-office-ips=false",
+      "--global-acceleration-allow-manual-override=false",
       "--global-acceleration-api-endpoints",
       "https://example.com/a?x=1&y=two",
       "https://example.com/a?x=1&y=two",
@@ -1311,7 +1411,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1034",
+          "content-length": "1112",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1331,6 +1431,7 @@
               "regression": "item"
             }
           ],
+          "enable_device_credential_authentication": false,
           "exclude": [
             {
               "regression": "item"
@@ -1338,6 +1439,7 @@
           ],
           "exclude_office_ips": false,
           "global_acceleration": {
+            "allow_manual_override": false,
             "api_endpoints": [
               "https://example.com/a?x=1&y=two",
               "https://example.com/a?x=1&y=two"
@@ -1393,8 +1495,8 @@
       "--auto-connect",
       "1",
       "--disable-auto-fallback=true",
-      "--exclude",
-      "[{\"regression\":\"item\"}]",
+      "--enable-device-credential-authentication=true",
+      "--exclude-office-ips=true",
       "--global-acceleration-api-endpoints",
       "https://example.com/a?x=1&y=two",
       "--global-acceleration-enabled=true",
@@ -1413,7 +1515,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-masque-endpoints is required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-masque-endpoints is required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1430,7 +1532,9 @@
       "2",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
-      "--exclude-office-ips=false",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--global-acceleration-allow-manual-override=false",
       "--global-acceleration-autoswitch=false",
       "--global-acceleration-masque-endpoints",
       "https://example.com/a?x=1&y=two",
@@ -1448,7 +1552,7 @@
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1464,25 +1568,27 @@
       "1",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
-      "--exclude",
-      "[{\"regression\":\"item\"}]",
-      "--global-acceleration-autoswitch=true",
-      "--global-acceleration-enabled=true",
-      "--include",
-      "[{\"regression\":\"item\"}]",
-      "--lan-allow-minutes",
+      "--enable-device-credential-authentication=true",
+      "--global-acceleration-allow-manual-override=true",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--lan-allow-subnet-size",
       "1",
-      "--sccm-vpn-boundary-support=true",
-      "--service-mode-v2-mode",
-      "regression value &/?+ü",
-      "--switch-locked=true",
-      "--tunnel-protocol",
-      "regression value &/?+ü",
-      "--virtual-networks-default",
+      "--register-interface-ip-with-dns=true",
+      "--service-mode-v2-port",
+      "1",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--uninstall-protection=true",
+      "--virtual-networks-allowed",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-enabled is required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1498,30 +1604,26 @@
       "--captive-portal",
       "2",
       "--disable-auto-fallback=false",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
       "--exclude-office-ips=false",
-      "--global-acceleration-api-endpoints",
-      "https://example.com/a?x=1&y=two",
-      "https://example.com/a?x=1&y=two",
-      "--global-acceleration-masque-endpoints",
-      "https://example.com/a?x=1&y=two",
-      "https://example.com/a?x=1&y=two",
-      "--global-acceleration-wireguard-endpoints",
-      "https://example.com/a?x=1&y=two",
-      "https://example.com/a?x=1&y=two",
-      "--lan-allow-subnet-size",
+      "--global-acceleration-autoswitch=false",
+      "--global-acceleration-enabled=false",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
       "2",
-      "--register-interface-ip-with-dns=false",
-      "--service-mode-v2-port",
-      "2",
-      "--support-url",
-      "https://example.com/a?x=1&y=two",
-      "--uninstall-protection=false",
-      "--virtual-networks-allowed",
+      "--sccm-vpn-boundary-support=false",
+      "--service-mode-v2-mode",
       "second value &/?+ü",
+      "--switch-locked=false",
+      "--tunnel-protocol",
+      "second value &/?+ü",
+      "--virtual-networks-default",
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-enabled is required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1537,26 +1639,25 @@
       "--disable-auto-fallback=true",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
-      "--exclude",
-      "[{\"regression\":\"item\"}]",
+      "--enable-device-credential-authentication=true",
+      "--global-acceleration-autoswitch=true",
+      "--global-acceleration-enabled=true",
       "--global-acceleration-masque-endpoints",
       "https://example.com/a?x=1&y=two",
       "--global-acceleration-wireguard-endpoints",
       "https://example.com/a?x=1&y=two",
-      "--include",
-      "[{\"regression\":\"item\"}]",
-      "--lan-allow-minutes",
-      "1",
+      "--sccm-vpn-boundary-support=true",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü",
       "--service-mode-v2-port",
       "1",
       "--support-url",
       "https://example.com/a?x=1&y=two",
-      "--switch-locked=true",
-      "--tunnel-protocol",
+      "--virtual-networks-default",
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-api-endpoints is required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1572,27 +1673,30 @@
       "--allowed-to-leave=false",
       "--auto-connect",
       "2",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
       "--exclude-office-ips=false",
+      "--global-acceleration-allow-manual-override=false",
       "--global-acceleration-api-endpoints",
       "https://example.com/a?x=1&y=two",
       "https://example.com/a?x=1&y=two",
-      "--global-acceleration-autoswitch=false",
-      "--global-acceleration-enabled=false",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "2",
       "--lan-allow-subnet-size",
       "2",
       "--register-interface-ip-with-dns=false",
-      "--sccm-vpn-boundary-support=false",
-      "--service-mode-v2-mode",
+      "--switch-locked=false",
+      "--tunnel-protocol",
       "second value &/?+ü",
       "--uninstall-protection=false",
       "--virtual-networks-allowed",
       "second value &/?+ü",
-      "second value &/?+ü",
-      "--virtual-networks-default",
       "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global-acceleration-* flag is set",
     "requests": []
   },
   {
@@ -1603,7 +1707,10 @@
       "profiles",
       "default",
       "update",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
       "--exclude-office-ips=true",
+      "--global-acceleration-allow-manual-override=true",
       "--global-acceleration-api-endpoints",
       "https://example.com/a?x=1&y=two",
       "--global-acceleration-autoswitch=true",
@@ -1612,10 +1719,9 @@
       "https://example.com/a?x=1&y=two",
       "--global-acceleration-wireguard-endpoints",
       "https://example.com/a?x=1&y=two",
-      "--include",
-      "[{\"regression\":\"item\"}]",
-      "--lan-allow-minutes",
-      "1",
+      "--switch-locked=true",
+      "--tunnel-protocol",
+      "regression value &/?+ü",
       "--uninstall-protection=true",
       "--virtual-networks-allowed",
       "regression value &/?+ü",
@@ -1633,7 +1739,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "428",
+          "content-length": "500",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1642,8 +1748,14 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
           "exclude_office_ips": true,
           "global_acceleration": {
+            "allow_manual_override": true,
             "api_endpoints": [
               "https://example.com/a?x=1&y=two"
             ],
@@ -1656,12 +1768,8 @@
               "https://example.com/a?x=1&y=two"
             ]
           },
-          "include": [
-            {
-              "regression": "item"
-            }
-          ],
-          "lan_allow_minutes": 1,
+          "switch_locked": true,
+          "tunnel_protocol": "regression value &/?+ü",
           "uninstall_protection": true,
           "virtual_networks": {
             "allowed": [
@@ -1691,8 +1799,11 @@
       "--disable-auto-fallback=false",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
-      "--exclude",
+      "--enable-device-credential-authentication=false",
+      "--include",
       "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "2",
       "--lan-allow-subnet-size",
       "2",
       "--register-interface-ip-with-dns=false",
@@ -1702,10 +1813,7 @@
       "--service-mode-v2-port",
       "2",
       "--support-url",
-      "https://example.com/a?x=1&y=two",
-      "--switch-locked=false",
-      "--tunnel-protocol",
-      "second value &/?+ü"
+      "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 0,
     "requests": [
@@ -1718,7 +1826,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "487",
+          "content-length": "495",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1738,11 +1846,13 @@
               "regression": "item"
             }
           ],
-          "exclude": [
+          "enable_device_credential_authentication": false,
+          "include": [
             {
               "regression": "item"
             }
           ],
+          "lan_allow_minutes": 2,
           "lan_allow_subnet_size": 2,
           "register_interface_ip_with_dns": false,
           "sccm_vpn_boundary_support": false,
@@ -1750,9 +1860,7 @@
             "mode": "second value &/?+ü",
             "port": 2
           },
-          "support_url": "https://example.com/a?x=1&y=two",
-          "switch_locked": false,
-          "tunnel_protocol": "second value &/?+ü"
+          "support_url": "https://example.com/a?x=1&y=two"
         }
       }
     ]
@@ -1765,6 +1873,10 @@
       "profiles",
       "default",
       "update",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "1",
       "--lan-allow-subnet-size",
       "1",
       "--register-interface-ip-with-dns=true",
@@ -1795,7 +1907,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "396",
+          "content-length": "452",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1804,6 +1916,12 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "lan_allow_minutes": 1,
           "lan_allow_subnet_size": 1,
           "register_interface_ip_with_dns": true,
           "sccm_vpn_boundary_support": true,
@@ -1843,9 +1961,11 @@
       "--disable-auto-fallback=false",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
+      "--enable-device-credential-authentication=false",
       "--exclude",
       "[{\"regression\":\"item\"}]",
       "--exclude-office-ips=false",
+      "--global-acceleration-allow-manual-override=false",
       "--global-acceleration-api-endpoints",
       "https://example.com/a?x=1&y=two",
       "https://example.com/a?x=1&y=two",
@@ -1856,11 +1976,7 @@
       "https://example.com/a?x=1&y=two",
       "--global-acceleration-wireguard-endpoints",
       "https://example.com/a?x=1&y=two",
-      "https://example.com/a?x=1&y=two",
-      "--include",
-      "[{\"regression\":\"item\"}]",
-      "--lan-allow-minutes",
-      "2"
+      "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 0,
     "requests": [
@@ -1873,7 +1989,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "629",
+          "content-length": "651",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1893,6 +2009,7 @@
               "regression": "item"
             }
           ],
+          "enable_device_credential_authentication": false,
           "exclude": [
             {
               "regression": "item"
@@ -1900,6 +2017,7 @@
           ],
           "exclude_office_ips": false,
           "global_acceleration": {
+            "allow_manual_override": false,
             "api_endpoints": [
               "https://example.com/a?x=1&y=two",
               "https://example.com/a?x=1&y=two"
@@ -1914,13 +2032,7 @@
               "https://example.com/a?x=1&y=two",
               "https://example.com/a?x=1&y=two"
             ]
-          },
-          "include": [
-            {
-              "regression": "item"
-            }
-          ],
-          "lan_allow_minutes": 2
+          }
         }
       }
     ]
@@ -2211,7 +2323,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2219,14 +2331,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2248,9 +2360,11 @@
       "--disable-auto-fallback=true",
       "--dns-search-suffixes",
       "[{\"regression\":\"item\"}]",
+      "--enable-device-credential-authentication=true",
       "--exclude",
       "[{\"regression\":\"item\"}]",
       "--exclude-office-ips=true",
+      "--global-acceleration-allow-manual-override=true",
       "--global-acceleration-api-endpoints",
       "https://example.com/a?x=1&y=two",
       "--global-acceleration-autoswitch=true",
@@ -2293,7 +2407,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "915",
+          "content-length": "991",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2313,6 +2427,7 @@
               "regression": "item"
             }
           ],
+          "enable_device_credential_authentication": true,
           "exclude": [
             {
               "regression": "item"
@@ -2320,6 +2435,7 @@
           ],
           "exclude_office_ips": true,
           "global_acceleration": {
+            "allow_manual_override": true,
             "api_endpoints": [
               "https://example.com/a?x=1&y=two"
             ],

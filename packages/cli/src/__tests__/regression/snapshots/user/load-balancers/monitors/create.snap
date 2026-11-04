@@ -475,6 +475,53 @@
     ]
   },
   {
+    "case": "only --header",
+    "argv": [
+      "user",
+      "load-balancers",
+      "monitors",
+      "create",
+      "--header",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/user/load_balancers/monitors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "210",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_insecure": false,
+          "description": "",
+          "expected_body": "",
+          "expected_codes": "",
+          "follow_redirects": false,
+          "header": {
+            "regression": "json value"
+          },
+          "interval": 60,
+          "probe_zone": "",
+          "retries": 2,
+          "timeout": 5,
+          "type": "http"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --interval",
     "argv": [
       "user",
@@ -1068,6 +1115,8 @@
       "--expected-codes",
       "second value &/?+ü",
       "--follow-redirects=false",
+      "--header",
+      "{\"regression\":\"json value\"}",
       "--interval",
       "2",
       "--method",
@@ -1096,7 +1145,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "336",
+          "content-length": "373",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1112,6 +1161,9 @@
           "expected_body": "second value &/?+ü",
           "expected_codes": "second value &/?+ü",
           "follow_redirects": false,
+          "header": {
+            "regression": "json value"
+          },
           "interval": 2,
           "method": "second value &/?+ü",
           "path": "project",
@@ -1137,14 +1189,16 @@
       "192.0.2.1",
       "--expected-codes",
       "regression value &/?+ü",
-      "--interval",
-      "1",
-      "--path",
-      "project",
-      "--probe-zone",
+      "--header",
+      "{\"regression\":\"json value\"}",
+      "--method",
       "regression value &/?+ü",
-      "--timeout",
-      "1"
+      "--port",
+      "1",
+      "--retries",
+      "1",
+      "--type",
+      "http"
     ],
     "exitCode": 0,
     "requests": [
@@ -1157,7 +1211,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "265",
+          "content-length": "307",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1172,11 +1226,15 @@
           "expected_body": "",
           "expected_codes": "regression value &/?+ü",
           "follow_redirects": false,
-          "interval": 1,
-          "path": "project",
-          "probe_zone": "regression value &/?+ü",
-          "retries": 2,
-          "timeout": 1,
+          "header": {
+            "regression": "json value"
+          },
+          "interval": 60,
+          "method": "regression value &/?+ü",
+          "port": 1,
+          "probe_zone": "",
+          "retries": 1,
+          "timeout": 5,
           "type": "http"
         }
       }
@@ -1195,14 +1253,14 @@
       "--expected-body",
       "second value &/?+ü",
       "--follow-redirects=false",
-      "--method",
+      "--interval",
+      "2",
+      "--path",
+      "project",
+      "--probe-zone",
       "second value &/?+ü",
-      "--port",
-      "2",
-      "--retries",
-      "2",
-      "--type",
-      "https"
+      "--timeout",
+      "2"
     ],
     "exitCode": 0,
     "requests": [
@@ -1215,7 +1273,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "252",
+          "content-length": "246",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1230,13 +1288,12 @@
           "expected_body": "second value &/?+ü",
           "expected_codes": "",
           "follow_redirects": false,
-          "interval": 60,
-          "method": "second value &/?+ü",
-          "port": 2,
-          "probe_zone": "",
+          "interval": 2,
+          "path": "project",
+          "probe_zone": "second value &/?+ü",
           "retries": 2,
-          "timeout": 5,
-          "type": "https"
+          "timeout": 2,
+          "type": "http"
         }
       }
     ]
@@ -1253,12 +1310,14 @@
       "--description",
       "192.0.2.1",
       "--follow-redirects=true",
-      "--interval",
-      "1",
+      "--header",
+      "{\"regression\":\"json value\"}",
+      "--path",
+      "project",
       "--port",
       "1",
-      "--probe-zone",
-      "regression value &/?+ü",
+      "--timeout",
+      "1",
       "--type",
       "http"
     ],
@@ -1273,7 +1332,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "231",
+          "content-length": "263",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1288,11 +1347,15 @@
           "expected_body": "",
           "expected_codes": "",
           "follow_redirects": true,
-          "interval": 1,
+          "header": {
+            "regression": "json value"
+          },
+          "interval": 60,
+          "path": "project",
           "port": 1,
-          "probe_zone": "regression value &/?+ü",
+          "probe_zone": "",
           "retries": 2,
-          "timeout": 5,
+          "timeout": 1,
           "type": "http"
         }
       }
@@ -1312,13 +1375,13 @@
       "second value &/?+ü",
       "--expected-codes",
       "second value &/?+ü",
+      "--interval",
+      "2",
       "--method",
       "second value &/?+ü",
-      "--path",
-      "project",
+      "--probe-zone",
+      "second value &/?+ü",
       "--retries",
-      "2",
-      "--timeout",
       "2"
     ],
     "exitCode": 0,
@@ -1332,7 +1395,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "280",
+          "content-length": "281",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1347,12 +1410,11 @@
           "expected_body": "second value &/?+ü",
           "expected_codes": "second value &/?+ü",
           "follow_redirects": false,
-          "interval": 60,
+          "interval": 2,
           "method": "second value &/?+ü",
-          "path": "project",
-          "probe_zone": "",
+          "probe_zone": "second value &/?+ü",
           "retries": 2,
-          "timeout": 2,
+          "timeout": 5,
           "type": "http"
         }
       }
@@ -1370,8 +1432,10 @@
       "--expected-codes",
       "regression value &/?+ü",
       "--follow-redirects=true",
-      "--interval",
-      "1",
+      "--header",
+      "{\"regression\":\"json value\"}",
+      "--probe-zone",
+      "regression value &/?+ü",
       "--retries",
       "1",
       "--timeout",
@@ -1390,7 +1454,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "217",
+          "content-length": "278",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1404,8 +1468,11 @@
           "expected_body": "regression value &/?+ü",
           "expected_codes": "regression value &/?+ü",
           "follow_redirects": true,
-          "interval": 1,
-          "probe_zone": "",
+          "header": {
+            "regression": "json value"
+          },
+          "interval": 60,
+          "probe_zone": "regression value &/?+ü",
           "retries": 1,
           "timeout": 1,
           "type": "http"
@@ -1427,14 +1494,14 @@
       "2",
       "--description",
       "192.0.2.1",
+      "--interval",
+      "2",
       "--method",
       "second value &/?+ü",
       "--path",
       "project",
       "--port",
-      "2",
-      "--probe-zone",
-      "second value &/?+ü"
+      "2"
     ],
     "exitCode": 0,
     "requests": [
@@ -1447,7 +1514,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "298",
+          "content-length": "278",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1463,11 +1530,11 @@
           "expected_body": "",
           "expected_codes": "",
           "follow_redirects": false,
-          "interval": 60,
+          "interval": 2,
           "method": "second value &/?+ü",
           "path": "project",
           "port": 2,
-          "probe_zone": "second value &/?+ü",
+          "probe_zone": "",
           "retries": 2,
           "timeout": 5,
           "type": "http"
@@ -1482,6 +1549,8 @@
       "load-balancers",
       "monitors",
       "create",
+      "--interval",
+      "1",
       "--method",
       "regression value &/?+ü",
       "--path",
@@ -1508,7 +1577,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "257",
+          "content-length": "256",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1522,7 +1591,7 @@
           "expected_body": "",
           "expected_codes": "",
           "follow_redirects": false,
-          "interval": 60,
+          "interval": 1,
           "method": "regression value &/?+ü",
           "path": "project",
           "port": 1,
@@ -1553,8 +1622,8 @@
       "--expected-codes",
       "second value &/?+ü",
       "--follow-redirects=false",
-      "--interval",
-      "2"
+      "--header",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -1567,7 +1636,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "259",
+          "content-length": "297",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1583,7 +1652,10 @@
           "expected_body": "second value &/?+ü",
           "expected_codes": "second value &/?+ü",
           "follow_redirects": false,
-          "interval": 2,
+          "header": {
+            "regression": "json value"
+          },
+          "interval": 60,
           "probe_zone": "",
           "retries": 2,
           "timeout": 5,
@@ -1870,7 +1942,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1878,14 +1950,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1908,6 +1980,8 @@
       "--expected-codes",
       "regression value &/?+ü",
       "--follow-redirects=true",
+      "--header",
+      "{\"regression\":\"json value\"}",
       "--interval",
       "1",
       "--method",
@@ -1936,7 +2010,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "349",
+          "content-length": "386",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1952,6 +2026,9 @@
           "expected_body": "regression value &/?+ü",
           "expected_codes": "regression value &/?+ü",
           "follow_redirects": true,
+          "header": {
+            "regression": "json value"
+          },
           "interval": 1,
           "method": "regression value &/?+ü",
           "path": "project",

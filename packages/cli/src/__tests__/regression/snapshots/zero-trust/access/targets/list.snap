@@ -768,7 +768,9 @@
       "second value &/?+ü",
       "--ips",
       "192.0.2.1",
+      "192.0.2.1",
       "--target-ids",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--ip-like",
       "192.0.2.1",
@@ -781,6 +783,7 @@
       "--ipv6-end",
       "192.0.2.1",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest",
       "--page",
       "2",
@@ -795,7 +798,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at&direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1&tag=regression-image%3Alatest&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -880,11 +883,13 @@
       "second value &/?+ü",
       "--target-ids",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--ipv4-start",
       "192.0.2.1",
       "--ipv6-start",
       "192.0.2.1",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest",
       "--per-page",
       "2",
@@ -895,7 +900,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v6=192.0.2.1&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ipv4_start=192.0.2.1&ipv6_start=192.0.2.1&tag=regression-image%3Alatest&per_page=2&direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v6=192.0.2.1&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ipv4_start=192.0.2.1&ipv6_start=192.0.2.1&tag=regression-image%3Alatest&tag=regression-image%3Alatest&per_page=2&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -980,11 +985,13 @@
       "second value &/?+ü",
       "--ips",
       "192.0.2.1",
+      "192.0.2.1",
       "--ipv4-start",
       "192.0.2.1",
       "--ipv4-end",
       "192.0.2.1",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest",
       "--page",
       "2",
@@ -995,7 +1002,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&tag=regression-image%3Alatest&page=2&direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ips=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&tag=regression-image%3Alatest&tag=regression-image%3Alatest&page=2&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1078,11 +1085,14 @@
       "second value &/?+ü",
       "--ips",
       "192.0.2.1",
+      "192.0.2.1",
       "--target-ids",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--ip-like",
       "192.0.2.1",
       "--tag",
+      "regression-image:latest",
       "regression-image:latest",
       "--page",
       "2",
@@ -1095,7 +1105,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&tag=regression-image%3Alatest&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1182,6 +1192,7 @@
       "second value &/?+ü",
       "--tag",
       "regression-image:latest",
+      "regression-image:latest",
       "--page",
       "2",
       "--per-page",
@@ -1195,7 +1206,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at&direction=desc",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at&direction=desc",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -1278,7 +1289,9 @@
       "second value &/?+ü",
       "--ips",
       "192.0.2.1",
+      "192.0.2.1",
       "--target-ids",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--ip-like",
       "192.0.2.1",
@@ -1295,7 +1308,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

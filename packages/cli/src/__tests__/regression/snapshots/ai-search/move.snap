@@ -15,8 +15,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -26,7 +24,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -52,14 +50,14 @@
     ]
   },
   {
-    "case": "pairwise 0",
+    "case": "only --source-namespace",
     "argv": [
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
+      "regression value &/?+ü",
+      "--source-namespace",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -88,13 +86,81 @@
     ]
   },
   {
+    "case": "pairwise 0",
+    "argv": [
+      "ai-search",
+      "move",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "new_namespace": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "move",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-namespace",
+      "regression value &/?+ü",
+      "--source-namespace",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "new_namespace": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "global quiet",
     "argv": [
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -105,7 +171,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -136,8 +202,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -149,7 +213,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -180,8 +244,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -195,7 +257,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -226,8 +288,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -238,7 +298,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -268,8 +328,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -282,7 +340,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -312,8 +370,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -329,8 +385,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -340,7 +394,7 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -371,8 +425,6 @@
       "ai-search",
       "move",
       "0123456789abcdef0123456789abcdef",
-      "--source-namespace",
-      "regression value &/?+ü",
       "--destination-namespace",
       "regression value &/?+ü",
       "--body",
@@ -382,14 +434,14 @@
     "requests": [
       {
         "method": "PATCH",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -397,14 +449,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

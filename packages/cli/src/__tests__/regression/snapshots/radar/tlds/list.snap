@@ -88,12 +88,12 @@
     ]
   },
   {
-    "case": "only --tldManager",
+    "case": "only --tld-manager",
     "argv": [
       "radar",
       "tlds",
       "list",
-      "--tldManager",
+      "--tld-manager",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -118,12 +118,12 @@
     ]
   },
   {
-    "case": "only --tldType",
+    "case": "only --tld-type",
     "argv": [
       "radar",
       "tlds",
       "list",
-      "--tldType",
+      "--tld-type",
       "GENERIC"
     ],
     "exitCode": 0,
@@ -148,12 +148,12 @@
     ]
   },
   {
-    "case": "--tldType value 1",
+    "case": "--tld-type value 1",
     "argv": [
       "radar",
       "tlds",
       "list",
-      "--tldType",
+      "--tld-type",
       "COUNTRY_CODE"
     ],
     "exitCode": 0,
@@ -178,12 +178,12 @@
     ]
   },
   {
-    "case": "--tldType value 2",
+    "case": "--tld-type value 2",
     "argv": [
       "radar",
       "tlds",
       "list",
-      "--tldType",
+      "--tld-type",
       "GENERIC_RESTRICTED"
     ],
     "exitCode": 0,
@@ -208,12 +208,12 @@
     ]
   },
   {
-    "case": "--tldType value 3",
+    "case": "--tld-type value 3",
     "argv": [
       "radar",
       "tlds",
       "list",
-      "--tldType",
+      "--tld-type",
       "INFRASTRUCTURE"
     ],
     "exitCode": 0,
@@ -238,12 +238,12 @@
     ]
   },
   {
-    "case": "--tldType value 4",
+    "case": "--tld-type value 4",
     "argv": [
       "radar",
       "tlds",
       "list",
-      "--tldType",
+      "--tld-type",
       "SPONSORED"
     ],
     "exitCode": 0,
@@ -367,9 +367,9 @@
       "2",
       "--offset",
       "2",
-      "--tldManager",
+      "--tld-manager",
       "second value &/?+ü",
-      "--tldType",
+      "--tld-type",
       "COUNTRY_CODE",
       "--tld",
       "second value &/?+ü",
@@ -405,7 +405,7 @@
       "list",
       "--offset",
       "1",
-      "--tldType",
+      "--tld-type",
       "GENERIC",
       "--format",
       "JSON"
@@ -439,7 +439,7 @@
       "list",
       "--limit",
       "2",
-      "--tldManager",
+      "--tld-manager",
       "second value &/?+ü",
       "--tld",
       "second value &/?+ü"
@@ -471,9 +471,9 @@
       "radar",
       "tlds",
       "list",
-      "--tldManager",
+      "--tld-manager",
       "regression value &/?+ü",
-      "--tldType",
+      "--tld-type",
       "GENERIC"
     ],
     "exitCode": 0,
@@ -575,9 +575,9 @@
       "2",
       "--offset",
       "2",
-      "--tldManager",
+      "--tld-manager",
       "second value &/?+ü",
-      "--tldType",
+      "--tld-type",
       "COUNTRY_CODE"
     ],
     "exitCode": 0,

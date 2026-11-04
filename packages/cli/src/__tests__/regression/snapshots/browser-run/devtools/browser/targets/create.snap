@@ -79,7 +79,7 @@
     ]
   },
   {
-    "case": "only --liveViewUrlExpiresInMs",
+    "case": "only --live-view-url-expires-in-ms",
     "argv": [
       "browser-run",
       "devtools",
@@ -87,7 +87,7 @@
       "targets",
       "create",
       "0123456789abcdef0123456789abcdef",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "1"
     ],
     "exitCode": 0,
@@ -123,7 +123,7 @@
       "0123456789abcdef0123456789abcdef",
       "--url",
       "https://example.com/a?x=1&y=two",
-      "--liveViewUrlExpiresInMs",
+      "--live-view-url-expires-in-ms",
       "2"
     ],
     "exitCode": 0,

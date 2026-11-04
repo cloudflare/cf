@@ -60,6 +60,116 @@
     ]
   },
   {
+    "case": "only --selector-exclude",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "create",
+      "--action",
+      "log",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--expression",
+      "regression value &/?+ü",
+      "--title",
+      "regression value &/?+ü",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "log",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "expression": "regression value &/?+ü",
+          "selector": {
+            "exclude": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "title": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --selector-include",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "create",
+      "--action",
+      "log",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--expression",
+      "regression value &/?+ü",
+      "--title",
+      "regression value &/?+ü",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "log",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "expression": "regression value &/?+ü",
+          "selector": {
+            "include": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "title": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "required --action value 1",
     "argv": [
       "api-security",
@@ -196,6 +306,68 @@
           "description": "192.0.2.1",
           "enabled": true,
           "expression": "regression value &/?+ü",
+          "title": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "rules",
+      "create",
+      "--action",
+      "log",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--expression",
+      "regression value &/?+ü",
+      "--title",
+      "regression value &/?+ü",
+      "--selector-exclude",
+      "[{\"regression\":\"item\"}]",
+      "--selector-include",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "211",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "log",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "expression": "regression value &/?+ü",
+          "selector": {
+            "exclude": [
+              {
+                "regression": "item"
+              }
+            ],
+            "include": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
           "title": "regression value &/?+ü"
         }
       }

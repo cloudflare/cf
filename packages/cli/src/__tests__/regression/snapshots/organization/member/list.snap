@@ -137,21 +137,21 @@
     ]
   },
   {
-    "case": "only --user-email-startsWith",
+    "case": "only --user-email-starts-with",
     "argv": [
       "organization",
       "member",
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--user-email-startsWith",
+      "--user-email-starts-with",
       "regression@example.com"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email.startsWith=regression%40example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -169,21 +169,21 @@
     ]
   },
   {
-    "case": "only --user-email-endsWith",
+    "case": "only --user-email-ends-with",
     "argv": [
       "organization",
       "member",
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--user-email-endsWith",
+      "--user-email-ends-with",
       "regression@example.com"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email.endsWith=regression%40example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -274,13 +274,14 @@
       "0123456789abcdef0123456789abcdef",
       "--status",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--user-email",
       "regression@example.com",
       "--user-email-contains",
       "regression@example.com",
-      "--user-email-startsWith",
+      "--user-email-starts-with",
       "regression@example.com",
-      "--user-email-endsWith",
+      "--user-email-ends-with",
       "regression@example.com",
       "--page-token",
       "second value &/?+ü",
@@ -291,7 +292,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&user.email=regression%40example.com&user.email.contains=regression%40example.com&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&status=second%20value%20%26%2F%3F%2B%C3%BC&user.email=regression%40example.com&user.email.contains=regression%40example.com&user.email.startsWith=regression%40example.com&user.email.endsWith=regression%40example.com&page_token=second%20value%20%26%2F%3F%2B%C3%BC&page_size=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -318,7 +319,7 @@
       "0123456789abcdef0123456789abcdef",
       "--user-email",
       "regression@example.com",
-      "--user-email-startsWith",
+      "--user-email-starts-with",
       "regression@example.com",
       "--page-token",
       "regression value &/?+ü"
@@ -327,7 +328,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email=regression%40example.com&page_token=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email=regression%40example.com&user.email.startsWith=regression%40example.com&page_token=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -354,9 +355,10 @@
       "0123456789abcdef0123456789abcdef",
       "--status",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--user-email-contains",
       "regression@example.com",
-      "--user-email-endsWith",
+      "--user-email-ends-with",
       "regression@example.com",
       "--page-size",
       "2"
@@ -365,7 +367,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&user.email.contains=regression%40example.com&page_size=2",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&status=second%20value%20%26%2F%3F%2B%C3%BC&user.email.contains=regression%40example.com&user.email.endsWith=regression%40example.com&page_size=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -392,7 +394,7 @@
       "0123456789abcdef0123456789abcdef",
       "--user-email-contains",
       "regression@example.com",
-      "--user-email-startsWith",
+      "--user-email-starts-with",
       "regression@example.com",
       "--page-size",
       "1"
@@ -401,7 +403,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email.contains=regression%40example.com&page_size=1",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email.contains=regression%40example.com&user.email.startsWith=regression%40example.com&page_size=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -428,9 +430,10 @@
       "0123456789abcdef0123456789abcdef",
       "--status",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--user-email",
       "regression@example.com",
-      "--user-email-endsWith",
+      "--user-email-ends-with",
       "regression@example.com",
       "--page-token",
       "second value &/?+ü"
@@ -439,7 +442,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&user.email=regression%40example.com&page_token=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&status=second%20value%20%26%2F%3F%2B%C3%BC&user.email=regression%40example.com&user.email.endsWith=regression%40example.com&page_token=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -464,7 +467,7 @@
       "list",
       "--organization-id",
       "0123456789abcdef0123456789abcdef",
-      "--user-email-endsWith",
+      "--user-email-ends-with",
       "regression@example.com",
       "--page-token",
       "regression value &/?+ü",
@@ -475,7 +478,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?user.email.endsWith=regression%40example.com&page_token=regression%20value%20%26%2F%3F%2B%C3%BC&page_size=1",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -502,18 +505,19 @@
       "0123456789abcdef0123456789abcdef",
       "--status",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--user-email",
       "regression@example.com",
       "--user-email-contains",
       "regression@example.com",
-      "--user-email-startsWith",
+      "--user-email-starts-with",
       "regression@example.com"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&user.email=regression%40example.com&user.email.contains=regression%40example.com",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/members?status=second%20value%20%26%2F%3F%2B%C3%BC&status=second%20value%20%26%2F%3F%2B%C3%BC&user.email=regression%40example.com&user.email.contains=regression%40example.com&user.email.startsWith=regression%40example.com",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

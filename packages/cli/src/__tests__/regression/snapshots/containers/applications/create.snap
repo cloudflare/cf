@@ -53,7 +53,7 @@
     ]
   },
   {
-    "case": "only --configuration-command",
+    "case": "only --configuration-authorized-keys",
     "argv": [
       "containers",
       "applications",
@@ -62,8 +62,8 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
-      "--configuration-command",
-      "regression value &/?+ü"
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
     "requests": [
@@ -76,7 +76,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "120",
+          "content-length": "124",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -86,8 +86,10 @@
         },
         "body": {
           "configuration": {
-            "command": [
-              "regression value &/?+ü"
+            "authorized_keys": [
+              {
+                "regression": "item"
+              }
             ]
           },
           "name": "regression value &/?+ü",
@@ -95,6 +97,23 @@
         }
       }
     ]
+  },
+  {
+    "case": "only --configuration-command",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-command -> configuration-image configuration-command -> instances configuration-command -> max-instances",
+    "requests": []
   },
   {
     "case": "only --configuration-entrypoint",
@@ -109,36 +128,26 @@
       "--configuration-entrypoint",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "123",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "entrypoint": [
-              "regression value &/?+ü"
-            ]
-          },
-          "name": "regression value &/?+ü",
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-entrypoint -> configuration-image configuration-entrypoint -> instances configuration-entrypoint -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "only --configuration-environment-variables",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-environment-variables -> configuration-image configuration-environment-variables -> instances configuration-environment-variables -> max-instances",
+    "requests": []
   },
   {
     "case": "only --configuration-image",
@@ -153,34 +162,9 @@
       "--configuration-image",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "116",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "image": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-image -> instances configuration-image -> max-instances",
+    "requests": []
   },
   {
     "case": "only --configuration-instance-type",
@@ -193,36 +177,96 @@
       "--scheduling-policy",
       "default",
       "--configuration-instance-type",
-      "regression value &/?+ü"
+      "lite"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "124",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "instance_type": "regression value &/?+ü"
-          },
-          "name": "regression value &/?+ü",
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-instance-type -> configuration-image configuration-instance-type -> instances configuration-instance-type -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "--configuration-instance-type value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-instance-type",
+      "basic"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-instance-type -> configuration-image configuration-instance-type -> instances configuration-instance-type -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "--configuration-instance-type value 2",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-instance-type",
+      "standard-1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-instance-type -> configuration-image configuration-instance-type -> instances configuration-instance-type -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "--configuration-instance-type value 3",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-instance-type",
+      "standard-2"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-instance-type -> configuration-image configuration-instance-type -> instances configuration-instance-type -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "--configuration-instance-type value 4",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-instance-type",
+      "standard-3"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-instance-type -> configuration-image configuration-instance-type -> instances configuration-instance-type -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "--configuration-instance-type value 5",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-instance-type",
+      "standard-4"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-instance-type -> configuration-image configuration-instance-type -> instances configuration-instance-type -> max-instances",
+    "requests": []
   },
   {
     "case": "only --configuration-observability-logs-enabled",
@@ -236,38 +280,9 @@
       "default",
       "--configuration-observability-logs-enabled=true"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "124",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "observability": {
-              "logs": {
-                "enabled": true
-              }
-            }
-          },
-          "name": "regression value &/?+ü",
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-observability-logs-enabled -> configuration-image configuration-observability-logs-enabled -> instances configuration-observability-logs-enabled -> max-instances",
+    "requests": []
   },
   {
     "case": "--configuration-observability-logs-enabled value 1",
@@ -281,38 +296,9 @@
       "default",
       "--configuration-observability-logs-enabled=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "125",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "observability": {
-              "logs": {
-                "enabled": false
-              }
-            }
-          },
-          "name": "regression value &/?+ü",
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-observability-logs-enabled -> configuration-image configuration-observability-logs-enabled -> instances configuration-observability-logs-enabled -> max-instances",
+    "requests": []
   },
   {
     "case": "only --configuration-wrangler-ssh-enabled",
@@ -499,6 +485,23 @@
       "--constraints-regions",
       "regression value &/?+ü"
     ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n constraints-regions -> configuration-image constraints-regions -> instances constraints-regions -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "only --durable-objects-namespace-id",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
     "exitCode": 0,
     "requests": [
       {
@@ -510,7 +513,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "118",
+          "content-length": "134",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -519,16 +522,48 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "constraints": {
-            "regions": [
-              "regression value &/?+ü"
-            ]
+          "durable_objects": {
+            "namespace_id": "0123456789abcdef0123456789abcdef"
           },
           "name": "regression value &/?+ü",
           "scheduling_policy": "default"
         }
       }
     ]
+  },
+  {
+    "case": "only --durable-objects-class-name",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--durable-objects-class-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n durable-objects-class-name -> durable-objects-script-name",
+    "requests": []
+  },
+  {
+    "case": "only --durable-objects-script-name",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--durable-objects-script-name",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n durable-objects-script-name -> durable-objects-class-name",
+    "requests": []
   },
   {
     "case": "only --instances",
@@ -544,7 +579,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n instances -> max-instances",
+    "error": "Missing dependent arguments:\n instances -> configuration-image instances -> max-instances",
     "requests": []
   },
   {
@@ -561,7 +596,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n max-instances -> instances",
+    "error": "Missing dependent arguments:\n max-instances -> configuration-image max-instances -> instances",
     "requests": []
   },
   {
@@ -663,32 +698,9 @@
       "--rollout-active-grace-period",
       "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "96",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "name": "regression value &/?+ü",
-          "rollout_active_grace_period": 1,
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n rollout-active-grace-period -> configuration-image rollout-active-grace-period -> instances rollout-active-grace-period -> max-instances",
+    "requests": []
   },
   {
     "case": "required --scheduling-policy value 1",
@@ -779,16 +791,20 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
       "--configuration-command",
       "second value &/?+ü",
       "second value &/?+ü",
       "--configuration-entrypoint",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
       "--configuration-image",
       "second value &/?+ü",
       "--configuration-instance-type",
-      "second value &/?+ü",
+      "basic",
       "--configuration-observability-logs-enabled=false",
       "--configuration-wrangler-ssh-enabled=false",
       "--configuration-wrangler-ssh-port",
@@ -798,6 +814,12 @@
       "--constraints-regions",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--durable-objects-class-name",
+      "second value &/?+ü",
+      "--durable-objects-script-name",
+      "192.0.2.1",
       "--instances",
       "2",
       "--max-instances",
@@ -807,7 +829,7 @@
       "2"
     ],
     "exitCode": 1,
-    "error": "Arguments configuration-command and configuration-wrangler-ssh-port are mutually exclusive",
+    "error": "Arguments configuration-command and configuration-wrangler-ssh-enabled are mutually exclusive",
     "requests": []
   },
   {
@@ -820,19 +842,26 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
-      "--configuration-entrypoint",
+      "--configuration-command",
       "regression value &/?+ü",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
       "--configuration-instance-type",
-      "regression value &/?+ü",
+      "lite",
       "--configuration-wrangler-ssh-enabled=true",
       "--constraints-jurisdiction",
       "regression value &/?+ü",
-      "--instances",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--durable-objects-script-name",
+      "192.0.2.1",
+      "--max-instances",
       "1",
-      "--observability-logs-enabled=true"
+      "--rollout-active-grace-period",
+      "1"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n instances -> max-instances",
+    "error": "Missing dependent arguments:\n configuration-command -> configuration-image configuration-command -> instances configuration-environment-variables -> configuration-image configuration-environment-variables -> instances configuration-instance-type -> configuration-image configuration-instance-type -> instances durable-objects-script-name -> durable-objects-class-name max-instances -> configuration-image max-instances -> instances rollout-active-grace-period -> configuration-image rollout-active-grace-period -> instances",
     "requests": []
   },
   {
@@ -845,7 +874,9 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
-      "--configuration-command",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
+      "--configuration-entrypoint",
       "second value &/?+ü",
       "second value &/?+ü",
       "--configuration-image",
@@ -856,13 +887,14 @@
       "--constraints-regions",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--max-instances",
+      "--durable-objects-class-name",
+      "second value &/?+ü",
+      "--instances",
       "2",
-      "--rollout-active-grace-period",
-      "2"
+      "--observability-logs-enabled=false"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n max-instances -> instances",
+    "error": "Missing dependent arguments:\n configuration-entrypoint -> max-instances configuration-image -> max-instances configuration-observability-logs-enabled -> max-instances constraints-regions -> max-instances durable-objects-class-name -> durable-objects-script-name instances -> max-instances",
     "requests": []
   },
   {
@@ -875,20 +907,23 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
-      "--configuration-image",
+      "--configuration-entrypoint",
       "regression value &/?+ü",
-      "--configuration-instance-type",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
+      "--configuration-observability-logs-enabled=true",
+      "--configuration-wrangler-ssh-enabled=true",
+      "--constraints-regions",
       "regression value &/?+ü",
-      "--configuration-wrangler-ssh-port",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--instances",
       "1",
-      "--constraints-jurisdiction",
-      "regression value &/?+ü",
       "--max-instances",
-      "1",
-      "--observability-logs-enabled=true"
+      "1"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n max-instances -> instances",
+    "error": "Missing dependent arguments:\n configuration-entrypoint -> configuration-image configuration-environment-variables -> configuration-image configuration-observability-logs-enabled -> configuration-image constraints-regions -> configuration-image instances -> configuration-image max-instances -> configuration-image",
     "requests": []
   },
   {
@@ -901,24 +936,29 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
       "--configuration-command",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--configuration-entrypoint",
+      "--configuration-image",
       "second value &/?+ü",
-      "second value &/?+ü",
-      "--configuration-observability-logs-enabled=false",
-      "--configuration-wrangler-ssh-enabled=false",
-      "--constraints-regions",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--instances",
+      "--configuration-instance-type",
+      "basic",
+      "--configuration-wrangler-ssh-port",
       "2",
+      "--constraints-jurisdiction",
+      "second value &/?+ü",
+      "--durable-objects-class-name",
+      "second value &/?+ü",
+      "--durable-objects-script-name",
+      "192.0.2.1",
+      "--observability-logs-enabled=false",
       "--rollout-active-grace-period",
       "2"
     ],
     "exitCode": 1,
-    "error": "Missing dependent arguments:\n instances -> max-instances",
+    "error": "Missing dependent arguments:\n configuration-command -> instances configuration-command -> max-instances configuration-image -> instances configuration-image -> max-instances configuration-instance-type -> instances configuration-instance-type -> max-instances rollout-active-grace-period -> instances rollout-active-grace-period -> max-instances",
     "requests": []
   },
   {
@@ -931,17 +971,23 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-image",
+      "regression value &/?+ü",
+      "--configuration-instance-type",
+      "lite",
       "--configuration-observability-logs-enabled=true",
       "--configuration-wrangler-ssh-enabled=true",
-      "--configuration-wrangler-ssh-port",
-      "1",
-      "--constraints-jurisdiction",
+      "--durable-objects-class-name",
       "regression value &/?+ü",
-      "--rollout-active-grace-period",
+      "--durable-objects-script-name",
+      "192.0.2.1",
+      "--instances",
+      "1",
+      "--max-instances",
       "1"
     ],
     "exitCode": 1,
-    "error": "Arguments configuration-wrangler-ssh-port and constraints-jurisdiction are mutually exclusive",
+    "error": "Arguments configuration-image and configuration-wrangler-ssh-enabled are mutually exclusive",
     "requests": []
   },
   {
@@ -954,75 +1000,32 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
       "--configuration-command",
       "second value &/?+ü",
       "second value &/?+ü",
       "--configuration-entrypoint",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--configuration-image",
-      "second value &/?+ü",
-      "--configuration-instance-type",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
+      "--configuration-wrangler-ssh-port",
+      "2",
+      "--constraints-jurisdiction",
       "second value &/?+ü",
       "--constraints-regions",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--instances",
-      "2",
-      "--max-instances",
-      "2",
-      "--observability-logs-enabled=false"
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--observability-logs-enabled=false",
+      "--rollout-active-grace-period",
+      "2"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "412",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "configuration": {
-            "command": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "entrypoint": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ],
-            "image": "second value &/?+ü",
-            "instance_type": "second value &/?+ü"
-          },
-          "constraints": {
-            "regions": [
-              "second value &/?+ü",
-              "second value &/?+ü"
-            ]
-          },
-          "instances": 2,
-          "max_instances": 2,
-          "name": "regression value &/?+ü",
-          "observability": {
-            "logs": {
-              "enabled": false
-            }
-          },
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-command -> configuration-image configuration-command -> instances configuration-command -> max-instances configuration-entrypoint -> configuration-image configuration-entrypoint -> instances configuration-entrypoint -> max-instances configuration-environment-variables -> configuration-image configuration-environment-variables -> instances configuration-environment-variables -> max-instances constraints-regions -> configuration-image constraints-regions -> instances constraints-regions -> max-instances rollout-active-grace-period -> configuration-image rollout-active-grace-period -> instances rollout-active-grace-period -> max-instances",
+    "requests": []
   },
   {
     "case": "pairwise 8",
@@ -1034,54 +1037,26 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-wrangler-ssh-port",
+      "1",
+      "--constraints-jurisdiction",
+      "regression value &/?+ü",
       "--constraints-regions",
       "regression value &/?+ü",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--durable-objects-class-name",
+      "regression value &/?+ü",
+      "--durable-objects-script-name",
+      "192.0.2.1",
       "--instances",
       "1",
       "--max-instances",
-      "1",
-      "--observability-logs-enabled=true",
-      "--rollout-active-grace-period",
       "1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "224",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "constraints": {
-            "regions": [
-              "regression value &/?+ü"
-            ]
-          },
-          "instances": 1,
-          "max_instances": 1,
-          "name": "regression value &/?+ü",
-          "observability": {
-            "logs": {
-              "enabled": true
-            }
-          },
-          "rollout_active_grace_period": 1,
-          "scheduling_policy": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n constraints-regions -> configuration-image instances -> configuration-image max-instances -> configuration-image",
+    "requests": []
   },
   {
     "case": "pairwise 9",
@@ -1093,25 +1068,94 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
       "--configuration-command",
       "second value &/?+ü",
       "second value &/?+ü",
       "--configuration-entrypoint",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
       "--configuration-image",
       "second value &/?+ü",
       "--configuration-instance-type",
+      "basic",
+      "--configuration-observability-logs-enabled=false",
+      "--configuration-wrangler-ssh-enabled=false",
+      "--observability-logs-enabled=false",
+      "--rollout-active-grace-period",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n configuration-command -> instances configuration-command -> max-instances configuration-entrypoint -> instances configuration-entrypoint -> max-instances configuration-environment-variables -> instances configuration-environment-variables -> max-instances configuration-image -> instances configuration-image -> max-instances configuration-instance-type -> instances configuration-instance-type -> max-instances configuration-observability-logs-enabled -> instances configuration-observability-logs-enabled -> max-instances rollout-active-grace-period -> instances rollout-active-grace-period -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--observability-logs-enabled=true",
+      "--rollout-active-grace-period",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n rollout-active-grace-period -> configuration-image rollout-active-grace-period -> instances rollout-active-grace-period -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
+      "--configuration-command",
       "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
+      "--configuration-image",
+      "second value &/?+ü",
+      "--configuration-instance-type",
+      "basic",
       "--configuration-observability-logs-enabled=false",
       "--configuration-wrangler-ssh-enabled=false",
       "--configuration-wrangler-ssh-port",
       "2",
       "--constraints-jurisdiction",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--constraints-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--durable-objects-class-name",
+      "second value &/?+ü",
+      "--durable-objects-script-name",
+      "192.0.2.1",
+      "--instances",
+      "2",
+      "--max-instances",
+      "2"
     ],
     "exitCode": 1,
-    "error": "Arguments configuration-command and configuration-wrangler-ssh-port are mutually exclusive",
+    "error": "Arguments configuration-command and configuration-wrangler-ssh-enabled are mutually exclusive",
     "requests": []
   },
   {
@@ -1445,14 +1489,18 @@
       "regression value &/?+ü",
       "--scheduling-policy",
       "default",
+      "--configuration-authorized-keys",
+      "[{\"regression\":\"item\"}]",
       "--configuration-command",
       "regression value &/?+ü",
       "--configuration-entrypoint",
       "regression value &/?+ü",
+      "--configuration-environment-variables",
+      "[{\"regression\":\"item\"}]",
       "--configuration-image",
       "regression value &/?+ü",
       "--configuration-instance-type",
-      "regression value &/?+ü",
+      "lite",
       "--configuration-observability-logs-enabled=true",
       "--configuration-wrangler-ssh-enabled=true",
       "--configuration-wrangler-ssh-port",
@@ -1461,6 +1509,12 @@
       "regression value &/?+ü",
       "--constraints-regions",
       "regression value &/?+ü",
+      "--durable-objects-namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--durable-objects-class-name",
+      "regression value &/?+ü",
+      "--durable-objects-script-name",
+      "192.0.2.1",
       "--instances",
       "1",
       "--max-instances",
@@ -1470,7 +1524,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Arguments configuration-command and configuration-wrangler-ssh-port are mutually exclusive",
+    "error": "Arguments configuration-command and configuration-wrangler-ssh-enabled are mutually exclusive",
     "requests": []
   }
 ]

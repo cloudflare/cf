@@ -144,7 +144,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--script-name is required. Pass --script-name <value> or run interactively.",
+    "error": "Missing dependent arguments:\n settings-max-concurrency -> script-name",
     "requests": []
   },
   {
@@ -180,7 +180,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--script-name is required. Pass --script-name <value> or run interactively.",
+    "error": "Missing dependent arguments:\n settings-max-wait-time-ms -> script-name",
     "requests": []
   },
   {
@@ -379,7 +379,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Arguments settings-max-concurrency and settings-visibility-timeout-ms are mutually exclusive",
+    "error": "Missing dependent arguments:\n settings-max-concurrency -> script-name",
     "requests": []
   },
   {
@@ -454,7 +454,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Arguments settings-max-wait-time-ms and settings-visibility-timeout-ms are mutually exclusive",
+    "error": "Missing dependent arguments:\n settings-max-wait-time-ms -> script-name",
     "requests": []
   },
   {

@@ -88,12 +88,12 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -118,12 +118,12 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -148,12 +148,12 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -178,12 +178,12 @@
     ]
   },
   {
-    "case": "only --dataSource",
+    "case": "only --data-source",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "ALL"
     ],
     "exitCode": 0,
@@ -208,12 +208,12 @@
     ]
   },
   {
-    "case": "--dataSource value 1",
+    "case": "--data-source value 1",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "AI_BOTS"
     ],
     "exitCode": 0,
@@ -238,12 +238,12 @@
     ]
   },
   {
-    "case": "--dataSource value 2",
+    "case": "--data-source value 2",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "AI_GATEWAY"
     ],
     "exitCode": 0,
@@ -268,12 +268,12 @@
     ]
   },
   {
-    "case": "--dataSource value 3",
+    "case": "--data-source value 3",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "BGP"
     ],
     "exitCode": 0,
@@ -298,12 +298,12 @@
     ]
   },
   {
-    "case": "--dataSource value 4",
+    "case": "--data-source value 4",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "BOTS"
     ],
     "exitCode": 0,
@@ -328,12 +328,12 @@
     ]
   },
   {
-    "case": "--dataSource value 5",
+    "case": "--data-source value 5",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "CONNECTION_ANOMALY"
     ],
     "exitCode": 0,
@@ -358,12 +358,12 @@
     ]
   },
   {
-    "case": "--dataSource value 6",
+    "case": "--data-source value 6",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "CT"
     ],
     "exitCode": 0,
@@ -388,12 +388,12 @@
     ]
   },
   {
-    "case": "--dataSource value 7",
+    "case": "--data-source value 7",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "DNS"
     ],
     "exitCode": 0,
@@ -418,12 +418,12 @@
     ]
   },
   {
-    "case": "--dataSource value 8",
+    "case": "--data-source value 8",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "DNS_MAGNITUDE"
     ],
     "exitCode": 0,
@@ -448,12 +448,12 @@
     ]
   },
   {
-    "case": "--dataSource value 9",
+    "case": "--data-source value 9",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "DNS_AS112"
     ],
     "exitCode": 0,
@@ -478,12 +478,12 @@
     ]
   },
   {
-    "case": "--dataSource value 10",
+    "case": "--data-source value 10",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "DOS"
     ],
     "exitCode": 0,
@@ -508,12 +508,12 @@
     ]
   },
   {
-    "case": "--dataSource value 11",
+    "case": "--data-source value 11",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "EMAIL_ROUTING"
     ],
     "exitCode": 0,
@@ -538,12 +538,12 @@
     ]
   },
   {
-    "case": "--dataSource value 12",
+    "case": "--data-source value 12",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "EMAIL_SECURITY"
     ],
     "exitCode": 0,
@@ -568,12 +568,12 @@
     ]
   },
   {
-    "case": "--dataSource value 13",
+    "case": "--data-source value 13",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "FW"
     ],
     "exitCode": 0,
@@ -598,12 +598,12 @@
     ]
   },
   {
-    "case": "--dataSource value 14",
+    "case": "--data-source value 14",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "FW_PG"
     ],
     "exitCode": 0,
@@ -628,12 +628,12 @@
     ]
   },
   {
-    "case": "--dataSource value 15",
+    "case": "--data-source value 15",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "HTTP"
     ],
     "exitCode": 0,
@@ -658,12 +658,12 @@
     ]
   },
   {
-    "case": "--dataSource value 16",
+    "case": "--data-source value 16",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "HTTP_CONTROL"
     ],
     "exitCode": 0,
@@ -688,12 +688,12 @@
     ]
   },
   {
-    "case": "--dataSource value 17",
+    "case": "--data-source value 17",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "HTTP_CRAWLER_REFERER"
     ],
     "exitCode": 0,
@@ -718,12 +718,12 @@
     ]
   },
   {
-    "case": "--dataSource value 18",
+    "case": "--data-source value 18",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "HTTP_ORIGINS"
     ],
     "exitCode": 0,
@@ -748,12 +748,12 @@
     ]
   },
   {
-    "case": "--dataSource value 19",
+    "case": "--data-source value 19",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "IQI"
     ],
     "exitCode": 0,
@@ -778,12 +778,12 @@
     ]
   },
   {
-    "case": "--dataSource value 20",
+    "case": "--data-source value 20",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "LEAKED_CREDENTIALS"
     ],
     "exitCode": 0,
@@ -808,12 +808,12 @@
     ]
   },
   {
-    "case": "--dataSource value 21",
+    "case": "--data-source value 21",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "NET"
     ],
     "exitCode": 0,
@@ -838,12 +838,12 @@
     ]
   },
   {
-    "case": "--dataSource value 22",
+    "case": "--data-source value 22",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "ROBOTS_TXT"
     ],
     "exitCode": 0,
@@ -868,12 +868,12 @@
     ]
   },
   {
-    "case": "--dataSource value 23",
+    "case": "--data-source value 23",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "SPEED"
     ],
     "exitCode": 0,
@@ -898,12 +898,12 @@
     ]
   },
   {
-    "case": "--dataSource value 24",
+    "case": "--data-source value 24",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--dataSource",
+      "--data-source",
       "WORKERS_AI"
     ],
     "exitCode": 0,
@@ -928,12 +928,12 @@
     ]
   },
   {
-    "case": "only --eventType",
+    "case": "only --event-type",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--eventType",
+      "--event-type",
       "EVENT"
     ],
     "exitCode": 0,
@@ -958,12 +958,12 @@
     ]
   },
   {
-    "case": "--eventType value 1",
+    "case": "--event-type value 1",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--eventType",
+      "--event-type",
       "GENERAL"
     ],
     "exitCode": 0,
@@ -988,12 +988,12 @@
     ]
   },
   {
-    "case": "--eventType value 2",
+    "case": "--event-type value 2",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--eventType",
+      "--event-type",
       "OUTAGE"
     ],
     "exitCode": 0,
@@ -1018,12 +1018,12 @@
     ]
   },
   {
-    "case": "--eventType value 3",
+    "case": "--event-type value 3",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--eventType",
+      "--event-type",
       "PARTIAL_PROJECTION"
     ],
     "exitCode": 0,
@@ -1048,12 +1048,12 @@
     ]
   },
   {
-    "case": "--eventType value 4",
+    "case": "--event-type value 4",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--eventType",
+      "--event-type",
       "PIPELINE"
     ],
     "exitCode": 0,
@@ -1078,12 +1078,12 @@
     ]
   },
   {
-    "case": "--eventType value 5",
+    "case": "--event-type value 5",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--eventType",
+      "--event-type",
       "TRAFFIC_ANOMALY"
     ],
     "exitCode": 0,
@@ -1108,12 +1108,12 @@
     ]
   },
   {
-    "case": "only --outageType",
+    "case": "only --outage-type",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageType",
+      "--outage-type",
       "NATIONWIDE"
     ],
     "exitCode": 0,
@@ -1138,12 +1138,12 @@
     ]
   },
   {
-    "case": "--outageType value 1",
+    "case": "--outage-type value 1",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageType",
+      "--outage-type",
       "REGIONAL"
     ],
     "exitCode": 0,
@@ -1168,12 +1168,12 @@
     ]
   },
   {
-    "case": "--outageType value 2",
+    "case": "--outage-type value 2",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageType",
+      "--outage-type",
       "NETWORK"
     ],
     "exitCode": 0,
@@ -1198,12 +1198,12 @@
     ]
   },
   {
-    "case": "--outageType value 3",
+    "case": "--outage-type value 3",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageType",
+      "--outage-type",
       "PLATFORM"
     ],
     "exitCode": 0,
@@ -1228,12 +1228,12 @@
     ]
   },
   {
-    "case": "only --outageCause",
+    "case": "only --outage-cause",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "BLOCKING"
     ],
     "exitCode": 0,
@@ -1258,12 +1258,12 @@
     ]
   },
   {
-    "case": "--outageCause value 1",
+    "case": "--outage-cause value 1",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "CABLE_CUT"
     ],
     "exitCode": 0,
@@ -1288,12 +1288,12 @@
     ]
   },
   {
-    "case": "--outageCause value 2",
+    "case": "--outage-cause value 2",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "CYBERATTACK"
     ],
     "exitCode": 0,
@@ -1318,12 +1318,12 @@
     ]
   },
   {
-    "case": "--outageCause value 3",
+    "case": "--outage-cause value 3",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "DNS"
     ],
     "exitCode": 0,
@@ -1348,12 +1348,12 @@
     ]
   },
   {
-    "case": "--outageCause value 4",
+    "case": "--outage-cause value 4",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "FIRE"
     ],
     "exitCode": 0,
@@ -1378,12 +1378,12 @@
     ]
   },
   {
-    "case": "--outageCause value 5",
+    "case": "--outage-cause value 5",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "GOVERNMENT_DIRECTED"
     ],
     "exitCode": 0,
@@ -1408,12 +1408,12 @@
     ]
   },
   {
-    "case": "--outageCause value 6",
+    "case": "--outage-cause value 6",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "MAINTENANCE"
     ],
     "exitCode": 0,
@@ -1438,12 +1438,12 @@
     ]
   },
   {
-    "case": "--outageCause value 7",
+    "case": "--outage-cause value 7",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "MECHANICAL"
     ],
     "exitCode": 0,
@@ -1468,12 +1468,12 @@
     ]
   },
   {
-    "case": "--outageCause value 8",
+    "case": "--outage-cause value 8",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "MILITARY_ACTION"
     ],
     "exitCode": 0,
@@ -1498,12 +1498,12 @@
     ]
   },
   {
-    "case": "--outageCause value 9",
+    "case": "--outage-cause value 9",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "MISCONFIGURATION"
     ],
     "exitCode": 0,
@@ -1528,12 +1528,12 @@
     ]
   },
   {
-    "case": "--outageCause value 10",
+    "case": "--outage-cause value 10",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "NATURAL_DISASTER"
     ],
     "exitCode": 0,
@@ -1558,12 +1558,12 @@
     ]
   },
   {
-    "case": "--outageCause value 11",
+    "case": "--outage-cause value 11",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "NETWORK_PROBLEM"
     ],
     "exitCode": 0,
@@ -1588,12 +1588,12 @@
     ]
   },
   {
-    "case": "--outageCause value 12",
+    "case": "--outage-cause value 12",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "POWER_OUTAGE"
     ],
     "exitCode": 0,
@@ -1618,12 +1618,12 @@
     ]
   },
   {
-    "case": "--outageCause value 13",
+    "case": "--outage-cause value 13",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "SOFTWARE"
     ],
     "exitCode": 0,
@@ -1648,12 +1648,12 @@
     ]
   },
   {
-    "case": "--outageCause value 14",
+    "case": "--outage-cause value 14",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "TECHNICAL_PROBLEM"
     ],
     "exitCode": 0,
@@ -1678,12 +1678,12 @@
     ]
   },
   {
-    "case": "--outageCause value 15",
+    "case": "--outage-cause value 15",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "UNKNOWN"
     ],
     "exitCode": 0,
@@ -1708,12 +1708,12 @@
     ]
   },
   {
-    "case": "--outageCause value 16",
+    "case": "--outage-cause value 16",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "WEATHER"
     ],
     "exitCode": 0,
@@ -1858,19 +1858,19 @@
     ]
   },
   {
-    "case": "only --geoId",
+    "case": "only --geo-id",
     "argv": [
       "radar",
       "annotations",
       "list",
-      "--geoId",
-      "regression value &/?+ü"
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?geoId=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/annotations?geoId=0123456789abcdef0123456789abcdef",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2107,21 +2107,22 @@
       "2",
       "--offset",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--dataSource",
+      "--data-source",
       "AI_BOTS",
-      "--eventType",
+      "--event-type",
       "GENERAL",
-      "--outageType",
+      "--outage-type",
       "REGIONAL",
-      "--outageCause",
+      "--outage-cause",
       "CABLE_CUT",
       "--tags",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--query",
       "second value &/?+ü",
@@ -2129,8 +2130,8 @@
       "2",
       "--location",
       "second value &/?+ü",
-      "--geoId",
-      "second value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--origin",
       "second value &/?+ü",
       "--tld",
@@ -2148,7 +2149,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=AI_BOTS&eventType=GENERAL&outageType=REGIONAL&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&query=second%20value%20%26%2F%3F%2B%C3%BC&asn=2&location=second%20value%20%26%2F%3F%2B%C3%BC&geoId=second%20value%20%26%2F%3F%2B%C3%BC&origin=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&bot=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=AI_BOTS&eventType=GENERAL&outageType=REGIONAL&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&tags=second%20value%20%26%2F%3F%2B%C3%BC&query=second%20value%20%26%2F%3F%2B%C3%BC&asn=2&location=second%20value%20%26%2F%3F%2B%C3%BC&geoId=0123456789abcdef0123456789abcdef&origin=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&bot=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2173,18 +2174,18 @@
       "list",
       "--offset",
       "1",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dataSource",
+      "--data-source",
       "ALL",
-      "--outageType",
+      "--outage-type",
       "NATIONWIDE",
       "--tags",
       "regression value &/?+ü",
       "--asn",
       "1",
-      "--geoId",
-      "regression value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--tld",
       "regression value &/?+ü",
       "--log",
@@ -2196,7 +2197,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?offset=1&dateStart=2026-01-02T03%3A04%3A05Z&dataSource=ALL&outageType=NATIONWIDE&tags=regression%20value%20%26%2F%3F%2B%C3%BC&asn=1&geoId=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC&log=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "url": "https://api.test/client/v4/radar/annotations?offset=1&dateStart=2026-01-02T03%3A04%3A05Z&dataSource=ALL&outageType=NATIONWIDE&tags=regression%20value%20%26%2F%3F%2B%C3%BC&asn=1&geoId=0123456789abcdef0123456789abcdef&tld=regression%20value%20%26%2F%3F%2B%C3%BC&log=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2221,13 +2222,13 @@
       "list",
       "--limit",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--eventType",
+      "--event-type",
       "GENERAL",
-      "--outageCause",
+      "--outage-cause",
       "CABLE_CUT",
       "--query",
       "second value &/?+ü",
@@ -2267,13 +2268,13 @@
       "radar",
       "annotations",
       "list",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--eventType",
+      "--event-type",
       "EVENT",
-      "--outageType",
+      "--outage-type",
       "NATIONWIDE",
       "--query",
       "regression value &/?+ü",
@@ -2319,18 +2320,19 @@
       "2",
       "--offset",
       "2",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--dataSource",
+      "--data-source",
       "AI_BOTS",
-      "--outageCause",
+      "--outage-cause",
       "CABLE_CUT",
       "--tags",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--location",
       "second value &/?+ü",
-      "--geoId",
-      "second value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--ca",
       "second value &/?+ü",
       "--log",
@@ -2340,7 +2342,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=AI_BOTS&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&geoId=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=AI_BOTS&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&tags=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&geoId=0123456789abcdef0123456789abcdef&ca=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2363,18 +2365,18 @@
       "radar",
       "annotations",
       "list",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--dataSource",
+      "--data-source",
       "ALL",
-      "--eventType",
+      "--event-type",
       "EVENT",
-      "--outageType",
+      "--outage-type",
       "NATIONWIDE",
       "--location",
       "regression value &/?+ü",
-      "--geoId",
-      "regression value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--origin",
       "regression value &/?+ü",
       "--tld",
@@ -2384,7 +2386,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=ALL&eventType=EVENT&outageType=NATIONWIDE&location=regression%20value%20%26%2F%3F%2B%C3%BC&geoId=regression%20value%20%26%2F%3F%2B%C3%BC&origin=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/annotations?dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=ALL&eventType=EVENT&outageType=NATIONWIDE&location=regression%20value%20%26%2F%3F%2B%C3%BC&geoId=0123456789abcdef0123456789abcdef&origin=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2411,13 +2413,14 @@
       "2",
       "--offset",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--outageCause",
+      "--outage-cause",
       "CABLE_CUT",
       "--tags",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--query",
       "second value &/?+ü",
@@ -2436,7 +2439,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&query=second%20value%20%26%2F%3F%2B%C3%BC&asn=2&ca=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&bot=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&tags=second%20value%20%26%2F%3F%2B%C3%BC&query=second%20value%20%26%2F%3F%2B%C3%BC&asn=2&ca=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&bot=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2459,7 +2462,7 @@
       "radar",
       "annotations",
       "list",
-      "--outageCause",
+      "--outage-cause",
       "BLOCKING",
       "--tags",
       "regression value &/?+ü",
@@ -2469,8 +2472,8 @@
       "1",
       "--location",
       "regression value &/?+ü",
-      "--geoId",
-      "regression value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--origin",
       "regression value &/?+ü",
       "--tld",
@@ -2480,7 +2483,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?outageCause=BLOCKING&tags=regression%20value%20%26%2F%3F%2B%C3%BC&query=regression%20value%20%26%2F%3F%2B%C3%BC&asn=1&location=regression%20value%20%26%2F%3F%2B%C3%BC&geoId=regression%20value%20%26%2F%3F%2B%C3%BC&origin=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/annotations?outageCause=BLOCKING&tags=regression%20value%20%26%2F%3F%2B%C3%BC&query=regression%20value%20%26%2F%3F%2B%C3%BC&asn=1&location=regression%20value%20%26%2F%3F%2B%C3%BC&geoId=0123456789abcdef0123456789abcdef&origin=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -2507,17 +2510,17 @@
       "2",
       "--offset",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--dataSource",
+      "--data-source",
       "AI_BOTS",
-      "--eventType",
+      "--event-type",
       "GENERAL",
-      "--outageType",
+      "--outage-type",
       "REGIONAL",
       "--ca",
       "second value &/?+ü",
@@ -2595,21 +2598,22 @@
       "2",
       "--offset",
       "2",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
-      "--dataSource",
+      "--data-source",
       "AI_BOTS",
-      "--eventType",
+      "--event-type",
       "GENERAL",
-      "--outageType",
+      "--outage-type",
       "REGIONAL",
-      "--outageCause",
+      "--outage-cause",
       "CABLE_CUT",
       "--tags",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--query",
       "second value &/?+ü",
@@ -2617,8 +2621,8 @@
       "2",
       "--location",
       "second value &/?+ü",
-      "--geoId",
-      "second value &/?+ü",
+      "--geo-id",
+      "0123456789abcdef0123456789abcdef",
       "--origin",
       "second value &/?+ü",
       "--tld",
@@ -2628,7 +2632,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=AI_BOTS&eventType=GENERAL&outageType=REGIONAL&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&query=second%20value%20%26%2F%3F%2B%C3%BC&asn=2&location=second%20value%20%26%2F%3F%2B%C3%BC&geoId=second%20value%20%26%2F%3F%2B%C3%BC&origin=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/annotations?limit=2&offset=2&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dataSource=AI_BOTS&eventType=GENERAL&outageType=REGIONAL&outageCause=CABLE_CUT&tags=second%20value%20%26%2F%3F%2B%C3%BC&tags=second%20value%20%26%2F%3F%2B%C3%BC&query=second%20value%20%26%2F%3F%2B%C3%BC&asn=2&location=second%20value%20%26%2F%3F%2B%C3%BC&geoId=0123456789abcdef0123456789abcdef&origin=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

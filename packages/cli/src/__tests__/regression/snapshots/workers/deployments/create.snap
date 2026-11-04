@@ -36,7 +36,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "66",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -49,7 +49,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -143,6 +144,121 @@
     ]
   },
   {
+    "case": "only --code-update-strategy-mode",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--code-update-strategy-mode",
+      "immediate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "code_update_strategy": {
+            "mode": "immediate"
+          },
+          "strategy": "percentage",
+          "versions": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--code-update-strategy-mode value 1",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--code-update-strategy-mode",
+      "deferred"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "103",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "code_update_strategy": {
+            "mode": "deferred"
+          },
+          "strategy": "percentage",
+          "versions": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --code-update-strategy-max-delay",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--code-update-strategy-max-delay",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--code-update-strategy-mode is required when any --code-update-strategy-* flag is set",
+    "requests": []
+  },
+  {
     "case": "pairwise 0",
     "argv": [
       "workers",
@@ -186,6 +302,127 @@
     ]
   },
   {
+    "case": "pairwise 1",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--bypass-deployment-checks=false",
+      "--code-update-strategy-mode",
+      "deferred",
+      "--code-update-strategy-max-delay",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/deployments?force=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "code_update_strategy": {
+            "mode": "deferred",
+            "max_delay": 2
+          },
+          "strategy": "percentage",
+          "versions": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--bypass-deployment-checks=false",
+      "--code-update-strategy-max-delay",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "--code-update-strategy-mode is required when any --code-update-strategy-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--bypass-deployment-checks=false",
+      "--code-update-strategy-mode",
+      "deferred"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/deployments?force=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "103",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "code_update_strategy": {
+            "mode": "deferred"
+          },
+          "strategy": "percentage",
+          "versions": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "case": "global quiet",
     "argv": [
       "workers",
@@ -212,7 +449,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "66",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -225,7 +462,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -258,7 +496,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "66",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -271,7 +509,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -306,7 +545,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "66",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -319,7 +558,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -363,7 +603,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -409,7 +650,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -459,7 +701,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "42",
+          "content-length": "66",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -472,7 +714,8 @@
           "items": [
             1,
             2
-          ]
+          ],
+          "strategy": "percentage"
         }
       }
     ]
@@ -521,5 +764,27 @@
         ]
       }
     ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "workers",
+      "deployments",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--strategy",
+      "percentage",
+      "--versions",
+      "[{\"regression\":\"item\"}]",
+      "--bypass-deployment-checks=true",
+      "--code-update-strategy-mode",
+      "immediate",
+      "--code-update-strategy-max-delay",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Invalid code_update_strategy: `/max_delay` is not allowed. Pass --body with a complete request body if it cannot be supplied as flags.",
+    "requests": []
   }
 ]

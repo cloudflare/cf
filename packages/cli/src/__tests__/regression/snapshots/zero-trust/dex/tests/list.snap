@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "only --testName",
+    "case": "only --test-name",
     "argv": [
       "zero-trust",
       "dex",
       "tests",
       "list",
-      "--testName",
+      "--test-name",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -194,7 +194,7 @@
       "2",
       "--per-page",
       "2",
-      "--testName",
+      "--test-name",
       "second value &/?+ü",
       "--kind",
       "traceroute"
@@ -262,7 +262,7 @@
       "list",
       "--page",
       "2",
-      "--testName",
+      "--test-name",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -293,7 +293,7 @@
       "dex",
       "tests",
       "list",
-      "--testName",
+      "--test-name",
       "regression value &/?+ü",
       "--kind",
       "http"

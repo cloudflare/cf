@@ -5,34 +5,17 @@
       "precursor",
       "update"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/precursor",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "2",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {}
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing required argument: cloudflare-version",
+    "requests": []
   },
   {
     "case": "required",
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -46,6 +29,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "42",
           "content-type": "application/json",
@@ -66,11 +50,13 @@
     ]
   },
   {
-    "case": "only --default-mode",
+    "case": "only --detection-mode",
     "argv": [
       "precursor",
       "update",
-      "--default-mode",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
       "off"
     ],
     "exitCode": 0,
@@ -83,8 +69,9 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "22",
+          "content-length": "14",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -93,18 +80,20 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "default_mode": "off"
+          "mode": "off"
         }
       }
     ]
   },
   {
-    "case": "--default-mode value 1",
+    "case": "--detection-mode value 1",
     "argv": [
       "precursor",
       "update",
-      "--default-mode",
-      "min-friction"
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
+      "monitor"
     ],
     "exitCode": 0,
     "requests": [
@@ -116,8 +105,9 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "31",
+          "content-length": "18",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -126,18 +116,20 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "default_mode": "min-friction"
+          "mode": "monitor"
         }
       }
     ]
   },
   {
-    "case": "--default-mode value 2",
+    "case": "--detection-mode value 2",
     "argv": [
       "precursor",
       "update",
-      "--default-mode",
-      "max-security"
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
+      "arm"
     ],
     "exitCode": 0,
     "requests": [
@@ -149,8 +141,9 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "31",
+          "content-length": "14",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -159,17 +152,19 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "default_mode": "max-security"
+          "mode": "arm"
         }
       }
     ]
   },
   {
-    "case": "only --enforcement-rules",
+    "case": "only --rules",
     "argv": [
       "precursor",
       "update",
-      "--enforcement-rules",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--rules",
       "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
@@ -182,8 +177,9 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "45",
+          "content-length": "33",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -192,7 +188,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "enforcement_rules": [
+          "rules": [
             {
               "regression": "item"
             }
@@ -202,13 +198,200 @@
     ]
   },
   {
+    "case": "only --show-interstitial",
+    "argv": [
+      "precursor",
+      "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--show-interstitial=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/precursor",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "show_interstitial": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--show-interstitial value 1",
+    "argv": [
+      "precursor",
+      "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--show-interstitial=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/precursor",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "show_interstitial": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "precursor",
+      "update",
+      "--cloudflare-version",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/precursor",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
     "case": "pairwise 1",
     "argv": [
       "precursor",
       "update",
-      "--default-mode",
-      "min-friction",
-      "--enforcement-rules",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
+      "monitor",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--show-interstitial=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/precursor",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "monitor",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "show_interstitial": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "precursor",
+      "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
+      "monitor",
+      "--show-interstitial=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/precursor",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "monitor",
+          "show_interstitial": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "precursor",
+      "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
+      "monitor",
+      "--rules",
       "[{\"regression\":\"item\"}]"
     ],
     "exitCode": 0,
@@ -221,8 +404,9 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "75",
+          "content-length": "50",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -231,8 +415,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "default_mode": "min-friction",
-          "enforcement_rules": [
+          "mode": "monitor",
+          "rules": [
             {
               "regression": "item"
             }
@@ -246,6 +430,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -260,6 +446,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "42",
           "content-type": "application/json",
@@ -284,6 +471,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -299,6 +488,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "42",
           "content-type": "application/json",
@@ -323,6 +513,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -340,6 +532,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "42",
           "content-type": "application/json",
@@ -364,6 +557,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -377,6 +572,7 @@
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-type": "application/json",
           "host": "localhost",
@@ -401,6 +597,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -416,6 +614,7 @@
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
           "accept-language": "*",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-type": "application/json",
           "host": "localhost",
@@ -440,6 +639,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -472,6 +673,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "42",
           "content-type": "application/json",
@@ -496,6 +698,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -508,6 +712,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "@<body.json>"
     ],
@@ -521,6 +727,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "42",
           "content-type": "application/json",
@@ -545,6 +752,8 @@
     "argv": [
       "precursor",
       "update",
+      "--cloudflare-version",
+      "regression value &/?+ü",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -558,6 +767,7 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
           "content-length": "48",
           "content-type": "application/json",
@@ -583,10 +793,13 @@
     "argv": [
       "precursor",
       "update",
-      "--default-mode",
+      "--cloudflare-version",
+      "regression value &/?+ü",
+      "--detection-mode",
       "off",
-      "--enforcement-rules",
-      "[{\"regression\":\"item\"}]"
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--show-interstitial=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -598,8 +811,9 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
+          "cloudflare-version": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "66",
+          "content-length": "71",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -608,12 +822,13 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "default_mode": "off",
-          "enforcement_rules": [
+          "mode": "off",
+          "rules": [
             {
               "regression": "item"
             }
-          ]
+          ],
+          "show_interstitial": true
         }
       }
     ]

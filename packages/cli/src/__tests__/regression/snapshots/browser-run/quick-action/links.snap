@@ -27,7 +27,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -72,17 +72,40 @@
     ]
   },
   {
-    "case": "only --cacheTTL",
+    "case": "only --cache-ttl",
     "argv": [
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links?cacheTTL=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "181",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
   },
   {
     "case": "only --browser",
@@ -114,7 +137,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -151,7 +174,7 @@
         "body": {
           "actionTimeout": 1,
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -192,7 +215,7 @@
             }
           ],
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -233,7 +256,7 @@
             }
           ],
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -272,7 +295,46 @@
             "regression value &/?+ü"
           ],
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-resource-types",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--allow-resource-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "230",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -334,7 +396,7 @@
         "body": {
           "bestAttempt": true,
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -370,7 +432,7 @@
         "body": {
           "bestAttempt": false,
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -411,7 +473,7 @@
             }
           ],
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -448,7 +510,7 @@
         "body": {
           "emulateMediaType": "regression value &/?+ü",
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -483,7 +545,7 @@
         },
         "body": {
           "excludeExternalLinks": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -518,7 +580,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -557,7 +619,7 @@
           "gotoOptions": {
             "referer": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -596,7 +658,7 @@
           "gotoOptions": {
             "referrerPolicy": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -635,7 +697,7 @@
           "gotoOptions": {
             "timeout": 1
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -672,7 +734,7 @@
         "body": {
           "excludeExternalLinks": false,
           "html": "regression value &/?+ü",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -711,7 +773,85 @@
           "rejectRequestPattern": [
             "regression value &/?+ü"
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reject-resource-types",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--reject-resource-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "231",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --set-extra-httpheaders",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "231",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -747,7 +887,7 @@
         "body": {
           "excludeExternalLinks": false,
           "setJavaScriptEnabled": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -783,7 +923,7 @@
         "body": {
           "excludeExternalLinks": false,
           "setJavaScriptEnabled": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -820,7 +960,7 @@
         "body": {
           "excludeExternalLinks": false,
           "url": "https://example.com/a?x=1&y=two",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -1002,7 +1142,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": true
         }
       }
@@ -1037,7 +1177,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false
         }
       }
@@ -1052,7 +1192,7 @@
       "--wait-for-selector-hidden=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1064,7 +1204,7 @@
       "--wait-for-selector-hidden=false"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1097,7 +1237,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false,
           "waitForSelector": {
             "selector": "regression value &/?+ü"
@@ -1116,7 +1256,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1128,7 +1268,7 @@
       "--wait-for-selector-visible=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1140,7 +1280,7 @@
       "--wait-for-selector-visible=false"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1173,7 +1313,7 @@
         },
         "body": {
           "excludeExternalLinks": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "visibleLinksOnly": false,
           "waitForTimeout": 1
         }
@@ -1186,7 +1326,7 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1197,6 +1337,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -1220,6 +1363,11 @@
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=false",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -1244,9 +1392,96 @@
       "--wait-for-timeout",
       "2"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1106",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "excludeExternalLinks": false,
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "rejectRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": false,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "second value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 2,
+            "hasTouch": false,
+            "height": 2,
+            "isLandscape": false,
+            "isMobile": false,
+            "width": 2
+          },
+          "visibleLinksOnly": false,
+          "waitForSelector": {
+            "hidden": false,
+            "selector": "second value &/?+ü",
+            "timeout": 2,
+            "visible": false
+          },
+          "waitForTimeout": 2
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -1260,30 +1495,33 @@
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
       "regression value &/?+ü",
-      "--authenticate-username",
+      "--authenticate-password",
       "regression value &/?+ü",
-      "--cookies",
-      "[{\"regression\":\"item\"}]",
-      "--exclude-external-links=true",
-      "--goto-options-referrer-policy",
+      "--best-attempt=true",
+      "--emulate-media-type",
       "regression value &/?+ü",
-      "--html",
+      "--goto-options-referer",
       "regression value &/?+ü",
-      "--set-java-script-enabled=true",
-      "--user-agent",
-      "regression value &/?+ü",
-      "--viewport-has-touch=true",
-      "--viewport-is-landscape=true",
-      "--viewport-width",
+      "--goto-options-timeout",
       "1",
-      "--wait-for-selector-hidden=true",
-      "--wait-for-selector-timeout",
+      "--reject-request-pattern",
+      "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--viewport-device-scale-factor",
       "1",
-      "--wait-for-timeout",
-      "1"
+      "--viewport-height",
+      "1",
+      "--viewport-is-mobile=true",
+      "--visible-links-only=true",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü",
+      "--wait-for-selector-visible=true"
     ],
     "exitCode": 1,
-    "error": "--authenticate-password is required when any --authenticate-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1292,38 +1530,42 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--action-timeout",
       "2",
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
-      "--authenticate-password",
+      "--allow-resource-types",
       "second value &/?+ü",
-      "--best-attempt=false",
-      "--emulate-media-type",
       "second value &/?+ü",
-      "--goto-options-referer",
+      "--authenticate-username",
       "second value &/?+ü",
-      "--goto-options-timeout",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-external-links=false",
+      "--goto-options-referrer-policy",
+      "second value &/?+ü",
+      "--html",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-java-script-enabled=false",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-has-touch=false",
+      "--viewport-is-landscape=false",
+      "--viewport-width",
       "2",
-      "--reject-request-pattern",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--viewport-device-scale-factor",
+      "--wait-for-selector-hidden=false",
+      "--wait-for-selector-timeout",
       "2",
-      "--viewport-height",
-      "2",
-      "--viewport-is-mobile=false",
-      "--visible-links-only=false",
-      "--wait-for-selector-selector",
-      "second value &/?+ü",
-      "--wait-for-selector-visible=false"
+      "--wait-for-timeout",
+      "2"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1336,32 +1578,36 @@
       "1",
       "--add-script-tag",
       "[{\"regression\":\"item\"}]",
+      "--allow-resource-types",
+      "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
-      "--authenticate-username",
-      "regression value &/?+ü",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
       "--emulate-media-type",
       "regression value &/?+ü",
-      "--exclude-external-links=true",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
       "--goto-options-timeout",
       "1",
-      "--html",
+      "--reject-resource-types",
       "regression value &/?+ü",
-      "--url",
-      "https://example.com/a?x=1&y=two",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--user-agent",
       "regression value &/?+ü",
-      "--viewport-height",
+      "--viewport-device-scale-factor",
       "1",
       "--viewport-is-landscape=true",
-      "--visible-links-only=true",
+      "--viewport-is-mobile=true",
       "--wait-for-selector-hidden=true",
-      "--wait-for-selector-visible=true",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü",
       "--wait-for-timeout",
       "1"
     ],
     "exitCode": 1,
-    "error": "--viewport-width is required when any --viewport-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1370,7 +1616,7 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1379,30 +1625,32 @@
       "--allow-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
       "--best-attempt=false",
-      "--cookies",
-      "[{\"regression\":\"item\"}]",
+      "--exclude-external-links=false",
       "--goto-options-referer",
       "second value &/?+ü",
-      "--goto-options-referrer-policy",
+      "--html",
       "second value &/?+ü",
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
       "--set-java-script-enabled=false",
-      "--viewport-device-scale-factor",
-      "2",
+      "--url",
+      "https://example.com/a?x=1&y=two",
       "--viewport-has-touch=false",
-      "--viewport-is-mobile=false",
+      "--viewport-height",
+      "2",
       "--viewport-width",
       "2",
-      "--wait-for-selector-selector",
-      "second value &/?+ü",
+      "--visible-links-only=false",
       "--wait-for-selector-timeout",
-      "2"
+      "2",
+      "--wait-for-selector-visible=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1415,34 +1663,33 @@
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
       "regression value &/?+ü",
+      "--allow-resource-types",
+      "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
-      "--authenticate-username",
-      "regression value &/?+ü",
+      "--exclude-external-links=true",
       "--goto-options-referer",
       "regression value &/?+ü",
       "--goto-options-referrer-policy",
       "regression value &/?+ü",
       "--goto-options-timeout",
       "1",
-      "--html",
+      "--set-java-script-enabled=true",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
       "regression value &/?+ü",
       "--viewport-device-scale-factor",
       "1",
-      "--viewport-has-touch=true",
-      "--viewport-height",
+      "--viewport-width",
       "1",
-      "--viewport-is-landscape=true",
+      "--visible-links-only=true",
+      "--wait-for-selector-hidden=true",
       "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-selector-timeout",
-      "1",
-      "--wait-for-selector-visible=true",
-      "--wait-for-timeout",
-      "1"
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--viewport-width is required when any --viewport-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1451,7 +1698,7 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1459,28 +1706,36 @@
       "2",
       "--add-script-tag",
       "[{\"regression\":\"item\"}]",
+      "--authenticate-username",
+      "second value &/?+ü",
       "--best-attempt=false",
       "--cookies",
       "[{\"regression\":\"item\"}]",
       "--emulate-media-type",
       "second value &/?+ü",
-      "--exclude-external-links=false",
+      "--html",
+      "second value &/?+ü",
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--set-java-script-enabled=false",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--user-agent",
+      "--reject-resource-types",
       "second value &/?+ü",
-      "--viewport-is-mobile=false",
-      "--viewport-width",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--viewport-has-touch=false",
+      "--viewport-height",
       "2",
-      "--visible-links-only=false",
-      "--wait-for-selector-hidden=false"
+      "--viewport-is-landscape=false",
+      "--viewport-is-mobile=false",
+      "--wait-for-selector-timeout",
+      "2",
+      "--wait-for-selector-visible=false",
+      "--wait-for-timeout",
+      "2"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1489,6 +1744,8 @@
       "browser-run",
       "quick-action",
       "links",
+      "--authenticate-username",
+      "regression value &/?+ü",
       "--best-attempt=true",
       "--cookies",
       "[{\"regression\":\"item\"}]",
@@ -1501,23 +1758,20 @@
       "regression value &/?+ü",
       "--goto-options-timeout",
       "1",
-      "--html",
-      "regression value &/?+ü",
+      "--viewport-has-touch=true",
+      "--viewport-height",
+      "1",
+      "--viewport-is-landscape=true",
       "--viewport-is-mobile=true",
       "--viewport-width",
       "1",
       "--visible-links-only=true",
       "--wait-for-selector-hidden=true",
       "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-selector-timeout",
-      "1",
-      "--wait-for-selector-visible=true",
-      "--wait-for-timeout",
-      "1"
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "--viewport-height is required when any --viewport-* flag is set",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1526,7 +1780,7 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1539,13 +1793,21 @@
       "--allow-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--allow-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--authenticate-password",
       "second value &/?+ü",
-      "--authenticate-username",
+      "--html",
       "second value &/?+ü",
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=false",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -1553,13 +1815,14 @@
       "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
-      "--viewport-has-touch=false",
-      "--viewport-height",
+      "--wait-for-selector-timeout",
       "2",
-      "--viewport-is-landscape=false"
+      "--wait-for-selector-visible=false",
+      "--wait-for-timeout",
+      "2"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -1568,8 +1831,14 @@
       "browser-run",
       "quick-action",
       "links",
+      "--html",
+      "regression value &/?+ü",
       "--reject-request-pattern",
       "regression value &/?+ü",
+      "--reject-resource-types",
+      "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -1587,12 +1856,7 @@
       "--visible-links-only=true",
       "--wait-for-selector-hidden=true",
       "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-selector-timeout",
-      "1",
-      "--wait-for-selector-visible=true",
-      "--wait-for-timeout",
-      "1"
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -1605,7 +1869,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "435",
+          "content-length": "522",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1615,9 +1879,16 @@
         },
         "body": {
           "excludeExternalLinks": false,
+          "html": "regression value &/?+ü",
           "rejectRequestPattern": [
             "regression value &/?+ü"
           ],
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
           "setJavaScriptEnabled": true,
           "url": "https://example.com/a?x=1&y=two",
           "userAgent": "regression value &/?+ü",
@@ -1632,11 +1903,8 @@
           "visibleLinksOnly": true,
           "waitForSelector": {
             "hidden": true,
-            "selector": "regression value &/?+ü",
-            "timeout": 1,
-            "visible": true
-          },
-          "waitForTimeout": 1
+            "selector": "regression value &/?+ü"
+          }
         }
       }
     ]
@@ -1647,7 +1915,7 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -1658,6 +1926,73 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--authenticate-password",
+      "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
+      "--best-attempt=false",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--emulate-media-type",
+      "second value &/?+ü",
+      "--exclude-external-links=false",
+      "--goto-options-referer",
+      "second value &/?+ü",
+      "--goto-options-referrer-policy",
+      "second value &/?+ü",
+      "--goto-options-timeout",
+      "2",
+      "--wait-for-selector-timeout",
+      "2",
+      "--wait-for-selector-visible=false",
+      "--wait-for-timeout",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cache-ttl",
+      "2",
+      "--browser",
+      "kitesurf",
+      "--action-timeout",
+      "2",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -1677,11 +2012,121 @@
       "--goto-options-timeout",
       "2",
       "--html",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-device-scale-factor",
+      "2",
+      "--viewport-has-touch=false",
+      "--viewport-height",
+      "2",
+      "--viewport-is-landscape=false",
+      "--viewport-is-mobile=false",
+      "--viewport-width",
+      "2",
+      "--visible-links-only=false",
+      "--wait-for-selector-hidden=false",
+      "--wait-for-selector-selector",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1059",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "excludeExternalLinks": false,
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "rejectRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": false,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "second value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 2,
+            "hasTouch": false,
+            "height": 2,
+            "isLandscape": false,
+            "isMobile": false,
+            "width": 2
+          },
+          "visibleLinksOnly": false,
+          "waitForSelector": {
+            "hidden": false,
+            "selector": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -1978,7 +2423,7 @@
       "browser-run",
       "quick-action",
       "links",
-      "--cacheTTL",
+      "--cache-ttl",
       "1",
       "--browser",
       "kitesurf",
@@ -1989,6 +2434,8 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "regression value &/?+ü",
+      "--allow-resource-types",
       "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
@@ -2010,6 +2457,10 @@
       "regression value &/?+ü",
       "--reject-request-pattern",
       "regression value &/?+ü",
+      "--reject-resource-types",
+      "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -2034,8 +2485,91 @@
       "--wait-for-timeout",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links?cacheTTL=1&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1057",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 1,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "regression value &/?+ü",
+            "username": "regression value &/?+ü"
+          },
+          "bestAttempt": true,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "regression value &/?+ü",
+          "excludeExternalLinks": true,
+          "gotoOptions": {
+            "referer": "regression value &/?+ü",
+            "referrerPolicy": "regression value &/?+ü",
+            "timeout": 1
+          },
+          "html": "regression value &/?+ü",
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": true,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "regression value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 1,
+            "hasTouch": true,
+            "height": 1,
+            "isLandscape": true,
+            "isMobile": true,
+            "width": 1
+          },
+          "visibleLinksOnly": true,
+          "waitForSelector": {
+            "hidden": true,
+            "selector": "regression value &/?+ü",
+            "timeout": 1,
+            "visible": true
+          },
+          "waitForTimeout": 1
+        }
+      }
+    ]
   }
 ]

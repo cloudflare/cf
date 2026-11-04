@@ -792,5 +792,21 @@
         }
       }
     ]
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "r2",
+      "buckets",
+      "jobs",
+      "create",
+      "regression value &/?+ü",
+      "--job-type",
+      "prefixDelete",
+      "-f=true"
+    ],
+    "exitCode": 1,
+    "error": "--prefix is required. Pass --prefix <value> or run interactively.",
+    "requests": []
   }
 ]

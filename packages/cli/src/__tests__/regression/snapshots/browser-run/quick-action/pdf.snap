@@ -26,7 +26,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -70,17 +70,38 @@
     ]
   },
   {
-    "case": "only --cacheTTL",
+    "case": "only --cache-ttl",
     "argv": [
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "1"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf?cacheTTL=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "only --browser",
@@ -111,7 +132,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -146,7 +167,7 @@
         },
         "body": {
           "actionTimeout": 1,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -185,7 +206,7 @@
               "regression": "item"
             }
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -224,7 +245,7 @@
               "regression": "item"
             }
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -261,7 +282,44 @@
           "allowRequestPattern": [
             "regression value &/?+ü"
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-resource-types",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--allow-resource-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -321,7 +379,7 @@
         },
         "body": {
           "bestAttempt": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -355,7 +413,7 @@
         },
         "body": {
           "bestAttempt": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -394,7 +452,7 @@
               "regression": "item"
             }
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -429,7 +487,7 @@
         },
         "body": {
           "emulateMediaType": "regression value &/?+ü",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -466,7 +524,7 @@
           "gotoOptions": {
             "referer": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -503,7 +561,7 @@
           "gotoOptions": {
             "referrerPolicy": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -540,7 +598,7 @@
           "gotoOptions": {
             "timeout": 1
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -575,7 +633,7 @@
         },
         "body": {
           "html": "regression value &/?+ü",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -611,7 +669,7 @@
           "pdfOptions": {
             "displayHeaderFooter": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -647,7 +705,7 @@
           "pdfOptions": {
             "displayHeaderFooter": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -684,7 +742,7 @@
           "pdfOptions": {
             "footerTemplate": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -721,7 +779,7 @@
           "pdfOptions": {
             "format": "letter"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -758,7 +816,7 @@
           "pdfOptions": {
             "format": "legal"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -795,7 +853,7 @@
           "pdfOptions": {
             "format": "tabloid"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -832,7 +890,7 @@
           "pdfOptions": {
             "format": "ledger"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -869,7 +927,7 @@
           "pdfOptions": {
             "format": "a0"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -906,7 +964,7 @@
           "pdfOptions": {
             "format": "a1"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -943,7 +1001,7 @@
           "pdfOptions": {
             "format": "a2"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -980,7 +1038,7 @@
           "pdfOptions": {
             "format": "a3"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1017,7 +1075,7 @@
           "pdfOptions": {
             "format": "a4"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1054,7 +1112,7 @@
           "pdfOptions": {
             "format": "a5"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1091,7 +1149,7 @@
           "pdfOptions": {
             "format": "a6"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1128,7 +1186,44 @@
           "pdfOptions": {
             "headerTemplate": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pdf-options-height",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--pdf-options-height",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pdfOptions": {
+            "height": "regression value &/?+ü"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1164,7 +1259,7 @@
           "pdfOptions": {
             "landscape": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1200,7 +1295,163 @@
           "pdfOptions": {
             "landscape": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pdf-options-margin-bottom",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--pdf-options-margin-bottom",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "188",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pdfOptions": {
+            "margin": {
+              "bottom": "regression value &/?+ü"
+            }
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pdf-options-margin-left",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--pdf-options-margin-left",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pdfOptions": {
+            "margin": {
+              "left": "regression value &/?+ü"
+            }
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pdf-options-margin-right",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--pdf-options-margin-right",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pdfOptions": {
+            "margin": {
+              "right": "regression value &/?+ü"
+            }
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pdf-options-margin-top",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--pdf-options-margin-top",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "185",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pdfOptions": {
+            "margin": {
+              "top": "regression value &/?+ü"
+            }
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1236,7 +1487,7 @@
           "pdfOptions": {
             "omitBackground": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1272,7 +1523,7 @@
           "pdfOptions": {
             "omitBackground": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1308,7 +1559,7 @@
           "pdfOptions": {
             "outline": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1344,7 +1595,7 @@
           "pdfOptions": {
             "outline": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1381,7 +1632,7 @@
           "pdfOptions": {
             "pageRanges": "regression value &/?+ü"
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1417,7 +1668,7 @@
           "pdfOptions": {
             "preferCSSPageSize": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1453,7 +1704,7 @@
           "pdfOptions": {
             "preferCSSPageSize": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1489,7 +1740,7 @@
           "pdfOptions": {
             "printBackground": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1525,7 +1776,7 @@
           "pdfOptions": {
             "printBackground": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1562,7 +1813,7 @@
           "pdfOptions": {
             "scale": 1
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1598,7 +1849,7 @@
           "pdfOptions": {
             "tagged": true
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1634,7 +1885,7 @@
           "pdfOptions": {
             "tagged": false
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1671,7 +1922,44 @@
           "pdfOptions": {
             "timeout": 1
           },
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pdf-options-width",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--pdf-options-width",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "pdfOptions": {
+            "width": "regression value &/?+ü"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1708,7 +1996,81 @@
           "rejectRequestPattern": [
             "regression value &/?+ü"
           ],
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reject-resource-types",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--reject-resource-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --set-extra-httpheaders",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "pdf",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1742,7 +2104,7 @@
         },
         "body": {
           "setJavaScriptEnabled": true,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1776,7 +2138,7 @@
         },
         "body": {
           "setJavaScriptEnabled": false,
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1811,7 +2173,7 @@
         },
         "body": {
           "url": "https://example.com/a?x=1&y=two",
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -1970,7 +2332,7 @@
       "--wait-for-selector-hidden=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -1982,7 +2344,7 @@
       "--wait-for-selector-hidden=false"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -2014,7 +2376,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "waitForSelector": {
             "selector": "regression value &/?+ü"
           }
@@ -2032,7 +2394,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -2044,7 +2406,7 @@
       "--wait-for-selector-visible=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -2056,7 +2418,7 @@
       "--wait-for-selector-visible=false"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -2088,7 +2450,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
           "waitForTimeout": 1
         }
       }
@@ -2122,7 +2484,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -2155,7 +2517,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
         }
       }
     ]
@@ -2166,7 +2528,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2177,6 +2539,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -2203,7 +2568,17 @@
       "legal",
       "--pdf-options-header-template",
       "second value &/?+ü",
+      "--pdf-options-height",
+      "second value &/?+ü",
       "--pdf-options-landscape=false",
+      "--pdf-options-margin-bottom",
+      "second value &/?+ü",
+      "--pdf-options-margin-left",
+      "second value &/?+ü",
+      "--pdf-options-margin-right",
+      "second value &/?+ü",
+      "--pdf-options-margin-top",
+      "second value &/?+ü",
       "--pdf-options-omit-background=false",
       "--pdf-options-outline=false",
       "--pdf-options-page-ranges",
@@ -2215,9 +2590,16 @@
       "--pdf-options-tagged=false",
       "--pdf-options-timeout",
       "2",
+      "--pdf-options-width",
+      "second value &/?+ü",
       "--reject-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=false",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -2242,9 +2624,117 @@
       "2",
       "--text=false"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1559",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "pdfOptions": {
+            "displayHeaderFooter": false,
+            "footerTemplate": "second value &/?+ü",
+            "format": "legal",
+            "headerTemplate": "second value &/?+ü",
+            "height": "second value &/?+ü",
+            "landscape": false,
+            "margin": {
+              "bottom": "second value &/?+ü",
+              "left": "second value &/?+ü",
+              "right": "second value &/?+ü",
+              "top": "second value &/?+ü"
+            },
+            "omitBackground": false,
+            "outline": false,
+            "pageRanges": "second value &/?+ü",
+            "preferCSSPageSize": false,
+            "printBackground": false,
+            "scale": 2,
+            "tagged": false,
+            "timeout": 2,
+            "width": "second value &/?+ü"
+          },
+          "rejectRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": false,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "second value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 2,
+            "hasTouch": false,
+            "height": 2,
+            "isLandscape": false,
+            "isMobile": false,
+            "width": 2
+          },
+          "waitForSelector": {
+            "hidden": false,
+            "selector": "second value &/?+ü",
+            "timeout": 2,
+            "visible": false
+          },
+          "waitForTimeout": 2
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -2258,38 +2748,49 @@
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
       "regression value &/?+ü",
-      "--authenticate-username",
+      "--authenticate-password",
       "regression value &/?+ü",
-      "--cookies",
-      "[{\"regression\":\"item\"}]",
-      "--goto-options-referer",
+      "--best-attempt=true",
+      "--emulate-media-type",
       "regression value &/?+ü",
-      "--goto-options-timeout",
-      "1",
-      "--pdf-options-display-header-footer=true",
-      "--pdf-options-format",
-      "letter",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
+      "--html",
+      "regression value &/?+ü",
+      "--pdf-options-footer-template",
+      "regression value &/?+ü",
+      "--pdf-options-header-template",
+      "regression value &/?+ü",
       "--pdf-options-landscape=true",
+      "--pdf-options-margin-left",
+      "regression value &/?+ü",
+      "--pdf-options-margin-top",
+      "regression value &/?+ü",
       "--pdf-options-outline=true",
       "--pdf-options-prefer-csspage-size=true",
       "--pdf-options-scale",
       "1",
       "--pdf-options-timeout",
       "1",
-      "--set-java-script-enabled=true",
-      "--user-agent",
+      "--reject-request-pattern",
       "regression value &/?+ü",
-      "--viewport-has-touch=true",
-      "--viewport-is-landscape=true",
-      "--viewport-width",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--viewport-device-scale-factor",
       "1",
-      "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-selector-visible=true",
-      "--text=true"
+      "--viewport-height",
+      "1",
+      "--viewport-is-mobile=true",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-timeout",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--authenticate-password is required when any --authenticate-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2298,48 +2799,56 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--action-timeout",
       "2",
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
-      "--authenticate-password",
+      "--allow-resource-types",
       "second value &/?+ü",
-      "--best-attempt=false",
-      "--emulate-media-type",
       "second value &/?+ü",
-      "--goto-options-referrer-policy",
+      "--authenticate-username",
       "second value &/?+ü",
-      "--html",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--goto-options-referer",
       "second value &/?+ü",
-      "--pdf-options-footer-template",
+      "--goto-options-timeout",
+      "2",
+      "--pdf-options-display-header-footer=false",
+      "--pdf-options-format",
+      "legal",
+      "--pdf-options-height",
       "second value &/?+ü",
-      "--pdf-options-header-template",
+      "--pdf-options-margin-bottom",
+      "second value &/?+ü",
+      "--pdf-options-margin-right",
       "second value &/?+ü",
       "--pdf-options-omit-background=false",
       "--pdf-options-page-ranges",
       "second value &/?+ü",
       "--pdf-options-print-background=false",
       "--pdf-options-tagged=false",
-      "--reject-request-pattern",
+      "--pdf-options-width",
+      "second value &/?+ü",
+      "--reject-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--viewport-device-scale-factor",
+      "--set-java-script-enabled=false",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-has-touch=false",
+      "--viewport-is-landscape=false",
+      "--viewport-width",
       "2",
-      "--viewport-height",
-      "2",
-      "--viewport-is-mobile=false",
-      "--wait-for-selector-hidden=false",
-      "--wait-for-selector-timeout",
-      "2",
-      "--wait-for-timeout",
-      "2"
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
+      "--wait-for-selector-visible=false",
+      "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2352,42 +2861,50 @@
       "1",
       "--add-script-tag",
       "[{\"regression\":\"item\"}]",
+      "--allow-resource-types",
+      "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
-      "--authenticate-username",
-      "regression value &/?+ü",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
       "--emulate-media-type",
       "regression value &/?+ü",
-      "--goto-options-referer",
-      "regression value &/?+ü",
+      "--goto-options-timeout",
+      "1",
       "--html",
       "regression value &/?+ü",
-      "--pdf-options-display-header-footer=true",
+      "--pdf-options-format",
+      "letter",
       "--pdf-options-header-template",
       "regression value &/?+ü",
-      "--pdf-options-landscape=true",
-      "--pdf-options-page-ranges",
+      "--pdf-options-margin-bottom",
       "regression value &/?+ü",
-      "--pdf-options-prefer-csspage-size=true",
-      "--pdf-options-tagged=true",
-      "--pdf-options-timeout",
+      "--pdf-options-margin-left",
+      "regression value &/?+ü",
+      "--pdf-options-omit-background=true",
+      "--pdf-options-outline=true",
+      "--pdf-options-print-background=true",
+      "--pdf-options-scale",
       "1",
+      "--pdf-options-width",
+      "regression value &/?+ü",
+      "--reject-request-pattern",
+      "regression value &/?+ü",
+      "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "regression value &/?+ü",
+      "--viewport-has-touch=true",
       "--viewport-height",
       "1",
-      "--viewport-is-landscape=true",
-      "--wait-for-selector-hidden=true",
-      "--wait-for-selector-selector",
-      "regression value &/?+ü",
-      "--wait-for-timeout",
+      "--viewport-width",
       "1",
-      "--text=true"
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
     ],
     "exitCode": 1,
-    "error": "--viewport-width is required when any --viewport-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2396,7 +2913,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2405,38 +2922,48 @@
       "--allow-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
       "--best-attempt=false",
-      "--cookies",
-      "[{\"regression\":\"item\"}]",
+      "--goto-options-referer",
+      "second value &/?+ü",
       "--goto-options-referrer-policy",
       "second value &/?+ü",
-      "--goto-options-timeout",
-      "2",
+      "--pdf-options-display-header-footer=false",
       "--pdf-options-footer-template",
       "second value &/?+ü",
-      "--pdf-options-format",
-      "legal",
-      "--pdf-options-omit-background=false",
-      "--pdf-options-outline=false",
-      "--pdf-options-print-background=false",
-      "--pdf-options-scale",
+      "--pdf-options-height",
+      "second value &/?+ü",
+      "--pdf-options-landscape=false",
+      "--pdf-options-margin-right",
+      "second value &/?+ü",
+      "--pdf-options-margin-top",
+      "second value &/?+ü",
+      "--pdf-options-page-ranges",
+      "second value &/?+ü",
+      "--pdf-options-prefer-csspage-size=false",
+      "--pdf-options-tagged=false",
+      "--pdf-options-timeout",
       "2",
-      "--reject-request-pattern",
+      "--reject-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
-      "--set-java-script-enabled=false",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--user-agent",
+      "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
-      "--viewport-has-touch=false",
+      "--viewport-is-landscape=false",
       "--viewport-is-mobile=false",
-      "--viewport-width",
-      "2",
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
       "--wait-for-selector-timeout",
       "2",
-      "--wait-for-selector-visible=false"
+      "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2449,9 +2976,11 @@
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
       "regression value &/?+ü",
+      "--allow-resource-types",
+      "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
-      "--authenticate-username",
+      "--goto-options-referer",
       "regression value &/?+ü",
       "--goto-options-referrer-policy",
       "regression value &/?+ü",
@@ -2459,28 +2988,35 @@
       "1",
       "--html",
       "regression value &/?+ü",
-      "--pdf-options-display-header-footer=true",
-      "--pdf-options-omit-background=true",
-      "--pdf-options-outline=true",
+      "--pdf-options-height",
+      "regression value &/?+ü",
+      "--pdf-options-landscape=true",
+      "--pdf-options-margin-bottom",
+      "regression value &/?+ü",
+      "--pdf-options-margin-left",
+      "regression value &/?+ü",
       "--pdf-options-page-ranges",
       "regression value &/?+ü",
       "--pdf-options-prefer-csspage-size=true",
-      "--reject-request-pattern",
+      "--pdf-options-print-background=true",
+      "--pdf-options-scale",
+      "1",
+      "--reject-resource-types",
       "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "regression value &/?+ü",
+      "--viewport-is-landscape=true",
       "--viewport-is-mobile=true",
       "--viewport-width",
       "1",
       "--wait-for-selector-hidden=true",
-      "--wait-for-selector-selector",
-      "regression value &/?+ü"
+      "--text=true"
     ],
     "exitCode": 1,
-    "error": "--viewport-height is required when any --viewport-* flag is set",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2489,7 +3025,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2497,41 +3033,51 @@
       "2",
       "--add-script-tag",
       "[{\"regression\":\"item\"}]",
+      "--authenticate-username",
+      "second value &/?+ü",
       "--best-attempt=false",
       "--cookies",
       "[{\"regression\":\"item\"}]",
       "--emulate-media-type",
       "second value &/?+ü",
-      "--goto-options-referer",
-      "second value &/?+ü",
+      "--pdf-options-display-header-footer=false",
       "--pdf-options-footer-template",
       "second value &/?+ü",
       "--pdf-options-format",
       "legal",
       "--pdf-options-header-template",
       "second value &/?+ü",
-      "--pdf-options-landscape=false",
-      "--pdf-options-print-background=false",
-      "--pdf-options-scale",
-      "2",
+      "--pdf-options-margin-right",
+      "second value &/?+ü",
+      "--pdf-options-margin-top",
+      "second value &/?+ü",
+      "--pdf-options-omit-background=false",
+      "--pdf-options-outline=false",
       "--pdf-options-tagged=false",
       "--pdf-options-timeout",
       "2",
+      "--pdf-options-width",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--user-agent",
+      "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
       "--viewport-has-touch=false",
       "--viewport-height",
       "2",
-      "--viewport-is-landscape=false",
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
       "--wait-for-selector-timeout",
       "2",
       "--wait-for-selector-visible=false",
       "--wait-for-timeout",
-      "2",
-      "--text=false"
+      "2"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2540,6 +3086,8 @@
       "browser-run",
       "quick-action",
       "pdf",
+      "--authenticate-username",
+      "regression value &/?+ü",
       "--best-attempt=true",
       "--cookies",
       "[{\"regression\":\"item\"}]",
@@ -2553,29 +3101,33 @@
       "1",
       "--html",
       "regression value &/?+ü",
-      "--pdf-options-display-header-footer=true",
+      "--pdf-options-margin-right",
+      "regression value &/?+ü",
+      "--pdf-options-margin-top",
+      "regression value &/?+ü",
+      "--pdf-options-omit-background=true",
+      "--pdf-options-outline=true",
+      "--pdf-options-page-ranges",
+      "regression value &/?+ü",
+      "--pdf-options-prefer-csspage-size=true",
       "--pdf-options-print-background=true",
       "--pdf-options-scale",
       "1",
-      "--pdf-options-tagged=true",
-      "--pdf-options-timeout",
-      "1",
-      "--reject-request-pattern",
-      "regression value &/?+ü",
-      "--set-java-script-enabled=true",
-      "--url",
-      "https://example.com/a?x=1&y=two",
       "--user-agent",
       "regression value &/?+ü",
-      "--wait-for-selector-timeout",
+      "--viewport-device-scale-factor",
       "1",
-      "--wait-for-selector-visible=true",
-      "--wait-for-timeout",
+      "--viewport-has-touch=true",
+      "--viewport-height",
       "1",
-      "--text=true"
+      "--viewport-is-landscape=true",
+      "--viewport-is-mobile=true",
+      "--viewport-width",
+      "1",
+      "--wait-for-selector-hidden=true"
     ],
     "exitCode": 1,
-    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2584,7 +3136,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2597,37 +3149,52 @@
       "--allow-request-pattern",
       "second value &/?+ü",
       "second value &/?+ü",
+      "--allow-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
       "--authenticate-password",
       "second value &/?+ü",
-      "--authenticate-username",
-      "second value &/?+ü",
+      "--pdf-options-display-header-footer=false",
       "--pdf-options-footer-template",
       "second value &/?+ü",
       "--pdf-options-format",
       "legal",
       "--pdf-options-header-template",
       "second value &/?+ü",
-      "--pdf-options-landscape=false",
-      "--pdf-options-omit-background=false",
-      "--pdf-options-outline=false",
-      "--pdf-options-page-ranges",
+      "--pdf-options-height",
       "second value &/?+ü",
-      "--pdf-options-prefer-csspage-size=false",
-      "--viewport-device-scale-factor",
+      "--pdf-options-landscape=false",
+      "--pdf-options-margin-bottom",
+      "second value &/?+ü",
+      "--pdf-options-margin-left",
+      "second value &/?+ü",
+      "--pdf-options-tagged=false",
+      "--pdf-options-timeout",
       "2",
-      "--viewport-has-touch=false",
-      "--viewport-height",
-      "2",
-      "--viewport-is-landscape=false",
-      "--viewport-is-mobile=false",
-      "--viewport-width",
-      "2",
-      "--wait-for-selector-hidden=false",
+      "--pdf-options-width",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
       "--wait-for-selector-selector",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--wait-for-selector-timeout",
+      "2",
+      "--wait-for-selector-visible=false",
+      "--wait-for-timeout",
+      "2",
+      "--text=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
     "requests": []
   },
   {
@@ -2636,13 +3203,24 @@
       "browser-run",
       "quick-action",
       "pdf",
+      "--pdf-options-display-header-footer=true",
       "--pdf-options-footer-template",
       "regression value &/?+ü",
       "--pdf-options-format",
       "letter",
       "--pdf-options-header-template",
       "regression value &/?+ü",
+      "--pdf-options-height",
+      "regression value &/?+ü",
       "--pdf-options-landscape=true",
+      "--pdf-options-margin-bottom",
+      "regression value &/?+ü",
+      "--pdf-options-margin-left",
+      "regression value &/?+ü",
+      "--pdf-options-margin-right",
+      "regression value &/?+ü",
+      "--pdf-options-margin-top",
+      "regression value &/?+ü",
       "--pdf-options-omit-background=true",
       "--pdf-options-outline=true",
       "--pdf-options-page-ranges",
@@ -2651,16 +3229,14 @@
       "--pdf-options-print-background=true",
       "--pdf-options-scale",
       "1",
-      "--pdf-options-tagged=true",
-      "--pdf-options-timeout",
-      "1",
-      "--reject-request-pattern",
+      "--wait-for-selector-selector",
       "regression value &/?+ü",
-      "--set-java-script-enabled=true",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "regression value &/?+ü"
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1",
+      "--text=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -2673,7 +3249,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "454",
+          "content-length": "707",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2683,25 +3259,32 @@
         },
         "body": {
           "pdfOptions": {
+            "displayHeaderFooter": true,
             "footerTemplate": "regression value &/?+ü",
             "format": "letter",
             "headerTemplate": "regression value &/?+ü",
+            "height": "regression value &/?+ü",
             "landscape": true,
+            "margin": {
+              "bottom": "regression value &/?+ü",
+              "left": "regression value &/?+ü",
+              "right": "regression value &/?+ü",
+              "top": "regression value &/?+ü"
+            },
             "omitBackground": true,
             "outline": true,
             "pageRanges": "regression value &/?+ü",
             "preferCSSPageSize": true,
             "printBackground": true,
-            "scale": 1,
-            "tagged": true,
-            "timeout": 1
+            "scale": 1
           },
-          "rejectRequestPattern": [
-            "regression value &/?+ü"
-          ],
-          "setJavaScriptEnabled": true,
-          "url": "https://example.com/a?x=1&y=two",
-          "userAgent": "regression value &/?+ü"
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+          "waitForSelector": {
+            "selector": "regression value &/?+ü",
+            "timeout": 1,
+            "visible": true
+          },
+          "waitForTimeout": 1
         }
       }
     ]
@@ -2712,7 +3295,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2723,6 +3306,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -2742,7 +3328,24 @@
       "2",
       "--html",
       "second value &/?+ü",
-      "--pdf-options-display-header-footer=false",
+      "--pdf-options-tagged=false",
+      "--pdf-options-timeout",
+      "2",
+      "--pdf-options-width",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--reject-resource-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "second value &/?+ü",
       "--viewport-device-scale-factor",
       "2",
       "--viewport-has-touch=false",
@@ -2752,18 +3355,10 @@
       "--viewport-is-mobile=false",
       "--viewport-width",
       "2",
-      "--wait-for-selector-hidden=false",
-      "--wait-for-selector-selector",
-      "second value &/?+ü",
-      "--wait-for-selector-timeout",
-      "2",
-      "--wait-for-selector-visible=false",
-      "--wait-for-timeout",
-      "2",
-      "--text=false"
+      "--wait-for-selector-hidden=false"
     ],
     "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
+    "error": "--wait-for-selector-selector is required when any --wait-for-selector-* flag is set",
     "requests": []
   },
   {
@@ -2772,6 +3367,22 @@
       "browser-run",
       "quick-action",
       "pdf",
+      "--pdf-options-tagged=true",
+      "--pdf-options-timeout",
+      "1",
+      "--pdf-options-width",
+      "regression value &/?+ü",
+      "--reject-request-pattern",
+      "regression value &/?+ü",
+      "--reject-resource-types",
+      "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
+      "--set-java-script-enabled=true",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "regression value &/?+ü",
       "--viewport-device-scale-factor",
       "1",
       "--viewport-has-touch=true",
@@ -2802,7 +3413,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "351",
+          "content-length": "557",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2811,7 +3422,23 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "pdfOptions": {
+            "tagged": true,
+            "timeout": 1,
+            "width": "regression value &/?+ü"
+          },
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": true,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "regression value &/?+ü",
           "viewport": {
             "deviceScaleFactor": 1,
             "hasTouch": true,
@@ -2837,7 +3464,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "2",
       "--browser",
       "kitesurf",
@@ -2848,6 +3475,9 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--allow-resource-types",
       "second value &/?+ü",
       "second value &/?+ü",
       "--authenticate-password",
@@ -2874,7 +3504,17 @@
       "legal",
       "--pdf-options-header-template",
       "second value &/?+ü",
+      "--pdf-options-height",
+      "second value &/?+ü",
       "--pdf-options-landscape=false",
+      "--pdf-options-margin-bottom",
+      "second value &/?+ü",
+      "--pdf-options-margin-left",
+      "second value &/?+ü",
+      "--pdf-options-margin-right",
+      "second value &/?+ü",
+      "--pdf-options-margin-top",
+      "second value &/?+ü",
       "--pdf-options-omit-background=false",
       "--pdf-options-outline=false",
       "--pdf-options-page-ranges",
@@ -2882,22 +3522,88 @@
       "--pdf-options-prefer-csspage-size=false",
       "--pdf-options-print-background=false",
       "--pdf-options-scale",
-      "2",
-      "--pdf-options-tagged=false",
-      "--pdf-options-timeout",
-      "2",
-      "--reject-request-pattern",
-      "second value &/?+ü",
-      "second value &/?+ü",
-      "--set-java-script-enabled=false",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--user-agent",
-      "second value &/?+ü"
+      "2"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf?cacheTTL=2&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 2,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "second value &/?+ü",
+            "username": "second value &/?+ü"
+          },
+          "bestAttempt": false,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "second value &/?+ü",
+          "gotoOptions": {
+            "referer": "second value &/?+ü",
+            "referrerPolicy": "second value &/?+ü",
+            "timeout": 2
+          },
+          "html": "second value &/?+ü",
+          "pdfOptions": {
+            "displayHeaderFooter": false,
+            "footerTemplate": "second value &/?+ü",
+            "format": "legal",
+            "headerTemplate": "second value &/?+ü",
+            "height": "second value &/?+ü",
+            "landscape": false,
+            "margin": {
+              "bottom": "second value &/?+ü",
+              "left": "second value &/?+ü",
+              "right": "second value &/?+ü",
+              "top": "second value &/?+ü"
+            },
+            "omitBackground": false,
+            "outline": false,
+            "pageRanges": "second value &/?+ü",
+            "preferCSSPageSize": false,
+            "printBackground": false,
+            "scale": 2
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -3194,7 +3900,7 @@
       "browser-run",
       "quick-action",
       "pdf",
-      "--cacheTTL",
+      "--cache-ttl",
       "1",
       "--browser",
       "kitesurf",
@@ -3205,6 +3911,8 @@
       "--add-style-tag",
       "[{\"regression\":\"item\"}]",
       "--allow-request-pattern",
+      "regression value &/?+ü",
+      "--allow-resource-types",
       "regression value &/?+ü",
       "--authenticate-password",
       "regression value &/?+ü",
@@ -3230,7 +3938,17 @@
       "letter",
       "--pdf-options-header-template",
       "regression value &/?+ü",
+      "--pdf-options-height",
+      "regression value &/?+ü",
       "--pdf-options-landscape=true",
+      "--pdf-options-margin-bottom",
+      "regression value &/?+ü",
+      "--pdf-options-margin-left",
+      "regression value &/?+ü",
+      "--pdf-options-margin-right",
+      "regression value &/?+ü",
+      "--pdf-options-margin-top",
+      "regression value &/?+ü",
       "--pdf-options-omit-background=true",
       "--pdf-options-outline=true",
       "--pdf-options-page-ranges",
@@ -3242,8 +3960,14 @@
       "--pdf-options-tagged=true",
       "--pdf-options-timeout",
       "1",
+      "--pdf-options-width",
+      "regression value &/?+ü",
       "--reject-request-pattern",
       "regression value &/?+ü",
+      "--reject-resource-types",
+      "regression value &/?+ü",
+      "--set-extra-httpheaders",
+      "{\"regression\":\"json value\"}",
       "--set-java-script-enabled=true",
       "--url",
       "https://example.com/a?x=1&y=two",
@@ -3268,8 +3992,112 @@
       "1",
       "--text=true"
     ],
-    "exitCode": 1,
-    "error": "Unknown argument: cacheTTL",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/pdf?cacheTTL=1&browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1542",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 1,
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "allowRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "allowResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "authenticate": {
+            "password": "regression value &/?+ü",
+            "username": "regression value &/?+ü"
+          },
+          "bestAttempt": true,
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "emulateMediaType": "regression value &/?+ü",
+          "gotoOptions": {
+            "referer": "regression value &/?+ü",
+            "referrerPolicy": "regression value &/?+ü",
+            "timeout": 1
+          },
+          "html": "regression value &/?+ü",
+          "pdfOptions": {
+            "displayHeaderFooter": true,
+            "footerTemplate": "regression value &/?+ü",
+            "format": "letter",
+            "headerTemplate": "regression value &/?+ü",
+            "height": "regression value &/?+ü",
+            "landscape": true,
+            "margin": {
+              "bottom": "regression value &/?+ü",
+              "left": "regression value &/?+ü",
+              "right": "regression value &/?+ü",
+              "top": "regression value &/?+ü"
+            },
+            "omitBackground": true,
+            "outline": true,
+            "pageRanges": "regression value &/?+ü",
+            "preferCSSPageSize": true,
+            "printBackground": true,
+            "scale": 1,
+            "tagged": true,
+            "timeout": 1,
+            "width": "regression value &/?+ü"
+          },
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "rejectResourceTypes": [
+            "regression value &/?+ü"
+          ],
+          "setExtraHTTPHeaders": {
+            "regression": "json value"
+          },
+          "setJavaScriptEnabled": true,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "regression value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 1,
+            "hasTouch": true,
+            "height": 1,
+            "isLandscape": true,
+            "isMobile": true,
+            "width": 1
+          },
+          "waitForSelector": {
+            "hidden": true,
+            "selector": "regression value &/?+ü",
+            "timeout": 1,
+            "visible": true
+          },
+          "waitForTimeout": 1
+        }
+      }
+    ]
   }
 ]

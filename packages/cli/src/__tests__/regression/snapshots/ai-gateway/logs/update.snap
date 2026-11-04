@@ -89,6 +89,45 @@
     ]
   },
   {
+    "case": "only --metadata",
+    "argv": [
+      "ai-gateway",
+      "logs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--metadata",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "metadata": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --score",
     "argv": [
       "ai-gateway",
@@ -169,6 +208,51 @@
       "0123456789abcdef0123456789abcdef",
       "--feedback",
       "2",
+      "--metadata",
+      "{\"regression\":\"json value\"}",
+      "--score",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways/0123456789abcdef0123456789abcdef/logs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "feedback": 2,
+          "metadata": {
+            "regression": "json value"
+          },
+          "score": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "ai-gateway",
+      "logs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feedback",
+      "2",
       "--score",
       "2"
     ],
@@ -199,7 +283,7 @@
     ]
   },
   {
-    "case": "pairwise 3",
+    "case": "pairwise 5",
     "argv": [
       "ai-gateway",
       "logs",
@@ -208,7 +292,9 @@
       "--gateway-id",
       "0123456789abcdef0123456789abcdef",
       "--feedback",
-      "2"
+      "2",
+      "--metadata",
+      "{\"regression\":\"json value\"}"
     ],
     "exitCode": 0,
     "requests": [
@@ -221,7 +307,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "14",
+          "content-length": "53",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -230,7 +316,10 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "feedback": 2
+          "feedback": 2,
+          "metadata": {
+            "regression": "json value"
+          }
         }
       }
     ]
@@ -529,7 +618,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -537,14 +626,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -559,6 +648,8 @@
       "0123456789abcdef0123456789abcdef",
       "--feedback",
       "1",
+      "--metadata",
+      "{\"regression\":\"json value\"}",
       "--score",
       "1"
     ],
@@ -573,7 +664,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "24",
+          "content-length": "63",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -583,6 +674,9 @@
         },
         "body": {
           "feedback": 1,
+          "metadata": {
+            "regression": "json value"
+          },
           "score": 1
         }
       }

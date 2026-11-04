@@ -219,5 +219,36 @@
     ],
     "exitCode": 0,
     "requests": []
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "dns",
+      "zone-transfers",
+      "tsigs",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/secondary_dns/tsigs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   }
 ]

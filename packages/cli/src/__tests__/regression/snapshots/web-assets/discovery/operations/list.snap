@@ -659,7 +659,9 @@
       "2",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--method",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--endpoint",
       "https://example.com/a?x=1&y=two",
@@ -677,7 +679,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&direction=desc&order=method&diff=false&origin=SessionIdentifier&state=saved",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&direction=desc&order=method&diff=false&origin=SessionIdentifier&state=saved",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -743,6 +745,7 @@
       "2",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--endpoint",
       "https://example.com/a?x=1&y=two",
       "--order",
@@ -754,7 +757,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&order=method&origin=SessionIdentifier",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&order=method&origin=SessionIdentifier",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -897,7 +900,9 @@
       "2",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--method",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--origin",
       "SessionIdentifier",
@@ -908,7 +913,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&origin=SessionIdentifier&state=saved",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&origin=SessionIdentifier&state=saved",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -971,7 +976,9 @@
       "2",
       "--host",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--method",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--endpoint",
       "https://example.com/a?x=1&y=two",
@@ -985,7 +992,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&direction=desc&order=method&diff=false",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/discovery/operations?page=2&per_page=2&host=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&direction=desc&order=method&diff=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

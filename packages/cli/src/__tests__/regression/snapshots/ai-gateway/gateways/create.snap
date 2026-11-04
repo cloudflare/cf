@@ -919,6 +919,116 @@
     ]
   },
   {
+    "case": "only --guardrails-prompt-s14",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s14",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S14": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-prompt-s14 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-prompt-s14",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "prompt": {
+              "S14": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --guardrails-prompt-s2",
     "argv": [
       "ai-gateway",
@@ -2448,6 +2558,116 @@
           "guardrails": {
             "response": {
               "S13": "BLOCK"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --guardrails-response-s14",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s14",
+      "FLAG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S14": "FLAG"
+            }
+          },
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--guardrails-response-s14 value 1",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--guardrails-response-s14",
+      "BLOCK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "guardrails": {
+            "response": {
+              "S14": "BLOCK"
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
@@ -4259,6 +4479,63 @@
     ]
   },
   {
+    "case": "only --spend-limits-rules",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "246",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cache_invalidate_on_update": true,
+          "cache_ttl": 1,
+          "collect_logs": true,
+          "id": "0123456789abcdef0123456789abcdef",
+          "rate_limiting_interval": 1,
+          "rate_limiting_limit": 1,
+          "spend_limits": {
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "workers_ai_billing_mode": "postpaid"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --store-id",
     "argv": [
       "ai-gateway",
@@ -4328,39 +4605,32 @@
       "--stripe-authorization",
       "192.0.2.1"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "236",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 1,
-          "collect_logs": true,
-          "id": "0123456789abcdef0123456789abcdef",
-          "rate_limiting_interval": 1,
-          "rate_limiting_limit": 1,
-          "stripe": {
-            "authorization": "192.0.2.1"
-          },
-          "workers_ai_billing_mode": "postpaid"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--stripe-usage-events is required when any --stripe-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --stripe-usage-events",
+    "argv": [
+      "ai-gateway",
+      "gateways",
+      "create",
+      "--cache-invalidate-on-update=true",
+      "--cache-ttl",
+      "1",
+      "--collect-logs=true",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--rate-limiting-interval",
+      "1",
+      "--rate-limiting-limit",
+      "1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--stripe-authorization is required when any --stripe-* flag is set",
+    "requests": []
   },
   {
     "case": "only --workers-ai-billing-mode",
@@ -4736,6 +5006,8 @@
       "BLOCK",
       "--guardrails-prompt-s13",
       "BLOCK",
+      "--guardrails-prompt-s14",
+      "BLOCK",
       "--guardrails-prompt-s2",
       "BLOCK",
       "--guardrails-prompt-s3",
@@ -4763,6 +5035,8 @@
       "--guardrails-response-s12",
       "BLOCK",
       "--guardrails-response-s13",
+      "BLOCK",
+      "--guardrails-response-s14",
       "BLOCK",
       "--guardrails-response-s2",
       "BLOCK",
@@ -4799,10 +5073,14 @@
       "--retry-max-attempts",
       "2",
       "--spend-limits-enabled=false",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
       "--store-id",
       "0123456789abcdef0123456789abcdef",
       "--stripe-authorization",
       "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--workers-ai-billing-mode",
       "unified",
       "--zdr=false"
@@ -4818,7 +5096,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1056",
+          "content-length": "1155",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -4840,6 +5118,7 @@
               "S11": "BLOCK",
               "S12": "BLOCK",
               "S13": "BLOCK",
+              "S14": "BLOCK",
               "S2": "BLOCK",
               "S3": "BLOCK",
               "S4": "BLOCK",
@@ -4856,6 +5135,7 @@
               "S11": "BLOCK",
               "S12": "BLOCK",
               "S13": "BLOCK",
+              "S14": "BLOCK",
               "S2": "BLOCK",
               "S3": "BLOCK",
               "S4": "BLOCK",
@@ -4884,11 +5164,21 @@
           "retry_delay": 2,
           "retry_max_attempts": 2,
           "spend_limits": {
-            "enabled": false
+            "enabled": false,
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "store_id": "0123456789abcdef0123456789abcdef",
           "stripe": {
-            "authorization": "192.0.2.1"
+            "authorization": "192.0.2.1",
+            "usage_events": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "workers_ai_billing_mode": "unified",
           "zdr": false
@@ -4919,19 +5209,21 @@
       "FLAG",
       "--guardrails-prompt-s13",
       "FLAG",
-      "--guardrails-prompt-s3",
+      "--guardrails-prompt-s2",
       "FLAG",
-      "--guardrails-prompt-s5",
+      "--guardrails-prompt-s4",
       "FLAG",
-      "--guardrails-prompt-s7",
+      "--guardrails-prompt-s6",
       "FLAG",
-      "--guardrails-prompt-s9",
+      "--guardrails-prompt-s8",
       "FLAG",
-      "--guardrails-response-s1",
+      "--guardrails-response-p1",
       "FLAG",
-      "--guardrails-response-s11",
+      "--guardrails-response-s10",
       "FLAG",
-      "--guardrails-response-s13",
+      "--guardrails-response-s12",
+      "FLAG",
+      "--guardrails-response-s14",
       "FLAG",
       "--guardrails-response-s3",
       "FLAG",
@@ -4950,72 +5242,16 @@
       "constant",
       "--retry-max-attempts",
       "1",
-      "--store-id",
-      "0123456789abcdef0123456789abcdef",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
+      "--stripe-authorization",
+      "192.0.2.1",
       "--workers-ai-billing-mode",
       "postpaid"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "586",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "byok_only": true,
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 1,
-          "collect_logs": true,
-          "guardrails": {
-            "prompt": {
-              "S1": "FLAG",
-              "S11": "FLAG",
-              "S13": "FLAG",
-              "S3": "FLAG",
-              "S5": "FLAG",
-              "S7": "FLAG",
-              "S9": "FLAG"
-            },
-            "response": {
-              "S1": "FLAG",
-              "S11": "FLAG",
-              "S13": "FLAG",
-              "S3": "FLAG",
-              "S5": "FLAG",
-              "S7": "FLAG",
-              "S9": "FLAG"
-            }
-          },
-          "id": "0123456789abcdef0123456789abcdef",
-          "log_management": 1,
-          "logpush": true,
-          "otel": [
-            {
-              "regression": "item"
-            }
-          ],
-          "rate_limiting_interval": 1,
-          "rate_limiting_limit": 1,
-          "retry_backoff": "constant",
-          "retry_max_attempts": 1,
-          "store_id": "0123456789abcdef0123456789abcdef",
-          "workers_ai_billing_mode": "postpaid"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--stripe-usage-events is required when any --stripe-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 3",
@@ -5040,19 +5276,21 @@
       "BLOCK",
       "--guardrails-prompt-s12",
       "BLOCK",
-      "--guardrails-prompt-s2",
+      "--guardrails-prompt-s14",
       "BLOCK",
-      "--guardrails-prompt-s4",
+      "--guardrails-prompt-s3",
       "BLOCK",
-      "--guardrails-prompt-s6",
+      "--guardrails-prompt-s5",
       "BLOCK",
-      "--guardrails-prompt-s8",
+      "--guardrails-prompt-s7",
       "BLOCK",
-      "--guardrails-response-p1",
+      "--guardrails-prompt-s9",
       "BLOCK",
-      "--guardrails-response-s10",
+      "--guardrails-response-s1",
       "BLOCK",
-      "--guardrails-response-s12",
+      "--guardrails-response-s11",
+      "BLOCK",
+      "--guardrails-response-s13",
       "BLOCK",
       "--guardrails-response-s2",
       "BLOCK",
@@ -5072,73 +5310,15 @@
       "--retry-delay",
       "2",
       "--spend-limits-enabled=false",
-      "--stripe-authorization",
-      "192.0.2.1",
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--zdr=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "693",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "authentication": false,
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 1,
-          "collect_logs": true,
-          "guardrails": {
-            "prompt": {
-              "P1": "BLOCK",
-              "S10": "BLOCK",
-              "S12": "BLOCK",
-              "S2": "BLOCK",
-              "S4": "BLOCK",
-              "S6": "BLOCK",
-              "S8": "BLOCK"
-            },
-            "response": {
-              "P1": "BLOCK",
-              "S10": "BLOCK",
-              "S12": "BLOCK",
-              "S2": "BLOCK",
-              "S4": "BLOCK",
-              "S6": "BLOCK",
-              "S8": "BLOCK"
-            }
-          },
-          "id": "0123456789abcdef0123456789abcdef",
-          "log_classification": false,
-          "log_management_strategy": "DELETE_OLDEST",
-          "logpush_public_key": "second value &/?+ü",
-          "rate_limiting_interval": 1,
-          "rate_limiting_limit": 1,
-          "rate_limiting_technique": "sliding",
-          "retry_delay": 2,
-          "spend_limits": {
-            "enabled": false
-          },
-          "stripe": {
-            "authorization": "192.0.2.1"
-          },
-          "workers_ai_billing_mode": "postpaid",
-          "zdr": false
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--stripe-authorization is required when any --stripe-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 4",
@@ -5164,105 +5344,48 @@
       "FLAG",
       "--guardrails-prompt-s13",
       "FLAG",
+      "--guardrails-prompt-s3",
+      "FLAG",
       "--guardrails-prompt-s4",
       "FLAG",
-      "--guardrails-prompt-s5",
+      "--guardrails-prompt-s7",
       "FLAG",
       "--guardrails-prompt-s8",
       "FLAG",
-      "--guardrails-prompt-s9",
+      "--guardrails-response-s1",
       "FLAG",
       "--guardrails-response-s10",
       "FLAG",
-      "--guardrails-response-s11",
+      "--guardrails-response-s13",
       "FLAG",
-      "--guardrails-response-s2",
+      "--guardrails-response-s14",
       "FLAG",
-      "--guardrails-response-s3",
+      "--guardrails-response-s4",
       "FLAG",
-      "--guardrails-response-s6",
+      "--guardrails-response-s5",
       "FLAG",
-      "--guardrails-response-s7",
+      "--guardrails-response-s8",
       "FLAG",
-      "--log-classification=true",
-      "--log-management",
-      "1",
-      "--logpush-public-key",
-      "regression value &/?+ü",
-      "--otel",
+      "--guardrails-response-s9",
+      "FLAG",
+      "--log-management-strategy",
+      "STOP_INSERTING",
+      "--logpush=true",
+      "--rate-limiting-technique",
+      "fixed",
+      "--retry-backoff",
+      "constant",
+      "--spend-limits-enabled=true",
+      "--spend-limits-rules",
       "[{\"regression\":\"item\"}]",
-      "--retry-delay",
-      "1",
-      "--retry-max-attempts",
-      "1",
-      "--stripe-authorization",
-      "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--workers-ai-billing-mode",
       "postpaid"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "609",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 1,
-          "collect_logs": true,
-          "guardrails": {
-            "prompt": {
-              "P1": "FLAG",
-              "S1": "FLAG",
-              "S12": "FLAG",
-              "S13": "FLAG",
-              "S4": "FLAG",
-              "S5": "FLAG",
-              "S8": "FLAG",
-              "S9": "FLAG"
-            },
-            "response": {
-              "S10": "FLAG",
-              "S11": "FLAG",
-              "S2": "FLAG",
-              "S3": "FLAG",
-              "S6": "FLAG",
-              "S7": "FLAG"
-            }
-          },
-          "id": "0123456789abcdef0123456789abcdef",
-          "log_classification": true,
-          "log_management": 1,
-          "logpush_public_key": "regression value &/?+ü",
-          "otel": [
-            {
-              "regression": "item"
-            }
-          ],
-          "rate_limiting_interval": 1,
-          "rate_limiting_limit": 1,
-          "retry_delay": 1,
-          "retry_max_attempts": 1,
-          "stripe": {
-            "authorization": "192.0.2.1"
-          },
-          "workers_ai_billing_mode": "postpaid"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--stripe-authorization is required when any --stripe-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 5",
@@ -5286,103 +5409,50 @@
       "BLOCK",
       "--guardrails-prompt-s11",
       "BLOCK",
+      "--guardrails-prompt-s14",
+      "BLOCK",
       "--guardrails-prompt-s2",
       "BLOCK",
-      "--guardrails-prompt-s3",
+      "--guardrails-prompt-s5",
       "BLOCK",
       "--guardrails-prompt-s6",
       "BLOCK",
-      "--guardrails-prompt-s7",
+      "--guardrails-prompt-s9",
       "BLOCK",
       "--guardrails-response-p1",
       "BLOCK",
-      "--guardrails-response-s1",
+      "--guardrails-response-s11",
       "BLOCK",
       "--guardrails-response-s12",
       "BLOCK",
-      "--guardrails-response-s13",
+      "--guardrails-response-s2",
       "BLOCK",
-      "--guardrails-response-s4",
+      "--guardrails-response-s3",
       "BLOCK",
-      "--guardrails-response-s5",
+      "--guardrails-response-s6",
       "BLOCK",
-      "--guardrails-response-s8",
+      "--guardrails-response-s7",
       "BLOCK",
-      "--guardrails-response-s9",
-      "BLOCK",
-      "--log-management-strategy",
-      "DELETE_OLDEST",
-      "--logpush=false",
-      "--rate-limiting-technique",
-      "sliding",
-      "--retry-backoff",
-      "linear",
-      "--spend-limits-enabled=false",
+      "--log-classification=false",
+      "--log-management",
+      "2",
+      "--logpush-public-key",
+      "second value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
+      "--retry-delay",
+      "2",
+      "--retry-max-attempts",
+      "2",
       "--store-id",
       "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
       "--zdr=false"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-gateway/gateways",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "673",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "authentication": false,
-          "byok_only": false,
-          "cache_invalidate_on_update": true,
-          "cache_ttl": 1,
-          "collect_logs": true,
-          "guardrails": {
-            "prompt": {
-              "S10": "BLOCK",
-              "S11": "BLOCK",
-              "S2": "BLOCK",
-              "S3": "BLOCK",
-              "S6": "BLOCK",
-              "S7": "BLOCK"
-            },
-            "response": {
-              "P1": "BLOCK",
-              "S1": "BLOCK",
-              "S12": "BLOCK",
-              "S13": "BLOCK",
-              "S4": "BLOCK",
-              "S5": "BLOCK",
-              "S8": "BLOCK",
-              "S9": "BLOCK"
-            }
-          },
-          "id": "0123456789abcdef0123456789abcdef",
-          "log_management_strategy": "DELETE_OLDEST",
-          "logpush": false,
-          "rate_limiting_interval": 1,
-          "rate_limiting_limit": 1,
-          "rate_limiting_technique": "sliding",
-          "retry_backoff": "linear",
-          "spend_limits": {
-            "enabled": false
-          },
-          "store_id": "0123456789abcdef0123456789abcdef",
-          "workers_ai_billing_mode": "postpaid",
-          "zdr": false
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "--stripe-usage-events is required when any --stripe-* flag is set",
+    "requests": []
   },
   {
     "case": "pairwise 6",
@@ -5408,38 +5478,46 @@
       "FLAG",
       "--guardrails-prompt-s13",
       "FLAG",
+      "--guardrails-prompt-s5",
+      "FLAG",
       "--guardrails-prompt-s6",
       "FLAG",
       "--guardrails-prompt-s7",
       "FLAG",
       "--guardrails-prompt-s8",
       "FLAG",
-      "--guardrails-prompt-s9",
+      "--guardrails-response-s11",
       "FLAG",
       "--guardrails-response-s12",
       "FLAG",
       "--guardrails-response-s13",
       "FLAG",
-      "--guardrails-response-s2",
+      "--guardrails-response-s14",
       "FLAG",
-      "--guardrails-response-s3",
+      "--guardrails-response-s6",
+      "FLAG",
+      "--guardrails-response-s7",
       "FLAG",
       "--guardrails-response-s8",
       "FLAG",
       "--guardrails-response-s9",
       "FLAG",
-      "--log-classification=true",
-      "--log-management",
-      "1",
+      "--logpush-public-key",
+      "regression value &/?+ü",
+      "--otel",
+      "[{\"regression\":\"item\"}]",
       "--rate-limiting-technique",
       "fixed",
       "--retry-backoff",
       "constant",
-      "--retry-delay",
-      "1",
-      "--retry-max-attempts",
-      "1",
-      "--zdr=true"
+      "--store-id",
+      "0123456789abcdef0123456789abcdef",
+      "--stripe-authorization",
+      "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
+      "--workers-ai-billing-mode",
+      "postpaid"
     ],
     "exitCode": 0,
     "requests": [
@@ -5452,7 +5530,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "566",
+          "content-length": "699",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5470,31 +5548,43 @@
               "S11": "FLAG",
               "S12": "FLAG",
               "S13": "FLAG",
+              "S5": "FLAG",
               "S6": "FLAG",
               "S7": "FLAG",
-              "S8": "FLAG",
-              "S9": "FLAG"
+              "S8": "FLAG"
             },
             "response": {
+              "S11": "FLAG",
               "S12": "FLAG",
               "S13": "FLAG",
-              "S2": "FLAG",
-              "S3": "FLAG",
+              "S14": "FLAG",
+              "S6": "FLAG",
+              "S7": "FLAG",
               "S8": "FLAG",
               "S9": "FLAG"
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
-          "log_classification": true,
-          "log_management": 1,
+          "logpush_public_key": "regression value &/?+ü",
+          "otel": [
+            {
+              "regression": "item"
+            }
+          ],
           "rate_limiting_interval": 1,
           "rate_limiting_limit": 1,
           "rate_limiting_technique": "fixed",
           "retry_backoff": "constant",
-          "retry_delay": 1,
-          "retry_max_attempts": 1,
-          "workers_ai_billing_mode": "postpaid",
-          "zdr": true
+          "store_id": "0123456789abcdef0123456789abcdef",
+          "stripe": {
+            "authorization": "192.0.2.1",
+            "usage_events": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "workers_ai_billing_mode": "postpaid"
         }
       }
     ]
@@ -5521,13 +5611,15 @@
       "BLOCK",
       "--guardrails-prompt-s1",
       "BLOCK",
+      "--guardrails-prompt-s14",
+      "BLOCK",
       "--guardrails-prompt-s2",
       "BLOCK",
       "--guardrails-prompt-s3",
       "BLOCK",
       "--guardrails-prompt-s4",
       "BLOCK",
-      "--guardrails-prompt-s5",
+      "--guardrails-prompt-s9",
       "BLOCK",
       "--guardrails-response-p1",
       "BLOCK",
@@ -5535,30 +5627,28 @@
       "BLOCK",
       "--guardrails-response-s10",
       "BLOCK",
-      "--guardrails-response-s11",
+      "--guardrails-response-s2",
+      "BLOCK",
+      "--guardrails-response-s3",
       "BLOCK",
       "--guardrails-response-s4",
       "BLOCK",
       "--guardrails-response-s5",
       "BLOCK",
-      "--guardrails-response-s6",
-      "BLOCK",
-      "--guardrails-response-s7",
-      "BLOCK",
+      "--log-classification=false",
+      "--log-management",
+      "2",
       "--log-management-strategy",
       "DELETE_OLDEST",
       "--logpush=false",
-      "--logpush-public-key",
-      "second value &/?+ü",
-      "--otel",
-      "[{\"regression\":\"item\"}]",
+      "--retry-delay",
+      "2",
+      "--retry-max-attempts",
+      "2",
       "--spend-limits-enabled=false",
-      "--store-id",
-      "0123456789abcdef0123456789abcdef",
-      "--stripe-authorization",
-      "192.0.2.1",
-      "--workers-ai-billing-mode",
-      "unified"
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
+      "--zdr=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -5571,7 +5661,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "710",
+          "content-length": "681",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5589,41 +5679,41 @@
             "prompt": {
               "P1": "BLOCK",
               "S1": "BLOCK",
+              "S14": "BLOCK",
               "S2": "BLOCK",
               "S3": "BLOCK",
               "S4": "BLOCK",
-              "S5": "BLOCK"
+              "S9": "BLOCK"
             },
             "response": {
               "P1": "BLOCK",
               "S1": "BLOCK",
               "S10": "BLOCK",
-              "S11": "BLOCK",
+              "S2": "BLOCK",
+              "S3": "BLOCK",
               "S4": "BLOCK",
-              "S5": "BLOCK",
-              "S6": "BLOCK",
-              "S7": "BLOCK"
+              "S5": "BLOCK"
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "log_management": 2,
           "log_management_strategy": "DELETE_OLDEST",
           "logpush": false,
-          "logpush_public_key": "second value &/?+ü",
-          "otel": [
-            {
-              "regression": "item"
-            }
-          ],
           "rate_limiting_interval": 1,
           "rate_limiting_limit": 1,
+          "retry_delay": 2,
+          "retry_max_attempts": 2,
           "spend_limits": {
-            "enabled": false
+            "enabled": false,
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
           },
-          "store_id": "0123456789abcdef0123456789abcdef",
-          "stripe": {
-            "authorization": "192.0.2.1"
-          },
-          "workers_ai_billing_mode": "unified"
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": false
         }
       }
     ]
@@ -5644,6 +5734,8 @@
       "1",
       "--rate-limiting-limit",
       "1",
+      "--guardrails-prompt-s14",
+      "FLAG",
       "--guardrails-prompt-s2",
       "FLAG",
       "--guardrails-prompt-s3",
@@ -5658,7 +5750,9 @@
       "FLAG",
       "--guardrails-prompt-s8",
       "FLAG",
-      "--guardrails-prompt-s9",
+      "--guardrails-response-s2",
+      "FLAG",
+      "--guardrails-response-s3",
       "FLAG",
       "--guardrails-response-s4",
       "FLAG",
@@ -5672,17 +5766,21 @@
       "FLAG",
       "--guardrails-response-s9",
       "FLAG",
-      "--log-classification=true",
-      "--log-management",
+      "--retry-delay",
+      "1",
+      "--retry-max-attempts",
       "1",
       "--spend-limits-enabled=true",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
       "--store-id",
       "0123456789abcdef0123456789abcdef",
       "--stripe-authorization",
       "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--workers-ai-billing-mode",
-      "postpaid",
-      "--zdr=true"
+      "postpaid"
     ],
     "exitCode": 0,
     "requests": [
@@ -5695,7 +5793,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "577",
+          "content-length": "656",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5709,16 +5807,18 @@
           "collect_logs": true,
           "guardrails": {
             "prompt": {
+              "S14": "FLAG",
               "S2": "FLAG",
               "S3": "FLAG",
               "S4": "FLAG",
               "S5": "FLAG",
               "S6": "FLAG",
               "S7": "FLAG",
-              "S8": "FLAG",
-              "S9": "FLAG"
+              "S8": "FLAG"
             },
             "response": {
+              "S2": "FLAG",
+              "S3": "FLAG",
               "S4": "FLAG",
               "S5": "FLAG",
               "S6": "FLAG",
@@ -5728,19 +5828,28 @@
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
-          "log_classification": true,
-          "log_management": 1,
           "rate_limiting_interval": 1,
           "rate_limiting_limit": 1,
+          "retry_delay": 1,
+          "retry_max_attempts": 1,
           "spend_limits": {
-            "enabled": true
+            "enabled": true,
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "store_id": "0123456789abcdef0123456789abcdef",
           "stripe": {
-            "authorization": "192.0.2.1"
+            "authorization": "192.0.2.1",
+            "usage_events": [
+              {
+                "regression": "item"
+              }
+            ]
           },
-          "workers_ai_billing_mode": "postpaid",
-          "zdr": true
+          "workers_ai_billing_mode": "postpaid"
         }
       }
     ]
@@ -5775,6 +5884,8 @@
       "BLOCK",
       "--guardrails-prompt-s13",
       "BLOCK",
+      "--guardrails-prompt-s9",
+      "BLOCK",
       "--guardrails-response-p1",
       "BLOCK",
       "--guardrails-response-s1",
@@ -5787,10 +5898,11 @@
       "BLOCK",
       "--guardrails-response-s13",
       "BLOCK",
-      "--guardrails-response-s2",
+      "--guardrails-response-s14",
       "BLOCK",
-      "--guardrails-response-s3",
-      "BLOCK",
+      "--log-classification=false",
+      "--log-management",
+      "2",
       "--log-management-strategy",
       "DELETE_OLDEST",
       "--logpush=false",
@@ -5802,10 +5914,7 @@
       "sliding",
       "--retry-backoff",
       "linear",
-      "--retry-delay",
-      "2",
-      "--retry-max-attempts",
-      "2"
+      "--zdr=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -5818,7 +5927,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "699",
+          "content-length": "719",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5839,7 +5948,8 @@
               "S10": "BLOCK",
               "S11": "BLOCK",
               "S12": "BLOCK",
-              "S13": "BLOCK"
+              "S13": "BLOCK",
+              "S9": "BLOCK"
             },
             "response": {
               "P1": "BLOCK",
@@ -5848,11 +5958,12 @@
               "S11": "BLOCK",
               "S12": "BLOCK",
               "S13": "BLOCK",
-              "S2": "BLOCK",
-              "S3": "BLOCK"
+              "S14": "BLOCK"
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "log_management": 2,
           "log_management_strategy": "DELETE_OLDEST",
           "logpush": false,
           "logpush_public_key": "second value &/?+ü",
@@ -5865,9 +5976,8 @@
           "rate_limiting_limit": 1,
           "rate_limiting_technique": "sliding",
           "retry_backoff": "linear",
-          "retry_delay": 2,
-          "retry_max_attempts": 2,
-          "workers_ai_billing_mode": "postpaid"
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": false
         }
       }
     ]
@@ -5888,6 +5998,8 @@
       "1",
       "--rate-limiting-limit",
       "1",
+      "--guardrails-prompt-s9",
+      "FLAG",
       "--guardrails-response-p1",
       "FLAG",
       "--guardrails-response-s1",
@@ -5899,6 +6011,8 @@
       "--guardrails-response-s12",
       "FLAG",
       "--guardrails-response-s13",
+      "FLAG",
+      "--guardrails-response-s14",
       "FLAG",
       "--guardrails-response-s2",
       "FLAG",
@@ -5916,9 +6030,7 @@
       "FLAG",
       "--guardrails-response-s9",
       "FLAG",
-      "--log-classification=true",
-      "--log-management",
-      "1"
+      "--zdr=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -5931,7 +6043,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "442",
+          "content-length": "444",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -5944,6 +6056,9 @@
           "cache_ttl": 1,
           "collect_logs": true,
           "guardrails": {
+            "prompt": {
+              "S9": "FLAG"
+            },
             "response": {
               "P1": "FLAG",
               "S1": "FLAG",
@@ -5951,6 +6066,7 @@
               "S11": "FLAG",
               "S12": "FLAG",
               "S13": "FLAG",
+              "S14": "FLAG",
               "S2": "FLAG",
               "S3": "FLAG",
               "S4": "FLAG",
@@ -5962,11 +6078,10 @@
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
-          "log_classification": true,
-          "log_management": 1,
           "rate_limiting_interval": 1,
           "rate_limiting_limit": 1,
-          "workers_ai_billing_mode": "postpaid"
+          "workers_ai_billing_mode": "postpaid",
+          "zdr": true
         }
       }
     ]
@@ -6001,6 +6116,8 @@
       "BLOCK",
       "--guardrails-prompt-s13",
       "BLOCK",
+      "--guardrails-prompt-s14",
+      "BLOCK",
       "--guardrails-prompt-s2",
       "BLOCK",
       "--guardrails-prompt-s3",
@@ -6015,8 +6132,9 @@
       "BLOCK",
       "--guardrails-prompt-s8",
       "BLOCK",
-      "--guardrails-prompt-s9",
-      "BLOCK",
+      "--log-classification=false",
+      "--log-management",
+      "2",
       "--log-management-strategy",
       "DELETE_OLDEST",
       "--logpush=false",
@@ -6033,13 +6151,16 @@
       "--retry-max-attempts",
       "2",
       "--spend-limits-enabled=false",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
       "--store-id",
       "0123456789abcdef0123456789abcdef",
       "--stripe-authorization",
       "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--workers-ai-billing-mode",
-      "unified",
-      "--zdr=false"
+      "unified"
     ],
     "exitCode": 0,
     "requests": [
@@ -6052,7 +6173,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "811",
+          "content-length": "917",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6074,17 +6195,19 @@
               "S11": "BLOCK",
               "S12": "BLOCK",
               "S13": "BLOCK",
+              "S14": "BLOCK",
               "S2": "BLOCK",
               "S3": "BLOCK",
               "S4": "BLOCK",
               "S5": "BLOCK",
               "S6": "BLOCK",
               "S7": "BLOCK",
-              "S8": "BLOCK",
-              "S9": "BLOCK"
+              "S8": "BLOCK"
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": false,
+          "log_management": 2,
           "log_management_strategy": "DELETE_OLDEST",
           "logpush": false,
           "logpush_public_key": "second value &/?+ü",
@@ -6100,14 +6223,23 @@
           "retry_delay": 2,
           "retry_max_attempts": 2,
           "spend_limits": {
-            "enabled": false
+            "enabled": false,
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "store_id": "0123456789abcdef0123456789abcdef",
           "stripe": {
-            "authorization": "192.0.2.1"
+            "authorization": "192.0.2.1",
+            "usage_events": [
+              {
+                "regression": "item"
+              }
+            ]
           },
-          "workers_ai_billing_mode": "unified",
-          "zdr": false
+          "workers_ai_billing_mode": "unified"
         }
       }
     ]
@@ -6128,6 +6260,9 @@
       "1",
       "--rate-limiting-limit",
       "1",
+      "--log-classification=true",
+      "--log-management",
+      "1",
       "--log-management-strategy",
       "STOP_INSERTING",
       "--logpush=true",
@@ -6144,10 +6279,14 @@
       "--retry-max-attempts",
       "1",
       "--spend-limits-enabled=true",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
       "--store-id",
       "0123456789abcdef0123456789abcdef",
       "--stripe-authorization",
       "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--workers-ai-billing-mode",
       "postpaid",
       "--zdr=true"
@@ -6163,7 +6302,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "561",
+          "content-length": "677",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6176,6 +6315,8 @@
           "cache_ttl": 1,
           "collect_logs": true,
           "id": "0123456789abcdef0123456789abcdef",
+          "log_classification": true,
+          "log_management": 1,
           "log_management_strategy": "STOP_INSERTING",
           "logpush": true,
           "logpush_public_key": "regression value &/?+ü",
@@ -6191,11 +6332,21 @@
           "retry_delay": 1,
           "retry_max_attempts": 1,
           "spend_limits": {
-            "enabled": true
+            "enabled": true,
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "store_id": "0123456789abcdef0123456789abcdef",
           "stripe": {
-            "authorization": "192.0.2.1"
+            "authorization": "192.0.2.1",
+            "usage_events": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "workers_ai_billing_mode": "postpaid",
           "zdr": true
@@ -6233,6 +6384,8 @@
       "BLOCK",
       "--guardrails-prompt-s13",
       "BLOCK",
+      "--guardrails-prompt-s14",
+      "BLOCK",
       "--guardrails-prompt-s2",
       "BLOCK",
       "--guardrails-prompt-s3",
@@ -6261,6 +6414,8 @@
       "BLOCK",
       "--guardrails-response-s13",
       "BLOCK",
+      "--guardrails-response-s14",
+      "BLOCK",
       "--guardrails-response-s2",
       "BLOCK",
       "--guardrails-response-s3",
@@ -6276,10 +6431,7 @@
       "--guardrails-response-s8",
       "BLOCK",
       "--guardrails-response-s9",
-      "BLOCK",
-      "--log-classification=false",
-      "--log-management",
-      "2"
+      "BLOCK"
     ],
     "exitCode": 0,
     "requests": [
@@ -6292,7 +6444,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "695",
+          "content-length": "677",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6314,6 +6466,7 @@
               "S11": "BLOCK",
               "S12": "BLOCK",
               "S13": "BLOCK",
+              "S14": "BLOCK",
               "S2": "BLOCK",
               "S3": "BLOCK",
               "S4": "BLOCK",
@@ -6330,6 +6483,7 @@
               "S11": "BLOCK",
               "S12": "BLOCK",
               "S13": "BLOCK",
+              "S14": "BLOCK",
               "S2": "BLOCK",
               "S3": "BLOCK",
               "S4": "BLOCK",
@@ -6341,8 +6495,6 @@
             }
           },
           "id": "0123456789abcdef0123456789abcdef",
-          "log_classification": false,
-          "log_management": 2,
           "rate_limiting_interval": 1,
           "rate_limiting_limit": 1,
           "workers_ai_billing_mode": "postpaid"
@@ -6700,7 +6852,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6708,14 +6860,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -6749,6 +6901,8 @@
       "FLAG",
       "--guardrails-prompt-s13",
       "FLAG",
+      "--guardrails-prompt-s14",
+      "FLAG",
       "--guardrails-prompt-s2",
       "FLAG",
       "--guardrails-prompt-s3",
@@ -6776,6 +6930,8 @@
       "--guardrails-response-s12",
       "FLAG",
       "--guardrails-response-s13",
+      "FLAG",
+      "--guardrails-response-s14",
       "FLAG",
       "--guardrails-response-s2",
       "FLAG",
@@ -6812,10 +6968,14 @@
       "--retry-max-attempts",
       "1",
       "--spend-limits-enabled=true",
+      "--spend-limits-rules",
+      "[{\"regression\":\"item\"}]",
       "--store-id",
       "0123456789abcdef0123456789abcdef",
       "--stripe-authorization",
       "192.0.2.1",
+      "--stripe-usage-events",
+      "[{\"regression\":\"item\"}]",
       "--workers-ai-billing-mode",
       "postpaid",
       "--zdr=true"
@@ -6831,7 +6991,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "1028",
+          "content-length": "1125",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -6853,6 +7013,7 @@
               "S11": "FLAG",
               "S12": "FLAG",
               "S13": "FLAG",
+              "S14": "FLAG",
               "S2": "FLAG",
               "S3": "FLAG",
               "S4": "FLAG",
@@ -6869,6 +7030,7 @@
               "S11": "FLAG",
               "S12": "FLAG",
               "S13": "FLAG",
+              "S14": "FLAG",
               "S2": "FLAG",
               "S3": "FLAG",
               "S4": "FLAG",
@@ -6897,11 +7059,21 @@
           "retry_delay": 1,
           "retry_max_attempts": 1,
           "spend_limits": {
-            "enabled": true
+            "enabled": true,
+            "rules": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "store_id": "0123456789abcdef0123456789abcdef",
           "stripe": {
-            "authorization": "192.0.2.1"
+            "authorization": "192.0.2.1",
+            "usage_events": [
+              {
+                "regression": "item"
+              }
+            ]
           },
           "workers_ai_billing_mode": "postpaid",
           "zdr": true

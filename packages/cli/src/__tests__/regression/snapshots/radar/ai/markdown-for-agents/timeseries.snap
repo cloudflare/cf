@@ -29,13 +29,13 @@
     ]
   },
   {
-    "case": "only --aggInterval",
+    "case": "only --agg-interval",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "15m"
     ],
     "exitCode": 0,
@@ -60,13 +60,13 @@
     ]
   },
   {
-    "case": "--aggInterval value 1",
+    "case": "--agg-interval value 1",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1h"
     ],
     "exitCode": 0,
@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "--aggInterval value 2",
+    "case": "--agg-interval value 2",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1d"
     ],
     "exitCode": 0,
@@ -122,13 +122,13 @@
     ]
   },
   {
-    "case": "--aggInterval value 3",
+    "case": "--agg-interval value 3",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1w"
     ],
     "exitCode": 0,
@@ -184,13 +184,13 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -215,13 +215,13 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -246,13 +246,13 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -345,15 +345,19 @@
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -362,7 +366,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
+        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -388,7 +392,7 @@
       "timeseries",
       "--name",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--format",
       "JSON"
@@ -421,18 +425,20 @@
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z",
+        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -456,9 +462,9 @@
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -489,11 +495,13 @@
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateEnd",
+      "second value &/?+ü",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--format",
       "CSV"
@@ -502,7 +510,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
+        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -526,7 +534,7 @@
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--format",
       "JSON"
@@ -559,20 +567,23 @@
       "ai",
       "markdown-for-agents",
       "timeseries",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z",
+        "url": "https://api.test/client/v4/radar/ai/markdown_for_agents/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

@@ -217,5 +217,36 @@
     ],
     "exitCode": 0,
     "requests": []
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "user",
+      "tokens",
+      "roll",
+      "0123456789abcdef0123456789abcdef",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/user/tokens/0123456789abcdef0123456789abcdef/value",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
   }
 ]

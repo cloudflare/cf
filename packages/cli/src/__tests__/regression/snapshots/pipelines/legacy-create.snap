@@ -507,6 +507,81 @@
     ]
   },
   {
+    "case": "only --destination-path-filename",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-path-filename",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "453",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filename": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "case": "only --destination-path-filepath",
     "argv": [
       "pipelines",
@@ -757,6 +832,8 @@
       "2",
       "--destination-compression-type",
       "gzip",
+      "--destination-path-filename",
+      "second value &/?+ü",
       "--destination-path-filepath",
       "second value &/?+ü",
       "--destination-path-prefix",
@@ -773,7 +850,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "463",
+          "content-length": "496",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -799,6 +876,7 @@
             "format": "json",
             "path": {
               "bucket": "regression value &/?+ü",
+              "filename": "second value &/?+ü",
               "filepath": "second value &/?+ü",
               "prefix": "second value &/?+ü"
             },
@@ -839,7 +917,7 @@
       "1",
       "--destination-compression-type",
       "none",
-      "--destination-path-prefix",
+      "--destination-path-filepath",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -853,7 +931,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "449",
+          "content-length": "451",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -879,7 +957,7 @@
             "format": "json",
             "path": {
               "bucket": "regression value &/?+ü",
-              "prefix": "regression value &/?+ü"
+              "filepath": "regression value &/?+ü"
             },
             "type": "r2"
           },
@@ -918,7 +996,9 @@
       "2",
       "--destination-batch-max-rows",
       "2",
-      "--destination-path-filepath",
+      "--destination-path-filename",
+      "second value &/?+ü",
+      "--destination-path-prefix",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -932,7 +1012,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "434",
+          "content-length": "465",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -958,7 +1038,8 @@
             "format": "json",
             "path": {
               "bucket": "regression value &/?+ü",
-              "filepath": "second value &/?+ü"
+              "filename": "second value &/?+ü",
+              "prefix": "second value &/?+ü"
             },
             "type": "r2"
           },
@@ -996,7 +1077,9 @@
       "--destination-batch-max-rows",
       "1",
       "--destination-compression-type",
-      "none"
+      "none",
+      "--destination-path-prefix",
+      "regression value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
@@ -1009,7 +1092,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "409",
+          "content-length": "444",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1034,7 +1117,8 @@
             },
             "format": "json",
             "path": {
-              "bucket": "regression value &/?+ü"
+              "bucket": "regression value &/?+ü",
+              "prefix": "regression value &/?+ü"
             },
             "type": "r2"
           },
@@ -1073,9 +1157,9 @@
       "2",
       "--destination-batch-max-duration-s",
       "2",
-      "--destination-path-filepath",
+      "--destination-path-filename",
       "second value &/?+ü",
-      "--destination-path-prefix",
+      "--destination-path-filepath",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -1089,7 +1173,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "470",
+          "content-length": "472",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1115,8 +1199,8 @@
             "format": "json",
             "path": {
               "bucket": "regression value &/?+ü",
-              "filepath": "second value &/?+ü",
-              "prefix": "second value &/?+ü"
+              "filename": "second value &/?+ü",
+              "filepath": "second value &/?+ü"
             },
             "type": "r2"
           },
@@ -1151,6 +1235,8 @@
       "regression value &/?+ü",
       "--source",
       "[{\"regression\":\"item\"}]",
+      "--destination-path-filename",
+      "regression value &/?+ü",
       "--destination-path-filepath",
       "regression value &/?+ü",
       "--destination-path-prefix",
@@ -1167,7 +1253,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "488",
+          "content-length": "525",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1193,6 +1279,7 @@
             "format": "json",
             "path": {
               "bucket": "regression value &/?+ü",
+              "filename": "regression value &/?+ü",
               "filepath": "regression value &/?+ü",
               "prefix": "regression value &/?+ü"
             },
@@ -1678,7 +1765,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1686,14 +1773,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1726,6 +1813,8 @@
       "1",
       "--destination-compression-type",
       "none",
+      "--destination-path-filename",
+      "regression value &/?+ü",
       "--destination-path-filepath",
       "regression value &/?+ü",
       "--destination-path-prefix",
@@ -1742,7 +1831,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "471",
+          "content-length": "508",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1768,6 +1857,7 @@
             "format": "json",
             "path": {
               "bucket": "regression value &/?+ü",
+              "filename": "regression value &/?+ü",
               "filepath": "regression value &/?+ü",
               "prefix": "regression value &/?+ü"
             },

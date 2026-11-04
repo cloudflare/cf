@@ -724,9 +724,46 @@
       "--source-workflow-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "342",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "queue_id": "0123456789abcdef0123456789abcdef",
+            "type": "queues.queue"
+          },
+          "enabled": false,
+          "events": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "name": "second value &/?+ü",
+          "source": {
+            "type": "kv",
+            "model_name": "second value &/?+ü",
+            "worker_name": "second value &/?+ü",
+            "script_tag": "192.0.2.1",
+            "workflow_name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -746,7 +783,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments source-worker-name and source-workflow-name are mutually exclusive",
+    "error": "--destination-queue-id is required when any --destination-* flag is set",
     "requests": []
   },
   {
@@ -766,7 +803,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "Arguments source-model-name and source-script-tag are mutually exclusive",
+    "error": "--destination-type is required when any --destination-* flag is set",
     "requests": []
   },
   {
@@ -783,9 +820,37 @@
       "--source-worker-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "143",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true,
+          "events": [
+            "regression value &/?+ü"
+          ],
+          "source": {
+            "model_name": "regression value &/?+ü",
+            "worker_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -806,9 +871,39 @@
       "--source-workflow-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-script-tag and source-workflow-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "queue_id": "0123456789abcdef0123456789abcdef",
+            "type": "queues.queue"
+          },
+          "name": "second value &/?+ü",
+          "source": {
+            "type": "kv",
+            "script_tag": "192.0.2.1",
+            "workflow_name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 6",
@@ -825,9 +920,35 @@
       "--source-worker-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "source": {
+            "type": "images",
+            "model_name": "regression value &/?+ü",
+            "worker_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -848,9 +969,42 @@
       "--source-workflow-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-script-tag and source-workflow-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "230",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "queue_id": "0123456789abcdef0123456789abcdef",
+            "type": "queues.queue"
+          },
+          "enabled": false,
+          "events": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "source": {
+            "script_tag": "192.0.2.1",
+            "workflow_name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 8",
@@ -863,9 +1017,33 @@
       "--source-workflow-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-script-tag and source-workflow-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "script_tag": "192.0.2.1",
+            "workflow_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 9",
@@ -890,9 +1068,44 @@
       "--source-worker-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "279",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "queue_id": "0123456789abcdef0123456789abcdef",
+            "type": "queues.queue"
+          },
+          "enabled": false,
+          "events": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "name": "second value &/?+ü",
+          "source": {
+            "type": "kv",
+            "model_name": "second value &/?+ü",
+            "worker_name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -1164,7 +1377,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1172,14 +1385,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -1209,8 +1422,44 @@
       "--source-workflow-name",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "343",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "queue_id": "0123456789abcdef0123456789abcdef",
+            "type": "queues.queue"
+          },
+          "enabled": true,
+          "events": [
+            "regression value &/?+ü"
+          ],
+          "name": "regression value &/?+ü",
+          "source": {
+            "type": "images",
+            "model_name": "regression value &/?+ü",
+            "worker_name": "regression value &/?+ü",
+            "script_tag": "192.0.2.1",
+            "workflow_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   }
 ]

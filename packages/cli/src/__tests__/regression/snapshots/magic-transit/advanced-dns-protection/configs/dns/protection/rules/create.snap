@@ -26,6 +26,8 @@
       "create",
       "--burst-sensitivity",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--profile-sensitivity",
@@ -78,6 +80,8 @@
       "create",
       "--burst-sensitivity",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--profile-sensitivity",
@@ -99,7 +103,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "232",
+          "content-length": "265",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -110,6 +114,7 @@
         "body": {
           "block_any_queries": true,
           "burst_sensitivity": "regression value &/?+ü",
+          "mode": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "profile_sensitivity": "regression value &/?+ü",
           "rate_sensitivity": "regression value &/?+ü",
@@ -129,6 +134,8 @@
       "rules",
       "create",
       "--burst-sensitivity",
+      "regression value &/?+ü",
+      "--protection-mode",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -151,7 +158,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "233",
+          "content-length": "266",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -162,6 +169,7 @@
         "body": {
           "block_any_queries": false,
           "burst_sensitivity": "regression value &/?+ü",
+          "mode": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "profile_sensitivity": "regression value &/?+ü",
           "rate_sensitivity": "regression value &/?+ü",
@@ -181,6 +189,8 @@
       "rules",
       "create",
       "--burst-sensitivity",
+      "regression value &/?+ü",
+      "--protection-mode",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -202,7 +212,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "207",
+          "content-length": "240",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -212,6 +222,7 @@
         },
         "body": {
           "burst_sensitivity": "regression value &/?+ü",
+          "mode": "regression value &/?+ü",
           "name": "regression value &/?+ü",
           "profile_sensitivity": "regression value &/?+ü",
           "rate_sensitivity": "regression value &/?+ü",
@@ -231,6 +242,8 @@
       "rules",
       "create",
       "--burst-sensitivity",
+      "regression value &/?+ü",
+      "--protection-mode",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -285,6 +298,8 @@
       "create",
       "--burst-sensitivity",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--profile-sensitivity",
@@ -338,6 +353,8 @@
       "rules",
       "create",
       "--burst-sensitivity",
+      "regression value &/?+ü",
+      "--protection-mode",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -395,6 +412,8 @@
       "create",
       "--burst-sensitivity",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--profile-sensitivity",
@@ -446,6 +465,8 @@
       "rules",
       "create",
       "--burst-sensitivity",
+      "regression value &/?+ü",
+      "--protection-mode",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -501,6 +522,8 @@
       "create",
       "--burst-sensitivity",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--profile-sensitivity",
@@ -527,6 +550,8 @@
       "rules",
       "create",
       "--burst-sensitivity",
+      "regression value &/?+ü",
+      "--protection-mode",
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
@@ -580,6 +605,8 @@
       "create",
       "--burst-sensitivity",
       "regression value &/?+ü",
+      "--protection-mode",
+      "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
       "--profile-sensitivity",
@@ -602,7 +629,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -610,14 +637,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   }

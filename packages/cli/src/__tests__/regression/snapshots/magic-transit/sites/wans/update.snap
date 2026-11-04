@@ -356,6 +356,82 @@
     ]
   },
   {
+    "case": "only --provisioned-download-kbps",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "wans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--provisioned-download-kbps",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "provisioned_download_kbps": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --provisioned-upload-kbps",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "wans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--provisioned-upload-kbps",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "provisioned_upload_kbps": 1
+        }
+      }
+    ]
+  },
+  {
     "case": "only --static-addressing-address",
     "argv": [
       "magic-transit",
@@ -368,9 +444,32 @@
       "--static-addressing-address",
       "192.0.2.1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-gateway-address is required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "address": "192.0.2.1"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --static-addressing-gateway-address",
@@ -385,9 +484,32 @@
       "--static-addressing-gateway-address",
       "192.0.2.1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "gateway_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --static-addressing-secondary-address",
@@ -402,9 +524,72 @@
       "--static-addressing-secondary-address",
       "192.0.2.1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-address, --static-addressing-gateway-address are required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "secondary_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --static-addressing-secondary-gateway-address",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "wans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-secondary-gateway-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "secondary_gateway_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "only --vlan-tag",
@@ -497,11 +682,17 @@
       "2",
       "--priority",
       "2",
+      "--provisioned-download-kbps",
+      "2",
+      "--provisioned-upload-kbps",
+      "2",
       "--static-addressing-address",
       "192.0.2.1",
       "--static-addressing-gateway-address",
       "192.0.2.1",
       "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-secondary-gateway-address",
       "192.0.2.1",
       "--vlan-tag",
       "2"
@@ -517,7 +708,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "234",
+          "content-length": "332",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -531,10 +722,13 @@
           "name": "second value &/?+ü",
           "physport": 2,
           "priority": 2,
+          "provisioned_download_kbps": 2,
+          "provisioned_upload_kbps": 2,
           "static_addressing": {
             "address": "192.0.2.1",
             "gateway_address": "192.0.2.1",
-            "secondary_address": "192.0.2.1"
+            "secondary_address": "192.0.2.1",
+            "secondary_gateway_address": "192.0.2.1"
           },
           "vlan_tag": 2
         }
@@ -554,14 +748,46 @@
       "--load-balance-inner-flows=true",
       "--physport",
       "1",
+      "--provisioned-download-kbps",
+      "1",
       "--static-addressing-address",
       "192.0.2.1",
       "--static-addressing-secondary-address",
-      "192.0.2.1"
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-gateway-address is required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "load_balance_inner_flows": true,
+          "physport": 1,
+          "provisioned_download_kbps": 1,
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "secondary_address": "192.0.2.1"
+          },
+          "vlan_tag": 1
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -579,14 +805,44 @@
       "second value &/?+ü",
       "--priority",
       "2",
+      "--provisioned-upload-kbps",
+      "2",
       "--static-addressing-gateway-address",
       "192.0.2.1",
-      "--vlan-tag",
-      "2"
+      "--static-addressing-secondary-gateway-address",
+      "192.0.2.1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "189",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "health_check_rate": "mid",
+          "name": "second value &/?+ü",
+          "priority": 2,
+          "provisioned_upload_kbps": 2,
+          "static_addressing": {
+            "gateway_address": "192.0.2.1",
+            "secondary_gateway_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -602,14 +858,46 @@
       "regression value &/?+ü",
       "--physport",
       "1",
-      "--static-addressing-gateway-address",
+      "--provisioned-upload-kbps",
+      "1",
+      "--static-addressing-address",
       "192.0.2.1",
-      "--static-addressing-secondary-address",
-      "192.0.2.1"
+      "--static-addressing-secondary-gateway-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
     ],
-    "exitCode": 1,
-    "error": "--static-addressing-address is required when any --static_addressing-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "physport": 1,
+          "provisioned_upload_kbps": 1,
+          "static_addressing": {
+            "address": "192.0.2.1",
+            "secondary_gateway_address": "192.0.2.1"
+          },
+          "vlan_tag": 1
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -626,29 +914,8 @@
       "--load-balance-inner-flows=false",
       "--priority",
       "2",
-      "--static-addressing-address",
-      "192.0.2.1",
-      "--vlan-tag",
-      "2"
-    ],
-    "exitCode": 1,
-    "error": "--static-addressing-gateway-address is required when any --static_addressing-* flag is set",
-    "requests": []
-  },
-  {
-    "case": "pairwise 6",
-    "argv": [
-      "magic-transit",
-      "sites",
-      "wans",
-      "update",
-      "0123456789abcdef0123456789abcdef",
-      "--site-id",
-      "0123456789abcdef0123456789abcdef",
-      "--priority",
-      "1",
-      "--static-addressing-address",
-      "192.0.2.1",
+      "--provisioned-download-kbps",
+      "2",
       "--static-addressing-gateway-address",
       "192.0.2.1",
       "--static-addressing-secondary-address",
@@ -665,7 +932,58 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "120",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "health_check_rate": "mid",
+          "load_balance_inner_flows": false,
+          "priority": 2,
+          "provisioned_download_kbps": 2,
+          "static_addressing": {
+            "gateway_address": "192.0.2.1",
+            "secondary_address": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "wans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--priority",
+      "1",
+      "--provisioned-download-kbps",
+      "1",
+      "--provisioned-upload-kbps",
+      "1",
+      "--static-addressing-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -675,10 +993,10 @@
         },
         "body": {
           "priority": 1,
+          "provisioned_download_kbps": 1,
+          "provisioned_upload_kbps": 1,
           "static_addressing": {
-            "address": "192.0.2.1",
-            "gateway_address": "192.0.2.1",
-            "secondary_address": "192.0.2.1"
+            "address": "192.0.2.1"
           }
         }
       }
@@ -701,6 +1019,12 @@
       "second value &/?+ü",
       "--physport",
       "2",
+      "--static-addressing-gateway-address",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-secondary-gateway-address",
+      "192.0.2.1",
       "--vlan-tag",
       "2"
     ],
@@ -715,7 +1039,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "115",
+          "content-length": "239",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -728,7 +1052,61 @@
           "load_balance_inner_flows": false,
           "name": "second value &/?+ü",
           "physport": 2,
+          "static_addressing": {
+            "gateway_address": "192.0.2.1",
+            "secondary_address": "192.0.2.1",
+            "secondary_gateway_address": "192.0.2.1"
+          },
           "vlan_tag": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "wans",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--static-addressing-gateway-address",
+      "192.0.2.1",
+      "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-secondary-gateway-address",
+      "192.0.2.1",
+      "--vlan-tag",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/wans/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "138",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "static_addressing": {
+            "gateway_address": "192.0.2.1",
+            "secondary_address": "192.0.2.1",
+            "secondary_gateway_address": "192.0.2.1"
+          },
+          "vlan_tag": 1
         }
       }
     ]
@@ -752,11 +1130,11 @@
       "2",
       "--priority",
       "2",
+      "--provisioned-download-kbps",
+      "2",
+      "--provisioned-upload-kbps",
+      "2",
       "--static-addressing-address",
-      "192.0.2.1",
-      "--static-addressing-gateway-address",
-      "192.0.2.1",
-      "--static-addressing-secondary-address",
       "192.0.2.1"
     ],
     "exitCode": 0,
@@ -770,7 +1148,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "221",
+          "content-length": "217",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -784,10 +1162,10 @@
           "name": "second value &/?+ü",
           "physport": 2,
           "priority": 2,
+          "provisioned_download_kbps": 2,
+          "provisioned_upload_kbps": 2,
           "static_addressing": {
-            "address": "192.0.2.1",
-            "gateway_address": "192.0.2.1",
-            "secondary_address": "192.0.2.1"
+            "address": "192.0.2.1"
           }
         }
       }
@@ -1133,11 +1511,17 @@
       "1",
       "--priority",
       "1",
+      "--provisioned-download-kbps",
+      "1",
+      "--provisioned-upload-kbps",
+      "1",
       "--static-addressing-address",
       "192.0.2.1",
       "--static-addressing-gateway-address",
       "192.0.2.1",
       "--static-addressing-secondary-address",
+      "192.0.2.1",
+      "--static-addressing-secondary-gateway-address",
       "192.0.2.1",
       "--vlan-tag",
       "1"
@@ -1153,7 +1537,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "237",
+          "content-length": "335",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1167,10 +1551,13 @@
           "name": "regression value &/?+ü",
           "physport": 1,
           "priority": 1,
+          "provisioned_download_kbps": 1,
+          "provisioned_upload_kbps": 1,
           "static_addressing": {
             "address": "192.0.2.1",
             "gateway_address": "192.0.2.1",
-            "secondary_address": "192.0.2.1"
+            "secondary_address": "192.0.2.1",
+            "secondary_gateway_address": "192.0.2.1"
           },
           "vlan_tag": 1
         }

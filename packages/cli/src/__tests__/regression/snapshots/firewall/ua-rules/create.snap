@@ -6,28 +6,9 @@
       "ua-rules",
       "create"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/firewall/ua_rules",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "2",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {}
-      }
-    ]
+    "exitCode": 1,
+    "error": "--access-rule-mode is required (one of: block, challenge, whitelist, js_challenge, managed_challenge). Pass --access-rule-mode <value> or run interactively.",
+    "requests": []
   },
   {
     "case": "required",
@@ -35,6 +16,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -73,6 +56,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ua"
     ],
@@ -87,7 +72,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "33",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -98,7 +83,8 @@
         "body": {
           "configuration": {
             "target": "ua"
-          }
+          },
+          "mode": "block"
         }
       }
     ]
@@ -109,6 +95,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-value",
       "regression value &/?+ü"
     ],
@@ -123,7 +111,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "53",
+          "content-length": "68",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -134,7 +122,8 @@
         "body": {
           "configuration": {
             "value": "regression value &/?+ü"
-          }
+          },
+          "mode": "block"
         }
       }
     ]
@@ -145,6 +134,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--description",
       "192.0.2.1"
     ],
@@ -159,7 +150,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "27",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -168,7 +159,8 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "description": "192.0.2.1"
+          "description": "192.0.2.1",
+          "mode": "block"
         }
       }
     ]
@@ -179,6 +171,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--paused=true"
     ],
     "exitCode": 0,
@@ -192,7 +186,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "15",
+          "content-length": "30",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -201,6 +195,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "mode": "block",
           "paused": true
         }
       }
@@ -212,7 +207,204 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--paused=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/firewall/ua_rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mode": "block",
+          "paused": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 1",
+    "argv": [
+      "firewall",
+      "ua-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/firewall/ua_rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 2",
+    "argv": [
+      "firewall",
+      "ua-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "whitelist"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/firewall/ua_rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 3",
+    "argv": [
+      "firewall",
+      "ua-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "js_challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/firewall/ua_rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --access-rule-mode value 4",
+    "argv": [
+      "firewall",
+      "ua-rules",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--access-rule-mode",
+      "managed_challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/firewall/ua_rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "firewall",
+      "ua-rules",
+      "create",
+      "--access-rule-mode",
+      "block"
     ],
     "exitCode": 0,
     "requests": [
@@ -234,7 +426,7 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "paused": false
+          "mode": "block"
         }
       }
     ]
@@ -245,6 +437,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ua",
       "--configuration-value",
@@ -264,7 +458,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "104",
+          "content-length": "119",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -278,6 +472,7 @@
             "value": "second value &/?+ü"
           },
           "description": "192.0.2.1",
+          "mode": "block",
           "paused": false
         }
       }
@@ -289,6 +484,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-value",
       "regression value &/?+ü",
       "--paused=true"
@@ -304,7 +501,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "67",
+          "content-length": "82",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -316,6 +513,7 @@
           "configuration": {
             "value": "regression value &/?+ü"
           },
+          "mode": "block",
           "paused": true
         }
       }
@@ -327,6 +525,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ua",
       "--description",
@@ -343,7 +543,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "59",
+          "content-length": "74",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -355,7 +555,8 @@
           "configuration": {
             "target": "ua"
           },
-          "description": "192.0.2.1"
+          "description": "192.0.2.1",
+          "mode": "block"
         }
       }
     ]
@@ -366,6 +567,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--description",
       "192.0.2.1",
       "--paused=true"
@@ -381,7 +584,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "41",
+          "content-length": "56",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -391,6 +594,7 @@
         },
         "body": {
           "description": "192.0.2.1",
+          "mode": "block",
           "paused": true
         }
       }
@@ -402,6 +606,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ua",
       "--configuration-value",
@@ -418,7 +624,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "63",
+          "content-length": "78",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -430,7 +636,8 @@
           "configuration": {
             "target": "ua",
             "value": "second value &/?+ü"
-          }
+          },
+          "mode": "block"
         }
       }
     ]
@@ -441,6 +648,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -480,6 +689,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -520,6 +731,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -562,6 +775,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -600,6 +815,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -640,6 +857,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -697,6 +916,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -710,6 +931,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "@<body.json>"
     ],
@@ -748,6 +971,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -762,7 +987,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -770,14 +995,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -787,6 +1012,8 @@
       "firewall",
       "ua-rules",
       "create",
+      "--access-rule-mode",
+      "block",
       "--configuration-target",
       "ua",
       "--configuration-value",
@@ -806,7 +1033,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "107",
+          "content-length": "122",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -820,6 +1047,7 @@
             "value": "regression value &/?+ü"
           },
           "description": "192.0.2.1",
+          "mode": "block",
           "paused": true
         }
       }

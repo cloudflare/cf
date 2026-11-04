@@ -171,7 +171,7 @@ function tokens(
 	);
 	const stringValue = /JSON array of objects/.test(option.description ?? "")
 		? '[{"regression":"item"}]'
-		: jsonValue
+		: jsonValue || /Provide as a JSON object/.test(option.description)
 			? '{"regression":"json value"}'
 			: value(name, type, option.enum, variant);
 	const array = source
@@ -250,6 +250,7 @@ export function commandCases(command: CommandMeta): RegressionCase[] {
 			type: "boolean",
 			required: false,
 			description: "Confirm operation",
+			alias: "f",
 		});
 	}
 	if (
@@ -428,6 +429,22 @@ export function commandCases(command: CommandMeta): RegressionCase[] {
 			1
 		);
 		cases.push({ name: `alternate <${argument.name}>`, args: alternate });
+	}
+	for (const option of options) {
+		const aliases =
+			typeof option.alias === "string" ? [option.alias] : (option.alias ?? []);
+		for (const alias of aliases) {
+			const args = withOptions(matrixBase, [option], source);
+			const flag = alias.length === 1 ? `-${alias}` : `--${alias}`;
+			const index = args.findIndex(
+				(arg) =>
+					arg === `--${option.name}` || arg.startsWith(`--${option.name}=`)
+			);
+			if (index >= 0) {
+				args[index] = String(args[index]).replace(`--${option.name}`, flag);
+				cases.push({ name: `option alias ${flag}`, args });
+			}
+		}
 	}
 	const canonicalCases = [...cases];
 	for (const alias of command.aliases ?? []) {

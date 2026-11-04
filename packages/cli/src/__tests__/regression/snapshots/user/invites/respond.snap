@@ -17,6 +17,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
     ],
@@ -50,12 +52,90 @@
     ]
   },
   {
+    "case": "required --status value 1",
+    "argv": [
+      "user",
+      "invites",
+      "respond",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--status",
+      "rejected"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/user/invites/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "user",
+      "invites",
+      "respond",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/user/invites/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "accepted"
+        }
+      }
+    ]
+  },
+  {
     "case": "global quiet",
     "argv": [
       "user",
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--quiet"
@@ -96,6 +176,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--zone",
@@ -137,6 +219,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--profile",
@@ -180,6 +264,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local"
@@ -219,6 +305,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--local",
@@ -260,6 +348,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
       "--dry-run"
@@ -274,6 +364,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "@<body.json>"
     ],
@@ -313,6 +405,8 @@
       "invites",
       "respond",
       "0123456789abcdef0123456789abcdef",
+      "--status",
+      "accepted",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
     ],
@@ -327,7 +421,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -335,44 +429,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
-      }
-    ]
-  },
-  {
-    "case": "field flags",
-    "argv": [
-      "user",
-      "invites",
-      "respond",
-      "0123456789abcdef0123456789abcdef"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PATCH",
-        "url": "https://api.test/client/v4/user/invites/0123456789abcdef0123456789abcdef",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "0",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": null
+        ]
       }
     ]
   }

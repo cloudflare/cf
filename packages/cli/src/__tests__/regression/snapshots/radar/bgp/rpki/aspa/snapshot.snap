@@ -30,14 +30,14 @@
     ]
   },
   {
-    "case": "only --customerAsn",
+    "case": "only --customer-asn",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "snapshot",
-      "--customerAsn",
+      "--customer-asn",
       "1"
     ],
     "exitCode": 0,
@@ -62,14 +62,14 @@
     ]
   },
   {
-    "case": "only --providerAsn",
+    "case": "only --provider-asn",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "snapshot",
-      "--providerAsn",
+      "--provider-asn",
       "1"
     ],
     "exitCode": 0,
@@ -126,14 +126,14 @@
     ]
   },
   {
-    "case": "only --includeAsnInfo",
+    "case": "only --include-asn-info",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "snapshot",
-      "--includeAsnInfo=true"
+      "--include-asn-info=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -157,14 +157,14 @@
     ]
   },
   {
-    "case": "--includeAsnInfo value 1",
+    "case": "--include-asn-info value 1",
     "argv": [
       "radar",
       "bgp",
       "rpki",
       "aspa",
       "snapshot",
-      "--includeAsnInfo=false"
+      "--include-asn-info=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -259,13 +259,13 @@
       "rpki",
       "aspa",
       "snapshot",
-      "--customerAsn",
+      "--customer-asn",
       "2",
-      "--providerAsn",
+      "--provider-asn",
       "2",
       "--date",
       "2026-01-02T03:04:05Z",
-      "--includeAsnInfo=false",
+      "--include-asn-info=false",
       "--format",
       "CSV"
     ],
@@ -298,9 +298,9 @@
       "rpki",
       "aspa",
       "snapshot",
-      "--providerAsn",
+      "--provider-asn",
       "1",
-      "--includeAsnInfo=true"
+      "--include-asn-info=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -331,7 +331,7 @@
       "rpki",
       "aspa",
       "snapshot",
-      "--customerAsn",
+      "--customer-asn",
       "2",
       "--date",
       "2026-01-02T03:04:05Z",
@@ -369,7 +369,7 @@
       "snapshot",
       "--date",
       "2026-01-02T03:04:05Z",
-      "--includeAsnInfo=true"
+      "--include-asn-info=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -400,9 +400,9 @@
       "rpki",
       "aspa",
       "snapshot",
-      "--customerAsn",
+      "--customer-asn",
       "2",
-      "--providerAsn",
+      "--provider-asn",
       "2",
       "--format",
       "CSV"
@@ -436,13 +436,13 @@
       "rpki",
       "aspa",
       "snapshot",
-      "--customerAsn",
+      "--customer-asn",
       "2",
-      "--providerAsn",
+      "--provider-asn",
       "2",
       "--date",
       "2026-01-02T03:04:05Z",
-      "--includeAsnInfo=false"
+      "--include-asn-info=false"
     ],
     "exitCode": 0,
     "requests": [

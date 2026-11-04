@@ -388,6 +388,64 @@
     ]
   },
   {
+    "case": "only --expired",
+    "argv": [
+      "email-security",
+      "block-senders",
+      "list",
+      "--expired=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?expired=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--expired value 1",
+    "argv": [
+      "email-security",
+      "block-senders",
+      "list",
+      "--expired=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?expired=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
     "case": "pairwise 1",
     "argv": [
       "email-security",
@@ -406,13 +464,14 @@
       "--pattern-type",
       "DOMAIN",
       "--pattern",
-      "*.sql"
+      "*.sql",
+      "--expired=false"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&pattern_type=DOMAIN&pattern=*.sql",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?page=2&per_page=2&search=second%20value%20%26%2F%3F%2B%C3%BC&order=created_at&direction=desc&pattern_type=DOMAIN&pattern=*.sql&expired=false",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -440,13 +499,14 @@
       "--order",
       "pattern",
       "--pattern-type",
-      "EMAIL"
+      "EMAIL",
+      "--expired=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?per_page=1&order=pattern&pattern_type=EMAIL",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?per_page=1&order=pattern&pattern_type=EMAIL&expired=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -510,13 +570,14 @@
       "--order",
       "pattern",
       "--pattern",
-      "*.sql"
+      "*.sql",
+      "--expired=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?search=regression%20value%20%26%2F%3F%2B%C3%BC&order=pattern&pattern=*.sql",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?search=regression%20value%20%26%2F%3F%2B%C3%BC&order=pattern&pattern=*.sql&expired=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -580,13 +641,14 @@
       "--pattern-type",
       "EMAIL",
       "--pattern",
-      "*.sql"
+      "*.sql",
+      "--expired=true"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?direction=asc&pattern_type=EMAIL&pattern=*.sql",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/block_senders?direction=asc&pattern_type=EMAIL&pattern=*.sql&expired=true",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

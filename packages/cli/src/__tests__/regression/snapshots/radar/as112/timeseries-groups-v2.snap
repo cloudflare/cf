@@ -40,13 +40,13 @@
     ]
   },
   {
-    "case": "only --aggInterval",
+    "case": "only --agg-interval",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "15m"
     ],
     "exitCode": 0,
@@ -71,13 +71,13 @@
     ]
   },
   {
-    "case": "--aggInterval value 1",
+    "case": "--agg-interval value 1",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1h"
     ],
     "exitCode": 0,
@@ -102,13 +102,13 @@
     ]
   },
   {
-    "case": "--aggInterval value 2",
+    "case": "--agg-interval value 2",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1d"
     ],
     "exitCode": 0,
@@ -133,13 +133,13 @@
     ]
   },
   {
-    "case": "--aggInterval value 3",
+    "case": "--agg-interval value 3",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1w"
     ],
     "exitCode": 0,
@@ -195,13 +195,13 @@
     ]
   },
   {
-    "case": "only --dateRange",
+    "case": "only --date-range",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -226,13 +226,13 @@
     ]
   },
   {
-    "case": "only --dateStart",
+    "case": "only --date-start",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -257,13 +257,13 @@
     ]
   },
   {
-    "case": "only --dateEnd",
+    "case": "only --date-end",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
@@ -350,13 +350,13 @@
     ]
   },
   {
-    "case": "only --queryType",
+    "case": "only --query-type",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--queryType",
+      "--query-type",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -412,13 +412,13 @@
     ]
   },
   {
-    "case": "only --responseCode",
+    "case": "only --response-code",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--responseCode",
+      "--response-code",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -443,13 +443,13 @@
     ]
   },
   {
-    "case": "only --limitPerGroup",
+    "case": "only --limit-per-group",
     "argv": [
       "radar",
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--limitPerGroup",
+      "--limit-per-group",
       "1"
     ],
     "exitCode": 0,
@@ -542,27 +542,36 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--continent",
       "second value &/?+ü",
-      "--queryType",
+      "second value &/?+ü",
+      "--query-type",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--protocol",
       "second value &/?+ü",
-      "--responseCode",
       "second value &/?+ü",
-      "--limitPerGroup",
+      "--response-code",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--limit-per-group",
       "2",
       "--format",
       "CSV"
@@ -571,7 +580,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=2&format=CSV",
+        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=2&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -597,13 +606,13 @@
       "regression value &/?+ü",
       "--name",
       "regression value &/?+ü",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--location",
       "regression value &/?+ü",
-      "--queryType",
+      "--query-type",
       "regression value &/?+ü",
-      "--responseCode",
+      "--response-code",
       "regression value &/?+ü",
       "--format",
       "JSON"
@@ -636,24 +645,28 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--continent",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--protocol",
       "second value &/?+ü",
-      "--limitPerGroup",
+      "second value &/?+ü",
+      "--limit-per-group",
       "2"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&continent=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=2",
+        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&continent=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=2",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -677,15 +690,15 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--dateRange",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "--date-start",
       "2026-01-02T03:04:05Z",
       "--continent",
       "regression value &/?+ü",
-      "--queryType",
+      "--query-type",
       "regression value &/?+ü",
-      "--limitPerGroup",
+      "--limit-per-group",
       "1",
       "--format",
       "JSON"
@@ -718,24 +731,29 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateEnd",
+      "second value &/?+ü",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--protocol",
       "second value &/?+ü",
-      "--responseCode",
+      "second value &/?+ü",
+      "--response-code",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -759,13 +777,13 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--dateEnd",
+      "--date-end",
       "2026-01-02T03:04:05Z",
       "--location",
       "regression value &/?+ü",
       "--continent",
       "regression value &/?+ü",
-      "--queryType",
+      "--query-type",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -796,19 +814,24 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--protocol",
       "second value &/?+ü",
-      "--responseCode",
       "second value &/?+ü",
-      "--limitPerGroup",
+      "--response-code",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--limit-per-group",
       "2",
       "--format",
       "CSV"
@@ -817,7 +840,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=2&format=CSV",
+        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&protocol=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=2&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -843,9 +866,9 @@
       "regression value &/?+ü",
       "--protocol",
       "regression value &/?+ü",
-      "--responseCode",
+      "--response-code",
       "regression value &/?+ü",
-      "--limitPerGroup",
+      "--limit-per-group",
       "1",
       "--format",
       "JSON"
@@ -878,28 +901,35 @@
       "as112",
       "timeseries-groups-v2",
       "regression value &/?+ü",
-      "--aggInterval",
+      "--agg-interval",
       "1h",
       "--name",
       "second value &/?+ü",
-      "--dateRange",
+      "second value &/?+ü",
+      "--date-range",
       "2026-01-02T03:04:05Z",
-      "--dateStart",
       "2026-01-02T03:04:05Z",
-      "--dateEnd",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
       "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
+      "second value &/?+ü",
       "--continent",
       "second value &/?+ü",
-      "--queryType",
+      "second value &/?+ü",
+      "--query-type",
+      "second value &/?+ü",
       "second value &/?+ü"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/as112/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

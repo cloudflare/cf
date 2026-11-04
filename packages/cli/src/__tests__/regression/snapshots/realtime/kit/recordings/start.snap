@@ -626,6 +626,216 @@
     ]
   },
   {
+    "case": "only --storage-config-type",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--storage-config-type",
+      "gcs"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_multiple_recordings": false,
+          "meeting_id": "0123456789abcdef0123456789abcdef",
+          "storage_config": {
+            "type": "gcs"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--storage-config-type value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--storage-config-type",
+      "aws"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_multiple_recordings": false,
+          "meeting_id": "0123456789abcdef0123456789abcdef",
+          "storage_config": {
+            "type": "aws"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--storage-config-type value 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--storage-config-type",
+      "azure"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_multiple_recordings": false,
+          "meeting_id": "0123456789abcdef0123456789abcdef",
+          "storage_config": {
+            "type": "azure"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--storage-config-type value 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--storage-config-type",
+      "digitalocean"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_multiple_recordings": false,
+          "meeting_id": "0123456789abcdef0123456789abcdef",
+          "storage_config": {
+            "type": "digitalocean"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--storage-config-type value 4",
+    "argv": [
+      "realtime",
+      "kit",
+      "recordings",
+      "start",
+      "0123456789abcdef0123456789abcdef",
+      "--meeting-id",
+      "0123456789abcdef0123456789abcdef",
+      "--storage-config-type",
+      "sftp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/recordings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_multiple_recordings": false,
+          "meeting_id": "0123456789abcdef0123456789abcdef",
+          "storage_config": {
+            "type": "sftp"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "only --url",
     "argv": [
       "realtime",
@@ -1331,6 +1541,8 @@
       "--realtimekit-bucket-config-enabled=false",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
+      "--storage-config-type",
+      "aws",
       "--url",
       "https://example.com/a?x=1&y=two",
       "--video-config-codec",
@@ -1360,7 +1572,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "576",
+          "content-length": "608",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1386,6 +1598,9 @@
           },
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
+          },
+          "storage_config": {
+            "type": "aws"
           },
           "url": "https://example.com/a?x=1&y=two",
           "video_config": {
@@ -1422,15 +1637,16 @@
       "--interactive-config-type",
       "ID3",
       "--realtimekit-bucket-config-enabled=true",
-      "--url",
-      "https://example.com/a?x=1&y=two",
-      "--video-config-export-file=true",
-      "--video-config-watermark-position",
-      "left top",
-      "--video-config-watermark-size-width",
+      "--storage-config-type",
+      "gcs",
+      "--video-config-codec",
+      "H264",
+      "--video-config-height",
       "1",
-      "--video-config-width",
-      "1"
+      "--video-config-watermark-size-height",
+      "1",
+      "--video-config-watermark-url",
+      "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 0,
     "requests": [
@@ -1443,7 +1659,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "358",
+          "content-length": "366",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1464,16 +1680,18 @@
           "realtimekit_bucket_config": {
             "enabled": true
           },
-          "url": "https://example.com/a?x=1&y=two",
+          "storage_config": {
+            "type": "gcs"
+          },
           "video_config": {
-            "export_file": true,
+            "codec": "H264",
+            "height": 1,
             "watermark": {
-              "position": "left top",
               "size": {
-                "width": 1
-              }
-            },
-            "width": 1
+                "height": 1
+              },
+              "url": "https://example.com/a?x=1&y=two"
+            }
           }
         }
       }
@@ -1498,14 +1716,15 @@
       "2",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
-      "--video-config-codec",
-      "VP8",
-      "--video-config-height",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--video-config-export-file=false",
+      "--video-config-watermark-position",
+      "right top",
+      "--video-config-watermark-size-width",
       "2",
-      "--video-config-watermark-size-height",
-      "2",
-      "--video-config-watermark-url",
-      "https://example.com/a?x=1&y=two"
+      "--video-config-width",
+      "2"
     ],
     "exitCode": 0,
     "requests": [
@@ -1518,7 +1737,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "352",
+          "content-length": "379",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1537,15 +1756,16 @@
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
           },
+          "url": "https://example.com/a?x=1&y=two",
           "video_config": {
-            "codec": "VP8",
-            "height": 2,
+            "export_file": false,
             "watermark": {
+              "position": "right top",
               "size": {
-                "height": 2
-              },
-              "url": "https://example.com/a?x=1&y=two"
-            }
+                "width": 2
+              }
+            },
+            "width": 2
           }
         }
       }
@@ -1567,12 +1787,15 @@
       "--max-seconds",
       "1",
       "--realtimekit-bucket-config-enabled=true",
+      "--url",
+      "https://example.com/a?x=1&y=two",
       "--video-config-codec",
       "H264",
-      "--video-config-export-file=true",
+      "--video-config-watermark-position",
+      "left top",
       "--video-config-watermark-size-height",
       "1",
-      "--video-config-watermark-size-width",
+      "--video-config-width",
       "1"
     ],
     "exitCode": 0,
@@ -1586,7 +1809,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "289",
+          "content-length": "332",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1605,15 +1828,16 @@
           "realtimekit_bucket_config": {
             "enabled": true
           },
+          "url": "https://example.com/a?x=1&y=two",
           "video_config": {
             "codec": "H264",
-            "export_file": true,
             "watermark": {
+              "position": "left top",
               "size": {
-                "height": 1,
-                "width": 1
+                "height": 1
               }
-            }
+            },
+            "width": 1
           }
         }
       }
@@ -1638,16 +1862,15 @@
       "ID3",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
-      "--url",
-      "https://example.com/a?x=1&y=two",
+      "--storage-config-type",
+      "aws",
+      "--video-config-export-file=false",
       "--video-config-height",
       "2",
-      "--video-config-watermark-position",
-      "right top",
+      "--video-config-watermark-size-width",
+      "2",
       "--video-config-watermark-url",
-      "https://example.com/a?x=1&y=two",
-      "--video-config-width",
-      "2"
+      "https://example.com/a?x=1&y=two"
     ],
     "exitCode": 0,
     "requests": [
@@ -1660,7 +1883,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "416",
+          "content-length": "414",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1681,14 +1904,18 @@
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
           },
-          "url": "https://example.com/a?x=1&y=two",
+          "storage_config": {
+            "type": "aws"
+          },
           "video_config": {
+            "export_file": false,
             "height": 2,
             "watermark": {
-              "position": "right top",
+              "size": {
+                "width": 2
+              },
               "url": "https://example.com/a?x=1&y=two"
-            },
-            "width": 2
+            }
           }
         }
       }
@@ -1711,13 +1938,12 @@
       "--max-seconds",
       "1",
       "--realtimekit-bucket-config-enabled=true",
+      "--video-config-export-file=true",
       "--video-config-height",
       "1",
       "--video-config-watermark-position",
       "left top",
       "--video-config-watermark-size-height",
-      "1",
-      "--video-config-watermark-size-width",
       "1"
     ],
     "exitCode": 0,
@@ -1731,7 +1957,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "319",
+          "content-length": "328",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1751,12 +1977,12 @@
             "enabled": true
           },
           "video_config": {
+            "export_file": true,
             "height": 1,
             "watermark": {
               "position": "left top",
               "size": {
-                "height": 1,
-                "width": 1
+                "height": 1
               }
             }
           }
@@ -1782,11 +2008,14 @@
       "--audio-config-export-file=false",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
+      "--storage-config-type",
+      "aws",
       "--url",
       "https://example.com/a?x=1&y=two",
       "--video-config-codec",
       "VP8",
-      "--video-config-export-file=false",
+      "--video-config-watermark-size-width",
+      "2",
       "--video-config-watermark-url",
       "https://example.com/a?x=1&y=two",
       "--video-config-width",
@@ -1803,7 +2032,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "373",
+          "content-length": "404",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1822,11 +2051,16 @@
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
           },
+          "storage_config": {
+            "type": "aws"
+          },
           "url": "https://example.com/a?x=1&y=two",
           "video_config": {
             "codec": "VP8",
-            "export_file": false,
             "watermark": {
+              "size": {
+                "width": 2
+              },
               "url": "https://example.com/a?x=1&y=two"
             },
             "width": 2
@@ -1847,6 +2081,8 @@
       "0123456789abcdef0123456789abcdef",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
+      "--storage-config-type",
+      "gcs",
       "--url",
       "https://example.com/a?x=1&y=two",
       "--video-config-codec",
@@ -1857,8 +2093,6 @@
       "--video-config-watermark-position",
       "left top",
       "--video-config-watermark-size-height",
-      "1",
-      "--video-config-watermark-size-width",
       "1"
     ],
     "exitCode": 0,
@@ -1872,7 +2106,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "316",
+          "content-length": "338",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1886,6 +2120,9 @@
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
           },
+          "storage_config": {
+            "type": "gcs"
+          },
           "url": "https://example.com/a?x=1&y=two",
           "video_config": {
             "codec": "H264",
@@ -1894,8 +2131,7 @@
             "watermark": {
               "position": "left top",
               "size": {
-                "height": 1,
-                "width": 1
+                "height": 1
               }
             }
           }
@@ -1926,6 +2162,8 @@
       "--max-seconds",
       "2",
       "--realtimekit-bucket-config-enabled=false",
+      "--video-config-watermark-size-width",
+      "2",
       "--video-config-watermark-url",
       "https://example.com/a?x=1&y=two",
       "--video-config-width",
@@ -1942,7 +2180,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "373",
+          "content-length": "392",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1968,6 +2206,9 @@
           },
           "video_config": {
             "watermark": {
+              "size": {
+                "width": 2
+              },
               "url": "https://example.com/a?x=1&y=two"
             },
             "width": 2
@@ -1986,6 +2227,8 @@
       "0123456789abcdef0123456789abcdef",
       "--meeting-id",
       "0123456789abcdef0123456789abcdef",
+      "--video-config-watermark-size-width",
+      "1",
       "--video-config-watermark-url",
       "https://example.com/a?x=1&y=two",
       "--video-config-width",
@@ -2002,7 +2245,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "164",
+          "content-length": "183",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2015,6 +2258,9 @@
           "meeting_id": "0123456789abcdef0123456789abcdef",
           "video_config": {
             "watermark": {
+              "size": {
+                "width": 1
+              },
               "url": "https://example.com/a?x=1&y=two"
             },
             "width": 1
@@ -2048,6 +2294,8 @@
       "--realtimekit-bucket-config-enabled=false",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
+      "--storage-config-type",
+      "aws",
       "--url",
       "https://example.com/a?x=1&y=two",
       "--video-config-codec",
@@ -2058,8 +2306,6 @@
       "--video-config-watermark-position",
       "right top",
       "--video-config-watermark-size-height",
-      "2",
-      "--video-config-watermark-size-width",
       "2"
     ],
     "exitCode": 0,
@@ -2073,7 +2319,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "526",
+          "content-length": "548",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2100,6 +2346,9 @@
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
           },
+          "storage_config": {
+            "type": "aws"
+          },
           "url": "https://example.com/a?x=1&y=two",
           "video_config": {
             "codec": "VP8",
@@ -2108,8 +2357,7 @@
             "watermark": {
               "position": "right top",
               "size": {
-                "height": 2,
-                "width": 2
+                "height": 2
               }
             }
           }
@@ -2419,7 +2667,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2427,14 +2675,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -2463,6 +2711,8 @@
       "--realtimekit-bucket-config-enabled=true",
       "--rtmp-out-config-rtmp-url",
       "https://example.com/a?x=1&y=two",
+      "--storage-config-type",
+      "gcs",
       "--url",
       "https://example.com/a?x=1&y=two",
       "--video-config-codec",
@@ -2492,7 +2742,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "574",
+          "content-length": "606",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -2518,6 +2768,9 @@
           },
           "rtmp_out_config": {
             "rtmp_url": "https://example.com/a?x=1&y=two"
+          },
+          "storage_config": {
+            "type": "gcs"
           },
           "url": "https://example.com/a?x=1&y=two",
           "video_config": {

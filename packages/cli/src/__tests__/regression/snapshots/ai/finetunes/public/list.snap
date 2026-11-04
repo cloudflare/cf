@@ -91,13 +91,13 @@
     ]
   },
   {
-    "case": "only --orderBy",
+    "case": "only --order-by",
     "argv": [
       "ai",
       "finetunes",
       "public",
       "list",
-      "--orderBy",
+      "--order-by",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -132,7 +132,7 @@
       "2",
       "--offset",
       "2",
-      "--orderBy",
+      "--order-by",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -165,7 +165,7 @@
       "list",
       "--limit",
       "2",
-      "--orderBy",
+      "--order-by",
       "second value &/?+ü"
     ],
     "exitCode": 0,

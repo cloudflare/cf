@@ -68,32 +68,9 @@
       "--endpoint",
       "https://example.com/a?x=1&y=two"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "95",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "endpoint": "https://example.com/a?x=1&y=two",
-          "vendor": "s3"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n endpoint -> secret-access-key-id endpoint -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "only --keys",
@@ -193,32 +170,9 @@
       "--region",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "85",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "region": "regression value &/?+ü",
-          "vendor": "s3"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n region -> secret-access-key-id region -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "only --secret-access-key-id",
@@ -234,34 +188,9 @@
       "--secret-access-key-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "110",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "secret": {
-            "accessKeyId": "0123456789abcdef0123456789abcdef"
-          },
-          "vendor": "s3"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n secret-access-key-id -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "only --secret-secret-access-key",
@@ -277,34 +206,9 @@
       "--secret-secret-access-key",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "105",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "secret": {
-            "secretAccessKey": "regression value &/?+ü"
-          },
-          "vendor": "s3"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n secret-secret-access-key -> secret-access-key-id",
+    "requests": []
   },
   {
     "case": "only --secret-client-email",
@@ -320,34 +224,9 @@
       "--secret-client-email",
       "regression@example.com"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "secret": {
-            "clientEmail": "regression@example.com"
-          },
-          "vendor": "s3"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n secret-client-email -> secret-private-key",
+    "requests": []
   },
   {
     "case": "only --secret-private-key",
@@ -363,34 +242,9 @@
       "--secret-private-key",
       "regression value &/?+ü"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "100",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "secret": {
-            "privateKey": "regression value &/?+ü"
-          },
-          "vendor": "s3"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n secret-private-key -> secret-client-email",
+    "requests": []
   },
   {
     "case": "only --jurisdiction",
@@ -406,32 +260,9 @@
       "--jurisdiction",
       "default"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "75",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "vendor": "s3",
-          "jurisdiction": "default"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n jurisdiction -> secret-access-key-id jurisdiction -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "--jurisdiction value 1",
@@ -447,32 +278,9 @@
       "--jurisdiction",
       "eu"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "70",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "vendor": "s3",
-          "jurisdiction": "eu"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n jurisdiction -> secret-access-key-id jurisdiction -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "--jurisdiction value 2",
@@ -488,32 +296,9 @@
       "--jurisdiction",
       "us"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "70",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "vendor": "s3",
-          "jurisdiction": "us"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n jurisdiction -> secret-access-key-id jurisdiction -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "--jurisdiction value 3",
@@ -529,32 +314,9 @@
       "--jurisdiction",
       "fedramp"
     ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "75",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "bucket": "regression value &/?+ü",
-          "vendor": "s3",
-          "jurisdiction": "fedramp"
-        }
-      }
-    ]
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n jurisdiction -> secret-access-key-id jurisdiction -> secret-secret-access-key",
+    "requests": []
   },
   {
     "case": "required --vendor value 1",
@@ -736,7 +498,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments region and secret-private-key are mutually exclusive",
+    "error": "Missing dependent arguments:\n region -> secret-access-key-id secret-secret-access-key -> secret-access-key-id secret-private-key -> secret-client-email",
     "requests": []
   },
   {
@@ -762,7 +524,7 @@
       "eu"
     ],
     "exitCode": 1,
-    "error": "Arguments endpoint and secret-client-email are mutually exclusive",
+    "error": "Missing dependent arguments:\n endpoint -> secret-secret-access-key secret-access-key-id -> secret-secret-access-key secret-client-email -> secret-private-key jurisdiction -> secret-secret-access-key",
     "requests": []
   },
   {
@@ -786,7 +548,7 @@
       "regression value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments region and secret-client-email are mutually exclusive",
+    "error": "Missing dependent arguments:\n region -> secret-access-key-id region -> secret-secret-access-key",
     "requests": []
   },
   {
@@ -864,7 +626,7 @@
       "eu"
     ],
     "exitCode": 1,
-    "error": "Arguments endpoint and jurisdiction are mutually exclusive",
+    "error": "Missing dependent arguments:\n endpoint -> secret-access-key-id endpoint -> secret-secret-access-key region -> secret-access-key-id region -> secret-secret-access-key jurisdiction -> secret-access-key-id jurisdiction -> secret-secret-access-key",
     "requests": []
   },
   {

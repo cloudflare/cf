@@ -21,8 +21,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -34,7 +34,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -60,8 +60,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -73,7 +73,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=hour",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=hour",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -99,8 +99,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -113,7 +113,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -139,8 +139,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -154,7 +154,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -180,8 +180,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -197,7 +197,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -223,8 +223,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -237,7 +237,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -262,8 +262,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",
@@ -278,7 +278,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/traceroute-tests/0123456789abcdef0123456789abcdef/network-path?deviceId=0123456789abcdef0123456789abcdef&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&interval=minute",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -303,8 +303,8 @@
       "network-path",
       "get",
       "0123456789abcdef0123456789abcdef",
-      "--deviceId",
-      "regression value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
       "--from",
       "regression value &/?+ü",
       "--to",

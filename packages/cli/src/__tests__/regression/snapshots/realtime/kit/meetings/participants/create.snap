@@ -150,6 +150,100 @@
     ]
   },
   {
+    "case": "only --token-expires-on",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-participant-id",
+      "192.0.2.1",
+      "--preset-name",
+      "regression value &/?+ü",
+      "--token-expires-on",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_participant_id": "192.0.2.1",
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "expires_on": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --token-not-before",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-participant-id",
+      "192.0.2.1",
+      "--preset-name",
+      "regression value &/?+ü",
+      "--token-not-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_participant_id": "192.0.2.1",
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "not_before": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
     "case": "pairwise 0",
     "argv": [
       "realtime",
@@ -209,6 +303,212 @@
       "--name",
       "second value &/?+ü",
       "--picture",
+      "second value &/?+ü",
+      "--token-expires-on",
+      "second value &/?+ü",
+      "--token-not-before",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "218",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_participant_id": "192.0.2.1",
+          "name": "second value &/?+ü",
+          "picture": "second value &/?+ü",
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "expires_on": "second value &/?+ü",
+            "not_before": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-participant-id",
+      "192.0.2.1",
+      "--preset-name",
+      "regression value &/?+ü",
+      "--picture",
+      "regression value &/?+ü",
+      "--token-not-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_participant_id": "192.0.2.1",
+          "picture": "regression value &/?+ü",
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "not_before": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-participant-id",
+      "192.0.2.1",
+      "--preset-name",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--token-expires-on",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_participant_id": "192.0.2.1",
+          "name": "second value &/?+ü",
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "expires_on": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-participant-id",
+      "192.0.2.1",
+      "--preset-name",
+      "regression value &/?+ü",
+      "--token-expires-on",
+      "regression value &/?+ü",
+      "--token-not-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_participant_id": "192.0.2.1",
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "expires_on": "regression value &/?+ü",
+            "not_before": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "participants",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-participant-id",
+      "192.0.2.1",
+      "--preset-name",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--picture",
       "second value &/?+ü"
     ],
     "exitCode": 0,
@@ -234,51 +534,6 @@
           "custom_participant_id": "192.0.2.1",
           "name": "second value &/?+ü",
           "picture": "second value &/?+ü",
-          "preset_name": "regression value &/?+ü"
-        }
-      }
-    ]
-  },
-  {
-    "case": "pairwise 3",
-    "argv": [
-      "realtime",
-      "kit",
-      "meetings",
-      "participants",
-      "create",
-      "0123456789abcdef0123456789abcdef",
-      "--app-id",
-      "0123456789abcdef0123456789abcdef",
-      "--custom-participant-id",
-      "192.0.2.1",
-      "--preset-name",
-      "regression value &/?+ü",
-      "--name",
-      "second value &/?+ü"
-    ],
-    "exitCode": 0,
-    "requests": [
-      {
-        "method": "POST",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef/participants",
-        "headers": {
-          "accept": "*/*",
-          "accept-encoding": "br, gzip, deflate",
-          "accept-language": "*",
-          "authorization": "Bearer regression-api-token",
-          "connection": "keep-alive",
-          "content-length": "106",
-          "content-type": "application/json",
-          "host": "api.test",
-          "sec-fetch-mode": "cors",
-          "user-agent": "cf-cli/<version>",
-          "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci"
-        },
-        "body": {
-          "custom_participant_id": "192.0.2.1",
-          "name": "second value &/?+ü",
           "preset_name": "regression value &/?+ü"
         }
       }
@@ -626,7 +881,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "56",
+          "content-length": "48",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -634,14 +889,14 @@
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": {
-          "0": {
+        "body": [
+          {
             "regression": "first"
           },
-          "1": {
+          {
             "regression": "second"
           }
-        }
+        ]
       }
     ]
   },
@@ -663,6 +918,10 @@
       "--name",
       "regression value &/?+ü",
       "--picture",
+      "regression value &/?+ü",
+      "--token-expires-on",
+      "regression value &/?+ü",
+      "--token-not-before",
       "regression value &/?+ü"
     ],
     "exitCode": 0,
@@ -676,7 +935,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "146",
+          "content-length": "234",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -688,7 +947,11 @@
           "custom_participant_id": "192.0.2.1",
           "name": "regression value &/?+ü",
           "picture": "regression value &/?+ü",
-          "preset_name": "regression value &/?+ü"
+          "preset_name": "regression value &/?+ü",
+          "token": {
+            "expires_on": "regression value &/?+ü",
+            "not_before": "regression value &/?+ü"
+          }
         }
       }
     ]

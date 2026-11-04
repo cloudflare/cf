@@ -309,6 +309,41 @@
     "requests": []
   },
   {
+    "case": "only --explanation",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--explanation",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "explanation": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
     "case": "only --type",
     "argv": [
       "abuse-reports",
@@ -445,6 +480,8 @@
       "https://example.com/a?x=1&y=two",
       "--data-zip-code",
       "192.0.2.1",
+      "--explanation",
+      "second value &/?+ü",
       "--type",
       "content_removed"
     ],
@@ -459,7 +496,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "564",
+          "content-length": "600",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -492,6 +529,7 @@
             ],
             "zip_code": "192.0.2.1"
           },
+          "explanation": "second value &/?+ü",
           "type": "content_removed"
         }
       }
@@ -517,8 +555,8 @@
       "regression value &/?+ü",
       "--data-urls",
       "https://example.com/a?x=1&y=two",
-      "--type",
-      "counter_notice"
+      "--explanation",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
     "error": "--data-country, --data-full-name, --data-perjury-attestation, --data-signature, --data-street-address, --data-zip-code are required when any --data-* flag is set",
@@ -545,7 +583,9 @@
       "--data-street-address",
       "192.0.2.1",
       "--data-zip-code",
-      "192.0.2.1"
+      "192.0.2.1",
+      "--type",
+      "content_removed"
     ],
     "exitCode": 1,
     "error": "--data-city, --data-email, --data-jurisdiction-consent, --data-phone-number, --data-state, --data-urls are required when any --data-* flag is set",
@@ -571,8 +611,8 @@
       "regression value &/?+ü",
       "--data-zip-code",
       "192.0.2.1",
-      "--type",
-      "counter_notice"
+      "--explanation",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
     "error": "--data-city, --data-country, --data-email, --data-perjury-attestation, --data-phone-number, --data-street-address, --data-urls are required when any --data-* flag is set",
@@ -600,7 +640,9 @@
       "192.0.2.1",
       "--data-urls",
       "https://example.com/a?x=1&y=two",
-      "https://example.com/a?x=1&y=two"
+      "https://example.com/a?x=1&y=two",
+      "--type",
+      "content_removed"
     ],
     "exitCode": 1,
     "error": "--data-full-name, --data-jurisdiction-consent, --data-signature, --data-state, --data-zip-code are required when any --data-* flag is set",
@@ -626,8 +668,8 @@
       "https://example.com/a?x=1&y=two",
       "--data-zip-code",
       "192.0.2.1",
-      "--type",
-      "counter_notice"
+      "--explanation",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
     "error": "--data-city, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state are required when any --data-* flag is set",
@@ -654,7 +696,9 @@
       "--data-signature",
       "second value &/?+ü",
       "--data-state",
-      "second value &/?+ü"
+      "second value &/?+ü",
+      "--type",
+      "content_removed"
     ],
     "exitCode": 1,
     "error": "--data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
@@ -680,8 +724,8 @@
       "https://example.com/a?x=1&y=two",
       "--data-zip-code",
       "192.0.2.1",
-      "--type",
-      "counter_notice"
+      "--explanation",
+      "regression value &/?+ü"
     ],
     "exitCode": 1,
     "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent are required when any --data-* flag is set",
@@ -708,11 +752,101 @@
       "regression@example.com",
       "--data-full-name",
       "second value &/?+ü",
-      "--data-jurisdiction-consent=false"
+      "--data-jurisdiction-consent=false",
+      "--type",
+      "content_removed"
     ],
     "exitCode": 1,
     "error": "--data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
     "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-city",
+      "second value &/?+ü",
+      "--data-company",
+      "second value &/?+ü",
+      "--data-counter-notice-response",
+      "second value &/?+ü",
+      "--data-country",
+      "second value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-full-name",
+      "second value &/?+ü",
+      "--data-jurisdiction-consent=false",
+      "--data-perjury-attestation=false",
+      "--data-phone-number",
+      "second value &/?+ü",
+      "--data-signature",
+      "second value &/?+ü",
+      "--data-state",
+      "second value &/?+ü",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--data-zip-code",
+      "192.0.2.1",
+      "--explanation",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "575",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "appeals": [
+            {
+              "regression": "item"
+            }
+          ],
+          "data": {
+            "city": "second value &/?+ü",
+            "company": "second value &/?+ü",
+            "counter_notice_response": "second value &/?+ü",
+            "country": "second value &/?+ü",
+            "email": "regression@example.com",
+            "full_name": "second value &/?+ü",
+            "jurisdiction_consent": false,
+            "perjury_attestation": false,
+            "phone_number": "second value &/?+ü",
+            "signature": "second value &/?+ü",
+            "state": "second value &/?+ü",
+            "street_address": "192.0.2.1",
+            "urls": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "zip_code": "192.0.2.1"
+          },
+          "explanation": "second value &/?+ü"
+        }
+      }
+    ]
   },
   {
     "case": "global quiet",
@@ -1046,6 +1180,8 @@
       "https://example.com/a?x=1&y=two",
       "--data-zip-code",
       "192.0.2.1",
+      "--explanation",
+      "regression value &/?+ü",
       "--type",
       "counter_notice"
     ],
@@ -1060,7 +1196,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "559",
+          "content-length": "599",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1092,6 +1228,7 @@
             ],
             "zip_code": "192.0.2.1"
           },
+          "explanation": "regression value &/?+ü",
           "type": "counter_notice"
         }
       }

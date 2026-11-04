@@ -7,6 +7,7 @@
       "bulk-delete"
     ],
     "exitCode": 1,
+    "error": "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.",
     "requests": []
   },
   {
@@ -414,5 +415,44 @@
     "exitCode": 1,
     "error": "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.",
     "requests": []
+  },
+  {
+    "case": "option alias -f",
+    "argv": [
+      "web-assets",
+      "operations",
+      "bulk-delete",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-f=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
   }
 ]

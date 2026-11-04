@@ -184,20 +184,20 @@
     ]
   },
   {
-    "case": "only --compareDateRange",
+    "case": "only --compare-date-range",
     "argv": [
       "radar",
       "entities",
       "asns",
       "botnet-threat-feed",
-      "--compareDateRange",
-      "regression value &/?+ü"
+      "--compare-date-range",
+      "2026-01-02T03:04:05Z"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?compareDateRange=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?compareDateRange=2026-01-02T03%3A04%3A05Z",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -277,13 +277,13 @@
     ]
   },
   {
-    "case": "only --sortOrder",
+    "case": "only --sort-order",
     "argv": [
       "radar",
       "entities",
       "asns",
       "botnet-threat-feed",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -308,13 +308,13 @@
     ]
   },
   {
-    "case": "--sortOrder value 1",
+    "case": "--sort-order value 1",
     "argv": [
       "radar",
       "entities",
       "asns",
       "botnet-threat-feed",
-      "--sortOrder",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
@@ -415,13 +415,14 @@
       "NUMBER_OF_OFFENDING_IPS",
       "--date",
       "2026-01-02T03:04:05Z",
-      "--compareDateRange",
-      "second value &/?+ü",
+      "--compare-date-range",
+      "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
       "--asn",
       "second value &/?+ü",
-      "--sortOrder",
+      "second value &/?+ü",
+      "--sort-order",
       "DESC",
       "--format",
       "CSV"
@@ -430,7 +431,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&offset=2&metric=NUMBER_OF_OFFENDING_IPS&date=2026-01-02T03%3A04%3A05Z&compareDateRange=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&sortOrder=DESC&format=CSV",
+        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&offset=2&metric=NUMBER_OF_OFFENDING_IPS&date=2026-01-02T03%3A04%3A05Z&compareDateRange=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&sortOrder=DESC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -460,7 +461,7 @@
       "2026-01-02T03:04:05Z",
       "--location",
       "regression value &/?+ü",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -495,9 +496,10 @@
       "2",
       "--metric",
       "NUMBER_OF_OFFENDING_IPS",
-      "--compareDateRange",
-      "second value &/?+ü",
+      "--compare-date-range",
+      "2026-01-02T03:04:05Z",
       "--asn",
+      "second value &/?+ü",
       "second value &/?+ü",
       "--format",
       "CSV"
@@ -506,7 +508,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&metric=NUMBER_OF_OFFENDING_IPS&compareDateRange=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&metric=NUMBER_OF_OFFENDING_IPS&compareDateRange=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -536,7 +538,7 @@
       "2026-01-02T03:04:05Z",
       "--asn",
       "regression value &/?+ü",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
@@ -571,8 +573,8 @@
       "2",
       "--offset",
       "2",
-      "--compareDateRange",
-      "second value &/?+ü",
+      "--compare-date-range",
+      "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
       "--format",
@@ -582,7 +584,7 @@
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&offset=2&compareDateRange=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&offset=2&compareDateRange=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -606,20 +608,20 @@
       "entities",
       "asns",
       "botnet-threat-feed",
-      "--compareDateRange",
-      "regression value &/?+ü",
+      "--compare-date-range",
+      "2026-01-02T03:04:05Z",
       "--location",
       "regression value &/?+ü",
       "--asn",
       "regression value &/?+ü",
-      "--sortOrder",
+      "--sort-order",
       "ASC"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?compareDateRange=regression%20value%20%26%2F%3F%2B%C3%BC&location=regression%20value%20%26%2F%3F%2B%C3%BC&asn=regression%20value%20%26%2F%3F%2B%C3%BC&sortOrder=ASC",
+        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?compareDateRange=2026-01-02T03%3A04%3A05Z&location=regression%20value%20%26%2F%3F%2B%C3%BC&asn=regression%20value%20%26%2F%3F%2B%C3%BC&sortOrder=ASC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -690,20 +692,21 @@
       "NUMBER_OF_OFFENDING_IPS",
       "--date",
       "2026-01-02T03:04:05Z",
-      "--compareDateRange",
-      "second value &/?+ü",
+      "--compare-date-range",
+      "2026-01-02T03:04:05Z",
       "--location",
       "second value &/?+ü",
       "--asn",
       "second value &/?+ü",
-      "--sortOrder",
+      "second value &/?+ü",
+      "--sort-order",
       "DESC"
     ],
     "exitCode": 0,
     "requests": [
       {
         "method": "GET",
-        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&offset=2&metric=NUMBER_OF_OFFENDING_IPS&date=2026-01-02T03%3A04%3A05Z&compareDateRange=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&sortOrder=DESC",
+        "url": "https://api.test/client/v4/radar/entities/asns/botnet_threat_feed?limit=2&offset=2&metric=NUMBER_OF_OFFENDING_IPS&date=2026-01-02T03%3A04%3A05Z&compareDateRange=2026-01-02T03%3A04%3A05Z&location=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&asn=second%20value%20%26%2F%3F%2B%C3%BC&sortOrder=DESC",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",

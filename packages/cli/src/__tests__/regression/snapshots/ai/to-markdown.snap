@@ -6,7 +6,7 @@
       "to-markdown"
     ],
     "exitCode": 1,
-    "error": "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.",
+    "error": "--body or --file is required for this command. Pass --body '<value>' or --file path/to/file.",
     "requests": []
   },
   {
@@ -38,8 +38,109 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --files",
+    "argv": [
+      "ai",
+      "to-markdown",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--files",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai/tomarkdown",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "files",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "files",
+            {
+              "filename": "files",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai",
+      "to-markdown",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--files",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai/tomarkdown",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "files",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "files",
+            {
+              "filename": "files",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
+          ],
+          [
+            "files",
+            {
+              "filename": "files",
+              "contentType": "application/octet-stream",
+              "base64": "c2Vjb25kIHZhbHVlICYvPyvDvA=="
+            }
           ]
         ]
       }
@@ -75,7 +176,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
           ]
         ]
@@ -113,7 +214,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
           ]
         ]
@@ -153,7 +254,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
           ]
         ]
@@ -187,7 +288,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
           ]
         ]
@@ -223,7 +324,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
           ]
         ]
@@ -271,7 +372,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "@<body.json>"
           ]
         ]
@@ -307,8 +408,48 @@
         },
         "body": [
           [
-            "file",
+            "files",
             "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "ai",
+      "to-markdown",
+      "--files",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai/tomarkdown",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          [
+            "files",
+            {
+              "filename": "files",
+              "contentType": "application/octet-stream",
+              "base64": "cmVncmVzc2lvbiB2YWx1ZSAmLz8rw7w="
+            }
           ]
         ]
       }
@@ -343,7 +484,7 @@
         },
         "body": [
           [
-            "file",
+            "files",
             {
               "filename": "payload.txt",
               "contentType": "application/octet-stream",

@@ -45,7 +45,7 @@
     ]
   },
   {
-    "case": "only --ipVersion",
+    "case": "only --ip-version",
     "argv": [
       "radar",
       "bgp",
@@ -54,7 +54,7 @@
       "list",
       "--asn",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv4"
     ],
     "exitCode": 0,
@@ -79,7 +79,7 @@
     ]
   },
   {
-    "case": "--ipVersion value 1",
+    "case": "--ip-version value 1",
     "argv": [
       "radar",
       "bgp",
@@ -88,7 +88,7 @@
       "list",
       "--asn",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6"
     ],
     "exitCode": 0,
@@ -224,7 +224,7 @@
       "list",
       "--asn",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
       "--collector",
       "second value &/?+ü",
@@ -262,7 +262,7 @@
       "list",
       "--asn",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
       "--format",
       "CSV"
@@ -298,7 +298,7 @@
       "list",
       "--asn",
       "regression value &/?+ü",
-      "--ipVersion",
+      "--ip-version",
       "IPv6",
       "--collector",
       "second value &/?+ü"

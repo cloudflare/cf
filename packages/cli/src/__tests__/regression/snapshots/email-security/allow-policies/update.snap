@@ -110,6 +110,57 @@
     ]
   },
   {
+    "case": "only --expires-at",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--is-acceptable-sender=true",
+      "--is-exempt-recipient=true",
+      "--is-regex=true",
+      "--is-trusted-sender=true",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "EMAIL",
+      "--verify-sender=true",
+      "--expires-at",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "198",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expires_at": "regression value &/?+ü",
+          "is_acceptable_sender": true,
+          "is_exempt_recipient": true,
+          "is_regex": true,
+          "is_trusted_sender": true,
+          "pattern": "*.sql",
+          "pattern_type": "EMAIL",
+          "verify_sender": true
+        }
+      }
+    ]
+  },
+  {
     "case": "only --is-recipient",
     "argv": [
       "email-security",
@@ -859,6 +910,8 @@
       "--verify-sender=true",
       "--comments",
       "second value &/?+ü",
+      "--expires-at",
+      "second value &/?+ü",
       "--is-recipient=false",
       "--is-sender=false",
       "--is-spoof=false"
@@ -874,7 +927,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "248",
+          "content-length": "283",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -884,6 +937,7 @@
         },
         "body": {
           "comments": "second value &/?+ü",
+          "expires_at": "second value &/?+ü",
           "is_acceptable_sender": true,
           "is_exempt_recipient": true,
           "is_recipient": false,
@@ -914,8 +968,9 @@
       "--pattern-type",
       "EMAIL",
       "--verify-sender=true",
-      "--is-recipient=true",
-      "--is-spoof=true"
+      "--expires-at",
+      "regression value &/?+ü",
+      "--is-sender=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -928,7 +983,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "195",
+          "content-length": "215",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -937,11 +992,11 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
+          "expires_at": "regression value &/?+ü",
           "is_acceptable_sender": true,
           "is_exempt_recipient": true,
-          "is_recipient": true,
           "is_regex": true,
-          "is_spoof": true,
+          "is_sender": true,
           "is_trusted_sender": true,
           "pattern": "*.sql",
           "pattern_type": "EMAIL",
@@ -968,7 +1023,8 @@
       "--verify-sender=true",
       "--comments",
       "second value &/?+ü",
-      "--is-sender=false"
+      "--is-recipient=false",
+      "--is-spoof=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -981,7 +1037,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "210",
+          "content-length": "230",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -993,8 +1049,9 @@
           "comments": "second value &/?+ü",
           "is_acceptable_sender": true,
           "is_exempt_recipient": true,
+          "is_recipient": false,
           "is_regex": true,
-          "is_sender": false,
+          "is_spoof": false,
           "is_trusted_sender": true,
           "pattern": "*.sql",
           "pattern_type": "EMAIL",
@@ -1019,8 +1076,8 @@
       "--pattern-type",
       "EMAIL",
       "--verify-sender=true",
-      "--is-sender=true",
-      "--is-spoof=true"
+      "--is-recipient=true",
+      "--is-sender=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -1033,7 +1090,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "192",
+          "content-length": "196",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1044,9 +1101,9 @@
         "body": {
           "is_acceptable_sender": true,
           "is_exempt_recipient": true,
+          "is_recipient": true,
           "is_regex": true,
           "is_sender": true,
-          "is_spoof": true,
           "is_trusted_sender": true,
           "pattern": "*.sql",
           "pattern_type": "EMAIL",
@@ -1073,7 +1130,9 @@
       "--verify-sender=true",
       "--comments",
       "second value &/?+ü",
-      "--is-recipient=false"
+      "--expires-at",
+      "second value &/?+ü",
+      "--is-spoof=false"
     ],
     "exitCode": 0,
     "requests": [
@@ -1086,7 +1145,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "213",
+          "content-length": "244",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1096,10 +1155,69 @@
         },
         "body": {
           "comments": "second value &/?+ü",
+          "expires_at": "second value &/?+ü",
+          "is_acceptable_sender": true,
+          "is_exempt_recipient": true,
+          "is_regex": true,
+          "is_spoof": false,
+          "is_trusted_sender": true,
+          "pattern": "*.sql",
+          "pattern_type": "EMAIL",
+          "verify_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--is-acceptable-sender=true",
+      "--is-exempt-recipient=true",
+      "--is-regex=true",
+      "--is-trusted-sender=true",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "EMAIL",
+      "--verify-sender=true",
+      "--comments",
+      "second value &/?+ü",
+      "--expires-at",
+      "second value &/?+ü",
+      "--is-recipient=false",
+      "--is-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "266",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "comments": "second value &/?+ü",
+          "expires_at": "second value &/?+ü",
           "is_acceptable_sender": true,
           "is_exempt_recipient": true,
           "is_recipient": false,
           "is_regex": true,
+          "is_sender": false,
           "is_trusted_sender": true,
           "pattern": "*.sql",
           "pattern_type": "EMAIL",
@@ -1495,6 +1613,8 @@
       "--verify-sender=true",
       "--comments",
       "regression value &/?+ü",
+      "--expires-at",
+      "regression value &/?+ü",
       "--is-recipient=true",
       "--is-sender=true",
       "--is-spoof=true"
@@ -1510,7 +1630,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "249",
+          "content-length": "288",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -1520,6 +1640,7 @@
         },
         "body": {
           "comments": "regression value &/?+ü",
+          "expires_at": "regression value &/?+ü",
           "is_acceptable_sender": true,
           "is_exempt_recipient": true,
           "is_recipient": true,

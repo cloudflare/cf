@@ -66,7 +66,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "error": "Missing dependent arguments:\n host-ipv4 -> host-network-tunnel-id",
     "requests": []
   },
   {
@@ -82,9 +82,36 @@
       "--host-network-tunnel-id",
       "0123456789abcdef0123456789abcdef"
     ],
-    "exitCode": 1,
-    "error": "--host-resolver-network-tunnel-id is required when any --host-* flag is set",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": {
+            "network": {
+              "tunnel_id": "0123456789abcdef0123456789abcdef"
+            }
+          },
+          "name": "regression value &/?+ü",
+          "type": "tcp"
+        }
+      }
+    ]
   },
   {
     "case": "only --host-ipv6",
@@ -100,7 +127,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "error": "Missing dependent arguments:\n host-ipv6 -> host-network-tunnel-id",
     "requests": []
   },
   {
@@ -117,7 +144,7 @@
       "example.com"
     ],
     "exitCode": 1,
-    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "error": "Missing dependent arguments:\n host-hostname -> host-resolver-network-tunnel-id",
     "requests": []
   },
   {
@@ -134,7 +161,7 @@
       "192.0.2.1"
     ],
     "exitCode": 1,
-    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "error": "Missing dependent arguments:\n host-resolver-network-resolver-ips -> host-hostname host-resolver-network-resolver-ips -> host-resolver-network-tunnel-id",
     "requests": []
   },
   {
@@ -151,7 +178,7 @@
       "0123456789abcdef0123456789abcdef"
     ],
     "exitCode": 1,
-    "error": "--host-network-tunnel-id is required when any --host-* flag is set",
+    "error": "Missing dependent arguments:\n host-resolver-network-tunnel-id -> host-hostname",
     "requests": []
   },
   {
@@ -195,6 +222,40 @@
         }
       }
     ]
+  },
+  {
+    "case": "only --tls-settings-certificate-authority",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--tls-settings-certificate-authority",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n tls-settings-certificate-authority -> tls-settings-cert-verification-mode",
+    "requests": []
+  },
+  {
+    "case": "only --tls-settings-client-certificate",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--tls-settings-client-certificate",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n tls-settings-client-certificate -> tls-settings-cert-verification-mode",
+    "requests": []
   },
   {
     "case": "only --http-port",
@@ -500,6 +561,10 @@
       "0123456789abcdef0123456789abcdef",
       "--tls-settings-cert-verification-mode",
       "second value &/?+ü",
+      "--tls-settings-certificate-authority",
+      "second value &/?+ü",
+      "--tls-settings-client-certificate",
+      "second value &/?+ü",
       "--http-port",
       "2",
       "--https-port",
@@ -510,7 +575,7 @@
       "2"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "error": "Arguments host-ipv4 and host-hostname are mutually exclusive",
     "requests": []
   },
   {
@@ -529,13 +594,15 @@
       "example.com",
       "--host-resolver-network-tunnel-id",
       "0123456789abcdef0123456789abcdef",
+      "--tls-settings-certificate-authority",
+      "regression value &/?+ü",
       "--http-port",
       "1",
       "--app-protocol",
       "postgresql"
     ],
     "exitCode": 1,
-    "error": "Arguments http-port and app-protocol are mutually exclusive",
+    "error": "Missing dependent arguments:\n tls-settings-certificate-authority -> tls-settings-cert-verification-mode",
     "requests": []
   },
   {
@@ -557,13 +624,15 @@
       "192.0.2.1",
       "--tls-settings-cert-verification-mode",
       "second value &/?+ü",
+      "--tls-settings-client-certificate",
+      "second value &/?+ü",
       "--https-port",
       "2",
       "--tcp-port",
       "2"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "error": "Missing dependent arguments:\n host-ipv4 -> host-network-tunnel-id host-ipv6 -> host-network-tunnel-id host-resolver-network-resolver-ips -> host-hostname host-resolver-network-resolver-ips -> host-resolver-network-tunnel-id",
     "requests": []
   },
   {
@@ -582,13 +651,15 @@
       "example.com",
       "--tls-settings-cert-verification-mode",
       "regression value &/?+ü",
-      "--http-port",
+      "--tls-settings-certificate-authority",
+      "regression value &/?+ü",
+      "--https-port",
       "1",
-      "--tcp-port",
-      "1"
+      "--app-protocol",
+      "postgresql"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv6 and host-hostname are mutually exclusive",
+    "error": "Missing dependent arguments:\n host-ipv6 -> host-network-tunnel-id host-hostname -> host-resolver-network-tunnel-id",
     "requests": []
   },
   {
@@ -610,13 +681,15 @@
       "192.0.2.1",
       "--host-resolver-network-tunnel-id",
       "0123456789abcdef0123456789abcdef",
-      "--https-port",
+      "--tls-settings-client-certificate",
+      "second value &/?+ü",
+      "--http-port",
       "2",
-      "--app-protocol",
-      "mysql"
+      "--tcp-port",
+      "2"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv4 and host-resolver-network-resolver-ips are mutually exclusive",
+    "error": "Missing dependent arguments:\n host-resolver-network-resolver-ips -> host-hostname host-resolver-network-tunnel-id -> host-hostname tls-settings-client-certificate -> tls-settings-cert-verification-mode",
     "requests": []
   },
   {
@@ -635,11 +708,13 @@
       "0123456789abcdef0123456789abcdef",
       "--tls-settings-cert-verification-mode",
       "regression value &/?+ü",
-      "--http-port",
+      "--tls-settings-certificate-authority",
+      "regression value &/?+ü",
+      "--tcp-port",
       "1"
     ],
     "exitCode": 1,
-    "error": "--host-network-tunnel-id is required when any --host-* flag is set",
+    "error": "Missing dependent arguments:\n host-resolver-network-resolver-ips -> host-hostname host-resolver-network-tunnel-id -> host-hostname",
     "requests": []
   },
   {
@@ -660,15 +735,17 @@
       "192.0.2.1",
       "--host-hostname",
       "example.com",
+      "--tls-settings-client-certificate",
+      "second value &/?+ü",
+      "--http-port",
+      "2",
       "--https-port",
       "2",
       "--app-protocol",
-      "mysql",
-      "--tcp-port",
-      "2"
+      "mysql"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "error": "Missing dependent arguments:\n host-hostname -> host-resolver-network-tunnel-id tls-settings-client-certificate -> tls-settings-cert-verification-mode",
     "requests": []
   },
   {
@@ -681,6 +758,10 @@
       "regression value &/?+ü",
       "--type",
       "tcp",
+      "--tls-settings-client-certificate",
+      "regression value &/?+ü",
+      "--http-port",
+      "1",
       "--https-port",
       "1",
       "--app-protocol",
@@ -689,7 +770,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Arguments https-port and app-protocol are mutually exclusive",
+    "error": "Missing dependent arguments:\n tls-settings-client-certificate -> tls-settings-cert-verification-mode",
     "requests": []
   },
   {
@@ -717,11 +798,11 @@
       "0123456789abcdef0123456789abcdef",
       "--tls-settings-cert-verification-mode",
       "second value &/?+ü",
-      "--http-port",
-      "2"
+      "--tls-settings-certificate-authority",
+      "second value &/?+ü"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "error": "Arguments host-ipv4 and host-hostname are mutually exclusive",
     "requests": []
   },
   {
@@ -1069,6 +1150,10 @@
       "0123456789abcdef0123456789abcdef",
       "--tls-settings-cert-verification-mode",
       "regression value &/?+ü",
+      "--tls-settings-certificate-authority",
+      "regression value &/?+ü",
+      "--tls-settings-client-certificate",
+      "regression value &/?+ü",
       "--http-port",
       "1",
       "--https-port",
@@ -1079,7 +1164,7 @@
       "1"
     ],
     "exitCode": 1,
-    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "error": "Arguments host-ipv4 and host-hostname are mutually exclusive",
     "requests": []
   }
 ]

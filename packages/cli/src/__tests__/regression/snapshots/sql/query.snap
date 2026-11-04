@@ -131,7 +131,7 @@
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 1,
-    "error": "--time-since is required when any --time_range-* flag is set",
+    "error": "--time-since is required when any --time-range-* flag is set",
     "requests": []
   },
   {
@@ -276,7 +276,7 @@
       "2026-01-02T03:04:05Z"
     ],
     "exitCode": 1,
-    "error": "--time-since is required when any --time_range-* flag is set",
+    "error": "--time-since is required when any --time-range-* flag is set",
     "requests": []
   },
   {

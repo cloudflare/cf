@@ -17,8 +17,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -30,14 +28,14 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "64",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -50,7 +48,46 @@
           "items": [
             1,
             2
-          ],
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --namespace",
+    "argv": [
+      "ai-search",
+      "items",
+      "upsert",
+      "0123456789abcdef0123456789abcdef",
+      "--key",
+      "regression value &/?+ü",
+      "--next-action",
+      "INDEX",
+      "--namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "key": "regression value &/?+ü",
           "next_action": "INDEX"
         }
       }
@@ -63,8 +100,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -75,7 +110,7 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -105,8 +140,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -117,7 +150,7 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -147,8 +180,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -158,7 +189,89 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "key": "regression value &/?+ü",
+          "next_action": "INDEX"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "items",
+      "upsert",
+      "0123456789abcdef0123456789abcdef",
+      "--key",
+      "regression value &/?+ü",
+      "--next-action",
+      "INDEX",
+      "--namespace",
+      "second value &/?+ü",
+      "--wait-for-completion=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "key": "regression value &/?+ü",
+          "next_action": "INDEX",
+          "wait_for_completion": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "ai-search",
+      "items",
+      "upsert",
+      "0123456789abcdef0123456789abcdef",
+      "--key",
+      "regression value &/?+ü",
+      "--next-action",
+      "INDEX",
+      "--namespace",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/second%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
@@ -187,8 +300,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -201,14 +312,14 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "64",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -221,8 +332,7 @@
           "items": [
             1,
             2
-          ],
-          "next_action": "INDEX"
+          ]
         }
       }
     ]
@@ -234,8 +344,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -249,14 +357,14 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "64",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -269,8 +377,7 @@
           "items": [
             1,
             2
-          ],
-          "next_action": "INDEX"
+          ]
         }
       }
     ]
@@ -282,8 +389,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -299,14 +404,14 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "64",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -319,8 +424,7 @@
           "items": [
             1,
             2
-          ],
-          "next_action": "INDEX"
+          ]
         }
       }
     ]
@@ -332,8 +436,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -346,7 +448,7 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -365,8 +467,7 @@
           "items": [
             1,
             2
-          ],
-          "next_action": "INDEX"
+          ]
         }
       }
     ]
@@ -378,8 +479,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -394,7 +493,7 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "gzip, deflate",
@@ -413,8 +512,7 @@
           "items": [
             1,
             2
-          ],
-          "next_action": "INDEX"
+          ]
         }
       }
     ]
@@ -426,8 +524,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -446,8 +542,6 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
@@ -459,14 +553,14 @@
     "requests": [
       {
         "method": "PUT",
-        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/items",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
         "headers": {
           "accept": "*/*",
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "64",
+          "content-length": "42",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -479,8 +573,7 @@
           "items": [
             1,
             2
-          ],
-          "next_action": "INDEX"
+          ]
         }
       }
     ]
@@ -492,14 +585,57 @@
       "items",
       "upsert",
       "0123456789abcdef0123456789abcdef",
-      "--namespace",
-      "regression value &/?+ü",
       "--key",
       "regression value &/?+ü",
       "--next-action",
       "INDEX",
       "--body",
       "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/default/instances/0123456789abcdef0123456789abcdef/items",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "ai-search",
+      "items",
+      "upsert",
+      "0123456789abcdef0123456789abcdef",
+      "--key",
+      "regression value &/?+ü",
+      "--next-action",
+      "INDEX",
+      "--namespace",
+      "regression value &/?+ü",
+      "--wait-for-completion=true"
     ],
     "exitCode": 0,
     "requests": [
@@ -512,7 +648,7 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "78",
+          "content-length": "82",
           "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
@@ -521,13 +657,9 @@
           "x-cf-cli-mode": "ci"
         },
         "body": {
-          "0": {
-            "regression": "first"
-          },
-          "1": {
-            "regression": "second"
-          },
-          "next_action": "INDEX"
+          "key": "regression value &/?+ü",
+          "next_action": "INDEX",
+          "wait_for_completion": true
         }
       }
     ]

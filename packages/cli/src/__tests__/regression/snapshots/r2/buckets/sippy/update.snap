@@ -72,16 +72,17 @@
           "accept-encoding": "br, gzip, deflate",
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
-          "cf-r2-jurisdiction": "regression value &/?+Ã¼",
+          "cf-r2-jurisdiction": "regression value &/?+ü",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },
@@ -789,14 +790,15 @@
           "accept-language": "*",
           "authorization": "Bearer regression-api-token",
           "connection": "keep-alive",
-          "content-length": "0",
+          "content-length": "2",
+          "content-type": "application/json",
           "host": "api.test",
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
           "x-cf-cli-mode": "ci"
         },
-        "body": null
+        "body": {}
       }
     ]
   },
@@ -841,9 +843,49 @@
       "--source-sas-token",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-bucket and source-bucket-url are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "second value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "559",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "provider": "r2",
+            "secretAccessKey": "second value &/?+ü"
+          },
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "bucket": "second value &/?+ü",
+            "provider": "gcs",
+            "region": "second value &/?+ü",
+            "secretAccessKey": "second value &/?+ü",
+            "clientEmail": "regression@example.com",
+            "privateKey": "second value &/?+ü",
+            "bucketUrl": "https://example.com/a?x=1&y=two",
+            "accountKey": "second value &/?+ü",
+            "accountName": "second value &/?+ü",
+            "container": "second value &/?+ü",
+            "sasToken": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 2",
@@ -870,9 +912,41 @@
       "--source-sas-token",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-bucket and source-bucket-url are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "353",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "secretAccessKey": "regression value &/?+ü"
+          },
+          "source": {
+            "bucket": "regression value &/?+ü",
+            "region": "regression value &/?+ü",
+            "clientEmail": "regression@example.com",
+            "bucketUrl": "https://example.com/a?x=1&y=two",
+            "accountName": "regression value &/?+ü",
+            "sasToken": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 3",
@@ -899,9 +973,41 @@
       "--source-container",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-private-key and source-account-key are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "second value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "254",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "provider": "r2"
+          },
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "provider": "gcs",
+            "secretAccessKey": "second value &/?+ü",
+            "privateKey": "second value &/?+ü",
+            "accountKey": "second value &/?+ü",
+            "container": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 4",
@@ -928,9 +1034,41 @@
       "--source-sas-token",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-region and source-private-key are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "300",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "provider": "r2",
+            "secretAccessKey": "regression value &/?+ü"
+          },
+          "source": {
+            "provider": "aws",
+            "region": "regression value &/?+ü",
+            "privateKey": "regression value &/?+ü",
+            "bucketUrl": "https://example.com/a?x=1&y=two",
+            "container": "regression value &/?+ü",
+            "sasToken": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 5",
@@ -957,9 +1095,41 @@
       "--source-account-name",
       "second value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-bucket and source-account-key are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "second value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "307",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef"
+          },
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "bucket": "second value &/?+ü",
+            "secretAccessKey": "second value &/?+ü",
+            "clientEmail": "regression@example.com",
+            "accountKey": "second value &/?+ü",
+            "accountName": "second value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 6",
@@ -986,9 +1156,39 @@
       "--source-sas-token",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-bucket and source-account-key are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "302",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "bucket": "regression value &/?+ü",
+            "provider": "aws",
+            "region": "regression value &/?+ü",
+            "accountKey": "regression value &/?+ü",
+            "accountName": "regression value &/?+ü",
+            "container": "regression value &/?+ü",
+            "sasToken": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 7",
@@ -1015,9 +1215,41 @@
       "--source-bucket-url",
       "https://example.com/a?x=1&y=two"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-client-email and source-bucket-url are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "second value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "293",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "provider": "r2",
+            "secretAccessKey": "second value &/?+ü"
+          },
+          "source": {
+            "secretAccessKey": "second value &/?+ü",
+            "clientEmail": "regression@example.com",
+            "privateKey": "second value &/?+ü",
+            "bucketUrl": "https://example.com/a?x=1&y=two"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 8",
@@ -1044,9 +1276,39 @@
       "--source-sas-token",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-client-email and source-bucket-url are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "334",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "secretAccessKey": "regression value &/?+ü",
+            "clientEmail": "regression@example.com",
+            "privateKey": "regression value &/?+ü",
+            "bucketUrl": "https://example.com/a?x=1&y=two",
+            "accountKey": "regression value &/?+ü",
+            "accountName": "regression value &/?+ü",
+            "container": "regression value &/?+ü",
+            "sasToken": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "pairwise 9",
@@ -1455,9 +1717,49 @@
       "--source-sas-token",
       "regression value &/?+ü"
     ],
-    "exitCode": 1,
-    "error": "Arguments source-bucket and source-bucket-url are mutually exclusive",
-    "requests": []
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "regression value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "595",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "provider": "r2",
+            "secretAccessKey": "regression value &/?+ü"
+          },
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "bucket": "regression value &/?+ü",
+            "provider": "aws",
+            "region": "regression value &/?+ü",
+            "secretAccessKey": "regression value &/?+ü",
+            "clientEmail": "regression@example.com",
+            "privateKey": "regression value &/?+ü",
+            "bucketUrl": "https://example.com/a?x=1&y=two",
+            "accountKey": "regression value &/?+ü",
+            "accountName": "regression value &/?+ü",
+            "container": "regression value &/?+ü",
+            "sasToken": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
   },
   {
     "case": "alternate <bucket-name>",

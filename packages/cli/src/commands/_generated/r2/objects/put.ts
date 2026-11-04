@@ -112,7 +112,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
 					);
 				}
-				const parsedBody = resolveFileToken(argv.body, "body", "binary");
+				const parsedBody =
+					argv.file !== undefined
+						? undefined
+						: resolveFileToken(argv.body, "body", "binary");
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;

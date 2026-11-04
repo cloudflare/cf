@@ -132,7 +132,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
+					argv.file !== undefined
+						? undefined
+						: argv.body !== undefined
+							? parseBody(argv.body)
+							: undefined;
 				const client = await createCommandClient(argv);
 
 				if (argv.file !== undefined) {

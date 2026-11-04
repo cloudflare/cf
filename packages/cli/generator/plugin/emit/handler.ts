@@ -162,10 +162,23 @@ function preparsedBody(ctx: Ctx): string[] {
 	if (!parsesBodyEarly(ctx)) {
 		return [];
 	}
+	const earlierBranchReads = [
+		...ctx.derived.multipartFlagFields.map(
+			({ flag }) => `${argvKey(flag)} !== undefined`
+		),
+		...ctx.derived.multipartFileFields.map(
+			({ flag }) => `${argvKey(flag)} !== undefined`
+		),
+		...(ctx.derived.hasFileUpload ? ["argv.file !== undefined"] : []),
+	];
 	const read = acceptsJson(ctx)
 		? `argv.body !== undefined ? ${parseBodyExpression(ctx)} : undefined`
 		: RAW_BODY_EXPRESSION;
-	return [`      const parsedBody = ${read};`];
+	const parsed =
+		earlierBranchReads.length === 0
+			? read
+			: `(${earlierBranchReads.join(" || ")}) ? undefined : ${read}`;
+	return [`      const parsedBody = ${parsed};`];
 }
 
 function preservedBodyPaths(ctx: Ctx): string {

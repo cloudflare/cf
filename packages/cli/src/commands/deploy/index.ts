@@ -1,10 +1,15 @@
 import { log } from "../../lib/ui/log.js";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
+import {
+	prepareStaticAssetsBuildOutput,
+	staticAssetsDirectoryOption,
+} from "./static-assets.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return sharedUploadBuilder(yargs)
+		.positional("directory", staticAssetsDirectoryOption)
 		.option("provision", {
 			type: "boolean",
 			description:
@@ -34,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 export type DeployArgs = InferArgs<typeof builder>;
 
 const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
-	command: "deploy",
+	command: "deploy [directory]",
 	describe:
 		"Deploy a Worker, static site, or full-stack application to Cloudflare",
 	builder,
@@ -44,7 +49,12 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 				"Using --force may overwrite conflicting remote Worker changes."
 			);
 		}
-		await runUpload(argv, { command: "Deploy" });
+		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+			isPreview: false,
+		});
+		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
+			command: "Deploy",
+		});
 	},
 };
 

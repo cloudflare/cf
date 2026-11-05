@@ -336,6 +336,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 		const { wranglerConfig } = parseWorkerConfig(worker, rootConfig);
 
 		const argv: DeployArgs = {
+			directory: undefined,
 			provision: true,
 			worker: undefined,
 			"dispatch-namespace": undefined,

@@ -7,8 +7,17 @@ export default {
 	fullPath: ["workers", "versions", "create"],
 	category: "create",
 	description: "Upload a new Worker Version without deploying it",
-	usage: "cf workers versions create [options]",
-	arguments: [],
+	usage: "cf workers versions create [directory] [options]",
+	arguments: [
+		{
+			name: "directory",
+			position: 0,
+			type: "string",
+			required: false,
+			description:
+				"Directory containing prebuilt static assets. Use only for assets-only projects; projects with server-side code require a delegated build.",
+		},
+	],
 	options: [
 		{
 			name: "prebuilt",

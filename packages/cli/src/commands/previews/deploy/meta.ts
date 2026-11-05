@@ -6,8 +6,17 @@ export default {
 	fullPath: ["previews", "deploy"],
 	category: "action",
 	description: "Deploy a Worker Preview",
-	usage: "cf previews deploy [options]",
-	arguments: [],
+	usage: "cf previews deploy [directory] [options]",
+	arguments: [
+		{
+			name: "directory",
+			position: 0,
+			type: "string",
+			required: false,
+			description:
+				"Directory containing prebuilt static assets. Use only for assets-only projects; projects with server-side code require a delegated build.",
+		},
+	],
 	options: [
 		{
 			name: "preview-name",

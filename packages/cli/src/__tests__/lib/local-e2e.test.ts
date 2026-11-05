@@ -204,7 +204,7 @@ describe("cf --local end to end", () => {
 
 	it("explains how to retry commands without a local implementation", async () => {
 		await expect(
-			runCf(["zones", "list", "--local"], {
+			runCf(["zones", "list", "--local", "--persist-to", "state"], {
 				CLOUDFLARE_API_TOKEN: undefined,
 			})
 		).rejects.toThrow(
@@ -231,5 +231,55 @@ describe("cf --local end to end", () => {
 				{ CLOUDFLARE_API_TOKEN: undefined }
 			)
 		).rejects.toThrow(/local persistence path must be a directory/i);
+	}, 60_000);
+
+	it("defaults to the project state directory next to cloudflare.config.ts", async () => {
+		writeFileSync("cloudflare.config.ts", "export default {};");
+		const env = { CLOUDFLARE_API_TOKEN: undefined };
+
+		await runCf(
+			[
+				"kv",
+				"keys",
+				"put",
+				"greeting",
+				"--namespace-id",
+				"e2e-namespace",
+				"--body",
+				"hello",
+				"--local",
+			],
+			env
+		);
+
+		out.mockClear();
+		await runCf(
+			[
+				"kv",
+				"keys",
+				"get",
+				"greeting",
+				"--namespace-id",
+				"e2e-namespace",
+				"--text",
+				"--local",
+				"--persist-to",
+				".cloudflare/state",
+			],
+			env
+		);
+
+		expect(
+			out.mock.calls.map((call: unknown[]) => String(call[0])).join("")
+		).toBe("hello");
+	}, 60_000);
+
+	it("requires --persist-to outside a project", async () => {
+		await expect(
+			runCf(
+				["kv", "keys", "list", "--namespace-id", "e2e-namespace", "--local"],
+				{ CLOUDFLARE_API_TOKEN: undefined }
+			)
+		).rejects.toThrow(/no cloudflare\.config\.ts found.*--persist-to/i);
 	}, 60_000);
 });

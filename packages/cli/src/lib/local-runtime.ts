@@ -2,10 +2,13 @@
 import { randomUUID } from "node:crypto";
 import { mkdtempSync, rmSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
+import { dirname, join, resolve } from "node:path";
 import { Miniflare } from "miniflare";
 import { NO_LOCAL_EQUIVALENT } from "./local.js";
+import {
+	CLOUDFLARE_CONFIG_FILENAME,
+	findCloudflareConfig,
+} from "./project-settings.js";
 
 const COMPATIBILITY_DATE = "2026-08-15";
 const LOCAL_EXPLORER_URL = "http://localhost/cdn-cgi/local/explorer/api";
@@ -20,7 +23,7 @@ function resolvePersistRoot(persistTo?: string): string {
 	const root =
 		persistTo !== undefined && persistTo !== ""
 			? join(resolve(process.cwd(), persistTo), "v3")
-			: join(getCfConfigPath(), "state", "v3");
+			: resolveProjectPersistRoot();
 	try {
 		if (!statSync(root).isDirectory()) {
 			throw new Error(`Local persistence path must be a directory: ${root}`);
@@ -37,6 +40,19 @@ function resolvePersistRoot(persistTo?: string): string {
 		throw error;
 	}
 	return root;
+}
+
+// Matches the Cloudflare Vite plugin's default, so `--local` reads the state
+// that `cf dev` writes.
+function resolveProjectPersistRoot(): string {
+	const configPath = findCloudflareConfig();
+	if (configPath === null) {
+		throw new Error(
+			`No ${CLOUDFLARE_CONFIG_FILENAME} found in this directory or any parent. ` +
+				"Run the command inside a project, or pass --persist-to <dir> to choose where local state is stored."
+		);
+	}
+	return join(dirname(configPath), ".cloudflare", "state", "v3");
 }
 
 interface LocalSession {

@@ -47,7 +47,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("cursor", {
 			type: "string",
-			description: "Offset cursor from a previous page.",
+			description:
+				"Opaque cursor from a previous page. Results are ordered by createdAt ascending. Cursors in an older format are rejected; restart without a cursor.",
 		})
 		.option("page-size", {
 			type: "number",

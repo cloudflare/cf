@@ -9,7 +9,6 @@ import $gateway from "./gateway/index.js";
 import $identityproviders from "./identity-providers/index.js";
 import $organization from "./organization/index.js";
 import $riskscoring from "./risk-scoring/index.js";
-import $seats from "./seats/index.js";
 import $users from "./users/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -36,7 +35,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($identityproviders)
 			.command($organization)
 			.command($riskscoring)
-			.command($seats)
 			.command($users)
 			.demandCommand(1, "Please specify a subcommand");
 	},

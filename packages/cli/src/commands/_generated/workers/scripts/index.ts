@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "scripts",
-	describe: "Operations for scripts",
+	describe:
+		"Worker script operations including usage model, settings, content, tags, schedules, subdomains, and queue consumers",
 
 	builder: (yargs) => {
 		return yargs

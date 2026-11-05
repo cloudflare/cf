@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
-import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -82,32 +81,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
-	{
-		path: ["worker_binding"],
-		selector: "enabled",
-		variants: [
-			{
-				values: [false],
-				schema: {
-					type: "object",
-					properties: { enabled: { enum: [false] } },
-					required: ["enabled"],
-					additionalProperties: false,
-				},
-			},
-			{
-				values: [true],
-				schema: {
-					type: "object",
-					properties: { enabled: { enum: [true] } },
-					required: ["enabled"],
-					additionalProperties: false,
-				},
-			},
-		],
-	},
-];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <stream-id>",
@@ -139,22 +112,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: validateBodyUnions(
-										compactBody({
-											http: {
-												authentication: argv["http-authentication"],
-												cors: {
-													origins: argv["http-cors-origins"],
-												},
-												enabled: argv["http-enabled"],
+								: compactBody({
+										http: {
+											authentication: argv["http-authentication"],
+											cors: {
+												origins: argv["http-cors-origins"],
 											},
-											retention_seconds: argv["retention-seconds"],
-											worker_binding: {
-												enabled: argv["worker-binding-enabled"],
-											},
-										}),
-										bodyUnions
-									),
+											enabled: argv["http-enabled"],
+										},
+										retention_seconds: argv["retention-seconds"],
+										worker_binding: {
+											enabled: argv["worker-binding-enabled"],
+										},
+									}),
 					});
 					return;
 				}
@@ -191,7 +161,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						enabled: argv["worker-binding-enabled"],
 					},
 				});
-				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

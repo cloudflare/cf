@@ -1,8 +1,7 @@
 import $delete from "./delete.js";
+import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import $usermembershipsget from "./user-memberships-get.js";
-import $usersaccountmembershipsmembershipdetails from "./user-s-account-memberships-membership-details.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * memberships command group
@@ -17,10 +16,9 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($delete)
+			.command($get)
 			.command($list)
 			.command($update)
-			.command($usermembershipsget)
-			.command($usersaccountmembershipsmembershipdetails)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

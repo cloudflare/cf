@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access user-populations create\n\nCreates a user population in an account."
+			"$0 zero-trust access user-populations create\n\nCreates a user population in an account. Requires permission to update the account's Access organization."
 		)
 		.option("name", {
 			type: "string",

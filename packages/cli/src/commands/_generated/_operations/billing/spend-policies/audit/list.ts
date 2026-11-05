@@ -5,7 +5,7 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/billing/spend-policies/${request.policy_id}/audit`,
-	query: ["limit"],
+	query: ["limit", "period"],
 	errors: {
 		400: "BadRequestError",
 		401: "UnauthorizedError",

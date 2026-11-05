@@ -429,7 +429,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"durable-objects",
-			"durable-objects",
+			"Stateful serverless objects with transactional storage, ideal for coordination, sessions, and real-time collaboration",
 			() => import("./durable-objects/index.js"),
 			null
 		),
@@ -550,7 +550,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./iam/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -752,9 +752,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"organization",
-			"organization",
-			() => import("./organization/index.js"),
+			"ohttp-gateway",
+			"ohttp-gateway",
+			() => import("./ohttp-gateway/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -764,15 +764,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"organizations",
 			"Multi-user organizations that group accounts, members, and shared settings under a single entity",
 			() => import("./organizations/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"origin-post-quantum-encryption",
-			"Enable post-quantum key exchange for connections between Cloudflare and your origin server",
-			() => import("./origin-post-quantum-encryption/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -829,7 +820,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./precursor/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -924,7 +915,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"resource-sharing",
-			"Share Cloudflare resources (zones, accounts) across organizations with granular access controls",
+			"Share account-level resources (WAF custom rulesets, Gateway policies and settings, Access IdP federation grants) with other accounts in the same organization",
 			() => import("./resource-sharing/index.js"),
 			null
 		),
@@ -964,7 +955,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./scim/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1085,6 +1076,15 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
+			"tenants",
+			"Multi-tenant account management",
+			() => import("./tenants/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
 			"tunnels",
 			"tunnels",
 			() => import("./tunnels/index.js"),
@@ -1167,7 +1167,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"workers",
-			"workers",
+			"Deploy and manage serverless JavaScript/WASM applications on Cloudflare's global network",
 			() => import("./workers/index.js"),
 			null
 		),
@@ -1185,7 +1185,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"workers-for-platforms",
-			"workers-for-platforms",
+			"Workers for Platforms uses dispatch namespaces to isolate and route requests to many individual user Workers, letting platforms run untrusted customer or AI-generated code at scale with per-tenant bindings, limits, and observability",
 			() => import("./workers-for-platforms/index.js"),
 			null
 		),

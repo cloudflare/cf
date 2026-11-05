@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("detection-mode", {
 			type: "string",
 			description:
-				"Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n",
+				"Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.",
 			choices: ["off", "monitor", "arm"],
 		})
 		.coerce("detection-mode", (value) =>

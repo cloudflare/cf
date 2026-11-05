@@ -12,7 +12,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "excluded-recipients",
-	describe: "Operations for excluded-recipients",
+	describe: "Accounts excluded from an organization-targeted share",
 
 	builder: (yargs) => {
 		return yargs

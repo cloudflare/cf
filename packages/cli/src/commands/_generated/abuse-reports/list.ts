@@ -78,6 +78,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter reports that have any mitigations in the given status.",
 			choices: ["pending", "active", "in_review", "cancelled", "removed"],
 		})
+		.option("pending-notice", {
+			type: "boolean",
+			description:
+				"Also include reports in an open Notice and Takedown notice period. Combined with mitigation_status using OR, e.g. ?mitigation_status=active&pending_notice=true.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -96,7 +101,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "abuse-reports list",
 				classification: {
-					safeFlags: ["status", "type", "mitigation-status", "dry-run"],
+					safeFlags: [
+						"status",
+						"type",
+						"mitigation-status",
+						"pending-notice",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -112,6 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					status: argv["status"],
 					type: argv["type"],
 					mitigation_status: argv["mitigation-status"],
+					pending_notice: argv["pending-notice"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

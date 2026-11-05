@@ -74,6 +74,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("description", {
 			type: "string",
 			description: "A description of the policy.",
+			default: "",
 		})
 		.option("disable-auto-fallback", {
 			type: "boolean",

@@ -47,7 +47,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("top-k", {
 			type: "number",
-			description: "Number of closest matches to return (1-100, default: 10)",
+			description:
+				"Number of closest matches to return. Defaults to 10. Accepts 1 to 100, but values above 50 are treated as 50.",
 			default: 10,
 		})
 		.option("dry-run", {

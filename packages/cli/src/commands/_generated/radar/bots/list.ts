@@ -26,24 +26,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("bot-category", {
 			type: "string",
-			description: "Filters results by bot category.",
+			description:
+				"Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
 			choices: [
+				"ACADEMIC_RESEARCH",
+				"ADVERTISING_AND_MARKETING",
+				"AI_ASSISTANT",
+				"AI_CRAWLER",
+				"COMMERCE",
+				"FEED_FETCHER",
+				"MONITORING_AND_ANALYTICS",
+				"OTHER",
+				"PAGE_PREVIEW",
 				"SEARCH_ENGINE_CRAWLER",
 				"SEARCH_ENGINE_OPTIMIZATION",
-				"MONITORING_AND_ANALYTICS",
-				"ADVERTISING_AND_MARKETING",
-				"SOCIAL_MEDIA_MARKETING",
-				"PAGE_PREVIEW",
-				"ACADEMIC_RESEARCH",
 				"SECURITY",
 				"ACCESSIBILITY",
-				"WEBHOOKS",
-				"FEED_FETCHER",
-				"AI_CRAWLER",
 				"AGGREGATOR",
-				"AI_ASSISTANT",
 				"AI_SEARCH",
 				"ARCHIVER",
+				"SOCIAL_MEDIA_MARKETING",
+				"WEBHOOKS",
 			],
 		})
 		.option("bot-operator", {

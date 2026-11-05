@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("deployment-id", {
 			type: "string",
-			description: "Deployment ID",
+			description: "Identifier of the Worker Deployment.",
 			demandOption: true,
 		})
 		.option("worker", {

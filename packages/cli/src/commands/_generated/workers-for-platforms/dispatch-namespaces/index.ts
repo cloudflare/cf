@@ -12,7 +12,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "dispatch-namespaces",
-	describe: "Operations for dispatch-namespaces",
+	describe: "Isolate and route requests to many individual user Workers",
 
 	builder: (yargs) => {
 		return yargs

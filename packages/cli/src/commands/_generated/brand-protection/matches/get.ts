@@ -20,39 +20,48 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection matches get\n\nGet paginated list of domain matches for one or more brand protection queries. When multiple query_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and individual dismissed state."
+			"$0 brand-protection matches get\n\nLists domains that matched one or more saved domain queries, most recently matched first by default. When you pass several comma-separated `query_id` values, matches are deduplicated by domain and each match includes a `match_details` array with per-query dismissed state. Set `include_domain_id=true` to get the `domain_id` needed to dismiss or undismiss a match."
 		)
-		.option("offset", { type: "string", description: "Offset" })
-		.option("limit", { type: "string", description: "Limit" })
+		.option("offset", {
+			type: "string",
+			description: "Number of matches to skip, for pagination. Defaults to 0.",
+		})
+		.option("limit", {
+			type: "string",
+			description: "Maximum number of matches to return. Defaults to 50.",
+		})
 		.option("query-id", {
 			type: "string",
 			array: true,
 			description:
-				"Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state.",
+				"ID of a domain query, or a comma-separated list of domain query IDs. When you pass several IDs, matches are deduplicated by domain and each match includes a `match_details` array with per-query metadata and dismissed state.",
 			demandOption: true,
 		})
 		.option("include-domain-id", {
 			type: "string",
-			description: "Include domain ID",
+			description:
+				"Set to `true` to include `domain_id` on each match. Required to dismiss or undismiss a match. Defaults to `false`.",
 		})
 		.option("include-dismissed", {
 			type: "string",
-			description: "Include dismissed",
+			description:
+				"Set to `false` to exclude dismissed matches. Dismissed matches are included when this is omitted or `true`.",
 		})
 		.option("domain-search", {
 			type: "string",
-			description: "Filter matches by domain name (substring match)",
+			description:
+				"Return only matches whose domain contains this text (case-insensitive).",
 		})
 		.option("order-by", {
 			type: "string",
 			description:
-				"Column to sort by. Options: 'domain', 'first_seen', or 'registrar'",
+				"Field to sort by: `domain`, `first_seen`, or `registrar`. Defaults to `first_seen`.",
 			choices: ["domain", "first_seen", "registrar"],
 		})
 		.option("order", {
 			type: "string",
 			description:
-				"Sort order. Options: 'asc' (ascending) or 'desc' (descending)",
+				"Sort direction: `asc` or `desc`. Defaults to `desc`. For single-query requests, `asc` applies only when `orderBy` is set.",
 			choices: ["asc", "desc"],
 		})
 		.option("dry-run", {
@@ -66,7 +75,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
-	describe: "List saved query matches",
+	describe: "List domain matches",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

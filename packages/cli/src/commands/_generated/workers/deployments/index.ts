@@ -11,7 +11,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "deployments",
-	describe: "Operations for deployments",
+	describe: "Manage Worker deployments and traffic versions",
 
 	builder: (yargs) => {
 		return yargs

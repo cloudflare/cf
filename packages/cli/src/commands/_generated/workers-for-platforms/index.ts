@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "workers-for-platforms",
-	describe: "workers-for-platforms",
+	describe:
+		"Workers for Platforms uses dispatch namespaces to isolate and route requests to many individual user Workers, letting platforms run untrusted customer or AI-generated code at scale with per-tenant bindings, limits, and observability",
 
 	builder: (yargs) => {
 		return yargs

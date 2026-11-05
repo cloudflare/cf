@@ -29,10 +29,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Share identifier tag.",
 			demandOption: true,
 		})
-		.option("organization-id", {
-			type: "string",
-			description: "Organization identifier.",
-		})
 		.option("recipient-account-id", {
 			type: "string",
 			description: "The account that will receive the share.",
@@ -45,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description:
-				"Optionally specify \`recipient_account_id\` to target a specific account, or \`organization_id\` to target the caller's whole organization. If neither is provided, the caller's organization is used. The legacy field \`account_id\` is accepted as a synonym for \`recipient_account_id\` during the deprecation period (see \`x-sunset\` on that field). ",
+				"Specify the account receiving the share using \`recipient_account_id\`. The legacy field \`account_id\` is accepted as a synonym during the deprecation period (see \`x-sunset\` on that field). ",
 		});
 }
 
@@ -77,11 +73,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										organization_id: resolveFileToken(
-											argv["organization-id"] as string | undefined,
-											"organization-id",
-											"text"
-										),
 										recipient_account_id: resolveFileToken(
 											argv["recipient-account-id"] as string | undefined,
 											"recipient-account-id",
@@ -112,11 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					organization_id: resolveFileToken(
-						argv["organization-id"] as string | undefined,
-						"organization-id",
-						"text"
-					),
 					recipient_account_id: resolveFileToken(
 						argv["recipient-account-id"] as string | undefined,
 						"recipient-account-id",

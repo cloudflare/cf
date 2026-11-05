@@ -223,6 +223,20 @@ describe("cf deploy — assets", () => {
 			expect(buildDelegateWasCalled()).toBe(false);
 		});
 
+		it("rejects an empty static directory before replacing Build Output", async () => {
+			await seed({
+				".cloudflare/output/v0/config.json": "existing output",
+			});
+
+			await expect(runCf(["deploy", ""])).rejects.toThrow(
+				"The static assets directory argument cannot be empty."
+			);
+			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+				"existing output"
+			);
+			expect(buildDelegateWasCalled()).toBe(false);
+		});
+
 		it("rejects a static directory inside Build Output before cleaning it", async () => {
 			await seed({
 				".cloudflare/output/static/index.html": "existing asset",

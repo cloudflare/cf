@@ -59,6 +59,9 @@ export async function prepareStaticAssetsBuildOutput(
 	if (directory === undefined) {
 		return false;
 	}
+	if (directory === "") {
+		throw new Error("The static assets directory argument cannot be empty.");
+	}
 	if (argv.prebuilt) {
 		throw new Error(
 			"A static assets directory cannot be combined with --prebuilt. Pass either the source directory or --prebuilt Build Output."

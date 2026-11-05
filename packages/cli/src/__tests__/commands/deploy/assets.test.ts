@@ -114,6 +114,32 @@ describe("cf deploy — assets", () => {
 			);
 		});
 
+		it("deploys the project root without including .cloudflare", async () => {
+			mockWorkerUpload();
+			const assets = mockAssetUpload();
+			await seed({
+				"index.html": "root asset",
+				".cloudflare/project-state.json": "not an asset",
+				".cloudflare/output/v0/workers/default/bundle/stale.js":
+					"export default {};",
+			});
+
+			const { exitCode } = await runCf(["deploy", "."]);
+
+			expect(exitCode).toBe(0);
+			expect(buildDelegateWasCalled()).toBe(false);
+			const manifestPaths = Object.keys(assets.manifest ?? {});
+			expect(manifestPaths).toContain("/index.html");
+			expect(
+				manifestPaths.some((assetPath) => assetPath.startsWith("/.cloudflare/"))
+			).toBe(false);
+			expect(
+				existsSync(
+					resolve(".cloudflare/output/v0/workers/default/assets/.cloudflare")
+				)
+			).toBe(false);
+		});
+
 		it("writes Preview Build Output for Preview deployment commands", async () => {
 			await seed({ "public/index.html": "preview" });
 

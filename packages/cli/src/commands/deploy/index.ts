@@ -1,3 +1,4 @@
+import { log } from "../../lib/ui/log.js";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
@@ -9,6 +10,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Automatically provision resources for bindings that need them",
 			default: true,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description:
+				"Allow upload in CI despite conflicting remote Worker changes",
+			default: false,
 		})
 		.option("dispatch-namespace", {
 			type: "string",
@@ -31,6 +39,11 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 		"Deploy a Worker, static site, or full-stack application to Cloudflare",
 	builder,
 	handler: async (argv) => {
+		if (argv.force && !argv["dry-run"]) {
+			log.warn(
+				"Using --force may overwrite conflicting remote Worker changes."
+			);
+		}
 		await runUpload(argv, { command: "Deploy" });
 	},
 };

@@ -343,6 +343,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 			"dry-run": false,
 			"secrets-file": undefined,
 			prebuilt: false,
+			force: false,
 			quiet: false,
 			"temporary-account": false,
 			"event-code": undefined,

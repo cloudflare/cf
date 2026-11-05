@@ -1,0 +1,53 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 24d318e7562ff1f77d4410a78c72641240971b23..6729887d01b00c5030af4a537b154f5cd850c01b 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1,3 +1,4 @@
++import { addCustomApiHeaders, redactCustomApiHeaders } from "@cloudflare/workers-utils/custom-api-headers";
+ import { createRequire } from 'node:module';
+ import { spawn, execFileSync, execFile } from 'node:child_process';
+ import crypto2, { randomUUID, createHash } from 'node:crypto';
+@@ -4055,7 +4056,9 @@ var getHeaders = /* @__PURE__ */ __name(async (config, options) => {
+       headers["Content-Type"] = "application/json";
+     }
+   }
+-  return new Headers(headers);
++  const requestHeaders = new Headers(headers);
++  addCustomApiHeaders(requestHeaders);
++  return requestHeaders;
+ }, "getHeaders");
+ var getRequestBody = /* @__PURE__ */ __name((options) => {
+   if (options.body !== void 0) {
+@@ -4243,7 +4246,7 @@ var debugLogRequest = /* @__PURE__ */ __name(async (config, url, headers, body)
+   logHeaders.delete("Authorization");
+   config.LOGGER?.debugWithSanitization(
+     "HEADERS:",
+-    JSON.stringify(logHeaders, null, 2)
++    JSON.stringify(redactCustomApiHeaders(logHeaders), null, 2)
+   );
+   config.LOGGER?.debugWithSanitization(
+     "BODY:",
+@@ -7238,11 +7241,11 @@ async function tagAndPushImage({
+     complianceConfig
+   );
+   await runDockerCmd(pathToDocker, ["tag", sourceTag, namespacedImageTag]);
++  await runDockerCmd(pathToDocker, ["push", namespacedImageTag]);
+   if (cleanupSourceTag) {
+     logger.debug(`Untagging built image: ${sourceTag}.`);
+     await runDockerCmd(pathToDocker, ["image", "rm", sourceTag]);
+   }
+-  await runDockerCmd(pathToDocker, ["push", namespacedImageTag]);
+   return namespacedImageTag;
+ }
+ __name(tagAndPushImage, "tagAndPushImage");
+@@ -7540,9 +7543,8 @@ async function pushBuiltContainerImage(builtImage, versionId, pathToDocker, acco
+       containerConfig: builtImage.container,
+       accountId,
+       complianceConfig,
+-      cleanupSourceTag: true
++      cleanupSourceTag: false
+     });
+-    builtImage.localTagCleaned = true;
+     return imageRef;
+   } catch (error) {
+     if (error instanceof Error) {

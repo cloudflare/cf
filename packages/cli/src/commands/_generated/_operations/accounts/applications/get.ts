@@ -5,4 +5,7 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/resource-library/applications/${request.id}`,
+	errors: {
+		403: "ForbiddenError",
+	},
 } as const;

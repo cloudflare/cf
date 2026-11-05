@@ -1263,7 +1263,7 @@
 					"name": "order-by",
 					"type": "string",
 					"required": false,
-					"description": "Order results using field:direction format. Supported fields are name, id, human_id,\ncategory_id, application_type, application_confidence_score, and gen_ai_score.\nSupported directions are asc and desc. Ignored when search is provided; results are\nranked by relevance instead. Also ignored when lookup is provided."
+					"description": "Order results using field:direction format. Supported fields are name, id, human_id,\ncategory_id, application_type, application_confidence_score, and gen_ai_score.\nSupported directions are asc and desc. name and application_type ignore the case of\nthe letters A to Z, and ties sort by id. Ignored when search is provided; results are\nranked by relevance instead. Also ignored when lookup is provided."
 				},
 				{
 					"name": "search",
@@ -2198,7 +2198,7 @@
 			"command": "cf accounts categories list",
 			"name": "list",
 			"fullPath": ["accounts", "categories", "list"],
-			"description": "List the categories available for classifying applications, ordered by name. Results are paginated by `offset` or `cursor`.",
+			"description": "List the categories available for classifying applications, ordered by name, ignoring the case of the letters A to Z. Results are paginated by `offset` or `cursor`.",
 			"summary": "List application categories",
 			"usage": "cf accounts categories list [options]",
 			"arguments": [],

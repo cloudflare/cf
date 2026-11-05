@@ -23,7 +23,6 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -44,10 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("description", {
 			type: "string",
 			description: "An informative description of the ruleset.",
-		})
-		.option("id", {
-			type: "string",
-			description: "The unique ID of the ruleset.",
 		})
 		.option("name", {
 			type: "string",
@@ -116,11 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -167,12 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["id"] === undefined) {
-					argv["id"] = await promptForRequiredField(
-						"id",
-						"The unique ID of the ruleset."
-					);
-				}
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
@@ -185,12 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"description",
 							"text"
 						)
-					);
-				if (argv["id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["id"],
-						resolveFileToken(argv["id"] as string | undefined, "id", "text")
 					);
 				if (argv["name"] !== undefined)
 					setNestedValue(

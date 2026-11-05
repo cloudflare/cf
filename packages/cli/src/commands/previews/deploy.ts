@@ -40,7 +40,7 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.positional("preview-name", {
+		.option("preview-name", {
 			type: "string",
 			description:
 				"Preview name. Defaults to the current CI or Git branch; required if no branch is available.",
@@ -78,7 +78,7 @@ export async function runPreviewDeploy(
 	// TODO(cloudflare/cf#329): Return undefined for detached checkouts without a CI branch.
 	if (!previewName || (!explicitPreviewName && previewName === "HEAD")) {
 		throw new Error(
-			"We couldn't determine a Preview name from CI or Git. The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy PREVIEW_NAME"
+			"We couldn't determine a Preview name from CI or Git. The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy --preview-name PREVIEW_NAME"
 		);
 	}
 
@@ -208,7 +208,7 @@ async function deployPreviewBuildOutput(
 }
 
 const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {
-	command: "deploy [preview-name]",
+	command: "deploy",
 	describe: "Deploy a Worker Preview",
 	builder,
 	handler: async (argv) => {

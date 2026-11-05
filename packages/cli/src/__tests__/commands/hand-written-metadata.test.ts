@@ -144,6 +144,19 @@ describe("hand-written command metadata", () => {
 		});
 	});
 
+	it("publishes Preview name as an optional flag", () => {
+		const command = commands.get("cf previews deploy");
+		expect(command?.usage).toBe("cf previews deploy [options]");
+		expect(command?.arguments).toEqual([]);
+		expect(command?.options).toContainEqual({
+			name: "preview-name",
+			type: "string",
+			required: false,
+			description:
+				"Preview name. Defaults to the current CI or Git branch; required if no branch is available.",
+		});
+	});
+
 	it("publishes Preview prebuilt metadata", () => {
 		expect(commands.get("cf previews deploy")?.options).toContainEqual({
 			name: "prebuilt",

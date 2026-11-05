@@ -300,7 +300,15 @@ describe("cf previews deploy", () => {
 		mocks.previewBuildOutput.mockResolvedValue(previewResult);
 
 		await expect(
-			runCf(["previews", "deploy", "feature", "--worker", "api", "--quiet"])
+			runCf([
+				"previews",
+				"deploy",
+				"--preview-name",
+				"feature",
+				"--worker",
+				"api",
+				"--quiet",
+			])
 		).resolves.toEqual({ exitCode: 0 });
 
 		expect(mocks.runBuild).toHaveBeenCalledWith(
@@ -412,7 +420,10 @@ describe("cf previews deploy", () => {
 		});
 		mocks.previewBuildOutput.mockResolvedValue(previewResult);
 
-		await runPreviewDeploy({} as Parameters<typeof runPreviewDeploy>[0]);
+		await expect(runCf(["previews", "deploy", "--quiet"])).resolves.toEqual({
+			exitCode: 0,
+		});
+		expect(mocks.getBranchName).toHaveBeenCalledOnce();
 
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"account-id",
@@ -476,6 +487,7 @@ describe("cf previews deploy", () => {
 			runCf([
 				"previews",
 				"deploy",
+				"--preview-name",
 				"feature",
 				"--prebuilt",
 				"--mode",
@@ -483,6 +495,7 @@ describe("cf previews deploy", () => {
 				"--quiet",
 			])
 		).resolves.toEqual({ exitCode: 0 });
+		expect(mocks.getBranchName).not.toHaveBeenCalled();
 		expect(mocks.runBuild).not.toHaveBeenCalled();
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"account-id",
@@ -535,6 +548,7 @@ describe("cf previews deploy", () => {
 					runCf([
 						"previews",
 						"deploy",
+						"--preview-name",
 						"feature",
 						"--prebuilt",
 						...(quiet ? ["--quiet"] : []),
@@ -625,6 +639,15 @@ describe("cf previews deploy", () => {
 		});
 	});
 
+	it("rejects a positional Preview name before building or uploading", async () => {
+		await expect(
+			runCf(["previews", "deploy", "feature", "--quiet"])
+		).rejects.toThrow("Unknown command: feature");
+		expect(mocks.runBuild).not.toHaveBeenCalled();
+		expect(mocks.readBuildOutput).not.toHaveBeenCalled();
+		expect(mocks.previewBuildOutput).not.toHaveBeenCalled();
+	});
+
 	it("returns the Preview deployment as JSON", () => {
 		expect(createPreviewDeployOutput(previewResult)).toEqual({
 			type: "preview",
@@ -646,7 +669,7 @@ describe("cf previews deploy", () => {
 			await expect(
 				runPreviewDeploy({} as Parameters<typeof runPreviewDeploy>[0])
 			).rejects.toThrow(
-				"The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy PREVIEW_NAME"
+				"The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy --preview-name PREVIEW_NAME"
 			);
 			expect(mocks.runBuild).not.toHaveBeenCalled();
 		}

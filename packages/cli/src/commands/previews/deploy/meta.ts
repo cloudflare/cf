@@ -6,18 +6,16 @@ export default {
 	fullPath: ["previews", "deploy"],
 	category: "action",
 	description: "Deploy a Worker Preview",
-	usage: "cf previews deploy [preview-name] [options]",
-	arguments: [
+	usage: "cf previews deploy [options]",
+	arguments: [],
+	options: [
 		{
 			name: "preview-name",
-			position: 0,
 			type: "string",
 			required: false,
 			description:
 				"Preview name. Defaults to the current CI or Git branch; required if no branch is available.",
 		},
-	],
-	options: [
 		{
 			name: "prebuilt",
 			type: "boolean",

@@ -1,5 +1,6 @@
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
 import { API_TIMEOUT_MS } from "./api-constants.js";
+import { createApiFetch } from "./api-fetch.js";
 import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion } from "./context.js";
@@ -117,7 +118,7 @@ export async function fetchRawBytes(
 	if (options.headers) {
 		Object.assign(headers, options.headers);
 	}
-	let fetchImpl: typeof globalThis.fetch = globalThis.fetch;
+	let fetchImpl = createApiFetch(globalThis.fetch);
 	if (local) {
 		fetchImpl = createLocalFetch({
 			persistTo: options.persistTo,

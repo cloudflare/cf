@@ -180,8 +180,11 @@ export async function runProjectCommand(
 			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
+	// Match the environment tinyexec gives the child so both resolve the same npm.
 	const [file, ...commandArgs] = resolveNpmLauncher(
-		parseProjectCommand(command)
+		parseProjectCommand(command),
+		cwd,
+		{ ...process.env, ...options.env }
 	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
 		nodePath: false,

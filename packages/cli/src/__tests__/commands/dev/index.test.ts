@@ -309,6 +309,49 @@ describe("cf dev", () => {
 			}
 		);
 
+		it.each([{ separator: [] }, { separator: ["--"] }])(
+			"forwards arguments when Vite has a dev script with separator $separator",
+			async ({ separator }) => {
+				await seed({
+					"cloudflare.config.ts": "export default {};",
+					"package.json": JSON.stringify({
+						name: "vite-project",
+						scripts: { dev: "vite --clearScreen false" },
+						devDependencies: { vite: "^7.0.0" },
+					}),
+					"package-lock.json": "{}",
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "7.0.0",
+					}),
+					"node_modules/.bin/vite": nodeScript(
+						'require("node:fs").writeFileSync("vite-argv.json", JSON.stringify(process.argv.slice(2)));'
+					),
+				});
+				makeExecutable("node_modules/.bin/vite", { npmBin: true });
+
+				const args = ["--port", "8787", "--host", "127.0.0.1"];
+				const result = await runCf([
+					"dev",
+					"--mode",
+					"staging",
+					...separator,
+					...args,
+				]);
+
+				expect(result.exitCode).toBe(0);
+				expect(vi.mocked(x).mock.lastCall?.slice(0, 2)).toEqual([
+					"npx",
+					["vite", "--mode", "staging", ...args],
+				]);
+				expect(JSON.parse(readFileSync("vite-argv.json", "utf8"))).toEqual([
+					"--mode",
+					"staging",
+					...args,
+				]);
+			}
+		);
+
 		it("runs Vite for a Next.js project with vinext installed", async () => {
 			await seed({
 				"package.json": JSON.stringify({

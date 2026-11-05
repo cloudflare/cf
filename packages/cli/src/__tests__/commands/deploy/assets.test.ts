@@ -212,6 +212,28 @@ describe("cf deploy — assets", () => {
 			expect(buildDelegateWasCalled()).toBe(false);
 		});
 
+		it("rejects configured Containers before replacing Build Output", async () => {
+			await seed({
+				"package.json": JSON.stringify({ type: "module" }),
+				"cloudflare.config.ts": `export default {
+					containers: [{
+						name: "server-side-container",
+						image: { reference: "registry.cloudflare.com/app:latest" }
+					}]
+				};`,
+				"public/index.html": "hello",
+				".cloudflare/output/v0/config.json": "existing output",
+			});
+
+			await expect(runCf(["deploy", "public"])).rejects.toThrow(
+				"configures Containers, so this is not an assets-only project"
+			);
+			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+				"existing output"
+			);
+			expect(buildDelegateWasCalled()).toBe(false);
+		});
+
 		it("rejects a configured Worker entrypoint before replacing Build Output", async () => {
 			await seed({
 				"package.json": JSON.stringify({ type: "module" }),

@@ -329,7 +329,7 @@ Practical extensions of this rule:
     default (or `--worker`-selected) Build Output Worker locally; there is no API
     operation to derive it from.
   - `cf workers types` is a hand-written leaf added to the generated Workers
-    tree. It is the bounded source-config exception: it validates the Worker in
+    tree. It is a bounded source-config exception: it validates the Worker in
     the nearest `cloudflare.config.ts` and generates
     `.cloudflare/types/index.d.ts`. `cf init` reuses its generator
     (`generate.ts`) for a project it has just created and installed.
@@ -381,13 +381,21 @@ Shell-completion scripts are no longer generated — `cf complete`
 Normal cf startup and generated API commands read only `accountId` and
 `complianceRegion` from the default export in `cloudflare.config.ts`; they do
 not inspect or validate the `worker` or `containers` fields. Project resource
-config is otherwise the dev-server impl's domain. The bounded exceptions are
-`cf workers types`, which loads and validates the Worker definition to generate
-declarations; `cf init`, which reuses that generator for a project it has just
-created and installed; and the assets-only directory forms of `cf deploy`,
-`cf previews deploy`, and `cf workers versions create`, which validate and
-reuse an optional Worker definition while producing Build Output and reject
-configured entrypoints or Containers.
+config is otherwise the dev-server impl's domain. Source Worker validation is
+limited to type generation and assets-only directory uploads. `cf workers types`
+loads and validates the Worker definition to generate declarations; `cf init`
+reuses that generator for a project it has just created and installed.
+
+Supplying `[directory]` to `cf deploy`, `cf previews deploy`, or
+`cf workers versions create` invokes the shared
+`src/commands/deploy/static-assets.ts` helper. It loads and validates the nearest
+`cloudflare.config.ts` when present, reuses its account settings and Worker
+definition, and rejects configured Worker entrypoints or Containers. If no Worker
+is configured, it derives a Worker name from the project and uses the default
+compatibility date. The helper writes assets-only Build Output without a
+delegated build, recording `--mode` and Preview context, before the command
+continues through the normal Build Output upload path. Without `[directory]`,
+these commands consume Build Output from a delegated build or `--prebuilt`.
 
 This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
 merely because a binding field in the configured Worker is invalid. Loading
@@ -404,6 +412,8 @@ What cf DOES read:
   type generation; when `cf init` generates types for the project it just
   created; or when an assets-only directory workflow produces Build Output for
   `cf deploy`, `cf previews deploy`, or `cf workers versions create`.
+- **The `containers` field from `cloudflare.config.ts`** only when an assets-only
+  directory workflow validates that no Containers are configured.
 - **`~/.config/cloudflare/state.json`** records the shell-completion tip and
   telemetry preferences. Owned by `lib/state.ts`.
 - **`.cloudflare/state/v3/` next to the nearest `cloudflare.config.ts`** stores
@@ -415,8 +425,7 @@ What cf DOES read:
 What cf does NOT read:
 
 - The `worker` field outside type generation and assets-only directory
-  workflows, or the `containers` field except when an assets-only directory
-  workflow verifies that none are configured.
+  workflows, or the `containers` field outside assets-only directory workflows.
 - Other source resource config in any form for generated API commands.
 - `package.json` worker config (none exists today; reserved for
   the future).

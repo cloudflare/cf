@@ -20,12 +20,18 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 billing spend-policies activity list\n\nReturns configuration history from immutable policy revisions for the account, including deleted policies. Entries contain before/after values and verified actor attribution. Pages use descending revision IDs, not event or commit order; refresh the first page for new entries. This cursor is not an incremental consumer checkpoint."
+			"$0 billing spend-policies activity list\n\nReturns configuration history from immutable policy revisions for the account, including deleted policies. Entries contain before/after values and verified actor attribution. Pages use descending revision IDs, not event or commit order; refresh the first page for new entries. This cursor is not an incremental consumer checkpoint. Defaults to `period=current_billing_cycle`: each revision's timestamp must be within its product's current subscription cycle (inclusive start, exclusive end). Each product's cycle is resolved independently from canonical aggregates, including for disabled or deleted policies. Set `period=all` for history across cycles. Filtering happens before pagination. No current cycles returns an empty page; unavailable or disabled cycle resolution returns `503` with code `1013`. Cursors pin resolved cycle bounds across pages and must be used with the same period selection. Cursors obtained before this filter was introduced must be refreshed."
 		)
 		.option("limit", {
 			type: "number",
 			description:
 				"Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected.",
+		})
+		.option("period", {
+			type: "string",
+			description:
+				"Select current subscription billing-cycle history or history across all cycles.",
+			choices: ["current_billing_cycle", "all"],
 		})
 		.option("cursor", {
 			type: "string",
@@ -50,13 +56,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "billing spend-policies activity list",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["period", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
+					period: argv["period"],
 					cursor: argv["cursor"],
 				};
 				if (argv.dryRun) {

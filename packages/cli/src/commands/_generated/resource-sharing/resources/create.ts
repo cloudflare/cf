@@ -40,11 +40,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("resource-account-id", {
 			type: "string",
-			description: "Account identifier.",
+			description:
+				"The account that owns the resource. Must match the `account_id` in the path.",
 		})
 		.option("resource-id", {
 			type: "string",
-			description: "Share Resource identifier.",
+			description:
+				"Identifier assigned by the service that owns the shared resource.",
 		})
 		.option("resource-type", {
 			type: "string",
@@ -148,13 +150,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["resource-account-id"] === undefined) {
 					argv["resource-account-id"] = await promptForRequiredField(
 						"resource-account-id",
-						"Account identifier."
+						"The account that owns the resource. Must match the \`account_id\` in the path."
 					);
 				}
 				if (argv["resource-id"] === undefined) {
 					argv["resource-id"] = await promptForRequiredField(
 						"resource-id",
-						"Share Resource identifier."
+						"Identifier assigned by the service that owns the shared resource."
 					);
 				}
 				if (argv["resource-type"] === undefined) {

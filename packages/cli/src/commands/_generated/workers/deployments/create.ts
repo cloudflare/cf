@@ -52,7 +52,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("strategy", {
 			type: "string",
-			description: "The strategy field",
+			description:
+				"Strategy for routing traffic across the listed versions. `percentage` splits traffic according to each version's `percentage`.",
 			choices: ["percentage"],
 		})
 		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
@@ -197,7 +198,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["strategy"] === undefined) {
 					argv["strategy"] = await promptForRequiredEnumField(
 						"strategy",
-						"The strategy field",
+						"Strategy for routing traffic across the listed versions. \`percentage\` splits traffic according to each version's \`percentage\`.",
 						["percentage"] as const
 					);
 				}

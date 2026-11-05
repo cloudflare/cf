@@ -108,6 +108,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed.",
 		})
+		.option("networks", {
+			type: "string",
+			array: true,
+			description: "List of networks where Load Balancer or Pool is enabled.",
+		})
 		.option("notification-email", {
 			type: "string",
 			description:
@@ -233,6 +238,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
+										networks: argv["networks"],
 										notification_email: resolveFileToken(
 											argv["notification-email"] as string | undefined,
 											"notification-email",
@@ -309,6 +315,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
+					networks: argv["networks"],
 					notification_email: resolveFileToken(
 						argv["notification-email"] as string | undefined,
 						"notification-email",

@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing excluded-recipients list\n\nLists the accounts excluded from an organization-targeted share. Only valid for shares with `target_type=organization`."
+			"$0 resource-sharing excluded-recipients list\n\nLists the accounts excluded from an organization-targeted share. Returns an empty list for account-targeted shares."
 		)
 		.option("share-id", {
 			type: "string",
@@ -29,13 +29,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("page", {
 			type: "number",
-			description:
-				"Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response.",
+			description: "Page number. Defaults to `1` when omitted.",
 		})
 		.option("per-page", {
 			type: "number",
 			description:
-				"Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response.",
+				"Number of objects to return per page. Defaults to `20` when omitted.",
 		})
 		.option("dry-run", {
 			type: "boolean",

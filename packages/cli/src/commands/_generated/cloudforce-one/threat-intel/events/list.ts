@@ -27,7 +27,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.",
 		})
-		.option("search", { type: "string", array: true, description: "Search" })
+		.option("search", {
+			type: "string",
+			array: true,
+			description:
+				'JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND\'d together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value.',
+		})
 		.option("search-branches", {
 			type: "string",
 			array: true,

@@ -30,10 +30,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tld-type", {
 			type: "string",
-			description: "Filters results by TLD type.",
+			description:
+				"Filters results by TLD type. GENERIC_RESTRICTED and SPONSORED are deprecated and return no results, as IANA consolidated them into GENERIC. INFRASTRUCTURE is deprecated, as IANA reclassified .arpa as SPECIAL_USE.",
 			choices: [
 				"GENERIC",
 				"COUNTRY_CODE",
+				"SPECIAL_USE",
 				"GENERIC_RESTRICTED",
 				"INFRASTRUCTURE",
 				"SPONSORED",

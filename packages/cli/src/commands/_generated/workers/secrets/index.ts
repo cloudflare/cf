@@ -12,7 +12,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "secrets",
-	describe: "Operations for secrets",
+	describe: "Manage secrets bound to Worker scripts",
 
 	builder: (yargs) => {
 		return yargs

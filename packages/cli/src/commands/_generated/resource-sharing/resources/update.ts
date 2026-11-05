@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing resources update <share-resource-id>\n\nUpdate is not immediate, an updated share resource object with a new status will be returned."
+			"$0 resource-sharing resources update <share-resource-id>\n\nUpdates the resource's `meta`. Only resources with `status=active` can be updated."
 		)
 		.positional("share-resource-id", {
 			type: "string",

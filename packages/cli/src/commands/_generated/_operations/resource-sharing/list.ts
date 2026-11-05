@@ -16,6 +16,7 @@ export default {
 		"per_page",
 		"include_resources",
 		"include_recipient_counts",
+		"include_tags_from",
 		"tag",
 	],
 } as const;

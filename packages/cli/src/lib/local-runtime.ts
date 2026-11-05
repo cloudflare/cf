@@ -43,7 +43,7 @@ function resolvePersistRoot(persistTo?: string): string {
 }
 
 // Matches the Cloudflare Vite plugin's default, so `--local` reads the state
-// that `cf dev` writes.
+// that a Vite-based `cf dev` writes.
 function resolveProjectPersistRoot(): string {
 	const configPath = findCloudflareConfig();
 	if (configPath === null) {

@@ -1133,6 +1133,9 @@ export function imports(ctx: Ctx): Imports {
 	}
 	i.from(`${lib}/output.js`, ["formatOutput"]);
 	i.from(`${lib}/dry-run.js`, ["formatDryRun"]);
+	if (positionals(d).some((arg) => arg.isWorkerName)) {
+		i.from(`${lib}/ui/theme.js`, ["theme"]);
+	}
 	if ((ctx.op.bodyUnions?.length ?? 0) > 0 && d.hasBodyParams) {
 		i.from(`${lib}/body-unions.js`, ["validateBodyUnions"]);
 	}

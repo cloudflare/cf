@@ -18,6 +18,7 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
+import { theme } from "#lib/ui/theme.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -31,9 +32,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("worker", {
 			type: "string",
 			alias: ["script-name", "worker-id"],
-			group: "Options:",
 			description: "Identifier for the Worker, which can be ID or name.",
 		})
+		.group("worker", theme.brand("Options"))
 		.option("delete-with-references", {
 			type: "boolean",
 			description:

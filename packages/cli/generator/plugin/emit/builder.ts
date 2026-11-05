@@ -89,13 +89,15 @@ export function builderLines(ctx: Ctx): string[] {
 				["type", type],
 				["array", scalarArray ? true : undefined],
 				["alias", arg.isWorkerName ? WORKER_ALIASES : undefined],
-				["group", arg.isWorkerName && arg.positional ? "Options:" : undefined],
 				["description", arg.description],
 				["choices", arg.choices],
 				["default", defaults.get(arg.name)],
 				["demandOption", demand ? true : undefined],
 			])
 		);
+		if (arg.isWorkerName && arg.positional) {
+			lines.push(`.group(${stringify(name)}, theme.brand('Options'))`);
+		}
 		// Resolve `@file` before yargs validates `choices` against the value,
 		// so the handler gets the file's contents without reading it twice.
 		if (arg.fromFile !== undefined && hasChoices(arg)) {

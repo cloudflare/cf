@@ -150,6 +150,32 @@ describe("help formatting", () => {
 		);
 	});
 
+	it.each([
+		["get", 0],
+		["get", 3],
+		["delete", 0],
+		["delete", 3],
+	] as const)(
+		"%s keeps Worker selection in one options section (color level %i)",
+		async (name, level) => {
+			const previousLevel = chalk.level;
+			try {
+				chalk.level = level;
+				const help = await buildCli(["workers", name, "--help"]).cli.getHelp();
+				const sections = help.split(theme.brand("Options"));
+				expect(sections).toHaveLength(2);
+				const options = sections[1]?.split("\n\n")[0];
+				expect(options).toContain("--worker");
+				expect(options).toContain("--dry-run");
+				if (name === "delete") {
+					expect(options).toContain("--force");
+				}
+			} finally {
+				chalk.level = previousLevel;
+			}
+		}
+	);
+
 	it("italicizes the API hint and colors the schema command when enabled", () => {
 		const previousLevel = chalk.level;
 		try {

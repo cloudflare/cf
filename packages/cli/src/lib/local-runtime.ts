@@ -119,6 +119,7 @@ export async function dispatchLocal(
 	const url = `${LOCAL_EXPLORER_URL}${stripped}${requestUrl.search}`;
 	const headers = new Headers(request.headers);
 	headers.delete("Authorization");
+	headers.delete("X-Auth-Key");
 	headers.set("Host", "localhost");
 
 	let active: LocalSession;

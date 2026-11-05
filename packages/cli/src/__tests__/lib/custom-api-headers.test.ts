@@ -92,7 +92,7 @@ describe("custom API headers", () => {
 			vi.stubEnv("WRANGLER_LOG_SANITIZE", sanitize);
 			vi.stubEnv(
 				"CLOUDFLARE_API_HEADERS",
-				'{"X-Custom-Header":"configured-secret"}'
+				'{"X-Custom-Header":"configured-secret","X-Auth-Key":"global-key"}'
 			);
 			const messages = vi.spyOn(log, "message").mockImplementation(() => {});
 			msw.use(
@@ -100,6 +100,7 @@ describe("custom API headers", () => {
 					expect(request.headers.get("x-custom-header")).toBe(
 						"configured-secret"
 					);
+					expect(request.headers.get("x-auth-key")).toBe("global-key");
 					return HttpResponse.json({ success: true, result: [] });
 				})
 			);
@@ -122,6 +123,8 @@ describe("custom API headers", () => {
 				expect(output).not.toContain("request-secret");
 			}
 			expect(output).not.toContain("Bearer test-token");
+			expect(output).not.toContain('"x-auth-key"');
+			expect(output).not.toContain("global-key");
 		}
 	);
 

@@ -2,6 +2,34 @@ diff --git a/dist/index.mjs b/dist/index.mjs
 index 24d318e7562ff1f77d4410a78c72641240971b23..3873a26ecba7c13d915f3801f55b33719cbb999e 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
+@@ -1,3 +1,4 @@
++import { addCustomApiHeaders, redactCustomApiHeaders } from "@cloudflare/workers-utils/custom-api-headers";
+ import { createRequire } from 'node:module';
+ import { spawn, execFileSync, execFile } from 'node:child_process';
+ import crypto2, { randomUUID, createHash } from 'node:crypto';
+@@ -4055,7 +4056,9 @@ var getHeaders = /* @__PURE__ */ __name(async (config, options) => {
+       headers["Content-Type"] = "application/json";
+     }
+   }
+-  return new Headers(headers);
++  const requestHeaders = new Headers(headers);
++  addCustomApiHeaders(requestHeaders);
++  return requestHeaders;
+ }, "getHeaders");
+ var getRequestBody = /* @__PURE__ */ __name((options) => {
+   if (options.body !== void 0) {
+@@ -4241,9 +4244,10 @@ var debugLogRequest = /* @__PURE__ */ __name(async (config, url, headers, body)
+   config.LOGGER?.debug(`-- START CF API REQUEST: ${url}`);
+   const logHeaders = new Headers(headers);
+   logHeaders.delete("Authorization");
++  logHeaders.delete("X-Auth-Key");
+   config.LOGGER?.debugWithSanitization(
+     "HEADERS:",
+-    JSON.stringify(logHeaders, null, 2)
++    JSON.stringify(redactCustomApiHeaders(logHeaders), null, 2)
+   );
+   config.LOGGER?.debugWithSanitization(
+     "BODY:",
 @@ -7238,11 +7242,11 @@ async function tagAndPushImage({
      complianceConfig
    );

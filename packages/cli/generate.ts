@@ -13,11 +13,11 @@ import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secre
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
-// Bump this SHA to generate the commands from a new release.
-const FORGE_OPENAPI_VERSION = "ec5b5772f5cf7dfb16c49f3527671edfa37bb666";
+// Bump this SHA to generate the commands from a newer cloudflare/api-schemas commit.
+const FORGE_OPENAPI_VERSION = "193e683baba9c46b675d91c959c3b9a726b2d184";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
-const FORGE_OPENAPI_ASSET = "openapi.forge.json";
-const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
+const FORGE_OPENAPI_ASSET = "openapi.json";
+const FORGE_OPENAPI_ASSET_URL = `https://raw.githubusercontent.com/cloudflare/api-schemas/${FORGE_OPENAPI_VERSION}/${FORGE_OPENAPI_ASSET}`;
 const HTTP_METHODS = [
 	"get",
 	"put",
@@ -84,7 +84,6 @@ function ignoreInvalidHiddenOperations(openapi: ForgeOpenApiDocument): void {
 			if (!operation || operation["x-forge-hidden"] !== true) {
 				continue;
 			}
-
 			const responseCodes = Object.keys(operation.responses ?? {});
 			const hasSuccessResponse = responseCodes.some(
 				(code) => code === "101" || code === "2XX" || /^2\d{2}$/.test(code)

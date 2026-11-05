@@ -8,8 +8,7 @@ import { x } from "tinyexec";
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const GENERATOR_PATH = join(REPO_ROOT, "packages/cli/generate.ts");
-const FORGE_REPOSITORY = "cloudflare/forge";
-const OPENAPI_ASSET = "openapi.forge.json";
+const OPENAPI_REPOSITORY = "cloudflare/api-schemas";
 const OPENAPI_VERSION_PATTERN =
 	/^const FORGE_OPENAPI_VERSION = "([0-9a-f]{40})";$/m;
 const UPDATE_COMMIT_PATTERN =
@@ -293,40 +292,23 @@ export async function getLatestOpenApiRelease(): Promise<{
 	tag: string;
 	version: string;
 }> {
-	// Forge must keep its latest release marker on the current OpenAPI spec.
-	const release = await githubRequest(
-		`/repos/${FORGE_REPOSITORY}/releases/latest`,
+	const commit = await githubRequest(
+		`/repos/${OPENAPI_REPOSITORY}/commits/main`,
 		{},
 		undefined,
 		"application/vnd.github+json",
 		readJson
 	);
 	if (
-		!isObject(release) ||
-		release.draft ||
-		release.prerelease ||
-		typeof release.tag_name !== "string"
+		!isObject(commit) ||
+		typeof commit.sha !== "string" ||
+		!/^[0-9a-f]{40}$/.test(commit.sha)
 	) {
-		throw new Error("Latest Forge release is not a published OpenAPI release");
-	}
-	const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
-	if (!match?.[1]) {
 		throw new Error(
-			`Latest Forge release ${release.tag_name} does not have a valid OpenAPI tag`
+			"Latest cloudflare/api-schemas main commit does not have a valid SHA"
 		);
 	}
-	// generate.ts downloads this asset, so never pin a release without it.
-	const hasAsset =
-		Array.isArray(release.assets) &&
-		release.assets.some(
-			(item) => isObject(item) && item.name === OPENAPI_ASSET
-		);
-	if (!hasAsset) {
-		throw new Error(
-			`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
-		);
-	}
-	return { tag: release.tag_name, version: match[1] };
+	return { tag: `openapi@${commit.sha}`, version: commit.sha };
 }
 
 /**
@@ -675,7 +657,7 @@ async function main(): Promise<void> {
 
 	const shortVersion = version.slice(0, 12);
 	const title = `chore: update OpenAPI to ${shortVersion}`;
-	const releaseUrl = `${GITHUB_SERVER_URL}/${FORGE_REPOSITORY}/releases/tag/${encodeURIComponent(tag)}`;
+	const releaseUrl = `${GITHUB_SERVER_URL}/${OPENAPI_REPOSITORY}/commit/${version}`;
 	const body = `Updates cf to [\`${tag}\`](${releaseUrl}).
 
 - pins OpenAPI revision \`${version}\`

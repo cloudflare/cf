@@ -7,6 +7,7 @@ import {
 	optionDefaults,
 	options as optionArgs,
 	positionals,
+	WORKER_ALIASES,
 } from "../args.js";
 import { kebab, obj, stringify, type Value } from "../js.js";
 import { type Ctx, escapeSingle } from "./index.js";
@@ -87,13 +88,16 @@ export function builderLines(ctx: Ctx): string[] {
 			option(name, [
 				["type", type],
 				["array", scalarArray ? true : undefined],
-				["alias", arg.isWorkerName ? "script-name" : undefined],
+				["alias", arg.isWorkerName ? WORKER_ALIASES : undefined],
 				["description", arg.description],
 				["choices", arg.choices],
 				["default", defaults.get(arg.name)],
 				["demandOption", demand ? true : undefined],
 			])
 		);
+		if (arg.isWorkerName && arg.positional) {
+			lines.push(`.group(${stringify(name)}, theme.brand('Options'))`);
+		}
 		// Resolve `@file` before yargs validates `choices` against the value,
 		// so the handler gets the file's contents without reading it twice.
 		if (arg.fromFile !== undefined && hasChoices(arg)) {

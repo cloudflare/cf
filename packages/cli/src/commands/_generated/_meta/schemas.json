@@ -99466,7 +99466,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -99650,7 +99650,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -99953,7 +99953,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -99981,7 +99981,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -100016,7 +100016,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				}
@@ -100050,7 +100050,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},

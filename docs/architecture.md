@@ -297,9 +297,10 @@ Practical extensions of this rule:
   `resolve.ts`, which validates the domain and calls `client.zones.list()` for
   the selected account. Keep this exception contained in those global
   context/resolution helpers.
-- **Worker-name flag** (`--worker`, with `--script-name` as an alias) is a
+- **Worker-name flag** (`--worker`, with `--script-name` and `--worker-id` as aliases) is a
   generator-side product-scoped affordance, selected by
-  `resourceName === "workers"` in `isWorkerNameArg`. Add similar scoped checks
+  `resource === "workers"` in argument derivation. Generated `workers get` and
+  `workers delete` also accept the Worker as a positional argument. Add similar scoped checks
   rather than spreading product names.
 - **Product-specific hand-written commands are documented exceptions.** Three
   shadow generated leaves. Two exist because the request body's real schema sits behind a sibling

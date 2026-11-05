@@ -68,7 +68,7 @@ describe("delete", () => {
 			  "method": "DELETE",
 			  "url": "https://api.cloudflare.com/client/v4/accounts/some-account-id/workers/workers/xyz",
 			  "pathParams": {
-			    "worker-id": "xyz"
+			    "worker": "xyz"
 			  },
 			  "query": {},
 			  "bodyKind": "none"

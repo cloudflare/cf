@@ -201,8 +201,8 @@ async function resolveZoneValue(
 /**
  * Get the Worker name. Called by generated commands under `cf workers *`.
  *
- * Yargs populates `scriptName` from either the positional arg or `--worker`
- * (aliased as `--script-name` / `--name`), so this is just a guard against
+ * Yargs populates `worker` from either the positional arg or `--worker`
+ * (aliased as `--script-name` / `--worker-id`), so this is just a guard against
  * missing input.
  */
 export function getWorkerName(argv?: { scriptName?: string }): string {

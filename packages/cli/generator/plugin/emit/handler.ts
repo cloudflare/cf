@@ -83,6 +83,15 @@ export function handler(ctx: Ctx): string[] {
 
 function prelude(ctx: Ctx): string[] {
 	const lines: string[] = [];
+	if (ctx.needsWorkerName) {
+		const read = ctx.firstPositionalIsWorkerName
+			? argvKey(kebab((positionals(ctx.derived)[0] as Arg).name))
+			: 'argv["worker"]';
+		lines.push(
+			`      const scriptName = getWorkerName({ scriptName: ${read} });`
+		);
+		lines.push(`      ${read} = scriptName;`);
+	}
 	if (ctx.hasParams) {
 		lines.push("");
 		lines.push("      const queryParams: Record<string, unknown> = {");
@@ -205,7 +214,7 @@ export function dryRun(ctx: Ctx): string[] {
 		positional,
 		firstPositionalIsZone: false,
 		accountId: "${__cfDryRunAccountId ?? '<account-id>'}",
-		scriptName: "${argv[\"worker\"] ?? '<worker>'}",
+		scriptName: "${encodeURIComponent(scriptName)}",
 		zone: "${argv.zone ?? argv.zoneId ?? '<zone>'}",
 		param,
 	});
@@ -404,15 +413,6 @@ function auth(ctx: Ctx): string[] {
 			);
 			lines.push("      argv.zoneId = zoneId;");
 		}
-	}
-	if (ctx.needsWorkerName) {
-		const read = ctx.firstPositionalIsWorkerName
-			? argvKey(kebab((positionals(ctx.derived)[0] as Arg).name))
-			: 'argv["worker"]';
-		lines.push(
-			`      const scriptName = getWorkerName({ scriptName: ${read} });`
-		);
-		lines.push(`      ${read} = scriptName;`);
 	}
 	return lines;
 }
@@ -1133,6 +1133,9 @@ export function imports(ctx: Ctx): Imports {
 	}
 	i.from(`${lib}/output.js`, ["formatOutput"]);
 	i.from(`${lib}/dry-run.js`, ["formatDryRun"]);
+	if (positionals(d).some((arg) => arg.isWorkerName)) {
+		i.from(`${lib}/ui/theme.js`, ["theme"]);
+	}
 	if ((ctx.op.bodyUnions?.length ?? 0) > 0 && d.hasBodyParams) {
 		i.from(`${lib}/body-unions.js`, ["validateBodyUnions"]);
 	}

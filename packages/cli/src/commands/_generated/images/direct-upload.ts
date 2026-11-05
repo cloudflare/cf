@@ -12,7 +12,6 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";

@@ -35,11 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened.",
 		})
-		.option("zone-defaults-foundation-dns", {
-			type: "boolean",
-			description:
-				"Deprecated. Use nameservers.type to configure Advanced Nameservers.",
-		})
 		.option("zone-defaults-internal-dns-reference-zone-id", {
 			type: "string",
 			description: "The ID of the zone to fallback to.",
@@ -140,7 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					safeFlags: [
 						"enforce-dns-only",
 						"zone-defaults-flatten-all-cnames",
-						"zone-defaults-foundation-dns",
 						"zone-defaults-multi-provider",
 						"zone-defaults-secondary-overrides",
 						"zone-defaults-zone-mode",
@@ -176,7 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										zone_defaults: {
 											flatten_all_cnames:
 												argv["zone-defaults-flatten-all-cnames"],
-											foundation_dns: argv["zone-defaults-foundation-dns"],
 											internal_dns: {
 												reference_zone_id: resolveFileToken(
 													argv[
@@ -216,6 +209,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -232,8 +227,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -250,7 +245,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					enforce_dns_only: argv["enforce-dns-only"],
 					zone_defaults: {
 						flatten_all_cnames: argv["zone-defaults-flatten-all-cnames"],
-						foundation_dns: argv["zone-defaults-foundation-dns"],
 						internal_dns: {
 							reference_zone_id: resolveFileToken(
 								argv["zone-defaults-internal-dns-reference-zone-id"] as

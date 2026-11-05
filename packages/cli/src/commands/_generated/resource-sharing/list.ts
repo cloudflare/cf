@@ -52,13 +52,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("page", {
 			type: "number",
-			description:
-				"Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response.",
+			description: "Page number. Defaults to `1` when omitted.",
 		})
 		.option("per-page", {
 			type: "number",
 			description:
-				"Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response.",
+				"Number of objects to return per page. Defaults to `20` when omitted.",
 		})
 		.option("include-resources", {
 			type: "boolean",
@@ -67,6 +66,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("include-recipient-counts", {
 			type: "boolean",
 			description: "Include recipient counts in the response.",
+		})
+		.option("include-tags-from", {
+			type: "string",
+			description:
+				"Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
+			choices: ["api", "mirror"],
 		})
 		.option("tag", {
 			type: "string",
@@ -100,6 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"direction",
 						"include-resources",
 						"include-recipient-counts",
+						"include-tags-from",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -117,6 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					per_page: argv["per-page"],
 					include_resources: argv["include-resources"],
 					include_recipient_counts: argv["include-recipient-counts"],
+					include_tags_from: argv["include-tags-from"],
 					tag: argv["tag"],
 				};
 				if (argv.dryRun) {

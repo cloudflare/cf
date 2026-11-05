@@ -63,6 +63,46 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json.",
 		})
+		.option("intent-exclusions-actors", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.actors field",
+		})
+		.option("intent-exclusions-attacker-countries", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.attacker_countries field",
+		})
+		.option("intent-exclusions-categories", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.categories field",
+		})
+		.option("intent-exclusions-cves", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.cves field",
+		})
+		.option("intent-exclusions-keywords", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.keywords field",
+		})
+		.option("intent-exclusions-target-countries", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.target_countries field",
+		})
+		.option("intent-exclusions-target-industries", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.target_industries field",
+		})
+		.option("intent-exclusions-techniques", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.techniques field",
+		})
 		.option("intent-indicators", {
 			type: "string",
 			array: true,
@@ -148,6 +188,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.check((argv) => {
 			const groupSet = [
 				"intent-clauses",
+				"intent-exclusions-actors",
+				"intent-exclusions-attacker-countries",
+				"intent-exclusions-categories",
+				"intent-exclusions-cves",
+				"intent-exclusions-keywords",
+				"intent-exclusions-target-countries",
+				"intent-exclusions-target-industries",
+				"intent-exclusions-techniques",
 				"intent-indicators",
 				"intent-unsupported-terms",
 			].some((k) => argv[k] !== undefined);
@@ -160,6 +208,36 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"intent-exclusions-actors",
+				"intent-exclusions-attacker-countries",
+				"intent-exclusions-categories",
+				"intent-exclusions-cves",
+				"intent-exclusions-keywords",
+				"intent-exclusions-target-countries",
+				"intent-exclusions-target-industries",
+				"intent-exclusions-techniques",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"intent-exclusions-actors",
+					"intent-exclusions-attacker-countries",
+					"intent-exclusions-categories",
+					"intent-exclusions-cves",
+					"intent-exclusions-keywords",
+					"intent-exclusions-target-countries",
+					"intent-exclusions-target-industries",
+					"intent-exclusions-techniques",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-exclusions-* flag is set`
 					);
 				}
 			}
@@ -261,6 +339,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["intent-clauses"],
 													"intent-clauses"
 												),
+												exclusions: {
+													actors: argv["intent-exclusions-actors"],
+													attacker_countries:
+														argv["intent-exclusions-attacker-countries"],
+													categories: argv["intent-exclusions-categories"],
+													cves: argv["intent-exclusions-cves"],
+													keywords: argv["intent-exclusions-keywords"],
+													target_countries:
+														argv["intent-exclusions-target-countries"],
+													target_industries:
+														argv["intent-exclusions-target-industries"],
+													techniques: argv["intent-exclusions-techniques"],
+												},
 												indicators: argv["intent-indicators"],
 												unsupported_terms: argv["intent-unsupported-terms"],
 											},
@@ -302,12 +393,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -329,6 +422,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					digest_interval_hours: argv["digest-interval-hours"],
 					intent: {
 						clauses: parseObjectArray(argv["intent-clauses"], "intent-clauses"),
+						exclusions: {
+							actors: argv["intent-exclusions-actors"],
+							attacker_countries: argv["intent-exclusions-attacker-countries"],
+							categories: argv["intent-exclusions-categories"],
+							cves: argv["intent-exclusions-cves"],
+							keywords: argv["intent-exclusions-keywords"],
+							target_countries: argv["intent-exclusions-target-countries"],
+							target_industries: argv["intent-exclusions-target-industries"],
+							techniques: argv["intent-exclusions-techniques"],
+						},
 						indicators: argv["intent-indicators"],
 						unsupported_terms: argv["intent-unsupported-terms"],
 					},

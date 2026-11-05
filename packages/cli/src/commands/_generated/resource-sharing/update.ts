@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing update <share-id>\n\nUpdates the share's display name and tags. This endpoint does **not** modify recipients or resources — those are managed via dedicated subresource endpoints: - **Recipients**: Use `POST /accounts/{account_id}/shares/{share_id}/recipients` to add a single recipient, `PUT /accounts/{account_id}/shares/{share_id}/recipients` to replace the full recipient list, or `DELETE /accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}` to remove a recipient. - **Resources**: Use the share's resource subresource endpoints. Updating is not immediate; an updated share object with a new status will be returned."
+			"$0 resource-sharing update <share-id>\n\nUpdates the share's display name and tags. Omitting `tags` leaves the existing tags unchanged. Recipients and resources are managed via their subresource endpoints."
 		)
 		.positional("share-id", {
 			type: "string",
@@ -31,6 +31,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("name", { type: "string", description: "The name of the share." })
+		.option("tags", {
+			type: "string",
+			description:
+				"Tags associated with the share. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -47,7 +52,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <share-id>",
-	describe: "Trigger a share rename",
+	describe: "Trigger a share update",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -70,22 +75,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											tags: parseJsonMap(argv["tags"], "tags"),
+										},
+										[["tags"]]
+									),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -104,13 +115,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						tags: parseJsonMap(argv["tags"], "tags"),
+					},
+					[["tags"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

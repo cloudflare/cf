@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 secrets-store stores list\n\nLists all the stores in an account."
+			"$0 secrets-store stores list\n\nLists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately."
 		)
 		.option("direction", {
 			type: "string",

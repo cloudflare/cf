@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("worker", {
 			type: "string",
-			alias: "script-name",
+			alias: ["script-name", "worker-id"],
 			description: "Name of the script.",
 		})
 		.option("text", { type: "string", description: "The secret value to use." })
@@ -118,13 +118,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workers secrets update",
 						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/secrets`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/secrets`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -154,14 +156,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
-				argv["worker"] = scriptName;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

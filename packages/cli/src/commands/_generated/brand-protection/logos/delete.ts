@@ -21,11 +21,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection logos delete <query-id>\n\nDelete a saved brand protection logo query. Returns 404 if the query ID doesn't exist."
+			"$0 brand-protection logos delete <query-id>\n\nPermanently deletes a saved logo query and all of its matches. If the query does not exist in this account, the request fails with error code 404."
 		)
 		.positional("query-id", {
 			type: "string",
-			description: "Query ID",
+			description: "ID of the logo query.",
 			demandOption: true,
 		})
 		.option("dry-run", {

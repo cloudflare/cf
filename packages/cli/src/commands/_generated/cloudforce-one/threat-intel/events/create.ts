@@ -28,7 +28,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-intel events create\n\nCreates an event. Without `datasetId`, the event is created in the default Cloudforce One Threat Events dataset. To create a dataset, use `threat-intel datasets create`."
+			"$0 cloudforce-one threat-intel events create\n\nCreates an event in the dataset given by `datasetId`. Omitting `datasetId` is deprecated: the event is created in the default Cloudforce One Threat Events dataset, and a future release will reject the request. To create a dataset, use `threat-intel datasets create`."
 		)
 		.option("attacker", { type: "string", description: "The attacker field" })
 		.option("attacker-country", {
@@ -263,14 +263,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined
+						? parseBody(argv.body, [
+								{ path: ["raw", "data"], flag: "raw-data" },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["raw", "data"], flag: "raw-data" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

@@ -297,9 +297,10 @@ Practical extensions of this rule:
   `resolve.ts`, which validates the domain and calls `client.zones.list()` for
   the selected account. Keep this exception contained in those global
   context/resolution helpers.
-- **Worker-name flag** (`--worker`, with `--script-name` as an alias) is a
+- **Worker-name flag** (`--worker`, with `--script-name` and `--worker-id` as aliases) is a
   generator-side product-scoped affordance, selected by
-  `resourceName === "workers"` in `isWorkerNameArg`. Add similar scoped checks
+  `resource === "workers"` in argument derivation. Generated `workers get` and
+  `workers delete` also accept the Worker as a positional argument. Add similar scoped checks
   rather than spreading product names.
 - **Product-specific hand-written commands are documented exceptions.** Three
   shadow generated leaves. Two exist because the request body's real schema sits behind a sibling
@@ -782,12 +783,7 @@ workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
 pushes that change the package, and `packages/cli/package.json` pins one by
 commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
-and `workers-utils` are installed from npm at exact versions. `deploy-helpers`
-temporarily uses a commit-pinned pkg.pr.new build from workers-sdk PR #16020
-for its `strictModeAbortMessage` API. Its sibling dependencies are overridden
-to the matching npm releases in `pnpm-workspace.yaml` to retain shared package
-instances and the container cleanup patch. Remove those overrides when a
-released deploy-helpers version includes the API.
+`workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 

@@ -12,7 +12,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "recipients",
-	describe: "Update share recipients",
+	describe: "Accounts that receive a share",
 
 	builder: (yargs) => {
 		return yargs

@@ -65,7 +65,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("search", {
 			type: "string",
 			description:
-				"Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json.",
+				'Structured search as a JSON array of {field, op, value} objects, AND\'d together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value. Provide as a JSON array of objects or @path/to/file.json.',
 		})
 		.option("search-branches", {
 			type: "string",
@@ -140,12 +140,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

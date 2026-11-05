@@ -453,6 +453,12 @@
 					"flag": "mitigation-status",
 					"type": "string",
 					"required": false
+				},
+				{
+					"name": "pending_notice",
+					"flag": "pending-notice",
+					"type": "boolean",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -1633,7 +1639,7 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "The type field"
+					"description": "the type of account being created. For self-serve customers, use standard. for enterprise customers, use enterprise."
 				},
 				{
 					"name": "unit-id",
@@ -3005,12 +3011,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Indicates whether membership in this account requires that\nTwo-Factor Authentication is enabled"
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field"
 				}
 			]
 		},
@@ -3919,7 +3919,7 @@
 					"name": "asn",
 					"type": "number",
 					"required": true,
-					"description": "Autonomous System Number (ASN) the prefix will be advertised under."
+					"description": "Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN."
 				},
 				{
 					"name": "cidr",
@@ -13508,7 +13508,7 @@
 					"name": "value",
 					"type": "string",
 					"required": true,
-					"description": "Enables Tiered Caching."
+					"description": "Enables or disables Tiered Cache."
 				}
 			]
 		},
@@ -15310,6 +15310,12 @@
 					"required": false
 				},
 				{
+					"name": "period",
+					"flag": "period",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "cursor",
 					"flag": "cursor",
 					"type": "string",
@@ -15341,6 +15347,12 @@
 					"name": "limit",
 					"flag": "limit",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "period",
+					"flag": "period",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -16156,13 +16168,13 @@
 					"name": "image-data",
 					"type": "string",
 					"required": true,
-					"description": "Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string."
+					"description": "Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a `data:image/x-icon;base64,` prefix."
 				},
 				{
 					"name": "search-lookback",
 					"type": "boolean",
 					"required": false,
-					"description": "If true, search historic scanned images for matches above the similarity threshold"
+					"description": "If true, also search previously scanned images for matches above the similarity threshold. Defaults to `true`."
 				},
 				{
 					"name": "similarity-threshold",
@@ -16174,7 +16186,7 @@
 					"name": "tag",
 					"type": "string",
 					"required": true,
-					"description": "Unique identifier for the logo query"
+					"description": "Name of the logo query. Must be unique among the account's logo queries."
 				}
 			]
 		},
@@ -16246,19 +16258,19 @@
 					"name": "action",
 					"type": "string",
 					"required": true,
-					"description": "The action field"
+					"description": "`dismiss` to dismiss the matches, or `undismiss` to restore them."
 				},
 				{
 					"name": "match-ids",
 					"type": "string",
 					"required": false,
-					"description": "The match_ids field"
+					"description": "Legacy format; prefer `matches`. Match IDs to update. Each ID changes the match for every query that shares it, not just one query. 1 to 100 items; duplicate IDs are rejected."
 				},
 				{
 					"name": "matches",
 					"type": "string",
 					"required": false,
-					"description": "The matches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Matches to update, as (`query_id`, `domain_id`) pairs. Each pair changes the match for that query only. 1 to 100 items; duplicate pairs are rejected. Send only one format. If both are supplied, `match_ids` takes precedence and `matches` is ignored. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -16459,7 +16471,7 @@
 					"name": "top-k",
 					"type": "number",
 					"required": false,
-					"description": "Number of closest matches to return (1-100, default: 10)"
+					"description": "Number of closest matches to return. Defaults to 10. Accepts 1 to 100, but values above 50 are treated as 50."
 				}
 			]
 		},
@@ -21899,6 +21911,54 @@
 					"description": "The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
+					"name": "intent-exclusions-actors",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.actors field"
+				},
+				{
+					"name": "intent-exclusions-attacker-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.attacker_countries field"
+				},
+				{
+					"name": "intent-exclusions-categories",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.categories field"
+				},
+				{
+					"name": "intent-exclusions-cves",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.cves field"
+				},
+				{
+					"name": "intent-exclusions-keywords",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.keywords field"
+				},
+				{
+					"name": "intent-exclusions-target-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_countries field"
+				},
+				{
+					"name": "intent-exclusions-target-industries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_industries field"
+				},
+				{
+					"name": "intent-exclusions-techniques",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.techniques field"
+				},
+				{
 					"name": "intent-indicators",
 					"type": "string",
 					"required": false,
@@ -22713,6 +22773,54 @@
 					"type": "string",
 					"required": false,
 					"description": "The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "intent-exclusions-actors",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.actors field"
+				},
+				{
+					"name": "intent-exclusions-attacker-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.attacker_countries field"
+				},
+				{
+					"name": "intent-exclusions-categories",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.categories field"
+				},
+				{
+					"name": "intent-exclusions-cves",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.cves field"
+				},
+				{
+					"name": "intent-exclusions-keywords",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.keywords field"
+				},
+				{
+					"name": "intent-exclusions-target-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_countries field"
+				},
+				{
+					"name": "intent-exclusions-target-industries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_industries field"
+				},
+				{
+					"name": "intent-exclusions-techniques",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.techniques field"
 				},
 				{
 					"name": "intent-indicators",
@@ -26776,7 +26884,7 @@
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "search-branches",
@@ -32293,35 +32401,6 @@
 				}
 			]
 		},
-		"d1 update": {
-			"operationId": "d1.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/d1/database/{database_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "database_id",
-					"flag": "database-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "read-replication-mode",
-					"type": "string",
-					"required": true,
-					"description": "The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted)."
-				}
-			]
-		},
 		"diagnostics endpoint-healthchecks create": {
 			"operationId": "diagnostics.endpoint-healthchecks.create",
 			"httpMethod": "POST",
@@ -33463,12 +33542,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened."
-				},
-				{
-					"name": "zone-defaults-foundation-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated. Use nameservers.type to configure Advanced Nameservers."
 				},
 				{
 					"name": "zone-defaults-internal-dns-reference-zone-id",
@@ -44111,8 +44184,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"intel asn subnets get": {
-			"operationId": "intel.asn.subnets.get",
+		"intel asn subnets list": {
+			"operationId": "intel.asn.subnets.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/intel/asn/{asn}/subnets",
 			"pathParams": [
@@ -44124,7 +44197,6 @@
 				{
 					"name": "asn",
 					"flag": "asn",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -44231,6 +44303,12 @@
 				{
 					"name": "include_ranking",
 					"flag": "include-ranking",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "skip_dns",
+					"flag": "skip-dns",
 					"type": "boolean",
 					"required": false
 				},
@@ -44583,8 +44661,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"intel ip-lists get": {
-			"operationId": "intel.ip-lists.get",
+		"intel ip-lists list": {
+			"operationId": "intel.ip-lists.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/intel/ip-lists",
 			"pathParams": [
@@ -45917,6 +45995,12 @@
 					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
+					"name": "pool-sets",
+					"type": "string",
+					"required": false,
+					"description": "An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "pop-pools",
 					"type": "string",
 					"required": false,
@@ -46126,6 +46210,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of networks where Load Balancer or Pool is enabled."
+				},
+				{
+					"name": "pool-sets",
+					"type": "string",
+					"required": false,
+					"description": "An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "pop-pools",
@@ -46357,6 +46447,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of networks where Load Balancer or Pool is enabled."
+				},
+				{
+					"name": "pool-sets",
+					"type": "string",
+					"required": false,
+					"description": "An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "pop-pools",
@@ -47058,8 +47154,8 @@
 				}
 			]
 		},
-		"load-balancers monitors references get": {
-			"operationId": "load-balancers.monitors.references.get",
+		"load-balancers monitors references list": {
+			"operationId": "load-balancers.monitors.references.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/load_balancers/monitors/{monitor_id}/references",
 			"pathParams": [
@@ -47071,7 +47167,6 @@
 				{
 					"name": "monitor_id",
 					"flag": "monitor-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -47236,6 +47331,12 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "check-regions",
+					"type": "string",
+					"required": false,
+					"description": "A list of regions from which to run health checks. Null means every Cloudflare data center."
+				},
+				{
 					"name": "description",
 					"type": "string",
 					"required": false,
@@ -47246,6 +47347,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any)."
+				},
+				{
+					"name": "health-sources",
+					"type": "string",
+					"required": false,
+					"description": "A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The load balancer uses the first source that has data and falls back to the next. Currently accepted values are null or the exact array [\"regional\", \"global\"]; any other combination is rejected. Null (the default) behaves like [\"local\", \"global\"]. [\"regional\", \"global\"] makes each region steer on its own health, falling back to the global decision when a region has no fresh data. Setting regional requires at least one region in check_regions."
 				},
 				{
 					"name": "latitude",
@@ -47306,6 +47413,12 @@
 					"type": "string",
 					"required": true,
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+				},
+				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
 					"name": "notification-email",
@@ -47477,6 +47590,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+				},
+				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
 					"name": "notification-email",
@@ -47707,8 +47826,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"load-balancers pools references get": {
-			"operationId": "load-balancers.pools.references.get",
+		"load-balancers pools references list": {
+			"operationId": "load-balancers.pools.references.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/load_balancers/pools/{pool_id}/references",
 			"pathParams": [
@@ -47720,7 +47839,6 @@
 				{
 					"name": "pool_id",
 					"flag": "pool-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -47833,6 +47951,12 @@
 					"type": "string",
 					"required": true,
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+				},
+				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
 					"name": "notification-email",
@@ -57403,27 +57527,8 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "comment",
-					"type": "string",
-					"required": false,
-					"description": "Optional remark describing the virtual network."
-				},
-				{
-					"name": "is-default-network",
-					"type": "boolean",
-					"required": false,
-					"description": "If `true`, this virtual network is the default for the account."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "A user-friendly name for the virtual network."
-				}
-			]
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"network virtual-networks list": {
 			"operationId": "network.virtual-networks.list",
@@ -58034,62 +58139,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"o11y agents sessions list": {
-			"operationId": "o11y.agents.sessions.list",
+		"o11y agents traces events": {
+			"operationId": "o11y.agents.traces.events",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/agents/sessions",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "service",
-					"flag": "service",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "agent",
-					"flag": "agent",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "from",
-					"flag": "from",
-					"type": "number",
-					"required": true
-				},
-				{
-					"name": "to",
-					"flag": "to",
-					"type": "number",
-					"required": true
-				},
-				{
-					"name": "cursor",
-					"flag": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"o11y agents sessions runs": {
-			"operationId": "o11y.agents.sessions.runs",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/agents/sessions/{conversationId}/runs",
+			"path": "/accounts/{account_id}/workers/observability/agents/traces/{traceId}/events",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -58097,8 +58150,8 @@
 					"required": true
 				},
 				{
-					"name": "conversationId",
-					"flag": "conversation-id",
+					"name": "traceId",
+					"flag": "trace-id",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -58106,39 +58159,114 @@
 			],
 			"queryParams": [
 				{
-					"name": "service",
-					"flag": "service",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "agent",
-					"flag": "agent",
-					"type": "string",
-					"required": true
-				},
-				{
 					"name": "from",
 					"flag": "from",
 					"type": "number",
-					"required": true
+					"required": false
 				},
 				{
 					"name": "to",
 					"flag": "to",
 					"type": "number",
-					"required": true
-				},
-				{
-					"name": "cursor",
-					"flag": "cursor",
-					"type": "string",
 					"required": false
 				},
 				{
 					"name": "per_page",
 					"flag": "per-page",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y agents traces get": {
+			"operationId": "o11y.agents.traces.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/agents/traces/{traceId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "traceId",
+					"flag": "trace-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "from",
+					"flag": "from",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "to",
+					"flag": "to",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y agents traces list": {
+			"operationId": "o11y.agents.traces.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/agents/traces",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "service",
+					"flag": "service",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "agent",
+					"flag": "agent",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "from",
+					"flag": "from",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "to",
+					"flag": "to",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -59895,8 +60023,56 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"organization account list": {
-			"operationId": "organization.account.list",
+		"ohttp-gateway enablement create": {
+			"operationId": "ohttp-gateway.enablement.create",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/settings/ohttp-gateway",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"flag": "zone",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ohttp-gateway enablement delete": {
+			"operationId": "ohttp-gateway.enablement.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/settings/ohttp-gateway",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"flag": "zone",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ohttp-gateway enablement get": {
+			"operationId": "ohttp-gateway.enablement.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/settings/ohttp-gateway",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"flag": "zone",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations accounts list": {
+			"operationId": "organizations.accounts.list",
 			"httpMethod": "GET",
 			"path": "/organizations/{organization_id}/accounts",
 			"pathParams": [
@@ -60014,8 +60190,38 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"organization create": {
-			"operationId": "organization.create",
+		"organizations billing usage get": {
+			"operationId": "organizations.billing.usage.get",
+			"httpMethod": "GET",
+			"path": "/organizations/{organization_id}/billable/usage",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "from",
+					"flag": "from",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "to",
+					"flag": "to",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations create": {
+			"operationId": "organizations.create",
 			"httpMethod": "POST",
 			"path": "/organizations",
 			"pathParams": [],
@@ -60066,8 +60272,8 @@
 				}
 			]
 		},
-		"organization delete": {
-			"operationId": "organization.delete",
+		"organizations delete": {
+			"operationId": "organizations.delete",
 			"httpMethod": "DELETE",
 			"path": "/organizations/{organization_id}",
 			"pathParams": [
@@ -60083,8 +60289,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"organization get": {
-			"operationId": "organization.get",
+		"organizations get": {
+			"operationId": "organizations.get",
 			"httpMethod": "GET",
 			"path": "/organizations/{organization_id}",
 			"pathParams": [
@@ -60100,8 +60306,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"organization invite update": {
-			"operationId": "organization.invite.update",
+		"organizations invites update": {
+			"operationId": "organizations.invites.update",
 			"httpMethod": "PUT",
 			"path": "/organizations/{organization_id}/invites/{member_code}",
 			"pathParams": [
@@ -60130,8 +60336,8 @@
 				}
 			]
 		},
-		"organization list": {
-			"operationId": "organization.list",
+		"organizations list": {
+			"operationId": "organizations.list",
 			"httpMethod": "GET",
 			"path": "/organizations",
 			"pathParams": [],
@@ -60218,349 +60424,6 @@
 					"name": "page_size",
 					"flag": "page-size",
 					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"organization member batch create": {
-			"operationId": "organization.member.batch.create",
-			"httpMethod": "POST",
-			"path": "/organizations/{organization_id}/members:batchCreate",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "members",
-					"type": "string",
-					"required": false,
-					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"organization member create": {
-			"operationId": "organization.member.create",
-			"httpMethod": "POST",
-			"path": "/organizations/{organization_id}/members",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "member-user-email",
-					"type": "string",
-					"required": true,
-					"description": "The member.user.email field"
-				}
-			]
-		},
-		"organization member delete": {
-			"operationId": "organization.member.delete",
-			"httpMethod": "DELETE",
-			"path": "/organizations/{organization_id}/members/{member_id}",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "member_id",
-					"flag": "member-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"organization member get": {
-			"operationId": "organization.member.get",
-			"httpMethod": "GET",
-			"path": "/organizations/{organization_id}/members/{member_id}",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "member_id",
-					"flag": "member-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"organization member list": {
-			"operationId": "organization.member.list",
-			"httpMethod": "GET",
-			"path": "/organizations/{organization_id}/members",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"flag": "status",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "user.email",
-					"flag": "user-email",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "user.email.contains",
-					"flag": "user-email-contains",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "user.email.startsWith",
-					"flag": "user-email-starts-with",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "user.email.endsWith",
-					"flag": "user-email-ends-with",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page_token",
-					"flag": "page-token",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page_size",
-					"flag": "page-size",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"organization profile get": {
-			"operationId": "organization.profile.get",
-			"httpMethod": "GET",
-			"path": "/organizations/{organization_id}/profile",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"organization profile update": {
-			"operationId": "organization.profile.update",
-			"httpMethod": "PUT",
-			"path": "/organizations/{organization_id}/profile",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "business-address",
-					"type": "string",
-					"required": false,
-					"description": "The business_address field"
-				},
-				{
-					"name": "business-email",
-					"type": "string",
-					"required": false,
-					"description": "The business_email field"
-				},
-				{
-					"name": "business-name",
-					"type": "string",
-					"required": false,
-					"description": "The business_name field"
-				},
-				{
-					"name": "business-phone",
-					"type": "string",
-					"required": false,
-					"description": "The business_phone field"
-				},
-				{
-					"name": "external-metadata",
-					"type": "string",
-					"required": false,
-					"description": "The external_metadata field"
-				}
-			]
-		},
-		"organization share list": {
-			"operationId": "organization.share.list",
-			"httpMethod": "GET",
-			"path": "/organizations/{organization_id}/shares",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"flag": "status",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "kind",
-					"flag": "kind",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "target_type",
-					"flag": "target-type",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "resource_types",
-					"flag": "resource-types",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "order",
-					"flag": "order",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "direction",
-					"flag": "direction",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"organization update": {
-			"operationId": "organization.update",
-			"httpMethod": "PUT",
-			"path": "/organizations/{organization_id}",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
-				},
-				{
-					"name": "parent-id",
-					"type": "string",
-					"required": false,
-					"description": "The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization."
-				}
-			]
-		},
-		"organizations billing usage get": {
-			"operationId": "organizations.billing.usage.get",
-			"httpMethod": "GET",
-			"path": "/organizations/{organization_id}/billable/usage",
-			"pathParams": [
-				{
-					"name": "organization_id",
-					"flag": "organization-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "from",
-					"flag": "from",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "to",
-					"flag": "to",
-					"type": "string",
 					"required": false
 				}
 			],
@@ -60891,30 +60754,15 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"origin-post-quantum-encryption get": {
-			"operationId": "origin-post-quantum-encryption.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
+		"organizations members batch create": {
+			"operationId": "organizations.members.batch.create",
+			"httpMethod": "POST",
+			"path": "/organizations/{organization_id}/members:batchCreate",
 			"pathParams": [
 				{
-					"name": "zone_id",
-					"flag": "zone",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-post-quantum-encryption update": {
-			"operationId": "origin-post-quantum-encryption.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"flag": "zone",
+					"name": "organization_id",
+					"flag": "organization-id",
+					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -60923,10 +60771,281 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "value",
+					"name": "members",
+					"type": "string",
+					"required": false,
+					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"organizations members create": {
+			"operationId": "organizations.members.create",
+			"httpMethod": "POST",
+			"path": "/organizations/{organization_id}/members",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "member-user-email",
 					"type": "string",
 					"required": true,
-					"description": "Value of the Origin Post Quantum Encryption Setting."
+					"description": "The member.user.email field"
+				}
+			]
+		},
+		"organizations members delete": {
+			"operationId": "organizations.members.delete",
+			"httpMethod": "DELETE",
+			"path": "/organizations/{organization_id}/members/{member_id}",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "member_id",
+					"flag": "member-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations members get": {
+			"operationId": "organizations.members.get",
+			"httpMethod": "GET",
+			"path": "/organizations/{organization_id}/members/{member_id}",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "member_id",
+					"flag": "member-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations members list": {
+			"operationId": "organizations.members.list",
+			"httpMethod": "GET",
+			"path": "/organizations/{organization_id}/members",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "status",
+					"flag": "status",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "user.email",
+					"flag": "user-email",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "user.email.contains",
+					"flag": "user-email-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "user.email.startsWith",
+					"flag": "user-email-starts-with",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "user.email.endsWith",
+					"flag": "user-email-ends-with",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page_token",
+					"flag": "page-token",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page_size",
+					"flag": "page-size",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations profile get": {
+			"operationId": "organizations.profile.get",
+			"httpMethod": "GET",
+			"path": "/organizations/{organization_id}/profile",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations profile update": {
+			"operationId": "organizations.profile.update",
+			"httpMethod": "PUT",
+			"path": "/organizations/{organization_id}/profile",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "business-address",
+					"type": "string",
+					"required": false,
+					"description": "The business_address field"
+				},
+				{
+					"name": "business-email",
+					"type": "string",
+					"required": false,
+					"description": "The business_email field"
+				},
+				{
+					"name": "business-name",
+					"type": "string",
+					"required": false,
+					"description": "The business_name field"
+				},
+				{
+					"name": "business-phone",
+					"type": "string",
+					"required": false,
+					"description": "The business_phone field"
+				},
+				{
+					"name": "external-metadata",
+					"type": "string",
+					"required": false,
+					"description": "The external_metadata field"
+				}
+			]
+		},
+		"organizations shares list": {
+			"operationId": "organizations.shares.list",
+			"httpMethod": "GET",
+			"path": "/organizations/{organization_id}/shares",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "status",
+					"flag": "status",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "order",
+					"flag": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"flag": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"organizations update": {
+			"operationId": "organizations.update",
+			"httpMethod": "PUT",
+			"path": "/organizations/{organization_id}",
+			"pathParams": [
+				{
+					"name": "organization_id",
+					"flag": "organization-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
+				},
+				{
+					"name": "parent-id",
+					"type": "string",
+					"required": false,
+					"description": "The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization."
 				}
 			]
 		},
@@ -64239,7 +64358,7 @@
 					"name": "detection-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n"
+					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores."
 				},
 				{
 					"name": "rules",
@@ -65507,8 +65626,8 @@
 				}
 			]
 		},
-		"r2 buckets domains managed list": {
-			"operationId": "r2.buckets.domains.managed.list",
+		"r2 buckets domains managed get": {
+			"operationId": "r2.buckets.domains.managed.get",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed",
 			"pathParams": [
@@ -65520,6 +65639,7 @@
 				{
 					"name": "bucket_name",
 					"flag": "bucket-name",
+					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -84305,6 +84425,12 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "excluded-recipients",
+					"type": "string",
+					"required": false,
+					"description": "Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -84313,14 +84439,20 @@
 				{
 					"name": "recipients",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The recipients field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "resources",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The resources field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the share. Provide as a JSON object or @path/to/file.json."
 				}
 			]
 		},
@@ -84510,6 +84642,12 @@
 					"flag": "include-recipient-counts",
 					"type": "boolean",
 					"required": false
+				},
+				{
+					"name": "include_tags_from",
+					"flag": "include-tags-from",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -84588,6 +84726,12 @@
 					"required": false
 				},
 				{
+					"name": "include_tags_from",
+					"flag": "include-tags-from",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "tag",
 					"flag": "tag",
 					"type": "array",
@@ -84618,12 +84762,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "organization-id",
-					"type": "string",
-					"required": false,
-					"description": "Organization identifier."
-				},
 				{
 					"name": "recipient-account-id",
 					"type": "string",
@@ -84788,13 +84926,13 @@
 					"name": "resource-account-id",
 					"type": "string",
 					"required": true,
-					"description": "Account identifier."
+					"description": "The account that owns the resource. Must match the `account_id` in the path."
 				},
 				{
 					"name": "resource-id",
 					"type": "string",
 					"required": true,
-					"description": "Share Resource identifier."
+					"description": "Identifier assigned by the service that owns the shared resource."
 				},
 				{
 					"name": "resource-type",
@@ -84967,6 +85105,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the share."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the share. Provide as a JSON object or @path/to/file.json."
 				}
 			]
 		},
@@ -90529,8 +90673,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"ssl mtls-certificates associations get": {
-			"operationId": "ssl.mtls-certificates.associations.get",
+		"ssl mtls-certificates associations list": {
+			"operationId": "ssl.mtls-certificates.associations.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}/associations",
 			"pathParams": [
@@ -90542,7 +90686,6 @@
 				{
 					"name": "mtls_certificate_id",
 					"flag": "mtls-certificate-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -93071,6 +93214,119 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"tenants accounts list": {
+			"operationId": "tenants.accounts.list",
+			"httpMethod": "GET",
+			"path": "/tenants/{tenant_id}/accounts",
+			"pathParams": [
+				{
+					"name": "tenant_id",
+					"flag": "tenant-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "account_pubname",
+					"flag": "account-pubname",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "account_pubname.startsWith",
+					"flag": "account-pubname-starts-with",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "account_pubname.endsWith",
+					"flag": "account-pubname-ends-with",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "account_pubname.contains",
+					"flag": "account-pubname-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.startsWith",
+					"flag": "name-starts-with",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.endsWith",
+					"flag": "name-ends-with",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.contains",
+					"flag": "name-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "status",
+					"flag": "status",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"flag": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "include_total",
+					"flag": "include-total",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "page_token",
+					"flag": "page-token",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page_size",
+					"flag": "page-size",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"tunnels config get": {
 			"operationId": "tunnels.config.get",
 			"httpMethod": "GET",
@@ -95289,6 +95545,12 @@
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
 				},
 				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
+				},
+				{
 					"name": "notification-email",
 					"type": "string",
 					"required": false,
@@ -95786,6 +96048,23 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"user memberships get": {
+			"operationId": "user.memberships.get",
+			"httpMethod": "GET",
+			"path": "/user/memberships/{membership_id}",
+			"pathParams": [
+				{
+					"name": "membership_id",
+					"flag": "membership-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"user memberships list": {
 			"operationId": "user.memberships.list",
 			"httpMethod": "GET",
@@ -95862,40 +96141,6 @@
 				}
 			]
 		},
-		"user memberships user-memberships-get": {
-			"operationId": "user.memberships.user-memberships-get",
-			"httpMethod": "GET",
-			"path": "/user/memberships/{membership_id}",
-			"pathParams": [
-				{
-					"name": "membership_id",
-					"flag": "membership-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"user memberships user-s-account-memberships-membership-details": {
-			"operationId": "user.memberships.user-s-account-memberships-membership-details",
-			"httpMethod": "GET",
-			"path": "/memberships/{membership_id}",
-			"pathParams": [
-				{
-					"name": "membership_id",
-					"flag": "membership-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"user subscriptions delete": {
 			"operationId": "user.subscriptions.delete",
 			"httpMethod": "DELETE",
@@ -95913,8 +96158,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"user subscriptions get": {
-			"operationId": "user.subscriptions.get",
+		"user subscriptions list": {
+			"operationId": "user.subscriptions.list",
 			"httpMethod": "GET",
 			"path": "/user/subscriptions",
 			"pathParams": [],
@@ -95999,6 +96244,15 @@
 					"description": "The list of sets this rate plan applies to. Returns array of strings."
 				}
 			]
+		},
+		"user tenants list": {
+			"operationId": "user.tenants.list",
+			"httpMethod": "GET",
+			"path": "/user/tenants",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"user tokens create": {
 			"operationId": "user.tokens.create",
@@ -99212,7 +99466,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -99272,7 +99526,7 @@
 					"name": "strategy",
 					"type": "string",
 					"required": true,
-					"description": "The strategy field"
+					"description": "Strategy for routing traffic across the listed versions. `percentage` splits traffic according to each version's `percentage`."
 				},
 				{
 					"name": "versions",
@@ -99396,7 +99650,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -99699,7 +99953,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -99727,7 +99981,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -99762,7 +100016,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				}
@@ -99796,7 +100050,7 @@
 				},
 				{
 					"name": "worker_id",
-					"flag": "worker-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -120682,21 +120936,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust seats edit": {
-			"operationId": "zero-trust.seats.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/access/seats",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
 		"zero-trust users mfa authenticators delete": {
 			"operationId": "zero-trust.users.mfa.authenticators.delete",
 			"httpMethod": "DELETE",
@@ -121628,8 +121867,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zones rate-plans get": {
-			"operationId": "zones.rate-plans.get",
+		"zones rate-plans list": {
+			"operationId": "zones.rate-plans.list",
 			"httpMethod": "GET",
 			"path": "/zones/{zone_id}/available_rate_plans",
 			"pathParams": [

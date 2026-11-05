@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -27,20 +26,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "UUID of the virtual network.",
 			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "Optional remark describing the virtual network.",
-			default: "",
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
-				"If `true`, this virtual network is the default for the account.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the virtual network.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -60,7 +45,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "network virtual-networks get",
 				classification: {
-					safeFlags: ["is-default-network", "dry-run"],
+					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,

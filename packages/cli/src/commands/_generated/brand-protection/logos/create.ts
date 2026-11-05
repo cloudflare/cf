@@ -23,17 +23,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection logos create\n\nCreate a new saved brand protection logo query for visual similarity matching"
+			"$0 brand-protection logos create\n\nUploads a logo and creates a saved logo query that finds visually similar images on scanned websites. The tag must be unique among the account's logo queries. By default, the new query also searches previously scanned images (see `search_lookback`). Creation fails when the account has reached its Brand Protection query limit, which counts domain and logo queries together."
 		)
 		.option("image-data", {
 			type: "string",
 			description:
-				"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string.",
+				"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a `data:image/x-icon;base64,` prefix.",
 		})
 		.option("search-lookback", {
 			type: "boolean",
 			description:
-				"If true, search historic scanned images for matches above the similarity threshold",
+				"If true, also search previously scanned images for matches above the similarity threshold. Defaults to `true`.",
 			default: true,
 		})
 		.option("similarity-threshold", {
@@ -42,7 +42,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tag", {
 			type: "string",
-			description: "Unique identifier for the logo query",
+			description:
+				"Name of the logo query. Must be unique among the account's logo queries.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -59,7 +60,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
-	describe: "Insert logo query",
+	describe: "Create logo query",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -99,12 +100,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -114,7 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["image-data"] === undefined) {
 					argv["image-data"] = await promptForRequiredField(
 						"image-data",
-						"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string."
+						"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a \`data:image/x-icon;base64,\` prefix."
 					);
 				}
 				if (argv["similarity-threshold"] === undefined) {
@@ -125,7 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["tag"] === undefined) {
 					argv["tag"] = await promptForRequiredField(
 						"tag",
-						"Unique identifier for the logo query"
+						"Name of the logo query. Must be unique among the account's logo queries."
 					);
 				}
 

@@ -16,7 +16,7 @@ import type { CommandModule } from "yargs";
 const command: CommandModule<CommonYargsOptions> = {
 	command: "resource-sharing",
 	describe:
-		"Share Cloudflare resources (zones, accounts) across organizations with granular access controls",
+		"Share account-level resources (WAF custom rulesets, Gateway policies and settings, Access IdP federation grants) with other accounts in the same organization",
 
 	builder: (yargs) => {
 		return yargs

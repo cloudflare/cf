@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -23,8 +28,13 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing create\n\nCreates a new resource share for sharing Cloudflare resources with other accounts or organizations."
+			"$0 resource-sharing create\n\nCreates a share that makes a resource available to specific accounts in the caller's organization, or to the whole organization."
 		)
+		.option("excluded-recipients", {
+			type: "string",
+			description:
+				"Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("name", { type: "string", description: "The name of the share." })
 		.option("recipients", {
 			type: "string",
@@ -35,6 +45,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"The resources field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("tags", {
+			type: "string",
+			description:
+				"Tags associated with the share. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -74,27 +89,40 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										recipients: parseObjectArray(
-											argv["recipients"],
-											"recipients"
-										),
-										resources: parseObjectArray(argv["resources"], "resources"),
-									}),
+								: compactBody(
+										{
+											excluded_recipients: parseObjectArray(
+												argv["excluded-recipients"],
+												"excluded-recipients"
+											),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											recipients: parseObjectArray(
+												argv["recipients"],
+												"recipients"
+											),
+											resources: parseObjectArray(
+												argv["resources"],
+												"resources"
+											),
+											tags: parseJsonMap(argv["tags"], "tags"),
+										},
+										[["tags"]]
+									),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -107,27 +135,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"The name of the share."
 					);
 				}
-				if (argv["recipients"] === undefined) {
-					throw new Error(
-						"--recipients is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["resources"] === undefined) {
-					throw new Error(
-						"--resources is required (or pass --body with this field set)."
-					);
-				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					recipients: parseObjectArray(argv["recipients"], "recipients"),
-					resources: parseObjectArray(argv["resources"], "resources"),
-				});
+				const bodyData = compactBody(
+					{
+						excluded_recipients: parseObjectArray(
+							argv["excluded-recipients"],
+							"excluded-recipients"
+						),
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						recipients: parseObjectArray(argv["recipients"], "recipients"),
+						resources: parseObjectArray(argv["resources"], "resources"),
+						tags: parseJsonMap(argv["tags"], "tags"),
+					},
+					[["tags"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

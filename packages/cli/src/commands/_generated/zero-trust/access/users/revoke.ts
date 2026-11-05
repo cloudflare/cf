@@ -118,6 +118,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -143,8 +145,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

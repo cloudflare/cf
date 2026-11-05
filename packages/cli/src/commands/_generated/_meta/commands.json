@@ -542,6 +542,12 @@
 					"enum": ["pending", "active", "in_review", "cancelled", "removed"]
 				},
 				{
+					"name": "pending-notice",
+					"type": "boolean",
+					"required": false,
+					"description": "Also include reports in an open Notice and Takedown notice period. Combined with mitigation_status using OR, e.g. ?mitigation_status=active&pending_notice=true."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -1257,7 +1263,7 @@
 					"name": "order-by",
 					"type": "string",
 					"required": false,
-					"description": "Order results using field:direction format. Supported fields are name, id, human_id,\ncategory_id, application_type, application_confidence_score, and gen_ai_score.\nSupported directions are asc and desc. Ignored when search is provided; results are\nranked by relevance instead. Also ignored when lookup is provided."
+					"description": "Order results using field:direction format. Supported fields are name, id, human_id,\ncategory_id, application_type, application_confidence_score, and gen_ai_score.\nSupported directions are asc and desc. name and application_type ignore the case of\nthe letters A to Z, and ties sort by id. Ignored when search is provided; results are\nranked by relevance instead. Also ignored when lookup is provided."
 				},
 				{
 					"name": "search",
@@ -2192,7 +2198,7 @@
 			"command": "cf accounts categories list",
 			"name": "list",
 			"fullPath": ["accounts", "categories", "list"],
-			"description": "List the categories available for classifying applications, ordered by name. Results are paginated by `offset` or `cursor`.",
+			"description": "List the categories available for classifying applications, ordered by name, ignoring the case of the letters A to Z. Results are paginated by `offset` or `cursor`.",
 			"summary": "List application categories",
 			"usage": "cf accounts categories list [options]",
 			"arguments": [],
@@ -2261,7 +2267,8 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "The type field",
+					"description": "the type of account being created. For self-serve customers, use standard. for enterprise customers, use enterprise.",
+					"default": "standard",
 					"enum": ["standard", "enterprise"]
 				},
 				{
@@ -4046,13 +4053,6 @@
 					"description": "Indicates whether membership in this account requires that\nTwo-Factor Authentication is enabled"
 				},
 				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field",
-					"enum": ["standard", "enterprise"]
-				},
-				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -5433,7 +5433,7 @@
 					"name": "asn",
 					"type": "number",
 					"required": true,
-					"description": "Autonomous System Number (ASN) the prefix will be advertised under."
+					"description": "Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN."
 				},
 				{
 					"name": "cidr",
@@ -5915,7 +5915,7 @@
 			"command": "cf addressing prefixes validate create",
 			"name": "create",
 			"fullPath": ["addressing", "prefixes", "validate", "create"],
-			"description": "Triggers a new prefix validation. The checks are run asynchronously and include IRR, RPKI, and prefix ownership.",
+			"description": "Triggers a new prefix validation. The checks run asynchronously and include IRR, RPKI, prefix ownership, and, when applicable, ASN ownership and Autonomous System Provider Authorization (ASPA). Use Prefix Details to monitor the results. Approval does not advertise the prefix or activate traffic.",
 			"summary": "Validate Prefix",
 			"usage": "cf addressing prefixes validate create <prefix-id>",
 			"arguments": [
@@ -15613,7 +15613,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Plain-text request body (without JSON quotes)"
 				},
 				{
 					"name": "file",
@@ -18319,8 +18319,8 @@
 			"command": "cf argo tiered-caching edit",
 			"name": "edit",
 			"fullPath": ["argo", "tiered-caching", "edit"],
-			"description": "Tiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources.",
-			"summary": "Patch Tiered Caching setting",
+			"description": "Enables or disables Tiered Cache for a zone. Tiered Cache reduces origin traffic by serving lower-tier cache misses from upper-tier data centers before requesting content from your origin.",
+			"summary": "Update Tiered Cache",
 			"usage": "cf argo tiered-caching edit [options]",
 			"arguments": [],
 			"options": [
@@ -18328,7 +18328,7 @@
 					"name": "value",
 					"type": "string",
 					"required": true,
-					"description": "Enables Tiered Caching.",
+					"description": "Enables or disables Tiered Cache.",
 					"enum": ["on", "off"]
 				},
 				{
@@ -18356,8 +18356,8 @@
 			"command": "cf argo tiered-caching get",
 			"name": "get",
 			"fullPath": ["argo", "tiered-caching", "get"],
-			"description": "Tiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources.",
-			"summary": "Get Tiered Caching setting",
+			"description": "Retrieves whether Tiered Cache is enabled for a zone. Tiered Cache reduces origin traffic by serving lower-tier cache misses from upper-tier data centers before requesting content from your origin.",
+			"summary": "Get Tiered Cache",
 			"usage": "cf argo tiered-caching get",
 			"arguments": [],
 			"options": [
@@ -20998,7 +20998,7 @@
 			"command": "cf billing spend-policies activity list",
 			"name": "list",
 			"fullPath": ["billing", "spend-policies", "activity", "list"],
-			"description": "Returns configuration history from immutable policy revisions for the account, including deleted policies. Entries contain before/after values and verified actor attribution. Pages use descending revision IDs, not event or commit order; refresh the first page for new entries. This cursor is not an incremental consumer checkpoint.",
+			"description": "Returns configuration history from immutable policy revisions for the account, including deleted policies. Entries contain before/after values and verified actor attribution. Pages use descending revision IDs, not event or commit order; refresh the first page for new entries. This cursor is not an incremental consumer checkpoint. Defaults to `period=current_billing_cycle`: each revision's timestamp must be within its product's current subscription cycle (inclusive start, exclusive end). Each product's cycle is resolved independently from canonical aggregates, including for disabled or deleted policies. Set `period=all` for history across cycles. Filtering happens before pagination. No current cycles returns an empty page; unavailable or disabled cycle resolution returns `503` with code `1013`. Cursors pin resolved cycle bounds across pages and must be used with the same period selection. Cursors obtained before this filter was introduced must be refreshed.",
 			"summary": "List Spend Policy Activity",
 			"usage": "cf billing spend-policies activity list [options]",
 			"arguments": [],
@@ -21008,6 +21008,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected."
+				},
+				{
+					"name": "period",
+					"type": "string",
+					"required": false,
+					"description": "Select current subscription billing-cycle history or history across all cycles.",
+					"enum": ["current_billing_cycle", "all"]
 				},
 				{
 					"name": "cursor",
@@ -21034,7 +21041,7 @@
 			"command": "cf billing spend-policies audit list",
 			"name": "list",
 			"fullPath": ["billing", "spend-policies", "audit", "list"],
-			"description": "Returns the policy's evaluation history, newest first. At most one entry is recorded per trigger (`approaching_limit` or `limit_reached`), policy version and billing period, so a policy update can record a new entry without any change in balance. Disabled policies still return their history; deleted policies return `404`. There is no pagination: use `limit` to set how many entries come back.",
+			"description": "Returns the policy's evaluation history, newest first. At most one threshold-crossing entry (`limit_reached`) is recorded per policy version and billing period, so a policy update can record a new entry without any change in balance. Disabled policies still return their history; deleted policies return `404`. There is no pagination: use `limit` to set how many entries come back. Defaults to `period=current_billing_cycle`, resolved from the product's canonical aggregates, not calendar months. Crossings match their recorded billing-period bounds, even if recorded late. Set `period=all` for history across cycles. Filtering happens before LIMIT. No current cycle returns an empty array; unavailable or disabled cycle resolution returns `503` with code `1013`, never an empty success.",
 			"summary": "List Spend Policy Audit Entries",
 			"usage": "cf billing spend-policies audit list [options]",
 			"arguments": [],
@@ -21050,6 +21057,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected."
+				},
+				{
+					"name": "period",
+					"type": "string",
+					"required": false,
+					"description": "Select current subscription billing-cycle history or history across all cycles.",
+					"enum": ["current_billing_cycle", "all"]
 				},
 				{
 					"name": "dry-run",
@@ -22044,7 +22058,7 @@
 			"command": "cf brand-protection logo-matches get",
 			"name": "get",
 			"fullPath": ["brand-protection", "logo-matches", "get"],
-			"description": "Get paginated list of logo matches for a specific brand protection logo query",
+			"description": "Lists images that matched a saved logo query, most recently matched first by default. Set `download=true` to include each matched image as base64 data.",
 			"summary": "List logo matches",
 			"usage": "cf brand-protection logo-matches get [options]",
 			"arguments": [],
@@ -22053,38 +22067,38 @@
 					"name": "offset",
 					"type": "string",
 					"required": false,
-					"description": "Offset"
+					"description": "Number of matches to skip, for pagination. Defaults to 0."
 				},
 				{
 					"name": "limit",
 					"type": "string",
 					"required": false,
-					"description": "Limit"
+					"description": "Maximum number of matches to return. Defaults to 50."
 				},
 				{
 					"name": "query-id",
 					"type": "string",
 					"required": true,
-					"description": "Query ID"
+					"description": "ID of the logo query whose matches to list."
 				},
 				{
 					"name": "download",
 					"type": "string",
 					"required": false,
-					"description": "Download"
+					"description": "Set to `true` to include each matched image as base64 data in `image_data`, with its MIME type in `content_type`."
 				},
 				{
 					"name": "order-by",
 					"type": "string",
 					"required": false,
-					"description": "Column to sort by. Options: 'matchedAt', 'domain', 'similarityScore', or 'registrar'",
+					"description": "Field to sort by: `matchedAt`, `domain`, `similarityScore`, or `registrar`. Defaults to `matchedAt`.",
 					"enum": ["matchedAt", "domain", "similarityScore", "registrar"]
 				},
 				{
 					"name": "order",
 					"type": "string",
 					"required": false,
-					"description": "Sort order. Options: 'asc' (ascending) or 'desc' (descending)",
+					"description": "Sort direction: `asc` or `desc`. Defaults to `desc`.",
 					"enum": ["asc", "desc"]
 				},
 				{
@@ -22106,8 +22120,8 @@
 			"command": "cf brand-protection logos create",
 			"name": "create",
 			"fullPath": ["brand-protection", "logos", "create"],
-			"description": "Create a new saved brand protection logo query for visual similarity matching",
-			"summary": "Insert logo query",
+			"description": "Uploads a logo and creates a saved logo query that finds visually similar images on scanned websites. The tag must be unique among the account's logo queries. By default, the new query also searches previously scanned images (see `search_lookback`). Creation fails when the account has reached its Brand Protection query limit, which counts domain and logo queries together.",
+			"summary": "Create logo query",
 			"usage": "cf brand-protection logos create [options]",
 			"arguments": [],
 			"options": [
@@ -22115,13 +22129,13 @@
 					"name": "image-data",
 					"type": "string",
 					"required": true,
-					"description": "Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string."
+					"description": "Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a `data:image/x-icon;base64,` prefix."
 				},
 				{
 					"name": "search-lookback",
 					"type": "boolean",
 					"required": false,
-					"description": "If true, search historic scanned images for matches above the similarity threshold",
+					"description": "If true, also search previously scanned images for matches above the similarity threshold. Defaults to `true`.",
 					"default": true
 				},
 				{
@@ -22134,7 +22148,7 @@
 					"name": "tag",
 					"type": "string",
 					"required": true,
-					"description": "Unique identifier for the logo query"
+					"description": "Name of the logo query. Must be unique among the account's logo queries."
 				},
 				{
 					"name": "dry-run",
@@ -22161,7 +22175,7 @@
 			"command": "cf brand-protection logos delete",
 			"name": "delete",
 			"fullPath": ["brand-protection", "logos", "delete"],
-			"description": "Delete a saved brand protection logo query. Returns 404 if the query ID doesn't exist.",
+			"description": "Permanently deletes a saved logo query and all of its matches. If the query does not exist in this account, the request fails with error code 404.",
 			"summary": "Delete logo query",
 			"usage": "cf brand-protection logos delete <query-id>",
 			"arguments": [
@@ -22170,7 +22184,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Query ID"
+					"description": "ID of the logo query."
 				}
 			],
 			"options": [
@@ -22201,8 +22215,8 @@
 			"command": "cf brand-protection logos get",
 			"name": "get",
 			"fullPath": ["brand-protection", "logos", "get"],
-			"description": "Get all saved brand protection logo queries for an account. Optionally specify id to get a single query. Set download=true to include base64-encoded image data.",
-			"summary": "Get logo queries",
+			"description": "Lists the account's saved logo queries. Set `id` to return a single query object instead of an array. Set `download=true` to include each logo image as base64 data.",
+			"summary": "List logo queries",
 			"usage": "cf brand-protection logos get [options]",
 			"arguments": [],
 			"options": [
@@ -22210,13 +22224,13 @@
 					"name": "id",
 					"type": "string",
 					"required": false,
-					"description": "Optional query ID to retrieve a specific logo query"
+					"description": "ID of a logo query. When set, `result` is that single query object instead of an array."
 				},
 				{
 					"name": "download",
 					"type": "string",
 					"required": false,
-					"description": "If true, include base64-encoded image data in the response"
+					"description": "Set to `true` to include each logo image as base64 data in `image_data`, with its MIME type in `content_type`."
 				},
 				{
 					"name": "dry-run",
@@ -22237,7 +22251,7 @@
 			"command": "cf brand-protection matches bulk-dismiss",
 			"name": "bulk-dismiss",
 			"fullPath": ["brand-protection", "matches", "bulk-dismiss"],
-			"description": "Dismiss or undismiss multiple matches in a single request. Accepts either the new format (matches: [{query_id, domain_id}]) for per-query control, or the legacy format (match_ids: [number]) which dismisses for all queries sharing each match's hash. Returns per-item success/error results.",
+			"description": "Dismisses or undismisses up to 100 domain matches in one request and returns a result for each item. Send `matches` as (`query_id`, `domain_id`) pairs to change each match for one query. The legacy `match_ids` format is still accepted, but it changes each match for every query that shares it; prefer `matches`.",
 			"summary": "Bulk dismiss or undismiss matches",
 			"usage": "cf brand-protection matches bulk-dismiss [options]",
 			"arguments": [],
@@ -22246,20 +22260,20 @@
 					"name": "action",
 					"type": "string",
 					"required": true,
-					"description": "The action field",
+					"description": "`dismiss` to dismiss the matches, or `undismiss` to restore them.",
 					"enum": ["dismiss", "undismiss"]
 				},
 				{
 					"name": "match-ids",
 					"type": "string",
 					"required": false,
-					"description": "The match_ids field"
+					"description": "Legacy format; prefer `matches`. Match IDs to update. Each ID changes the match for every query that shares it, not just one query. 1 to 100 items; duplicate IDs are rejected."
 				},
 				{
 					"name": "matches",
 					"type": "string",
 					"required": false,
-					"description": "The matches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Matches to update, as (`query_id`, `domain_id`) pairs. Each pair changes the match for that query only. 1 to 100 items; duplicate pairs are rejected. Send only one format. If both are supplied, `match_ids` takes precedence and `matches` is ignored. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -22286,8 +22300,8 @@
 			"command": "cf brand-protection matches get",
 			"name": "get",
 			"fullPath": ["brand-protection", "matches", "get"],
-			"description": "Get paginated list of domain matches for one or more brand protection queries. When multiple query_ids are provided (comma-separated), matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and individual dismissed state.",
-			"summary": "List saved query matches",
+			"description": "Lists domains that matched one or more saved domain queries, most recently matched first by default. When you pass several comma-separated `query_id` values, matches are deduplicated by domain and each match includes a `match_details` array with per-query dismissed state. Set `include_domain_id=true` to get the `domain_id` needed to dismiss or undismiss a match.",
+			"summary": "List domain matches",
 			"usage": "cf brand-protection matches get [options]",
 			"arguments": [],
 			"options": [
@@ -22295,50 +22309,50 @@
 					"name": "offset",
 					"type": "string",
 					"required": false,
-					"description": "Offset"
+					"description": "Number of matches to skip, for pagination. Defaults to 0."
 				},
 				{
 					"name": "limit",
 					"type": "string",
 					"required": false,
-					"description": "Limit"
+					"description": "Maximum number of matches to return. Defaults to 50."
 				},
 				{
 					"name": "query-id",
 					"type": "string",
 					"required": true,
-					"description": "Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state."
+					"description": "ID of a domain query, or a comma-separated list of domain query IDs. When you pass several IDs, matches are deduplicated by domain and each match includes a `match_details` array with per-query metadata and dismissed state."
 				},
 				{
 					"name": "include-domain-id",
 					"type": "string",
 					"required": false,
-					"description": "Include domain ID"
+					"description": "Set to `true` to include `domain_id` on each match. Required to dismiss or undismiss a match. Defaults to `false`."
 				},
 				{
 					"name": "include-dismissed",
 					"type": "string",
 					"required": false,
-					"description": "Include dismissed"
+					"description": "Set to `false` to exclude dismissed matches. Dismissed matches are included when this is omitted or `true`."
 				},
 				{
 					"name": "domain-search",
 					"type": "string",
 					"required": false,
-					"description": "Filter matches by domain name (substring match)"
+					"description": "Return only matches whose domain contains this text (case-insensitive)."
 				},
 				{
 					"name": "order-by",
 					"type": "string",
 					"required": false,
-					"description": "Column to sort by. Options: 'domain', 'first_seen', or 'registrar'",
+					"description": "Field to sort by: `domain`, `first_seen`, or `registrar`. Defaults to `first_seen`.",
 					"enum": ["domain", "first_seen", "registrar"]
 				},
 				{
 					"name": "order",
 					"type": "string",
 					"required": false,
-					"description": "Sort order. Options: 'asc' (ascending) or 'desc' (descending)",
+					"description": "Sort direction: `asc` or `desc`. Defaults to `desc`. For single-query requests, `asc` applies only when `orderBy` is set.",
 					"enum": ["asc", "desc"]
 				},
 				{
@@ -22360,8 +22374,8 @@
 			"command": "cf brand-protection queries dismiss",
 			"name": "dismiss",
 			"fullPath": ["brand-protection", "queries", "dismiss"],
-			"description": "Mark a specific domain as dismissed for a given query. Dismissals are per-query — dismissing a domain in one query does not affect other queries.",
-			"summary": "Dismiss a match",
+			"description": "Marks a matched domain as dismissed for one domain query. Dismissals are per query: dismissing a domain in one query does not affect other queries. Get `domain_id` from List domain matches with `include_domain_id=true`. Dismissing an already dismissed match succeeds. If the query or match does not exist, the request fails with error code 404.",
+			"summary": "Dismiss a domain match",
 			"usage": "cf brand-protection queries dismiss <domain-id> [options]",
 			"arguments": [
 				{
@@ -22369,7 +22383,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Domain ID"
+					"description": "ID of the matched domain, as returned in `domain_id` by List domain matches with `include_domain_id=true`."
 				}
 			],
 			"options": [
@@ -22377,7 +22391,7 @@
 					"name": "query-id",
 					"type": "string",
 					"required": true,
-					"description": "Query ID"
+					"description": "ID of the domain query that the match belongs to."
 				},
 				{
 					"name": "dry-run",
@@ -22398,8 +22412,8 @@
 			"command": "cf brand-protection queries get",
 			"name": "get",
 			"fullPath": ["brand-protection", "queries", "get"],
-			"description": "Get all saved brand protection queries for an account",
-			"summary": "Get queries",
+			"description": "Lists the account's saved domain queries, most recently updated first. Set `id` to return a single query object instead of an array. Set `page` or `per_page` to paginate the list; the response then includes `result_info`. Without them, every query is returned.",
+			"summary": "List domain queries",
 			"usage": "cf brand-protection queries get [options]",
 			"arguments": [],
 			"options": [
@@ -22407,19 +22421,19 @@
 					"name": "id",
 					"type": "string",
 					"required": false,
-					"description": "ID"
+					"description": "ID of a domain query. When set, `result` is that single query object instead of an array, and `page` and `per_page` are ignored."
 				},
 				{
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Optional page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to preserve the legacy full-list response."
+					"description": "Page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to return every query."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response."
+					"description": "Number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to return every query."
 				},
 				{
 					"name": "dry-run",
@@ -22440,8 +22454,8 @@
 			"command": "cf brand-protection queries undismiss",
 			"name": "undismiss",
 			"fullPath": ["brand-protection", "queries", "undismiss"],
-			"description": "Remove the dismissed status from a specific domain for a given query. Undismissals are per-query — undismissing a domain in one query does not affect other queries.",
-			"summary": "Undismiss a match",
+			"description": "Removes the dismissed status from a matched domain for one domain query. Undismissing a domain in one query does not affect other queries. Get `domain_id` from List domain matches with `include_domain_id=true`. Undismissing a match that is not dismissed succeeds. If the query or match does not exist, the request fails with error code 404.",
+			"summary": "Undismiss a domain match",
 			"usage": "cf brand-protection queries undismiss <domain-id> [options]",
 			"arguments": [
 				{
@@ -22449,7 +22463,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Domain ID"
+					"description": "ID of the matched domain, as returned in `domain_id` by List domain matches with `include_domain_id=true`."
 				}
 			],
 			"options": [
@@ -22457,7 +22471,7 @@
 					"name": "query-id",
 					"type": "string",
 					"required": true,
-					"description": "Query ID"
+					"description": "ID of the domain query that the match belongs to."
 				},
 				{
 					"name": "dry-run",
@@ -22512,7 +22526,7 @@
 					"name": "top-k",
 					"type": "number",
 					"required": false,
-					"description": "Number of closest matches to return (1-100, default: 10)",
+					"description": "Number of closest matches to return. Defaults to 10. Accepts 1 to 100, but values above 50 are treated as 50.",
 					"default": 10
 				},
 				{
@@ -22576,8 +22590,8 @@
 			"command": "cf brand-protection url-info",
 			"name": "url-info",
 			"fullPath": ["brand-protection", "url-info"],
-			"description": "Get the total number of saved brand protection queries (domain + logo) for an account",
-			"summary": "Get total queries",
+			"description": "Returns the number of saved domain and logo queries in the account. This is the count checked against the account's Brand Protection query limit.",
+			"summary": "Get total query count",
 			"usage": "cf brand-protection url-info",
 			"arguments": [],
 			"options": [
@@ -29472,6 +29486,54 @@
 					"description": "The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
+					"name": "intent-exclusions-actors",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.actors field"
+				},
+				{
+					"name": "intent-exclusions-attacker-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.attacker_countries field"
+				},
+				{
+					"name": "intent-exclusions-categories",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.categories field"
+				},
+				{
+					"name": "intent-exclusions-cves",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.cves field"
+				},
+				{
+					"name": "intent-exclusions-keywords",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.keywords field"
+				},
+				{
+					"name": "intent-exclusions-target-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_countries field"
+				},
+				{
+					"name": "intent-exclusions-target-industries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_industries field"
+				},
+				{
+					"name": "intent-exclusions-techniques",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.techniques field"
+				},
+				{
 					"name": "intent-indicators",
 					"type": "string",
 					"required": false,
@@ -30673,6 +30735,54 @@
 					"type": "string",
 					"required": false,
 					"description": "The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "intent-exclusions-actors",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.actors field"
+				},
+				{
+					"name": "intent-exclusions-attacker-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.attacker_countries field"
+				},
+				{
+					"name": "intent-exclusions-categories",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.categories field"
+				},
+				{
+					"name": "intent-exclusions-cves",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.cves field"
+				},
+				{
+					"name": "intent-exclusions-keywords",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.keywords field"
+				},
+				{
+					"name": "intent-exclusions-target-countries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_countries field"
+				},
+				{
+					"name": "intent-exclusions-target-industries",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.target_industries field"
+				},
+				{
+					"name": "intent-exclusions-techniques",
+					"type": "string",
+					"required": false,
+					"description": "The intent.exclusions.techniques field"
 				},
 				{
 					"name": "intent-indicators",
@@ -35078,7 +35188,7 @@
 			"command": "cf cloudforce-one threat-intel events create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-intel", "events", "create"],
-			"description": "Creates an event. Without `datasetId`, the event is created in the default Cloudforce One Threat Events dataset. To create a dataset, use `threat-intel datasets create`.",
+			"description": "Creates an event in the dataset given by `datasetId`. Omitting `datasetId` is deprecated: the event is created in the default Cloudforce One Threat Events dataset, and a future release will reject the request. To create a dataset, use `threat-intel datasets create`.",
 			"summary": "Create an event",
 			"usage": "cf cloudforce-one threat-intel events create [options]",
 			"arguments": [],
@@ -35755,7 +35865,7 @@
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "Search"
+					"description": "JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value."
 				},
 				{
 					"name": "search-branches",
@@ -36408,7 +36518,7 @@
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "search-branches",
@@ -38067,13 +38177,13 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page"
+					"description": "Page number (default 1). page × pageSize may not exceed 10000."
 				},
 				{
 					"name": "page-size",
 					"type": "number",
 					"required": false,
-					"description": "PageSize"
+					"description": "Results per page (default 100, maximum 1000; larger values are clamped)."
 				},
 				{
 					"name": "indicator-type",
@@ -38351,7 +38461,7 @@
 					"name": "cursor",
 					"type": "string",
 					"required": false,
-					"description": "Offset cursor from a previous page."
+					"description": "Opaque cursor from a previous page. Results are ordered by createdAt ascending. Cursors in an older format are rejected; restart without a cursor."
 				},
 				{
 					"name": "page-size",
@@ -44326,51 +44436,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf d1 update",
-			"name": "update",
-			"fullPath": ["d1", "update"],
-			"description": "Update a D1 database's configuration.",
-			"summary": "Update D1 Database",
-			"usage": "cf d1 update <database-id> [options]",
-			"arguments": [
-				{
-					"name": "database-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "D1 database identifier (UUID)."
-				}
-			],
-			"options": [
-				{
-					"name": "read-replication-mode",
-					"type": "string",
-					"required": true,
-					"description": "The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
-					"enum": ["auto", "disabled"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/d1/database/{database_id}",
-			"operationId": "d1.update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf deploy",
 			"name": "deploy",
 			"fullPath": ["deploy"],
@@ -46086,12 +46151,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened."
-				},
-				{
-					"name": "zone-defaults-foundation-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated. Use nameservers.type to configure Advanced Nameservers."
 				},
 				{
 					"name": "zone-defaults-internal-dns-reference-zone-id",
@@ -58066,7 +58125,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/oauth_clients",
 			"operationId": "iam.oauth-clients.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-clients delete",
@@ -58106,7 +58165,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
 			"operationId": "iam.oauth-clients.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-clients delete-rotated-secret",
@@ -58146,7 +58205,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
 			"operationId": "iam.oauth-clients.delete-rotated-secret",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-clients get",
@@ -58178,7 +58237,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
 			"operationId": "iam.oauth-clients.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-clients list",
@@ -58202,7 +58261,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/oauth_clients",
 			"operationId": "iam.oauth-clients.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-clients rotate-secret",
@@ -58234,7 +58293,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
 			"operationId": "iam.oauth-clients.rotate-secret",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-clients update",
@@ -58358,7 +58417,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
 			"operationId": "iam.oauth-clients.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam oauth-scopes list",
@@ -58382,7 +58441,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/oauth/scopes",
 			"operationId": "iam.oauth-scopes.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam permission-groups get",
@@ -58414,7 +58473,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/permission_groups/{permission_group_id}",
 			"operationId": "iam.permission-groups.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam permission-groups list",
@@ -58468,7 +58527,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/permission_groups",
 			"operationId": "iam.permission-groups.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam resource-groups create",
@@ -58510,7 +58569,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/iam/resource_groups",
 			"operationId": "iam.resource-groups.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam resource-groups delete",
@@ -58550,7 +58609,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/iam/resource_groups/{resource_group_id}",
 			"operationId": "iam.resource-groups.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam resource-groups get",
@@ -58582,7 +58641,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/resource_groups/{resource_group_id}",
 			"operationId": "iam.resource-groups.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam resource-groups list",
@@ -58618,7 +58677,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/resource_groups",
 			"operationId": "iam.resource-groups.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam resource-groups update",
@@ -58668,7 +58727,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/iam/resource_groups/{resource_group_id}",
 			"operationId": "iam.resource-groups.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam sso begin-verification",
@@ -58700,7 +58759,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/sso_connectors/{sso_connector_id}/begin_verification",
 			"operationId": "iam.sso.begin-verification",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam sso create",
@@ -58750,7 +58809,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/sso_connectors",
 			"operationId": "iam.sso.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam sso delete",
@@ -58790,7 +58849,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/sso_connectors/{sso_connector_id}",
 			"operationId": "iam.sso.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam sso get",
@@ -58822,7 +58881,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/sso_connectors/{sso_connector_id}",
 			"operationId": "iam.sso.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam sso list",
@@ -58846,7 +58905,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/sso_connectors",
 			"operationId": "iam.sso.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam sso update",
@@ -58896,7 +58955,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/sso_connectors/{sso_connector_id}",
 			"operationId": "iam.sso.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups create",
@@ -58938,7 +58997,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/iam/user_groups",
 			"operationId": "iam.user-groups.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups delete",
@@ -58978,7 +59037,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}",
 			"operationId": "iam.user-groups.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups get",
@@ -59010,7 +59069,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}",
 			"operationId": "iam.user-groups.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups list",
@@ -59071,7 +59130,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/user_groups",
 			"operationId": "iam.user-groups.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups members create",
@@ -59109,7 +59168,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}/members",
 			"operationId": "iam.user-groups.members.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups members delete",
@@ -59155,7 +59214,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}",
 			"operationId": "iam.user-groups.members.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups members get",
@@ -59193,7 +59252,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}",
 			"operationId": "iam.user-groups.members.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups members list",
@@ -59248,7 +59307,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}/members",
 			"operationId": "iam.user-groups.members.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups members update",
@@ -59286,7 +59345,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}/members",
 			"operationId": "iam.user-groups.members.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf iam user-groups update",
@@ -59336,7 +59395,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}",
 			"operationId": "iam.user-groups.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf images create",
@@ -60781,22 +60840,20 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf intel asn subnets get",
-			"name": "get",
-			"fullPath": ["intel", "asn", "subnets", "get"],
+			"command": "cf intel asn subnets list",
+			"name": "list",
+			"fullPath": ["intel", "asn", "subnets", "list"],
 			"description": "Get ASN Subnets.",
 			"summary": "Get ASN Subnets",
-			"usage": "cf intel asn subnets get <asn>",
-			"arguments": [
+			"usage": "cf intel asn subnets list [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "asn",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Asn"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -60809,7 +60866,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/intel/asn/{asn}/subnets",
-			"operationId": "intel.asn.subnets.get",
+			"operationId": "intel.asn.subnets.list",
 			"hideCommand": false
 		},
 		{
@@ -60934,6 +60991,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to include domain ranking data in the response. Defaults to\n`false` — ranking lookups are expensive at bulk scale and most\ncallers do not need them. Set to `true` to opt in. This parameter\nreplaces the deprecated `skip_ranking` (see below)."
+				},
+				{
+					"name": "skip-dns",
+					"type": "boolean",
+					"required": false,
+					"description": "Skip the DNS resolution-history lookup for faster responses. Defaults\nto `false`. Set to `true` if you only need categorization data; no\nDNS resolution history is returned for any domain. Matches the\n`skip_dns` parameter on `/intel/domain`."
 				},
 				{
 					"name": "skip-ranking",
@@ -61469,12 +61532,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf intel ip-lists get",
-			"name": "get",
-			"fullPath": ["intel", "ip-lists", "get"],
+			"command": "cf intel ip-lists list",
+			"name": "list",
+			"fullPath": ["intel", "ip-lists", "list"],
 			"description": "Returns a list of available IP list categories (e.g., anonymizer, botnetcc, malware, tor, vpn, open_proxies). This endpoint provides metadata about which IP lists are available in the system.",
 			"summary": "Get Available IP Lists",
-			"usage": "cf intel ip-lists get",
+			"usage": "cf intel ip-lists list",
 			"arguments": [],
 			"options": [
 				{
@@ -61489,7 +61552,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/intel/ip-lists",
-			"operationId": "intel.ip-lists.get",
+			"operationId": "intel.ip-lists.list",
 			"hideCommand": false
 		},
 		{
@@ -63370,6 +63433,12 @@
 					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
+					"name": "pool-sets",
+					"type": "string",
+					"required": false,
+					"description": "An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "pop-pools",
 					"type": "string",
 					"required": false,
@@ -63620,6 +63689,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of networks where Load Balancer or Pool is enabled."
+				},
+				{
+					"name": "pool-sets",
+					"type": "string",
+					"required": false,
+					"description": "An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "pop-pools",
@@ -63885,6 +63960,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of networks where Load Balancer or Pool is enabled."
+				},
+				{
+					"name": "pool-sets",
+					"type": "string",
+					"required": false,
+					"description": "An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "pop-pools",
@@ -64822,22 +64903,20 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf load-balancers monitors references get",
-			"name": "get",
-			"fullPath": ["load-balancers", "monitors", "references", "get"],
+			"command": "cf load-balancers monitors references list",
+			"name": "list",
+			"fullPath": ["load-balancers", "monitors", "references", "list"],
 			"description": "Get the list of resources that reference the provided monitor.",
 			"summary": "List Monitor References",
-			"usage": "cf load-balancers monitors references get <monitor-id>",
-			"arguments": [
+			"usage": "cf load-balancers monitors references list [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "monitor-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Monitor ID"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -64850,7 +64929,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/load_balancers/monitors/{monitor_id}/references",
-			"operationId": "load-balancers.monitors.references.get",
+			"operationId": "load-balancers.monitors.references.list",
 			"hideCommand": false
 		},
 		{
@@ -65034,6 +65113,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "check-regions",
+					"type": "string",
+					"required": false,
+					"description": "A list of regions from which to run health checks. Null means every Cloudflare data center."
+				},
+				{
 					"name": "description",
 					"type": "string",
 					"required": false,
@@ -65046,6 +65131,12 @@
 					"required": false,
 					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).",
 					"default": true
+				},
+				{
+					"name": "health-sources",
+					"type": "string",
+					"required": false,
+					"description": "A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The load balancer uses the first source that has data and falls back to the next. Currently accepted values are null or the exact array [\"regional\", \"global\"]; any other combination is rejected. Null (the default) behaves like [\"local\", \"global\"]. [\"regional\", \"global\"] makes each region steer on its own health, falling back to the global decision when a region has no fresh data. Setting regional requires at least one region in check_regions."
 				},
 				{
 					"name": "latitude",
@@ -65109,6 +65200,12 @@
 					"type": "string",
 					"required": true,
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+				},
+				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
 					"name": "notification-email",
@@ -65322,6 +65419,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+				},
+				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
 					"name": "notification-email",
@@ -65632,22 +65735,20 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf load-balancers pools references get",
-			"name": "get",
-			"fullPath": ["load-balancers", "pools", "references", "get"],
+			"command": "cf load-balancers pools references list",
+			"name": "list",
+			"fullPath": ["load-balancers", "pools", "references", "list"],
 			"description": "Get the list of resources that reference the provided pool.",
 			"summary": "List Pool References",
-			"usage": "cf load-balancers pools references get <pool-id>",
-			"arguments": [
+			"usage": "cf load-balancers pools references list [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "pool-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Pool ID"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -65660,7 +65761,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/load_balancers/pools/{pool_id}/references",
-			"operationId": "load-balancers.pools.references.get",
+			"operationId": "load-balancers.pools.references.list",
 			"hideCommand": false
 		},
 		{
@@ -65765,6 +65866,12 @@
 					"type": "string",
 					"required": true,
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+				},
+				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
 					"name": "notification-email",
@@ -67485,7 +67592,7 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Plain-text request body (without JSON quotes)"
 				},
 				{
 					"name": "file",
@@ -79297,7 +79404,7 @@
 			"fullPath": ["network", "virtual-networks", "get"],
 			"description": "Get a virtual network.",
 			"summary": "Get a virtual network",
-			"usage": "cf network virtual-networks get <virtual-network-id> [options]",
+			"usage": "cf network virtual-networks get <virtual-network-id>",
 			"arguments": [
 				{
 					"name": "virtual-network-id",
@@ -79309,25 +79416,6 @@
 			],
 			"options": [
 				{
-					"name": "comment",
-					"type": "string",
-					"required": false,
-					"description": "Optional remark describing the virtual network.",
-					"default": ""
-				},
-				{
-					"name": "is-default-network",
-					"type": "boolean",
-					"required": false,
-					"description": "If `true`, this virtual network is the default for the account."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "A user-friendly name for the virtual network."
-				},
-				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -79336,7 +79424,7 @@
 				}
 			],
 			"category": "read",
-			"hasRequestBody": true,
+			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/teamnet/virtual_networks/{virtual_network_id}",
 			"operationId": "network.virtual-networks.get",
@@ -80164,117 +80252,45 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf o11y agents sessions list",
-			"name": "list",
-			"fullPath": ["o11y", "agents", "sessions", "list"],
-			"description": "Lists sessions in which the specified agent participated, ordered by most recent activity. A session is identified by gen_ai.conversation.id and includes authorized activity from every agent in that conversation during the requested time range. Agent invocation and chat spans without a conversation ID are attributed only when their trace is associated with exactly one observed conversation.",
-			"summary": "List Agent sessions",
-			"usage": "cf o11y agents sessions list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "service",
-					"type": "string",
-					"required": true,
-					"description": "Worker service name associated with the participating agent."
-				},
-				{
-					"name": "agent",
-					"type": "string",
-					"required": true,
-					"description": "Agent name reported in gen_ai.agent.name. The request is limited to conversations in which this service and agent participated."
-				},
-				{
-					"name": "from",
-					"type": "number",
-					"required": true,
-					"description": "Start of the requested time range, as Unix epoch milliseconds. Values earlier than the 7-day retention boundary are clamped."
-				},
-				{
-					"name": "to",
-					"type": "number",
-					"required": true,
-					"description": "End of the requested time range, as Unix epoch milliseconds. Must be later than from."
-				},
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false,
-					"description": "Opaque cursor from result_info.cursors.after in the previous response."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of items to return. Defaults to 20 and cannot exceed 100."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/workers/observability/agents/sessions",
-			"operationId": "o11y.agents.sessions.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf o11y agents sessions runs",
-			"name": "runs",
-			"fullPath": ["o11y", "agents", "sessions", "runs"],
-			"description": "Lists the traces associated with a session, ordered by most recent activity. The service and agent parameters must identify an agent that participated in the conversation. Results include every authorized trace containing an agent invocation in that conversation during the requested time range.",
-			"summary": "List Agent session runs",
-			"usage": "cf o11y agents sessions runs <conversationId> [options]",
+			"command": "cf o11y agents traces events",
+			"name": "events",
+			"fullPath": ["o11y", "agents", "traces", "events"],
+			"description": "Returns a page of authorized canonical otel events for a Trace containing named Agent activity, using the existing events-query flow. Searches the full 7-day retention unless from or to narrow it. Events are ordered by event timestamp and ID, newest first. Continue with result_info.cursors.after; one page is not a complete span tree.",
+			"summary": "List Agent Trace events",
+			"usage": "cf o11y agents traces events <traceId> [options]",
 			"arguments": [
 				{
-					"name": "conversationId",
+					"name": "traceId",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "OpenTelemetry gen_ai.conversation.id value that identifies the session."
+					"description": "Trace ID: 32 hexadecimal characters, matched case-insensitively."
 				}
 			],
 			"options": [
 				{
-					"name": "service",
-					"type": "string",
-					"required": true,
-					"description": "Worker service name associated with the participating agent."
-				},
-				{
-					"name": "agent",
-					"type": "string",
-					"required": true,
-					"description": "Agent name reported in gen_ai.agent.name. The request is limited to conversations in which this service and agent participated."
-				},
-				{
 					"name": "from",
 					"type": "number",
-					"required": true,
-					"description": "Start of the requested time range, as Unix epoch milliseconds. Values earlier than the 7-day retention boundary are clamped."
+					"required": false,
+					"description": "Optional. Narrows the search, which by default covers the full 7-day retention, so any retained Trace ID can be fetched without a window. Start as Unix epoch milliseconds; the effective value is in result_info.from."
 				},
 				{
 					"name": "to",
 					"type": "number",
-					"required": true,
-					"description": "End of the requested time range, as Unix epoch milliseconds. Must be later than from."
-				},
-				{
-					"name": "cursor",
-					"type": "string",
 					"required": false,
-					"description": "Opaque cursor from result_info.cursors.after in the previous response."
+					"description": "Optional. Narrows the search; end as Unix epoch milliseconds. Defaults to now."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Maximum number of items to return. Defaults to 20 and cannot exceed 100."
+					"description": "Maximum items to return per page. Defaults to 100."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque cursor from result_info.cursors.after in the previous response. Send it with the same filters; its window replaces from and to."
 				},
 				{
 					"name": "dry-run",
@@ -80287,8 +80303,112 @@
 			"category": "action",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/workers/observability/agents/sessions/{conversationId}/runs",
-			"operationId": "o11y.agents.sessions.runs",
+			"apiPath": "/accounts/{account_id}/workers/observability/agents/traces/{traceId}/events",
+			"operationId": "o11y.agents.traces.events",
+			"hideCommand": false
+		},
+		{
+			"command": "cf o11y agents traces get",
+			"name": "get",
+			"fullPath": ["o11y", "agents", "traces", "get"],
+			"description": "Returns the summary of one Trace containing named Agent activity, with the same fields as the Trace list. Searches the full 7-day retention unless from or to narrow it. List the Trace's events with /agents/traces/{traceId}/events.",
+			"summary": "Get an Agent Trace",
+			"usage": "cf o11y agents traces get <traceId> [options]",
+			"arguments": [
+				{
+					"name": "traceId",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Trace ID: 32 hexadecimal characters, matched case-insensitively."
+				}
+			],
+			"options": [
+				{
+					"name": "from",
+					"type": "number",
+					"required": false,
+					"description": "Optional. Narrows the search, which by default covers the full 7-day retention, so any retained Trace ID can be fetched without a window. Start as Unix epoch milliseconds; the effective value is in result_info.from."
+				},
+				{
+					"name": "to",
+					"type": "number",
+					"required": false,
+					"description": "Optional. Narrows the search; end as Unix epoch milliseconds. Defaults to now."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/workers/observability/agents/traces/{traceId}",
+			"operationId": "o11y.agents.traces.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf o11y agents traces list",
+			"name": "list",
+			"fullPath": ["o11y", "agents", "traces", "list"],
+			"description": "Lists Traces with a named Agent invocation in the window, ordered by lastActivityMs, newest first, including work without a Conversation ID. The window defaults to the last 24 hours. Summaries include the Agent names and Conversation IDs seen, authorized Trace duration, chat input/output/total tokens, models, providers, LLM/tool call counts and span-error counts within the effective window.",
+			"summary": "List Agent Traces",
+			"usage": "cf o11y agents traces list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "service",
+					"type": "string",
+					"required": false,
+					"description": "Only include work in which an Agent of this Worker service took part."
+				},
+				{
+					"name": "agent",
+					"type": "string",
+					"required": false,
+					"description": "Only include work in which an Agent with this gen_ai.agent.name took part. With service, both must match the same Agent."
+				},
+				{
+					"name": "from",
+					"type": "number",
+					"required": false,
+					"description": "Start of the search window, as Unix epoch milliseconds. Defaults to 24 hours before to. Clamped to the 7-day retention boundary; the effective value is in result_info.from."
+				},
+				{
+					"name": "to",
+					"type": "number",
+					"required": false,
+					"description": "End of the search window, as Unix epoch milliseconds. Defaults to now."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Maximum items to return per page. Defaults to 20."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque cursor from result_info.cursors.after in the previous response. Send it with the same filters; its window replaces from and to."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/workers/observability/agents/traces",
+			"operationId": "o11y.agents.traces.list",
 			"hideCommand": false
 		},
 		{
@@ -82644,12 +82764,92 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf organization account list",
+			"command": "cf ohttp-gateway enablement create",
+			"name": "create",
+			"fullPath": ["ohttp-gateway", "enablement", "create"],
+			"description": "Idempotently enables OHTTP Gateway for the zone. Requires product subscription to call.",
+			"summary": "Enable OHTTP Gateway",
+			"usage": "cf ohttp-gateway enablement create",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "create",
+			"hasRequestBody": false,
+			"httpMethod": "PUT",
+			"apiPath": "/zones/{zone_id}/settings/ohttp-gateway",
+			"operationId": "ohttp-gateway.enablement.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf ohttp-gateway enablement delete",
+			"name": "delete",
+			"fullPath": ["ohttp-gateway", "enablement", "delete"],
+			"description": "Idempotently disables Oblivious HTTP Gateway for the zone. Requires product subscription to call.",
+			"summary": "Disable OHTTP Gateway",
+			"usage": "cf ohttp-gateway enablement delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/zones/{zone_id}/settings/ohttp-gateway",
+			"operationId": "ohttp-gateway.enablement.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf ohttp-gateway enablement get",
+			"name": "get",
+			"fullPath": ["ohttp-gateway", "enablement", "get"],
+			"description": "Returns the state of Oblivious HTTP enablement for the zone. Requires product subscription to call.",
+			"summary": "Get OHTTP Gateway enablement",
+			"usage": "cf ohttp-gateway enablement get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/settings/ohttp-gateway",
+			"operationId": "ohttp-gateway.enablement.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations accounts list",
 			"name": "list",
-			"fullPath": ["organization", "account", "list"],
+			"fullPath": ["organizations", "accounts", "list"],
 			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation.",
 			"summary": "List organization accounts",
-			"usage": "cf organization account list [options]",
+			"usage": "cf organizations accounts list [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -82686,7 +82886,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "(case-sensitive) Filter the list of accounts to where the name is equal to a\nparticular string."
+					"description": "(case-sensitive) Filter the list of accounts to where the name is equal to a\nparticular string. At most one of `name`, `name.startsWith`, `name.endsWith`,\nor `name.contains` may be supplied per request."
 				},
 				{
 					"name": "name-starts-with",
@@ -82781,16 +82981,60 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/organizations/{organization_id}/accounts",
-			"operationId": "organization.account.list",
+			"operationId": "organizations.accounts.list",
 			"hideCommand": false
 		},
 		{
-			"command": "cf organization create",
+			"command": "cf organizations billing usage get",
+			"name": "get",
+			"fullPath": ["organizations", "billing", "usage", "get"],
+			"description": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** This endpoint serves `usage` records only; cost and pricing fields are absent from responses. Rated costs are available per account via `POST /accounts/{account_id}/billable/usage` with `Metric: cost`. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
+			"summary": "Get Organization Usage (Version 2, Alpha, Restricted)",
+			"usage": "cf organizations billing usage get <organization-id> [options]",
+			"arguments": [
+				{
+					"name": "organization-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifies the Cloudflare organization."
+				}
+			],
+			"options": [
+				{
+					"name": "from",
+					"type": "string",
+					"required": false,
+					"description": "Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days."
+				},
+				{
+					"name": "to",
+					"type": "string",
+					"required": false,
+					"description": "End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/organizations/{organization_id}/billable/usage",
+			"operationId": "organizations.billing.usage.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations create",
 			"name": "create",
-			"fullPath": ["organization", "create"],
+			"fullPath": ["organizations", "create"],
 			"description": "Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. The optional `profile` object accepts partial profile details; its individual fields are not required. Organization names are limited to 65 UTF-8 bytes. Each profile field is limited to 1,000 UTF-8 bytes, and a non-empty business email must be valid. At least one of business name, address, phone, or email must be non-empty to persist a profile.",
 			"summary": "Create organization",
-			"usage": "cf organization create [options]",
+			"usage": "cf organizations create [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -82853,16 +83097,16 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/organizations",
-			"operationId": "organization.create",
+			"operationId": "organizations.create",
 			"hideCommand": false
 		},
 		{
-			"command": "cf organization delete",
+			"command": "cf organizations delete",
 			"name": "delete",
-			"fullPath": ["organization", "delete"],
+			"fullPath": ["organizations", "delete"],
 			"description": "Delete an organization. It must not contain active sub-organizations or accounts. A root organization must also have no active managed users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Root deletion is restricted to enterprise organizations.",
 			"summary": "Delete organization",
-			"usage": "cf organization delete <organization-id>",
+			"usage": "cf organizations delete <organization-id>",
 			"arguments": [
 				{
 					"name": "organization-id",
@@ -82893,16 +83137,16 @@
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/organizations/{organization_id}",
-			"operationId": "organization.delete",
+			"operationId": "organizations.delete",
 			"hideCommand": false
 		},
 		{
-			"command": "cf organization get",
+			"command": "cf organizations get",
 			"name": "get",
-			"fullPath": ["organization", "get"],
+			"fullPath": ["organizations", "get"],
 			"description": "Retrieve the details of a certain organization.",
 			"summary": "Get organization",
-			"usage": "cf organization get <organization-id>",
+			"usage": "cf organizations get <organization-id>",
 			"arguments": [
 				{
 					"name": "organization-id",
@@ -82925,16 +83169,16 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/organizations/{organization_id}",
-			"operationId": "organization.get",
+			"operationId": "organizations.get",
 			"hideCommand": false
 		},
 		{
-			"command": "cf organization invite update",
+			"command": "cf organizations invites update",
 			"name": "update",
-			"fullPath": ["organization", "invite", "update"],
+			"fullPath": ["organizations", "invites", "update"],
 			"description": "Accept or reject an invitation to a specific organization. The credential must belong to the invited user. No additional API token permission is required.",
 			"summary": "Handle organization invite",
-			"usage": "cf organization invite update <member-code> [options]",
+			"usage": "cf organizations invites update <member-code> [options]",
 			"arguments": [
 				{
 					"name": "member-code",
@@ -82976,16 +83220,16 @@
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
 			"apiPath": "/organizations/{organization_id}/invites/{member_code}",
-			"operationId": "organization.invite.update",
+			"operationId": "organizations.invites.update",
 			"hideCommand": false
 		},
 		{
-			"command": "cf organization list",
+			"command": "cf organizations list",
 			"name": "list",
-			"fullPath": ["organization", "list"],
+			"fullPath": ["organizations", "list"],
 			"description": "Retrieve a list of organizations a particular user has access to. At most one of `containing.account`, `containing.user`, or `containing.organization` may be provided.",
 			"summary": "List organizations the user has access to",
-			"usage": "cf organization list [options]",
+			"usage": "cf organizations list [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -83086,528 +83330,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/organizations",
-			"operationId": "organization.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization member batch create",
-			"name": "create",
-			"fullPath": ["organization", "member", "batch", "create"],
-			"description": "Batch create multiple memberships that grant access to a specific Organization.",
-			"summary": "Batch create organization members",
-			"usage": "cf organization member batch create <organization-id> [options]",
-			"arguments": [
-				{
-					"name": "organization-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Organization ID"
-				}
-			],
-			"options": [
-				{
-					"name": "members",
-					"type": "string",
-					"required": false,
-					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/organizations/{organization_id}/members:batchCreate",
-			"operationId": "organization.member.batch.create",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization member create",
-			"name": "create",
-			"fullPath": ["organization", "member", "create"],
-			"description": "Create a membership that grants access to a specific Organization.",
-			"summary": "Create organization member",
-			"usage": "cf organization member create <organization-id> [options]",
-			"arguments": [
-				{
-					"name": "organization-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Organization ID"
-				}
-			],
-			"options": [
-				{
-					"name": "member-user-email",
-					"type": "string",
-					"required": true,
-					"description": "The member.user.email field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/organizations/{organization_id}/members",
-			"operationId": "organization.member.create",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization member delete",
-			"name": "delete",
-			"fullPath": ["organization", "member", "delete"],
-			"description": "Delete a membership to a particular Organization.",
-			"summary": "Delete organization member",
-			"usage": "cf organization member delete <member-id> [options]",
-			"arguments": [
-				{
-					"name": "member-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Organization Member ID"
-				}
-			],
-			"options": [
-				{
-					"name": "organization-id",
-					"type": "string",
-					"required": true,
-					"description": "Organization ID"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/organizations/{organization_id}/members/{member_id}",
-			"operationId": "organization.member.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization member get",
-			"name": "get",
-			"fullPath": ["organization", "member", "get"],
-			"description": "Retrieve a single membership from an Organization.",
-			"summary": "Get organization member",
-			"usage": "cf organization member get <member-id> [options]",
-			"arguments": [
-				{
-					"name": "member-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Organization Member ID"
-				}
-			],
-			"options": [
-				{
-					"name": "organization-id",
-					"type": "string",
-					"required": true,
-					"description": "Organization ID"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/organizations/{organization_id}/members/{member_id}",
-			"operationId": "organization.member.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization member list",
-			"name": "list",
-			"fullPath": ["organization", "member", "list"],
-			"description": "List memberships for an Organization.",
-			"summary": "List organization members",
-			"usage": "cf organization member list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "organization-id",
-					"type": "string",
-					"required": true,
-					"description": "Organization ID"
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Filter the list of memberships by membership status."
-				},
-				{
-					"name": "user-email",
-					"type": "string",
-					"required": false,
-					"description": "Filter the list of memberships for a specific email."
-				},
-				{
-					"name": "user-email-contains",
-					"type": "string",
-					"required": false,
-					"description": "Filter the list of memberships for a specific email that contains a substring."
-				},
-				{
-					"name": "user-email-starts-with",
-					"type": "string",
-					"required": false,
-					"description": "Filter the list of memberships for a specific email that starts with a substring."
-				},
-				{
-					"name": "user-email-ends-with",
-					"type": "string",
-					"required": false,
-					"description": "Filter the list of memberships for a specific email that ends with a substring."
-				},
-				{
-					"name": "page-token",
-					"type": "string",
-					"required": false,
-					"description": "An opaque token returned from the last list response that when\nprovided will retrieve the next page.\n\nParameters used to filter the retrieved list must remain in subsequent\nrequests with a page token."
-				},
-				{
-					"name": "page-size",
-					"type": "number",
-					"required": false,
-					"description": "The amount of items to return. Defaults to 10."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/organizations/{organization_id}/members",
-			"operationId": "organization.member.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization profile get",
-			"name": "get",
-			"fullPath": ["organization", "profile", "get"],
-			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record. Profiles can be shared across accounts and organizations. Only available to members of the organization.",
-			"summary": "Get organization profile",
-			"usage": "cf organization profile get <organization-id>",
-			"arguments": [
-				{
-					"name": "organization-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The ID of the organization to retrieve a profile for."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/organizations/{organization_id}/profile",
-			"operationId": "organization.profile.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization profile update",
-			"name": "update",
-			"fullPath": ["organization", "profile", "update"],
-			"description": "Partially updates the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of the organization.",
-			"summary": "Modify organization profile.",
-			"usage": "cf organization profile update <organization-id> [options]",
-			"arguments": [
-				{
-					"name": "organization-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Organization ID"
-				}
-			],
-			"options": [
-				{
-					"name": "business-address",
-					"type": "string",
-					"required": false,
-					"description": "The business_address field"
-				},
-				{
-					"name": "business-email",
-					"type": "string",
-					"required": false,
-					"description": "The business_email field"
-				},
-				{
-					"name": "business-name",
-					"type": "string",
-					"required": false,
-					"description": "The business_name field"
-				},
-				{
-					"name": "business-phone",
-					"type": "string",
-					"required": false,
-					"description": "The business_phone field"
-				},
-				{
-					"name": "external-metadata",
-					"type": "string",
-					"required": false,
-					"description": "The external_metadata field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/organizations/{organization_id}/profile",
-			"operationId": "organization.profile.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization share list",
-			"name": "list",
-			"fullPath": ["organization", "share", "list"],
-			"description": "Lists all organization shares.",
-			"summary": "List organization shares",
-			"usage": "cf organization share list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "organization-id",
-					"type": "string",
-					"required": true,
-					"description": "Organization identifier."
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Filter shares by status.",
-					"enum": ["active", "deleting", "deleted"]
-				},
-				{
-					"name": "kind",
-					"type": "string",
-					"required": false,
-					"description": "Filter shares by kind.",
-					"enum": ["sent", "received"]
-				},
-				{
-					"name": "target-type",
-					"type": "string",
-					"required": false,
-					"description": "Filter shares by target_type.",
-					"enum": ["account", "organization"]
-				},
-				{
-					"name": "resource-types",
-					"type": "string",
-					"required": false,
-					"description": "Filter share resources by resource_types."
-				},
-				{
-					"name": "order",
-					"type": "string",
-					"required": false,
-					"description": "Order shares by values in the given field.",
-					"enum": ["name", "created"]
-				},
-				{
-					"name": "direction",
-					"type": "string",
-					"required": false,
-					"description": "Direction to sort objects.",
-					"enum": ["asc", "desc"]
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/organizations/{organization_id}/shares",
-			"operationId": "organization.share.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organization update",
-			"name": "update",
-			"fullPath": ["organization", "update"],
-			"description": "Update an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes.",
-			"summary": "Update organization",
-			"usage": "cf organization update <organization-id> [options]",
-			"arguments": [
-				{
-					"name": "organization-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The ID of the organization to modify."
-				}
-			],
-			"options": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
-				},
-				{
-					"name": "parent-id",
-					"type": "string",
-					"required": false,
-					"description": "The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/organizations/{organization_id}",
-			"operationId": "organization.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf organizations billing usage get",
-			"name": "get",
-			"fullPath": ["organizations", "billing", "usage", "get"],
-			"description": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** This endpoint serves `usage` records only; cost and pricing fields are absent from responses. Rated costs are available per account via `POST /accounts/{account_id}/billable/usage` with `Metric: cost`. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
-			"summary": "Get Organization Usage (Version 2, Alpha, Restricted)",
-			"usage": "cf organizations billing usage get <organization-id> [options]",
-			"arguments": [
-				{
-					"name": "organization-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Identifies the Cloudflare organization."
-				}
-			],
-			"options": [
-				{
-					"name": "from",
-					"type": "string",
-					"required": false,
-					"description": "Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days."
-				},
-				{
-					"name": "to",
-					"type": "string",
-					"required": false,
-					"description": "End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/organizations/{organization_id}/billable/usage",
-			"operationId": "organizations.billing.usage.get",
+			"operationId": "organizations.list",
 			"hideCommand": false
 		},
 		{
@@ -83965,13 +83688,265 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf origin-post-quantum-encryption get",
+			"command": "cf organizations members batch create",
+			"name": "create",
+			"fullPath": ["organizations", "members", "batch", "create"],
+			"description": "Batch create multiple memberships that grant access to a specific Organization.",
+			"summary": "Batch create organization members",
+			"usage": "cf organizations members batch create <organization-id> [options]",
+			"arguments": [
+				{
+					"name": "organization-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Organization ID"
+				}
+			],
+			"options": [
+				{
+					"name": "members",
+					"type": "string",
+					"required": false,
+					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/organizations/{organization_id}/members:batchCreate",
+			"operationId": "organizations.members.batch.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations members create",
+			"name": "create",
+			"fullPath": ["organizations", "members", "create"],
+			"description": "Create a membership that grants access to a specific Organization.",
+			"summary": "Create organization member",
+			"usage": "cf organizations members create <organization-id> [options]",
+			"arguments": [
+				{
+					"name": "organization-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Organization ID"
+				}
+			],
+			"options": [
+				{
+					"name": "member-user-email",
+					"type": "string",
+					"required": true,
+					"description": "The member.user.email field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/organizations/{organization_id}/members",
+			"operationId": "organizations.members.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations members delete",
+			"name": "delete",
+			"fullPath": ["organizations", "members", "delete"],
+			"description": "Delete a membership to a particular Organization.",
+			"summary": "Delete organization member",
+			"usage": "cf organizations members delete <member-id> [options]",
+			"arguments": [
+				{
+					"name": "member-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Organization Member ID"
+				}
+			],
+			"options": [
+				{
+					"name": "organization-id",
+					"type": "string",
+					"required": true,
+					"description": "Organization ID"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/organizations/{organization_id}/members/{member_id}",
+			"operationId": "organizations.members.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations members get",
 			"name": "get",
-			"fullPath": ["origin-post-quantum-encryption", "get"],
-			"description": "Instructs Cloudflare to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin. Preferred instructs Cloudflare to opportunistically send a Post-Quantum keyshare in the first message to the origin (for fastest connections when the origin supports and prefers PQ), supported means that PQ algorithms are advertised but only used when requested by the origin, and off means that PQ algorithms are not advertised.",
-			"summary": "Get Origin Post-Quantum Encryption setting",
-			"usage": "cf origin-post-quantum-encryption get",
+			"fullPath": ["organizations", "members", "get"],
+			"description": "Retrieve a single membership from an Organization.",
+			"summary": "Get organization member",
+			"usage": "cf organizations members get <member-id> [options]",
+			"arguments": [
+				{
+					"name": "member-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Organization Member ID"
+				}
+			],
+			"options": [
+				{
+					"name": "organization-id",
+					"type": "string",
+					"required": true,
+					"description": "Organization ID"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/organizations/{organization_id}/members/{member_id}",
+			"operationId": "organizations.members.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations members list",
+			"name": "list",
+			"fullPath": ["organizations", "members", "list"],
+			"description": "List memberships for an Organization.",
+			"summary": "List organization members",
+			"usage": "cf organizations members list [options]",
 			"arguments": [],
+			"options": [
+				{
+					"name": "organization-id",
+					"type": "string",
+					"required": true,
+					"description": "Organization ID"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Filter the list of memberships by membership status. Defaults to `active`, `pending`, and `rejected`; pass `canceled` explicitly to include canceled memberships."
+				},
+				{
+					"name": "user-email",
+					"type": "string",
+					"required": false,
+					"description": "Filter the list of memberships for a specific email."
+				},
+				{
+					"name": "user-email-contains",
+					"type": "string",
+					"required": false,
+					"description": "Filter the list of memberships for a specific email that contains a substring."
+				},
+				{
+					"name": "user-email-starts-with",
+					"type": "string",
+					"required": false,
+					"description": "Filter the list of memberships for a specific email that starts with a substring."
+				},
+				{
+					"name": "user-email-ends-with",
+					"type": "string",
+					"required": false,
+					"description": "Filter the list of memberships for a specific email that ends with a substring."
+				},
+				{
+					"name": "page-token",
+					"type": "string",
+					"required": false,
+					"description": "An opaque token returned from the last list response that when\nprovided will retrieve the next page.\n\nParameters used to filter the retrieved list must remain in subsequent\nrequests with a page token."
+				},
+				{
+					"name": "page-size",
+					"type": "number",
+					"required": false,
+					"description": "The amount of items to return. Defaults to 10."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/organizations/{organization_id}/members",
+			"operationId": "organizations.members.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations profile get",
+			"name": "get",
+			"fullPath": ["organizations", "profile", "get"],
+			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record. Profiles can be shared across accounts and organizations. Only available to members of the organization.",
+			"summary": "Get organization profile",
+			"usage": "cf organizations profile get <organization-id>",
+			"arguments": [
+				{
+					"name": "organization-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The ID of the organization to retrieve a profile for."
+				}
+			],
 			"options": [
 				{
 					"name": "dry-run",
@@ -83984,25 +83959,56 @@
 			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
-			"operationId": "origin-post-quantum-encryption.get",
+			"apiPath": "/organizations/{organization_id}/profile",
+			"operationId": "organizations.profile.get",
 			"hideCommand": false
 		},
 		{
-			"command": "cf origin-post-quantum-encryption update",
+			"command": "cf organizations profile update",
 			"name": "update",
-			"fullPath": ["origin-post-quantum-encryption", "update"],
-			"description": "Instructs Cloudflare to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin. Preferred instructs Cloudflare to opportunistically send a Post-Quantum keyshare in the first message to the origin (for fastest connections when the origin supports and prefers PQ), supported means that PQ algorithms are advertised but only used when requested by the origin, and off means that PQ algorithms are not advertised.",
-			"summary": "Change Origin Post-Quantum Encryption setting",
-			"usage": "cf origin-post-quantum-encryption update [options]",
-			"arguments": [],
-			"options": [
+			"fullPath": ["organizations", "profile", "update"],
+			"description": "Partially updates the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of the organization.",
+			"summary": "Modify organization profile.",
+			"usage": "cf organizations profile update <organization-id> [options]",
+			"arguments": [
 				{
-					"name": "value",
+					"name": "organization-id",
+					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Value of the Origin Post Quantum Encryption Setting.",
-					"enum": ["preferred", "supported", "off"]
+					"description": "Organization ID"
+				}
+			],
+			"options": [
+				{
+					"name": "business-address",
+					"type": "string",
+					"required": false,
+					"description": "The business_address field"
+				},
+				{
+					"name": "business-email",
+					"type": "string",
+					"required": false,
+					"description": "The business_email field"
+				},
+				{
+					"name": "business-name",
+					"type": "string",
+					"required": false,
+					"description": "The business_name field"
+				},
+				{
+					"name": "business-phone",
+					"type": "string",
+					"required": false,
+					"description": "The business_phone field"
+				},
+				{
+					"name": "external-metadata",
+					"type": "string",
+					"required": false,
+					"description": "The external_metadata field"
 				},
 				{
 					"name": "dry-run",
@@ -84021,8 +84027,121 @@
 			"category": "update",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
-			"apiPath": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
-			"operationId": "origin-post-quantum-encryption.update",
+			"apiPath": "/organizations/{organization_id}/profile",
+			"operationId": "organizations.profile.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations shares list",
+			"name": "list",
+			"fullPath": ["organizations", "shares", "list"],
+			"description": "Lists all organization shares.",
+			"summary": "List organization shares",
+			"usage": "cf organizations shares list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "organization-id",
+					"type": "string",
+					"required": true,
+					"description": "Organization identifier."
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Filter shares by status.",
+					"enum": ["active", "deleting", "deleted"]
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Order shares by values in the given field.",
+					"enum": ["name", "created"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Direction to sort objects.",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number. Defaults to `1` when omitted."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of objects to return per page. Defaults to `20` when omitted."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/organizations/{organization_id}/shares",
+			"operationId": "organizations.shares.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf organizations update",
+			"name": "update",
+			"fullPath": ["organizations", "update"],
+			"description": "Update an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes.",
+			"summary": "Update organization",
+			"usage": "cf organizations update <organization-id> [options]",
+			"arguments": [
+				{
+					"name": "organization-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The ID of the organization to modify."
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
+				},
+				{
+					"name": "parent-id",
+					"type": "string",
+					"required": false,
+					"description": "The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/organizations/{organization_id}",
+			"operationId": "organizations.update",
 			"hideCommand": false
 		},
 		{
@@ -88379,7 +88498,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/precursor",
 			"operationId": "precursor.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf precursor update",
@@ -88400,7 +88519,7 @@
 					"name": "detection-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n",
+					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.",
 					"enum": ["off", "monitor", "arm"]
 				},
 				{
@@ -88434,7 +88553,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/precursor",
 			"operationId": "precursor.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf previews delete",
@@ -90354,20 +90473,22 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf r2 buckets domains managed list",
-			"name": "list",
-			"fullPath": ["r2", "buckets", "domains", "managed", "list"],
+			"command": "cf r2 buckets domains managed get",
+			"name": "get",
+			"fullPath": ["r2", "buckets", "domains", "managed", "get"],
 			"description": "Gets the R2 bucket's managed r2.dev domain and whether public access is enabled. The r2.dev domain is rate-limited and intended for development use.",
 			"summary": "Get r2.dev Domain of Bucket",
-			"usage": "cf r2 buckets domains managed list [options]",
-			"arguments": [],
-			"options": [
+			"usage": "cf r2 buckets domains managed get <bucket-name> [options]",
+			"arguments": [
 				{
 					"name": "bucket-name",
+					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Name of the bucket."
-				},
+				}
+			],
+			"options": [
 				{
 					"name": "cf-r2-jurisdiction",
 					"type": "string",
@@ -90386,7 +90507,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed",
-			"operationId": "r2.buckets.domains.managed.list",
+			"operationId": "r2.buckets.domains.managed.get",
 			"hideCommand": false
 		},
 		{
@@ -97033,24 +97154,26 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category.",
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
 					"enum": [
+						"ACADEMIC_RESEARCH",
+						"ADVERTISING_AND_MARKETING",
+						"AI_ASSISTANT",
+						"AI_CRAWLER",
+						"COMMERCE",
+						"FEED_FETCHER",
+						"MONITORING_AND_ANALYTICS",
+						"OTHER",
+						"PAGE_PREVIEW",
 						"SEARCH_ENGINE_CRAWLER",
 						"SEARCH_ENGINE_OPTIMIZATION",
-						"MONITORING_AND_ANALYTICS",
-						"ADVERTISING_AND_MARKETING",
-						"SOCIAL_MEDIA_MARKETING",
-						"PAGE_PREVIEW",
-						"ACADEMIC_RESEARCH",
 						"SECURITY",
 						"ACCESSIBILITY",
-						"WEBHOOKS",
-						"FEED_FETCHER",
-						"AI_CRAWLER",
 						"AGGREGATOR",
-						"AI_ASSISTANT",
 						"AI_SEARCH",
-						"ARCHIVER"
+						"ARCHIVER",
+						"SOCIAL_MEDIA_MARKETING",
+						"WEBHOOKS"
 					]
 				},
 				{
@@ -97176,7 +97299,7 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category."
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category."
 				},
 				{
 					"name": "bot-kind",
@@ -97286,7 +97409,7 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category."
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category."
 				},
 				{
 					"name": "bot-kind",
@@ -97410,7 +97533,7 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category."
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category."
 				},
 				{
 					"name": "bot-kind",
@@ -105762,7 +105885,7 @@
 			"command": "cf radar search global",
 			"name": "global",
 			"fullPath": ["radar", "search", "global"],
-			"description": "Searches for locations, autonomous systems, reports, bots, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).",
+			"description": "Searches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).",
 			"summary": "Search for locations, ASes, reports, and more",
 			"usage": "cf radar search global [options]",
 			"arguments": [],
@@ -106042,10 +106165,11 @@
 					"name": "tld-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLD type.",
+					"description": "Filters results by TLD type. GENERIC_RESTRICTED and SPONSORED are deprecated and return no results, as IANA consolidated them into GENERIC. INFRASTRUCTURE is deprecated, as IANA reclassified .arpa as SPECIAL_USE.",
 					"enum": [
 						"GENERIC",
 						"COUNTRY_CODE",
+						"SPECIAL_USE",
 						"GENERIC_RESTRICTED",
 						"INFRASTRUCTURE",
 						"SPONSORED"
@@ -114067,11 +114191,17 @@
 			"command": "cf resource-sharing create",
 			"name": "create",
 			"fullPath": ["resource-sharing", "create"],
-			"description": "Creates a new resource share for sharing Cloudflare resources with other accounts or organizations.",
+			"description": "Creates a share that makes a resource available to specific accounts in the caller's organization, or to the whole organization.",
 			"summary": "Trigger a share creation",
 			"usage": "cf resource-sharing create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "excluded-recipients",
+					"type": "string",
+					"required": false,
+					"description": "Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. Provide as a JSON array of objects or @path/to/file.json."
+				},
 				{
 					"name": "name",
 					"type": "string",
@@ -114081,14 +114211,20 @@
 				{
 					"name": "recipients",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The recipients field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "resources",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The resources field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the share. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -114277,7 +114413,7 @@
 			"command": "cf resource-sharing excluded-recipients list",
 			"name": "list",
 			"fullPath": ["resource-sharing", "excluded-recipients", "list"],
-			"description": "Lists the accounts excluded from an organization-targeted share. Only valid for shares with `target_type=organization`.",
+			"description": "Lists the accounts excluded from an organization-targeted share. Returns an empty list for account-targeted shares.",
 			"summary": "List share excluded recipients by share ID",
 			"usage": "cf resource-sharing excluded-recipients list [options]",
 			"arguments": [],
@@ -114292,13 +114428,13 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response."
+					"description": "Page number. Defaults to `1` when omitted."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response."
+					"description": "Number of objects to return per page. Defaults to `20` when omitted."
 				},
 				{
 					"name": "dry-run",
@@ -114337,6 +114473,14 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
 					"default": false
 				},
 				{
@@ -114381,6 +114525,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Include recipient counts in the response."
+				},
+				{
+					"name": "include-tags-from",
+					"type": "string",
+					"required": false,
+					"description": "Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
+					"enum": ["api", "mirror"]
 				},
 				{
 					"name": "dry-run",
@@ -114451,13 +114602,13 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response."
+					"description": "Page number. Defaults to `1` when omitted."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response."
+					"description": "Number of objects to return per page. Defaults to `20` when omitted."
 				},
 				{
 					"name": "include-resources",
@@ -114470,6 +114621,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Include recipient counts in the response."
+				},
+				{
+					"name": "include-tags-from",
+					"type": "string",
+					"required": false,
+					"description": "Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
+					"enum": ["api", "mirror"]
 				},
 				{
 					"name": "tag",
@@ -114509,12 +114667,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "organization-id",
-					"type": "string",
-					"required": false,
-					"description": "Organization identifier."
-				},
 				{
 					"name": "recipient-account-id",
 					"type": "string",
@@ -114657,13 +114809,13 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response."
+					"description": "Page number. Defaults to `1` when omitted."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response."
+					"description": "Number of objects to return per page. Defaults to `20` when omitted."
 				},
 				{
 					"name": "dry-run",
@@ -114684,7 +114836,7 @@
 			"command": "cf resource-sharing recipients update",
 			"name": "update",
 			"fullPath": ["resource-sharing", "recipients", "update"],
-			"description": "Replaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`); org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint.",
+			"description": "Replaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`) and the list is non-empty; org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint.",
 			"summary": "Trigger recipient reconciliation on a share",
 			"usage": "cf resource-sharing recipients update <share-id>",
 			"arguments": [
@@ -114702,6 +114854,14 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
 					"default": false
 				},
 				{
@@ -114745,13 +114905,13 @@
 					"name": "resource-account-id",
 					"type": "string",
 					"required": true,
-					"description": "Account identifier."
+					"description": "The account that owns the resource. Must match the `account_id` in the path."
 				},
 				{
 					"name": "resource-id",
 					"type": "string",
 					"required": true,
-					"description": "Share Resource identifier."
+					"description": "Identifier assigned by the service that owns the shared resource."
 				},
 				{
 					"name": "resource-type",
@@ -114914,13 +115074,13 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response."
+					"description": "Page number. Defaults to `1` when omitted."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response."
+					"description": "Number of objects to return per page. Defaults to `20` when omitted."
 				},
 				{
 					"name": "dry-run",
@@ -114941,7 +115101,7 @@
 			"command": "cf resource-sharing resources update",
 			"name": "update",
 			"fullPath": ["resource-sharing", "resources", "update"],
-			"description": "Update is not immediate, an updated share resource object with a new status will be returned.",
+			"description": "Updates the resource's `meta`. Only resources with `status=active` can be updated.",
 			"summary": "Trigger a resource metadata update in a share",
 			"usage": "cf resource-sharing resources update <share-resource-id> [options]",
 			"arguments": [
@@ -114991,8 +115151,8 @@
 			"command": "cf resource-sharing update",
 			"name": "update",
 			"fullPath": ["resource-sharing", "update"],
-			"description": "Updates the share's display name and tags. This endpoint does **not** modify recipients or resources — those are managed via dedicated subresource endpoints: - **Recipients**: Use `POST /accounts/{account_id}/shares/{share_id}/recipients` to add a single recipient, `PUT /accounts/{account_id}/shares/{share_id}/recipients` to replace the full recipient list, or `DELETE /accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}` to remove a recipient. - **Resources**: Use the share's resource subresource endpoints. Updating is not immediate; an updated share object with a new status will be returned.",
-			"summary": "Trigger a share rename",
+			"description": "Updates the share's display name and tags. Omitting `tags` leaves the existing tags unchanged. Recipients and resources are managed via their subresource endpoints.",
+			"summary": "Trigger a share update",
 			"usage": "cf resource-sharing update <share-id> [options]",
 			"arguments": [
 				{
@@ -115009,6 +115169,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the share."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the share. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -116709,7 +116875,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/scim/v2/Groups",
 			"operationId": "scim.groups.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim groups delete",
@@ -116749,7 +116915,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/scim/v2/Groups/{group_id}",
 			"operationId": "scim.groups.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim groups edit",
@@ -116793,7 +116959,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/scim/v2/Groups/{group_id}",
 			"operationId": "scim.groups.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim groups get",
@@ -116825,7 +116991,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/Groups/{group_id}",
 			"operationId": "scim.groups.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim groups list",
@@ -116867,7 +117033,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/Groups",
 			"operationId": "scim.groups.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim groups update",
@@ -116911,7 +117077,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/scim/v2/Groups/{group_id}",
 			"operationId": "scim.groups.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim resource-types get",
@@ -116943,7 +117109,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/ResourceTypes/{resource_type_id}",
 			"operationId": "scim.resource-types.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim resource-types list",
@@ -116967,7 +117133,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/ResourceTypes",
 			"operationId": "scim.resource-types.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim schemas get",
@@ -116999,7 +117165,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/Schemas/{schema_id}",
 			"operationId": "scim.schemas.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim schemas list",
@@ -117023,7 +117189,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/Schemas",
 			"operationId": "scim.schemas.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim service-provider-config get",
@@ -117047,7 +117213,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/ServiceProviderConfig",
 			"operationId": "scim.service-provider-config.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim users create",
@@ -117083,7 +117249,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/scim/v2/Users",
 			"operationId": "scim.users.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim users delete",
@@ -117123,7 +117289,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/scim/v2/Users/{user_id}",
 			"operationId": "scim.users.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim users edit",
@@ -117167,7 +117333,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/scim/v2/Users/{user_id}",
 			"operationId": "scim.users.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim users get",
@@ -117199,7 +117365,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/Users/{user_id}",
 			"operationId": "scim.users.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim users list",
@@ -117241,7 +117407,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/scim/v2/Users",
 			"operationId": "scim.users.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf scim users update",
@@ -117285,7 +117451,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/scim/v2/Users/{user_id}",
 			"operationId": "scim.users.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf secrets-store quota get",
@@ -117711,7 +117877,7 @@
 			"command": "cf secrets-store stores list",
 			"name": "list",
 			"fullPath": ["secrets-store", "stores", "list"],
-			"description": "Lists all the stores in an account.",
+			"description": "Lists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately.",
 			"summary": "List account stores",
 			"usage": "cf secrets-store stores list [options]",
 			"arguments": [],
@@ -122650,22 +122816,20 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf ssl mtls-certificates associations get",
-			"name": "get",
-			"fullPath": ["ssl", "mtls-certificates", "associations", "get"],
+			"command": "cf ssl mtls-certificates associations list",
+			"name": "list",
+			"fullPath": ["ssl", "mtls-certificates", "associations", "list"],
 			"description": "Lists all active associations between the certificate and Cloudflare services.",
 			"summary": "List mTLS certificate associations",
-			"usage": "cf ssl mtls-certificates associations get <mtls-certificate-id>",
-			"arguments": [
+			"usage": "cf ssl mtls-certificates associations list [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "mtls-certificate-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Certificate identifier tag."
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -122678,7 +122842,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}/associations",
-			"operationId": "ssl.mtls-certificates.associations.get",
+			"operationId": "ssl.mtls-certificates.associations.list",
 			"hideCommand": false
 		},
 		{
@@ -126538,6 +126702,135 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf tenants accounts list",
+			"name": "list",
+			"fullPath": ["tenants", "accounts", "list"],
+			"description": "Lists all Cloudflare accounts across this tenant's hierarchy using the legacy Account response shape. Use `GET /organizations/{organization_id}/accounts` to list only accounts immediately attached to a specific Organization using the modern Account response shape. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested.",
+			"summary": "List tenant accounts",
+			"usage": "cf tenants accounts list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "tenant-id",
+					"type": "string",
+					"required": true,
+					"description": "The ID of the tenant whose accounts to list."
+				},
+				{
+					"name": "account-pubname",
+					"type": "string",
+					"required": false,
+					"description": "(case-sensitive) Filter the list of accounts to where the account_pubname is equal to\na particular string."
+				},
+				{
+					"name": "account-pubname-starts-with",
+					"type": "string",
+					"required": false,
+					"description": "(case-insensitive) Filter the list of accounts to where the account_pubname starts with\na particular string."
+				},
+				{
+					"name": "account-pubname-ends-with",
+					"type": "string",
+					"required": false,
+					"description": "(case-insensitive) Filter the list of accounts to where the account_pubname ends with\na particular string."
+				},
+				{
+					"name": "account-pubname-contains",
+					"type": "string",
+					"required": false,
+					"description": "(case-insensitive) Filter the list of accounts to where the account_pubname contains\na particular string."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "(case-sensitive) Filter the list of accounts to where the name is equal to a\nparticular string. At most one of `name`, `name.startsWith`, `name.endsWith`,\nor `name.contains` may be supplied per request."
+				},
+				{
+					"name": "name-starts-with",
+					"type": "string",
+					"required": false,
+					"description": "(case-insensitive) Filter the list of accounts to where the name starts with a\nparticular string."
+				},
+				{
+					"name": "name-ends-with",
+					"type": "string",
+					"required": false,
+					"description": "(case-insensitive) Filter the list of accounts to where the name ends with a particular\nstring."
+				},
+				{
+					"name": "name-contains",
+					"type": "string",
+					"required": false,
+					"description": "(case-insensitive) Filter the list of accounts to where the name contains a particular\nstring."
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Filter accounts by lifecycle status. Defaults to `active`.",
+					"enum": ["active", "deleted"]
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by. Currently supported values: `account_name`.",
+					"enum": ["account_name"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction for the order_by field. Valid values: `asc`, `desc`.\nDefaults to `asc` when order_by is specified.",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "include-total",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to calculate and return the exact `result_info.total_size` for cursor\npagination. Defaults to true. When false, `total_size` is omitted. Legacy\n`page`/`per_page` requests always calculate `total_count`."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Legacy offset page number. Must be provided with `per_page`. Values below 1 are treated as\n1. Cursor pagination takes precedence when requested."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Legacy offset page size. Must be provided with `page`. Values are clamped to the range\n1-100. Cursor pagination takes precedence when requested."
+				},
+				{
+					"name": "page-token",
+					"type": "string",
+					"required": false,
+					"description": "An opaque token returned from the last list response that when\nprovided will retrieve the next page.\n\nParameters used to filter the retrieved list must remain in subsequent\nrequests with a page token."
+				},
+				{
+					"name": "page-size",
+					"type": "number",
+					"required": false,
+					"description": "The amount of items to return. Defaults to 10."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/tenants/{tenant_id}/accounts",
+			"operationId": "tenants.accounts.list",
+			"hideCommand": false
+		},
+		{
 			"command": "cf tools",
 			"name": "tools",
 			"fullPath": ["tools"],
@@ -130026,6 +130319,12 @@
 					"description": "A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
 				},
 				{
+					"name": "networks",
+					"type": "string",
+					"required": false,
+					"description": "List of networks where Load Balancer or Pool is enabled."
+				},
+				{
 					"name": "notification-email",
 					"type": "string",
 					"required": false,
@@ -130752,6 +131051,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf user memberships get",
+			"name": "get",
+			"fullPath": ["user", "memberships", "get"],
+			"description": "Get a specific membership for the currently authenticated user.",
+			"summary": "Get User Membership",
+			"usage": "cf user memberships get <membership-id>",
+			"arguments": [
+				{
+					"name": "membership-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Membership identifier tag."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/user/memberships/{membership_id}",
+			"operationId": "user.memberships.get",
+			"hideCommand": false
+		},
+		{
 			"command": "cf user memberships list",
 			"name": "list",
 			"fullPath": ["user", "memberships", "list"],
@@ -130866,74 +131197,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf user memberships user-memberships-get",
-			"name": "user-memberships-get",
-			"fullPath": ["user", "memberships", "user-memberships-get"],
-			"description": "Get a specific membership for the currently authenticated user.",
-			"summary": "Get User Membership",
-			"usage": "cf user memberships user-memberships-get <membership-id>",
-			"arguments": [
-				{
-					"name": "membership-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Membership identifier tag."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/user/memberships/{membership_id}",
-			"operationId": "user.memberships.user-memberships-get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf user memberships user-s-account-memberships-membership-details",
-			"name": "user-s-account-memberships-membership-details",
-			"fullPath": [
-				"user",
-				"memberships",
-				"user-s-account-memberships-membership-details"
-			],
-			"description": "Get a specific membership.",
-			"summary": "Membership Details",
-			"usage": "cf user memberships user-s-account-memberships-membership-details <membership-id>",
-			"arguments": [
-				{
-					"name": "membership-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Membership identifier tag."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/memberships/{membership_id}",
-			"operationId": "user.memberships.user-s-account-memberships-membership-details",
-			"hideCommand": false
-		},
-		{
 			"command": "cf user subscriptions delete",
 			"name": "delete",
 			"fullPath": ["user", "subscriptions", "delete"],
@@ -130974,12 +131237,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf user subscriptions get",
-			"name": "get",
-			"fullPath": ["user", "subscriptions", "get"],
+			"command": "cf user subscriptions list",
+			"name": "list",
+			"fullPath": ["user", "subscriptions", "list"],
 			"description": "Lists all of a user's subscriptions.",
 			"summary": "Get User Subscriptions",
-			"usage": "cf user subscriptions get",
+			"usage": "cf user subscriptions list",
 			"arguments": [],
 			"options": [
 				{
@@ -130994,7 +131257,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/user/subscriptions",
-			"operationId": "user.subscriptions.get",
+			"operationId": "user.subscriptions.list",
 			"hideCommand": false
 		},
 		{
@@ -131094,6 +131357,30 @@
 			"httpMethod": "PUT",
 			"apiPath": "/user/subscriptions/{identifier}",
 			"operationId": "user.subscriptions.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf user tenants list",
+			"name": "list",
+			"fullPath": ["user", "tenants", "list"],
+			"description": "Lists the Cloudflare tenants in which the authenticated user has direct membership using the legacy Tenant response shape. Use `GET /organizations` to list Organizations the user can access, including through hierarchy, using the modern Organization response shape.",
+			"summary": "List user tenants",
+			"usage": "cf user tenants list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/user/tenants",
+			"operationId": "user.tenants.list",
 			"hideCommand": false
 		},
 		{
@@ -135781,17 +136068,24 @@
 			"fullPath": ["workers", "delete"],
 			"description": "Delete a Worker and all its associated resources (versions, deployments, etc.).",
 			"summary": "Delete Worker",
-			"usage": "cf workers delete <worker-id> [options]",
+			"usage": "cf workers delete [worker] [options]",
 			"arguments": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Identifier for the Worker, which can be ID or name."
 				}
 			],
 			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
 				{
 					"name": "delete-with-references",
 					"type": "boolean",
@@ -135834,7 +136128,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "bypass-deployment-checks",
@@ -135859,7 +136154,7 @@
 					"name": "strategy",
 					"type": "string",
 					"required": true,
-					"description": "The strategy field",
+					"description": "Strategy for routing traffic across the listed versions. `percentage` splits traffic according to each version's `percentage`.",
 					"enum": ["percentage"]
 				},
 				{
@@ -135902,7 +136197,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deployment ID"
+					"description": "Identifier of the Worker Deployment."
 				}
 			],
 			"options": [
@@ -135910,7 +136205,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -135948,7 +136244,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deployment ID"
+					"description": "Identifier of the Worker Deployment."
 				}
 			],
 			"options": [
@@ -135956,7 +136252,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -135986,7 +136283,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "since",
@@ -136033,17 +136331,24 @@
 			"fullPath": ["workers", "get"],
 			"description": "Get details about a specific Worker.",
 			"summary": "Get Worker",
-			"usage": "cf workers get <worker-id>",
+			"usage": "cf workers get [worker] [options]",
 			"arguments": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Identifier for the Worker, which can be ID or name."
 				}
 			],
 			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -136177,7 +136482,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "secrets",
@@ -136239,7 +136545,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "url-encoded",
@@ -136291,7 +136598,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "url-encoded",
@@ -136327,7 +136635,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -136365,7 +136674,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "text",
@@ -136561,10 +136871,11 @@
 			],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifier for the Worker, which can be ID or name."
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -136607,10 +136918,11 @@
 			],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifier for the Worker, which can be ID or name."
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "include",
@@ -136644,10 +136956,11 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifier for the Worker, which can be ID or name."
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "page",
@@ -136694,10 +137007,11 @@
 			],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifies the Worker by ID or name."
+					"description": "Identifies the Worker by ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "actor-id",
@@ -140141,7 +140455,13 @@
 					"name": "body",
 					"type": "string",
 					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
+					"description": "Send the workflow name as plain text (`realtime` or `preview`), without JSON quotes."
+				},
+				{
+					"name": "file",
+					"type": "string",
+					"required": false,
+					"description": "Path to a file to upload as the request body"
 				}
 			],
 			"category": "update",
@@ -143896,7 +144216,7 @@
 			"command": "cf zero-trust access user-populations create",
 			"name": "create",
 			"fullPath": ["zero-trust", "access", "user-populations", "create"],
-			"description": "Creates a user population in an account.",
+			"description": "Creates a user population in an account. Requires permission to update the account's Access organization.",
 			"summary": "Create a user population",
 			"usage": "cf zero-trust access user-populations create [options]",
 			"arguments": [],
@@ -153162,7 +153482,8 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A description of the policy."
+					"description": "A description of the policy.",
+					"default": ""
 				},
 				{
 					"name": "disable-auto-fallback",
@@ -164893,36 +165214,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust seats edit",
-			"name": "edit",
-			"fullPath": ["zero-trust", "seats", "edit"],
-			"description": "Removes a user from a Zero Trust seat when both `access_seat` and `gateway_seat` are set to false.",
-			"summary": "Update a user seat",
-			"usage": "cf zero-trust seats edit",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/access/seats",
-			"operationId": "zero-trust.seats.edit",
-			"hideCommand": false
-		},
-		{
 			"command": "cf zero-trust users mfa authenticators delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "users", "mfa", "authenticators", "delete"],
@@ -166325,12 +166616,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zones rate-plans get",
-			"name": "get",
-			"fullPath": ["zones", "rate-plans", "get"],
+			"command": "cf zones rate-plans list",
+			"name": "list",
+			"fullPath": ["zones", "rate-plans", "list"],
 			"description": "Lists all rate plans the zone can subscribe to.",
 			"summary": "List Available Rate Plans",
-			"usage": "cf zones rate-plans get",
+			"usage": "cf zones rate-plans list",
 			"arguments": [],
 			"options": [
 				{
@@ -166345,7 +166636,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/available_rate_plans",
-			"operationId": "zones.rate-plans.get",
+			"operationId": "zones.rate-plans.list",
 			"hideCommand": false
 		},
 		{
@@ -167370,9 +167661,9 @@
 		"dns zone-transfers tsigs": "Operations for zone-transfers.tsigs",
 		"dns-firewall": "dns-firewall",
 		"dns-firewall reverse-dns": "Operations for reverse-dns",
-		"durable-objects": "durable-objects",
-		"durable-objects namespaces": "Operations for namespaces",
-		"durable-objects namespaces objects": "Operations for namespaces.objects",
+		"durable-objects": "Stateful serverless objects with transactional storage, ideal for coordination, sessions, and real-time collaboration",
+		"durable-objects namespaces": "List Durable Object namespaces and inspect individual object instances within them",
+		"durable-objects namespaces objects": "List Durable Object instances in a namespace",
 		"email-auth": "email-auth",
 		"email-auth dmarc-reports": "Operations for dmarc-reports",
 		"email-auth spf": "Operations for spf",
@@ -167602,7 +167893,7 @@
 		"network-interconnects slots": "Available interconnect facility slots showing port capacity at Cloudflare data centers",
 		"o11y": "o11y",
 		"o11y agents": "Operations for agents",
-		"o11y agents sessions": "Operations for agents.sessions",
+		"o11y agents traces": "Operations for agents.traces",
 		"o11y destinations": "Operations for destinations",
 		"o11y issues": "Operations for issues",
 		"o11y issues automations": "Operations for issues.automations",
@@ -167615,19 +167906,19 @@
 		"o11y tracing settings": "Operations for tracing.settings",
 		"observability": "observability",
 		"observability usage-limit": "Operations for usage-limit",
-		"organization": "organization",
-		"organization account": "Operations for account",
-		"organization invite": "Operations for invite",
-		"organization member": "Operations for member",
-		"organization member batch": "Operations for member.batch",
-		"organization profile": "Operations for profile",
-		"organization share": "Operations for share",
+		"ohttp-gateway": "ohttp-gateway",
+		"ohttp-gateway enablement": "Operations for enablement",
 		"organizations": "Multi-user organizations that group accounts, members, and shared settings under a single entity",
+		"organizations accounts": "Accounts that belong to an organization",
 		"organizations billing": "Operations for billing",
 		"organizations billing usage": "Operations for billing.usage",
+		"organizations invites": "Invitations to join an organization",
 		"organizations logs": "Operations for logs",
 		"organizations logs audit": "Operations for logs.audit",
-		"origin-post-quantum-encryption": "Enable post-quantum key exchange for connections between Cloudflare and your origin server",
+		"organizations members": "Members of an organization",
+		"organizations members batch": "Add members to an organization in bulk",
+		"organizations profile": "View and update the public profile information for an organization",
+		"organizations shares": "Shares across the organization",
 		"page-rules": "page-rules",
 		"pages": "Full-stack application hosting with Git-integrated builds, preview deployments, and custom domains",
 		"pages build-cache": "Operations for build-cache",
@@ -167828,10 +168119,10 @@
 		"reporting reports": "Operations for reports",
 		"request-tracers": "Trace how a request would be processed through Cloudflare's rules and configuration pipeline",
 		"request-tracers traces": "Simulate request processing to debug rule matches, transforms, and routing decisions",
-		"resource-sharing": "Share Cloudflare resources (zones, accounts) across organizations with granular access controls",
-		"resource-sharing excluded-recipients": "Operations for excluded-recipients",
-		"resource-sharing recipients": "Update share recipients",
-		"resource-sharing resources": "Individual resources (zones, configs) that have been shared with recipients",
+		"resource-sharing": "Share account-level resources (WAF custom rulesets, Gateway policies and settings, Access IdP federation grants) with other accounts in the same organization",
+		"resource-sharing excluded-recipients": "Accounts excluded from an organization-targeted share",
+		"resource-sharing recipients": "Accounts that receive a share",
+		"resource-sharing resources": "Resources attached to a share",
 		"rules": "Resources used by Cloudflare rules and rulesets",
 		"rules lists": "Custom account-level lists of IPs, hostnames, ASNs, or redirects used in rule expressions",
 		"rules lists bulk-operations": "Operations for lists.bulk-operations",
@@ -167936,6 +168227,8 @@
 		"tags summary": "Operations for summary",
 		"tags values": "Operations for values",
 		"tenant-custom-nameservers": "tenant-custom-nameservers",
+		"tenants": "Multi-tenant account management",
+		"tenants accounts": "Accounts that belong to a tenant",
 		"tunnels": "tunnels",
 		"tunnels config": "Operations for config",
 		"tunnels connections": "Operations for connections",
@@ -167972,6 +168265,7 @@
 		"user load-balancing-analytics events": "Origin health changes recorded by Load Balancing analytics",
 		"user memberships": "Operations for memberships",
 		"user subscriptions": "View and manage zone-level plan subscriptions owned by your user",
+		"user tenants": "Tenants the user belongs to",
 		"user tokens": "Create and manage personal API tokens scoped to your user for programmatic API access",
 		"user tokens permission-groups": "Operations for tokens.permission-groups",
 		"vectorize": "Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
@@ -168000,18 +168294,18 @@
 		"web3 hostnames ipfs-universal-paths": "Operations for hostnames.ipfs-universal-paths",
 		"web3 hostnames ipfs-universal-paths content-lists": "Operations for hostnames.ipfs-universal-paths.content-lists",
 		"web3 hostnames ipfs-universal-paths content-lists entries": "Operations for hostnames.ipfs-universal-paths.content-lists.entries",
-		"workers": "workers",
-		"workers deployments": "Operations for deployments",
-		"workers scripts": "Operations for scripts",
-		"workers secrets": "Operations for secrets",
-		"workers versions": "Operations for versions",
+		"workers": "Deploy and manage serverless JavaScript/WASM applications on Cloudflare's global network",
+		"workers deployments": "Manage Worker deployments and traffic versions",
+		"workers scripts": "Worker script operations including usage model, settings, content, tags, schedules, subdomains, and queue consumers",
+		"workers secrets": "Manage secrets bound to Worker scripts",
+		"workers versions": "Create, list, inspect, and manage Worker versions",
 		"workers triggers": "Manage triggers (Routes, Workflows, Cron triggers etc.)",
 		"workers-builds": "workers-builds",
 		"workers-builds workers": "Operations for workers",
 		"workers-builds workers previews": "Operations for workers.previews",
-		"workers-for-platforms": "workers-for-platforms",
-		"workers-for-platforms dispatch-namespaces": "Operations for dispatch-namespaces",
-		"workers-for-platforms dispatch-namespaces scripts": "Operations for dispatch-namespaces.scripts",
+		"workers-for-platforms": "Workers for Platforms uses dispatch namespaces to isolate and route requests to many individual user Workers, letting platforms run untrusted customer or AI-generated code at scale with per-tenant bindings, limits, and observability",
+		"workers-for-platforms dispatch-namespaces": "Isolate and route requests to many individual user Workers",
+		"workers-for-platforms dispatch-namespaces scripts": "Operations around customer Workers deployed inside a dispatch namespace",
 		"workers-for-platforms dispatch-namespaces scripts bindings": "Operations for dispatch-namespaces.scripts.bindings",
 		"workers-for-platforms dispatch-namespaces scripts secrets": "Operations for dispatch-namespaces.scripts.secrets",
 		"workers-for-platforms dispatch-namespaces scripts settings": "Operations for dispatch-namespaces.scripts.settings",
@@ -168193,7 +168487,6 @@
 		"zero-trust risk-scoring integrations": "User Risk Scoring - manage integrations that provide risk score signals",
 		"zero-trust risk-scoring integrations references": "User Risk Scoring - retrieve integrations by external reference",
 		"zero-trust risk-scoring summary": "User Risk Scoring - retrieve account risk score summaries",
-		"zero-trust seats": "Operations for seats",
 		"zero-trust users": "Operations for users",
 		"zero-trust users mfa": "Operations for users.mfa",
 		"zero-trust users mfa authenticators": "Operations for users.mfa.authenticators",

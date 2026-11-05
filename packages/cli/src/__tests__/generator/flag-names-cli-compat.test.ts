@@ -68,6 +68,33 @@ describe("applyTemporaryFlagNames", () => {
 		});
 	});
 
+	it.each([
+		{ type: "string" },
+		{ $ref: "#/components/schemas/precursor_mode" },
+		{ allOf: [{ $ref: "#/components/schemas/precursor_mode" }] },
+	])("names a field wrapped in a single allOf: %j", (schema) => {
+		const doc = document();
+		const schemas = doc.components?.["schemas"] as Record<string, object>;
+		const mode = {
+			allOf: [schema],
+			"x-fern-property-name": "precursor-mode",
+		};
+		schemas["precursor_config"] = {
+			type: "object",
+			properties: { mode },
+		};
+
+		applyTemporaryFlagNames(doc);
+
+		expect(overrides(doc, PRECURSOR, "put")).toEqual({
+			mode: { flagName: "detection-mode" },
+		});
+		expect(mode).toEqual({
+			allOf: [schema],
+			"x-fern-property-name": "precursor-mode",
+		});
+	});
+
 	it.each<[string, (doc: ForgeOpenApiDocument) => void, string]>([
 		[
 			"a missing operation",
@@ -105,6 +132,24 @@ describe("applyTemporaryFlagNames", () => {
 				schemas["precursor_mode"] = { type: "integer" };
 			},
 			'field type is now "integer"',
+		],
+		[
+			"a retyped field wrapped in allOf",
+			(doc) => {
+				const schemas = doc.components?.["schemas"] as Record<string, object>;
+				schemas["precursor_mode"] = { allOf: [{ type: "integer" }] };
+			},
+			'field type is now "integer"',
+		],
+		[
+			"a field with conflicting allOf types",
+			(doc) => {
+				const schemas = doc.components?.["schemas"] as Record<string, object>;
+				schemas["precursor_mode"] = {
+					allOf: [{ type: "string" }, { type: "integer" }],
+				};
+			},
+			"field type is now undefined",
 		],
 		[
 			"an upstream flagName",

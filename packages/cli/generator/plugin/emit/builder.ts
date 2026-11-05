@@ -7,6 +7,7 @@ import {
 	optionDefaults,
 	options as optionArgs,
 	positionals,
+	WORKER_ALIASES,
 } from "../args.js";
 import { kebab, obj, stringify, type Value } from "../js.js";
 import { type Ctx, escapeSingle } from "./index.js";
@@ -22,6 +23,26 @@ function option(name: string, fields: [string, Value | undefined][]): string {
 }
 
 const quoted = (v: readonly string[]) => v.map((c) => `'${c}'`).join(", ");
+
+export const JSON_BODY_DESCRIPTION =
+	"Raw JSON request body (bypasses individual flags)";
+
+/** Matches the plain-text body classification in `wire()`. */
+export const isPlainTextBody = (op: Ctx["op"]) =>
+	op.requestContentTypes.length > 0 &&
+	op.requestContentTypes.every((type) => type.startsWith("text/plain"));
+
+export function bodyOptionDescription(op: Ctx["op"]): string {
+	if (
+		op.requestBodyDescription !== undefined &&
+		op.requestBodyDescription !== ""
+	) {
+		return op.requestBodyDescription;
+	}
+	return isPlainTextBody(op)
+		? "Plain-text request body (without JSON quotes)"
+		: JSON_BODY_DESCRIPTION;
+}
 
 /** `generateBuilderLines`. */
 export function builderLines(ctx: Ctx): string[] {
@@ -67,13 +88,16 @@ export function builderLines(ctx: Ctx): string[] {
 			option(name, [
 				["type", type],
 				["array", scalarArray ? true : undefined],
-				["alias", arg.isWorkerName ? "script-name" : undefined],
+				["alias", arg.isWorkerName ? WORKER_ALIASES : undefined],
 				["description", arg.description],
 				["choices", arg.choices],
 				["default", defaults.get(arg.name)],
 				["demandOption", demand ? true : undefined],
 			])
 		);
+		if (arg.isWorkerName && arg.positional) {
+			lines.push(`.group(${stringify(name)}, theme.brand('Options'))`);
+		}
 		// Resolve `@file` before yargs validates `choices` against the value,
 		// so the handler gets the file's contents without reading it twice.
 		if (arg.fromFile !== undefined && hasChoices(arg)) {
@@ -91,11 +115,7 @@ export function builderLines(ctx: Ctx): string[] {
 		);
 	}
 	if (d.hasBody) {
-		const desc =
-			op.requestBodyDescription !== undefined &&
-			op.requestBodyDescription !== ""
-				? op.requestBodyDescription
-				: "Raw JSON request body (bypasses individual flags)";
+		const desc = bodyOptionDescription(op);
 		lines.push("      .option('body', {");
 		lines.push("        type: 'string',");
 		lines.push(`        description: '${escapeSingle(desc)}',`);

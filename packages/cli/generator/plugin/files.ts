@@ -10,16 +10,21 @@ import {
 	derive,
 	downgradeOptionalParents,
 	isBody,
-	isWorkerName,
 	isZonePathParam,
 	multipartFileFlagDescription,
 	optionDefaults,
 	options as optionArgs,
 	positionals,
 	scalar,
+	WORKER_ALIASES,
 } from "./args.js";
 import { requiresConfirmation } from "./confirmation.js";
-import { builderLines } from "./emit/builder.js";
+import {
+	bodyOptionDescription,
+	builderLines,
+	isPlainTextBody,
+	JSON_BODY_DESCRIPTION,
+} from "./emit/builder.js";
 import { ACCOUNT_OR_ZONE_HELP, handler, imports } from "./emit/handler.js";
 import { context, escapeSingle } from "./emit/index.js";
 import { operationLiteral, operationPath, usesPathTag } from "./emit/sdk.js";
@@ -246,32 +251,6 @@ class Walk {
 		const positional = positionals(derived);
 		const options = optionArgs(derived);
 		const defaults = optionDefaults(derived, op);
-		if (resource === "workers") {
-			for (const p of op.pathParams) {
-				if (!isWorkerName(p.name.replaceAll("_", "-"))) {
-					continue;
-				}
-				if (options.some((a) => a.name === "worker")) {
-					continue;
-				}
-				options.push({
-					name: "worker",
-					description: p.description ?? `The ${p.name.replaceAll("_", " ")}`,
-					type: "string",
-					choices: undefined,
-					default: undefined,
-					required: true,
-					positional: false,
-					origin: { in: "path", name: p.name },
-					conflicts: undefined,
-					implies: undefined,
-					secret: false,
-					fromFile: undefined,
-					isZone: false,
-					isWorkerName: true,
-				});
-			}
-		}
 		const fullPath = [resource];
 		if (group !== undefined) {
 			fullPath.push(...group.split("/"));
@@ -281,7 +260,7 @@ class Walk {
 		const positionalUsage = positional
 			.map((a) => {
 				const name = a.type === "array" ? `${a.name}...` : a.name;
-				return a.required ? `<${name}>` : `[${name}]`;
+				return a.required && !a.isWorkerName ? `<${name}>` : `[${name}]`;
 			})
 			.join(" ");
 		const suffix = options.length === 0 ? "" : " [options]";
@@ -294,7 +273,7 @@ class Walk {
 			m["name"] = a.name;
 			m["position"] = i;
 			m["type"] = scalar(a.type);
-			m["required"] = a.required;
+			m["required"] = a.required && !a.isWorkerName;
 			m["description"] = a.description;
 			if (a.choices !== undefined && a.choices.length > 0) {
 				m["enum"] = a.choices;
@@ -307,6 +286,9 @@ class Walk {
 			m["type"] = scalar(a.type);
 			m["required"] = a.required;
 			m["description"] = a.description;
+			if (a.isWorkerName) {
+				m["alias"] = WORKER_ALIASES;
+			}
 			const dflt = defaults.get(a.name);
 			if (dflt !== undefined) {
 				m["default"] = dflt;
@@ -346,7 +328,13 @@ class Walk {
 					["name", "body"],
 					["type", "string"],
 					["required", false],
-					["description", "Raw JSON request body (bypasses individual flags)"],
+					[
+						"description",
+						// `cf tools` schemas must not tell callers to send JSON here.
+						isPlainTextBody(op)
+							? bodyOptionDescription(op)
+							: JSON_BODY_DESCRIPTION,
+					],
 				])
 			);
 		}

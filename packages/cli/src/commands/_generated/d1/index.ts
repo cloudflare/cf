@@ -7,7 +7,6 @@ import $query from "./query.js";
 import $raw from "./raw.js";
 import $timetravel from "./time-travel/index.js";
 import $undelete from "./undelete.js";
-import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * d1 command
@@ -32,7 +31,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($query)
 			.command($raw)
 			.command($undelete)
-			.command($update)
 			.command(withHandWrittenDryRun($migrations, "preview"))
 			.command($timetravel)
 			.demandCommand(1, "Please specify a subcommand");

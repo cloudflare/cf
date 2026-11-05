@@ -92,6 +92,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "List of networks where Load Balancer or Pool is enabled.",
 		})
+		.option("pool-sets", {
+			type: "string",
+			description:
+				"An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("pop-pools", {
 			type: "string",
 			description:
@@ -298,6 +303,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											networks: argv["networks"],
+											pool_sets: parseObjectArray(
+												argv["pool-sets"],
+												"pool-sets"
+											),
 											pop_pools: parseJsonMap(argv["pop-pools"], "pop-pools"),
 											proxied: argv["proxied"],
 											random_steering: {
@@ -342,6 +351,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -358,8 +369,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -402,6 +413,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						networks: argv["networks"],
+						pool_sets: parseObjectArray(argv["pool-sets"], "pool-sets"),
 						pop_pools: parseJsonMap(argv["pop-pools"], "pop-pools"),
 						proxied: argv["proxied"],
 						random_steering: {

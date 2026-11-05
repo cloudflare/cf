@@ -20,15 +20,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection logos get\n\nGet all saved brand protection logo queries for an account. Optionally specify id to get a single query. Set download=true to include base64-encoded image data."
+			"$0 brand-protection logos get\n\nLists the account's saved logo queries. Set `id` to return a single query object instead of an array. Set `download=true` to include each logo image as base64 data."
 		)
 		.option("id", {
 			type: "string",
-			description: "Optional query ID to retrieve a specific logo query",
+			description:
+				"ID of a logo query. When set, `result` is that single query object instead of an array.",
 		})
 		.option("download", {
 			type: "string",
-			description: "If true, include base64-encoded image data in the response",
+			description:
+				"Set to `true` to include each logo image as base64 data in `image_data`, with its MIME type in `content_type`.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -41,7 +43,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
-	describe: "Get logo queries",
+	describe: "List logo queries",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

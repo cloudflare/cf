@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts categories list\n\nList the categories available for classifying applications, ordered by name. Results are paginated by `offset` or `cursor`."
+			"$0 accounts categories list\n\nList the categories available for classifying applications, ordered by name, ignoring the case of the letters A to Z. Results are paginated by `offset` or `cursor`."
 		)
 		.option("limit", {
 			type: "number",

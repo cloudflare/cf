@@ -33,6 +33,10 @@ import {
 	createContainerDeployConfig,
 	isLiveContainerExport,
 } from "../deploy/containers.js";
+import {
+	prepareStaticAssetsBuildOutput,
+	staticAssetsDirectoryOption,
+} from "../deploy/static-assets.js";
 import { createPreviewContainerCallbacks } from "./containers.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { PreviewResult } from "@cloudflare/deploy-helpers";
@@ -40,6 +44,7 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
+		.positional("directory", staticAssetsDirectoryOption)
 		.option("preview-name", {
 			type: "string",
 			description:
@@ -82,7 +87,10 @@ export async function runPreviewDeploy(
 		);
 	}
 
-	if (!argv.prebuilt) {
+	const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+		isPreview: true,
+	});
+	if (!argv.prebuilt && !preparedStaticAssets) {
 		await runBuild(
 			argv.mode,
 			{ output: argv.quiet ? "silent" : "stderr", worker: argv.worker },
@@ -208,7 +216,7 @@ async function deployPreviewBuildOutput(
 }
 
 const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {
-	command: "deploy",
+	command: "deploy [directory]",
 	describe: "Deploy a Worker Preview",
 	builder,
 	handler: async (argv) => {

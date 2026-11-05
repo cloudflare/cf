@@ -5,7 +5,10 @@ import {
 	generateRuntimeTypes,
 	RUNTIME_TYPES_MARKER,
 } from "@cloudflare/runtime-types";
-import { CLOUDFLARE_CONFIG_FILENAME } from "#lib/project-settings.js";
+import {
+	CLOUDFLARE_CONFIG_FILENAME,
+	formatConfigIssues,
+} from "#lib/project-settings.js";
 
 export const TYPES_OUTPUT_PATH = path.join(
 	".cloudflare",
@@ -17,19 +20,6 @@ export interface GenerateWorkerTypesOptions {
 	configPath: string;
 	mode: string | undefined;
 	includeRuntime: boolean;
-}
-
-function formatConfigIssues(
-	issues: { path: PropertyKey[]; message: string }[]
-) {
-	return issues
-		.map((issue) => {
-			const issuePath = issue.path
-				.filter((segment) => typeof segment !== "symbol")
-				.join(".");
-			return `  - ${issuePath ? `${issuePath}: ` : ""}${issue.message}`;
-		})
-		.join("\n");
 }
 
 function importPath(fromDirectory: string, target: string): string {

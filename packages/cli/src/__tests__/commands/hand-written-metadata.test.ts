@@ -122,7 +122,7 @@ describe("hand-written command metadata", () => {
 
 	it("classifies deploy control flags as telemetry-safe", () => {
 		const deploy = loadableRootCommands().find(
-			(command) => command.command === "deploy"
+			(command) => command.command === "deploy [directory]"
 		);
 
 		expect(deploy?.telemetry).toMatchObject({
@@ -146,8 +146,15 @@ describe("hand-written command metadata", () => {
 
 	it("publishes Preview name as an optional flag", () => {
 		const command = commands.get("cf previews deploy");
-		expect(command?.usage).toBe("cf previews deploy [options]");
-		expect(command?.arguments).toEqual([]);
+		expect(command?.usage).toBe("cf previews deploy [directory] [options]");
+		expect(command?.arguments).toEqual([
+			expect.objectContaining({
+				name: "directory",
+				position: 0,
+				type: "string",
+				required: false,
+			}),
+		]);
 		expect(command?.options).toContainEqual({
 			name: "preview-name",
 			type: "string",

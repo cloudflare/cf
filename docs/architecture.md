@@ -333,6 +333,11 @@ Practical extensions of this rule:
     the nearest `cloudflare.config.ts` and generates
     `.cloudflare/types/index.d.ts`. `cf init` reuses its generator
     (`generate.ts`) for a project it has just created and installed.
+  - The directory forms of `cf deploy`, `cf previews deploy`, and
+    `cf workers versions create` are another bounded source-config exception.
+    They reuse an optional assets-only Worker definition while producing Build
+    Output, and reject configured entrypoints or Containers because those
+    require a delegated build.
   - `cf containers build` and `cf containers push` are hand-written leaves
     added to the generated Containers tree. They wrap the shared Container
     Docker and registry helpers; there are no OpenAPI operations for local
@@ -376,10 +381,13 @@ Shell-completion scripts are no longer generated — `cf complete`
 Normal cf startup and generated API commands read only `accountId` and
 `complianceRegion` from the default export in `cloudflare.config.ts`; they do
 not inspect or validate the `worker` or `containers` fields. Project resource
-config is otherwise the dev-server impl's domain. The bounded exception is
+config is otherwise the dev-server impl's domain. The bounded exceptions are
 `cf workers types`, which loads and validates the Worker definition to generate
-declarations. `cf init` reuses the same generator for a project it has just
-created and installed.
+declarations; `cf init`, which reuses that generator for a project it has just
+created and installed; and the assets-only directory forms of `cf deploy`,
+`cf previews deploy`, and `cf workers versions create`, which validate and
+reuse an optional Worker definition while producing Build Output and reject
+configured entrypoints or Containers.
 
 This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
 merely because a binding field in the configured Worker is invalid. Loading
@@ -391,10 +399,11 @@ What cf DOES read:
 
 - **Account settings from `cloudflare.config.ts`'s default export** for project
   account and compliance-region defaults.
-- **The Worker definition from `cloudflare.config.ts`** only when running
+- **The Worker definition from `cloudflare.config.ts`** when running
   `cf workers types`, including its compatibility date and flags for runtime
-  type generation, or when `cf init` generates types for the project it just
-  created.
+  type generation; when `cf init` generates types for the project it just
+  created; or when an assets-only directory workflow produces Build Output for
+  `cf deploy`, `cf previews deploy`, or `cf workers versions create`.
 - **`~/.config/cloudflare/state.json`** records the shell-completion tip and
   telemetry preferences. Owned by `lib/state.ts`.
 - **`.cloudflare/state/v3/` next to the nearest `cloudflare.config.ts`** stores
@@ -405,16 +414,20 @@ What cf DOES read:
 
 What cf does NOT read:
 
-- The `worker` field outside `cf workers types` type generation, or the
-  `containers` field from `cloudflare.config.ts`.
-- Other source resource config in any form, for any API command.
+- The `worker` field outside type generation and assets-only directory
+  workflows, or the `containers` field except when an assets-only directory
+  workflow verifies that none are configured.
+- Other source resource config in any form for generated API commands.
 - `package.json` worker config (none exists today; reserved for
   the future).
-- Source binding manifests, durable-object class lists, and trigger lists. Project workflows may consume their built equivalents from Build Output.
+- Source binding manifests, durable-object class lists, and trigger lists
+  outside the assets-only directory workflows. Other project workflows consume
+  their built equivalents from Build Output.
 
-Outside the explicit type-generation workflow, if a feature seems to require cf to parse the source config,
-that's a signal to push it elsewhere — usually to the local-explorer
-API or to a forge annotation. Local mode is the worked example: `--local`
+Outside the explicit type-generation and assets-only artifact-production
+workflows, if a feature seems to require cf to parse the source config, that's
+a signal to push it elsewhere — usually to the local-explorer API or to a forge
+annotation. Local mode is the worked example: `--local`
 derives resource identity from the request URL and sends the request to a
 cf-spawned Miniflare local-explorer instance over shared persisted state. It
 does not read the project's binding declarations.

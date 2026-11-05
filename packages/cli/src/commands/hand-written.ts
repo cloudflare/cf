@@ -230,6 +230,13 @@ const registry = [
 	},
 	{
 		kind: "leaf",
+		dryRun: "native",
+		parent: "durable-objects",
+		name: "export",
+		dir: "durable-objects/export",
+	},
+	{
+		kind: "leaf",
 		dryRun: "preview",
 		parent: "pages",
 		name: "deploy",

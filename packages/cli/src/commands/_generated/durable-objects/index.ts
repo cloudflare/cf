@@ -5,6 +5,8 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/durable-objects.ts
  */
 import type { CommandModule } from "yargs";
+import $export from "#commands/durable-objects/export/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "durable-objects",
@@ -12,6 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command(withHandWrittenDryRun($export, "native"))
 			.command($namespaces)
 			.demandCommand(1, "Please specify a subcommand");
 	},

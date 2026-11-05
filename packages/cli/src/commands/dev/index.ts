@@ -22,7 +22,7 @@ interface DevArgs extends CommonYargsOptions {
 	 * `bare-positional` arguments and forwards them verbatim to the
 	 * impl. cf does not parse impl-specific flags.
 	 */
-	implArgs?: (string | number)[];
+	implArgs?: string[];
 	"--"?: string[];
 }
 
@@ -45,6 +45,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				.parserConfiguration({
 					"unknown-options-as-args": true,
 					"populate--": true,
+					"parse-positional-numbers": false,
 					// Don't camelCase forwarded args — the impl is responsible
 					// for its own flag parsing and we shouldn't double-translate.
 					"camel-case-expansion": false,
@@ -63,15 +64,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		const cwd = process.cwd();
 		const { details } = await prepareProject(cwd);
 
-		// Coerce yargs' (string | number)[] back to string[] for the
-		// child_process call. Numbers come from yargs auto-detecting
-		// numeric positional values (e.g. `cf dev --port 8080` after
-		// the parser turns `--port` into a positional pair); we
-		// stringify on the way through because the impl expects argv
-		// to be strings.
-		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])].map(
-			String
-		);
+		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])];
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];
 		if (details?.devCommand) {
 			if (argv.mode && !details.framework?.supportsMode) {

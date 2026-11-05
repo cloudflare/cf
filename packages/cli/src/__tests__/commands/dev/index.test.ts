@@ -271,6 +271,11 @@ describe("cf dev", () => {
 				expected: ["--host"],
 			},
 			{
+				label: "numeric-looking values",
+				args: ["--port", "08080", "--id", "9007199254740993", "1e3"],
+				expected: ["--port", "08080", "--id", "9007199254740993", "1e3"],
+			},
+			{
 				label: "arguments after the separator",
 				args: ["--", "--port", "8789", "--config", "vite config & extra.ts"],
 				expected: ["--port", "8789", "--config", "vite config & extra.ts"],
@@ -777,9 +782,9 @@ describe("cf dev", () => {
 					"staging",
 					...separator,
 					"--port",
-					"3000",
+					"03000",
 					"--my-vite-flag",
-					"some-positional",
+					"9007199254740993",
 				]);
 				expect(result.exitCode).toBe(0);
 
@@ -795,9 +800,9 @@ describe("cf dev", () => {
 					"--mode",
 					"staging",
 					"--port",
-					"3000",
+					"03000",
 					"--my-vite-flag",
-					"some-positional",
+					"9007199254740993",
 				]);
 			}
 		);

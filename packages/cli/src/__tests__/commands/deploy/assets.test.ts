@@ -132,6 +132,19 @@ describe("cf deploy — assets", () => {
 			expect(buildDelegateWasCalled()).toBe(false);
 		});
 
+		it("suppresses static assets preparation output with --quiet", async () => {
+			await seed({ "public/index.html": "quiet" });
+
+			await expect(
+				prepareStaticAssetsBuildOutput(
+					{ directory: "public", quiet: true },
+					{ isPreview: false }
+				)
+			).resolves.toBe(true);
+
+			expect(std.err).toBe("");
+		});
+
 		it("uses an optional assets-only Worker config", async () => {
 			const upload = mockWorkerUpload();
 			mockAssetUpload();

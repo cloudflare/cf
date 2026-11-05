@@ -36,6 +36,7 @@ interface StaticAssetsCommandArgs {
 	directory?: string;
 	mode?: string;
 	prebuilt?: boolean;
+	quiet?: boolean;
 	worker?: string;
 }
 
@@ -92,8 +93,10 @@ export async function prepareStaticAssetsBuildOutput(
 		mode: argv.mode,
 	});
 
-	log.section("Static assets");
-	log.message(`Preparing an assets-only deployment from ${directory}`);
+	if (!argv.quiet) {
+		log.section("Static assets");
+		log.message(`Preparing an assets-only deployment from ${directory}`);
+	}
 
 	await cleanBuildOutputDir(root);
 	await writeRootConfig(root, projectConfig.settings, {
@@ -103,8 +106,10 @@ export async function prepareStaticAssetsBuildOutput(
 	await writeWorkerConfig({ root, config: projectConfig.worker });
 	await writeAssets({ root, sourceDirectory });
 
-	log.success(`Build Output written to ${BUILD_OUTPUT_ROOT}`);
-	log.message("");
+	if (!argv.quiet) {
+		log.success(`Build Output written to ${BUILD_OUTPUT_ROOT}`);
+		log.message("");
+	}
 	return true;
 }
 

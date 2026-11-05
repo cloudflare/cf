@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { http, HttpResponse } from "msw/http";
 import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
@@ -16,10 +17,11 @@ describe("create", () => {
 	const { setIsTTY } = useMockIsTTY();
 
 	it("should throw if local flag is provided", async ({ expect }) => {
-		// cf accepts the global `--local` flag, starts Miniflare itself,
-		// and reports that this control-plane operation has no explorer
-		// equivalent. The canonical title retains Wrangler's former
-		// `--local-endpoint` wording.
+		// cf accepts the global `--local` flag, starts Miniflare itself over
+		// the project's state, and reports that this control-plane operation
+		// has no explorer equivalent. The canonical title retains Wrangler's
+		// former `--local-endpoint` wording.
+		writeFileSync("cloudflare.config.ts", "export default {};");
 		await expect(runWrangler("d1 create --name test --local")).rejects.toThrow(
 			/no local equivalent.*re-run without --local/i
 		);

@@ -334,7 +334,7 @@ describe("kv", () => {
 					  -m, --mode        Mode used to evaluate project configuration         [string]
 					      --local       Use local resource simulations    [boolean] [default: false]
 					      --persist-to  Directory holding local persisted state (default:
-					                    ~/.config/cloudflare/state)                         [string]
+					                    .cloudflare/state next to cloudflare.config.ts)     [string]
 					  -h, --help        Show help                                          [boolean]
 					  -v, --version     Show version number                                [boolean]
 

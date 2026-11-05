@@ -117869,7 +117869,7 @@
 			"command": "cf secrets-store stores list",
 			"name": "list",
 			"fullPath": ["secrets-store", "stores", "list"],
-			"description": "Lists all the stores in an account.",
+			"description": "Lists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately.",
 			"summary": "List account stores",
 			"usage": "cf secrets-store stores list [options]",
 			"arguments": [],

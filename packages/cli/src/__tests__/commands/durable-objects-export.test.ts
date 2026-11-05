@@ -102,6 +102,7 @@ describe("cf durable-objects export", () => {
 		expect(await unpackExport(FIXTURE.pathname, "out.sqlite")).toEqual({
 			incomplete: false,
 		});
+		expect(existsSync("out.sqlite-wal")).toBe(false);
 		expect(rows("out.sqlite")).toEqual({
 			ids: [1, 2, 3],
 			integrity: "ok",

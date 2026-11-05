@@ -92,6 +92,7 @@
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",
 		"@types/yargs": "17.0.35",
+		"@types/yauzl": "3.4.0",
 		"chalk": "6.0.1",
 		"ci-info": "^4.4.0",
 		"esbuild": "0.28.2",
@@ -105,7 +106,8 @@
 		"tsx": "4.21.0",
 		"undici": "8.12.3",
 		"vite-plus": "catalog:",
-		"yargs": "18.2.0"
+		"yargs": "18.2.0",
+		"yauzl": "3.4.0"
 	},
 	"engines": {
 		"node": "^22.23.0 || ^24.22.0 || ^26.12.0"

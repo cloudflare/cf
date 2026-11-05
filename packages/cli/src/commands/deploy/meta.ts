@@ -9,7 +9,7 @@ export default [
 		category: "action",
 		description:
 			"Deploy a Worker, static site, or full-stack application to Cloudflare",
-		usage: "cf deploy [options]",
+		usage: "cf deploy [directory] [options]",
 		search: {
 			keywords: [
 				"pages",
@@ -22,7 +22,16 @@ export default [
 				"full-stack",
 			],
 		},
-		arguments: [],
+		arguments: [
+			{
+				name: "directory",
+				position: 0,
+				type: "string",
+				required: false,
+				description:
+					"Directory containing prebuilt static assets. Use only for assets-only projects; projects with server-side code require a delegated build.",
+			},
+		],
 		options: [
 			{
 				name: "prebuilt",
@@ -72,6 +81,15 @@ export default [
 				description:
 					"Automatically provision resources for bindings that need them",
 				default: true,
+			},
+			{
+				name: "force",
+				alias: "f",
+				type: "boolean",
+				required: false,
+				description:
+					"Allow upload in CI despite conflicting remote Worker changes",
+				default: false,
 			},
 			{
 				name: "dispatch-namespace",

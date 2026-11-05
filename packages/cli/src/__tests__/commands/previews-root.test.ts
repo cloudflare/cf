@@ -25,12 +25,13 @@ describe("cf previews group", () => {
 			out.mock.calls.map((call: unknown[]) => String(call[0])).join("") +
 			log.mock.calls.map((call: unknown[]) => String(call[0])).join("\n");
 		expect(output).toContain("Manage Worker Previews");
-		expect(output).toContain("previews deploy [preview-name]");
+		expect(output).toContain("previews deploy");
+		expect(output).not.toContain("[preview-name]");
 	});
 
 	it("keeps local mode unavailable for Preview deployment", async () => {
 		await expect(
-			runCf(["previews", "deploy", "feature", "--local"])
+			runCf(["previews", "deploy", "--preview-name", "feature", "--local"])
 		).rejects.toThrow("--local is not supported by cf previews deploy.");
 	});
 
@@ -38,6 +39,7 @@ describe("cf previews group", () => {
 		const { exitCode } = await runCf([
 			"previews",
 			"deploy",
+			"--preview-name",
 			"feature",
 			"--prebuilt",
 			"--dry-run",

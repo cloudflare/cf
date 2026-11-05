@@ -536,7 +536,10 @@ describe("--temporary-account", () => {
 		{ command: ["deploy"], isPreview: false },
 		{ command: ["workers", "versions", "create"], isPreview: false },
 		{ command: ["workers", "triggers", "deploy"], isPreview: false },
-		{ command: ["previews", "deploy", "test-preview"], isPreview: true },
+		{
+			command: ["previews", "deploy", "--preview-name", "test-preview"],
+			isPreview: true,
+		},
 	])(
 		"uses the build's compliance region before provisioning for $command",
 		async ({ command, isPreview }) => {

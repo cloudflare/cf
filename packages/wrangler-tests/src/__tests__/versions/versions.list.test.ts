@@ -17,7 +17,7 @@ describe("versions list", () => {
 	describe("without wrangler.toml", () => {
 		test("fails with no args", async ({ expect }) => {
 			await expect(runWrangler("workers versions list")).rejects.toThrow(
-				/Missing required argument: worker-id/
+				"--worker <name>"
 			);
 		});
 

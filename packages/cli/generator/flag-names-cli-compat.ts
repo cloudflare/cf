@@ -79,8 +79,9 @@ function staleness(
 	if (field === undefined) {
 		return "field missing";
 	}
-	if (field["type"] !== entry.type) {
-		return `field type is now ${JSON.stringify(field["type"])}`;
+	const type = fieldType(openapi, field);
+	if (type !== entry.type) {
+		return `field type is now ${JSON.stringify(type)}`;
 	}
 	const overrides = operation["x-forge-params"] as Overrides | undefined;
 	if (overrides?.[entry.wire]?.["flagName"] !== undefined) {
@@ -101,6 +102,25 @@ function bodyField(
 		record(content?.["application/json"])?.["schema"]
 	);
 	return deref(openapi, record(schema?.["properties"])?.[wire]);
+}
+
+function fieldType(
+	openapi: ForgeOpenApiDocument,
+	field: Record<string, unknown>
+): unknown {
+	let schema: Record<string, unknown> | undefined = field;
+	for (let depth = 0; depth < 10 && schema !== undefined; depth++) {
+		if (schema["type"] !== undefined) {
+			return schema["type"];
+		}
+		// Forge can wrap a reference in allOf to attach property annotations.
+		const allOf = schema["allOf"];
+		if (!Array.isArray(allOf) || allOf.length !== 1) {
+			return undefined;
+		}
+		schema = deref(openapi, allOf[0]);
+	}
+	return undefined;
 }
 
 function deref(

@@ -59,7 +59,14 @@ describe("cf deploy — error handling", () => {
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
-		await expect(runCf(["deploy"])).rejects.toThrow();
+		const previousExitCode = process.exitCode;
+		try {
+			process.exitCode = 2;
+			await expect(runCf(["deploy"])).rejects.toThrow();
+			expect(process.exitCode).toBe(2);
+		} finally {
+			process.exitCode = previousExitCode;
+		}
 	});
 
 	it("fails when upload returns an API error", async () => {

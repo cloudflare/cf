@@ -20,18 +20,22 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection queries get\n\nGet all saved brand protection queries for an account"
+			"$0 brand-protection queries get\n\nLists the account's saved domain queries, most recently updated first. Set `id` to return a single query object instead of an array. Set `page` or `per_page` to paginate the list; the response then includes `result_info`. Without them, every query is returned."
 		)
-		.option("id", { type: "string", description: "ID" })
+		.option("id", {
+			type: "string",
+			description:
+				"ID of a domain query. When set, `result` is that single query object instead of an array, and `page` and `per_page` are ignored.",
+		})
 		.option("page", {
 			type: "number",
 			description:
-				"Optional page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to preserve the legacy full-list response.",
+				"Page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to return every query.",
 		})
 		.option("per-page", {
 			type: "number",
 			description:
-				"Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response.",
+				"Number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to return every query.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -44,7 +48,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
-	describe: "Get queries",
+	describe: "List domain queries",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

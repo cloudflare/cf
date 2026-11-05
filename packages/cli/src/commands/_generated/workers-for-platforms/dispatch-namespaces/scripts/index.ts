@@ -14,7 +14,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "scripts",
-	describe: "Operations for dispatch-namespaces.scripts",
+	describe:
+		"Operations around customer Workers deployed inside a dispatch namespace",
 
 	builder: (yargs) => {
 		return yargs

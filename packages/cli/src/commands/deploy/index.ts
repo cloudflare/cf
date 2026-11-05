@@ -1,14 +1,27 @@
+import { log } from "../../lib/ui/log.js";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
+import {
+	prepareStaticAssetsBuildOutput,
+	staticAssetsDirectoryOption,
+} from "./static-assets.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return sharedUploadBuilder(yargs)
+		.positional("directory", staticAssetsDirectoryOption)
 		.option("provision", {
 			type: "boolean",
 			description:
 				"Automatically provision resources for bindings that need them",
 			default: true,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description:
+				"Allow upload in CI despite conflicting remote Worker changes",
+			default: false,
 		})
 		.option("dispatch-namespace", {
 			type: "string",
@@ -26,12 +39,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 export type DeployArgs = InferArgs<typeof builder>;
 
 const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
-	command: "deploy",
+	command: "deploy [directory]",
 	describe:
 		"Deploy a Worker, static site, or full-stack application to Cloudflare",
 	builder,
 	handler: async (argv) => {
-		await runUpload(argv, { command: "Deploy" });
+		if (argv.force && !argv["dry-run"]) {
+			log.warn(
+				"Using --force may overwrite conflicting remote Worker changes."
+			);
+		}
+		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+			isPreview: false,
+		});
+		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
+			command: "Deploy",
+		});
 	},
 };
 

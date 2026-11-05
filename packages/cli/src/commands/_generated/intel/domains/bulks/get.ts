@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Whether to include domain ranking data in the response. Defaults to\n`false` — ranking lookups are expensive at bulk scale and most\ncallers do not need them. Set to `true` to opt in. This parameter\nreplaces the deprecated `skip_ranking` (see below).",
 		})
+		.option("skip-dns", {
+			type: "boolean",
+			description:
+				"Skip the DNS resolution-history lookup for faster responses. Defaults\nto `false`. Set to `true` if you only need categorization data; no\nDNS resolution history is returned for any domain. Matches the\n`skip_dns` parameter on `/intel/domain`.",
+		})
 		.option("skip-ranking", {
 			type: "boolean",
 			description:
@@ -56,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "intel domains bulks get",
 				classification: {
-					safeFlags: ["include-ranking", "skip-ranking", "dry-run"],
+					safeFlags: ["include-ranking", "skip-dns", "skip-ranking", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -64,6 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					domain: argv["domain"],
 					include_ranking: argv["include-ranking"],
+					skip_dns: argv["skip-dns"],
 					skip_ranking: argv["skip-ranking"],
 				};
 				if (argv.dryRun) {

@@ -18,11 +18,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 argo tiered-caching edit\n\nTiered Cache works by dividing Cloudflare's data centers into a hierarchy of lower-tiers and upper-tiers. If content is not cached in lower-tier data centers (generally the ones closest to a visitor), the lower-tier must ask an upper-tier to see if it has the content. If the upper-tier does not have the content, only the upper-tier can ask the origin for content. This practice improves bandwidth efficiency by limiting the number of data centers that can ask the origin for content, which reduces origin load and makes websites more cost-effective to operate. Additionally, Tiered Cache concentrates connections to origin servers so they come from a small number of data centers rather than the full set of network locations. This results in fewer open connections using server resources."
+			"$0 argo tiered-caching edit\n\nEnables or disables Tiered Cache for a zone. Tiered Cache reduces origin traffic by serving lower-tier cache misses from upper-tier data centers before requesting content from your origin."
 		)
 		.option("value", {
 			type: "string",
-			description: "Enables Tiered Caching.",
+			description: "Enables or disables Tiered Cache.",
 			choices: ["on", "off"],
 		})
 		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Update enablement of Tiered Caching.",
+			description: "Updates whether Tiered Cache is enabled for a zone.",
 		});
 }
 
@@ -41,7 +41,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit",
-	describe: "Patch Tiered Caching setting",
+	describe: "Update Tiered Cache",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -90,7 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["value"] === undefined) {
 					argv["value"] = await promptForRequiredEnumField(
 						"value",
-						"Enables Tiered Caching.",
+						"Enables or disables Tiered Cache.",
 						["on", "off"] as const
 					);
 				}

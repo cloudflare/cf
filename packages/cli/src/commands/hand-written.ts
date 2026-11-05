@@ -106,7 +106,7 @@ const registry = [
 	{
 		kind: "root",
 		dryRun: "native",
-		command: "deploy",
+		command: "deploy [directory]",
 		describe:
 			"Deploy a Worker, static site, or full-stack application to Cloudflare",
 		dir: "deploy",

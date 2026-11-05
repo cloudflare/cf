@@ -16,12 +16,13 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing recipients update <share-id>\n\nReplaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`); org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint."
+			"$0 resource-sharing recipients update <share-id>\n\nReplaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`) and the list is non-empty; org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint."
 		)
 		.positional("share-id", {
 			type: "string",
@@ -31,6 +32,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
 		})
 		.option("body", {
@@ -50,7 +57,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "resource-sharing recipients update",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -63,7 +71,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
 						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 100)
+								: undefined,
 					});
 					return;
 				}
@@ -73,10 +84,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				}
 				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
+					argv.body !== undefined ? parseBody(argv.body, [], 100) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
+
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `Accounts omitted from the list are disassociated from the share.`,
+					}))
+				) {
+					return;
+				}
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;

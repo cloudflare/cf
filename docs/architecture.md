@@ -297,9 +297,10 @@ Practical extensions of this rule:
   `resolve.ts`, which validates the domain and calls `client.zones.list()` for
   the selected account. Keep this exception contained in those global
   context/resolution helpers.
-- **Worker-name flag** (`--worker`, with `--script-name` as an alias) is a
+- **Worker-name flag** (`--worker`, with `--script-name` and `--worker-id` as aliases) is a
   generator-side product-scoped affordance, selected by
-  `resourceName === "workers"` in `isWorkerNameArg`. Add similar scoped checks
+  `resource === "workers"` in argument derivation. Generated `workers get` and
+  `workers delete` also accept the Worker as a positional argument. Add similar scoped checks
   rather than spreading product names.
 - **Product-specific hand-written commands are documented exceptions.** Three
   shadow generated leaves. Two exist because the request body's real schema sits behind a sibling
@@ -328,10 +329,15 @@ Practical extensions of this rule:
     default (or `--worker`-selected) Build Output Worker locally; there is no API
     operation to derive it from.
   - `cf workers types` is a hand-written leaf added to the generated Workers
-    tree. It is the bounded source-config exception: it validates the Worker in
+    tree. It is a bounded source-config exception: it validates the Worker in
     the nearest `cloudflare.config.ts` and generates
     `.cloudflare/types/index.d.ts`. `cf init` reuses its generator
     (`generate.ts`) for a project it has just created and installed.
+  - The directory forms of `cf deploy`, `cf previews deploy`, and
+    `cf workers versions create` are another bounded source-config exception.
+    They reuse an optional assets-only Worker definition while producing Build
+    Output, and reject configured entrypoints or Containers because those
+    require a delegated build.
   - `cf containers build` and `cf containers push` are hand-written leaves
     added to the generated Containers tree. They wrap the shared Container
     Docker and registry helpers; there are no OpenAPI operations for local
@@ -375,10 +381,21 @@ Shell-completion scripts are no longer generated — `cf complete`
 Normal cf startup and generated API commands read only `accountId` and
 `complianceRegion` from the default export in `cloudflare.config.ts`; they do
 not inspect or validate the `worker` or `containers` fields. Project resource
-config is otherwise the dev-server impl's domain. The bounded exception is
-`cf workers types`, which loads and validates the Worker definition to generate
-declarations. `cf init` reuses the same generator for a project it has just
-created and installed.
+config is otherwise the dev-server impl's domain. Source Worker validation is
+limited to type generation and assets-only directory uploads. `cf workers types`
+loads and validates the Worker definition to generate declarations; `cf init`
+reuses that generator for a project it has just created and installed.
+
+Supplying `[directory]` to `cf deploy`, `cf previews deploy`, or
+`cf workers versions create` invokes the shared
+`src/commands/deploy/static-assets.ts` helper. It loads and validates the nearest
+`cloudflare.config.ts` when present, reuses its account settings and Worker
+definition, and rejects configured Worker entrypoints or Containers. If no Worker
+is configured, it derives a Worker name from the project and uses the default
+compatibility date. The helper writes assets-only Build Output without a
+delegated build, recording `--mode` and Preview context, before the command
+continues through the normal Build Output upload path. Without `[directory]`,
+these commands consume Build Output from a delegated build or `--prebuilt`.
 
 This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
 merely because a binding field in the configured Worker is invalid. Loading
@@ -390,28 +407,36 @@ What cf DOES read:
 
 - **Account settings from `cloudflare.config.ts`'s default export** for project
   account and compliance-region defaults.
-- **The Worker definition from `cloudflare.config.ts`** only when running
+- **The Worker definition from `cloudflare.config.ts`** when running
   `cf workers types`, including its compatibility date and flags for runtime
-  type generation, or when `cf init` generates types for the project it just
-  created.
+  type generation; when `cf init` generates types for the project it just
+  created; or when an assets-only directory workflow produces Build Output for
+  `cf deploy`, `cf previews deploy`, or `cf workers versions create`.
+- **The `containers` field from `cloudflare.config.ts`** only when an assets-only
+  directory workflow validates that no Containers are configured.
 - **`~/.config/cloudflare/state.json`** records the shell-completion tip and
   telemetry preferences. Owned by `lib/state.ts`.
-- **`~/.config/cloudflare/state/v3/`** stores cf's global Miniflare resources
-  for `--local` unless `--persist-to` overrides it.
+- **`.cloudflare/state/v3/` next to the nearest `cloudflare.config.ts`** stores
+  the project's Miniflare resources for `--local`, matching the Cloudflare Vite
+  plugin's default for `cf dev`. `--persist-to` overrides it and is required
+  outside a project.
 - **Build Output under `.cloudflare/output/v0/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries account settings and `buildContext`; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand.
 
 What cf does NOT read:
 
-- The `worker` field outside `cf workers types` type generation, or the
-  `containers` field from `cloudflare.config.ts`.
-- Other source resource config in any form, for any API command.
+- The `worker` field outside type generation and assets-only directory
+  workflows, or the `containers` field outside assets-only directory workflows.
+- Other source resource config in any form for generated API commands.
 - `package.json` worker config (none exists today; reserved for
   the future).
-- Source binding manifests, durable-object class lists, and trigger lists. Project workflows may consume their built equivalents from Build Output.
+- Source binding manifests, durable-object class lists, and trigger lists
+  outside the assets-only directory workflows. Other project workflows consume
+  their built equivalents from Build Output.
 
-Outside the explicit type-generation workflow, if a feature seems to require cf to parse the source config,
-that's a signal to push it elsewhere — usually to the local-explorer
-API or to a forge annotation. Local mode is the worked example: `--local`
+Outside the explicit type-generation and assets-only artifact-production
+workflows, if a feature seems to require cf to parse the source config, that's
+a signal to push it elsewhere — usually to the local-explorer API or to a forge
+annotation. Local mode is the worked example: `--local`
 derives resource identity from the request URL and sends the request to a
 cf-spawned Miniflare local-explorer instance over shared persisted state. It
 does not read the project's binding declarations.
@@ -743,8 +768,8 @@ Live globals (`packages/cli/src/index.ts:buildCli`):
 | `--mode`              | `-m`  | Mode used to evaluate `cloudflare.config.ts`                    |
 | `--temporary-account` | —     | Use a temporary account when unauthenticated (hidden from help) |
 | `--event-code`        | —     | Event code for a new temporary account (hidden from help)       |
-| `--local`             | —     | Run against cf's global local Miniflare state                   |
-| `--persist-to`        | —     | Override state directory (default `~/.config/cloudflare/state`) |
+| `--local`             | —     | Run against the project's local Miniflare state                 |
+| `--persist-to`        | —     | Override state directory (default project `.cloudflare/state`)  |
 
 There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project settings → cached/prompted workers-auth selection; compliance region uses its environment variable → project settings; and the token uses `--temporary-account` → `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. `--temporary-account` is rejected when credentials already exist or with `--local`. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account`, is sent only when a new account is created, and is never cached or printed. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
 

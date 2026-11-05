@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 addressing prefixes validate create <prefix-id>\n\nTriggers a new prefix validation. The checks are run asynchronously and include IRR, RPKI, and prefix ownership."
+			"$0 addressing prefixes validate create <prefix-id>\n\nTriggers a new prefix validation. The checks run asynchronously and include IRR, RPKI, prefix ownership, and, when applicable, ASN ownership and Autonomous System Provider Authorization (ASPA). Use Prefix Details to monitor the results. Approval does not advertise the prefix or activate traffic."
 		)
 		.positional("prefix-id", {
 			type: "string",

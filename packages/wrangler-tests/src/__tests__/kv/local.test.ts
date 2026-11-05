@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from "vite-plus/test";
+import { writeFileSync } from "node:fs";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { runInTempDir } from "../helpers/run-in-tmp";
 import { runWrangler } from "../helpers/run-wrangler";
@@ -6,6 +7,11 @@ import { runWrangler } from "../helpers/run-wrangler";
 describe("kv", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
+
+	// cf keeps `--local` state next to the project's cloudflare.config.ts.
+	beforeEach(() => {
+		writeFileSync("cloudflare.config.ts", "export default {};");
+	});
 
 	function local(persistTo?: string): string {
 		return persistTo === undefined

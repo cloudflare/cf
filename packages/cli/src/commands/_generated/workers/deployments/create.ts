@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("worker", {
 			type: "string",
-			alias: "script-name",
+			alias: ["script-name", "worker-id"],
 			description: "Name of the script.",
 		})
 		.option("bypass-deployment-checks", {
@@ -52,7 +52,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("strategy", {
 			type: "string",
-			description: "The strategy field",
+			description:
+				"Strategy for routing traffic across the listed versions. `percentage` splits traffic according to each version's `percentage`.",
 			choices: ["percentage"],
 		})
 		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
@@ -139,6 +140,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
+
 				const queryParams: Record<string, unknown> = {
 					force: argv["bypass-deployment-checks"],
 				};
@@ -147,8 +151,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers deployments create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/deployments`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/deployments`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						query: queryParams,
 						bodyKind: "json",
 						body:
@@ -173,8 +177,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
-				argv["worker"] = scriptName;
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
@@ -197,7 +199,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["strategy"] === undefined) {
 					argv["strategy"] = await promptForRequiredEnumField(
 						"strategy",
-						"The strategy field",
+						"Strategy for routing traffic across the listed versions. \`percentage\` splits traffic according to each version's \`percentage\`.",
 						["percentage"] as const
 					);
 				}

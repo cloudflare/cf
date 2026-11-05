@@ -15,6 +15,7 @@ import "../../lib/auth.js";
 import {
 	ACCOUNT_ID,
 	buildDelegateWasCalled,
+	mockAssetUpload,
 	mockDefaultHandlers,
 	mockExistingWorker,
 	mockWorkerUpload,
@@ -84,6 +85,31 @@ describe("cf workers versions create", () => {
 		expect(std.out).not.toContain("--persist-to");
 		expect(buildDelegateWasCalled()).toBe(false);
 		expect(requests).toEqual([]);
+	});
+
+	it("uploads a static assets directory without running the delegated build", async () => {
+		const upload = mockWorkerUpload();
+		const assets = mockAssetUpload();
+		await seed({
+			"package.json": JSON.stringify({ name: "static-version" }),
+			"public/index.html": "static version",
+		});
+
+		const { exitCode } = await runCf([
+			"workers",
+			"versions",
+			"create",
+			"public",
+		]);
+
+		expect(exitCode).toBe(0);
+		expect(buildDelegateWasCalled()).toBe(false);
+		expect(upload.scriptName).toBe("static-version");
+		expect(upload.metadata?.main_module).toBeUndefined();
+		expect(Object.keys(assets.manifest ?? {})).toEqual(["/index.html"]);
+		expect(
+			JSON.parse(readFileSync(".cloudflare/output/v0/config.json", "utf8"))
+		).toMatchObject({ buildContext: { isPreview: false } });
 	});
 
 	it("builds, uploads a version, and passes bindings through with --no-local", async () => {
@@ -635,7 +661,7 @@ describe("cf workers versions create — metadata guard", () => {
 			name: "create",
 			fullPath: ["workers", "versions", "create"],
 			category: "create",
-			usage: "cf workers versions create [options]",
+			usage: "cf workers versions create [directory] [options]",
 		});
 		expect(entry).not.toHaveProperty("apiPath");
 		expect(entry).not.toHaveProperty("httpMethod");

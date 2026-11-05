@@ -9,6 +9,7 @@ import { x } from "tinyexec";
 import { CliExit } from "./cli-exit.js";
 import { confirm, prompt, select } from "./dialog.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
+import { resolveNpmLauncher } from "./npm-launcher.js";
 import { createChildProcessController } from "./process.js";
 import { log } from "./ui/log.js";
 import { maybeApplyVinextCommandOverrides } from "./vinext.js";
@@ -178,7 +179,12 @@ export async function runProjectCommand(
 			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
-	const [file, ...commandArgs] = parseProjectCommand(command);
+	// Match the environment tinyexec gives the child so both resolve the same npm.
+	const [file, ...commandArgs] = resolveNpmLauncher(
+		parseProjectCommand(command),
+		cwd,
+		{ ...process.env, ...options.env }
+	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
 		nodePath: false,
 		nodeOptions: {

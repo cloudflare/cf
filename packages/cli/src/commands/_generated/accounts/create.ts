@@ -35,8 +35,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("type", {
 			type: "string",
-			description: "The type field",
+			description:
+				"the type of account being created. For self-serve customers, use standard. for enterprise customers, use enterprise.",
 			choices: ["standard", "enterprise"],
+			default: "standard",
 		})
 		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("unit-id", { type: "string", description: "Tenant unit ID" })

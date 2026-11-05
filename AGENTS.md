@@ -78,8 +78,10 @@ In the rules below, `src/` means `packages/cli/src/`.
   supplies status-level hints.
 - **Keep source config access scoped.** Normal startup and API commands read
   only account/compliance settings from `cloudflare.config.ts`. Worker
-  validation belongs to `cf workers types` and the type generation reused by
-  `cf init`. Other project workflows consume Build Output through
+  validation belongs to `cf workers types`, the type generation reused by
+  `cf init`, and the assets-only `[directory]` artifact producer shared by
+  Worker upload workflows, which rejects server-side entrypoints and Containers.
+  Other project workflows consume Build Output through
   `readBuildOutput()` from `@cloudflare/build-output-utils`; do not compose
   output paths by hand. Invalid Worker bindings must not break unrelated API
   commands. cf supports ES module Workers only, not service-worker format.

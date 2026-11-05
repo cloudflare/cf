@@ -295,7 +295,12 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 					type: "object",
 					properties: {
 						bucket: { type: "string" },
-						jurisdiction: { enum: ["default", "eu", "us", "fedramp"] },
+						jurisdiction: {
+							anyOf: [
+								{ enum: ["default", "eu", "us", "fedramp"] },
+								{ type: "null" },
+							],
+						},
 						keys: {
 							anyOf: [
 								{ type: "array", items: { type: "string" }, maxItems: 10000 },

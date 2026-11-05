@@ -33,6 +33,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Include recipient counts in the response.",
 		})
+		.option("include-tags-from", {
+			type: "string",
+			description:
+				"Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
+			choices: ["api", "mirror"],
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -54,6 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					safeFlags: [
 						"include-resources",
 						"include-recipient-counts",
+						"include-tags-from",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -63,6 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					include_resources: argv["include-resources"],
 					include_recipient_counts: argv["include-recipient-counts"],
+					include_tags_from: argv["include-tags-from"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

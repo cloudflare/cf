@@ -12,8 +12,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "resources",
-	describe:
-		"Individual resources (zones, configs) that have been shared with recipients",
+	describe: "Resources attached to a share",
 
 	builder: (yargs) => {
 		return yargs

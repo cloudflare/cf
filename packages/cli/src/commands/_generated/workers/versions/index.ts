@@ -13,7 +13,7 @@ import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "versions",
-	describe: "Operations for versions",
+	describe: "Create, list, inspect, and manage Worker versions",
 
 	builder: (yargs) => {
 		return yargs

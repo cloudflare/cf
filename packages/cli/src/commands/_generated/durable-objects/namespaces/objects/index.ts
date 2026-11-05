@@ -8,7 +8,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "objects",
-	describe: "Operations for namespaces.objects",
+	describe: "List Durable Object instances in a namespace",
 
 	builder: (yargs) => {
 		return yargs.command($list).demandCommand(1, "Please specify a subcommand");

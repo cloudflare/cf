@@ -73,12 +73,13 @@ export const GLOBAL_OPTIONS = {
 			return trimmed;
 		},
 	},
-	// `--local` runs the command against cf's on-disk Miniflare state
-	// instead of the production API: cf spawns its own Miniflare over
-	// `--persist-to` (default `~/.config/cloudflare/state/v3`), dispatches to the
-	// local-explorer worker, and disposes it before exiting. No dev
-	// session needs to be running. Endpoints the explorer doesn't
-	// implement surface as a "no local equivalent" error.
+	// `--local` runs the command against the project's on-disk Miniflare
+	// state instead of the production API: cf spawns its own Miniflare over
+	// `--persist-to` (default `.cloudflare/state/v3` next to the nearest
+	// `cloudflare.config.ts`), dispatches to the local-explorer worker, and
+	// disposes it before exiting. No dev session needs to be running.
+	// Endpoints the explorer doesn't implement surface as a "no local
+	// equivalent" error.
 	local: {
 		type: "boolean",
 		description: "Use local resource simulations",
@@ -88,7 +89,7 @@ export const GLOBAL_OPTIONS = {
 	"persist-to": {
 		type: "string",
 		description:
-			"Directory holding local persisted state (default: ~/.config/cloudflare/state)",
+			"Directory holding local persisted state (default: .cloudflare/state next to cloudflare.config.ts)",
 		requiresArg: true,
 		global: true,
 	},

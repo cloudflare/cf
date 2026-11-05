@@ -1,5 +1,124 @@
 # cf
 
+## 1.0.0-beta.28
+
+### Minor Changes
+
+- ab9613a: Update the generated command surface for Forge OpenAPI release
+  `57b5196b0cb64ae395bebc71f9a933eeda99bf64`.
+- 7ef1a2e: Validate array body limits instead of batching requests
+
+  Reject JSON array bodies that exceed the API schema's `maxItems`, including inline
+  input, files, and dry runs. Remove automatic request batching for every HTTP method
+  so array limits cannot silently change an operation's meaning or lose results.
+
+### Patch Changes
+
+- 775a37f: Include destructive confirmation flags in command metadata
+
+  Expose `--force` and its `-f` alias in shell completions and other metadata consumers for generated DELETE commands and operations that require confirmation.
+
+- b5c5756: Correct action labels for commands that require confirmation
+
+  Show Updating/Updated for confirmed PUT and PATCH operations and neutral
+  Processing/Done labels for confirmed POST actions. Keep their operation-specific
+  warnings and `--force` behavior, and reject missing required `--body` input before
+  asking for confirmation.
+
+- a0eed39: Upload binary multipart arrays as file parts
+
+  Fix `cf ai to-markdown --file path` to upload under the API's `files` field.
+  Accept multiple files with `--files @first.html @second.pdf` or repeated
+  `--files` flags, preserving each file's bytes and filename.
+
+- 7619cbd: Normalize generated option names in command metadata
+
+  Use the command builder's kebab-case normalization for option metadata so
+  completions and tools advertise the flags accepted by existing commands.
+
+- 707e9ac: Describe plain-text `--body` correctly in command metadata
+
+  For commands that send `--body` as `text/plain`, command metadata used by
+  `cf tools` now gives the same description as `--help` instead of asking for
+  raw JSON. This includes media types with parameters such as
+  `text/plain;charset=UTF-8`. When no description is provided, both metadata
+  and `--help` use plain-text wording.
+
+- 5b21733: Keep CLI usage errors concise
+
+  Exit with an error for unknown top-level and nested command names followed by `--help` or `-h`. Show concise errors and italic hints to the relevant help command. Unknown global flags also list the available global flags.
+
+- f1e1d11: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.2` → `0.9.3`
+  - `@cloudflare/build-output-utils`: `0.9.9` → `0.9.10`
+  - `@cloudflare/cli-shared-helpers`: `0.3.3` → `0.3.4`
+  - `@cloudflare/codemods`: `0.7.3` → `0.7.4`
+  - `@cloudflare/config`: `0.30.1` → `0.30.2`
+  - `@cloudflare/containers-shared`: `0.23.8` → `0.23.9`
+  - `@cloudflare/deploy-helpers`: `0.25.0` → `0.26.0`
+  - `@cloudflare/runtime-types`: `0.1.22` → `0.1.23`
+  - `@cloudflare/workers-auth`: `0.15.6` → `0.16.0`
+  - `@cloudflare/workers-utils`: `0.51.1` → `0.52.0`
+  - `miniflare`: `5.20261103.0-beta` → `5.20261104.0-beta`
+
+- 3f3a6af: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.1` → `0.9.2`
+  - `@cloudflare/build-output-utils`: `0.9.8` → `0.9.9`
+  - `@cloudflare/cli-shared-helpers`: `0.3.2` → `0.3.3`
+  - `@cloudflare/codemods`: `0.7.2` → `0.7.3`
+  - `@cloudflare/config`: `0.30.0` → `0.30.1`
+  - `@cloudflare/containers-shared`: `0.23.7` → `0.23.8`
+  - `@cloudflare/deploy-helpers`: `0.24.5` → `0.25.0`
+  - `@cloudflare/runtime-types`: `0.1.21` → `0.1.22`
+  - `@cloudflare/workers-auth`: `0.15.5` → `0.15.6`
+  - `@cloudflare/workers-utils`: `0.51.0` → `0.51.1`
+  - `miniflare`: `5.20261102.0-beta` → `5.20261103.0-beta`
+
+- 5953756: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.0` → `0.9.1`
+  - `@cloudflare/build-output-utils`: `0.9.7` → `0.9.8`
+  - `@cloudflare/cli-shared-helpers`: `0.3.1` → `0.3.2`
+  - `@cloudflare/codemods`: `0.7.1` → `0.7.2`
+  - `@cloudflare/config`: `0.29.1` → `0.30.0`
+  - `@cloudflare/containers-shared`: `0.23.6` → `0.23.7`
+  - `@cloudflare/deploy-helpers`: `0.24.4` → `0.24.5`
+  - `@cloudflare/runtime-types`: `0.1.20` → `0.1.21`
+  - `@cloudflare/workers-auth`: `0.15.4` → `0.15.5`
+  - `@cloudflare/workers-utils`: `0.50.2` → `0.51.0`
+  - `miniflare`: `5.20261101.0-beta` → `5.20261102.0-beta`
+
+- 12fddf0: Require input for mandatory plain-text request bodies
+
+  Reject commands that omit a required plain-text body before authentication or API requests. Accept either `--body` or `--file`, preserve explicitly supplied empty raw bodies, and mention both input options in upload validation errors. Reject explicitly supplied empty file paths for raw and multipart uploads.
+
+- f3ebc1e: Expose pagination metadata on stderr
+
+  Print the API's `result_info`, including cursors and page counts, on stderr so
+  list results can be paged with `--cursor` or the endpoint's page flags. Keep
+  stdout payloads unchanged for scripts, preserve metadata for object results
+  and passthrough requests, and suppress the notice with `--quiet`.
+
+- 1de7b1b: Validate `--body` before authenticating or confirming
+
+  Commands now parse `--body`, and enforce its item limit, before
+  authenticating or showing a confirmation prompt. A malformed body or an
+  unreadable `@file` therefore fails straight away, without a login or account
+  lookup first and without asking you to confirm a destructive action. On JSON
+  endpoints, an empty `--body ""` is now rejected as invalid JSON instead of
+  being ignored, and `--dry-run` shows the `--file` path for raw-body uploads.
+  Multipart flags still keep `--body` literal, and `--file` still takes
+  precedence over `--body`; early validation only parses a body the command
+  will send.
+
+- 16cd290: Fix scoped API token validity reporting in `cf auth whoami`
+
+  Check the token verification status so restricted user and account detail
+  endpoints do not make an active token appear invalid. Report unknown validity
+  when none of the available checks can establish the token's status.
+
 ## 1.0.0-beta.27
 
 ### Minor Changes

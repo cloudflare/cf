@@ -9,6 +9,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	getWorkerName,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -16,15 +17,21 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
+import { theme } from "#lib/ui/theme.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 workers get <worker-id>\n\nGet details about a specific Worker.")
-		.positional("worker-id", {
+		.usage("$0 workers get [worker]\n\nGet details about a specific Worker.")
+		.positional("worker", {
 			type: "string",
 			description: "Identifier for the Worker, which can be ID or name.",
-			demandOption: true,
 		})
+		.option("worker", {
+			type: "string",
+			alias: ["script-name", "worker-id"],
+			description: "Identifier for the Worker, which can be ID or name.",
+		})
+		.group("worker", theme.brand("Options"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -35,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <worker-id>",
+	command: "get [worker]",
 	describe: "Get Worker",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -48,13 +55,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workers get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker-id"] == null ? "<worker-id>" : encodeURIComponent(String(argv["worker-id"]))}`,
-						pathParams: { "worker-id": String(argv["worker-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${encodeURIComponent(scriptName)}`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -66,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
 						account_id: accountId,
-						worker_id: argv["worker-id"],
+						worker_id: scriptName,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

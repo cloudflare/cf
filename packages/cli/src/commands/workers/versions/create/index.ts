@@ -1,10 +1,15 @@
 import { withTelemetry } from "../../../../lib/telemetry/index.js";
 import { runUpload, sharedUploadBuilder } from "../../../deploy/shared.js";
+import {
+	prepareStaticAssetsBuildOutput,
+	staticAssetsDirectoryOption,
+} from "../../../deploy/static-assets.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return sharedUploadBuilder(yargs)
+		.positional("directory", staticAssetsDirectoryOption)
 		.hide("local")
 		.hide("persist-to")
 		.epilogue("Local simulation (--local) is not supported by this command.")
@@ -21,7 +26,7 @@ const versionsCreateCommand: CommandModule<
 	CommonYargsOptions,
 	VersionsCreateArgs
 > = {
-	command: "create",
+	command: "create [directory]",
 	describe: "Upload a new Worker Version without deploying it",
 	builder,
 	handler: async (argv) => {
@@ -31,7 +36,10 @@ const versionsCreateCommand: CommandModule<
 			);
 		}
 
-		await runUpload(argv, {
+		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+			isPreview: false,
+		});
+		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
 			command: "Version upload",
 		});
 	},

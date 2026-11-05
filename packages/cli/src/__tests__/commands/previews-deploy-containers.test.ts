@@ -159,6 +159,7 @@ describe("cf previews deploy Containers", () => {
 		const { exitCode } = await runCf([
 			"previews",
 			"deploy",
+			"--preview-name",
 			"feature",
 			"--prebuilt",
 		]);
@@ -283,7 +284,7 @@ describe("cf previews deploy Containers", () => {
 			result: { exitCode },
 			stdoutWrites,
 		} = await runCapturingStdout(() =>
-			runCf(["previews", "deploy", "feature", "--prebuilt"])
+			runCf(["previews", "deploy", "--preview-name", "feature", "--prebuilt"])
 		);
 
 		expect(exitCode).toBe(0);
@@ -320,7 +321,7 @@ describe("cf previews deploy Containers", () => {
 			)
 		);
 		await expect(
-			runCf(["previews", "deploy", "feature", "--prebuilt"])
+			runCf(["previews", "deploy", "--preview-name", "feature", "--prebuilt"])
 		).rejects.toThrow();
 		expect(getLogLevel()).toBe(originalLogLevel);
 	});
@@ -383,7 +384,7 @@ describe("cf previews deploy Containers", () => {
 		});
 
 		await expect(
-			runCf(["previews", "deploy", "feature", "--prebuilt"])
+			runCf(["previews", "deploy", "--preview-name", "feature", "--prebuilt"])
 		).rejects.toThrow();
 		expect(applicationRequests).toBe(1);
 		expect(previewWrites).toBe(0);
@@ -425,7 +426,7 @@ describe("cf previews deploy Containers", () => {
 		});
 
 		await expect(
-			runCf(["previews", "deploy", "feature", "--prebuilt"])
+			runCf(["previews", "deploy", "--preview-name", "feature", "--prebuilt"])
 		).rejects.toThrow(
 			'Preview deployments do not support Durable Object-managed Containers (schedulingPolicy: "durable-object").'
 		);

@@ -83,6 +83,17 @@ describe("cf workers triggers deploy", () => {
 		expect(requests).toEqual([]);
 	});
 
+	it("does not accept a static assets directory", async () => {
+		const requests = recordRequests();
+
+		await expect(runCf([...TRIGGERS_DEPLOY_COMMAND, "public"])).rejects.toThrow(
+			"Unknown command: public"
+		);
+
+		expect(buildDelegateWasCalled()).toBe(false);
+		expect(requests).toEqual([]);
+	});
+
 	it("skips the build and trigger deployment when setup is needed during a dry run", async () => {
 		const requests = recordRequests();
 		await seed({

@@ -33,8 +33,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Dataset UUIDs to scope to (repeat the param for multiple), or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'.",
 		})
-		.option("page", { type: "number", description: "Page" })
-		.option("page-size", { type: "number", description: "PageSize" })
+		.option("page", {
+			type: "number",
+			description:
+				"Page number (default 1). page × pageSize may not exceed 10000.",
+		})
+		.option("page-size", {
+			type: "number",
+			description:
+				"Results per page (default 100, maximum 1000; larger values are clamped).",
+		})
 		.option("indicator-type", { type: "string", description: "IndicatorType" })
 		.option("related-event", {
 			type: "string",

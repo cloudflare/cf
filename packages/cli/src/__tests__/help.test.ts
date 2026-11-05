@@ -44,15 +44,8 @@ describe("help formatting", () => {
 		process.stdout.columns = 0;
 
 		const help = await buildCli(["workers", "--help"]).cli.getHelp();
-		const triggersLine = help
-			.split("\n")
-			.find((line) => line.includes("Manage triggers"));
-
-		expect(triggersLine).toContain("cf workers triggers");
-		expect(triggersLine).not.toContain("etc.)");
-		expect(
-			help.split("\n").some((line) => line.trim().endsWith("triggers etc.)"))
-		).toBe(true);
+		process.stdout.columns = 80;
+		expect(help).toBe(await buildCli(["workers", "--help"]).cli.getHelp());
 	});
 
 	it("sorts root commands alphabetically", async () => {
@@ -156,6 +149,32 @@ describe("help formatting", () => {
 			/To inspect the exact API request, run cf schema zones list$/
 		);
 	});
+
+	it.each([
+		["get", 0],
+		["get", 3],
+		["delete", 0],
+		["delete", 3],
+	] as const)(
+		"%s keeps Worker selection in one options section (color level %i)",
+		async (name, level) => {
+			const previousLevel = chalk.level;
+			try {
+				chalk.level = level;
+				const help = await buildCli(["workers", name, "--help"]).cli.getHelp();
+				const sections = help.split(theme.brand("Options"));
+				expect(sections).toHaveLength(2);
+				const options = sections[1]?.split("\n\n")[0];
+				expect(options).toContain("--worker");
+				expect(options).toContain("--dry-run");
+				if (name === "delete") {
+					expect(options).toContain("--force");
+				}
+			} finally {
+				chalk.level = previousLevel;
+			}
+		}
+	);
 
 	it("italicizes the API hint and colors the schema command when enabled", () => {
 		const previousLevel = chalk.level;

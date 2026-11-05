@@ -20,8 +20,8 @@ export async function unpackExport(
 		["main.sqlite", outPath],
 		["main.sqlite-wal", wal],
 	]);
-	const zip = await openPromise(zipPath).catch(() => {
-		throw new Error("Export archive is truncated or corrupt.");
+	const zip = await openPromise(zipPath).catch((cause: unknown) => {
+		throw new Error("Export archive is truncated or corrupt.", { cause });
 	});
 	const names = new Set<string>();
 	try {

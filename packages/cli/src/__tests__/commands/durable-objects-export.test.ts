@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
+import { fileURLToPath } from "node:url";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it } from "vite-plus/test";
@@ -15,7 +16,9 @@ import { runCf } from "../helpers/run-cf.js";
  * 1, 2 and 3, all three rows still in the WAL.
  */
 
-const FIXTURE = new URL("fixtures/do-export.zip", import.meta.url);
+const FIXTURE = fileURLToPath(
+	new URL("fixtures/do-export.zip", import.meta.url)
+);
 
 const NAMESPACES = [
 	{ id: "ns-room", script: "chat", class: "Room", use_sqlite: true },
@@ -99,7 +102,7 @@ describe("cf durable-objects export", () => {
 		runCf(["durable-objects", "export", ...args], ENV);
 
 	it("folds the WAL into a standalone database", async () => {
-		expect(await unpackExport(FIXTURE.pathname, "out.sqlite")).toEqual({
+		expect(await unpackExport(FIXTURE, "out.sqlite")).toEqual({
 			incomplete: false,
 		});
 		expect(existsSync("out.sqlite-wal")).toBe(false);

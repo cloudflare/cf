@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
 import {
 	existsSync,
+	mkdirSync,
 	mkdtempSync,
 	readFileSync,
 	rmSync,
@@ -24,15 +25,42 @@ const harness = fileURLToPath(
 );
 const spawnSource = new URL("../../../commands/dev/spawn.ts", import.meta.url);
 const projectSource = new URL("../../../lib/autoconfig.ts", import.meta.url);
+// npm's bin/npx.cmd as shipped with Node.js.
+const NPX_CMD = [
+	":: Created by npm, please don't edit manually.",
+	"@ECHO OFF",
+	"",
+	"SETLOCAL",
+	"",
+	'SET "NODE_EXE=%~dp0\\node.exe"',
+	'IF NOT EXIST "%NODE_EXE%" (',
+	'  SET "NODE_EXE=node"',
+	")",
+	"",
+	'SET "NPM_PREFIX_JS=%~dp0\\node_modules\\npm\\bin\\npm-prefix.js"',
+	'SET "NPX_CLI_JS=%~dp0\\node_modules\\npm\\bin\\npx-cli.js"',
+	'FOR /F "delims=" %%F IN (\'CALL "%NODE_EXE%" "%NPM_PREFIX_JS%"\') DO (',
+	'  SET "NPM_PREFIX_NPX_CLI_JS=%%F\\node_modules\\npm\\bin\\npx-cli.js"',
+	")",
+	'IF EXIST "%NPM_PREFIX_NPX_CLI_JS%" (',
+	'  SET "NPX_CLI_JS=%NPM_PREFIX_NPX_CLI_JS%"',
+	")",
+	"",
+	'"%NODE_EXE%" "%NPX_CLI_JS%" %*',
+	"",
+].join("\r\n");
 
 describe.skipIf(process.platform !== "win32")("Windows console Ctrl+C", () => {
-	it.each<["implementation" | "framework", CommandOutput]>([
+	it.each<["implementation" | "framework" | "npx", CommandOutput]>([
 		["implementation", "inherit"],
 		["implementation", "stderr"],
 		["implementation", "silent"],
 		["framework", "inherit"],
 		["framework", "stderr"],
 		["framework", "silent"],
+		["npx", "inherit"],
+		["npx", "stderr"],
+		["npx", "silent"],
 	])(
 		"lets the %s delegate finish cleanup with %s output",
 		async (launcher, output) => {
@@ -40,9 +68,9 @@ describe.skipIf(process.platform !== "win32")("Windows console Ctrl+C", () => {
 			const driver = join(directory, "parent.mts");
 			const delegate = join(directory, "delegate");
 			const framework = join(directory, "framework.cmd");
-			writeFileSync(
-				delegate,
-				nodeScript(`
+			const npmDirectory = join(directory, "nodejs");
+			const npmBin = join(npmDirectory, "node_modules", "npm", "bin");
+			const delegateSource = nodeScript(`
 const { writeFileSync } = require("node:fs");
 let signals = 0;
 process.on("SIGINT", () => {
@@ -54,8 +82,8 @@ process.on("SIGINT", () => {
 });
 setInterval(() => {}, 1000);
 writeFileSync("delegate-ready.json", JSON.stringify({ pid: process.pid }));
-`)
-			);
+`);
+			writeFileSync(delegate, delegateSource);
 			// Cover the extensionless shebang and npm's Windows .cmd launch paths.
 			// npm ends the batch context before running Node to avoid its Ctrl+C
 			// confirmation prompt: npm/cmd-shim's lib/index.js uses this tail.
@@ -63,23 +91,34 @@ writeFileSync("delegate-ready.json", JSON.stringify({ pid: process.pid }));
 				framework,
 				`@echo off\r\nsetlocal\r\nendlocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "${process.execPath}" "%~dp0delegate" %*\r\n`
 			);
+			// The npx.cmd bundled with Node has no such tail, so mirror it verbatim.
+			mkdirSync(npmBin, { recursive: true });
+			writeFileSync(join(npmDirectory, "npx.cmd"), NPX_CMD);
+			writeFileSync(join(npmBin, "npx-cli.js"), delegateSource);
+			writeFileSync(
+				join(npmBin, "npm-prefix.js"),
+				`console.log(${JSON.stringify(directory)});\n`
+			);
+			const executions = {
+				implementation: `spawnImpl({
+  impl: { ecosystem: "npm", pkg: "test", installCommands: ["test"] },
+  binary: ${JSON.stringify(delegate)},
+  manifestPath: "test"
+}, "dev", [], { output: ${JSON.stringify(output)} })`,
+				framework: `runProjectCommand(${JSON.stringify(`"${framework}"`)}, ${JSON.stringify(directory)}, { output: ${JSON.stringify(output)} })`,
+				npx: `runProjectCommand("npx astro dev", ${JSON.stringify(directory)}, { output: ${JSON.stringify(output)} })`,
+			};
 			writeFileSync(
 				driver,
 				`
 import { existsSync, writeFileSync } from "node:fs";
+import { delimiter } from "node:path";
 import { spawnImpl } from ${JSON.stringify(spawnSource.href)};
 import { runProjectCommand } from ${JSON.stringify(projectSource.href)};
+process.env.PATH = ${JSON.stringify(npmDirectory)} + delimiter + process.env.PATH;
 const sigintListeners = process.listenerCount("SIGINT");
 const sigtermListeners = process.listenerCount("SIGTERM");
-const execution = ${
-					launcher === "implementation"
-						? `spawnImpl({
-  impl: { ecosystem: "npm", pkg: "test", installCommands: ["test"] },
-  binary: ${JSON.stringify(delegate)},
-  manifestPath: "test"
-}, "dev", [], { output: ${JSON.stringify(output)} })`
-						: `runProjectCommand(${JSON.stringify(`"${framework}"`)}, ${JSON.stringify(directory)}, { output: ${JSON.stringify(output)} })`
-				};
+const execution = ${executions[launcher]};
 writeFileSync("parent-ready.json", JSON.stringify({ pid: process.pid }));
 const result = await execution;
 writeFileSync("parent-result.json", JSON.stringify({

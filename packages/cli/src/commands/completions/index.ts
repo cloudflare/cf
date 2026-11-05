@@ -45,7 +45,7 @@ const GLOBAL_FLAGS: ReadonlyArray<{
 	},
 	{
 		name: "persist-to",
-		desc: "Directory holding local persisted state (default: ~/.config/cloudflare/state)",
+		desc: "Directory holding local persisted state (default: .cloudflare/state next to cloudflare.config.ts)",
 	},
 	{ name: "help", alias: "h", desc: "Show help" },
 	{ name: "version", alias: "v", desc: "Show version" },

@@ -397,8 +397,10 @@ What cf DOES read:
   created.
 - **`~/.config/cloudflare/state.json`** records the shell-completion tip and
   telemetry preferences. Owned by `lib/state.ts`.
-- **`~/.config/cloudflare/state/v3/`** stores cf's global Miniflare resources
-  for `--local` unless `--persist-to` overrides it.
+- **`.cloudflare/state/v3/` next to the nearest `cloudflare.config.ts`** stores
+  the project's Miniflare resources for `--local`, matching the Cloudflare Vite
+  plugin's default for `cf dev`. `--persist-to` overrides it and is required
+  outside a project.
 - **Build Output under `.cloudflare/output/v0/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries account settings and `buildContext`; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand.
 
 What cf does NOT read:
@@ -744,8 +746,8 @@ Live globals (`packages/cli/src/index.ts:buildCli`):
 | `--mode`              | `-m`  | Mode used to evaluate `cloudflare.config.ts`                    |
 | `--temporary-account` | —     | Use a temporary account when unauthenticated (hidden from help) |
 | `--event-code`        | —     | Event code for a new temporary account (hidden from help)       |
-| `--local`             | —     | Run against cf's global local Miniflare state                   |
-| `--persist-to`        | —     | Override state directory (default `~/.config/cloudflare/state`) |
+| `--local`             | —     | Run against the project's local Miniflare state                 |
+| `--persist-to`        | —     | Override state directory (default project `.cloudflare/state`)  |
 
 There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project settings → cached/prompted workers-auth selection; compliance region uses its environment variable → project settings; and the token uses `--temporary-account` → `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. `--temporary-account` is rejected when credentials already exist or with `--local`. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account`, is sent only when a new account is created, and is never cached or printed. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
 

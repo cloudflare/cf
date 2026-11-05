@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { Miniflare } from "miniflare";
@@ -272,6 +272,30 @@ describe("cf --local end to end", () => {
 		expect(
 			out.mock.calls.map((call: unknown[]) => String(call[0])).join("")
 		).toBe("hello");
+	}, 60_000);
+
+	it("lets --persist-to override the project state directory", async () => {
+		writeFileSync("cloudflare.config.ts", "export default {};");
+
+		await runCf(
+			[
+				"kv",
+				"keys",
+				"put",
+				"greeting",
+				"--namespace-id",
+				"e2e-namespace",
+				"--body",
+				"hello",
+				"--local",
+				"--persist-to",
+				"state",
+			],
+			{ CLOUDFLARE_API_TOKEN: undefined }
+		);
+
+		expect(existsSync("state/v3")).toBe(true);
+		expect(existsSync(".cloudflare/state")).toBe(false);
 	}, 60_000);
 
 	it("requires --persist-to outside a project", async () => {

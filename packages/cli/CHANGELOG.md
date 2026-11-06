@@ -1,5 +1,66 @@
 # cf
 
+## 1.0.0-beta.29
+
+### Minor Changes
+
+- 7c1d66e: Use `--worker` consistently across generated `cf workers` commands
+
+  Accept `--worker` for Worker and version operations that previously required
+  `--worker-id` or a positional Worker identifier. Keep `--worker-id` and
+  `--script-name` as aliases, and retain positional input for `cf workers get`
+  and `cf workers delete`.
+
+  Keep the Worker flag alongside the other command options in help.
+
+- d354737: Deploy any prebuilt static asset directory directly with `cf deploy [directory]` and the equivalent Preview deployment and version creation commands.
+
+  The directory form creates assets-only Build Output, reuses optional assets-only Worker configuration, and skips project build delegation. Projects containing a configured Worker entrypoint or Container continue to omit the directory and use the delegated build path.
+
+- 4fc2294: Add `--force` to `cf deploy` for CI conflict overrides
+
+  Use `cf deploy --force` to upload a Worker when its last deployment came from the script API or its remote configuration conflicts with the local Build Output. Deploys remain strict by default. An aborted upload now points to `cf deploy --force` and exits without a success message.
+
+- 4e4cb09: Store `--local` state in the project's `.cloudflare/state` directory
+
+  `--local` commands now use `.cloudflare/state` next to the nearest `cloudflare.config.ts`, the same directory the Cloudflare Vite plugin uses, so commands like `cf kv keys list --local` see the data your Vite dev server created. Outside a project, pass `--persist-to <dir>` to choose where local state is stored.
+
+  `--local` no longer reads the previous global default. To keep using that state, pass `--persist-to` with the `state` directory under cf's config directory (for example `~/.config/cloudflare/state` on Linux or `~/Library/Preferences/cloudflare/state` on macOS).
+
+- e5105e4: Replace the Preview name positional argument with `--preview-name`
+
+  This is a breaking change during the 1.0 beta: use `cf previews deploy --preview-name feature` instead of `cf previews deploy feature`. Omitting the flag still defaults to the current CI or Git branch; when no branch is available, the error now shows the flag syntax.
+
+- f811aa0: Update the generated command surface for Forge OpenAPI release
+  `1bba4ee186a20eceada455707ca28902a644c770`.
+- 535514a: Update the generated command surface for Forge OpenAPI release
+  `305b054ec4ae4f706ed1270d0d18a45a8c41dd5c`.
+- 03d98f2: Update the generated command surface for Forge OpenAPI release
+  `5cd842b29c1b114b8e0b2550e281b049168c70e0`.
+- ed6ede0: Update the generated command surface for Forge OpenAPI release
+  `80f6db555998a4c823486cd330c4aed0bfc0f758`.
+
+### Patch Changes
+
+- 524fd1c: Read every numbered page during deployment resource lookups
+
+  Fix `cf previews deploy` failing to find a Container's Durable Object namespace
+  when it appears after the first 1000 namespaces. Deployment helpers now follow
+  page-number pagination, including for Queue provisioning lookups.
+
+- b0703f6: Show shallow JSON shapes in structured parameter descriptions
+
+  Include wire field names, value types, enum choices, and optional keys in command help and `cf schema` for JSON array and map flags. Abbreviate nested objects with `{...}` and omitted fields or choices with `...more`, simplify redundant alternatives, and show nullable values only where the flag parser accepts them. Omit read-only response fields from the sketches.
+
+- 71918a0: Update the generated command surface for `@cloudflare/forge` build
+  `0d1877431691b07cbe3b042a4b64cb0bd8e81c03`.
+- fed10c4: Exit cleanly after Ctrl+C when a framework command runs through npm on Windows
+
+  `cf dev`, `cf build`, and `cf init` now start `npm` and `npx` commands through
+  npm's CLI script instead of the `npm.cmd` and `npx.cmd` launchers. Those
+  launchers keep a batch file running, so pressing Ctrl+C left cf waiting at
+  cmd's "Terminate batch job (Y/N)?" prompt after the dev server had stopped.
+
 ## 1.0.0-beta.28
 
 ### Minor Changes

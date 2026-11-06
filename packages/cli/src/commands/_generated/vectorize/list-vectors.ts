@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Index name",
 			demandOption: true,
 		})
-		.option("count", {
+		.option("result-count", {
 			type: "number",
 			description: "Maximum number of vectors to return",
 		})
@@ -59,7 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
-					count: argv["count"],
+					count: argv["result-count"],
 					cursor: argv["cursor"],
 				};
 				if (argv.dryRun) {

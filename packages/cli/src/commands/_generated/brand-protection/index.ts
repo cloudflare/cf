@@ -5,6 +5,7 @@ import $queries from "./queries/index.js";
 import $submit from "./submit.js";
 import $trial from "./trial/index.js";
 import $urlinfo from "./url-info.js";
+import $urls from "./urls/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * brand-protection command
@@ -25,6 +26,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($matches)
 			.command($queries)
 			.command($trial)
+			.command($urls)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -28,6 +28,7 @@ import {
 	setEntry,
 	type Value,
 } from "./js.js";
+import { jsonShape } from "./json-shape.js";
 import {
 	type BodyDiscriminator,
 	type BodyParamInfo,
@@ -73,6 +74,7 @@ interface Prop {
 	/** The wire name. */
 	readonly name: string;
 	readonly schema: Schema;
+	readonly type: Type;
 	readonly description?: string;
 	readonly default?: Value;
 	readonly readOnly: boolean;
@@ -143,6 +145,7 @@ function makeView(type: Type): Schema {
 					return {
 						name: f.wireName,
 						schema: view(f.type),
+						type: f.type,
 						description:
 							f.description.trim() === ""
 								? referencedDescription(f.type, 0)
@@ -376,6 +379,9 @@ function arrayBodyParam(
 	} else if (nested) {
 		info.itemType = "array";
 	}
+	if (objects || nested) {
+		info.jsonShape = jsonShape(prop.type);
+	}
 	info.description = prop.description;
 	info.sensitive = prop.sensitive;
 	return info;
@@ -393,6 +399,7 @@ function mapBodyParam(
 		required,
 		optionalParentPath,
 		type: "object",
+		jsonShape: jsonShape(prop.type),
 		apiFieldPath: path,
 		description: prop.description,
 		sensitive: prop.sensitive,
@@ -655,6 +662,12 @@ function deepMergeObjects(a: Prop, b: Prop): Prop | undefined {
 	return {
 		name: a.name,
 		schema: { kind: "object", properties: props, required },
+		type: {
+			kind: "union",
+			members: [a.type, b.type],
+			exclusive: false,
+			discriminator: undefined,
+		},
 		description: a.description,
 		default: undefined,
 		readOnly: false,

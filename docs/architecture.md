@@ -506,6 +506,22 @@ to know before editing `generator/plugin/`.
   `type: "string", array: true` so users can do `--keys k1 k2` or repeat
   the flag. Query serialization follows the operation's `explode` setting.
 
+JSON-valued array and map flags include a shallow `Shape:` sketch in help and
+metadata, including `cf schema`. Sketches use wire keys, scalar types, literal
+enum choices, and `?` for optional keys. Enum literals longer than 60 characters
+are represented by their value type. Required keys precede optional keys.
+Array wrappers reveal the first object
+level; nested objects become `{...}`. Objects show up to five fields, unions and
+enums up to three alternatives, and intersections up to three members, with
+`...more` marking omissions and a bounded display length. Equivalent rendered
+alternatives and empty object intersection
+members are simplified, and nested compositions of the same kind are flattened.
+Read-only properties are omitted from request sketches, including properties
+marked required in shared request/response schemas.
+Top-level nullable wrappers are omitted because
+the flag parsers require an array or object; nested nullable values remain visible. These
+are schema sketches rather than copyable JSON examples.
+
 Nested tagged unions are validated after per-field flags are assembled into
 the request's wire shape, before sending or showing a dry-run preview. The
 checks preserve enclosing union alternatives. Explicit `--body` input bypasses

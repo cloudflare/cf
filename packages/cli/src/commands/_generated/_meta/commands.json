@@ -63110,12 +63110,6 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "id",
-					"type": "string",
-					"required": false,
-					"description": "Defines the unique ID for this custom detection."
-				},
-				{
 					"name": "password",
 					"type": "string",
 					"required": false,
@@ -63261,12 +63255,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false,
-					"description": "Defines the unique ID for this custom detection."
-				},
 				{
 					"name": "password",
 					"type": "string",
@@ -115693,12 +115681,6 @@
 					"default": ""
 				},
 				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
-				},
-				{
 					"name": "name",
 					"type": "string",
 					"required": false,
@@ -115877,12 +115859,6 @@
 					"type": "string",
 					"required": false,
 					"description": "An informative description of the ruleset."
-				},
-				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
 				},
 				{
 					"name": "name",
@@ -116195,12 +116171,6 @@
 					"type": "string",
 					"required": false,
 					"description": "An informative description of the ruleset."
-				},
-				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
 				},
 				{
 					"name": "name",

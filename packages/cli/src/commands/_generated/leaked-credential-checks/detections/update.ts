@@ -24,10 +24,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Defines the unique ID for this custom detection.",
 			demandOption: true,
 		})
-		.option("id", {
-			type: "string",
-			description: "Defines the unique ID for this custom detection.",
-		})
 		.option("password", {
 			type: "string",
 			description:
@@ -80,11 +76,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
 										password: resolveFileToken(
 											argv["password"] as string | undefined,
 											"password",
@@ -122,7 +113,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					password: resolveFileToken(
 						argv["password"] as string | undefined,
 						"password",

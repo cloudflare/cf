@@ -19,10 +19,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			'$0 leaked-credential-checks detections create\n\nCreate a detection location for credentials that the default scan locations do not cover, using Rules language expressions such as `lookup_json_string(http.request.body.raw, "user")`. Only the username expression is required, and Leaked Credential Checks must be enabled on the zone.'
 		)
-		.option("id", {
-			type: "string",
-			description: "Defines the unique ID for this custom detection.",
-		})
 		.option("password", {
 			type: "string",
 			description:
@@ -74,11 +70,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
 										password: resolveFileToken(
 											argv["password"] as string | undefined,
 											"password",
@@ -112,7 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					password: resolveFileToken(
 						argv["password"] as string | undefined,
 						"password",

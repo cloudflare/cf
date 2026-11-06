@@ -50,7 +50,7 @@ describe("cf build", () => {
 		expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 	});
 
-	it("uses the vite delegate when vite and wrangler are both declared", async () => {
+	it("uses the native Vite CLI when the plugin and wrangler are both declared", async () => {
 		await seed({
 			"package.json": JSON.stringify({
 				devDependencies: {
@@ -62,8 +62,7 @@ describe("cf build", () => {
 				name: "@cloudflare/vite-plugin",
 				version: "2.0.0-beta.v.13",
 			}),
-			"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-				buildScript("vite-worker"),
+			"node_modules/vite/bin/vite.js": buildScript("vite-worker"),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
 				version: "4.161.0",
@@ -72,13 +71,79 @@ describe("cf build", () => {
 				'require("node:fs").writeFileSync("wrangler-argv.out", process.argv.slice(2).join("\\n") + "\\n"); process.exit(99);'
 			),
 		});
-		chmod("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+		chmod("node_modules/vite/bin/vite.js");
 		chmod("node_modules/wrangler/bin/cf-wrangler.js");
 
 		const result = await runCf(["build"]);
 
 		expect(result.exitCode).toBe(0);
 		expect(readArgv("argv.out")).toEqual(["build"]);
+	});
+
+	it.each([false, true])(
+		"passes mode and Preview context to native Vite (Preview: %s)",
+		async (isPreview) => {
+			vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
+			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+				}),
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					name: "@cloudflare/vite-plugin",
+					version: "2.0.0-beta.1",
+				}),
+				"node_modules/vite/bin/vite.js": buildScript(
+					"vite-worker",
+					'fs.writeFileSync("env.out", JSON.stringify([process.env.CLOUDFLARE_PREVIEW_BUILD, process.env.CLOUDFLARE_CF_AUTH, process.env.CLOUDFLARE_API_TOKEN]));'
+				),
+				".env": "CLOUDFLARE_API_TOKEN=file-token",
+			});
+			chmod("node_modules/vite/bin/vite.js");
+
+			await runBuild("staging", {}, { isPreview });
+
+			expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+			expect(JSON.parse(readFileSync("env.out", "utf8"))).toEqual([
+				isPreview ? "true" : null,
+				"true",
+				null,
+			]);
+		}
+	);
+
+	it.each([
+		["deploy"],
+		["workers", "versions", "create"],
+		["previews", "deploy", "--preview-name", "feature"],
+	])("runs the native Vite build before %s", async (...command) => {
+		vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
+		await seed({
+			"package.json": JSON.stringify({
+				devDependencies: { "@cloudflare/vite-plugin": "beta" },
+			}),
+			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+				name: "@cloudflare/vite-plugin",
+				version: "2.0.0-beta.1",
+			}),
+			"node_modules/vite/bin/vite.js": nodeScript(
+				[
+					'const fs = require("node:fs");',
+					'fs.writeFileSync("argv.out", process.argv.slice(2).join("\\n"));',
+					'fs.writeFileSync("env.out", process.env.CLOUDFLARE_PREVIEW_BUILD ?? "");',
+					"process.exit(17);",
+				].join("\n")
+			),
+		});
+		chmod("node_modules/vite/bin/vite.js");
+
+		const { exitCode } = await runCf([...command, "--mode", "staging"]);
+
+		expect(exitCode).toBe(17);
+		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+		expect(readFileSync("env.out", "utf8")).toBe(
+			command[0] === "previews" ? "true" : ""
+		);
 	});
 
 	it("uses wrangler as the fallback delegate", async () => {

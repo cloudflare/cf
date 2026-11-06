@@ -391,6 +391,17 @@ delegated build, recording `--mode` and Preview context, before the command
 continues through the normal Build Output upload path. Without `[directory]`,
 these commands consume Build Output from a delegated build or `--prebuilt`.
 
+When autoconfig has no framework command, projects declaring
+`@cloudflare/vite-plugin` v2 use the installed project-local
+`node_modules/vite/bin/vite.js` for `dev` and `build`. The plugin remains the
+primary implementation when Wrangler is also declared. Vite must be installed
+in the project; cf does not search its own dependencies or parent projects for
+an executable. This fallback uses the same environment, signal forwarding, and
+exit handling as other implementations, including `CLOUDFLARE_PREVIEW_BUILD`
+when Preview deployment calls the shared build path. Vite options are parsed by
+Vite itself; configure `cloudflare({ remoteBindings: false })` instead of using
+the removed internal delegate's `--local` flag.
+
 This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
 merely because a binding field in the configured Worker is invalid. Loading
 account settings still evaluates the TypeScript module and default config

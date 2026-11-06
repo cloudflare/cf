@@ -3,17 +3,16 @@
  *
  * cf does not run a dev server itself — it discovers which impl is
  * installed in the user's project (one per project, picked by the
- * project's manifest) and spawns its delegate binary as a subprocess.
+ * project's manifest) and spawns its executable as a subprocess.
  *
  * Adding an entry to this list is a deliberate cf release: the impl
- * must ship a delegate binary at the path declared below, and that
+ * must provide an executable at the path declared below, and that
  * binary must accept a `dev` subcommand per the subprocess contract
  * (long-running with inherited stdio and forwarded signals).
  *
- * Each impl owns its own binary name (`cf-vite`, `cf-wrangler`, etc.)
- * so the impl can grow more subcommands later (`build`, `deploy`)
- * without needing a separate executable per concern. The dev-loop
- * is just one subcommand of the impl's overall delegate surface.
+ * Vite projects use the project's native Vite CLI. Other impls ship
+ * delegate binaries such as `cf-wrangler` with the same verb-based
+ * subprocess contract.
  *
  * This file is product knowledge in `src/`, but it's the same
  * unavoidable kind as "cf is the CLI for Cloudflare" — there's no
@@ -29,7 +28,7 @@ export type Ecosystem = "npm" | "pypi" | "cargo";
 /**
  * A known dev-server implementation.
  *
- * `binary(ctx)` resolves the impl's delegate executable from a
+ * `binary(ctx)` resolves the impl's executable from a
  * discovery context; the discoverer fills in the right shape
  * (resolved package root for npm, Python environment hint for PyPI,
  * etc.). The function returns `null` when the impl is declared in the
@@ -51,7 +50,7 @@ export interface KnownImpl {
 	description: string;
 	/** Manifest file the discoverer reads. */
 	manifest: string;
-	/** Resolve the impl's delegate binary path. */
+	/** Resolve the impl's executable path. */
 	binary(ctx: ImplResolutionContext): string | null;
 	/** Commands that install the impl, any one of which works. */
 	installCommands: readonly string[];
@@ -108,6 +107,13 @@ function resolveCargoBinary(): string | null {
 	return null;
 }
 
+function resolveViteBinary({ cwd }: ImplResolutionContext): string | null {
+	// Match discovery's project-local resolution instead of finding cf's Vite
+	// dependency or a hoisted installation in an unrelated parent project.
+	const binary = join(cwd, "node_modules", "vite", "bin", "vite.js");
+	return existsSync(binary) ? binary : null;
+}
+
 /**
  * Static allowlist. Order is presentational only — used in install
  * hints when no impl is found, and to make multi-impl error output
@@ -124,8 +130,10 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 		description:
 			"Vite-based dev server (recommended for JavaScript/TypeScript)",
 		manifest: "package.json",
-		binary: npmBinaryResolver("cf-vite"),
-		installCommands: ["npm install --save-dev @cloudflare/vite-plugin@beta"],
+		binary: resolveViteBinary,
+		installCommands: [
+			"npm install --save-dev @cloudflare/vite-plugin@beta vite",
+		],
 	},
 	{
 		ecosystem: "npm",

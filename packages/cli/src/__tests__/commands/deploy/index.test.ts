@@ -7,6 +7,7 @@ import {
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -45,6 +46,44 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it("builds and deploys through native Vite without a framework command", async () => {
+			const upload = mockWorkerUpload();
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: {
+						"@cloudflare/vite-plugin": "beta",
+						wrangler: "^4.136.0",
+					},
+				}),
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					name: "@cloudflare/vite-plugin",
+					version: "2.0.0-beta.1",
+				}),
+				"node_modules/vite/bin/vite.js": nodeScript(
+					'require("node:fs").writeFileSync("vite-argv.out", JSON.stringify(process.argv.slice(2)));'
+				),
+				".cloudflare/output/v0/config.json": buildOutputRootConfig({
+					buildContext: { isPreview: false, mode: "staging" },
+				}),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+			makeExecutable("node_modules/vite/bin/vite.js");
+
+			const { exitCode } = await runCf(["deploy", "--mode", "staging"]);
+
+			expect(exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("vite-argv.out", "utf8"))).toEqual([
+				"build",
+				"--mode",
+				"staging",
+			]);
+			expect(buildDelegateWasCalled()).toBe(false);
+			expect(upload.metadata?.main_module).toBe("index.js");
+		});
+
 		it.each([
 			["D1", { type: "d1", name: "my-database" }, "database_id"],
 			["R2", { type: "r2" }, "bucket_name"],

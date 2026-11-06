@@ -95,6 +95,14 @@ function multipleImplsError(discovered: DiscoveredImpl[]): void {
 }
 
 function notInstalledError(d: DiscoveredImpl): void {
+	if (d.installed && d.impl.pkg === "@cloudflare/vite-plugin") {
+		printError(
+			`${d.impl.pkg} is installed, but the project's Vite executable could not be found.`,
+			requiredVersionMessage(d),
+			d.impl
+		);
+		return;
+	}
 	if (d.installed && d.impl.versionConstraint) {
 		printError(
 			`${d.impl.pkg} is declared in ${d.manifestPath}, but this installation does not include the cf delegate.`,

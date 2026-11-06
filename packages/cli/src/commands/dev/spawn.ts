@@ -1,19 +1,7 @@
 /**
- * Long-running `cf dev` implementation subprocess.
- *
- * - cf locates the impl's delegate executable and invokes
- *   `<impl-binary> dev [argv]`.
- * - `cf dev` inherits stdio, so the impl owns the terminal; `build` sends
- *   the impl's stdout to stderr.
- * - cf forwards SIGINT / SIGTERM and exits with the impl's exit code.
- * - There is no protocol pipe, no JSON handshake, no capabilities
- *   negotiation. The `dev` subcommand either exists on the impl's
- *   delegate or it doesn't — the impl's own "unknown command" error
- *   surfaces directly to the user, which IS the version check.
- *
- * The `dev` subcommand is one of (potentially several) that an impl's
- * delegate binary supports. Future subcommands like `build` / `deploy`
- * will follow the same shape: `<impl-binary> <verb> [argv]`.
+ * Run the project's native Vite CLI or a Cloudflare delegate as a subprocess.
+ * Dev inherits the terminal; builds route stdout to stderr. Both preserve
+ * the child's exit code and termination signal.
  */
 import { constants } from "node:os";
 import { x } from "tinyexec";
@@ -180,7 +168,7 @@ function implEnvironment(
  * (command, prefixArgs) pair.
  *
  * Most impls return a plain absolute path (e.g.
- * `/path/to/node_modules/@cloudflare/vite-plugin/bin/cf-vite`) and we
+ * `/path/to/node_modules/vite/bin/vite.js`) and we
  * pass it to tinyexec directly. PyPI impls under uv-managed projects return
  * `uv:<pkg>` (the discoverer's sentinel), which we expand to
  * `uv run --no-sync <pkg>` so the impl runs in the project's uv

@@ -340,6 +340,37 @@ describe("cf dev", () => {
 			);
 		});
 
+		it("forwards --mode to Vite for a TanStack Start project", async () => {
+			await seed({
+				"cloudflare.config.ts": "export default {};",
+				"package.json": JSON.stringify({
+					name: "tanstack-project",
+					dependencies: { "@tanstack/react-start": "^1.169.4" },
+					devDependencies: { vite: "^8.0.0" },
+				}),
+				"package-lock.json": "{}",
+				"node_modules/@tanstack/react-start/package.json": JSON.stringify({
+					name: "@tanstack/react-start",
+					version: "1.169.4",
+				}),
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.0.0",
+				}),
+				"node_modules/.bin/vite": nodeScript(
+					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
+				),
+			});
+			makeExecutable("node_modules/.bin/vite", { npmBin: true });
+
+			const result = await runCf(["dev", "--mode", "staging"]);
+
+			expect(result.exitCode).toBe(0);
+			expect(
+				readFileSync(resolve(process.cwd(), "argv.out"), "utf8").trim()
+			).toBe("dev\n--mode\nstaging");
+		});
+
 		it.each([false, true])(
 			"inherits registry settings for a detected Vite dev command (configured: %s)",
 			async (configured) => {

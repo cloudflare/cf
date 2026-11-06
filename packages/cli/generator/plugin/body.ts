@@ -158,7 +158,9 @@ function makeView(type: Type): Schema {
 						fernName: renamed(f),
 					};
 				}),
-				required: type.fields.filter((f) => f.required).map((f) => f.wireName),
+				required: type.fields
+					.filter((f) => f.required && !f.readOnly)
+					.map((f) => f.wireName),
 			};
 		case "union": {
 			// A nullable schema is a union with null, which the resolver did
@@ -871,7 +873,7 @@ export function requiredNames(type: Type): string[] {
 		const u = unwrapNull(deref(t));
 		if (u.kind === "object") {
 			for (const field of u.fields) {
-				if (field.required) {
+				if (field.required && !field.readOnly) {
 					pushUnique(required, field.wireName);
 				}
 			}
@@ -909,6 +911,7 @@ export function discriminator(type: Type): BodyDiscriminator | undefined {
 			continue;
 		}
 		const property = variant.fields.find((f) => f.wireName === field);
+		if (property?.readOnly) return undefined;
 		// The one value of the property's enum, or else the value the mapping
 		// gives the variant.
 		let value: string | undefined;
@@ -933,7 +936,7 @@ export function discriminator(type: Type): BodyDiscriminator | undefined {
 			continue;
 		}
 		const required = variant.fields
-			.filter((f) => f.required)
+			.filter((f) => f.required && !f.readOnly)
 			.map((f) => f.wireName);
 		requireds.push([value, required]);
 	}

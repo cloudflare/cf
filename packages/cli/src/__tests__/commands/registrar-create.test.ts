@@ -1409,6 +1409,38 @@ describe("cf registrar registrations create", () => {
 		}
 	);
 
+	it.each([false, true])(
+		"ignores response-only registration-term selectors (allOf: %s)",
+		async (conjunctive) => {
+			const conditional = {
+				if: { required: ["id"] },
+				// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+				then: { properties: { years: { minimum: 2 } } },
+			};
+			server.use(
+				extensionHandler(["ai"], {
+					...NO_FORM_REGISTRATION_SCHEMA,
+					properties: {
+						...NO_FORM_REGISTRATION_SCHEMA.properties,
+						id: { type: "string", readOnly: true },
+					},
+					...(conjunctive ? { allOf: [conditional] } : conditional),
+				})
+			);
+			const { exitCode } = await create(
+				"--body",
+				JSON.stringify({ domain_name: "example.ai", id: "server-id" }),
+				"--dry-run"
+			);
+			expect(exitCode).toBe(0);
+			expect(JSON.parse(stdout())).toMatchObject({
+				body: { domain_name: "example.ai", id: "server-id", years: 1 },
+			});
+			expect(availabilityChecks).toEqual([]);
+			expect(registrations).toEqual([]);
+		}
+	);
+
 	it("does not resolve a registration term from an inactive root conditional", async () => {
 		server.use(
 			extensionHandler(["ai"], {

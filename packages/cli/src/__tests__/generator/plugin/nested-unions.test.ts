@@ -125,6 +125,98 @@ function command(code: string) {
 	};
 }
 
+describe("read-only request properties", () => {
+	it("ignores required response fields in generated prompts and union validation", async () => {
+		const files = generate({
+			type: "object",
+			required: ["server_top"],
+			properties: {
+				server_top: { type: "string", readOnly: true },
+				settings: {
+					type: "object",
+					properties: {
+						scope: {
+							oneOf: ["first", "second"].map((kind) => ({
+								type: "object",
+								additionalProperties: false,
+								required: ["kind", "server_id"],
+								properties: {
+									kind: { type: "string", enum: [kind] },
+									server_id: {
+										type: "string",
+										enum: ["server"],
+										readOnly: true,
+									},
+								},
+							})),
+						},
+					},
+				},
+			},
+		});
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).not.toContain("server_top");
+		expect(code).not.toContain(".option('settings-scope-server-id'");
+		const start = code.indexOf("const bodyUnions:");
+		const definition = code.slice(start, code.indexOf(";\n", start) + 1);
+		const constraints = new Script(
+			`${stripTypeScriptTypes(definition)}\nbodyUnions;`
+		).runInNewContext() as Parameters<typeof validateBodyUnions>[1];
+		for (const scopeValue of [
+			{ kind: "first" },
+			{ kind: "first", server_id: false },
+		]) {
+			const body = { settings: { scope: scopeValue } };
+			expect(validateBodyUnions(body, constraints)).toBe(body);
+		}
+		expect(() =>
+			validateBodyUnions(
+				{ settings: { scope: { kind: "invalid" } } },
+				constraints
+			)
+		).toThrow(/allowed shape/);
+		const c = command(code);
+		await c.run(["create", "--settings-scope-kind", "first"]);
+		expect(c.send).toHaveBeenCalled();
+	});
+
+	it("does not use response-only selectors to impose request branch conflicts", async () => {
+		const files = generate({
+			type: "object",
+			properties: {
+				settings: {
+					type: "object",
+					properties: {
+						scope: {
+							discriminator: { propertyName: "kind" },
+							oneOf: ["left", "right"].map((kind) => ({
+								type: "object",
+								required: ["kind"],
+								properties: {
+									kind: { type: "string", enum: [kind], readOnly: true },
+									[kind]: { type: "string" },
+								},
+							})),
+						},
+					},
+				},
+			},
+		});
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).not.toContain("validateBodyUnions");
+		expect(code).not.toContain(".option('settings-scope-kind'");
+		const c = command(code);
+		await c.run([
+			"create",
+			"--settings-scope-left",
+			"a",
+			"--settings-scope-right",
+			"b",
+		]);
+		expect(c.send).toHaveBeenCalled();
+	});
+});
+
 describe.each([false, true])(
 	"nested unions (explicit discriminator and reference: %s)",
 	(explicit) => {

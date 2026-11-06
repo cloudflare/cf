@@ -1,7 +1,8 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
+index 24d318e7562ff1f77d4410a78c72641240971b23..3873a26ecba7c13d915f3801f55b33719cbb999e 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -7239,11 +7239,11 @@ async function tagAndPushImage({
+@@ -7238,11 +7242,11 @@ async function tagAndPushImage({
      complianceConfig
    );
    await runDockerCmd(pathToDocker, ["tag", sourceTag, namespacedImageTag]);
@@ -14,7 +15,7 @@ diff --git a/dist/index.mjs b/dist/index.mjs
    return namespacedImageTag;
  }
  __name(tagAndPushImage, "tagAndPushImage");
-@@ -7541,9 +7541,8 @@ async function pushBuiltContainerImage(builtImage, versionId, pathToDocker, acc
+@@ -7540,9 +7544,8 @@ async function pushBuiltContainerImage(builtImage, versionId, pathToDocker, acco
        containerConfig: builtImage.container,
        accountId,
        complianceConfig,

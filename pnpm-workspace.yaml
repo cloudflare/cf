@@ -4,7 +4,7 @@ packages:
 
 patchedDependencies:
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
-  "@cloudflare/containers-shared@*": patches/@cloudflare__containers-shared@0.21.1.patch
+  "@cloudflare/containers-shared@*": patches/@cloudflare__containers-shared@0.23.9.patch
   "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.20.1.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
@@ -36,6 +36,13 @@ catalog:
 overrides:
   vite@*: "catalog:"
   vitest@*: 5.0.5
+  "@cloudflare/workers-utils": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
+  "@cloudflare/containers-shared": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
+  "@cloudflare/deploy-helpers": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
+  "@cloudflare/workers-auth": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
+  "miniflare": "https://pkg.pr.new/cloudflare/workers-sdk/miniflare@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
+  "@cloudflare/build-output-utils": "0.9.10"
+  "@cloudflare/config": "0.30.2"
 peerDependencyRules:
   allowAny:
     - vite

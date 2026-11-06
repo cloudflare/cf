@@ -48,16 +48,13 @@ describe("discoverImpls", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					"#!/usr/bin/env node\n",
+				"node_modules/vite/bin/vite.js": "#!/usr/bin/env node\n",
 			});
 
 			const results = discoverImpls(process.cwd());
 			expect(results).toHaveLength(1);
 			expect(results[0]?.impl.pkg).toBe("@cloudflare/vite-plugin");
-			expect(results[0]?.binary).toBe(
-				resolve("node_modules/@cloudflare/vite-plugin/bin/cf-vite")
-			);
+			expect(results[0]?.binary).toBe(resolve("node_modules/vite/bin/vite.js"));
 		});
 
 		it("returns binary=null when declared but not installed", async () => {
@@ -73,7 +70,7 @@ describe("discoverImpls", () => {
 			expect(results[0]?.installed).toBe(false);
 		});
 
-		it("tracks installed packages with missing delegate binaries", async () => {
+		it("tracks an installed plugin with a missing Vite CLI", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
@@ -88,6 +85,26 @@ describe("discoverImpls", () => {
 			expect(results).toHaveLength(1);
 			expect(results[0]?.binary).toBeNull();
 			expect(results[0]?.installed).toBe(true);
+		});
+
+		it("does not use a parent project's Vite installation", async () => {
+			await seed({
+				"node_modules/vite/bin/vite.js": "#!/usr/bin/env node\n",
+				"project/package.json": JSON.stringify({
+					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+				}),
+				"project/node_modules/@cloudflare/vite-plugin/package.json":
+					JSON.stringify({
+						name: "@cloudflare/vite-plugin",
+						version: "2.0.0-beta.1",
+					}),
+			});
+
+			const results = discoverImpls(resolve("project"));
+
+			expect(results).toHaveLength(1);
+			expect(results[0]?.installed).toBe(true);
+			expect(results[0]?.binary).toBeNull();
 		});
 
 		it("returns no result when no known impl is declared", async () => {

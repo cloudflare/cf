@@ -131,7 +131,7 @@ describe("cf dev", () => {
 			);
 		});
 
-		it("surfaces the vite version requirement when the delegate is missing", async () => {
+		it("surfaces a Vite install hint when the plugin is installed without Vite", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
@@ -144,7 +144,10 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
+			expect(unframe(std.err)).toMatch(/Vite executable could not be found/);
+			expect(std.err).toMatch(
+				/npm install --save-dev @cloudflare\/vite-plugin@beta vite/
+			);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
 			expect(std.err).toContain("cf dev");
 			expect(std.err).toContain("cf build");
@@ -195,7 +198,7 @@ describe("cf dev", () => {
 	});
 
 	describe("happy path", () => {
-		it("rejects an installed Vite plugin v1 delegate", async () => {
+		it("rejects an installed Vite plugin v1", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "1.61.0" },
@@ -204,10 +207,9 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "1.61.0",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(0);"),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(0);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf(["dev"]);
 
@@ -563,8 +565,7 @@ describe("cf dev", () => {
 			);
 		});
 
-		it("spawns the impl and propagates its exit code", async () => {
-			// Lay down a fake implementation at the conventional delegate path.
+		it("runs native Vite without a plugin delegate", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
@@ -573,10 +574,9 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(0);"),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(0);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(0);
@@ -597,10 +597,9 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "3.0.0-beta.1",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(0);"),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(0);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
@@ -619,10 +618,9 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(17);"),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(17);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(17);
@@ -638,11 +636,11 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
+				"node_modules/vite/bin/vite.js": nodeScript(
 					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
 				),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf([
 				"dev",

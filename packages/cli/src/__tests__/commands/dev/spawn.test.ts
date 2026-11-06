@@ -22,10 +22,10 @@ describe("spawnImpl", () => {
 		chmodSync(binPath, 0o755);
 
 		const impl = findKnownImpl(
-			binaryName === "cf-vite" ? "@cloudflare/vite-plugin" : "wrangler"
+			binaryName === "vite.js" ? "@cloudflare/vite-plugin" : "wrangler"
 		);
 		if (!impl) {
-			throw new Error("Missing known Node delegate");
+			throw new Error("Missing known Node implementation");
 		}
 		return { impl, binary: binPath, manifestPath: "(test)" };
 	}
@@ -45,10 +45,10 @@ describe("spawnImpl", () => {
 	it.each([
 		["cf-wrangler.js", "dev"],
 		["cf-wrangler.js", "build"],
-		["cf-vite", "dev"],
-		["cf-vite", "build"],
+		["vite.js", "dev"],
+		["vite.js", "build"],
 	] as const)(
-		"forwards arguments to the %s Node delegate for %s without a shell",
+		"forwards arguments to the %s Node implementation for %s without a shell",
 		async (binaryName, verb) => {
 			const argFile = join(
 				mkdtempSync(join(tmpdir(), "cf-spawn-args-")),
@@ -100,9 +100,9 @@ describe("spawnImpl", () => {
 
 	it.each([
 		["cf-wrangler.js", false],
-		["cf-vite", false],
+		["vite.js", false],
 		["cf-wrangler.js", true],
-		["cf-vite", true],
+		["vite.js", true],
 	] as const)(
 		"inherits registry settings without rewriting them for %s (configured: %s)",
 		async (binaryName, configured) => {
@@ -175,10 +175,13 @@ describe("spawnImpl", () => {
 		expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
 	});
 
-	it.skipIf(process.platform === "win32")(
-		"maps signal-killed exits to 128 + signal_number",
-		async () => {
-			const fake = makeFakeImpl('process.kill(process.pid, "SIGTERM")');
+	it.skipIf(process.platform === "win32").each(["cf-wrangler.js", "vite.js"])(
+		"maps signal-killed exits from %s to 128 + signal_number",
+		async (binaryName) => {
+			const fake = makeFakeImpl(
+				'process.kill(process.pid, "SIGTERM")',
+				binaryName
+			);
 			const result = await spawnImpl(fake, "dev", []);
 			expect(result).toEqual({ exitCode: 143, signal: "SIGTERM" });
 		}

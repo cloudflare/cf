@@ -54,7 +54,9 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 					`cf dev starts the appropriate development server for your project. ` +
 						`It runs your framework's dev command when available, falling back to an installed Cloudflare dev server.\n\n` +
 						`Arguments are forwarded to the selected development server. ` +
-						`Use ${theme.brand("--")} to separate server arguments from cf options. ` +
+						`Supported arguments depend on that server. ` +
+						`Use ${theme.brand("--")} to separate server arguments from cf options; ` +
+						`it does not bypass server validation. ` +
 						`${theme.brand("--mode")} is forwarded when the selected framework supports it.`
 				) as Argv<DevArgs>
 		);

@@ -36,11 +36,11 @@ catalog:
 overrides:
   vite@*: "catalog:"
   vitest@*: 5.0.5
-  "@cloudflare/workers-utils": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
-  "@cloudflare/containers-shared": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
-  "@cloudflare/deploy-helpers": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
-  "@cloudflare/workers-auth": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
-  "miniflare": "https://pkg.pr.new/cloudflare/workers-sdk/miniflare@b55be5a2bf5e9dc27ba2be20883e062e6b62abb6"
+  "@cloudflare/workers-utils": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-utils@f21043f7b828250a760eaf72125efe884a863191"
+  "@cloudflare/containers-shared": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/containers-shared@f21043f7b828250a760eaf72125efe884a863191"
+  "@cloudflare/deploy-helpers": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@f21043f7b828250a760eaf72125efe884a863191"
+  "@cloudflare/workers-auth": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/workers-auth@f21043f7b828250a760eaf72125efe884a863191"
+  "miniflare": "https://pkg.pr.new/cloudflare/workers-sdk/miniflare@f21043f7b828250a760eaf72125efe884a863191"
   "@cloudflare/build-output-utils": "0.9.10"
   "@cloudflare/config": "0.30.2"
 peerDependencyRules:

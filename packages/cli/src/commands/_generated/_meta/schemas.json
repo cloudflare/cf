@@ -3180,7 +3180,7 @@
 					"name": "certificate-authority",
 					"type": "string",
 					"required": false,
-					"description": "The Certificate Authority that Total TLS certificates will be issued through."
+					"description": "The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled."
 				},
 				{
 					"name": "enabled",
@@ -30726,6 +30726,21 @@
 			"operationId": "containers.registries.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/containers/registries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"containers usage": {
+			"operationId": "containers.usage",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/containers/usage",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -89842,7 +89857,7 @@
 					"name": "hostnames",
 					"type": "string",
 					"required": false,
-					"description": "The hostnames field"
+					"description": "Unordered set of hostnames. Hostnames are stored as lowercase punycode."
 				},
 				{
 					"name": "mtls-certificate-id",
@@ -90225,7 +90240,7 @@
 					"name": "emails",
 					"type": "string",
 					"required": false,
-					"description": "Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma.\n"
+					"description": "Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. Omitted from responses when no addresses are configured.\n"
 				},
 				{
 					"name": "enabled",
@@ -90831,6 +90846,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The number of days for which the certificate should be valid."
+				},
+				{
+					"name": "zone-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifier of the zone whose keyless servers the certificate is for. Required when `request_type` is `keyless-certificate`; ignored otherwise."
 				}
 			]
 		},
@@ -90889,18 +90910,6 @@
 				{
 					"name": "per_page",
 					"flag": "per-page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"flag": "offset",
 					"type": "number",
 					"required": false
 				}

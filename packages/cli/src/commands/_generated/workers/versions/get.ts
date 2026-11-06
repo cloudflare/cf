@@ -37,8 +37,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("include", {
 			type: "string",
 			description:
-				"Whether to include the `modules` property of the version in the response, which contains code and sourcemap content and may add several megabytes to the response size.",
-			choices: ["modules"],
+				"Optional properties to include in the response. `modules` includes the `modules` property, which contains code and may add several megabytes to the response size. `modules,sourcemaps` also includes the version's source maps in `modules`.",
+			choices: ["modules", "modules,sourcemaps"],
 		})
 		.option("dry-run", {
 			type: "boolean",

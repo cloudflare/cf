@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("certificate-authority", {
 			type: "string",
 			description:
-				"The Certificate Authority that Total TLS certificates will be issued through.",
+				"The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled.",
 			choices: ["google", "lets_encrypt", "ssl_com"],
 		})
 		.coerce("certificate-authority", (value) =>

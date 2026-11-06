@@ -9,6 +9,7 @@ export default {
 	errors: {
 		401: "UnauthorizedError",
 		403: "ForbiddenError",
+		409: "ConflictError",
 		500: "InternalServerError",
 	},
 } as const;

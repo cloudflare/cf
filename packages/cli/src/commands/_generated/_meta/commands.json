@@ -4303,7 +4303,7 @@
 					"name": "certificate-authority",
 					"type": "string",
 					"required": false,
-					"description": "The Certificate Authority that Total TLS certificates will be issued through.",
+					"description": "The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled.",
 					"enum": ["google", "lets_encrypt", "ssl_com"]
 				},
 				{
@@ -41998,6 +41998,30 @@
 					"default": false
 				}
 			]
+		},
+		{
+			"command": "cf containers usage",
+			"name": "usage",
+			"fullPath": ["containers", "usage"],
+			"description": "Get current live resource usage and maximum account limits for the authenticated Cloudchamber account. Usage includes active and assigned instances.",
+			"summary": "Get live account usage",
+			"usage": "cf containers usage",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/containers/usage",
+			"operationId": "containers.usage",
+			"hideCommand": false
 		},
 		{
 			"command": "cf content-scan expressions create",
@@ -79957,7 +79981,7 @@
 			"command": "cf network-interconnects interconnects list",
 			"name": "list",
 			"fullPath": ["network-interconnects", "interconnects", "list"],
-			"description": "Lists all network interconnects configured for the account, including physical and virtual connections.",
+			"description": "Lists network interconnects of a single type configured for the account. The `type` query parameter selects the type to list; when omitted, only `direct` interconnects are returned.",
 			"summary": "List existing interconnects",
 			"usage": "cf network-interconnects interconnects list [options]",
 			"arguments": [],
@@ -79972,7 +79996,7 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "If specified, only show interconnects of the given type"
+					"description": "Type of interconnect to list, such as `direct` or `gcp_partner`. Defaults to `direct`."
 				},
 				{
 					"name": "cursor",
@@ -121661,7 +121685,7 @@
 					"name": "hostnames",
 					"type": "string",
 					"required": false,
-					"description": "The hostnames field"
+					"description": "Unordered set of hostnames. Hostnames are stored as lowercase punycode."
 				},
 				{
 					"name": "mtls-certificate-id",
@@ -122205,7 +122229,7 @@
 					"name": "emails",
 					"type": "string",
 					"required": false,
-					"description": "Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma.\n"
+					"description": "Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. Omitted from responses when no addresses are configured.\n"
 				},
 				{
 					"name": "enabled",
@@ -123019,7 +123043,7 @@
 			"command": "cf ssl origin-ca-certificates create",
 			"name": "create",
 			"fullPath": ["ssl", "origin-ca-certificates", "create"],
-			"description": "Create an Origin CA certificate. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
+			"description": "Create an Origin CA certificate. For `keyless-certificate` requests, `zone_id` is required and the response contains only `id`, `certificate`, and `expires_on`. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
 			"summary": "Create Certificate",
 			"usage": "cf ssl origin-ca-certificates create [options]",
 			"arguments": [],
@@ -123049,6 +123073,12 @@
 					"required": false,
 					"description": "The number of days for which the certificate should be valid.",
 					"default": 5475
+				},
+				{
+					"name": "zone-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifier of the zone whose keyless servers the certificate is for. Required when `request_type` is `keyless-certificate`; ignored otherwise."
 				},
 				{
 					"name": "dry-run",
@@ -123147,7 +123177,7 @@
 			"command": "cf ssl origin-ca-certificates list",
 			"name": "list",
 			"fullPath": ["ssl", "origin-ca-certificates", "list"],
-			"description": "List all existing Origin CA certificates for a given zone. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
+			"description": "List all existing Origin CA certificates for a given zone. Revoked certificates are not included. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
 			"summary": "List Certificates",
 			"usage": "cf ssl origin-ca-certificates list [options]",
 			"arguments": [],
@@ -123169,18 +123199,6 @@
 					"type": "number",
 					"required": false,
 					"description": "Number of records per page."
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "Limit to the number of records returned."
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false,
-					"description": "Offset the results."
 				},
 				{
 					"name": "dry-run",
@@ -136950,8 +136968,8 @@
 					"name": "include",
 					"type": "string",
 					"required": false,
-					"description": "Whether to include the `modules` property of the version in the response, which contains code and sourcemap content and may add several megabytes to the response size.",
-					"enum": ["modules"]
+					"description": "Optional properties to include in the response. `modules` includes the `modules` property, which contains code and may add several megabytes to the response size. `modules,sourcemaps` also includes the version's source maps in `modules`.",
+					"enum": ["modules", "modules,sourcemaps"]
 				},
 				{
 					"name": "dry-run",

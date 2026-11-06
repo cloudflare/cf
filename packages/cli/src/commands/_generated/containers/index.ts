@@ -1,6 +1,7 @@
 import $applications from "./applications/index.js";
 import $images from "./images/index.js";
 import $registries from "./registries/index.js";
+import $usage from "./usage.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * containers command
@@ -22,6 +23,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command(withHandWrittenDryRun($build, "preview"))
 			.command(withHandWrittenDryRun($push, "preview"))
 			.command(withHandWrittenDryRun($ssh, "preview"))
+			.command($usage)
 			.command($applications)
 			.command($images)
 			.command($registries)

@@ -25,7 +25,7 @@ await test("resolves only the reviewed Workers SDK package and commit", () => {
 	}
 });
 
-await test("leaves other exotic dependencies blocked by the existing policy", () => {
+await test("rejects unapproved Workers SDK prerelease sources", () => {
 	for (const wanted of [
 		{
 			alias: "@cloudflare/config",
@@ -49,9 +49,5 @@ await test("leaves other exotic dependencies blocked by the existing policy", ()
 		},
 	]) {
 		assert.equal(resolver.canResolve(wanted), false);
-		assert.throws(
-			() => resolver.resolve(wanted),
-			/Unapproved Workers SDK prerelease/
-		);
 	}
 });

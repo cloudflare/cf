@@ -2,4 +2,6 @@
 "cf": patch
 ---
 
-Like `Authorization`, omit the `X-Auth-Key` header from debug diagnostics regardless of log sanitization settings.
+Redact header values outside a safe diagnostic allowlist, regardless of log sanitization settings.
+
+Strip `X-Auth-Key` alongside `Authorization` when forwarding requests to local services.

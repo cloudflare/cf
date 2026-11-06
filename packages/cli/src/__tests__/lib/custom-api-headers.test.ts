@@ -86,13 +86,13 @@ describe("custom API headers", () => {
 	});
 
 	it.for([undefined, "true", "false"])(
-		"follows WRANGLER_LOG_SANITIZE=%s for deployment diagnostics",
+		"always applies the deployment header allowlist with sanitization=%s",
 		async (sanitize, { expect }) => {
 			vi.stubEnv("DEBUG", "1");
 			vi.stubEnv("WRANGLER_LOG_SANITIZE", sanitize);
 			vi.stubEnv(
 				"CLOUDFLARE_API_HEADERS",
-				'{"X-Custom-Header":"configured-secret","X-Auth-Key":"global-key"}'
+				'{"X-Custom-Header":"configured-secret","X-Auth-Key":"global-key","X-Auth-Email":"user@example.com","X-Session":"session-secret"}'
 			);
 			const messages = vi.spyOn(log, "message").mockImplementation(() => {});
 			msw.use(
@@ -116,14 +116,20 @@ describe("custom API headers", () => {
 			);
 			const output = messages.mock.calls.map(([message]) => message).join("\n");
 			if (sanitize === "false") {
-				expect(output).toContain('"x-custom-header": "configured-secret"');
+				expect(output).toContain('"x-custom-header": "[REDACTED]"');
+				expect(output).toContain('"x-auth-key": "[REDACTED]"');
+				expect(output).toContain('"x-auth-email": "[REDACTED]"');
+				expect(output).toContain('"x-session": "[REDACTED]"');
 			} else {
 				expect(output).toContain("omitted; set WRANGLER_LOG_SANITIZE=false");
 				expect(output).not.toContain("configured-secret");
 				expect(output).not.toContain("request-secret");
 			}
 			expect(output).not.toContain("Bearer test-token");
-			expect(output).not.toContain('"x-auth-key"');
+			expect(output).not.toContain("configured-secret");
+			expect(output).not.toContain("request-secret");
+			expect(output).not.toContain("user@example.com");
+			expect(output).not.toContain("session-secret");
 			expect(output).not.toContain("global-key");
 		}
 	);

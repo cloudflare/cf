@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ssl origin-ca-certificates list\n\nList all existing Origin CA certificates for a given zone. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests))."
+			"$0 ssl origin-ca-certificates list\n\nList all existing Origin CA certificates for a given zone. Revoked certificates are not included. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests))."
 		)
 		.option("zone-id", { type: "string", description: "Identifier." })
 		.option("page", {
@@ -26,11 +26,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of records per page.",
 		})
-		.option("limit", {
-			type: "number",
-			description: "Limit to the number of records returned.",
-		})
-		.option("offset", { type: "number", description: "Offset the results." })
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -58,8 +53,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					zone_id: argv["zone-id"],
 					page: argv["page"],
 					per_page: argv["per-page"],
-					limit: argv["limit"],
-					offset: argv["offset"],
 				};
 				if (argv.dryRun) {
 					formatDryRun({

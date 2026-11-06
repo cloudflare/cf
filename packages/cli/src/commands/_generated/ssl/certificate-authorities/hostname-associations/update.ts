@@ -22,7 +22,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("hostnames", {
 			type: "string",
 			array: true,
-			description: "The hostnames field",
+			description:
+				"Unordered set of hostnames. Hostnames are stored as lowercase punycode.",
 		})
 		.option("mtls-certificate-id", {
 			type: "string",

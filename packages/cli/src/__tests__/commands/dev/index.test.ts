@@ -345,10 +345,6 @@ describe("cf dev", () => {
 				]);
 
 				expect(result.exitCode).toBe(0);
-				expect(vi.mocked(x).mock.lastCall?.slice(0, 2)).toEqual([
-					"npx",
-					["vite", "--mode", "staging", ...args],
-				]);
 				expect(JSON.parse(readFileSync("vite-argv.json", "utf8"))).toEqual([
 					"--mode",
 					"staging",

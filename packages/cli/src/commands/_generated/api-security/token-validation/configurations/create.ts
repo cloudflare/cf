@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("credentials-keys", {
 			type: "string",
 			description:
-				"The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"kid": string} & {"alg": "RS256" | "RS384" | "RS512" | ...more, "e": string, "kty": "RSA", "n": string}) | ({"kid": string} & {"kty": "EC", "x": string, "y": string} & {"alg": "ES256", "crv": "P-256"}) | ...more)].',
 		})
 		.option("description", {
 			type: "string",
@@ -102,14 +102,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

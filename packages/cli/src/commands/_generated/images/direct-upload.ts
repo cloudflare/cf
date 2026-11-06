@@ -12,7 +12,6 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -114,7 +113,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["require-signed-urls"] !== undefined
 				) {
 					const formData = new FormData();
-					if (argv.file) {
+					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
 							"file",
@@ -184,7 +183,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					// Endpoint does not accept application/json — send --body as raw bytes,
 					// resolving @file references as binary file contents.
 					const bodyData = resolveFileToken(argv.body, "body", "binary");

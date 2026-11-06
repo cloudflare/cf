@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("bot-overrides", {
 			type: "string",
 			description:
-				"The bot_overrides field. Provide as a JSON object or @path/to/file.json.",
+				'The bot_overrides field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": "charge" | "bypass"}.',
 		})
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("price-usd-microcents", {
@@ -86,16 +86,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined
+						? parseBody(argv.body, [
+								{ path: ["bot_overrides"], flag: "bot-overrides" },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["bot_overrides"], flag: "bot-overrides" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

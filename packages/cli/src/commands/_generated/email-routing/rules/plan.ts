@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("catch-all-rules", {
 			type: "string",
 			description:
-				"Desired catch-all Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json.",
+				'Desired catch-all Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"rule": {...}, "target": string}].',
 		})
 		.option("owner-worker-tag", {
 			type: "string",
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"Desired normal Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json.",
+				'Desired normal Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actions": [{...}], "matchers": [{...}], "enabled"?: true | false}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -93,12 +93,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

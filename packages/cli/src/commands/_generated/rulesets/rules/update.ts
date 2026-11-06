@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 rulesets rules update <rule-id>\n\nUpdates an existing rule in an account or zone ruleset."
+			"$0 rulesets rules update <rule-id>\n\nUpdates an existing rule in an account or zone ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("rule-id", {
 			type: "string",
@@ -63,10 +63,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("position-before", ["position-after", "position-index"])
-		.conflicts("position-after", ["position-before", "position-index"])
-		.conflicts("position-index", ["position-before", "position-after"]);
+		});
 }
 
 type Args = InferArgs<typeof builder>;
@@ -129,6 +126,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -145,8 +144,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

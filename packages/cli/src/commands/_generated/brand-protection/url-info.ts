@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection url-info\n\nGet the total number of saved brand protection queries (domain + logo) for an account"
+			"$0 brand-protection url-info\n\nReturns the number of saved domain and logo queries in the account. This is the count checked against the account's Brand Protection query limit."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -33,7 +33,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "url-info",
-	describe: "Get total queries",
+	describe: "Get total query count",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "durable-objects",
-	describe: "durable-objects",
+	describe:
+		"Stateful serverless objects with transactional storage, ideal for coordination, sessions, and real-time collaboration",
 
 	builder: (yargs) => {
 		return yargs

@@ -20,7 +20,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actions", {
 			type: "string",
 			description:
-				"The set of actions to perform if the targets of this rule match the\nrequest. Actions can redirect to another URL or override settings, but\nnot both.\n. Provide as a JSON array of objects or @path/to/file.json.",
+				'The set of actions to perform if the targets of this rule match the\nrequest. Actions can redirect to another URL or override settings, but\nnot both. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"id"?: "always_use_https"} | {"id"?: "automatic_https_rewrites", "value"?: "on" | "off"} | {"id"?: "browser_cache_ttl", "value"?: number} | ...more)]. ? marks optional keys.',
 		})
 		.option("priority", {
 			type: "number",
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("targets", {
 			type: "string",
 			description:
-				"The rule targets to evaluate on each request. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rule targets to evaluate on each request. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"constraint"?: {...}, "target"?: "url"}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -88,14 +88,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

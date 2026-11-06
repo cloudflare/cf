@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("instance-id", {
 			type: "string",
@@ -101,6 +101,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -114,9 +116,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,
 							"PATCH",
@@ -124,7 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							{ body: bodyData }
 						)
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 				if (argv["action"] === undefined) {
@@ -139,7 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData: Record<string, unknown> = {};
 				if (argv["action"] !== undefined)
 					setNestedValue(bodyData, ["action"], argv["action"]);
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,
 						"PATCH",
@@ -147,7 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						{ body: bodyData }
 					)
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

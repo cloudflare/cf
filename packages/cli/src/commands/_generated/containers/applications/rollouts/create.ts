@@ -59,7 +59,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("steps", {
 			type: "string",
 			description:
-				'Steps defining the rollout process, used when "step_percentage" is absent.\nSpecify only one of "step_percentage" or "steps" when creating a rollout.\n"steps" allow granular control over each step.\nOnly valid for "rolling" strategy.\n. Provide as a JSON array of objects or @path/to/file.json.',
+				'Steps defining the rollout process, used when "step_percentage" is absent.\nSpecify only one of "step_percentage" or "steps" when creating a rollout.\n"steps" allow granular control over each step.\nOnly valid for "rolling" strategy. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"description": string, "step_size": {...}}].',
 		})
 		.option("strategy", {
 			type: "string",
@@ -71,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("target-configuration-authorized-keys", {
 			type: "string",
 			description:
-				"The target_configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The target_configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"public_key": string, "name"?: string}]. ? marks optional keys.',
 		})
 		.option("target-configuration-command", {
 			type: "string",
@@ -88,7 +88,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("target-configuration-environment-variables", {
 			type: "string",
 			description:
-				"Container environment variables. Provide as a JSON array of objects or @path/to/file.json.",
+				'Container environment variables. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "value": string}].',
 		})
 		.option("target-configuration-image", {
 			type: "string",
@@ -114,7 +114,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("target-configuration-observability-logs-enabled", {
 			type: "boolean",
 			description: "The target_configuration.observability.logs.enabled field",
-			default: false,
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -206,12 +205,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

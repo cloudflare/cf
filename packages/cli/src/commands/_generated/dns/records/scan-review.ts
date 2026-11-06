@@ -21,12 +21,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("accepts", {
 			type: "string",
 			description:
-				"The accepts field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The accepts field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"comment"?: string, "name"?: string, "proxied"?: boolean, "settings"?: {...}, "tags"?: [string], ...more} & {"content"?: string, "private_routing"?: boolean, "type"?: "A"}) | ...more)]. ? marks optional keys.',
 		})
 		.option("rejects", {
 			type: "string",
 			description:
-				"The rejects field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rejects field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -74,14 +74,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

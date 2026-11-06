@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("certificates", {
 			type: "string",
 			description:
-				"Array of ordered certificates. Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of ordered certificates. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"priority"?: number}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -71,14 +71,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

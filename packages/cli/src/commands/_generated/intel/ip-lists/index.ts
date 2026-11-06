@@ -1,4 +1,4 @@
-import $get from "./get.js";
+import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ip-lists command group
@@ -11,7 +11,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "Curated IP lists used for threat detection and policy enforcement",
 
 	builder: (yargs) => {
-		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
+		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

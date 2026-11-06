@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 network-interconnects interconnects list\n\nLists all network interconnects configured for the account, including physical and virtual connections."
+			"$0 network-interconnects interconnects list\n\nLists network interconnects of a single type configured for the account. The `type` query parameter selects the type to list; when omitted, only `direct` interconnects are returned."
 		)
 		.option("site", {
 			type: "string",
@@ -29,7 +29,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("type", {
 			type: "string",
-			description: "If specified, only show interconnects of the given type",
+			description:
+				"Type of interconnect to list, such as `direct` or `gcp_partner`. Defaults to `direct`.",
 		})
 		.option("cursor", { type: "number", description: "Cursor" })
 		.option("limit", { type: "number", description: "Limit" })

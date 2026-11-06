@@ -63,6 +63,8 @@ const acceptsJson = (ctx: Ctx) =>
 export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
 	lines.push(...dryRun(ctx));
+	lines.push(...requiredBody(ctx));
+	lines.push(...preparsedBody(ctx));
 	lines.push(...auth(ctx));
 	if (ctx.isDelete) {
 		lines.push(...deleteConfirm(ctx));
@@ -81,6 +83,15 @@ export function handler(ctx: Ctx): string[] {
 
 function prelude(ctx: Ctx): string[] {
 	const lines: string[] = [];
+	if (ctx.needsWorkerName) {
+		const read = ctx.firstPositionalIsWorkerName
+			? argvKey(kebab((positionals(ctx.derived)[0] as Arg).name))
+			: 'argv["worker"]';
+		lines.push(
+			`      const scriptName = getWorkerName({ scriptName: ${read} });`
+		);
+		lines.push(`      ${read} = scriptName;`);
+	}
 	if (ctx.hasParams) {
 		lines.push("");
 		lines.push("      const queryParams: Record<string, unknown> = {");
@@ -132,9 +143,51 @@ function parseBodyExpression(ctx: Ctx): string {
 	const maps = bodyOptions(ctx.derived)
 		.filter((arg) => arg.type === "objectMap" && arg.required)
 		.map((arg) => ({ path: bodyPath(arg) ?? [], flag: arg.name }));
-	return maps.length > 0
-		? `parseBody(argv.body, ${stringify(maps)})`
-		: "parseBody(argv.body)";
+	const args = ["argv.body"];
+	if (maps.length > 0 || ctx.op.maxItems !== undefined) {
+		args.push(stringify(maps));
+	}
+	if (ctx.op.maxItems !== undefined) {
+		args.push(String(ctx.op.maxItems));
+	}
+	return `parseBody(${args.join(", ")})`;
+}
+
+const RAW_BODY_EXPRESSION = "resolveFileToken(argv.body, 'body', 'binary')";
+
+/** A multipart-only operation appends `--body` to its form as given. */
+const multipartTakesBody = (ctx: Ctx) =>
+	ctx.derived.multipart !== undefined &&
+	!ctx.op.requestContentTypes.includes("application/octet-stream");
+
+/**
+ * `--body` is parsed once, before auth and any confirmation prompt, so a bad
+ * body fails before anything else happens; `bodyBypass` sends the result.
+ */
+const parsesBodyEarly = (ctx: Ctx) =>
+	ctx.derived.hasBody && !multipartTakesBody(ctx);
+
+function preparsedBody(ctx: Ctx): string[] {
+	if (!parsesBodyEarly(ctx)) {
+		return [];
+	}
+	const earlierBranchReads = [
+		...ctx.derived.multipartFlagFields.map(
+			({ flag }) => `${argvKey(flag)} !== undefined`
+		),
+		...ctx.derived.multipartFileFields.map(
+			({ flag }) => `${argvKey(flag)} !== undefined`
+		),
+		...(ctx.derived.hasFileUpload ? ["argv.file !== undefined"] : []),
+	];
+	const read = acceptsJson(ctx)
+		? `argv.body !== undefined ? ${parseBodyExpression(ctx)} : undefined`
+		: RAW_BODY_EXPRESSION;
+	const parsed =
+		earlierBranchReads.length === 0
+			? read
+			: `(${earlierBranchReads.join(" || ")}) ? undefined : ${read}`;
+	return [`      const parsedBody = ${parsed};`];
 }
 
 function preservedBodyPaths(ctx: Ctx): string {
@@ -161,7 +214,7 @@ export function dryRun(ctx: Ctx): string[] {
 		positional,
 		firstPositionalIsZone: false,
 		accountId: "${__cfDryRunAccountId ?? '<account-id>'}",
-		scriptName: "${argv[\"worker\"] ?? '<worker>'}",
+		scriptName: "${encodeURIComponent(scriptName)}",
 		zone: "${argv.zone ?? argv.zoneId ?? '<zone>'}",
 		param,
 	});
@@ -199,7 +252,7 @@ export function dryRun(ctx: Ctx): string[] {
 			pushUnique(bodyKeys, "file");
 		}
 		for (const f of d.multipartFlagFields) {
-			pushUnique(bodyKeys, kebab(f.name));
+			pushUnique(bodyKeys, f.flag);
 		}
 		for (const f of d.multipartFileFields) {
 			pushUnique(bodyKeys, f.flag);
@@ -211,7 +264,7 @@ export function dryRun(ctx: Ctx): string[] {
 		d.multipart !== undefined &&
 		!op.requestContentTypes.includes("application/octet-stream");
 	const flagReads = [
-		...d.multipartFlagFields.map((f) => argvKey(kebab(f.name))),
+		...d.multipartFlagFields.map((f) => argvKey(f.flag)),
 		...d.multipartFileFields.map((f) => argvKey(f.flag)),
 	];
 	const usesMultipart =
@@ -284,16 +337,24 @@ export function dryRun(ctx: Ctx): string[] {
 			}
 			lines.push(`            ? ${parseBodyExpression(ctx)}`);
 			if (d.hasBodyParams) {
-				lines.push("            : compactBody(");
+				lines.push(
+					`            : ${(op.bodyUnions?.length ?? 0) > 0 ? "validateBodyUnions(" : ""}compactBody(`
+				);
 				const object = bodyObject(ctx, "\t\t\t\t");
 				object[object.length - 1] += preservedBodyPaths(ctx);
 				for (const line of object) {
 					lines.push(`              ${line}`);
 				}
-				lines.push("            ),");
+				lines.push(
+					`            )${(op.bodyUnions?.length ?? 0) > 0 ? ", bodyUnions)" : ""},`
+				);
 			} else {
 				lines.push("            : undefined,");
 			}
+		} else if (d.hasFileUpload) {
+			lines.push(
+				"          body: argv.file !== undefined ? { file: argv.file } : argv.body,"
+			);
 		} else {
 			lines.push("          body: argv.body,");
 		}
@@ -308,6 +369,10 @@ export function dryRun(ctx: Ctx): string[] {
 	lines.push("      }");
 	return lines;
 }
+
+/** How `auth` picks an account-or-zone command's scope, as its help says it. */
+export const ACCOUNT_OR_ZONE_HELP =
+	"Runs against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.";
 
 function auth(ctx: Ctx): string[] {
 	const lines = ["      const client = await createCommandClient(argv);"];
@@ -349,15 +414,6 @@ function auth(ctx: Ctx): string[] {
 			lines.push("      argv.zoneId = zoneId;");
 		}
 	}
-	if (ctx.needsWorkerName) {
-		const read = ctx.firstPositionalIsWorkerName
-			? argvKey(kebab((positionals(ctx.derived)[0] as Arg).name))
-			: 'argv["worker"]';
-		lines.push(
-			`      const scriptName = getWorkerName({ scriptName: ${read} });`
-		);
-		lines.push(`      ${read} = scriptName;`);
-	}
 	return lines;
 }
 
@@ -381,14 +437,14 @@ function multipart(ctx: Ctx): string[] {
 		return [];
 	}
 	const reads = [
-		...d.multipartFlagFields.map((f) => argvKey(kebab(f.name))),
+		...d.multipartFlagFields.map((f) => argvKey(f.flag)),
 		...d.multipartFileFields.map((f) => argvKey(f.flag)),
 	];
 	const any =
 		reads.length === 0
 			? "false"
 			: reads.map((r) => `${r} !== undefined`).join(" || ");
-	const only = !ctx.op.requestContentTypes.includes("application/octet-stream");
+	const only = multipartTakesBody(ctx);
 	let guard: string;
 	if (only) {
 		guard =
@@ -406,15 +462,14 @@ function multipart(ctx: Ctx): string[] {
 		"",
 		`      if (${guard}) {`,
 		"        const formData = new FormData();",
-		"        if (argv.file) {",
+		"        if (argv.file !== undefined) {",
 		"          const fileContent = readFileForFlag(argv.file);",
 		`          formData.append('${payload}', new Blob([fileContent]), argv.file.split(/[\\\\/]/).filter(Boolean).pop());`,
 		"        } else if (argv.body !== undefined) {",
 		`          formData.append('${payload}', argv.body);`,
 		"        }",
 	];
-	for (const f of d.multipartFlagFields) {
-		const flag = kebab(f.name);
+	for (const { field: f, flag } of d.multipartFlagFields) {
 		const read = argvKey(flag);
 		switch (f.type) {
 			case "object":
@@ -442,7 +497,11 @@ function multipart(ctx: Ctx): string[] {
 	for (const { field, flag } of d.multipartFileFields) {
 		const read = argvKey(flag);
 		lines.push(`        if (${read} !== undefined) {`);
-		lines.push(`          const value = String(${read});`);
+		lines.push(
+			field.type === "array"
+				? `          for (const value of ${read}) {`
+				: `          const value = String(${read});`
+		);
 		lines.push("          if (value.startsWith('@')) {");
 		lines.push("            const filePath = value.slice(1);");
 		lines.push(
@@ -456,6 +515,9 @@ function multipart(ctx: Ctx): string[] {
 			`            formData.append(${quote(field.name)}, new Blob([value]), ${quote(field.name)});`
 		);
 		lines.push("          }");
+		if (field.type === "array") {
+			lines.push("          }");
+		}
 		lines.push("        }");
 	}
 	const url = `\`${ctx.resolvedRequestPath}\``;
@@ -491,7 +553,7 @@ function fileUpload(ctx: Ctx): string[] {
 	}
 	const lines = [
 		"",
-		"      if (argv.file) {",
+		"      if (argv.file !== undefined) {",
 		"        const fileContent = readFileForFlag(argv.file);",
 	];
 	const primary =
@@ -544,19 +606,11 @@ function fileUpload(ctx: Ctx): string[] {
 	return lines;
 }
 
-function batchSize(op: OperationInfo): number | undefined {
-	return op.maxItems !== undefined && op.maxItems > 0 ? op.maxItems : undefined;
-}
-
 export function bodyBypassUsesRequestApi(ctx: Ctx): boolean {
 	if (!ctx.derived.hasBody || ctx.isRawOutput) {
 		return false;
 	}
-	return !(
-		acceptsJson(ctx) &&
-		batchSize(ctx.op) === undefined &&
-		sdk.canEmitTypedJsonBodyCall(ctx)
-	);
+	return !(acceptsJson(ctx) && sdk.canEmitTypedJsonBodyCall(ctx));
 }
 
 function bodyBypass(ctx: Ctx): string[] {
@@ -568,9 +622,12 @@ function bodyBypass(ctx: Ctx): string[] {
 	const rawCt =
 		op.requestContentTypes.find((c) => c !== "application/json") ??
 		"application/octet-stream";
-	const batch = batchSize(op);
-	const lines = ["", "      if (argv.body) {"];
-	if (json) {
+	// `!== undefined`, as in the dry run: an empty `--body` is input, not absence.
+	const lines = ["", "      if (argv.body !== undefined) {"];
+	if (parsesBodyEarly(ctx)) {
+		// Parsed and validated in `preparsedBody`; not parsed again here.
+		lines.push("        const bodyData = parsedBody;");
+	} else if (json) {
 		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
 	} else {
 		lines.push(
@@ -579,9 +636,7 @@ function bodyBypass(ctx: Ctx): string[] {
 		lines.push(
 			"        // resolving @file references as binary file contents."
 		);
-		lines.push(
-			"        const bodyData = resolveFileToken(argv.body, 'body', 'binary');"
-		);
+		lines.push(`        const bodyData = ${RAW_BODY_EXPRESSION};`);
 	}
 	const headerParts = json ? [] : [`'Content-Type': '${rawCt}'`];
 	let headerOpt: string | undefined;
@@ -598,30 +653,6 @@ function bodyBypass(ctx: Ctx): string[] {
 		lines.push(`        const qs = ${QS_FROM_PARAMS};`);
 		url = `\`${ctx.resolvedRequestPath}\${qs ? '?' + qs : ''}\``;
 	}
-	if (batch !== undefined && !ctx.isRawOutput) {
-		const size = String(batch);
-		lines.push(
-			`        if (Array.isArray(bodyData) && bodyData.length > ${size}) {`
-		);
-		lines.push(`          const total = Math.ceil(bodyData.length / ${size});`);
-		lines.push("          let result: unknown = null;");
-		lines.push(
-			`          for (let i = 0; i < bodyData.length; i += ${size}) {`
-		);
-		lines.push(`            const batch = bodyData.slice(i, i + ${size});`);
-		lines.push(`            const batchNum = Math.floor(i / ${size}) + 1;`);
-		const opts =
-			headerOpt !== undefined
-				? `{ body: batch, headers: ${headerOpt} }`
-				: "{ body: batch }";
-		lines.push(
-			`            result = await withProgress(\`${escapeTemplate(ctx.progressLabel)}: batch \${batchNum}/\${total}\`, async () => (${requestApi(ctx, url, opts)}));`
-		);
-		lines.push("          }");
-		lines.push(formatOutputCall(ctx, "          "));
-		lines.push("          return;");
-		lines.push("        }");
-	}
 	if (ctx.isRawOutput) {
 		const parts = json
 			? ["body: JSON.stringify(bodyData)", "contentType: 'application/json'"]
@@ -630,7 +661,7 @@ function bodyBypass(ctx: Ctx): string[] {
 			parts.push(`headers: ${HEADERS_GUARDED}`);
 		}
 		lines.push(...emitRawTail(ctx, "        ", url, parts));
-	} else if (json && batch === undefined && sdk.canEmitTypedJsonBodyCall(ctx)) {
+	} else if (json && sdk.canEmitTypedJsonBodyCall(ctx)) {
 		lines.push(`        const result = ${wrapAwait(ctx, sdk.bodyCall(ctx))};`);
 		lines.push(formatOutputCall(ctx, "        "));
 		lines.push("        return;");
@@ -685,8 +716,8 @@ export function bodyPrompts(ctx: Ctx): string[] {
 }
 
 /**
- * The non-path positionals and required options that go into the body, as
- * their argument definitions and API field names.
+ * The non-path positionals that go into the body, as their argument
+ * definitions and API field names.
  */
 function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
 	const out: [Arg, string][] = [];
@@ -700,12 +731,6 @@ function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
 				? (path[0] as string)
 				: arg.name.replaceAll("-", "_");
 		out.push([arg, field]);
-	}
-	for (const opt of ctx.requiredOptionArgs) {
-		if (isBody(opt)) {
-			continue;
-		}
-		out.push([opt, opt.name.replaceAll("-", "_")]);
 	}
 	return out;
 }
@@ -802,6 +827,29 @@ function bodyUnsatisfiable(ctx: Ctx, typed: boolean): boolean {
 	);
 }
 
+function requiredBody(ctx: Ctx): string[] {
+	const d = ctx.derived;
+	if (d.hasBodyParams || !bodyUnsatisfiable(ctx, sdk.canEmitTypedCall(ctx))) {
+		return [];
+	}
+	const missing = [
+		"argv.body",
+		...(d.hasFileUpload ? ["argv.file"] : []),
+		...d.multipartFlagFields.map((field) => argvKey(field.flag)),
+		...d.multipartFileFields.map((field) => argvKey(field.flag)),
+	]
+		.map((read) => `${read} === undefined`)
+		.join(" && ");
+	const message = d.hasFileUpload
+		? "--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+		: "--body is required for this command. Pass --body '<json>' or --body @path/to/file.json.";
+	return [
+		`      if (${missing}) {`,
+		`        throw new Error(${quote(message)});`,
+		"      }",
+	];
+}
+
 function bodyAssembly(ctx: Ctx): string[] {
 	const lines = ["", "      // Assemble request body from individual flags"];
 	const typed = sdk.canEmitTypedBodyCall(ctx);
@@ -834,6 +882,9 @@ function bodyAssembly(ctx: Ctx): string[] {
 				`      if (${read} !== undefined) bodyData[${quote(field)}] = ${value};`
 			);
 		}
+	}
+	if ((ctx.op.bodyUnions?.length ?? 0) > 0) {
+		lines.push("      validateBodyUnions(bodyData, bodyUnions);");
 	}
 	// Like a typed call, which sends a body that needs none of its fields
 	// empty, rather than leaving it out.
@@ -871,13 +922,6 @@ function plainCall(ctx: Ctx): string[] {
 	const lines = [""];
 	const typed = sdk.canEmitTypedCall(ctx);
 	const unsatisfiable = bodyUnsatisfiable(ctx, typed);
-	if (unsatisfiable) {
-		lines.push("      if (argv.body === undefined) {");
-		lines.push(
-			"        throw new Error('--body is required for this command. Pass --body \\'<json>\\' or --body @path/to/file.json.');"
-		);
-		lines.push("      }");
-	}
 	if (ctx.isRawOutput) {
 		let url = `\`${ctx.resolvedRequestPath}\``;
 		if (ctx.hasParams) {
@@ -1089,6 +1133,12 @@ export function imports(ctx: Ctx): Imports {
 	}
 	i.from(`${lib}/output.js`, ["formatOutput"]);
 	i.from(`${lib}/dry-run.js`, ["formatDryRun"]);
+	if (positionals(d).some((arg) => arg.isWorkerName)) {
+		i.from(`${lib}/ui/theme.js`, ["theme"]);
+	}
+	if ((ctx.op.bodyUnions?.length ?? 0) > 0 && d.hasBodyParams) {
+		i.from(`${lib}/body-unions.js`, ["validateBodyUnions"]);
+	}
 	i.from(`${lib}/progress.js`, ["withProgress"]);
 	i.from(`${lib}/telemetry/index.js`, ["runWithTelemetry"]);
 	i.typeFrom(`${lib}/telemetry/index.js`, ["ArgClassification"]);
@@ -1116,7 +1166,8 @@ export function imports(ctx: Ctx): Imports {
 	}
 	if (d.hasBody || d.hasBodyParams) {
 		const names: string[] = [];
-		if (d.hasBody) {
+		// Non-JSON bodies are sent raw through resolveFileToken.
+		if (d.hasBody && acceptsJson(ctx)) {
 			names.push("parseBody");
 		}
 		if (d.hasBodyParams) {

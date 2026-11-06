@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("new-priorities", {
 			type: "string",
 			description:
-				"The new_priorities field. Provide as a JSON object or @path/to/file.json.",
+				'The new_priorities field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -81,14 +81,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined
+						? parseBody(argv.body, [
+								{ path: ["new_priorities"], flag: "new-priorities" },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["new_priorities"], flag: "new-priorities" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

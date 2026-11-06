@@ -83,7 +83,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.conflicts("script-name", ["settings-visibility-timeout-ms"])
 		.conflicts("settings-max-concurrency", ["settings-visibility-timeout-ms"])
+		.implies("settings-max-concurrency", ["script-name"])
 		.conflicts("settings-max-wait-time-ms", ["settings-visibility-timeout-ms"])
+		.implies("settings-max-wait-time-ms", ["script-name"])
 		.conflicts("settings-visibility-timeout-ms", [
 			"script-name",
 			"settings-max-concurrency",
@@ -143,12 +145,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

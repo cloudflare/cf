@@ -33,17 +33,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-button-text-translations-accept-all", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-button-text-translations-confirm-my-choices", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-button-text-translations-reject-all", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-company-email", {
 			type: "string",
@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-consent-modal-intro-htmlwith-translations", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-cookie-name", {
 			type: "string",
@@ -93,12 +93,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-purposes", {
 			type: "string",
 			description:
-				"Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("consent-purposes-with-translations", {
 			type: "string",
 			description:
-				"Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("consent-tcf-compliant", {
 			type: "boolean",
@@ -180,12 +180,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("triggers", {
 			type: "string",
 			description:
-				"Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. Provide as a JSON object or @path/to/file.json.",
+				'Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("variables", {
 			type: "string",
 			description:
-				"Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. Provide as a JSON object or @path/to/file.json.",
+				'Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("zaraz-version", {
 			type: "number",
@@ -194,7 +194,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tools", {
 			type: "string",
 			description:
-				"Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json.",
+				'Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -203,7 +203,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Zaraz configuration.",
+			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"consent-button-text-translations-accept-all",
+				"consent-button-text-translations-confirm-my-choices",
+				"consent-button-text-translations-reject-all",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"consent-button-text-translations-accept-all",
+					"consent-button-text-translations-confirm-my-choices",
+					"consent-button-text-translations-reject-all",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --consent-button-text-translations-* flag is set`
+					);
+				}
+			}
+			return true;
 		})
 		.check((argv) => {
 			const groupSet = [
@@ -225,16 +245,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"consent-purposes-with-translations",
 				"consent-tcf-compliant",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"consent-button-text-translations-accept-all",
-					"consent-button-text-translations-confirm-my-choices",
-					"consent-button-text-translations-reject-all",
-					"consent-enabled",
-				].filter((k) => argv[k] === undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["consent-enabled"].filter(
+					(k) => argv[k] === undefined
+				);
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --consent-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"settings-context-enricher-escaped-worker-name",
+				"settings-context-enricher-worker-tag",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"settings-context-enricher-escaped-worker-name",
+					"settings-context-enricher-worker-tag",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --settings-context-enricher-* flag is set`
 					);
 				}
 			}
@@ -288,7 +323,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body, [
 										{ path: ["triggers"], flag: "triggers" },
 										{ path: ["variables"], flag: "variables" },
-										{ path: ["tools"], flag: "tools" },
 									])
 								: compactBody(
 										{
@@ -457,7 +491,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												true
 											),
 											zarazVersion: argv["zaraz-version"],
-											tools: parseJsonMap(argv["tools"], "tools", true),
+											tools: parseJsonMap(argv["tools"], "tools"),
 										},
 										[
 											["consent", "buttonTextTranslations", "accept_all"],
@@ -478,18 +512,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined
+						? parseBody(argv.body, [
+								{ path: ["triggers"], flag: "triggers" },
+								{ path: ["variables"], flag: "variables" },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["triggers"], flag: "triggers" },
-						{ path: ["variables"], flag: "variables" },
-						{ path: ["tools"], flag: "tools" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
@@ -512,22 +549,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--settings-auto-inject-script is required (or pass --body with this field set)."
 					);
 				}
-				if (
-					argv["settings-context-enricher-escaped-worker-name"] === undefined
-				) {
-					argv["settings-context-enricher-escaped-worker-name"] =
-						await promptForRequiredField(
-							"settings-context-enricher-escaped-worker-name",
-							"The settings.contextEnricher.escapedWorkerName field"
-						);
-				}
-				if (argv["settings-context-enricher-worker-tag"] === undefined) {
-					argv["settings-context-enricher-worker-tag"] =
-						await promptForRequiredField(
-							"settings-context-enricher-worker-tag",
-							"The settings.contextEnricher.workerTag field"
-						);
-				}
 				if (argv["triggers"] === undefined) {
 					throw new Error(
 						"--triggers is required (or pass --body with this field set)."
@@ -541,11 +562,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["zaraz-version"] === undefined) {
 					throw new Error(
 						"--zaraz-version is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["tools"] === undefined) {
-					throw new Error(
-						"--tools is required (or pass --body with this field set)."
 					);
 				}
 
@@ -694,7 +710,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						triggers: parseJsonMap(argv["triggers"], "triggers", true),
 						variables: parseJsonMap(argv["variables"], "variables", true),
 						zarazVersion: argv["zaraz-version"],
-						tools: parseJsonMap(argv["tools"], "tools", true),
+						tools: parseJsonMap(argv["tools"], "tools"),
 					},
 					[
 						["consent", "buttonTextTranslations", "accept_all"],

@@ -70,27 +70,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"http-cors-origins",
 				"http-enabled",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["http-enabled"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --http-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = ["worker-binding-enabled"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const missing = ["worker-binding-enabled"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --worker_binding-* flag is set`
 					);
 				}
 			}
@@ -151,12 +135,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

@@ -59,6 +59,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"resolve",
 				"quarantine",
 				"redirect",
+				"forward",
 			],
 		})
 		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
@@ -104,7 +105,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-add-headers", {
 			type: "string",
 			description:
-				"Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json.",
+				'Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("rule-settings-allow-child-bypass", {
 			type: "boolean",
@@ -161,8 +162,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-biso-admin-controls-keyboard", {
 			type: "string",
 			description:
-				'Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".',
-			choices: ["enabled", "disabled"],
+				'Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2". The enable_read_only_actions value requires an explicit version of "v2".',
+			choices: ["enabled", "disabled", "enable_read_only_actions"],
 		})
 		.coerce("rule-settings-biso-admin-controls-keyboard", (value) =>
 			resolveFileToken(
@@ -266,12 +267,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-dns-resolvers-ipv4", {
 			type: "string",
 			description:
-				"The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ip": string, "port"?: number, "route_through_private_network"?: boolean, "vnet_id"?: string}]. ? marks optional keys.',
 		})
 		.option("rule-settings-dns-resolvers-ipv6", {
 			type: "string",
 			description:
-				"The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ip": string, "port"?: number, "route_through_private_network"?: boolean, "vnet_id"?: string}]. ? marks optional keys.',
 		})
 		.option("rule-settings-egress-ipv4", {
 			type: "string",
@@ -289,6 +290,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-forensic-copy-enabled", {
 			type: "boolean",
 			description: "Enable sending the copy to storage.",
+		})
+		.option("rule-settings-forward-worker-id", {
+			type: "string",
+			description: "Specify the public Worker ID of the target Worker.",
 		})
 		.option("rule-settings-ignore-cname-category-matches", {
 			type: "boolean",
@@ -396,7 +401,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-set-headers", {
 			type: "string",
 			description:
-				"Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json.",
+				'Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("rule-settings-untrusted-cert-action", {
 			type: "string",
@@ -465,7 +470,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["expiration-duration", "expiration-expires-at"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["expiration-expires-at"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -479,66 +484,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"rule-settings-add-headers",
-				"rule-settings-allow-child-bypass",
-				"rule-settings-biso-admin-controls-copy",
-				"rule-settings-biso-admin-controls-dcp",
-				"rule-settings-biso-admin-controls-dd",
-				"rule-settings-biso-admin-controls-dk",
-				"rule-settings-biso-admin-controls-download",
-				"rule-settings-biso-admin-controls-dp",
-				"rule-settings-biso-admin-controls-du",
-				"rule-settings-biso-admin-controls-keyboard",
-				"rule-settings-biso-admin-controls-paste",
-				"rule-settings-biso-admin-controls-printing",
-				"rule-settings-biso-admin-controls-upload",
-				"rule-settings-biso-admin-controls-version",
-				"rule-settings-biso-admin-controls-wm-id",
 				"rule-settings-block-page-include-context",
 				"rule-settings-block-page-target-uri",
-				"rule-settings-block-page-enabled",
-				"rule-settings-block-reason",
-				"rule-settings-bypass-parent-rule",
-				"rule-settings-check-session-duration",
-				"rule-settings-check-session-enforce",
-				"rule-settings-delete-headers",
-				"rule-settings-dns-resolvers-ipv4",
-				"rule-settings-dns-resolvers-ipv6",
-				"rule-settings-egress-ipv4",
-				"rule-settings-egress-ipv4-fallback",
-				"rule-settings-egress-ipv6",
-				"rule-settings-forensic-copy-enabled",
-				"rule-settings-ignore-cname-category-matches",
-				"rule-settings-insecure-disable-dnssec-validation",
-				"rule-settings-ip-categories",
-				"rule-settings-ip-indicator-feeds",
-				"rule-settings-l4override-ip",
-				"rule-settings-l4override-port",
-				"rule-settings-notification-settings-enabled",
-				"rule-settings-notification-settings-include-context",
-				"rule-settings-notification-settings-msg",
-				"rule-settings-notification-settings-support-url",
-				"rule-settings-override-host",
-				"rule-settings-override-ips",
-				"rule-settings-payload-log-enabled",
-				"rule-settings-quarantine-file-types",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["rule-settings-block-page-target-uri"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --rule-settings-block-page-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"rule-settings-redirect-include-context",
 				"rule-settings-redirect-preserve-path-and-query",
 				"rule-settings-redirect-target-uri",
-				"rule-settings-resolve-dns-internally-fallback",
-				"rule-settings-resolve-dns-internally-view-id",
-				"rule-settings-resolve-dns-through-cloudflare",
-				"rule-settings-set-headers",
-				"rule-settings-untrusted-cert-action",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"rule-settings-block-page-target-uri",
-					"rule-settings-redirect-target-uri",
-				].filter((k) => argv[k] === undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["rule-settings-redirect-target-uri"].filter(
+					(k) => argv[k] === undefined
+				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --rule_settings-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --rule-settings-redirect-* flag is set`
 					);
 				}
 			}
@@ -744,6 +717,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												forensic_copy: {
 													enabled: argv["rule-settings-forensic-copy-enabled"],
 												},
+												forward: {
+													worker_id: resolveFileToken(
+														argv["rule-settings-forward-worker-id"] as
+															| string
+															| undefined,
+														"rule-settings-forward-worker-id",
+														"text"
+													),
+												},
 												ignore_cname_category_matches:
 													argv["rule-settings-ignore-cname-category-matches"],
 												insecure_disable_dnssec_validation:
@@ -894,12 +876,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -931,6 +915,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"resolve",
 							"quarantine",
 							"redirect",
+							"forward",
 						] as const
 					);
 				}
@@ -1063,6 +1048,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							},
 							forensic_copy: {
 								enabled: argv["rule-settings-forensic-copy-enabled"],
+							},
+							forward: {
+								worker_id: resolveFileToken(
+									argv["rule-settings-forward-worker-id"] as string | undefined,
+									"rule-settings-forward-worker-id",
+									"text"
+								),
 							},
 							ignore_cname_category_matches:
 								argv["rule-settings-ignore-cname-category-matches"],

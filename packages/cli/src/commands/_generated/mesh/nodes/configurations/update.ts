@@ -38,12 +38,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("mesh-config-vips", {
 			type: "string",
 			description:
-				"VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json.",
+				'VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
 		})
 		.option("mesh-config-vips-previous", {
 			type: "string",
 			description:
-				"VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json.",
+				'VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
 		})
 		.option("ha-mode", {
 			type: "string",
@@ -66,7 +66,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"mesh-config-vips-previous",
 		])
 		.conflicts("mesh-config-vips", ["mesh-config-fnr-id"])
-		.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"]);
+		.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"])
+		.implies("mesh-config-vips-previous", ["mesh-config-vips"]);
 }
 
 type Args = InferArgs<typeof builder>;
@@ -117,12 +118,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("refs", {
 			type: "string",
 			description:
-				"The refs field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The refs field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ref": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -85,6 +85,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -98,16 +100,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							queue_id: argv["queue-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["refs"] === undefined) {
@@ -120,14 +122,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					refs: parseObjectArray(argv["refs"], "refs"),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						queue_id: argv["queue-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

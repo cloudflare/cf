@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("parameters-calculations", {
 			type: "string",
 			description:
-				"Create Calculations to compute as part of the query. Provide as a JSON array of objects or @path/to/file.json.",
+				'Create Calculations to compute as part of the query. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"operator": "count" | "COUNT", "alias"?: string, "key"?: string, "keyType"?: "string" | "number" | "boolean"} | ...more)]. ? marks optional keys.',
 		})
 		.option("parameters-datasets", {
 			type: "string",
@@ -56,17 +56,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("parameters-filters", {
 			type: "string",
 			description:
-				"Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json.",
+				'Configure the Filters to apply to the query. Supports nested groups via kind: \'group\'. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
 		})
 		.option("parameters-group-bys", {
 			type: "string",
 			description:
-				"Define how to group the results of the query. Provide as a JSON array of objects or @path/to/file.json.",
+				'Define how to group the results of the query. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "string" | "number" | "boolean", "value": string}].',
 		})
 		.option("parameters-havings", {
 			type: "string",
 			description:
-				"Configure the Having clauses that filter on calculations in the query result. Provide as a JSON array of objects or @path/to/file.json.",
+				'Configure the Having clauses that filter on calculations in the query result. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "operation": "eq" | "neq" | "gt" | ...more, "value": number}].',
 		})
 		.option("parameters-limit", {
 			type: "number",
@@ -101,6 +101,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Specify the new contents of the query.",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"parameters-order-by-order",
+				"parameters-order-by-value",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["parameters-order-by-value"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parameters-order-by-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -187,12 +204,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -211,12 +230,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField("name", "Query name");
-				}
-				if (argv["parameters-order-by-value"] === undefined) {
-					argv["parameters-order-by-value"] = await promptForRequiredField(
-						"parameters-order-by-value",
-						"Configure which Calculation to order the results by."
-					);
 				}
 
 				// Assemble request body from individual flags

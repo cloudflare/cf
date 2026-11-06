@@ -42,20 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Contains the optional request to enable a catalog. Send an empty body to keep the defaults. If you include \`credential\`, the service checks that the token can access the bucket, then stores it as the catalog's maintenance credential, like the store credentials operation. ",
-		})
-		.check((argv) => {
-			const groupSet = ["credential-token"].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = ["credential-token"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --credential-* flag is set`
-					);
-				}
-			}
-			return true;
 		});
 }
 
@@ -99,12 +85,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

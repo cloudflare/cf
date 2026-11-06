@@ -118,7 +118,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./alerting/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -172,7 +172,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./audit-logs/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -429,7 +429,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"durable-objects",
-			"durable-objects",
+			"Stateful serverless objects with transactional storage, ideal for coordination, sessions, and real-time collaboration",
 			() => import("./durable-objects/index.js"),
 			null
 		),
@@ -440,15 +440,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"email-auth",
 			"email-auth",
 			() => import("./email-auth/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"email-domains",
-			"email-domains",
-			() => import("./email-domains/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -550,7 +541,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./iam/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -653,15 +644,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"magic-cloud-networking",
-			"magic-cloud-networking",
-			() => import("./magic-cloud-networking/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"magic-network-monitoring",
 			"Flow-based network traffic monitoring with configurable alerting rules and VPC flow ingestion",
 			() => import("./magic-network-monitoring/index.js"),
@@ -694,7 +676,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./managed-transforms/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -752,27 +734,18 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"oauth-clients",
-			"oauth-clients",
-			() => import("./oauth-clients/index.js"),
+			"observability",
+			"observability",
+			() => import("./observability/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"oauth-scopes",
-			"oauth-scopes",
-			() => import("./oauth-scopes/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"organization",
-			"organization",
-			() => import("./organization/index.js"),
+			"ohttp-gateway",
+			"ohttp-gateway",
+			() => import("./ohttp-gateway/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -788,21 +761,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"origin-post-quantum-encryption",
-			"Enable post-quantum key exchange for connections between Cloudflare and your origin server",
-			() => import("./origin-post-quantum-encryption/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"page-rules",
 			"page-rules",
 			() => import("./page-rules/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -847,7 +811,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./precursor/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -942,7 +906,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"resource-sharing",
-			"Share Cloudflare resources (zones, accounts) across organizations with granular access controls",
+			"Share account-level resources (WAF custom rulesets, Gateway policies and settings, Access IdP federation grants) with other accounts in the same organization",
 			() => import("./resource-sharing/index.js"),
 			null
 		),
@@ -982,7 +946,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./scim/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1094,21 +1058,21 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"tenant",
-			"tenant",
-			() => import("./tenant/index.js"),
+			"tenant-custom-nameservers",
+			"tenant-custom-nameservers",
+			() => import("./tenant-custom-nameservers/index.js"),
 			null
 		),
 		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"tenant-custom-nameservers",
-			"tenant-custom-nameservers",
-			() => import("./tenant-custom-nameservers/index.js"),
+			"tenants",
+			"Multi-tenant account management",
+			() => import("./tenants/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1135,7 +1099,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./url-normalization/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1194,7 +1158,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"workers",
-			"workers",
+			"Deploy and manage serverless JavaScript/WASM applications on Cloudflare's global network",
 			() => import("./workers/index.js"),
 			null
 		),
@@ -1207,12 +1171,12 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./workers-builds/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"workers-for-platforms",
-			"workers-for-platforms",
+			"Workers for Platforms uses dispatch namespaces to isolate and route requests to many individual user Workers, letting platforms run untrusted customer or AI-generated code at scale with per-tenant bindings, limits, and observability",
 			() => import("./workers-for-platforms/index.js"),
 			null
 		),

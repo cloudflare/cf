@@ -22,7 +22,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("hostnames", {
 			type: "string",
 			array: true,
-			description: "The hostnames field",
+			description:
+				"Unordered set of hostnames. Hostnames are stored as lowercase punycode.",
 		})
 		.option("mtls-certificate-id", {
 			type: "string",
@@ -80,14 +81,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

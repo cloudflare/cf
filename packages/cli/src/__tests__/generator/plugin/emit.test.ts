@@ -3,6 +3,7 @@ import { describe, expect, it } from "vite-plus/test";
 import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import {
+	ACCOUNT_OR_ZONE_HELP,
 	bodyObject,
 	bodyPrompts,
 	dryRun,
@@ -40,7 +41,7 @@ describe("descriptions", () => {
 		expect(ctx.successLabel).toBe("Validated");
 	});
 
-	it("retains destructive confirmation labels for validation operations", () => {
+	it("keeps validation labels when confirmation is required", () => {
 		const ctx = context(
 			method("validate", "things-validate", {
 				requireConfirmation: "This operation deletes data.",
@@ -48,8 +49,43 @@ describe("descriptions", () => {
 			"things",
 			operation("post", "/things/validate")
 		);
-		expect(ctx.progressLabel).toBe("Deleting");
-		expect(ctx.successLabel).toBe("Deleted");
+		expect(ctx.progressLabel).toBe("Validating");
+		expect(ctx.successLabel).toBe("Validated");
+	});
+
+	it.each([
+		["put", "update", "Updating", "Updated"],
+		["patch", "edit", "Updating", "Updated"],
+		["delete", "delete", "Deleting", "Deleted"],
+		["post", "purge", "Processing", "Done"],
+		["post", "batch", "Processing", "Done"],
+		["post", "query", "Loading", "Loaded"],
+	])(
+		"labels confirmed %s %s operations without assuming deletion",
+		(httpMethod, name, progress, success) => {
+			const ctx = context(
+				method(name, `things.${name}`, {
+					requireConfirmation: "This operation may remove data.",
+				}),
+				"things",
+				operation(httpMethod, "/things")
+			);
+			expect(ctx.progressLabel).toBe(progress);
+			expect(ctx.successLabel).toBe(success);
+			expect(handler(ctx).join("\n")).toContain(
+				"confirmDelete({ force: Boolean(argv.force), message: `This operation may remove data.` })"
+			);
+		}
+	);
+
+	it("keeps creation labels for ordinary POST operations", () => {
+		const ctx = context(
+			method("create", "things.create"),
+			"things",
+			operation("post", "/things")
+		);
+		expect(ctx.progressLabel).toBe("Creating");
+		expect(ctx.successLabel).toBe("Created");
 	});
 
 	const description = "Full first line.\nFull second line.";
@@ -80,6 +116,14 @@ describe("descriptions", () => {
 			"$0 test records nested list <id>\n\nFull first line.\nFull second line."
 		);
 	});
+
+	it("follows the description with how an account-or-zone command picks its scope", () => {
+		expect(
+			leafUsage(list(undefined, description), "test", undefined, "list", true)
+		).toBe(
+			`$0 test list\n\nFull first line.\nFull second line.\n\n${ACCOUNT_OR_ZONE_HELP}`
+		);
+	});
 });
 
 describe("delete confirmation", () => {
@@ -96,6 +140,42 @@ describe("delete confirmation", () => {
 			"if (!(await confirmDelete({ force: Boolean(argv.force) }))) {\n        return;\n      }"
 		);
 		expect(output).not.toContain("Aborted");
+	});
+});
+
+describe("an API force parameter on a delete", () => {
+	const op = () =>
+		operation("delete", "/things/{thing_id}", {
+			pathParams: [param("thing_id")],
+			queryParams: [
+				param("force", undefined, { type: "boolean", required: false }),
+			],
+		});
+
+	it("fails without a flagName instead of sharing cf's --force", () => {
+		expect(() =>
+			context(method("delete", "things-delete"), "things", op())
+		).toThrow(
+			"query parameter `force` → --force, which is a flag cf adds to this command."
+		);
+	});
+
+	it("keeps cf's --force for confirmation beside the renamed flag", () => {
+		const ctx = context(
+			method("delete", "things-delete", {
+				params: { force: { flagName: "force-delete" } },
+			}),
+			"things",
+			op()
+		);
+		const builder = builderLines(ctx).join("\n");
+		expect(builder).toContain('.option(\'force-delete\', {"type":"boolean"');
+		expect(builder).toContain(
+			'.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})'
+		);
+		const code = handler(ctx).join("\n");
+		expect(code).toContain(`'force': argv["force-delete"]`);
+		expect(code).toContain("confirmDelete({ force: Boolean(argv.force) })");
 	});
 });
 
@@ -172,47 +252,50 @@ describe("bodyless raw response emission", () => {
 	);
 });
 
-describe("protobuf response emission", () => {
-	it("writes profile bytes directly while sending the JSON request body", () => {
-		const op = operation(
-			"post",
-			"/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
-			{
-				pathParams: [
-					param("account_id"),
-					param("worker_id"),
-					param("version_id"),
-				],
-				bodyParams: [
-					bodyParam("duration_ms", "number", ["duration_ms"], {
-						required: true,
-					}),
-				],
-				hasRequestBody: true,
-				requestContentTypes: ["application/json"],
-				requestBodyRequired: ["duration_ms"],
-				responses: [["200", { content: ["application/vnd.google.protobuf"] }]],
-			}
-		);
-		const ctx = context(
-			method("profile", "workers.versions.profile"),
-			"workers",
-			op
-		);
-		expect(ctx.outputKind).toBe("binary");
-		const output = handler(ctx).join("\n");
-		expect(output).toContain("fetchRawBytes(");
-		expect(output).toContain("method: 'POST'");
-		expect(output).toContain("body: JSON.stringify(bodyData)");
-		expect(output).toContain(
-			"body: Object.keys(bodyData).length > 0 ? bodyData : undefined"
-		);
-		expect(output).toContain("contentType: 'application/json'");
-		expect(output).toContain(
-			"writeRawOutput(argv.text === true ? __cfRawBytes.toString('utf-8') : __cfRawBytes)"
-		);
-		expect(output).not.toContain("formatOutput(");
-	});
+describe("binary response emission", () => {
+	it.each(["application/vnd.google.protobuf", "audio/mpeg", "audio/wav"])(
+		"writes %s bytes directly while sending the JSON request body",
+		(contentType) => {
+			const op = operation(
+				"post",
+				"/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
+				{
+					pathParams: [
+						param("account_id"),
+						param("worker_id"),
+						param("version_id"),
+					],
+					bodyParams: [
+						bodyParam("duration_ms", "number", ["duration_ms"], {
+							required: true,
+						}),
+					],
+					hasRequestBody: true,
+					requestContentTypes: ["application/json"],
+					requestBodyRequired: ["duration_ms"],
+					responses: [["200", { content: [contentType] }]],
+				}
+			);
+			const ctx = context(
+				method("profile", "workers.versions.profile"),
+				"workers",
+				op
+			);
+			expect(ctx.outputKind).toBe("binary");
+			const output = handler(ctx).join("\n");
+			expect(output).toContain("fetchRawBytes(");
+			expect(output).toContain("method: 'POST'");
+			expect(output).toContain("body: JSON.stringify(bodyData)");
+			expect(output).toContain(
+				"body: Object.keys(bodyData).length > 0 ? bodyData : undefined"
+			);
+			expect(output).toContain("contentType: 'application/json'");
+			expect(output).toContain(
+				"writeRawOutput(argv.text === true ? __cfRawBytes.toString('utf-8') : __cfRawBytes)"
+			);
+			expect(output).not.toContain("formatOutput(");
+		}
+	);
 });
 
 describe("variant prompts", () => {
@@ -310,7 +393,100 @@ describe("file-backed enum arguments", () => {
 	});
 });
 
+describe("optional body-object validation", () => {
+	it("bypasses conditional flag validation only for a non-empty raw body", async () => {
+		const ctx = context(
+			method("create", "example-create"),
+			"example",
+			operation("post", "/example", {
+				bodyParams: [
+					bodyParam(
+						"parameters-order-by-order",
+						"string",
+						["parameters", "order_by", "order"],
+						{
+							required: true,
+							optionalParentPath: ["parameters", "order_by"],
+						}
+					),
+					bodyParam(
+						"parameters-order-by-value",
+						"string",
+						["parameters", "order_by", "value"],
+						{
+							required: true,
+							optionalParentPath: ["parameters", "order_by"],
+						}
+					),
+				],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+			})
+		);
+		const builder = new Script(
+			`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
+		).runInNewContext() as (args: Argv) => Argv;
+		const parse = async (args: string[]) =>
+			yargs(args)
+				.exitProcess(false)
+				.fail((message, error) => {
+					throw error ?? new Error(message);
+				})
+				.command("create", "", builder, () => {})
+				.strict()
+				.parseAsync();
+
+		await expect(
+			parse(["create", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse(["create", "--body", "", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse([
+				"create",
+				"--body",
+				"",
+				"--parameters-order-by-order",
+				"asc",
+				"--parameters-order-by-value",
+				"count",
+			])
+		).resolves.toMatchObject({ body: "" });
+		await expect(
+			parse(["create", "--body", "{}", "--parameters-order-by-order", "asc"])
+		).resolves.toMatchObject({ body: "{}" });
+	});
+});
+
 describe("passthrough body assembly", () => {
+	it("keeps required headers and query parameters out of the JSON body", () => {
+		const ctx = context(
+			method("update", "example-update"),
+			"example",
+			operation("put", "/things/{thing_id}", {
+				pathParams: [param("thing_id")],
+				queryParams: [param("validate")],
+				headerParams: [param("If-Match")],
+				bodyParams: [bodyParam("name", "string", ["name"], { required: true })],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+				requestBodyRequired: ["name"],
+			})
+		);
+		const output = handler(ctx).join("\n");
+		const preview = dryRun(ctx).join("\n");
+
+		expect(output).toContain(
+			"headers['If-Match'] = String(argv[\"if-match\"])"
+		);
+		expect(output).toContain("'validate': argv[\"validate\"]");
+		expect(output).toContain('setNestedValue(bodyData, ["name"]');
+		expect(output).not.toContain('bodyData["if_match"]');
+		expect(output).not.toContain('bodyData["validate"]');
+		expect(preview).not.toContain('if_match: argv["if-match"]');
+	});
+
 	it("sends an assembled body even when no flag set a field", () => {
 		// A renamed path parameter keeps the command off the typed call.
 		const ctx = context(

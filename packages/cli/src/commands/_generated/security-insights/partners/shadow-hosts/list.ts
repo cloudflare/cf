@@ -22,9 +22,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The partner integration identifier.",
 			demandOption: true,
 		})
-		.option("page", {
-			type: "number",
-			description: "Page number for premium partner asset results.",
+		.option("cursor", {
+			type: "string",
+			description:
+				"Opaque cursor from the previous response's `result_info.cursor`. Omit for the first page.",
 		})
 		.option("per-page", {
 			type: "number",
@@ -55,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
+					cursor: argv["cursor"],
 					per_page: argv["per-page"],
 				};
 				if (argv.dryRun) {

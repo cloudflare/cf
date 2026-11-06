@@ -27,7 +27,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("authentication", {
 			type: "boolean",
-			description: "The authentication field",
+			description:
+				"Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled.",
 		})
 		.option("byok-only", {
 			type: "boolean",
@@ -90,6 +91,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.coerce("guardrails-prompt-s13", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s13", "text")
+		)
+		.option("guardrails-prompt-s14", {
+			type: "string",
+			description: "The guardrails.prompt.S14 field",
+			choices: ["FLAG", "BLOCK"],
+		})
+		.coerce("guardrails-prompt-s14", (value) =>
+			resolveFileToken(value, "guardrails-prompt-s14", "text")
 		)
 		.option("guardrails-prompt-s2", {
 			type: "string",
@@ -203,6 +212,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("guardrails-response-s13", (value) =>
 			resolveFileToken(value, "guardrails-response-s13", "text")
 		)
+		.option("guardrails-response-s14", {
+			type: "string",
+			description: "The guardrails.response.S14 field",
+			choices: ["FLAG", "BLOCK"],
+		})
+		.coerce("guardrails-response-s14", (value) =>
+			resolveFileToken(value, "guardrails-response-s14", "text")
+		)
 		.option("guardrails-response-s2", {
 			type: "string",
 			description: "The guardrails.response.S2 field",
@@ -295,7 +312,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("otel", {
 			type: "string",
 			description:
-				"The otel field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The otel field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"headers": {...}, "url": string, "authorization"?: string, "content_type"?: "json" | "protobuf"}]. ? marks optional keys.',
 		})
 		.option("rate-limiting-interval", {
 			type: "number",
@@ -336,7 +353,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("spend-limits-rules", {
 			type: "string",
 			description:
-				"The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"limit": number, "limitType": "cost", "window": number, "enabled"?: boolean, "id"?: string, ...more}]. ? marks optional keys.',
 		})
 		.option("store-id", {
 			type: "string",
@@ -350,7 +367,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("stripe-usage-events", {
 			type: "string",
 			description:
-				"The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"payload": string}].',
 		})
 		.option("workers-ai-billing-mode", {
 			type: "string",
@@ -376,7 +393,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["stripe-authorization", "stripe-usage-events"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["stripe-authorization", "stripe-usage-events"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -412,6 +429,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"guardrails-prompt-s11",
 						"guardrails-prompt-s12",
 						"guardrails-prompt-s13",
+						"guardrails-prompt-s14",
 						"guardrails-prompt-s2",
 						"guardrails-prompt-s3",
 						"guardrails-prompt-s4",
@@ -426,6 +444,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"guardrails-response-s11",
 						"guardrails-response-s12",
 						"guardrails-response-s13",
+						"guardrails-response-s14",
 						"guardrails-response-s2",
 						"guardrails-response-s3",
 						"guardrails-response-s4",
@@ -474,6 +493,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												S11: argv["guardrails-prompt-s11"],
 												S12: argv["guardrails-prompt-s12"],
 												S13: argv["guardrails-prompt-s13"],
+												S14: argv["guardrails-prompt-s14"],
 												S2: argv["guardrails-prompt-s2"],
 												S3: argv["guardrails-prompt-s3"],
 												S4: argv["guardrails-prompt-s4"],
@@ -490,6 +510,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												S11: argv["guardrails-response-s11"],
 												S12: argv["guardrails-response-s12"],
 												S13: argv["guardrails-response-s13"],
+												S14: argv["guardrails-response-s14"],
 												S2: argv["guardrails-response-s2"],
 												S3: argv["guardrails-response-s3"],
 												S4: argv["guardrails-response-s4"],
@@ -550,12 +571,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -609,6 +632,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							S11: argv["guardrails-prompt-s11"],
 							S12: argv["guardrails-prompt-s12"],
 							S13: argv["guardrails-prompt-s13"],
+							S14: argv["guardrails-prompt-s14"],
 							S2: argv["guardrails-prompt-s2"],
 							S3: argv["guardrails-prompt-s3"],
 							S4: argv["guardrails-prompt-s4"],
@@ -625,6 +649,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							S11: argv["guardrails-response-s11"],
 							S12: argv["guardrails-response-s12"],
 							S13: argv["guardrails-response-s13"],
+							S14: argv["guardrails-response-s14"],
 							S2: argv["guardrails-response-s2"],
 							S3: argv["guardrails-response-s3"],
 							S4: argv["guardrails-response-s4"],

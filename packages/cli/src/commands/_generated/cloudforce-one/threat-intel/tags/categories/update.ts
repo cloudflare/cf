@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("schema", {
 			type: "string",
 			description:
-				"Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. Provide as a JSON array of objects or @path/to/file.json.",
+				'Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "kind": "string" | "number" | "enum" | ...more, "allowedValues"?: [string], "annotations"?: {...}, "deprecated"?: boolean, ...more}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -95,12 +95,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

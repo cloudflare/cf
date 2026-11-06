@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("topics", {
 			type: "string",
 			description:
-				"Custom topic categories for AI Security for Apps content detection. Provide as a JSON array of objects or @path/to/file.json.",
+				'Custom topic categories for AI Security for Apps content detection. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"label": string, "topic": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -76,6 +76,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
@@ -91,12 +93,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
@@ -104,10 +106,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					topics: parseObjectArray(argv["topics"], "topics"),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

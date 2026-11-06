@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access applications revoke-tokens <app-id>\n\nRevokes all tokens issued for an application."
+			"$0 zero-trust access applications revoke-tokens <app-id>\n\nRevokes all tokens issued for an application.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("app-id", {
 			type: "string",
@@ -105,14 +105,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						app_id: argv["app-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

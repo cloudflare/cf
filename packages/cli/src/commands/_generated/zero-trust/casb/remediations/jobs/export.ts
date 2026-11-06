@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("orders", {
 			type: "string",
 			description:
-				"Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json.",
+				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "asset_name" | "finding_type_name" | "integration_name" | ...more}].',
 		})
 		.option("search", { type: "string", description: "A search term." })
 		.option("status", {
@@ -111,12 +111,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Loading`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

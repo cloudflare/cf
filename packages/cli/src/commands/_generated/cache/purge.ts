@@ -66,6 +66,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
@@ -81,23 +83,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					requestApi<unknown>(
 						client,
 						"POST",
 						`/zones/${argv.zoneId}/purge_cache`
 					)
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

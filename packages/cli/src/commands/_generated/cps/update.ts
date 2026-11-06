@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("preferences", {
 			type: "string",
 			description:
-				"Preference keys mapped to subscription states to update. Only the preferences in this map change; others remain unchanged. Provide as a JSON object or @path/to/file.json.",
+				'Preference keys mapped to subscription states to update. Only the preferences in this map change; others remain unchanged. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -95,10 +95,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData })
 					);

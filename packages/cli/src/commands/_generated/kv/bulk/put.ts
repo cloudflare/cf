@@ -1,3 +1,4 @@
+import operation from "../../_operations/kv/bulk/put.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,7 +9,6 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
@@ -63,52 +63,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/storage/kv/namespaces/${argv["namespace-id"] == null ? "<namespace-id>" : encodeURIComponent(String(argv["namespace-id"]))}/bulk`,
 						pathParams: { "namespace-id": String(argv["namespace-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 10000)
+								: undefined,
 					});
 					return;
 				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					if (Array.isArray(bodyData) && bodyData.length > 10000) {
-						const total = Math.ceil(bodyData.length / 10000);
-						let result: unknown = null;
-						for (let i = 0; i < bodyData.length; i += 10000) {
-							const batch = bodyData.slice(i, i + 10000);
-							const batchNum = Math.floor(i / 10000) + 1;
-							result = await withProgress(
-								`Updating: batch ${batchNum}/${total}`,
-								async () =>
-									requestApi<unknown>(
-										client,
-										"PUT",
-										`/accounts/${accountId}/storage/kv/namespaces/${encodeURIComponent(String(argv["namespace-id"]))}/bulk`,
-										{ body: batch }
-									)
-							);
-						}
-						formatOutput(result, { successLabel: `Updated` });
-						return;
-					}
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/accounts/${accountId}/storage/kv/namespaces/${encodeURIComponent(String(argv["namespace-id"]))}/bulk`,
-							{ body: bodyData }
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
 				if (argv.body === undefined) {
 					throw new Error(
 						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
 					);
+				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body, [], 10000) : undefined;
+				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
+
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Updating`, async () =>
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							namespace_id: argv["namespace-id"],
+						})
+					);
+					formatOutput(result, { successLabel: `Updated` });
+					return;
 				}
 			}
 		),

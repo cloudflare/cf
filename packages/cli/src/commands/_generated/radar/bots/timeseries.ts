@@ -77,7 +77,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("bot-category", {
 			type: "string",
 			array: true,
-			description: "Filters results by bot category.",
+			description:
+				"Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
 		})
 		.option("bot-kind", {
 			type: "string",

@@ -12,7 +12,7 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access service-tokens create\n\nGenerates a new service token. **Note:** This is the only time you can get the Client Secret. If you lose the Client Secret, you will have to rotate the Client Secret or create a new service token."
+			"$0 zero-trust access service-tokens create\n\nGenerates a new service token. **Note:** This is the only time you can get the Client Secret. If you lose the Client Secret, you will have to rotate the Client Secret or create a new service token.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("client-secret-version", {
 			type: "number",
@@ -51,6 +51,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set.",
+		})
+		.option("tags", {
+			type: "string",
+			description:
+				'Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -99,30 +104,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										client_secret_version: argv["client-secret-version"],
-										duration: resolveFileToken(
-											argv["duration"] as string | undefined,
-											"duration",
-											"text"
-										),
-										enabled: argv["enabled"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										previous_client_secret_expires_at: resolveFileToken(
-											argv["previous-client-secret-expires-at"] as
-												| string
-												| undefined,
-											"previous-client-secret-expires-at",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											client_secret_version: argv["client-secret-version"],
+											duration: resolveFileToken(
+												argv["duration"] as string | undefined,
+												"duration",
+												"text"
+											),
+											enabled: argv["enabled"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											previous_client_secret_expires_at: resolveFileToken(
+												argv["previous-client-secret-expires-at"] as
+													| string
+													| undefined,
+												"previous-client-secret-expires-at",
+												"text"
+											),
+											tags: parseJsonMap(argv["tags"], "tags"),
+										},
+										[["tags"]]
+									),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -139,8 +150,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -159,25 +170,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					client_secret_version: argv["client-secret-version"],
-					duration: resolveFileToken(
-						argv["duration"] as string | undefined,
-						"duration",
-						"text"
-					),
-					enabled: argv["enabled"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					previous_client_secret_expires_at: resolveFileToken(
-						argv["previous-client-secret-expires-at"] as string | undefined,
-						"previous-client-secret-expires-at",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						client_secret_version: argv["client-secret-version"],
+						duration: resolveFileToken(
+							argv["duration"] as string | undefined,
+							"duration",
+							"text"
+						),
+						enabled: argv["enabled"],
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						previous_client_secret_expires_at: resolveFileToken(
+							argv["previous-client-secret-expires-at"] as string | undefined,
+							"previous-client-secret-expires-at",
+							"text"
+						),
+						tags: parseJsonMap(argv["tags"], "tags"),
+					},
+					[["tags"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

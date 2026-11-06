@@ -27,17 +27,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search create <namespace> <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
+			"$0 ai-search create <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
 		)
-		.positional("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
-			demandOption: true,
-		})
 		.positional("id", {
 			type: "string",
 			description: "Unique ID for the new AI Search instance.",
 			demandOption: true,
+		})
+		.option("namespace", {
+			type: "string",
+			description: "Namespace to use for this operation.",
+			default: "default",
 		})
 		.option("ai-gateway-id", {
 			type: "string",
@@ -90,7 +90,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("custom-metadata", {
 			type: "string",
 			description:
-				"The custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"data_type": "text" | "number" | "boolean" | ...more, "field_name": string}].',
 		})
 		.option("embedding-model", {
 			type: "string",
@@ -230,7 +230,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("retrieval-options-boost-by", {
 			type: "string",
 			description:
-				"Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+				'Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to \'asc\' for numeric/datetime fields and \'exists\' for text/boolean fields. Fields must match \'timestamp\' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"field": string, "direction"?: "asc" | "desc" | "exists" | ...more}]. ? marks optional keys.',
 		})
 		.option("retrieval-options-keyword-match-mode", {
 			type: "string",
@@ -321,12 +321,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source-params-web-crawler-parse-options-content-selector", {
 			type: "string",
 			description:
-				"List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"path": string, "selector": string}].',
 		})
 		.option("source-params-web-crawler-parse-options-include-headers", {
 			type: "string",
 			description:
-				"Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json.",
+				'Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("source-params-web-crawler-parse-options-include-images", {
 			type: "boolean",
@@ -356,7 +356,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sync-interval", {
 			type: "number",
 			description:
-				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400.",
+				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h).",
 		})
 		.option("token-id", { type: "string", description: "The token_id field" })
 		.option("type", {
@@ -378,13 +378,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["index-method-keyword", "index-method-vector"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["index-method-keyword", "index-method-vector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index_method-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index-method-* flag is set`
 					);
 				}
 			}
@@ -392,19 +392,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"metadata-created-from-aisearch-wizard",
 				"metadata-created-from-emdash-plugin-type",
 				"metadata-created-from-emdash-plugin-version",
-				"metadata-worker-domain",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"metadata-created-from-emdash-plugin-type",
 					"metadata-created-from-emdash-plugin-version",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-created-from-emdash-plugin-* flag is set`
 					);
 				}
 			}
@@ -415,7 +413,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <namespace> <id>",
+	command: "create <id>",
 	describe: "Create an AI Search instance.",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -686,12 +684,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

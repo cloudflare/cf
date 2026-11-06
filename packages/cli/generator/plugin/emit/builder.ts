@@ -7,6 +7,7 @@ import {
 	optionDefaults,
 	options as optionArgs,
 	positionals,
+	WORKER_ALIASES,
 } from "../args.js";
 import { kebab, obj, stringify, type Value } from "../js.js";
 import { type Ctx, escapeSingle } from "./index.js";
@@ -22,6 +23,26 @@ function option(name: string, fields: [string, Value | undefined][]): string {
 }
 
 const quoted = (v: readonly string[]) => v.map((c) => `'${c}'`).join(", ");
+
+export const JSON_BODY_DESCRIPTION =
+	"Raw JSON request body (bypasses individual flags)";
+
+/** Matches the plain-text body classification in `wire()`. */
+export const isPlainTextBody = (op: Ctx["op"]) =>
+	op.requestContentTypes.length > 0 &&
+	op.requestContentTypes.every((type) => type.startsWith("text/plain"));
+
+export function bodyOptionDescription(op: Ctx["op"]): string {
+	if (
+		op.requestBodyDescription !== undefined &&
+		op.requestBodyDescription !== ""
+	) {
+		return op.requestBodyDescription;
+	}
+	return isPlainTextBody(op)
+		? "Plain-text request body (without JSON quotes)"
+		: JSON_BODY_DESCRIPTION;
+}
 
 /** `generateBuilderLines`. */
 export function builderLines(ctx: Ctx): string[] {
@@ -67,13 +88,16 @@ export function builderLines(ctx: Ctx): string[] {
 			option(name, [
 				["type", type],
 				["array", scalarArray ? true : undefined],
-				["alias", arg.isWorkerName ? "script-name" : undefined],
+				["alias", arg.isWorkerName ? WORKER_ALIASES : undefined],
 				["description", arg.description],
 				["choices", arg.choices],
 				["default", defaults.get(arg.name)],
 				["demandOption", demand ? true : undefined],
 			])
 		);
+		if (arg.isWorkerName && arg.positional) {
+			lines.push(`.group(${stringify(name)}, theme.brand('Options'))`);
+		}
 		// Resolve `@file` before yargs validates `choices` against the value,
 		// so the handler gets the file's contents without reading it twice.
 		if (arg.fromFile !== undefined && hasChoices(arg)) {
@@ -85,24 +109,13 @@ export function builderLines(ctx: Ctx): string[] {
 	lines.push(
 		`.option("dry-run", {"type":"boolean","description":"Validate and show what would happen without executing","default":false})`
 	);
-	const hasForce =
-		options.some((o) => o.name === "force") ||
-		positional.some((p) => p.name === "force");
-	const isDelete =
-		op.method === "delete" ||
-		(ctx.method.requireConfirmation !== undefined &&
-			ctx.method.requireConfirmation !== "");
-	if (isDelete && !hasForce) {
+	if (ctx.isDelete) {
 		lines.push(
 			`.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})`
 		);
 	}
 	if (d.hasBody) {
-		const desc =
-			op.requestBodyDescription !== undefined &&
-			op.requestBodyDescription !== ""
-				? op.requestBodyDescription
-				: "Raw JSON request body (bypasses individual flags)";
+		const desc = bodyOptionDescription(op);
 		lines.push("      .option('body', {");
 		lines.push("        type: 'string',");
 		lines.push(`        description: '${escapeSingle(desc)}',`);
@@ -113,31 +126,32 @@ export function builderLines(ctx: Ctx): string[] {
 			`.option("text", {"type":"boolean","description":"Decode the response body as UTF-8 text instead of writing raw bytes","default":false})`
 		);
 	}
-	if (op.requestContentTypes.some((c) => c !== "application/json")) {
+	if (d.hasFileUpload) {
 		lines.push(
 			`.option("file", {"type":"string","description":"Path to a file to upload as the request body"})`
 		);
 	}
-	for (const f of d.multipartFlagFields) {
-		const k = kebab(f.name);
-		if ([...options, ...positional].some((a) => kebab(a.name) === k)) {
+	for (const { field, flag } of d.multipartFlagFields) {
+		if ([...options, ...positional].some((a) => kebab(a.name) === flag)) {
 			continue;
 		}
 		const type =
-			f.type === "number"
+			field.type === "number"
 				? "number"
-				: f.type === "boolean"
+				: field.type === "boolean"
 					? "boolean"
 					: "string";
-		lines.push(`      .option('${k}', {`);
+		lines.push(`      .option('${flag}', {`);
 		lines.push(`        type: '${type}',`);
-		lines.push(`        description: '${escapeSingle(f.description)}',`);
+		lines.push(`        description: '${escapeSingle(field.description)}',`);
 		lines.push("      })");
 	}
 	for (const { field, flag } of d.multipartFileFields) {
 		lines.push(
 			option(flag, [
 				["type", "string"],
+				["array", field.type === "array" ? true : undefined],
+				["requiresArg", field.type === "array" ? true : undefined],
 				["description", multipartFileFlagDescription(field)],
 			])
 		);
@@ -175,7 +189,12 @@ export function builderLines(ctx: Ctx): string[] {
 		}
 	}
 	for (const group of d.optionalParentGroups) {
-		if (group.groupSetFlags.length === 0) {
+		if (
+			group.groupSetFlags.length === 0 ||
+			(group.requiredFlags.length === 1 &&
+				group.groupSetFlags.length === 1 &&
+				group.requiredFlags[0] === group.groupSetFlags[0])
+		) {
 			continue;
 		}
 		const set = `[${quoted(group.groupSetFlags)}]`;
@@ -190,7 +209,7 @@ export function builderLines(ctx: Ctx): string[] {
 		lines.push(
 			`        const groupSet = ${set}.some((k) => argv[k] !== undefined);`
 		);
-		lines.push("        if (groupSet) {");
+		lines.push("        if (!argv.body && groupSet) {");
 		if (pairs.length === 0) {
 			lines.push(
 				`          const missing = ${required}.filter((k) => argv[k] === undefined);`

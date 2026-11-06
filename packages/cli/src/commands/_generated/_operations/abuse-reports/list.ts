@@ -16,6 +16,7 @@ export default {
 		"status",
 		"type",
 		"mitigation_status",
+		"pending_notice",
 	],
 	errors: {
 		400: "BadRequestError",

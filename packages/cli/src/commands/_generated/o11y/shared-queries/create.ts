@@ -57,6 +57,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("distribution-scale", (value) =>
 			resolveFileToken(value, "distribution-scale", "text")
 		)
+		.option("preview", {
+			type: "boolean",
+			description:
+				"When true, executes the query without persisting the results. Useful for validation or previewing.",
+			default: false,
+		})
 		.option("granularity", {
 			type: "number",
 			description:
@@ -92,7 +98,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("parameters-calculations", {
 			type: "string",
 			description:
-				"Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. Provide as a JSON array of objects or @path/to/file.json.",
+				'Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"operator": "count" | "COUNT", "alias"?: string, "key"?: string, "keyType"?: "string" | "number" | "boolean"} | ...more)]. ? marks optional keys.',
 		})
 		.option("parameters-datasets", {
 			type: "string",
@@ -112,17 +118,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("parameters-filters", {
 			type: "string",
 			description:
-				"Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json.",
+				'Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: \'group\'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
 		})
 		.option("parameters-group-bys", {
 			type: "string",
 			description:
-				"Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. Provide as a JSON array of objects or @path/to/file.json.",
+				'Fields to group calculation results by. Only applicable when the query view is \'calculations\'. Produces per-group aggregate values. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "string" | "number" | "boolean", "value": string}].',
 		})
 		.option("parameters-havings", {
 			type: "string",
 			description:
-				"Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). Provide as a JSON array of objects or @path/to/file.json.",
+				'Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "operation": "eq" | "neq" | "gt" | ...more, "value": number}].',
 		})
 		.option("parameters-limit", {
 			type: "number",
@@ -194,25 +200,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"parameters-calculations",
-				"parameters-datasets",
-				"parameters-filter-combination",
-				"parameters-filters",
-				"parameters-group-bys",
-				"parameters-havings",
-				"parameters-limit",
-				"parameters-needle-is-regex",
-				"parameters-needle-match-case",
 				"parameters-order-by-order",
 				"parameters-order-by-value",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["parameters-order-by-value"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parameters-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parameters-order-by-* flag is set`
 					);
 				}
 			}
@@ -236,6 +233,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"chart-type",
 						"compare",
 						"distribution-scale",
+						"preview",
 						"ignore-series",
 						"parameters-filter-combination",
 						"parameters-needle-is-regex",
@@ -264,6 +262,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										chartType: argv["chart-type"],
 										compare: argv["compare"],
 										distributionScale: argv["distribution-scale"],
+										dry: argv["preview"],
 										granularity: argv["granularity"],
 										ignoreSeries: argv["ignore-series"],
 										limit: argv["limit"],
@@ -327,12 +326,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -362,6 +363,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					chartType: argv["chart-type"],
 					compare: argv["compare"],
 					distributionScale: argv["distribution-scale"],
+					dry: argv["preview"],
 					granularity: argv["granularity"],
 					ignoreSeries: argv["ignore-series"],
 					limit: argv["limit"],

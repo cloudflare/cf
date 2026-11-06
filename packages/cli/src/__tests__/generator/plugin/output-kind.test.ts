@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { outputKind } from "../../../../generator/plugin/emit/index.js";
+import { outputKind } from "../../../../generator/plugin/operation.js";
 import { operation } from "../../helpers/cli-plugin.js";
 
 describe("outputKind", () => {
@@ -8,6 +8,9 @@ describe("outputKind", () => {
 		["application/octet-stream", "binary"],
 		["application/zip", "binary"],
 		["image/png", "binary"],
+		["audio/mpeg", "binary"],
+		["audio/wav", "binary"],
+		["audio/ogg", "binary"],
 		["text/plain", "text"],
 		["text/csv", "text"],
 		["application/json", "json"],

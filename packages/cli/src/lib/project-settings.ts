@@ -4,6 +4,20 @@ import type { ParsedInputSettingsConfig } from "@cloudflare/config";
 
 export const CLOUDFLARE_CONFIG_FILENAME = "cloudflare.config.ts";
 
+// TODO: Replace this with Zod's built in formatting.
+export function formatConfigIssues(
+	issues: readonly { path: readonly PropertyKey[]; message: string }[]
+): string {
+	return issues
+		.map((issue) => {
+			const issuePath = issue.path
+				.filter((segment) => typeof segment !== "symbol")
+				.join(".");
+			return `  - ${issuePath ? `${issuePath}: ` : ""}${issue.message}`;
+		})
+		.join("\n");
+}
+
 export interface LoadedProjectSettings {
 	path: string;
 	settings: ParsedInputSettingsConfig | undefined;
@@ -65,15 +79,9 @@ export async function loadProjectSettings(
 		mode: projectConfigMode,
 	});
 	if (!loaded.result.success) {
-		const issues = loaded.result.error.issues
-			.map((issue) => {
-				const path = issue.path
-					.filter((segment) => typeof segment !== "symbol")
-					.join(".");
-				return `  - ${path ? `${path}: ` : ""}${issue.message}`;
-			})
-			.join("\n");
-		throw new Error(`Invalid ${CLOUDFLARE_CONFIG_FILENAME}:\n${issues}`);
+		throw new Error(
+			`Invalid ${CLOUDFLARE_CONFIG_FILENAME}:\n${formatConfigIssues(loaded.result.error.issues)}`
+		);
 	}
 
 	const result: LoadedProjectSettings = {

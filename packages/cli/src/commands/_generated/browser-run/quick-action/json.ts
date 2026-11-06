@@ -47,12 +47,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("add-script-tag", {
 			type: "string",
 			description:
-				"Adds a script element into the page with the desired URL or content. Provide as a JSON array of objects or @path/to/file.json.",
+				'Adds a script element into the page with the desired URL or content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "id"?: string, "type"?: string, "url"?: string}]. ? marks optional keys.',
 		})
 		.option("add-style-tag", {
 			type: "string",
 			description:
-				'Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. Provide as a JSON array of objects or @path/to/file.json.',
+				'Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "url"?: string}]. ? marks optional keys.',
 		})
 		.option("allow-request-pattern", {
 			type: "string",
@@ -81,12 +81,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cookies", {
 			type: "string",
 			description:
-				"Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json.",
+				'Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "value": string, "domain"?: string, "expires"?: number, "httpOnly"?: boolean, ...more}]. ? marks optional keys.',
 		})
 		.option("custom-ai", {
 			type: "string",
 			description:
-				"Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. Provide as a JSON array of objects or @path/to/file.json.",
+				'Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"model": string, "authorization"?: string}]. ? marks optional keys.',
 		})
 		.option("emulate-media-type", {
 			type: "string",
@@ -125,7 +125,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("response-format-json-schema", {
 			type: "string",
 			description:
-				"Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/. Provide as a JSON object or @path/to/file.json.",
+				'Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("response-format-type", {
 			type: "string",
@@ -134,7 +134,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("set-extra-httpheaders", {
 			type: "string",
 			description:
-				"The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json.",
+				'The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("set-java-script-enabled", {
 			type: "boolean",
@@ -148,7 +148,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The userAgent field",
 			default:
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
 		})
 		.option("viewport-device-scale-factor", {
 			type: "number",
@@ -207,7 +207,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["authenticate-password", "authenticate-username"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"authenticate-password",
 					"authenticate-username",
@@ -225,13 +225,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"response-format-json-schema",
 				"response-format-type",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["response-format-type"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --response_format-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --response-format-* flag is set`
 					);
 				}
 			}
@@ -246,7 +246,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"viewport-is-mobile",
 				"viewport-width",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["viewport-height", "viewport-width"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -265,13 +265,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"wait-for-selector-timeout",
 				"wait-for-selector-visible",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["wait-for-selector-selector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --waitForSelector-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --wait-for-selector-* flag is set`
 					);
 				}
 			}
@@ -441,12 +441,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

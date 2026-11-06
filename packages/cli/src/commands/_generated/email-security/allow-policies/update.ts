@@ -72,7 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("pattern", {
 			type: "string",
 			description:
-				"The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.",
+				"The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case.",
 		})
 		.option("pattern-type", {
 			type: "string",
@@ -166,12 +166,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -205,7 +207,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["pattern"] === undefined) {
 					argv["pattern"] = await promptForRequiredField(
 						"pattern",
-						"The pattern value to match. The format depends on \`pattern_type\`: a valid email address for EMAIL (e.g. \`user@example.com\`), a valid domain name for DOMAIN (e.g. \`example.com\`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. \`1.2.3.4\`, \`1.2.3.0/24\`, \`2606:4700:4700::1111\`, or \`2606:4700:4700::/48\`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+						"The pattern value to match. The format depends on \`pattern_type\`: a valid email address for EMAIL (e.g. \`user@example.com\`), a valid domain name for DOMAIN (e.g. \`example.com\`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. \`1.2.3.4\`, \`1.2.3.0/24\`, \`2606:4700:4700::1111\`, or \`2606:4700:4700::/48\`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 					);
 				}
 				if (argv["pattern-type"] === undefined) {

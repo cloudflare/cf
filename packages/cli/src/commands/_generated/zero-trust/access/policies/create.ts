@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("approval-groups", {
 			type: "string",
 			description:
-				"Administrators who can approve a temporary authentication request. Provide as a JSON array of objects or @path/to/file.json.",
+				'Administrators who can approve a temporary authentication request. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"approvals_needed": number, "email_addresses"?: [string], "email_list_uuid"?: string}]. ? marks optional keys.',
 		})
 		.option("approval-required", {
 			type: "boolean",
@@ -95,12 +95,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude", {
 			type: "string",
 			description:
-				"Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("include", {
 			type: "string",
 			description:
-				"Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("name", {
 			type: "string",
@@ -114,7 +114,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("require", {
 			type: "string",
 			description:
-				"Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -226,12 +226,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

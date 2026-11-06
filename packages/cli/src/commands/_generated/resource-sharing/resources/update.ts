@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing resources update <share-resource-id>\n\nUpdate is not immediate, an updated share resource object with a new status will be returned."
+			"$0 resource-sharing resources update <share-resource-id>\n\nUpdates the resource's `meta`. Only resources with `status=active` can be updated."
 		)
 		.positional("share-resource-id", {
 			type: "string",
@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("meta", {
 			type: "string",
 			description:
-				"Resource Metadata. Provide as a JSON object or @path/to/file.json.",
+				'Resource Metadata. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -88,14 +88,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined
+						? parseBody(argv.body, [{ path: ["meta"], flag: "meta" }])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["meta"], flag: "meta" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

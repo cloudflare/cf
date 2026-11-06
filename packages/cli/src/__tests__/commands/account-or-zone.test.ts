@@ -10,7 +10,12 @@ import {
 	vi,
 } from "vite-plus/test";
 import { captureOutput } from "../helpers/capture-output.js";
-import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
+import {
+	createFetchResult,
+	server,
+	setupMsw,
+	TEST_BASE_URL,
+} from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 
 /**
@@ -42,14 +47,19 @@ describe("combined account-or-zone scope", () => {
 
 	afterEach(() => vi.restoreAllMocks());
 
-	it("uses the account route by default", async () => {
-		let requested = false;
+	function loadBalancerRequests(): string[] {
+		const requests: string[] = [];
 		server.use(
-			http.get(`${TEST_BASE_URL}/accounts/test-account/load_balancers`, () => {
-				requested = true;
+			http.get(`${TEST_BASE_URL}/:scope/:id/load_balancers`, ({ params }) => {
+				requests.push(`${String(params.scope)}/${String(params.id)}`);
 				return HttpResponse.json({ success: true, result: [] });
 			})
 		);
+		return requests;
+	}
+
+	it("uses the account route by default", async () => {
+		const requests = loadBalancerRequests();
 
 		const { exitCode } = await runCf(
 			["load-balancers", "account", "list"],
@@ -57,17 +67,11 @@ describe("combined account-or-zone scope", () => {
 		);
 
 		expect(exitCode).toBe(0);
-		expect(requested).toBe(true);
+		expect(requests).toEqual(["accounts/test-account"]);
 	});
 
 	it("uses the zone route when --zone is explicitly provided", async () => {
-		let requested = false;
-		server.use(
-			http.get(`${TEST_BASE_URL}/zones/${ZONE_ID}/load_balancers`, () => {
-				requested = true;
-				return HttpResponse.json({ success: true, result: [] });
-			})
-		);
+		const requests = loadBalancerRequests();
 
 		const { exitCode } = await runCf(
 			["load-balancers", "account", "list", "--zone", ZONE_ID],
@@ -75,7 +79,19 @@ describe("combined account-or-zone scope", () => {
 		);
 
 		expect(exitCode).toBe(0);
-		expect(requested).toBe(true);
+		expect(requests).toEqual([`zones/${ZONE_ID}`]);
+	});
+
+	it("keeps the account route when only CLOUDFLARE_ZONE_ID is set", async () => {
+		const requests = loadBalancerRequests();
+
+		const { exitCode } = await runCf(["load-balancers", "account", "list"], {
+			...ENV,
+			CLOUDFLARE_ZONE_ID: ZONE_ID,
+		});
+
+		expect(exitCode).toBe(0);
+		expect(requests).toEqual(["accounts/test-account"]);
 	});
 
 	it.each([
@@ -130,6 +146,80 @@ describe("combined account-or-zone scope", () => {
 			"account-or-zone": "zones",
 			"account-or-zone-id": ZONE_ID,
 		});
+	});
+
+	it("explains how the scope is picked in help", async () => {
+		const help = async (command: string[]) => {
+			output.clear();
+			await runCf([...command, "--help"]);
+			return output.stdout().replace(/\s+/g, " ");
+		};
+		const scope =
+			"Runs against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.";
+
+		expect(await help(["load-balancers", "account", "list"])).toContain(scope);
+		expect(await help(["zones", "list"])).not.toContain(scope);
+	});
+
+	it.each([
+		[["--zone", "--dry-run"]],
+		[["--zone=", "--dry-run"]],
+		[["--zone", "", "--dry-run"]],
+	])(
+		"rejects an empty zone in %j instead of switching scope",
+		async (flags) => {
+			await expect(
+				runCf(["load-balancers", "account", "list", ...flags], ENV)
+			).rejects.toThrow("--zone requires a non-empty value.");
+			expect(output.stdout()).toBe("");
+		}
+	);
+
+	// A zone name needs an account too: names are looked up in its zones.
+	it.each([[[]], [["--zone", "example.com"]]])(
+		"fails before any request when no account can be picked, with %j",
+		async (flags) => {
+			const accounts = [
+				{ id: "023e105f4ecef8ad9ca31a8372d0c353", name: "Acme Corp" },
+				{ id: "01a7362d577a6c3019a474fd6f485823", name: "Acme Staging" },
+			];
+			server.use(
+				http.get(`${TEST_BASE_URL}/accounts`, () =>
+					HttpResponse.json(createFetchResult(accounts))
+				),
+				http.get(`${TEST_BASE_URL}/memberships`, () =>
+					HttpResponse.json(
+						createFetchResult(accounts.map((account) => ({ account })))
+					)
+				)
+			);
+			const requests = loadBalancerRequests();
+
+			await expect(
+				runCf(["load-balancers", "account", "list", ...flags], {
+					...ENV,
+					CLOUDFLARE_ACCOUNT_ID: undefined,
+				})
+			).rejects.toThrow("CLOUDFLARE_ACCOUNT_ID");
+			expect(requests).toEqual([]);
+		}
+	);
+
+	it("fails before any request when the --zone name isn't found", async () => {
+		server.use(
+			http.get(`${TEST_BASE_URL}/zones`, () =>
+				HttpResponse.json(createFetchResult([]))
+			)
+		);
+		const requests = loadBalancerRequests();
+
+		await expect(
+			runCf(
+				["load-balancers", "account", "list", "--zone", "missing.example.com"],
+				ENV
+			)
+		).rejects.toThrow("Zone not found: missing.example.com");
+		expect(requests).toEqual([]);
 	});
 
 	it("does not expose either template placeholder as a command argument", () => {

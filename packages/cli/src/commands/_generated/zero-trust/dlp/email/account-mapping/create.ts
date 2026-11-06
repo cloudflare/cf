@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -51,6 +52,38 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["auth_requirements"],
+		selector: "type",
+		variants: [
+			{
+				values: ["Org"],
+				schema: {
+					type: "object",
+					properties: {
+						allowed_microsoft_organizations: {
+							type: "array",
+							items: { type: "string" },
+						},
+						type: { enum: ["Org"] },
+					},
+					required: ["allowed_microsoft_organizations", "type"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["NoAuth"],
+				schema: {
+					type: "object",
+					properties: { type: { enum: ["NoAuth"] } },
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -77,24 +110,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										auth_requirements: {
-											allowed_microsoft_organizations:
-												argv[
-													"auth-requirements-allowed-microsoft-organizations"
-												],
-											type: argv["auth-requirements-type"],
-										},
-									}),
+								: validateBodyUnions(
+										compactBody({
+											auth_requirements: {
+												allowed_microsoft_organizations:
+													argv[
+														"auth-requirements-allowed-microsoft-organizations"
+													],
+												type: argv["auth-requirements-type"],
+											},
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -117,6 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						type: argv["auth-requirements-type"],
 					},
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

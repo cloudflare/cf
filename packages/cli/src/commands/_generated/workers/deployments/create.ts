@@ -13,6 +13,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("worker", {
 			type: "string",
-			alias: "script-name",
+			alias: ["script-name", "worker-id"],
 			description: "Name of the script.",
 		})
 		.option("bypass-deployment-checks", {
@@ -36,16 +37,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.",
 		})
+		.option("code-update-strategy-mode", {
+			type: "string",
+			description: "Apply Durable Object code updates immediately.",
+			choices: ["immediate", "deferred"],
+		})
+		.coerce("code-update-strategy-mode", (value) =>
+			resolveFileToken(value, "code-update-strategy-mode", "text")
+		)
+		.option("code-update-strategy-max-delay", {
+			type: "number",
+			description:
+				"Set the maximum number of seconds to wait before forcing the update. When omitted, the default maximum delay applies.",
+		})
 		.option("strategy", {
 			type: "string",
-			description: "The strategy field",
+			description:
+				"Strategy for routing traffic across the listed versions. `percentage` splits traffic according to each version's `percentage`.",
 			choices: ["percentage"],
 		})
 		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
 		.option("versions", {
 			type: "string",
 			description:
-				'Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions \'[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]\'`, or from a JSON file with `--versions @versions.json`. Provide as a JSON array of objects or @path/to/file.json.',
+				'Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions \'[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]\'`, or from a JSON file with `--versions @versions.json`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"percentage": number, "version_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -55,10 +70,56 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"code-update-strategy-mode",
+				"code-update-strategy-max-delay",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["code-update-strategy-mode"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --code-update-strategy-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["code_update_strategy"],
+		selector: "mode",
+		variants: [
+			{
+				values: ["immediate"],
+				schema: {
+					type: "object",
+					properties: { mode: { enum: ["immediate"] } },
+					required: ["mode"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["deferred"],
+				schema: {
+					type: "object",
+					properties: {
+						max_delay: { anyOf: [{ type: "number" }, { type: "null" }] },
+						mode: { enum: ["deferred"] },
+					},
+					required: ["mode"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -69,11 +130,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "workers deployments create",
 				classification: {
-					safeFlags: ["bypass-deployment-checks", "strategy", "dry-run"],
+					safeFlags: [
+						"bypass-deployment-checks",
+						"code-update-strategy-mode",
+						"strategy",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
+
 				const queryParams: Record<string, unknown> = {
 					force: argv["bypass-deployment-checks"],
 				};
@@ -82,28 +151,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers deployments create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/deployments`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/deployments`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						query: queryParams,
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										strategy: argv["strategy"],
-										versions: parseObjectArray(argv["versions"], "versions"),
-									}),
+								: validateBodyUnions(
+										compactBody({
+											code_update_strategy: {
+												mode: argv["code-update-strategy-mode"],
+												max_delay: argv["code-update-strategy-max-delay"],
+											},
+											strategy: argv["strategy"],
+											versions: parseObjectArray(argv["versions"], "versions"),
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
-				argv["worker"] = scriptName;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
@@ -123,7 +199,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["strategy"] === undefined) {
 					argv["strategy"] = await promptForRequiredEnumField(
 						"strategy",
-						"The strategy field",
+						"Strategy for routing traffic across the listed versions. \`percentage\` splits traffic according to each version's \`percentage\`.",
 						["percentage"] as const
 					);
 				}
@@ -135,9 +211,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					code_update_strategy: {
+						mode: argv["code-update-strategy-mode"],
+						max_delay: argv["code-update-strategy-max-delay"],
+					},
 					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)
 						.filter(([, v]) => v !== undefined)

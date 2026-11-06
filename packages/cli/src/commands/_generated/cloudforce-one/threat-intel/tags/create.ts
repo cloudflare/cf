@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("aliases", {
 			type: "string",
 			description:
-				"Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). Provide as a JSON array of objects or @path/to/file.json.",
+				'Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"value": string, "confidence"?: (number | null), "tlp"?: ("red" | "amber" | "amber-strict" | ...more | null)}]. ? marks optional keys.',
 		})
 		.option("category-uuid", {
 			type: "string",
@@ -70,12 +70,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("external-references", {
 			type: "string",
 			description:
-				"Structured external references ({ url, description }). Public: returned to all accounts. Provide as a JSON array of objects or @path/to/file.json.",
+				'Structured external references ({ url, description }). Public: returned to all accounts. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"url": string, "description"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("internal-aliases", {
 			type: "string",
 			description:
-				"Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json.",
+				'Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"value": string, "confidence"?: (number | null), "tlp"?: ("red" | "amber" | "amber-strict" | ...more | null)}]. ? marks optional keys.',
 		})
 		.option("internal-description", {
 			type: "string",
@@ -85,7 +85,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("properties", {
 			type: "string",
 			description:
-				"Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category's schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data. Provide as a JSON object or @path/to/file.json.",
+				'Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category\'s schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("tlp", {
 			type: "string",
@@ -198,12 +198,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

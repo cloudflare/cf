@@ -26,6 +26,7 @@ import type {
 
 type DeployUploadArgs = SharedUploadArgs & {
 	provision?: boolean;
+	force?: boolean;
 	"dispatch-namespace"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -116,7 +117,9 @@ export function createDeployProps(
 		routes: resolveRoutes(config),
 		logpush: config.logpush,
 		dispatchNamespace: argv["dispatch-namespace"],
-		strict: true,
+		strict: !argv.force,
+		strictModeAbortMessage:
+			"Aborting the upload operation because of conflicts. Rerun with `cf deploy --force` to override and upload anyway.",
 		legacyAssetPaths: undefined,
 		oldAssetTtl: undefined,
 	};

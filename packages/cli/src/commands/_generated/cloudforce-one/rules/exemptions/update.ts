@@ -26,17 +26,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description:
-				"The namespace field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The namespace field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"new_pattern": string, "old_pattern": string}].',
 		})
 		.option("tag-match", {
 			type: "string",
 			description:
-				"The tag_match field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The tag_match field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"new_pattern": string, "old_pattern": string}].',
 		})
 		.option("worker-name", {
 			type: "string",
 			description:
-				"The worker_name field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The worker_name field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"new_pattern": string, "old_pattern": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -87,12 +87,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

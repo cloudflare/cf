@@ -9,6 +9,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	getWorkerName,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -20,10 +21,10 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 workers versions list\n\nList all versions for a Worker.")
-		.option("worker-id", {
+		.option("worker", {
 			type: "string",
+			alias: ["script-name", "worker-id"],
 			description: "Identifier for the Worker, which can be ID or name.",
-			demandOption: true,
 		})
 		.option("page", { type: "number", description: "Current page." })
 		.option("per-page", { type: "number", description: "Items per-page." })
@@ -50,6 +51,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
+
 				const queryParams: Record<string, unknown> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
@@ -59,8 +63,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers versions list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker-id"] == null ? "<worker-id>" : encodeURIComponent(String(argv["worker-id"]))}/versions`,
-						pathParams: { "worker-id": String(argv["worker-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${encodeURIComponent(scriptName)}/versions`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						query: queryParams,
 						bodyKind: "none",
 					});
@@ -73,7 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
 						account_id: accountId,
-						worker_id: argv["worker-id"],
+						worker_id: scriptName,
 						...queryParams,
 					})
 				);

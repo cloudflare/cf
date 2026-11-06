@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ssl origin-ca-certificates create\n\nCreate an Origin CA certificate. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests))."
+			"$0 ssl origin-ca-certificates create\n\nCreate an Origin CA certificate. For `keyless-certificate` requests, `zone_id` is required and the response contains only `id`, `certificate`, and `expires_on`. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests))."
 		)
 		.option("csr", {
 			type: "string",
@@ -48,6 +48,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The number of days for which the certificate should be valid.",
 			default: 5475,
+		})
+		.option("zone-id", {
+			type: "string",
+			description:
+				"Identifier of the zone whose keyless servers the certificate is for. Required when `request_type` is `keyless-certificate`; ignored otherwise.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -95,14 +100,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										hostnames: argv["hostnames"],
 										request_type: argv["request-type"],
 										requested_validity: argv["requested-validity"],
+										zone_id: resolveFileToken(
+											argv["zone-id"] as string | undefined,
+											"zone-id",
+											"text"
+										),
 									}),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData })
 					);
@@ -138,6 +150,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					hostnames: argv["hostnames"],
 					request_type: argv["request-type"],
 					requested_validity: argv["requested-validity"],
+					zone_id: resolveFileToken(
+						argv["zone-id"] as string | undefined,
+						"zone-id",
+						"text"
+					),
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData })

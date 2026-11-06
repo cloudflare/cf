@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access rule-groups update <group-id>\n\nUpdates a configured Access group."
+			"$0 zero-trust access rule-groups update <group-id>\n\nUpdates a configured Access group.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("group-id", {
 			type: "string",
@@ -34,12 +34,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude", {
 			type: "string",
 			description:
-				"Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("include", {
 			type: "string",
 			description:
-				"Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("is-default", {
 			type: "boolean",
@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("require", {
 			type: "string",
 			description:
-				"Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -116,6 +116,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -132,8 +134,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

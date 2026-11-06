@@ -19,8 +19,9 @@ export function preserveWorkersSecretUpdatePositional(
 	if (
 		operation?.operationId !== "worker-put-script-secret" ||
 		operation["x-forge-hidden"] !== undefined ||
-		JSON.stringify(operation["x-fern-sdk-group-name"]) !==
-			'["workers","secrets"]' ||
+		(operation["x-fern-sdk-group-name"] !== "workers.secrets" &&
+			JSON.stringify(operation["x-fern-sdk-group-name"]) !==
+				'["workers","secrets"]') ||
 		operation["x-fern-sdk-method-name"] !== "update" ||
 		operation["x-forge-params"] !== undefined
 	) {

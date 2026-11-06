@@ -135,12 +135,12 @@ describe("cf ai run", () => {
 		});
 	}
 
-	function rawRunHandler(bytes: Uint8Array) {
+	function rawRunHandler(bytes: Uint8Array, contentType: string) {
 		return http.post(
 			/\/ai\/run$/,
 			() =>
 				new HttpResponse(bytes, {
-					headers: { "content-type": "audio/wav" },
+					headers: { "content-type": contentType },
 				})
 		);
 	}
@@ -168,18 +168,22 @@ describe("cf ai run", () => {
 		expect(stdout()).toContain("hi");
 	});
 
-	it("writes non-JSON model output as exact bytes", async () => {
-		const bytes = Uint8Array.from([82, 73, 70, 70, 0, 255, 128]);
-		const write = vi
-			.spyOn(process.stdout, "write")
-			.mockImplementation(() => true);
-		server.use(schemaHandler(), rawRunHandler(bytes));
+	it.each(["audio/mpeg", "audio/wav", "image/png", "application/octet-stream"])(
+		"writes %s model output as exact bytes",
+		async (contentType) => {
+			const bytes = Uint8Array.from([82, 73, 70, 70, 0, 255, 128]);
+			const write = vi
+				.spyOn(process.stdout, "write")
+				.mockImplementation(() => true);
+			server.use(schemaHandler(), rawRunHandler(bytes, contentType));
 
-		const { exitCode } = await run(MODEL, "--prompt", "hello");
+			const { exitCode } = await run(MODEL, "--prompt", "hello");
 
-		expect(exitCode).toBe(0);
-		expect(write).toHaveBeenCalledWith(Buffer.from(bytes));
-	});
+			expect(exitCode).toBe(0);
+			expect(write).toHaveBeenCalledWith(Buffer.from(bytes));
+			expect(stdout()).toBe("");
+		}
+	);
 
 	it("parses array and object flags as JSON values", async () => {
 		server.use(
@@ -759,6 +763,37 @@ describe("cf ai run", () => {
 		await run(MODEL, "--prompt", "hi", "--mode", "staging");
 
 		expect(runBodies).toEqual([{ prompt: "hi" }]);
+	});
+
+	it("takes model inputs named after cf's flags as --input-<flag>", async () => {
+		const schema = {
+			type: "object",
+			properties: {
+				prompt: { type: "string" },
+				quiet: { type: "boolean" },
+				mode: { type: "string" },
+			},
+		};
+		server.use(schemaHandler(200, schema), runHandler());
+
+		const { exitCode } = await run(
+			MODEL,
+			"--prompt",
+			"hi",
+			"--input-quiet",
+			"--input-mode",
+			"fast",
+			"--quiet",
+			"--mode",
+			"staging"
+		);
+
+		expect(exitCode).toBe(0);
+		expect(runBodies).toEqual([{ prompt: "hi", quiet: true, mode: "fast" }]);
+
+		await run(MODEL, "--help");
+		expect(stdout()).toMatch(/--input-quiet\s/);
+		expect(stdout()).toMatch(/--input-mode\s/);
 	});
 
 	it("degrades cleanly when the API returns a malformed schema", async () => {

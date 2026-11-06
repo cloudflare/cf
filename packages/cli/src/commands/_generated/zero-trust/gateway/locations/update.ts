@@ -56,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("endpoints-doh-networks", {
 			type: "string",
 			description:
-				"Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
+				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("endpoints-doh-require-token", {
 			type: "boolean",
@@ -71,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("endpoints-dot-networks", {
 			type: "string",
 			description:
-				"Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
+				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("endpoints-ipv4-enabled", {
 			type: "boolean",
@@ -86,7 +86,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("endpoints-ipv6-networks", {
 			type: "string",
 			description:
-				"Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
+				'Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("max-ttl-mode", {
 			type: "string",
@@ -109,7 +109,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("networks", {
 			type: "string",
 			description:
-				"Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
+				'Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -124,11 +124,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["max-ttl-mode", "max-ttl-ttl-secs"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["max-ttl-mode"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --max_ttl-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --max-ttl-* flag is set`
 					);
 				}
 			}
@@ -224,12 +224,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

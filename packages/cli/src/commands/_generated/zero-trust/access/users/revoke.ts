@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access users revoke\n\nRevokes a user's access across all applications."
+			"$0 zero-trust access users revoke\n\nRevokes a user's access across all applications.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("devices", {
 			type: "boolean",
@@ -78,6 +78,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					devices: argv["devices"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -94,12 +97,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"account-or-zone": String(accountOrZone),
 							"account-or-zone-id": String(accountOrZoneId),
 						},
+						query: queryParams,
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										devices: argv["devices"],
 										email: resolveFileToken(
 											argv["email"] as string | undefined,
 											"email",
@@ -115,6 +118,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -140,16 +145,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const qs = new URLSearchParams(
+						Object.entries(queryParams)
+							.filter(([, v]) => v !== undefined)
+							.map(([k, v]) => [k, String(v)])
+					).toString();
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
+							...queryParams,
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["email"] === undefined) {
@@ -161,7 +172,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					devices: argv["devices"],
 					email: resolveFileToken(
 						argv["email"] as string | undefined,
 						"email",
@@ -174,14 +184,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					warp_session_reauth: argv["warp-session-reauth"],
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const qs = new URLSearchParams(
+					Object.entries(queryParams)
+						.filter(([, v]) => v !== undefined)
+						.map(([k, v]) => [k, String(v)])
+				).toString();
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
+						...queryParams,
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

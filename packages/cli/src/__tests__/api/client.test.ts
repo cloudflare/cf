@@ -11,6 +11,7 @@ import {
 	type ClientOptions,
 	type Operation,
 	path,
+	getResultInfo,
 } from "../../api/index.js";
 
 interface Sent {
@@ -174,6 +175,32 @@ describe("send", () => {
 		);
 		assert.equal(first(sent).init.body, '[{"id":1}]');
 		assert.deepEqual(result, { result: [1], result_info: undefined });
+	});
+
+	test.each([undefined, { cursor: "next-page", total_count: 101 }])(
+		"retains object response metadata without changing the payload (%j)",
+		async (info) => {
+			const payload = { items: [{ id: "one" }] };
+			const { client: c } = client(() =>
+				json({ success: true, result: payload, result_info: info })
+			);
+			const result = await c.send({ method: "GET", path: () => "/a" });
+			assert.deepEqual(result, payload);
+			assert.equal(JSON.stringify(result), JSON.stringify(payload));
+			assert.deepEqual(getResultInfo(result), info);
+		}
+	);
+
+	test("retains list response metadata", async () => {
+		const payload = [{ id: "one" }];
+		const info = { cursor: "next-page", page: 1, total_count: 101 };
+		const { client: c } = client(() =>
+			json({ success: true, result: payload, result_info: info })
+		);
+		assert.deepEqual(await c.send({ method: "GET", path: () => "/a" }), {
+			result: payload,
+			result_info: info,
+		});
 	});
 
 	test("sends no body for a missing one", async () => {

@@ -20,7 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 rulesets list\n\nFetches all rulesets.")
+		.usage(
+			"$0 rulesets list\n\nFetches all rulesets.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
+		)
 		.option("cursor", {
 			type: "string",
 			description: "The cursor to use for the next page.",

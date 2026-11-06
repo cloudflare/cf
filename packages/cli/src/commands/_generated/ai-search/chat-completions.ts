@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("ai-search-options-cache-cache-threshold", {
 			type: "string",
@@ -60,7 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-custom-metadata", {
 			type: "string",
 			description:
-				"Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json.",
+				"Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": (string | number | boolean)}.",
 		})
 		.option("ai-search-options-query-rewrite-enabled", {
 			type: "boolean",
@@ -90,7 +90,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-boost-by", {
 			type: "string",
 			description:
-				"Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+				'Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to \'asc\' for numeric/datetime fields, \'exists\' for text/boolean fields. Fields must match \'timestamp\' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"field": string, "direction"?: "asc" | "desc" | "exists" | ...more}]. ? marks optional keys.',
 		})
 		.option("ai-search-options-retrieval-context-expansion", {
 			type: "number",
@@ -99,7 +99,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-filters", {
 			type: "string",
 			description:
-				"The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json.",
+				'The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("ai-search-options-retrieval-fusion-method", {
 			type: "string",
@@ -155,7 +155,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("messages", {
 			type: "string",
 			description:
-				"The messages field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content": (string | [{...}] | null), "role": "system" | "developer" | "user" | ...more, "<key>": unknown}].',
 		})
 		.option("model", {
 			type: "string",
@@ -304,12 +304,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,

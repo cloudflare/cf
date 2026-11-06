@@ -20,16 +20,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection queries undismiss <domain-id>\n\nRemove the dismissed status from a specific domain for a given query. Undismissals are per-query — undismissing a domain in one query does not affect other queries."
+			"$0 brand-protection queries undismiss <domain-id>\n\nRemoves the dismissed status from a matched domain for one domain query. Undismissing a domain in one query does not affect other queries. Get `domain_id` from List domain matches with `include_domain_id=true`. Undismissing a match that is not dismissed succeeds. If the query or match does not exist, the request fails with error code 404."
 		)
 		.positional("domain-id", {
 			type: "string",
-			description: "Domain ID",
+			description:
+				"ID of the matched domain, as returned in \`domain_id\` by List domain matches with \`include_domain_id=true\`.",
 			demandOption: true,
 		})
 		.option("query-id", {
 			type: "string",
-			description: "Query ID",
+			description: "ID of the domain query that the match belongs to.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -43,7 +44,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "undismiss <domain-id>",
-	describe: "Undismiss a match",
+	describe: "Undismiss a domain match",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

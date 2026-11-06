@@ -190,7 +190,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				"ai-search create default my-instance --type r2 --source my-bucket --embedding-model openai/text-embedding-3-small --ai-search-model openai/gpt-5 --chunk-size 512 --chunk-overlap 64 --max-num-results 10 --reranking --index-method-keyword --index-method-vector --cache --score-threshold 0.5"
+				"ai-search create my-instance --type r2 --source my-bucket --embedding-model openai/text-embedding-3-small --ai-search-model openai/gpt-5 --chunk-size 512 --chunk-overlap 64 --max-num-results 10 --reranking --index-method-keyword --index-method-vector --cache --score-threshold 0.5"
 			);
 			expect(capturedBody).toMatchObject({
 				id: "my-instance",
@@ -222,7 +222,9 @@ describe("ai-search commands", () => {
 					{ once: true }
 				)
 			);
-			await runWrangler("ai-search create blog my-instance --body {}");
+			await runWrangler(
+				"ai-search create my-instance --namespace blog --body {}"
+			);
 			expect(capturedNamespace).toBe("blog");
 		});
 
@@ -244,7 +246,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				'ai-search create default my-instance --type r2 --source my-bucket --index-method-keyword --index-method-vector --source-params-prefix docs/ --source-params-include-items "*.md" --source-params-exclude-items "*.tmp"'
+				'ai-search create my-instance --type r2 --source my-bucket --index-method-keyword --index-method-vector --source-params-prefix docs/ --source-params-include-items "*.md" --source-params-exclude-items "*.tmp"'
 			);
 			expect(capturedBody).toMatchObject({
 				source_params: {
@@ -268,7 +270,7 @@ describe("ai-search commands", () => {
 		}) => {
 			const body = mockCaptureCreate();
 			await runWrangler(
-				"ai-search create default my-instance --type r2 --source my-bucket --source-params-r2-jurisdiction eu"
+				"ai-search create my-instance --type r2 --source my-bucket --source-params-r2-jurisdiction eu"
 			);
 			await expect(body).resolves.toMatchObject({
 				source_params: { r2_jurisdiction: "eu" },
@@ -280,7 +282,7 @@ describe("ai-search commands", () => {
 		}) => {
 			const body = mockCaptureCreate();
 			await runWrangler(
-				"ai-search create default my-instance --type r2 --source my-bucket"
+				"ai-search create my-instance --type r2 --source my-bucket"
 			);
 			await expect(body).resolves.not.toHaveProperty(
 				"source_params.r2_jurisdiction"
@@ -292,7 +294,7 @@ describe("ai-search commands", () => {
 		}) => {
 			const body = mockCaptureCreate();
 			await runWrangler(
-				"ai-search create default my-instance --type r2 --source my-bucket --source-params-r2-jurisdiction custom-jurisdiction"
+				"ai-search create my-instance --type r2 --source my-bucket --source-params-r2-jurisdiction custom-jurisdiction"
 			);
 			await expect(body).resolves.toMatchObject({
 				source_params: { r2_jurisdiction: "custom-jurisdiction" },
@@ -322,7 +324,7 @@ describe("ai-search commands", () => {
 		}) => {
 			const body = mockCaptureCreate();
 			await runWrangler(
-				"ai-search create default my-instance --type web-crawler --source https://example.com --source-params-web-crawler-parse-type discover"
+				"ai-search create my-instance --type web-crawler --source https://example.com --source-params-web-crawler-parse-type discover"
 			);
 			await expect(body).resolves.toMatchObject({
 				source_params: { web_crawler: { parse_type: "discover" } },
@@ -334,7 +336,7 @@ describe("ai-search commands", () => {
 		}) => {
 			const body = mockCaptureCreate();
 			await runWrangler(
-				"ai-search create default my-instance --type web-crawler --source https://example.com --source-params-web-crawler-parse-type sitemap"
+				"ai-search create my-instance --type web-crawler --source https://example.com --source-params-web-crawler-parse-type sitemap"
 			);
 			await expect(body).resolves.toMatchObject({
 				source_params: { web_crawler: { parse_type: "sitemap" } },
@@ -349,15 +351,13 @@ describe("ai-search commands", () => {
 		it("should reject an invalid --parse-type value", async ({ expect }) => {
 			await expect(
 				runWrangler(
-					"ai-search create default my-instance --source-params-web-crawler-parse-type invalid"
+					"ai-search create my-instance --source-params-web-crawler-parse-type invalid"
 				)
 			).rejects.toThrow("Invalid values");
 		});
 
 		it("should error when name is missing", async ({ expect }) => {
 			setIsTTY(false);
-			// cf requires namespace and id positionals rather than Wrangler's
-			// instance-name positional plus an optional namespace flag.
 			await expect(() => runWrangler("ai-search create")).rejects.toThrow(
 				"Not enough non-option arguments"
 			);

@@ -22,13 +22,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actions", {
 			type: "string",
 			description:
-				"List actions for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json.",
+				'List actions for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "drop" | "forward" | "worker", "value"?: [string]}]. ? marks optional keys.',
 		})
 		.option("enabled", { type: "boolean", description: "Routing rule status." })
 		.option("matchers", {
 			type: "string",
 			description:
-				"List of matchers for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of matchers for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "all"}].',
 		})
 		.option("name", { type: "string", description: "Routing rule name." })
 		.option("owner-worker-tag", {
@@ -101,14 +101,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

@@ -13,8 +13,10 @@
  * the runtime's `Operation` describes.
  */
 
+import { bodyUnions, type BodyUnion } from "./body-unions.js";
 import { bodyProperties, discriminator, requiredNames } from "./body.js";
-import { nameWords, obj, type Obj, type Value } from "./js.js";
+import { GenerateError, nameWords, obj, type Obj, type Value } from "./js.js";
+import type { JsonShape } from "./json-shape.js";
 import type {
 	Body,
 	Content,
@@ -48,8 +50,14 @@ export interface ParameterInfo {
 export interface BodyParamInfo {
 	name: string;
 	required: boolean;
+	/**
+	 * The nearest optional object containing this field. A required field is
+	 * required only when this object is present; defaults must not create it.
+	 */
+	optionalParentPath: readonly string[] | null;
 	type: string;
 	itemType?: string;
+	jsonShape?: JsonShape;
 	description?: string;
 	enumValues?: string[];
 	default?: Value;
@@ -133,15 +141,13 @@ export interface OperationInfo {
 	requestContentTypes: string[];
 	/** The model the JSON body is, if it is one. */
 	requestBodyRef?: string;
-	/**
-	 * Whether the operation requires its JSON body, which is an object with
-	 * fields: sent empty, it would say nothing.
-	 */
+	/** Whether the operation requires its JSON object or non-JSON body. */
 	requestBodyMandatory: boolean;
 	requestBodyRequired: string[];
 	requestBodyDescription?: string;
 	multipart?: MultipartInfo;
 	bodyDiscriminator?: BodyDiscriminator;
+	bodyUnions?: BodyUnion[];
 	maxItems?: number;
 	requestBodyIsArray: boolean;
 	/** Each response by status: the success responses, then the others. */
@@ -156,6 +162,51 @@ export function response(
 	status: string
 ): ResponseInfo | undefined {
 	return op.responses.find(([s]) => s === status)?.[1];
+}
+
+/** How a command's response is read. */
+export type OutputKind = "json" | "binary" | "text" | "websocket";
+
+const BINARY = [
+	"application/octet-stream",
+	"application/vnd.google.protobuf",
+	"application/zip",
+	"application/pdf",
+	"application/vnd.tcpdump.pcap",
+	"multipart/form-data",
+];
+const TEXT = ["text/plain", "text/csv", "text/html", "text/vtt"];
+
+/** `deriveOutputKind`. */
+export function outputKind(op: OperationInfo): OutputKind {
+	let success = ["200", "201", "202", "204"]
+		.map((s) => response(op, s))
+		.find((r) => r !== undefined);
+	if (success === undefined && response(op, "101") !== undefined) {
+		return "websocket";
+	}
+	const range = response(op, "2XX");
+	if (range !== undefined) {
+		success = range;
+	}
+	if (success === undefined) {
+		const found = op.responses.map(([s]) => s);
+		throw new GenerateError(
+			`No "success" responses found for:\n  ${op.method}:${op.path}\n Found: ${found.join(",")}`
+		);
+	}
+	if (
+		success.content.some(
+			(c) =>
+				BINARY.includes(c) || c.startsWith("image/") || c.startsWith("audio/")
+		)
+	) {
+		return "binary";
+	}
+	if (success.content.some((c) => TEXT.includes(c))) {
+		return "text";
+	}
+	return "json";
 }
 
 export function isScalar(type: Type, scalar: string): boolean {
@@ -206,13 +257,13 @@ export function resolve(method: Method): OperationInfo {
 		requestBodyMandatory:
 			body !== undefined &&
 			body.required &&
-			jsonResolved !== undefined &&
-			isObject(jsonResolved),
+			(jsonResolved === undefined || isObject(jsonResolved)),
 		requestBodyRequired:
 			jsonResolved && !isArray ? requiredNames(jsonResolved) : [],
 		requestBodyDescription: body && requestBodyDescription(body),
 		multipart: body && multipart(body),
 		bodyDiscriminator: jsonResolved && discriminator(jsonResolved),
+		bodyUnions: jsonResolved && bodyUnions(jsonResolved),
 		maxItems: unwrapped?.kind === "array" ? unwrapped.maxItems : undefined,
 		requestBodyIsArray: isArray,
 		responses: [...method.responses, ...method.errors].map((r) => [
@@ -531,7 +582,10 @@ function multipart(body: Body): MultipartInfo | undefined {
 	for (const field of object.fields) {
 		const name = field.wireName;
 		const resolved = unwrapNull(deref(field.type));
-		const isBinary = isScalar(resolved, "binary");
+		const isBinary =
+			isScalar(resolved, "binary") ||
+			(resolved.kind === "array" &&
+				isScalar(unwrapNull(deref(resolved.elem)), "binary"));
 		let type: MultipartField["type"];
 		switch (resolved.kind) {
 			case "scalar":
@@ -705,7 +759,8 @@ function wire(method: Method, info: Omit<OperationInfo, "wire">): Wire {
 			ct === "application/octet-stream" ||
 			ct === "application/pdf" ||
 			ct === "application/zip" ||
-			ct.startsWith("image/");
+			ct.startsWith("image/") ||
+			ct.startsWith("audio/");
 		if (binary) {
 			noResponse = false;
 			responseType = "binary-response";

@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("certificate-authority", {
 			type: "string",
 			description:
-				"The Certificate Authority that Total TLS certificates will be issued through.",
+				"The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled.",
 			choices: ["google", "lets_encrypt", "ssl_com"],
 		})
 		.coerce("certificate-authority", (value) =>
@@ -79,14 +79,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

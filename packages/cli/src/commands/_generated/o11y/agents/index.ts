@@ -1,4 +1,4 @@
-import $sessions from "./sessions/index.js";
+import $traces from "./traces/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * agents command group
@@ -12,7 +12,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($sessions)
+			.command($traces)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

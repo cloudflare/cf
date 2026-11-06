@@ -19,7 +19,11 @@ import {
 	shouldApplyCloudflareDotEnv,
 } from "./lib/dotenv.js";
 import { handleError } from "./lib/errors.js";
-import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "./lib/global-options.js";
+import {
+	BUILTIN_OPTIONS,
+	GLOBAL_OPTIONS,
+	GLOBAL_OPTION_NAMES,
+} from "./lib/global-options.js";
 import { withHandWrittenDryRun } from "./lib/hand-written-dry-run.js";
 import { lazyCommand, type LazyCommandImporter } from "./lib/lazy-command.js";
 import { disposeLocalRuntime } from "./lib/local.js";
@@ -43,6 +47,34 @@ import type { Options } from "yargs";
 
 export { CliExit } from "./lib/cli-exit.js";
 
+function globalOptionNames(name: string, option: Options): string[] {
+	const alias = option.alias;
+	return [
+		name,
+		...(Array.isArray(alias) ? alias : alias === undefined ? [] : [alias]),
+	];
+}
+
+function flagToken(name: string): string {
+	return name.length === 1 ? `-${name}` : `--${name}`;
+}
+
+const ROOT_OPTION_NAMES = new Set(GLOBAL_OPTION_NAMES);
+
+const GLOBAL_FLAGS_LIST = Object.entries<Options>({
+	...GLOBAL_OPTIONS,
+	...BUILTIN_OPTIONS,
+})
+	.filter(([, option]) => !option.hidden)
+	.map(
+		([name, option]) =>
+			`  ${globalOptionNames(name, option)
+				.sort((left, right) => left.length - right.length)
+				.map(flagToken)
+				.join(", ")}`
+	)
+	.join("\n");
+
 function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
 		if (
@@ -52,14 +84,8 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 		) {
 			return false;
 		}
-		const alias = option.alias;
-		const aliases = Array.isArray(alias)
-			? alias
-			: alias === undefined
-				? []
-				: [alias];
-		return [name, ...aliases].some(
-			(flag) => arg === (flag.length === 1 ? `-${flag}` : `--${flag}`)
+		return globalOptionNames(name, option).some(
+			(flag) => arg === flagToken(flag)
 		);
 	});
 }
@@ -312,6 +338,49 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 	} catch {
 		return undefined;
 	}
+}
+
+// Automatic help skips strict validation, so account for declared positionals
+// before treating the next parsed token as an unknown command.
+function unresolvedHelpCommands(yargsInstance: unknown): string[] {
+	const instance = yargsInstance as {
+		parsed: false | { argv: { _: unknown[]; help?: unknown } };
+		getInternalMethods(): {
+			getContext(): { commands: unknown; fullCommands: unknown };
+		};
+	};
+	const parsed = instance.parsed;
+	if (!parsed || parsed.argv.help !== true) {
+		return [];
+	}
+	const { commands, fullCommands } = instance.getInternalMethods().getContext();
+	if (!Array.isArray(commands) || !Array.isArray(fullCommands)) {
+		return [];
+	}
+	const currentSyntax = fullCommands.at(-1);
+	const positionals =
+		typeof currentSyntax === "string"
+			? (currentSyntax.match(/(?:<[^>]+>|\[[^\]]+\])/g) ?? [])
+			: [];
+	if (
+		positionals.some((positional) => positional.slice(1, -1).endsWith(".."))
+	) {
+		return [];
+	}
+	return parsed.argv._.slice(commands.length + positionals.length).map(String);
+}
+
+class CliUsageError extends Error {
+	constructor(
+		message: string,
+		readonly helpCommand: string
+	) {
+		super(message);
+	}
+}
+
+function helpCommandFor(command: string | undefined): string {
+	return `cf${command ? ` ${command}` : ""} --help`;
 }
 
 function excludesTelemetry(command: string): boolean {
@@ -572,25 +641,11 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  *   --local               Route via a cf-spawned Miniflare session
  *   --persist-to          Directory holding the local persisted state
  *
- * ## Reserved (future)
+ * ## Reserved
  *
- * The following names are reserved for upcoming features. Do NOT
- * register them as per-command or new cross-product flags. If a
- * generated command's OpenAPI schema collides, forge / the generator
- * must rename or scope the op-level flag rather than shadow these.
- *
- *   --remote              Force production routing when local
- *                         auto-discovery is the default.
- *   --cwd                 Run as if from a different working
- *                         directory.
- *   --config, -c          Explicit Cloudflare config-file path.
- *   --experimental-*      Namespace for opt-in feature gates.
- *   --json                Output-format toggle. Output is all-JSON
- *   --ndjson              today; these names are claimed so a future
- *   --pretty              change of default doesn't collide.
- *
- * See `AGENTS.md` (root) and `packages/cli/AGENTS.md` for the same
- * list in prose form.
+ * `FUTURE_OPTION_NAMES` and `flagOwnership` in `lib/global-options.ts`
+ * list the names cf reserves beyond these, and why. Reserve a new
+ * cross-cutting flag there before shipping it.
  */
 export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 	const {
@@ -748,6 +803,21 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			if (err) {
 				throw err;
 			}
+			// Yargs checks the missing command before strict options. Let its
+			// next validation report an unknown global flag when one is present.
+			if (msg === "You need to specify a command" && cli.parsed) {
+				const hasUnknownOption = Object.keys(cli.parsed.argv).some(
+					(name) =>
+						name !== "_" &&
+						name !== "$0" &&
+						!ROOT_OPTION_NAMES.has(
+							name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)
+						)
+				);
+				if (hasUnknownOption) {
+					return;
+				}
+			}
 			// Yargs considers hidden commands when matching recommendations.
 			// Its usage list contains only commands visible at the current depth,
 			// so let parsing continue to the normal unknown-command failure when
@@ -781,26 +851,40 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				yargsInstance.showHelp("log");
 				return;
 			}
-			// Anything else (notably yargs' default "Not enough non-option
-			// arguments" from a *leaf* command invoked without its
-			// required positional) is a genuine usage error. Print the
-			// command's help first so the user sees valid usage, then
-			// throw so the error block renders below it (closer to the
-			// prompt).
-			const error = new Error(msg);
-			const resolutionFailure = commandResolutionFailure(cli, msg);
+			const error = new CliUsageError(msg, helpCommandFor(resolvedCommand));
+			const resolutionFailure =
+				commandResolutionFailure(cli, msg) ??
+				(resolvedCommand === undefined && /^Unknown arguments?:/.test(msg)
+					? commandResolutionFailure(cli, MISSING_COMMAND_MESSAGE)
+					: undefined);
 			if (resolutionFailure) {
 				onCommandResolutionFailed?.(resolutionFailure, error);
 			}
-			yargsInstance.showHelp("error");
 			throw error;
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
 	// yargs emits help rather than relying on a root-level usage string.
 	const showHelp = cli.showHelp.bind(cli);
-	cli.showHelp = (level?: string | ((help: string) => void)) =>
-		showHelp((help) => {
+	cli.showHelp = (level?: string | ((help: string) => void)) => {
+		// Runtime-schema handlers render their own help with showHelp("log").
+		const unknownCommands =
+			typeof level === "function" ? unresolvedHelpCommands(cli) : [];
+		if (unknownCommands.length > 0) {
+			const error = new CliUsageError(
+				`Unknown command: ${unknownCommands[0]}`,
+				helpCommandFor(resolvedCommandName(cli))
+			);
+			const resolutionFailure = commandResolutionFailure(cli, error.message);
+			if (resolutionFailure) {
+				onCommandResolutionFailed?.(
+					{ ...resolutionFailure, unknownTokens: unknownCommands },
+					error
+				);
+			}
+			throw error;
+		}
+		return showHelp((help) => {
 			const command = resolvedCommandName(cli);
 			if (command !== undefined) {
 				onCommandResolved?.(command);
@@ -815,6 +899,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				console.error(message);
 			}
 		});
+	};
 	const getHelp = cli.getHelp.bind(cli);
 	cli.getHelp = async () =>
 		decorateHelp(await getHelp(), resolvedCommandName(cli));
@@ -946,7 +1031,22 @@ export async function main(): Promise<void> {
 			resolvedCommand ?? resolvedCommandName(cli),
 			failure
 		);
-		throw handleError(err);
+		const handledError = handleError(err);
+		if (err instanceof CliUsageError) {
+			if (
+				err.helpCommand === "cf --help" &&
+				/^Unknown arguments?:/.test(err.message)
+			) {
+				console.error(`\nGlobal flags:\n${GLOBAL_FLAGS_LIST}`);
+			}
+			console.error(
+				"\n" +
+					theme.italic(
+						`For more information, run ${theme.code(err.helpCommand)}`
+					)
+			);
+		}
+		throw handledError;
 	} finally {
 		dispose();
 		// Miniflare keeps workerd and a loopback server alive. The disposer is

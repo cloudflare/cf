@@ -24,10 +24,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Defines the unique ID for this custom detection.",
 			demandOption: true,
 		})
-		.option("id", {
-			type: "string",
-			description: "Defines the unique ID for this custom detection.",
-		})
 		.option("password", {
 			type: "string",
 			description:
@@ -80,11 +76,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
 										password: resolveFileToken(
 											argv["password"] as string | undefined,
 											"password",
@@ -99,14 +90,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -120,7 +113,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					password: resolveFileToken(
 						argv["password"] as string | undefined,
 						"password",

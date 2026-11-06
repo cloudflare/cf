@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body-json", {
 			type: "string",
 			description:
-				"Arbitrary json as request body. Provide as a JSON object or @path/to/file.json.",
+				'Arbitrary json as request body. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("body-plain-text", {
 			type: "string",
@@ -95,12 +95,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cookies", {
 			type: "string",
 			description:
-				"Cookies added to tracing request. Provide as a JSON object or @path/to/file.json.",
+				'Cookies added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("headers", {
 			type: "string",
 			description:
-				"Headers added to tracing request. Provide as a JSON object or @path/to/file.json.",
+				'Headers added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("method", {
 			type: "string",
@@ -258,12 +258,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

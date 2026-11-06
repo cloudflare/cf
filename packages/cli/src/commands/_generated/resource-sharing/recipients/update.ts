@@ -6,31 +6,38 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/resource-sharing.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing recipients update <share-id>\n\nReplaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`); org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint."
+			"$0 resource-sharing recipients update <share-id>\n\nReplaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`) and the list is non-empty; org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint."
 		)
 		.positional("share-id", {
 			type: "string",
 			description: "Share identifier tag.",
 			demandOption: true,
 		})
-		.option("account-id-path", {
-			type: "string",
-			description: "Account identifier.",
-			demandOption: true,
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
 		})
 		.option("body", {
@@ -50,44 +57,58 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "resource-sharing recipients update",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing recipients update",
 						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${argv["account-id-path"] == null ? "<account-id-path>" : encodeURIComponent(String(argv["account-id-path"]))}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
-						pathParams: {
-							"account-id-path": String(argv["account-id-path"] ?? ""),
-							"share-id": String(argv["share-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
+						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [], 100)
+								: undefined,
 					});
 					return;
 				}
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body, [], 100) : undefined;
 				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `Accounts omitted from the list are disassociated from the share.`,
+					}))
+				) {
+					return;
+				}
+
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
-							account_id_path: argv["account-id-path"],
+							account_id: accountId,
 							share_id: argv["share-id"],
 						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 			}
 		),

@@ -2,5 +2,5 @@
 export default {
 	method: "GET",
 	path: () => "/certificates",
-	query: ["zone_id", "page", "per_page", "limit", "offset"],
+	query: ["zone_id", "page", "per_page"],
 } as const;

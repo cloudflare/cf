@@ -12,6 +12,7 @@ import {
 	ACCOUNT_PATH_PARAMS,
 	accountOrZoneLocal,
 	isBody,
+	isWorkerName,
 	pathParamReadKey,
 	queryArgs,
 	ZONE_PATH_PARAMS,
@@ -43,10 +44,7 @@ function pathValue(ctx: Ctx, name: string): string {
 	if (ZONE_PATH_PARAMS.includes(name)) {
 		return ctx.firstPositionalIsZone ? "zone_id" : "zoneId";
 	}
-	if (
-		ctx.needsWorkerName &&
-		(name === "script_name" || name === "scriptName")
-	) {
+	if (ctx.needsWorkerName && isWorkerName(name)) {
 		return "scriptName";
 	}
 	return argvKey(pathParamReadKey(ctx.derived.args, name));
@@ -81,6 +79,7 @@ export function canEmitTypedCall(ctx: Ctx): boolean {
 	const bodyOptional =
 		w.hasRequest &&
 		!w.bodyRequired &&
+		(!ctx.op.requestBodyMandatory || w.body !== undefined) &&
 		!ctx.op.headerParams.some((p) => p.required) &&
 		ctx.op.queryParams.every((p) => !p.required || queryNames.includes(p.name));
 	const hasNoWireBody = !ctx.derived.hasBody || bodyOptional;
@@ -143,7 +142,6 @@ export function makesTypedCall(ctx: Ctx): boolean {
 	const bypass =
 		d.hasBody &&
 		ctx.op.requestContentTypes.includes("application/json") &&
-		(ctx.op.maxItems === undefined || ctx.op.maxItems <= 0) &&
 		canEmitTypedJsonBodyCall(ctx);
 	const assembled = d.hasBodyParams && canEmitTypedBodyCall(ctx);
 	const plain = !d.hasBodyParams && !ctx.hasHeaders && canEmitTypedCall(ctx);

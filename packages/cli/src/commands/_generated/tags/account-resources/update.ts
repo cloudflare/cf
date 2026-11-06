@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tags account-resources update\n\nCreates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource."
+			"$0 tags account-resources update\n\nCreates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("if-match", {
 			type: "string",
@@ -153,6 +153,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -169,8 +171,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,
@@ -232,17 +234,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"vectorize_index",
 							"worker",
 						] as const
-					);
-				}
-
-				if (
-					argv["resource-type"] === "worker_version" &&
-					argv["worker-id"] === undefined
-				) {
-					argv["worker-id"] = await promptForRequiredField(
-						"worker-id",
-						"Worker ID is required only for worker_version resources",
-						{ question: "Enter value for --worker-id" }
 					);
 				}
 

@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("batch", {
 			type: "string",
 			description:
-				"The batch field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The batch field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"sql": string, "params"?: [string]}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -54,6 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "A single query object or a batch query object",
 		})
 		.conflicts("params", ["batch"])
+		.implies("params", ["sql"])
 		.conflicts("sql", ["batch"])
 		.conflicts("batch", ["params", "sql"]);
 }
@@ -97,12 +98,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Loading`, async () =>
 						client.send(operation, {
 							body: bodyData,

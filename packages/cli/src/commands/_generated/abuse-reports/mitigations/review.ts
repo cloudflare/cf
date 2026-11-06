@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("appeals", {
 			type: "string",
 			description:
-				"List of mitigations to appeal. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of mitigations to appeal. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "reason": "removed" | "misclassified"}].',
 		})
 		.option("data-city", { type: "string", description: "The data.city field" })
 		.option("data-company", {
@@ -126,7 +126,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"data-urls",
 				"data-zip-code",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"data-city",
 					"data-country",
@@ -257,12 +257,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

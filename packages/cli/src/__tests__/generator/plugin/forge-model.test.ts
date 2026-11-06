@@ -110,6 +110,70 @@ function listing(schema: Json) {
 }
 
 describe("the forge model", () => {
+	it.each([
+		{ type: "array", items: { type: "string", format: "binary" } },
+		{ $ref: "#/components/schemas/Files" },
+		{
+			type: "array",
+			nullable: true,
+			items: { $ref: "#/components/schemas/File" },
+		},
+	])(
+		"recognizes multipart binary arrays through schema references: %j",
+		(schema) => {
+			const files = generateFiles(
+				doc(
+					{
+						"/uploads": {
+							post: {
+								"x-fern-sdk-group-name": "uploads",
+								"x-fern-sdk-method-name": "create",
+								summary: "Upload files",
+								requestBody: {
+									required: true,
+									content: {
+										"multipart/form-data": {
+											schema: {
+												type: "object",
+												properties: {
+													files: schema,
+													attachments: schema,
+													labels: { type: "array", items: { type: "string" } },
+												},
+												required: ["files"],
+											},
+										},
+									},
+								},
+								responses: ok(),
+							},
+						},
+					},
+					{
+						File: { type: "string", format: "binary" },
+						Files: {
+							type: "array",
+							items: { $ref: "#/components/schemas/File" },
+						},
+					}
+				)
+			);
+			const code = files.get("uploads/create.ts") ?? "";
+			for (const field of ["files", "attachments"]) {
+				expect(code).toContain(
+					`.option('${field}', {"type":"string","array":true`
+				);
+				expect(code).toContain(`for (const value of argv["${field}"])`);
+			}
+			expect(code).toContain(
+				"formData.append('files', new Blob([fileContent])"
+			);
+			expect(code).toContain(
+				"formData.append('labels', typeof v === 'string' ? v : JSON.stringify(v))"
+			);
+		}
+	);
+
 	it("keeps UUID body fields and referenced UUID arrays as string flags", () => {
 		const files = generateFiles(
 			create(
@@ -366,6 +430,101 @@ describe("the forge model", () => {
 		expect(code).toContain("promptForRequiredField('display-name'");
 	});
 
+	it("scopes nested required fields to their optional object", () => {
+		const code = file(
+			create({
+				type: "object",
+				properties: {
+					rule_settings: {
+						type: "object",
+						properties: {
+							add_headers: { type: "string" },
+							forward: {
+								type: "object",
+								required: ["worker_id"],
+								properties: {
+									enabled: { type: "boolean" },
+									worker_id: { type: "string" },
+								},
+							},
+							redirect: {
+								type: "object",
+								required: ["target_uri"],
+								properties: {
+									include_context: { type: "boolean" },
+									target_uri: { type: "string" },
+								},
+							},
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain(
+			"required when any --rule-settings-forward-* flag is set"
+		);
+		expect(code).toContain(
+			"required when any --rule-settings-redirect-* flag is set"
+		);
+		expect(code).not.toContain(
+			"required when any --rule-settings-* flag is set"
+		);
+	});
+
+	it("carries requirements through required nested objects", () => {
+		const code = file(
+			create({
+				type: "object",
+				properties: {
+					settings: {
+						type: "object",
+						required: ["format"],
+						properties: {
+							format: {
+								type: "object",
+								required: ["type"],
+								properties: { type: { type: "string" } },
+							},
+							label: { type: "string" },
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain("required when any --settings-* flag is set");
+		expect(code).toContain("const missing = ['settings-format-type']");
+	});
+
+	it("recognizes an optional nested object under a required object", () => {
+		const code = file(
+			create({
+				type: "object",
+				required: ["settings"],
+				properties: {
+					settings: {
+						type: "object",
+						properties: {
+							format: {
+								type: "object",
+								required: ["type"],
+								properties: {
+									compression: { type: "string" },
+									type: { type: "string" },
+								},
+							},
+							label: { type: "string" },
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain("required when any --settings-format-* flag is set");
+		expect(code).not.toContain("required when any --settings-* flag is set");
+	});
+
 	it("makes the members of a union conflict", () => {
 		const code = file(
 			create(
@@ -392,6 +551,47 @@ describe("the forge model", () => {
 		expect(code).toContain(".conflicts('name', ['id'])");
 		expect(code).toContain(".conflicts('id', ['name'])");
 	});
+
+	it.each(["audio/mpeg", "audio/wav"])(
+		"preserves %s responses without a binary schema format",
+		(contentType) => {
+			const files = generateFiles(
+				doc({
+					"/speech": {
+						post: {
+							"x-fern-sdk-group-name": "speech",
+							"x-fern-sdk-method-name": "create",
+							summary: "Generate speech",
+							requestBody: {
+								content: {
+									"application/json": {
+										schema: {
+											type: "object",
+											properties: { prompt: { type: "string" } },
+										},
+									},
+								},
+							},
+							responses: {
+								"200": {
+									description: "Audio bytes",
+									content: { [contentType]: { schema: { type: "string" } } },
+								},
+							},
+						},
+					},
+				})
+			);
+			const command = files.get("speech/create.ts") ?? "";
+			expect(command).toContain("fetchRawBytes(");
+			expect(command).toContain("method: 'POST'");
+			expect(command).toContain("writeRawOutput(");
+			expect(command).not.toContain("formatOutput(");
+			expect(operation(files, "speech/create")).toContain(
+				'response: "binary-response"'
+			);
+		}
+	);
 
 	it("describes the operation a typed call sends", () => {
 		const textGet = doc({
@@ -583,6 +783,33 @@ describe("the forge model", () => {
 		expect(code).toContain(
 			"client.send(operation, { body: {}, account_id: accountId })"
 		);
+	});
+
+	it("allows an empty required multipart body when none of its fields is required", () => {
+		const code = file(
+			doc({
+				"/accounts/{account_id}/things": {
+					post: {
+						"x-fern-sdk-group-name": "things",
+						"x-fern-sdk-method-name": "create",
+						summary: "Create a thing",
+						parameters: [account()],
+						requestBody: {
+							required: true,
+							content: {
+								"multipart/form-data": {
+									schema: { type: "object", properties: {} },
+								},
+							},
+						},
+						responses: ok(),
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain("client.send(operation, { account_id: accountId })");
+		expect(code).not.toContain("is required for this command");
 	});
 
 	it("requires --body for a required body none of whose fields has a flag", () => {

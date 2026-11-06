@@ -60,6 +60,7 @@ export function bodyParam(
 		type,
 		apiFieldPath: path,
 		required: false,
+		optionalParentPath: null,
 		sensitive: false,
 		...rest,
 	};

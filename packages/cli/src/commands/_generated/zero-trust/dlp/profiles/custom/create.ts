@@ -68,7 +68,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"The entries field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The entries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)} | {"enabled": boolean, "name": string, "words": [string]})]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("ocr-enabled", {
@@ -79,12 +79,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sensitivity-levels", {
 			type: "string",
 			description:
-				"Sensitivity levels to associate with the profile. Provide as a JSON array of objects or @path/to/file.json.",
+				'Sensitivity levels to associate with the profile. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
 		})
 		.option("shared-entries", {
 			type: "string",
 			description:
-				"Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles). Provide as a JSON array of objects or @path/to/file.json.",
+				'Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "entry_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -100,14 +100,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"context-awareness-enabled",
 				"context-awareness-skip-files",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"context-awareness-enabled",
 					"context-awareness-skip-files",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --context_awareness-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --context-awareness-* flag is set`
 					);
 				}
 			}
@@ -188,12 +188,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

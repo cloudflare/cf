@@ -1,0 +1,152 @@
+import operation from "../_operations/organizations/list.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * list command
+ * @generated from apis/overlays/organizations.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 organizations list\n\nRetrieve a list of organizations a particular user has access to. At most one of `containing.account`, `containing.user`, or `containing.organization` may be provided."
+		)
+		.option("id", {
+			type: "string",
+			array: true,
+			description:
+				"Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements\nby repeating the query value.",
+		})
+		.option("name", {
+			type: "string",
+			description:
+				"(case-sensitive) Filter the list of organizations to where the name is equal to a\nparticular string.",
+		})
+		.option("name-starts-with", {
+			type: "string",
+			description:
+				"(case-insensitive) Filter the list of organizations to where the name starts with a\nparticular string.",
+		})
+		.option("name-ends-with", {
+			type: "string",
+			description:
+				"(case-insensitive) Filter the list of organizations to where the name ends with a particular\nstring.",
+		})
+		.option("name-contains", {
+			type: "string",
+			description:
+				"(case-insensitive) Filter the list of organizations to where the name contains a particular\nstring.",
+		})
+		.option("containing-account", {
+			type: "string",
+			description:
+				"Filter the list of organizations to the ones that contain this particular\naccount.",
+		})
+		.option("containing-user", {
+			type: "string",
+			description:
+				'Filter the list of organizations to the ones that contain this particular\nuser.\n\nIMPORTANT: Just because an organization "contains" a user is not a\nrepresentation of any authorization or privilege to manage any resources\ntherein. An organization "containing" a user simply means the user is managed by\nthat organization.',
+		})
+		.option("containing-organization", {
+			type: "string",
+			description:
+				"Filter the list of organizations to the ones that contain this particular\norganization.",
+		})
+		.option("parent-id", {
+			type: "string",
+			description:
+				'Filter the list of organizations to the ones that are a sub-organization\nof the specified organization.\n\n"null" is a valid value to provide for this parameter. It means "where\nan organization has no parent (i.e. it is a \'root\' organization)."',
+		})
+		.option("member-email", {
+			type: "string",
+			description:
+				"Filter organizations to those where the given user, by email, is an active member of\nthat exact organization. This does not include hierarchy-derived access.",
+		})
+		.option("order-by", {
+			type: "string",
+			description:
+				"Field to order results by. Currently supported values: `name`.\nWhen not specified, results are ordered by hierarchy.",
+			choices: ["name"],
+		})
+		.option("direction", {
+			type: "string",
+			description:
+				"Sort direction for the `order_by` field. Defaults to `asc` when `order_by` is\nspecified.",
+			choices: ["asc", "desc"],
+		})
+		.option("page-token", {
+			type: "string",
+			description:
+				"An opaque token returned from the last list response that when\nprovided will retrieve the next page.\n\nParameters used to filter the retrieved list must remain in subsequent\nrequests with a page token.",
+		})
+		.option("page-size", {
+			type: "number",
+			description: "The amount of items to return. Defaults to 10.",
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "list",
+	describe: "List organizations the user has access to",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "organizations list",
+				classification: {
+					safeFlags: ["order-by", "direction", "dry-run"],
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				const queryParams: Record<string, unknown> = {
+					id: argv["id"],
+					name: argv["name"],
+					"name.startsWith": argv["name-starts-with"],
+					"name.endsWith": argv["name-ends-with"],
+					"name.contains": argv["name-contains"],
+					"containing.account": argv["containing-account"],
+					"containing.user": argv["containing-user"],
+					"containing.organization": argv["containing-organization"],
+					"parent.id": argv["parent-id"],
+					"member.email": argv["member-email"],
+					order_by: argv["order-by"],
+					direction: argv["direction"],
+					page_token: argv["page-token"],
+					page_size: argv["page-size"],
+				};
+				if (argv.dryRun) {
+					formatDryRun({
+						command: "cf organizations list",
+						method: "GET",
+						url: `https://api.cloudflare.com/client/v4/organizations`,
+						pathParams: {},
+						query: queryParams,
+						bodyKind: "none",
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+
+				const result = await withProgress(`Loading`, async () =>
+					client.send(operation, queryParams)
+				);
+				formatOutput(result, { successLabel: `Loaded` });
+			}
+		),
+};
+
+export default command;

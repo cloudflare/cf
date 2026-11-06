@@ -1,5 +1,234 @@
 # cf
 
+## 1.0.0-beta.28
+
+### Minor Changes
+
+- ab9613a: Update the generated command surface for Forge OpenAPI release
+  `57b5196b0cb64ae395bebc71f9a933eeda99bf64`.
+- 7ef1a2e: Validate array body limits instead of batching requests
+
+  Reject JSON array bodies that exceed the API schema's `maxItems`, including inline
+  input, files, and dry runs. Remove automatic request batching for every HTTP method
+  so array limits cannot silently change an operation's meaning or lose results.
+
+### Patch Changes
+
+- 775a37f: Include destructive confirmation flags in command metadata
+
+  Expose `--force` and its `-f` alias in shell completions and other metadata consumers for generated DELETE commands and operations that require confirmation.
+
+- b5c5756: Correct action labels for commands that require confirmation
+
+  Show Updating/Updated for confirmed PUT and PATCH operations and neutral
+  Processing/Done labels for confirmed POST actions. Keep their operation-specific
+  warnings and `--force` behavior, and reject missing required `--body` input before
+  asking for confirmation.
+
+- a0eed39: Upload binary multipart arrays as file parts
+
+  Fix `cf ai to-markdown --file path` to upload under the API's `files` field.
+  Accept multiple files with `--files @first.html @second.pdf` or repeated
+  `--files` flags, preserving each file's bytes and filename.
+
+- 7619cbd: Normalize generated option names in command metadata
+
+  Use the command builder's kebab-case normalization for option metadata so
+  completions and tools advertise the flags accepted by existing commands.
+
+- 707e9ac: Describe plain-text `--body` correctly in command metadata
+
+  For commands that send `--body` as `text/plain`, command metadata used by
+  `cf tools` now gives the same description as `--help` instead of asking for
+  raw JSON. This includes media types with parameters such as
+  `text/plain;charset=UTF-8`. When no description is provided, both metadata
+  and `--help` use plain-text wording.
+
+- 5b21733: Keep CLI usage errors concise
+
+  Exit with an error for unknown top-level and nested command names followed by `--help` or `-h`. Show concise errors and italic hints to the relevant help command. Unknown global flags also list the available global flags.
+
+- f1e1d11: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.2` → `0.9.3`
+  - `@cloudflare/build-output-utils`: `0.9.9` → `0.9.10`
+  - `@cloudflare/cli-shared-helpers`: `0.3.3` → `0.3.4`
+  - `@cloudflare/codemods`: `0.7.3` → `0.7.4`
+  - `@cloudflare/config`: `0.30.1` → `0.30.2`
+  - `@cloudflare/containers-shared`: `0.23.8` → `0.23.9`
+  - `@cloudflare/deploy-helpers`: `0.25.0` → `0.26.0`
+  - `@cloudflare/runtime-types`: `0.1.22` → `0.1.23`
+  - `@cloudflare/workers-auth`: `0.15.6` → `0.16.0`
+  - `@cloudflare/workers-utils`: `0.51.1` → `0.52.0`
+  - `miniflare`: `5.20261103.0-beta` → `5.20261104.0-beta`
+
+- 3f3a6af: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.1` → `0.9.2`
+  - `@cloudflare/build-output-utils`: `0.9.8` → `0.9.9`
+  - `@cloudflare/cli-shared-helpers`: `0.3.2` → `0.3.3`
+  - `@cloudflare/codemods`: `0.7.2` → `0.7.3`
+  - `@cloudflare/config`: `0.30.0` → `0.30.1`
+  - `@cloudflare/containers-shared`: `0.23.7` → `0.23.8`
+  - `@cloudflare/deploy-helpers`: `0.24.5` → `0.25.0`
+  - `@cloudflare/runtime-types`: `0.1.21` → `0.1.22`
+  - `@cloudflare/workers-auth`: `0.15.5` → `0.15.6`
+  - `@cloudflare/workers-utils`: `0.51.0` → `0.51.1`
+  - `miniflare`: `5.20261102.0-beta` → `5.20261103.0-beta`
+
+- 5953756: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.0` → `0.9.1`
+  - `@cloudflare/build-output-utils`: `0.9.7` → `0.9.8`
+  - `@cloudflare/cli-shared-helpers`: `0.3.1` → `0.3.2`
+  - `@cloudflare/codemods`: `0.7.1` → `0.7.2`
+  - `@cloudflare/config`: `0.29.1` → `0.30.0`
+  - `@cloudflare/containers-shared`: `0.23.6` → `0.23.7`
+  - `@cloudflare/deploy-helpers`: `0.24.4` → `0.24.5`
+  - `@cloudflare/runtime-types`: `0.1.20` → `0.1.21`
+  - `@cloudflare/workers-auth`: `0.15.4` → `0.15.5`
+  - `@cloudflare/workers-utils`: `0.50.2` → `0.51.0`
+  - `miniflare`: `5.20261101.0-beta` → `5.20261102.0-beta`
+
+- 12fddf0: Require input for mandatory plain-text request bodies
+
+  Reject commands that omit a required plain-text body before authentication or API requests. Accept either `--body` or `--file`, preserve explicitly supplied empty raw bodies, and mention both input options in upload validation errors. Reject explicitly supplied empty file paths for raw and multipart uploads.
+
+- f3ebc1e: Expose pagination metadata on stderr
+
+  Print the API's `result_info`, including cursors and page counts, on stderr so
+  list results can be paged with `--cursor` or the endpoint's page flags. Keep
+  stdout payloads unchanged for scripts, preserve metadata for object results
+  and passthrough requests, and suppress the notice with `--quiet`.
+
+- 1de7b1b: Validate `--body` before authenticating or confirming
+
+  Commands now parse `--body`, and enforce its item limit, before
+  authenticating or showing a confirmation prompt. A malformed body or an
+  unreadable `@file` therefore fails straight away, without a login or account
+  lookup first and without asking you to confirm a destructive action. On JSON
+  endpoints, an empty `--body ""` is now rejected as invalid JSON instead of
+  being ignored, and `--dry-run` shows the `--file` path for raw-body uploads.
+  Multipart flags still keep `--body` literal, and `--file` still takes
+  precedence over `--body`; early validation only parses a body the command
+  will send.
+
+- 16cd290: Fix scoped API token validity reporting in `cf auth whoami`
+
+  Check the token verification status so restricted user and account detail
+  endpoints do not make an active token appear invalid. Report unknown validity
+  when none of the available checks can establish the token's status.
+
+## 1.0.0-beta.27
+
+### Minor Changes
+
+- bbe47a8: Give API fields that collide with cf's own flags distinct names
+
+  Generated commands no longer drop, merge, or shadow API fields whose names match a cf flag. `cf precursor update --detection-mode` sets the previously unreachable `mode`, and `cf o11y telemetry query` and `cf o11y shared-queries create` gain `--preview`.
+
+  One behavior change: on `cf cloudforce-one priority-intelligence profile update`, the organization profile is now `--organization-profile`, and `--profile` selects the auth profile again. An API parameter named `force` can no longer take cf's confirmation `--force`. `cf ai run` and `cf registrar registrations create` accept schema fields named after cf flags as `--input-<name>` (for example `--input-quiet`), and `cf schema` lists the flag behind a path or query parameter when it has one.
+
+- 8129166: Update the generated command surface for Forge OpenAPI release `319dc756af2a642b3122b4db7e3b79ac1fbec7d8`
+
+  Keep `cf auth scopes` working with the OAuth scope catalogue's new IAM group.
+
+- aaa712d: Update the generated command surface for Forge OpenAPI release
+  `ec5b5772f5cf7dfb16c49f3527671edfa37bb666`.
+
+### Patch Changes
+
+- cde5fa3: Explain how account-or-zone commands pick their scope
+
+  Commands that serve either an account or a zone, such as `cf rulesets list`
+  and `cf load-balancers account list`, now say in `--help` that they run
+  against your account unless you pass `--zone`, and that they ignore
+  `CLOUDFLARE_ZONE_ID`.
+
+- edc13df: Prepare generated commands to preserve audio API responses
+
+  Recognize `audio/*` responses as binary data in the command generator and its
+  operation descriptors, including schemas without `format: binary`. Future commands
+  generated for audio endpoints will write the exact bytes to stdout so they can be
+  redirected to a file. No commands generated from the currently pinned OpenAPI
+  specification declare audio responses, so this change does not alter the behavior
+  of any currently shipped command.
+
+- cde5fa3: Reject `--zone` without a value
+
+  An empty `--zone` used to fall back to `CLOUDFLARE_ZONE_ID`, and `--dry-run`
+  previewed a `/zones//` path. On commands that serve both an account and a
+  zone, it also switched to zone scope. cf now stops with
+  `--zone requires a non-empty value.` and, as with `--mode`, rejects a repeated
+  `--zone`.
+
+  Commands that forward arguments, such as `cf containers ssh`, used to drop a
+  `-z` with no value, so `cf containers ssh <id> ls -z` ran plain `ls`. That now
+  stops with the same error. Put forwarded arguments after `--`, as in
+  `cf containers ssh <id> -- ls -z`.
+
+- 8e5f074: Keep required HTTP header parameters out of generated JSON request bodies.
+
+  Flags such as `--if-match` are now sent only as headers rather than also being copied into the body under a generated field name.
+
+- 57bca06: Validate nested tagged unions when assembling request bodies from flags.
+
+  Preserve branch-specific required fields, closed-object rules, and available
+  array limits, including unions selected by enum values without an explicit
+  discriminator. Apply the checks to requests and dry-run previews.
+  Preserve the alternatives of enclosing unions and retain explicit `--body`
+  input as an escape hatch from these projected checks.
+
+- 3043819: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.3` → `0.9.0`
+  - `@cloudflare/build-output-utils`: `0.9.6` → `0.9.7`
+  - `@cloudflare/cli-shared-helpers`: `0.3.0` → `0.3.1`
+  - `@cloudflare/codemods`: `0.7.0` → `0.7.1`
+  - `@cloudflare/config`: `0.29.0` → `0.29.1`
+  - `@cloudflare/containers-shared`: `0.23.5` → `0.23.6`
+  - `@cloudflare/deploy-helpers`: `0.24.3` → `0.24.4`
+  - `@cloudflare/runtime-types`: `0.1.19` → `0.1.20`
+  - `@cloudflare/workers-auth`: `0.15.3` → `0.15.4`
+  - `@cloudflare/workers-utils`: `0.50.1` → `0.50.2`
+  - `miniflare`: `5.20261023.3-beta` → `5.20261101.0-beta`
+
+- aa0ee04: Correct generated validation for nested optional request-body objects.
+
+  Required fields are now enforced only when their containing object is supplied. This prevents flags in sibling objects from incorrectly requiring one another and keeps defaults from creating absent optional objects.
+
+  Raw `--body` requests continue to bypass validation for individual body flags.
+
+- 350c808: Preserve alternative-specific requirements in generated body flags
+
+  Keep nested fields with the same name distinct when deriving `oneOf` constraints. Workers VPC service flags now require only the tunnel for the selected host alternative and accept dual-stack IPv4 and IPv6 hosts.
+
+  Reject incompatible flag combinations only when no alternative supports them and the variants declare required fields. Keep all-optional configuration updates compatible with cleanup payloads that combine settings from different alternatives.
+
+## 1.0.0-beta.26
+
+### Minor Changes
+
+- 45e01e0: Rank `cf deploy` first for static site and Pages deploy searches
+
+  `cf cli search` now leaves out commands hidden from help, and hand-written commands can add search keywords or be excluded from results through their metadata. `cf deploy` gains keywords for static sites, Pages projects, and full-stack applications, and its description now says it deploys all three. The advisory `cf pages deploy` command, which only points to `cf deploy`, no longer appears in search results.
+
+- 8f8a0ce: Update the generated command surface for Forge OpenAPI release
+  `e2d50301c8e4b04ebc02f6632c3a317d4960819d`.
+
+### Patch Changes
+
+- 0569848: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.2` → `0.8.3`
+  - `@cloudflare/cli-shared-helpers`: `0.2.10` → `0.3.0`
+  - `@cloudflare/containers-shared`: `0.23.4` → `0.23.5`
+  - `@cloudflare/deploy-helpers`: `0.24.2` → `0.24.3`
+  - `@cloudflare/runtime-types`: `0.1.18` → `0.1.19`
+  - `@cloudflare/workers-auth`: `0.15.2` → `0.15.3`
+  - `@cloudflare/workers-utils`: `0.50.0` → `0.50.1`
+  - `miniflare`: `5.20261023.2-beta` → `5.20261023.3-beta`
+
 ## 1.0.0-beta.25
 
 ### Minor Changes

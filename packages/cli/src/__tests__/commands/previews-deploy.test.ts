@@ -38,6 +38,7 @@ const mocks = vi.hoisted(() => ({
 	initDeployHelpersContext: vi.fn(),
 	previewBuildOutput: vi.fn(),
 	parseWorkerConfig: vi.fn(),
+	prepareStaticAssetsBuildOutput: vi.fn(),
 	readBuildOutput: vi.fn(),
 	runBuild: vi.fn(),
 }));
@@ -91,6 +92,14 @@ vi.mock("../../commands/build/index.js", () => ({
 	runBuild: mocks.runBuild,
 }));
 
+vi.mock("../../commands/deploy/static-assets.js", () => ({
+	prepareStaticAssetsBuildOutput: mocks.prepareStaticAssetsBuildOutput,
+	staticAssetsDirectoryOption: {
+		type: "string",
+		description: "Static assets directory",
+	},
+}));
+
 const previewResult = {
 	preview: {
 		id: "preview-id",
@@ -125,6 +134,7 @@ describe("cf previews deploy", () => {
 			standard: { normalized: [], builtImages: [] },
 			durableObjects: { builtImages: [] },
 		});
+		mocks.prepareStaticAssetsBuildOutput.mockResolvedValue(false);
 	});
 
 	it("builds and uploads Preview Build Output", async () => {
@@ -300,7 +310,15 @@ describe("cf previews deploy", () => {
 		mocks.previewBuildOutput.mockResolvedValue(previewResult);
 
 		await expect(
-			runCf(["previews", "deploy", "feature", "--worker", "api", "--quiet"])
+			runCf([
+				"previews",
+				"deploy",
+				"--preview-name",
+				"feature",
+				"--worker",
+				"api",
+				"--quiet",
+			])
 		).resolves.toEqual({ exitCode: 0 });
 
 		expect(mocks.runBuild).toHaveBeenCalledWith(
@@ -412,7 +430,10 @@ describe("cf previews deploy", () => {
 		});
 		mocks.previewBuildOutput.mockResolvedValue(previewResult);
 
-		await runPreviewDeploy({} as Parameters<typeof runPreviewDeploy>[0]);
+		await expect(runCf(["previews", "deploy", "--quiet"])).resolves.toEqual({
+			exitCode: 0,
+		});
+		expect(mocks.getBranchName).toHaveBeenCalledOnce();
 
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"account-id",
@@ -476,6 +497,7 @@ describe("cf previews deploy", () => {
 			runCf([
 				"previews",
 				"deploy",
+				"--preview-name",
 				"feature",
 				"--prebuilt",
 				"--mode",
@@ -483,6 +505,7 @@ describe("cf previews deploy", () => {
 				"--quiet",
 			])
 		).resolves.toEqual({ exitCode: 0 });
+		expect(mocks.getBranchName).not.toHaveBeenCalled();
 		expect(mocks.runBuild).not.toHaveBeenCalled();
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"account-id",
@@ -535,6 +558,7 @@ describe("cf previews deploy", () => {
 					runCf([
 						"previews",
 						"deploy",
+						"--preview-name",
 						"feature",
 						"--prebuilt",
 						...(quiet ? ["--quiet"] : []),
@@ -625,6 +649,48 @@ describe("cf previews deploy", () => {
 		});
 	});
 
+	it("deploys a static assets directory without running the delegated build", async () => {
+		const rootConfig = { buildContext: { isPreview: true } };
+		const worker = {
+			config: { type: "worker", name: "preview-worker" },
+			assetsDir: "/project/assets",
+		};
+		mocks.prepareStaticAssetsBuildOutput.mockResolvedValue(true);
+		mocks.readBuildOutput.mockResolvedValue({
+			rootConfig,
+			workers: { default: worker },
+		});
+		mocks.getAuthToken.mockResolvedValue("token");
+		mocks.getAccountId.mockResolvedValue("account-id");
+		mocks.createDeployContext.mockReturnValue({
+			logger: { log: vi.fn(), info: vi.fn() },
+		});
+		mocks.previewBuildOutput.mockResolvedValue(previewResult);
+
+		await expect(
+			runCf([
+				"previews",
+				"deploy",
+				"public",
+				"--preview-name",
+				"feature",
+				"--quiet",
+			])
+		).resolves.toEqual({ exitCode: 0 });
+
+		expect(mocks.prepareStaticAssetsBuildOutput).toHaveBeenCalledWith(
+			expect.objectContaining({ directory: "public" }),
+			{ isPreview: true }
+		);
+		expect(mocks.runBuild).not.toHaveBeenCalled();
+		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
+			"account-id",
+			{ name: "feature", json: true },
+			expect.objectContaining({ assets: { directory: "/project/assets" } }),
+			expect.any(Object)
+		);
+	});
+
 	it("returns the Preview deployment as JSON", () => {
 		expect(createPreviewDeployOutput(previewResult)).toEqual({
 			type: "preview",
@@ -646,7 +712,7 @@ describe("cf previews deploy", () => {
 			await expect(
 				runPreviewDeploy({} as Parameters<typeof runPreviewDeploy>[0])
 			).rejects.toThrow(
-				"The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy PREVIEW_NAME"
+				"The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy --preview-name PREVIEW_NAME"
 			);
 			expect(mocks.runBuild).not.toHaveBeenCalled();
 		}

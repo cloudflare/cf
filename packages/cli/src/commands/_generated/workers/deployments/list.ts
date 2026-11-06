@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("worker", {
 			type: "string",
-			alias: "script-name",
+			alias: ["script-name", "worker-id"],
 			description: "Name of the script.",
 		})
 		.option("since", {
@@ -61,6 +61,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
+
 				const queryParams: Record<string, unknown> = {
 					since: argv["since"],
 					until: argv["until"],
@@ -72,8 +75,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers deployments list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/deployments`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/deployments`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						query: queryParams,
 						bodyKind: "none",
 					});
@@ -82,8 +85,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
-				argv["worker"] = scriptName;
 
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {

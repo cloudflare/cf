@@ -6,7 +6,9 @@ export default {
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/resource-library/applications/${request.id}`,
 	errors: {
+		403: "ForbiddenError",
 		409: "ConflictError",
+		429: "TooManyRequestsError",
 		502: "BadGatewayError",
 	},
 } as const;

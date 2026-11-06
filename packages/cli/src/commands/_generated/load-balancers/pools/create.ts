@@ -23,6 +23,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 load-balancers pools create\n\nCreate a new pool.")
+		.option("check-regions", {
+			type: "string",
+			array: true,
+			description:
+				"A list of regions from which to run health checks. Null means every Cloudflare data center.",
+		})
 		.option("description", {
 			type: "string",
 			description: "A human-readable description of the pool.",
@@ -33,6 +39,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).",
 			default: true,
+		})
+		.option("health-sources", {
+			type: "string",
+			array: true,
+			description:
+				'A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The load balancer uses the first source that has data and falls back to the next. Currently accepted values are null or the exact array ["regional", "global"]; any other combination is rejected. Null (the default) behaves like ["local", "global"]. ["regional", "global"] makes each region steer on its own health, falling back to the global decision when a region has no fresh data. Setting regional requires at least one region in check_regions.',
 		})
 		.option("latitude", {
 			type: "number",
@@ -93,6 +105,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed.",
 		})
+		.option("networks", {
+			type: "string",
+			array: true,
+			description: "List of networks where Load Balancer or Pool is enabled.",
+		})
 		.option("notification-email", {
 			type: "string",
 			description:
@@ -136,7 +153,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("origins", {
 			type: "string",
 			description:
-				"The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address"?: string, "enabled"?: boolean, "flatten_cname"?: boolean, "header"?: {...}, "name"?: string, ...more}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -187,12 +204,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										check_regions: argv["check-regions"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
 											"text"
 										),
 										enabled: argv["enabled"],
+										health_sources: argv["health-sources"],
 										latitude: argv["latitude"],
 										load_shedding: {
 											default_percent: argv["load-shedding-default-percent"],
@@ -217,6 +236,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
+										networks: argv["networks"],
 										notification_email: resolveFileToken(
 											argv["notification-email"] as string | undefined,
 											"notification-email",
@@ -240,12 +260,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -266,12 +288,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					check_regions: argv["check-regions"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
 						"text"
 					),
 					enabled: argv["enabled"],
+					health_sources: argv["health-sources"],
 					latitude: argv["latitude"],
 					load_shedding: {
 						default_percent: argv["load-shedding-default-percent"],
@@ -296,6 +320,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
+					networks: argv["networks"],
 					notification_email: resolveFileToken(
 						argv["notification-email"] as string | undefined,
 						"notification-email",

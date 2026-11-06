@@ -33,12 +33,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actions-remediation-types", {
 			type: "string",
 			description:
-				"Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json.",
+				'Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"remediation_type_id": string}].',
 		})
 		.option("actions-webhook-configs", {
 			type: "string",
 			description:
-				"Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json.",
+				'Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"webhook_config_id": string}].',
 		})
 		.option("applies-to-all-integrations", {
 			type: "boolean",
@@ -131,12 +131,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

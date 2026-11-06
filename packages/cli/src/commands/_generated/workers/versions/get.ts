@@ -9,6 +9,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	getWorkerName,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -28,16 +29,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Identifier for the version, which can be a UUID, a UUID prefix (minimum length 8), or the literal "latest" to operate on the most recently created version.',
 			demandOption: true,
 		})
-		.option("worker-id", {
+		.option("worker", {
 			type: "string",
+			alias: ["script-name", "worker-id"],
 			description: "Identifier for the Worker, which can be ID or name.",
-			demandOption: true,
 		})
 		.option("include", {
 			type: "string",
 			description:
-				"Whether to include the `modules` property of the version in the response, which contains code and sourcemap content and may add several megabytes to the response size.",
-			choices: ["modules"],
+				"Optional properties to include in the response. `modules` includes the `modules` property, which contains code and may add several megabytes to the response size. `modules,sourcemaps` also includes the version's source maps in `modules`.",
+			choices: ["modules", "modules,sourcemaps"],
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -62,6 +63,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
+
 				const queryParams: Record<string, unknown> = {
 					include: argv["include"],
 				};
@@ -70,9 +74,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers versions get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker-id"] == null ? "<worker-id>" : encodeURIComponent(String(argv["worker-id"]))}/versions/${argv["version-id"] == null ? "<version-id>" : encodeURIComponent(String(argv["version-id"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${encodeURIComponent(scriptName)}/versions/${argv["version-id"] == null ? "<version-id>" : encodeURIComponent(String(argv["version-id"]))}`,
 						pathParams: {
-							"worker-id": String(argv["worker-id"] ?? ""),
+							worker: String(argv["worker"] ?? ""),
 							"version-id": String(argv["version-id"] ?? ""),
 						},
 						query: queryParams,
@@ -87,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
 						account_id: accountId,
-						worker_id: argv["worker-id"],
+						worker_id: scriptName,
 						version_id: argv["version-id"],
 						...queryParams,
 					})

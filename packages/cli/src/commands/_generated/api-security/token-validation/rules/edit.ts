@@ -48,12 +48,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("selector-exclude", {
 			type: "string",
 			description:
-				"Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json.",
+				'Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"operation_ids"?: [string]}]. ? marks optional keys.',
 		})
 		.option("selector-include", {
 			type: "string",
 			description:
-				"Select all matching operations. Provide as a JSON array of objects or @path/to/file.json.",
+				'Select all matching operations. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"host"?: [string]}]. ? marks optional keys.',
 		})
 		.option("title", {
 			type: "string",
@@ -159,14 +159,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

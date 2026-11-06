@@ -10,7 +10,6 @@ import {
 	ACCOUNT_PATH_PARAMS,
 	accountOrZoneLocal,
 	type Arg,
-	CLI_ONLY_OPTIONS,
 	type Derived,
 	derive,
 	downgradeOptionalParents,
@@ -18,12 +17,14 @@ import {
 	headerArgs,
 	isBody,
 	isPath,
+	isWorkerName,
 	options,
 	pathParamReadKey,
 	positionals,
 	queryArgs,
 	ZONE_PATH_PARAMS,
 } from "../args.js";
+import { requiresConfirmation } from "../confirmation.js";
 import {
 	GenerateError,
 	kebab,
@@ -31,12 +32,13 @@ import {
 	replaceParams,
 	templateParams,
 } from "../js.js";
-import { type OperationInfo, response } from "../operation.js";
+import {
+	type OperationInfo,
+	type OutputKind,
+	outputKind,
+} from "../operation.js";
 import { variantPromptBlock } from "./handler.js";
 import type { Method } from "../commands.js";
-
-/** How a command's response is read. */
-export type OutputKind = "json" | "binary" | "text" | "websocket";
 
 /** Everything the emitters of one command read. */
 export interface Ctx {
@@ -153,45 +155,6 @@ export function argLocalIdent(name: string): string {
 	return kebab(name).replaceAll("-", "_");
 }
 
-const BINARY = [
-	"application/octet-stream",
-	"application/vnd.google.protobuf",
-	"application/zip",
-	"application/pdf",
-	"application/vnd.tcpdump.pcap",
-	"multipart/form-data",
-];
-const TEXT = ["text/plain", "text/csv", "text/html", "text/vtt"];
-
-/** `deriveOutputKind`. */
-export function outputKind(op: OperationInfo): OutputKind {
-	let success = ["200", "201", "202", "204"]
-		.map((s) => response(op, s))
-		.find((r) => r !== undefined);
-	if (success === undefined && response(op, "101") !== undefined) {
-		return "websocket";
-	}
-	const range = response(op, "2XX");
-	if (range !== undefined) {
-		success = range;
-	}
-	if (success === undefined) {
-		const found = op.responses.map(([s]) => s);
-		throw new GenerateError(
-			`No "success" responses found for:\n  ${op.method}:${op.path}\n Found: ${found.join(",")}`
-		);
-	}
-	if (
-		success.content.some((c) => BINARY.includes(c) || c.startsWith("image/"))
-	) {
-		return "binary";
-	}
-	if (success.content.some((c) => TEXT.includes(c))) {
-		return "text";
-	}
-	return "json";
-}
-
 /** The context needed to substitute a path template's placeholders. */
 export interface PathTemplate {
 	needsWorkerName: boolean;
@@ -214,10 +177,7 @@ export function substitutePath(path: string, ctx: PathTemplate): string {
 		if (ACCOUNT_PATH_PARAMS.includes(name)) {
 			return ctx.accountId;
 		}
-		if (
-			ctx.needsWorkerName &&
-			(name === "script_name" || name === "scriptName")
-		) {
+		if (ctx.needsWorkerName && isWorkerName(name)) {
 			return ctx.scriptName;
 		}
 		if (ZONE_PATH_PARAMS.includes(name)) {
@@ -253,7 +213,11 @@ const READ_SHAPED = [
 ];
 
 /** `buildLabels`. */
-function labels(httpMethod: string, method: string): [string, string] {
+function labels(
+	httpMethod: string,
+	method: string,
+	requireConfirmation: boolean
+): [string, string] {
 	if (method === "validate" && httpMethod.toUpperCase() !== "DELETE") {
 		return ["Validating", "Validated"];
 	}
@@ -262,7 +226,9 @@ function labels(httpMethod: string, method: string): [string, string] {
 	}
 	switch (httpMethod.toUpperCase()) {
 		case "POST":
-			return ["Creating", "Created"];
+			return requireConfirmation
+				? ["Processing", "Done"]
+				: ["Creating", "Created"];
 		case "PUT":
 		case "PATCH":
 			return ["Updating", "Updated"];
@@ -285,7 +251,6 @@ export function context(
 	root: string
 ): [Ctx, string] {
 	const kind = outputKind(op);
-	const workers = resource === "workers";
 	const path = op.path;
 	const combined = hasAccountOrZoneScope(path);
 	const pathNeedsAccount =
@@ -304,18 +269,15 @@ export function context(
 	const positional = positionals(derived);
 	const firstPositionalIsZone = positional[0]?.isZone === true;
 	const needsZoneId = firstPositionalIsZone || pathNeedsZone || combined;
-	const pathNeedsWorker =
-		workers &&
-		(path.includes("{script_name}") || path.includes("{scriptName}"));
+	const pathNeedsWorker = derived.args.some((a) => isPath(a) && a.isWorkerName);
 	const firstPositionalIsWorkerName = positional[0]?.isWorkerName === true;
 	const needsWorkerName = firstPositionalIsWorkerName || pathNeedsWorker;
 
 	const bodyFields = derived.args.filter(isBody);
 	const [block, needsText] = variantPromptBlock(op, bodyFields);
 
-	const requireConfirmation = method.requireConfirmation;
-	const isDelete =
-		op.method.toUpperCase() === "DELETE" || requireConfirmation !== undefined;
+	const requireConfirmation = method.requireConfirmation || undefined;
+	const isDelete = requiresConfirmation(method, op);
 
 	const positionalStr = positional
 		.map((a) => {
@@ -328,9 +290,11 @@ export function context(
 	const command =
 		positionalStr === "" ? method.name : `${method.name} ${positionalStr}`;
 
-	const labelMethod =
-		requireConfirmation !== undefined ? "DELETE" : op.method.toUpperCase();
-	const [progress, success] = labels(labelMethod, method.name);
+	const [progress, success] = labels(
+		op.method,
+		method.name,
+		requireConfirmation !== undefined
+	);
 
 	const allPathParamNames: string[] = [];
 	for (const name of [
@@ -343,11 +307,7 @@ export function context(
 	}
 	const requiredOptionArgs = options(derived).filter(
 		(o) =>
-			o.required &&
-			!CLI_ONLY_OPTIONS.includes(o.name) &&
-			o.origin.in !== "query" &&
-			!isPath(o) &&
-			!o.isWorkerName
+			o.required && o.origin.in !== "query" && !isPath(o) && !o.isWorkerName
 	);
 	const hasParams = queryArgs(derived).length > 0;
 	const hasHeaders = headerArgs(derived).length > 0;
@@ -359,7 +319,7 @@ export function context(
 		positional,
 		firstPositionalIsZone,
 		accountId: "${accountId}",
-		scriptName: "${scriptName}",
+		scriptName: "${encodeURIComponent(scriptName)}",
 		zone: "${argv.zoneId}",
 		param,
 	});

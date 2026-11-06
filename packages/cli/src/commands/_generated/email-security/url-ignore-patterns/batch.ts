@@ -27,22 +27,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"IDs of the URL ignore patterns to delete. Provide as a JSON array of objects or @path/to/file.json.",
+				'IDs of the URL ignore patterns to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
+				'Partial updates to apply — each entry carries the pattern\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "pattern"?: string} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"URL ignore patterns to create. Provide as a JSON array of objects or @path/to/file.json.",
+				'URL ignore patterns to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"pattern": string, "comments"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
+				'Full replacements to apply — each entry carries the pattern\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"pattern": string, "comments"?: (string | null)} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -98,6 +98,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -111,12 +113,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["deletes"] === undefined) {
@@ -147,10 +149,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					posts: parseObjectArray(argv["posts"], "posts"),
 					puts: parseObjectArray(argv["puts"], "puts"),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

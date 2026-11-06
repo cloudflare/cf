@@ -393,6 +393,32 @@ describe("cf registrar registrations create", () => {
 		]);
 	});
 
+	it("takes a field named force as --input-force, apart from cf's --force", async () => {
+		server.use(
+			extensionHandler(["travel"], {
+				...REGISTRATION_SCHEMA,
+				properties: {
+					...REGISTRATION_SCHEMA.properties,
+					force: { type: "boolean" },
+				},
+			}),
+			registrationHandler()
+		);
+
+		const { exitCode } = await create(DOMAIN, ...REQUIRED, "--force");
+		expect(exitCode).toBe(0);
+		expect(registrations[0]).not.toHaveProperty("force");
+
+		const forced = await create(
+			DOMAIN,
+			...REQUIRED,
+			"--input-force",
+			"--force"
+		);
+		expect(forced.exitCode).toBe(0);
+		expect(registrations[1]).toMatchObject({ force: true });
+	});
+
 	it("requires the acknowledgement the extension declares", async () => {
 		server.use(extensionHandler());
 		promptForAcknowledgementMock.mockRejectedValue(

@@ -59,7 +59,7 @@ cf dev
 
 `cf dev` and `cf build` detect supported projects, run autoconfiguration when needed, and invoke the canonical framework command or an installed Cloudflare implementation. Successful builds produce standardized Build Output.
 
-`cf deploy` builds by default and then uploads that output. `cf workers versions create` uploads a version without deploying it, and `cf workers triggers deploy` applies the configured routes and cron schedules. Pass `--prebuilt` to any of these commands to reuse existing Build Output.
+`cf deploy` builds by default and then uploads that output. `cf workers versions create` uploads a version without deploying it, and `cf workers triggers deploy` applies the configured routes and cron schedules. Pass `--prebuilt` to any of these commands to reuse existing Build Output. Alternatively, `cf deploy [directory]`, `cf previews deploy [directory]`, and `cf workers versions create [directory]` upload prebuilt assets-only output without invoking project tooling; omit the directory for projects with server-side code.
 
 ## Local resources
 

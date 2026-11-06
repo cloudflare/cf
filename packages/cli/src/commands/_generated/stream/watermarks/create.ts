@@ -123,7 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["scale"] !== undefined
 				) {
 					const formData = new FormData();
-					if (argv.file) {
+					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
 							"file",
@@ -173,7 +173,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(

@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("credentials", {
 			type: "string",
 			description:
-				"Credentials for the integration. Provide as a JSON object or @path/to/file.json.",
+				'Credentials for the integration. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("dlp-profiles", {
 			type: "string",
@@ -158,11 +158,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.file !== undefined
+						? undefined
+						: argv.body !== undefined
+							? parseBody(argv.body, [
+									{ path: ["credentials"], flag: "credentials" },
+								])
+							: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.file) {
+				if (argv.file !== undefined) {
 					const fileContent = readFileForFlag(argv.file);
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
@@ -179,10 +187,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["credentials"], flag: "credentials" },
-					]);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,

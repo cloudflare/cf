@@ -11,7 +11,6 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -75,6 +74,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				if (
+					argv.body === undefined &&
+					argv.file === undefined &&
+					argv["loa-document"] === undefined
+				) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -85,7 +93,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["loa-document"] !== undefined
 				) {
 					const formData = new FormData();
-					if (argv.file) {
+					if (argv.file !== undefined) {
 						const fileContent = readFileForFlag(argv.file);
 						formData.append(
 							"file",
@@ -118,7 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
+				if (argv.body !== undefined) {
 					// Endpoint does not accept application/json — send --body as raw bytes,
 					// resolving @file references as binary file contents.
 					const bodyData = resolveFileToken(argv.body, "body", "binary");
@@ -135,12 +143,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 			}
 		),

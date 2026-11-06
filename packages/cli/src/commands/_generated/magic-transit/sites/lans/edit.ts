@@ -61,10 +61,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "A valid CIDR notation representing an IP range.",
 		})
 		.option("physport", { type: "number", description: "The physport field" })
+		.option("remote-subnets", {
+			type: "string",
+			description:
+				'The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"local_alias_prefix": string, "remote_prefix": string}].',
+		})
 		.option("routed-subnets", {
 			type: "string",
 			description:
-				"The routed_subnets field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The routed_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"next_hop": string, "prefix": string, "nat"?: {...}}]. ? marks optional keys.',
 		})
 		.option("static-addressing-address", {
 			type: "string",
@@ -78,7 +83,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("static-addressing-dhcp-server-dhcp-options", {
 			type: "string",
 			description:
-				"Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json.",
+				'Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "type": "text" | "hex" | "ip" | ...more, "value": string}].',
 		})
 		.option("static-addressing-dhcp-server-dhcp-pool-end", {
 			type: "string",
@@ -100,7 +105,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("static-addressing-dhcp-server-reservations", {
 			type: "string",
 			description:
-				"Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json.",
+				'Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("static-addressing-secondary-address", {
 			type: "string",
@@ -136,13 +141,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"static-addressing-secondary-address",
 				"static-addressing-virtual-address",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["static-addressing-address"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static_addressing-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static-addressing-* flag is set`
 					);
 				}
 			}
@@ -199,6 +204,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												),
 											},
 											physport: argv["physport"],
+											remote_subnets: parseObjectArray(
+												argv["remote-subnets"],
+												"remote-subnets"
+											),
 											routed_subnets: parseObjectArray(
 												argv["routed-subnets"],
 												"routed-subnets"
@@ -272,12 +281,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -310,6 +321,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 						},
 						physport: argv["physport"],
+						remote_subnets: parseObjectArray(
+							argv["remote-subnets"],
+							"remote-subnets"
+						),
 						routed_subnets: parseObjectArray(
 							argv["routed-subnets"],
 							"routed-subnets"

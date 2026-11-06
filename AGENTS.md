@@ -78,8 +78,10 @@ In the rules below, `src/` means `packages/cli/src/`.
   supplies status-level hints.
 - **Keep source config access scoped.** Normal startup and API commands read
   only account/compliance settings from `cloudflare.config.ts`. Worker
-  validation belongs to `cf workers types` and the type generation reused by
-  `cf init`. Other project workflows consume Build Output through
+  validation belongs to `cf workers types`, the type generation reused by
+  `cf init`, and the assets-only `[directory]` artifact producer shared by
+  Worker upload workflows, which rejects server-side entrypoints and Containers.
+  Other project workflows consume Build Output through
   `readBuildOutput()` from `@cloudflare/build-output-utils`; do not compose
   output paths by hand. Invalid Worker bindings must not break unrelated API
   commands. cf supports ES module Workers only, not service-worker format.
@@ -109,8 +111,9 @@ In the rules below, `src/` means `packages/cli/src/`.
   and telemetry belong in `root-commands.ts`. Keep each command's `meta.ts`
   sidecar and the typed `hand-written-meta.ts` list in sync.
 - Let strict yargs own unknown-option validation. Keep emitter options and
-  metadata synchronized; check existing global/reserved flag names before
-  introducing a flag.
+  metadata synchronized. Reserve a new cross-cutting flag in
+  `src/lib/global-options.ts` before introducing it; generation fails on any
+  API field that would take a flag cf owns.
 - stdout carries command output (JSON for structured results, raw payloads
   for raw endpoints). Prompts, progress, notices, warnings, and success lines
   go to stderr. Reuse `lib/ui/theme.ts`, `lib/ui/log.ts`, and `printSuccess`.

@@ -144,7 +144,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("schema-fields", {
 			type: "string",
 			description:
-				"The schema.fields field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The schema.fields field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"type": "int32"} | {"type": "int64"} | {"type": "float32"} | ...more) & {"name": string, "metadata_key"?: (string | null), "required"?: boolean, "sql_name"?: string})]. ? marks optional keys.',
 		})
 		.option("schema-inferred", {
 			type: "boolean",
@@ -170,40 +170,70 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-credentials-access-key-id", [
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-credentials-secret-access-key", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-credentials-secret-access-key", [
+			"sink-config-credentials-access-key-id",
 		])
 		.conflicts("sink-config-file-naming-prefix", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-file-naming-prefix", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-file-naming-strategy", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-file-naming-strategy", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
 		])
 		.conflicts("sink-config-file-naming-suffix", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-file-naming-suffix", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-jurisdiction", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-jurisdiction", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
 		])
 		.conflicts("sink-config-partitioning-time-pattern", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-partitioning-time-pattern", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-path", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-path", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
 		])
 		.conflicts("sink-config-namespace", [
 			"sink-config-credentials-access-key-id",
@@ -214,6 +244,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"sink-config-jurisdiction",
 			"sink-config-partitioning-time-pattern",
 			"sink-config-path",
+		])
+		.implies("sink-config-namespace", [
+			"sink-config-table-name",
+			"sink-config-token",
 		])
 		.conflicts("sink-config-table-name", [
 			"sink-config-credentials-access-key-id",
@@ -264,28 +298,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"sink-config-table-name",
 				"sink-config-token",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const requiredConflicts: Record<string, string[]> = {
-					"sink-config-credentials-access-key-id": [
-						"sink-config-namespace",
-						"sink-config-table-name",
-						"sink-config-token",
-					],
-					"sink-config-credentials-secret-access-key": [
-						"sink-config-namespace",
-						"sink-config-table-name",
-						"sink-config-token",
-					],
-				};
-				const missing = [
-					"sink-config-account-id",
-					"sink-config-bucket",
-					"sink-config-credentials-access-key-id",
-					"sink-config-credentials-secret-access-key",
-				].filter(
-					(k) =>
-						argv[k] === undefined &&
-						!(requiredConflicts[k] ?? []).some((x) => argv[x] !== undefined)
+			if (!argv.body && groupSet) {
+				const missing = ["sink-config-account-id", "sink-config-bucket"].filter(
+					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
@@ -304,7 +319,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"format-type",
 				"format-row-group-bytes",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["format-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
@@ -470,12 +485,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

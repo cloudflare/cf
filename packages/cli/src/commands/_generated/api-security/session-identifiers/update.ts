@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("auth-id-characteristics", {
 			type: "string",
 			description:
-				"The auth_id_characteristics field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The auth_id_characteristics field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"name": string, "type": "header" | "cookie"} | {"name": string, "type": "jwt"})].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -80,14 +80,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

@@ -81,7 +81,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("dns-search-suffixes", {
 			type: "string",
 			description:
-				"List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"suffix": string, "description"?: string}]. ? marks optional keys.',
 		})
 		.option("enable-device-credential-authentication", {
 			type: "boolean",
@@ -95,7 +95,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude", {
 			type: "string",
 			description:
-				"List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of routes excluded in the WARP client\'s tunnel. Both \'exclude\' and \'include\' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"address": string, "description"?: string} | {"host": string, "description"?: string})]. ? marks optional keys.',
 		})
 		.option("exclude-office-ips", {
 			type: "boolean",
@@ -135,7 +135,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("include", {
 			type: "string",
 			description:
-				"List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of routes included in the WARP client\'s tunnel. Both \'exclude\' and \'include\' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"address": string, "description"?: string} | {"host": string, "description"?: string})]. ? marks optional keys.',
 		})
 		.option("lan-allow-minutes", {
 			type: "number",
@@ -223,14 +223,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"browser-extension-config-proxy-control",
 				"browser-extension-config-proxy-enabled",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"browser-extension-config-proxy-control",
 					"browser-extension-config-proxy-enabled",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --browser_extension_config-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --browser-extension-config-* flag is set`
 					);
 				}
 			}
@@ -245,7 +245,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"global-acceleration-masque-endpoints",
 				"global-acceleration-wireguard-endpoints",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"global-acceleration-api-endpoints",
 					"global-acceleration-enabled",
@@ -254,7 +254,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --global_acceleration-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --global-acceleration-* flag is set`
 					);
 				}
 			}
@@ -265,14 +265,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"virtual-networks-allowed",
 				"virtual-networks-default",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"virtual-networks-allowed",
 					"virtual-networks-default",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --virtual_networks-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --virtual-networks-* flag is set`
 					);
 				}
 			}
@@ -415,12 +415,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 logs datasets update <dataset-id>\n\nUpdates the enabled state and/or field configuration of an account or zone dataset."
+			"$0 logs datasets update <dataset-id>\n\nUpdates the enabled state and/or field configuration of an account or zone dataset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("dataset-id", {
 			type: "string",
@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("fields", {
 			type: "string",
 			description:
-				"Controls which fields the API ingests after the update. Defaults\nto all available fields when absent.\n. Provide as a JSON array of objects or @path/to/file.json.",
+				'Controls which fields the API ingests after the update. Defaults\nto all available fields when absent. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "name": string}].',
 		})
 		.option("filter", {
 			type: "string",
@@ -120,6 +120,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -136,8 +138,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

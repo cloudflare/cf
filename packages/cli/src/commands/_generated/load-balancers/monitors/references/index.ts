@@ -1,4 +1,4 @@
-import $get from "./get.js";
+import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * references command group
@@ -11,7 +11,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "List load balancing resources that use a monitor",
 
 	builder: (yargs) => {
-		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
+		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

@@ -59,7 +59,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("previews-base-config-environment-variables", {
 			type: "string",
 			description:
-				"Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json.",
+				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("previews-base-config-path-excludes", {
 			type: "string",
@@ -101,7 +101,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("production-settings-environment-variables", {
 			type: "string",
 			description:
-				"Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json.",
+				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("production-settings-path-excludes", {
 			type: "string",
@@ -266,12 +266,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

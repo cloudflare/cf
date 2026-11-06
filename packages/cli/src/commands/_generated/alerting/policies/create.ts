@@ -343,17 +343,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("mechanisms-email", {
 			type: "string",
 			description:
-				"The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("mechanisms-pagerduty", {
 			type: "string",
 			description:
-				"The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("mechanisms-webhooks", {
 			type: "string",
 			description:
-				"The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "Name of the policy." })
 		.option("dry-run", {
@@ -478,12 +478,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);

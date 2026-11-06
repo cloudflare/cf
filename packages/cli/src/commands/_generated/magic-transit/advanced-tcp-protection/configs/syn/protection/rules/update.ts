@@ -39,6 +39,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("rate-sensitivity", {
 			type: "string",
 			description:
@@ -95,6 +100,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"mitigation-type",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										rate_sensitivity: resolveFileToken(
 											argv["rate-sensitivity"] as string | undefined,
 											"rate-sensitivity",
@@ -104,12 +114,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -131,6 +143,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					mitigation_type: resolveFileToken(
 						argv["mitigation-type"] as string | undefined,
 						"mitigation-type",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					rate_sensitivity: resolveFileToken(

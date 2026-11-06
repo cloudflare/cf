@@ -17,6 +17,7 @@ import {
 	parseNestedArray,
 	parseObjectArray,
 } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -52,7 +53,47 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("intent-clauses", {
 			type: "string",
 			description:
-				"The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actors": [string], "attacker_countries": [string], "categories": [string], "cves": [string], "keywords": [string], ...more}].',
+		})
+		.option("intent-exclusions-actors", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.actors field",
+		})
+		.option("intent-exclusions-attacker-countries", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.attacker_countries field",
+		})
+		.option("intent-exclusions-categories", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.categories field",
+		})
+		.option("intent-exclusions-cves", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.cves field",
+		})
+		.option("intent-exclusions-keywords", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.keywords field",
+		})
+		.option("intent-exclusions-target-countries", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.target_countries field",
+		})
+		.option("intent-exclusions-target-industries", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.target_industries field",
+		})
+		.option("intent-exclusions-techniques", {
+			type: "string",
+			array: true,
+			description: "The intent.exclusions.techniques field",
 		})
 		.option("intent-indicators", {
 			type: "string",
@@ -88,7 +129,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("query-branches", {
 			type: "string",
 			description:
-				"Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json.",
+				'Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json. Shape: [[({"field": "attacker" | "attackerCountry" | "category" | ...more, "op": "equals" | "not" | "gt" | ...more, "value": string} | ...more)]].',
 		})
 		.option("query-version", {
 			type: "number",
@@ -134,13 +175,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["dataset-scope-type", "dataset-scope-dataset-ids"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["dataset-scope-type"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset_scope-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset-scope-* flag is set`
 					);
 				}
 			}
@@ -149,10 +190,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.check((argv) => {
 			const groupSet = [
 				"intent-clauses",
+				"intent-exclusions-actors",
+				"intent-exclusions-attacker-countries",
+				"intent-exclusions-categories",
+				"intent-exclusions-cves",
+				"intent-exclusions-keywords",
+				"intent-exclusions-target-countries",
+				"intent-exclusions-target-industries",
+				"intent-exclusions-techniques",
 				"intent-indicators",
 				"intent-unsupported-terms",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"intent-clauses",
 					"intent-indicators",
@@ -167,10 +216,40 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			return true;
 		})
 		.check((argv) => {
+			const groupSet = [
+				"intent-exclusions-actors",
+				"intent-exclusions-attacker-countries",
+				"intent-exclusions-categories",
+				"intent-exclusions-cves",
+				"intent-exclusions-keywords",
+				"intent-exclusions-target-countries",
+				"intent-exclusions-target-industries",
+				"intent-exclusions-techniques",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"intent-exclusions-actors",
+					"intent-exclusions-attacker-countries",
+					"intent-exclusions-categories",
+					"intent-exclusions-cves",
+					"intent-exclusions-keywords",
+					"intent-exclusions-target-countries",
+					"intent-exclusions-target-industries",
+					"intent-exclusions-techniques",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-exclusions-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
 			const groupSet = ["query-branches", "query-version"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["query-branches"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
@@ -183,6 +262,39 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["dataset_scope"],
+		selector: "type",
+		variants: [
+			{
+				values: ["default"],
+				schema: {
+					type: "object",
+					properties: { type: { enum: ["default"] } },
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["datasets"],
+				schema: {
+					type: "object",
+					properties: {
+						dataset_ids: {
+							type: "array",
+							items: { type: "string" },
+							maxItems: 50,
+						},
+						type: { enum: ["datasets"] },
+					},
+					required: ["dataset_ids", "type"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -215,62 +327,80 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										dataset_scope: {
-											type: argv["dataset-scope-type"],
-											dataset_ids: argv["dataset-scope-dataset-ids"],
-										},
-										digest_interval_hours: argv["digest-interval-hours"],
-										intent: {
-											clauses: parseObjectArray(
-												argv["intent-clauses"],
-												"intent-clauses"
+								: validateBodyUnions(
+										compactBody({
+											dataset_scope: {
+												type: argv["dataset-scope-type"],
+												dataset_ids: argv["dataset-scope-dataset-ids"],
+											},
+											digest_interval_hours: argv["digest-interval-hours"],
+											intent: {
+												clauses: parseObjectArray(
+													argv["intent-clauses"],
+													"intent-clauses"
+												),
+												exclusions: {
+													actors: argv["intent-exclusions-actors"],
+													attacker_countries:
+														argv["intent-exclusions-attacker-countries"],
+													categories: argv["intent-exclusions-categories"],
+													cves: argv["intent-exclusions-cves"],
+													keywords: argv["intent-exclusions-keywords"],
+													target_countries:
+														argv["intent-exclusions-target-countries"],
+													target_industries:
+														argv["intent-exclusions-target-industries"],
+													techniques: argv["intent-exclusions-techniques"],
+												},
+												indicators: argv["intent-indicators"],
+												unsupported_terms: argv["intent-unsupported-terms"],
+											},
+											labels: argv["labels"],
+											model: resolveFileToken(
+												argv["model"] as string | undefined,
+												"model",
+												"text"
 											),
-											indicators: argv["intent-indicators"],
-											unsupported_terms: argv["intent-unsupported-terms"],
-										},
-										labels: argv["labels"],
-										model: resolveFileToken(
-											argv["model"] as string | undefined,
-											"model",
-											"text"
-										),
-										notification_mode: argv["notification-mode"],
-										priority: argv["priority"],
-										query: {
-											branches: parseNestedArray(
-												argv["query-branches"],
-												"query-branches"
+											notification_mode: argv["notification-mode"],
+											priority: argv["priority"],
+											query: {
+												branches: parseNestedArray(
+													argv["query-branches"],
+													"query-branches"
+												),
+												version: argv["query-version"],
+											},
+											query_source: argv["query-source"],
+											requirement: resolveFileToken(
+												argv["requirement"] as string | undefined,
+												"requirement",
+												"text"
 											),
-											version: argv["query-version"],
-										},
-										query_source: argv["query-source"],
-										requirement: resolveFileToken(
-											argv["requirement"] as string | undefined,
-											"requirement",
-											"text"
-										),
-										status: argv["status"],
-										title: resolveFileToken(
-											argv["title"] as string | undefined,
-											"title",
-											"text"
-										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
-									}),
+											status: argv["status"],
+											title: resolveFileToken(
+												argv["title"] as string | undefined,
+												"title",
+												"text"
+											),
+											tlp: resolveFileToken(
+												argv["tlp"] as string | undefined,
+												"tlp",
+												"text"
+											),
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -293,6 +423,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					digest_interval_hours: argv["digest-interval-hours"],
 					intent: {
 						clauses: parseObjectArray(argv["intent-clauses"], "intent-clauses"),
+						exclusions: {
+							actors: argv["intent-exclusions-actors"],
+							attacker_countries: argv["intent-exclusions-attacker-countries"],
+							categories: argv["intent-exclusions-categories"],
+							cves: argv["intent-exclusions-cves"],
+							keywords: argv["intent-exclusions-keywords"],
+							target_countries: argv["intent-exclusions-target-countries"],
+							target_industries: argv["intent-exclusions-target-industries"],
+							techniques: argv["intent-exclusions-techniques"],
+						},
 						indicators: argv["intent-indicators"],
 						unsupported_terms: argv["intent-unsupported-terms"],
 					},
@@ -329,6 +469,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

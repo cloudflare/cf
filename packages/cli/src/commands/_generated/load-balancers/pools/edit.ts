@@ -108,6 +108,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed.",
 		})
+		.option("networks", {
+			type: "string",
+			array: true,
+			description: "List of networks where Load Balancer or Pool is enabled.",
+		})
 		.option("notification-email", {
 			type: "string",
 			description:
@@ -150,7 +155,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("origins", {
 			type: "string",
 			description:
-				"The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address"?: string, "enabled"?: boolean, "flatten_cname"?: boolean, "header"?: {...}, "name"?: string, ...more}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -233,6 +238,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
+										networks: argv["networks"],
 										notification_email: resolveFileToken(
 											argv["notification-email"] as string | undefined,
 											"notification-email",
@@ -256,12 +262,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -307,6 +315,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
+					networks: argv["networks"],
 					notification_email: resolveFileToken(
 						argv["notification-email"] as string | undefined,
 						"notification-email",

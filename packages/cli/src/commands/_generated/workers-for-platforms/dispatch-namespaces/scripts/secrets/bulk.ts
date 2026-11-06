@@ -42,12 +42,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("secrets", {
 			type: "string",
 			description:
-				"Map of secret names to secret values:\n- Set to a secret object to create or update.\n- Set to `null` to delete.\n- Omit to leave unchanged. Provide as a JSON object or @path/to/file.json.",
+				'Map of secret names to secret values:\n- Set to a secret object to create or update.\n- Set to `null` to delete.\n- Omit to leave unchanged. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("version-tags", {
 			type: "string",
 			description:
-				"Optional version tags to apply to the new script version. Provide as a JSON object or @path/to/file.json.",
+				'Optional version tags to apply to the new script version. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -122,11 +122,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.file !== undefined
+						? undefined
+						: argv.body !== undefined
+							? parseBody(argv.body)
+							: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.file) {
+				if (argv.file !== undefined) {
 					const fileContent = readFileForFlag(argv.file);
 					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
@@ -143,8 +149,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						requestApi<unknown>(
 							client,

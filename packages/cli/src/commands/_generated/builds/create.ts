@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("seed-repo-files", {
 			type: "string",
 			description:
-				"Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json.",
+				'Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content": string, "filename": string, "isBase64"?: boolean, "replace"?: string}]. ? marks optional keys.',
 		})
 		.option("seed-repo-owner", {
 			type: "string",
@@ -84,7 +84,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"seed-repo-provider",
 				"seed-repo-repository",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"seed-repo-owner",
 					"seed-repo-provider",
@@ -92,7 +92,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --seed_repo-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --seed-repo-* flag is set`
 					);
 				}
 			}
@@ -169,12 +169,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,

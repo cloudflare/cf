@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("custom-metadata", {
 			type: "string",
 			description:
-				"Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json.",
+				'Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("custom-origin-server", {
 			type: "string",
@@ -69,7 +69,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ssl-custom-cert-bundle", {
 			type: "string",
 			description:
-				"Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"custom_certificate": string, "custom_key": string}].',
 		})
 		.option("ssl-custom-certificate", {
 			type: "string",
@@ -251,14 +251,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

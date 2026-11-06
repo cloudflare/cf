@@ -23,23 +23,25 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 brand-protection matches bulk-dismiss\n\nDismiss or undismiss multiple matches in a single request. Accepts either the new format (matches: [{query_id, domain_id}]) for per-query control, or the legacy format (match_ids: [number]) which dismisses for all queries sharing each match's hash. Returns per-item success/error results."
+			"$0 brand-protection matches bulk-dismiss\n\nDismisses or undismisses up to 100 domain matches in one request and returns a result for each item. Send `matches` as (`query_id`, `domain_id`) pairs to change each match for one query. The legacy `match_ids` format is still accepted, but it changes each match for every query that shares it; prefer `matches`."
 		)
 		.option("action", {
 			type: "string",
-			description: "The action field",
+			description:
+				"`dismiss` to dismiss the matches, or `undismiss` to restore them.",
 			choices: ["dismiss", "undismiss"],
 		})
 		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("match-ids", {
 			type: "string",
 			array: true,
-			description: "The match_ids field",
+			description:
+				"Legacy format; prefer `matches`. Match IDs to update. Each ID changes the match for every query that shares it, not just one query. 1 to 100 items; duplicate IDs are rejected.",
 		})
 		.option("matches", {
 			type: "string",
 			description:
-				"The matches field. Provide as a JSON array of objects or @path/to/file.json.",
+				'Matches to update, as (`query_id`, `domain_id`) pairs. Each pair changes the match for that query only. 1 to 100 items; duplicate pairs are rejected. Send only one format. If both are supplied, `match_ids` takes precedence and `matches` is ignored. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"domain_id": number, "query_id": number}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -87,12 +89,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -102,7 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["action"] === undefined) {
 					argv["action"] = await promptForRequiredEnumField(
 						"action",
-						"The action field",
+						"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
 						["dismiss", "undismiss"] as const
 					);
 				}

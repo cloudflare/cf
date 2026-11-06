@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-headers", {
 			type: "string",
 			description:
-				"The configuration.headers field. Provide as a JSON object or @path/to/file.json.",
+				'The configuration.headers field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": (string | null)}.',
 		})
 		.option("configuration-replace-headers", {
 			type: "boolean",
@@ -67,7 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"configuration-type",
 				"configuration-url",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"configuration-headers",
 					"configuration-type",
@@ -137,12 +137,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

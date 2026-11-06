@@ -47,7 +47,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("top-k", {
 			type: "number",
-			description: "Number of closest matches to return (1-100, default: 10)",
+			description:
+				"Number of closest matches to return. Defaults to 10. Accepts 1 to 100, but values above 50 are treated as 50.",
 			default: 10,
 		})
 		.option("dry-run", {
@@ -105,12 +106,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)

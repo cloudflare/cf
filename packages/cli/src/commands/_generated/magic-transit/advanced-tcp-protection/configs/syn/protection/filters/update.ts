@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The new filter expression. Optional.",
 		})
+		.option("filter-mode", {
+			type: "string",
+			description:
+				"The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -79,16 +84,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"expression",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["filter-mode"] as string | undefined,
+											"filter-mode",
+											"text"
+										),
 									}),
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -105,6 +117,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					expression: resolveFileToken(
 						argv["expression"] as string | undefined,
 						"expression",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["filter-mode"] as string | undefined,
+						"filter-mode",
 						"text"
 					),
 				});

@@ -6,8 +6,13 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/resource-sharing.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
@@ -15,13 +20,8 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 resource-sharing excluded-recipients list\n\nLists the accounts excluded from an organization-targeted share. Only valid for shares with `target_type=organization`."
+			"$0 resource-sharing excluded-recipients list\n\nLists the accounts excluded from an organization-targeted share. Returns an empty list for account-targeted shares."
 		)
-		.option("account-id-path", {
-			type: "string",
-			description: "Account identifier.",
-			demandOption: true,
-		})
 		.option("share-id", {
 			type: "string",
 			description: "Share identifier tag.",
@@ -29,13 +29,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("page", {
 			type: "number",
-			description:
-				"Page number. Defaults to `1` when `per_page` is supplied without\n`page`. May be omitted entirely along with `per_page` to receive a\nnon-paginated response.",
+			description: "Page number. Defaults to `1` when omitted.",
 		})
 		.option("per-page", {
 			type: "number",
 			description:
-				"Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response.",
+				"Number of objects to return per page. Defaults to `20` when omitted.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -65,24 +64,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					per_page: argv["per-page"],
 				};
 				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing excluded-recipients list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${argv["account-id-path"] == null ? "<account-id-path>" : encodeURIComponent(String(argv["account-id-path"]))}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/excluded-recipients`,
-						pathParams: {
-							"account-id-path": String(argv["account-id-path"] ?? ""),
-							"share-id": String(argv["share-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/excluded-recipients`,
+						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
 				}
 				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
-						account_id_path: argv["account-id-path"],
+						account_id: accountId,
 						share_id: argv["share-id"],
 						...queryParams,
 					})

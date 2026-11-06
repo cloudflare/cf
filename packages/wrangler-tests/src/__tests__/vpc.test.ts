@@ -56,18 +56,8 @@ interface ConnectivityServiceRequest {
 	tls_settings?: { cert_verification_mode: string };
 }
 
-// cf's `workers-vpc services {create,update}` command exposes
-// only top-level body flags (`--name`, `--type`,
-// `--tls-settings-cert-verification-mode`, `--http-port`, `--https-port`,
-// `--app-protocol`, `--tcp-port`). It does NOT have flags for the
-// `host` shape (`--ipv4`, `--ipv6`, `--hostname`, `--tunnel-id`,
-// `--resolver-ips`) — those have to be supplied via `--body` JSON. The
-// per-flag body assembly also enforces all three required-field guards
-// BEFORE the `if (argv.body)` short-circuit, so callers must still pass
-// dummy `--name`, `--type`, `--tls-settings-cert-verification-mode`
-// values alongside `--body`. Tracked in
-// `test_bugs/connectivity-services-missing-host-flags.md` and
-// `test_bugs/connectivity-services-overrequired-create-update.md`.
+// cf exposes nested `--host-*` flags and accepts complete requests via `--body`.
+// Host flags require the tunnel for the selected IP or hostname alternative.
 //
 // Wrangler-specific stdout (`🚧 Creating VPC service ...` /
 // `📋 Listing VPC services` etc.) and validation errors raised
@@ -100,20 +90,9 @@ describe("vpc service commands", () => {
 	});
 
 	it("should handle creating an HTTP service with IPv4", async ({ expect }) => {
-		// Fixed: `connectivity-services-missing-host-flags` (per-flag
-		// `--host-*` shape now generated),
-		// `connectivity-services-overrequired-create-update` (top-level
-		// `--tls-settings-cert-verification-mode` no longer required), and
-		// `body-params-required-within-optional-parent` (group-implies
-		// `.check()`). The per-flag form works as long as BOTH
-		// `--host-network-tunnel-id` and `--host-resolver-network-tunnel-id`
-		// are passed together (the generator's group-implies check requires
-		// both required leaves whenever any `--host-*` flag is set), so the
-		// posted body carries `host.resolver_network.tunnel_id` alongside
-		// `host.network.tunnel_id`.
 		const reqProm = mockWvpcServiceCreate();
 		await runWrangler(
-			"workers-vpc services create --name test-http-ipv4 --type http --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services create --name test-http-ipv4 --type http --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -122,9 +101,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.1",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-http-ipv4",
@@ -165,20 +141,8 @@ describe("vpc service commands", () => {
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
-		const body = JSON.stringify({
-			name: "test-hostname",
-			type: "http",
-			http_port: 80,
-			host: {
-				hostname: "db.example.com",
-				resolver_network: {
-					tunnel_id: "550e8400-e29b-41d4-a716-446655440002",
-					resolver_ips: ["8.8.8.8", "8.8.4.4"],
-				},
-			},
-		});
 		await runWrangler(
-			`workers-vpc services create --name test-hostname --type http --tls-settings-cert-verification-mode verify_full --body ${JSON.stringify(body)}`
+			"workers-vpc services create --name test-hostname --type http --http-port 80 --host-hostname db.example.com --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440002 --host-resolver-network-resolver-ips 8.8.8.8 8.8.4.4"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -198,6 +162,24 @@ describe("vpc service commands", () => {
 			  "type": "http",
 			}
 		`);
+	});
+
+	it("should handle creating a dual-stack service with one network tunnel", async ({
+		expect,
+	}) => {
+		const reqProm = mockWvpcServiceCreate();
+		await runWrangler(
+			"workers-vpc services create --name test-dual-stack --type http --host-ipv4 10.0.0.1 --host-ipv6 2001:db8::1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
+		);
+		await expect(reqProm).resolves.toEqual({
+			name: "test-dual-stack",
+			type: "http",
+			host: {
+				ipv4: "10.0.0.1",
+				ipv6: "2001:db8::1",
+				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440000" },
+			},
+		});
 	});
 
 	it("should reject service creation with both IP addresses and hostname", async ({
@@ -472,7 +454,7 @@ describe("vpc service commands", () => {
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
 		await runWrangler(
-			"workers-vpc services create --name test-pg --type tcp --tcp-port 5432 --app-protocol postgresql --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services create --name test-pg --type tcp --tcp-port 5432 --app-protocol postgresql --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -482,9 +464,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.5",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-pg",
@@ -499,7 +478,7 @@ describe("vpc service commands", () => {
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
 		await runWrangler(
-			"workers-vpc services create --name test-mysql --type tcp --tcp-port 3306 --app-protocol mysql --host-ipv4 10.0.0.6 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services create --name test-mysql --type tcp --tcp-port 3306 --app-protocol mysql --host-ipv4 10.0.0.6 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -509,9 +488,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.6",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-mysql",
@@ -541,7 +517,7 @@ describe("vpc service commands", () => {
 	}) => {
 		const reqProm = mockWvpcServiceUpdate();
 		await runWrangler(
-			"workers-vpc services update service-uuid --name test-pg-updated --type tcp --tcp-port 5432 --app-protocol postgresql --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services update service-uuid --name test-pg-updated --type tcp --tcp-port 5432 --app-protocol postgresql --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -551,9 +527,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.5",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-pg-updated",
@@ -568,7 +541,7 @@ describe("vpc service commands", () => {
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
 		await runWrangler(
-			"workers-vpc services create --name test-tcp-tls --type tcp --tcp-port 5432 --tls-settings-cert-verification-mode verify_ca --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services create --name test-tcp-tls --type tcp --tcp-port 5432 --tls-settings-cert-verification-mode verify_ca --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -577,9 +550,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.5",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-tcp-tls",
@@ -597,7 +567,7 @@ describe("vpc service commands", () => {
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
 		await runWrangler(
-			"workers-vpc services create --name test-http-tls --type http --http-port 80 --tls-settings-cert-verification-mode disabled --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services create --name test-http-tls --type http --http-port 80 --tls-settings-cert-verification-mode disabled --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -606,9 +576,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.1",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "http_port": 80,
@@ -630,7 +597,7 @@ describe("vpc service commands", () => {
 		// carries no `tls_settings` key (the API defaults to verify_full).
 		const reqProm = mockWvpcServiceCreate();
 		await runWrangler(
-			"workers-vpc services create --name test-no-tls --type http --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services create --name test-no-tls --type http --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -639,9 +606,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.1",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-no-tls",
@@ -680,7 +644,7 @@ describe("vpc service commands", () => {
 	}) => {
 		const reqProm = mockWvpcServiceUpdate();
 		await runWrangler(
-			"workers-vpc services update service-uuid --name test-updated --type http --http-port 80 --tls-settings-cert-verification-mode verify_full --host-ipv4 10.0.0.2 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440001 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
+			"workers-vpc services update service-uuid --name test-updated --type http --http-port 80 --tls-settings-cert-verification-mode verify_full --host-ipv4 10.0.0.2 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440001"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -689,9 +653,6 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.2",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440001",
-			    },
-			    "resolver_network": {
-			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "http_port": 80,

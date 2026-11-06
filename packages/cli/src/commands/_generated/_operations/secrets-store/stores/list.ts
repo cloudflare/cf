@@ -6,4 +6,7 @@ export default {
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/secrets_store/stores`,
 	query: ["direction", "page", "per_page", "order"],
+	errors: {
+		503: "ServiceUnavailableError",
+	},
 } as const;

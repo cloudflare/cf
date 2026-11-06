@@ -241,7 +241,7 @@ describe("kv", () => {
 				await expect(
 					runWrangler("kv keys put my-key --namespace-id some-namespace-id")
 				).rejects.toThrowErrorMatchingInlineSnapshot(
-					`[Error: --body is required for this command. Pass --body '<json>' or --body @path/to/file.json.]`
+					`[Error: --body or --file is required for this command. Pass --body '<value>' or --file path/to/file.]`
 				);
 			});
 

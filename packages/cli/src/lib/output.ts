@@ -1,6 +1,7 @@
 import { hasQuietFlag } from "./args.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
 import { supportsColor, theme } from "./ui/theme.js";
+import { getResultInfo } from "#api";
 
 /** Maximum JSON size (in characters) for syntax highlighting - prevents performance issues */
 const MAX_HIGHLIGHTED_JSON_SIZE = 50_000;
@@ -11,7 +12,10 @@ export interface OutputOptions {
 	successLabel?: string;
 }
 
-function outputPayload(data: unknown): unknown {
+function outputPayload(data: unknown): {
+	payload: unknown;
+	resultInfo: unknown;
+} {
 	if (
 		data !== null &&
 		typeof data === "object" &&
@@ -19,9 +23,9 @@ function outputPayload(data: unknown): unknown {
 		Array.isArray(data.result) &&
 		"result_info" in data
 	) {
-		return data.result;
+		return { payload: data.result, resultInfo: data.result_info };
 	}
-	return data;
+	return { payload: data, resultInfo: getResultInfo(data) };
 }
 
 /**
@@ -43,6 +47,8 @@ export function printSuccess(message: string): void {
  *   confirmation to stderr on TTYs (and stays silent on stdout so scripts
  *   piping to jq don't see `null`)
  * - Otherwise outputs pretty-printed JSON (highlighted in interactive terminals)
+ * - Pagination metadata is printed as a plain `result_info: {...}` line on
+ *   stderr, including when redirected, unless `--quiet` is set
  *
  * Callers who need newline-delimited JSON pipe through `jq -c '.[]'` or
  * similar — cf does not surface an ndjson toggle.
@@ -51,20 +57,28 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 	if (options.quiet) {
 		return;
 	}
-	data = outputPayload(data);
+	const { payload, resultInfo } = outputPayload(data);
+	if (
+		!hasQuietFlag() &&
+		resultInfo !== null &&
+		typeof resultInfo === "object" &&
+		Object.keys(resultInfo).length > 0
+	) {
+		process.stderr.write(`result_info: ${JSON.stringify(resultInfo)}\n`);
+	}
 
 	// Null/undefined result: a successful mutation with no interesting body.
 	// Stay silent on stdout (scripts piping to jq get an empty stream, not
 	// the literal string 'null'), and — on TTYs only — write a brief ✓
 	// line to stderr so humans know it worked.
-	if (data === null || data === undefined) {
+	if (payload === null || payload === undefined) {
 		if (options.successLabel) {
 			printSuccess(options.successLabel);
 		}
 		return;
 	}
 
-	console.log(formatJson(data));
+	console.log(formatJson(payload));
 }
 
 /**

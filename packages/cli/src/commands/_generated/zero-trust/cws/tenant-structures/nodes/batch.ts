@@ -32,17 +32,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("creates", {
 			type: "string",
 			description:
-				"Nodes to create; parents may be created elsewhere in this request. Provide as a JSON array of objects or @path/to/file.json.",
+				'Nodes to create; parents may be created elsewhere in this request. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"native_id": string, "node_kind": string, "name"?: string, "parent"?: string}]. ? marks optional keys.',
 		})
 		.option("deletes", {
 			type: "string",
 			description:
-				"Nodes to delete; every descendant that will not be reparented must also be deleted. Provide as a JSON array of objects or @path/to/file.json.",
+				'Nodes to delete; every descendant that will not be reparented must also be deleted. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("updates", {
 			type: "string",
 			description:
-				"Nodes whose mutable fields should be fully replaced. Provide as a JSON array of objects or @path/to/file.json.",
+				'Nodes whose mutable fields should be fully replaced. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "name"?: string, "parent"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -97,6 +97,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -110,16 +112,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Deleting`, async () =>
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Processing`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							structure_id: argv["structure-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Deleted` });
+					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
 				if (argv["creates"] === undefined) {
@@ -144,14 +146,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					deletes: parseObjectArray(argv["deletes"], "deletes"),
 					updates: parseObjectArray(argv["updates"], "updates"),
 				});
-				const result = await withProgress(`Deleting`, async () =>
+				const result = await withProgress(`Processing`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						structure_id: argv["structure-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Deleted` });
+				formatOutput(result, { successLabel: `Done` });
 			}
 		),
 };

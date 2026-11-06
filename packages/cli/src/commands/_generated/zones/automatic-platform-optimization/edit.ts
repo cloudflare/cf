@@ -56,6 +56,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
+		.implies("value-cache-by-device-type", [
+			"value-cf",
+			"value-enabled",
+			"value-wordpress",
+			"value-wp-plugin",
+		])
 		.implies("value-cf", [
 			"value-enabled",
 			"value-wordpress",
@@ -63,6 +69,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.implies("value-enabled", [
 			"value-cf",
+			"value-wordpress",
+			"value-wp-plugin",
+		])
+		.implies("value-hostnames", [
+			"value-cf",
+			"value-enabled",
+			"value-wordpress",
+			"value-wp-plugin",
+		])
+		.implies("value-recheck", [
+			"value-cf",
+			"value-enabled",
 			"value-wordpress",
 			"value-wp-plugin",
 		])
@@ -128,14 +146,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {
 					quiet: argv.quiet,
 				});
 				argv.zoneId = zoneId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);

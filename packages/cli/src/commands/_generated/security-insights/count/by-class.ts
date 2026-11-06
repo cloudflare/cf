@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 security-insights count by-class\n\nRetrieves Security Center insight counts aggregated by classification class."
+			"$0 security-insights count by-class\n\nRetrieves Security Center insight counts aggregated by classification class.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("dismissed", { type: "boolean", description: "Dismissed" })
 		.option("issue-class", {

@@ -31,12 +31,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("roles", {
 			type: "string",
 			description:
-				"Roles assigned to this member. Provide as a JSON array of objects or @path/to/file.json.",
+				'Roles assigned to this member. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("policies", {
 			type: "string",
 			description:
-				"Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"access": "allow" | "deny", "permission_groups": [{...}], "resource_groups": [{...}]}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -85,12 +85,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,

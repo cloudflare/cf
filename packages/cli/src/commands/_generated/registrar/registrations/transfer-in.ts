@@ -53,7 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("contact-extensions", {
 			type: "string",
 			description:
-				"Registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` documents the\nrequired keys and allowed values for each extension in the\n`transfer_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Include this object only when the extension's\ntransfer schema defines `contact_extensions`. Provide as a JSON object or @path/to/file.json.",
+				'Registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` documents the\nrequired keys and allowed values for each extension in the\n`transfer_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Include this object only when the extension\'s\ntransfer schema defines `contact_extensions`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("contacts-administrator-email", {
 			type: "string",
@@ -180,40 +180,82 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"contacts-administrator-phone",
 				"contacts-administrator-postal-info-name",
 				"contacts-administrator-postal-info-organization",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"contacts-administrator-email",
+					"contacts-administrator-phone",
+					"contacts-administrator-postal-info-name",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-administrator-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"contacts-billing-email",
 				"contacts-billing-fax",
 				"contacts-billing-phone",
 				"contacts-billing-postal-info-name",
 				"contacts-billing-postal-info-organization",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"contacts-billing-email",
+					"contacts-billing-phone",
+					"contacts-billing-postal-info-name",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-billing-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"contacts-registrant-email",
 				"contacts-registrant-fax",
 				"contacts-registrant-phone",
 				"contacts-registrant-postal-info-name",
 				"contacts-registrant-postal-info-organization",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"contacts-registrant-email",
+					"contacts-registrant-phone",
+					"contacts-registrant-postal-info-name",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-registrant-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"contacts-technical-email",
 				"contacts-technical-fax",
 				"contacts-technical-phone",
 				"contacts-technical-postal-info-name",
 				"contacts-technical-postal-info-organization",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
-					"contacts-administrator-email",
-					"contacts-administrator-phone",
-					"contacts-administrator-postal-info-name",
-					"contacts-billing-email",
-					"contacts-billing-phone",
-					"contacts-billing-postal-info-name",
-					"contacts-registrant-email",
-					"contacts-registrant-phone",
-					"contacts-registrant-postal-info-name",
 					"contacts-technical-email",
 					"contacts-technical-phone",
 					"contacts-technical-postal-info-name",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-technical-* flag is set`
 					);
 				}
 			}
@@ -426,12 +468,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,

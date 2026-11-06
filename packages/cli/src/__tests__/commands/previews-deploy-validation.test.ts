@@ -8,6 +8,14 @@ vi.mock("@cloudflare/build-output-utils", () => ({
 	readBuildOutput: mocks.readBuildOutput,
 }));
 
+vi.mock("../../commands/deploy/static-assets.js", () => ({
+	prepareStaticAssetsBuildOutput: vi.fn().mockResolvedValue(false),
+	staticAssetsDirectoryOption: {
+		type: "string",
+		description: "Static assets directory",
+	},
+}));
+
 const { runPreviewDeploy } = await import("../../commands/previews/deploy.js");
 
 describe("cf previews deploy validation", () => {

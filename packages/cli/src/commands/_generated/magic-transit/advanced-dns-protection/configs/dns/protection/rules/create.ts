@@ -35,6 +35,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The burst sensitivity. Must be one of 'low', 'medium', 'high'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("name", {
 			type: "string",
 			description:
@@ -102,6 +107,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"burst-sensitivity",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -126,12 +136,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -142,6 +154,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["burst-sensitivity"] = await promptForRequiredField(
 						"burst-sensitivity",
 						"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+					);
+				}
+				if (argv["protection-mode"] === undefined) {
+					argv["protection-mode"] = await promptForRequiredField(
+						"protection-mode",
+						"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
 					);
 				}
 				if (argv["name"] === undefined) {
@@ -175,6 +193,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					burst_sensitivity: resolveFileToken(
 						argv["burst-sensitivity"] as string | undefined,
 						"burst-sensitivity",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					name: resolveFileToken(

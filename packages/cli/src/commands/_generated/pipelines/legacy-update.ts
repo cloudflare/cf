@@ -104,7 +104,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source", {
 			type: "string",
 			description:
-				"The source field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The source field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"format": "json", "type": string, "authentication"?: boolean, "cors"?: {...}} | {"format": "json", "type": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -114,6 +114,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"destination-credentials-access-key-id",
+				"destination-credentials-endpoint",
+				"destination-credentials-secret-access-key",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"destination-credentials-access-key-id",
+					"destination-credentials-endpoint",
+					"destination-credentials-secret-access-key",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --destination-credentials-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -224,12 +244,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -239,27 +261,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["destination-credentials-access-key-id"] === undefined) {
-					argv["destination-credentials-access-key-id"] =
-						await promptForRequiredField(
-							"destination-credentials-access-key-id",
-							"Specifies the R2 Bucket Access Key Id."
-						);
-				}
-				if (argv["destination-credentials-endpoint"] === undefined) {
-					argv["destination-credentials-endpoint"] =
-						await promptForRequiredField(
-							"destination-credentials-endpoint",
-							"Specifies the R2 Endpoint."
-						);
-				}
-				if (argv["destination-credentials-secret-access-key"] === undefined) {
-					argv["destination-credentials-secret-access-key"] =
-						await promptForRequiredField(
-							"destination-credentials-secret-access-key",
-							"Specifies the R2 Bucket Secret Access Key."
-						);
 				}
 				if (argv["destination-format"] === undefined) {
 					argv["destination-format"] = await promptForRequiredEnumField(

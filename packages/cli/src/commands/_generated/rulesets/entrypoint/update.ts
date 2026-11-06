@@ -23,13 +23,12 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 rulesets entrypoint update <phase>\n\nUpdates an account or zone entry point ruleset, creating a new version."
+			"$0 rulesets entrypoint update <phase>\n\nUpdates an account or zone entry point ruleset, creating a new version.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("phase", {
 			type: "string",
@@ -45,10 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "An informative description of the ruleset.",
 		})
-		.option("id", {
-			type: "string",
-			description: "The unique ID of the ruleset.",
-		})
 		.option("name", {
 			type: "string",
 			description: "The human-readable name of the ruleset.",
@@ -56,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"action"?: string, "action_parameters"?: {...}, "description"?: string, "enabled"?: boolean, "exposed_credential_check"?: {...}, ...more} & {"action"?: "block", "action_parameters"?: {...}, "description"?: string}) | ...more)]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -116,11 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -131,6 +121,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					});
 					return;
 				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 				const accountOrZoneId =
@@ -147,8 +139,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.accountId = accountOrZoneId;
 				}
 
-				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
@@ -165,12 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["id"] === undefined) {
-					argv["id"] = await promptForRequiredField(
-						"id",
-						"The unique ID of the ruleset."
-					);
-				}
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
@@ -183,12 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"description",
 							"text"
 						)
-					);
-				if (argv["id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["id"],
-						resolveFileToken(argv["id"] as string | undefined, "id", "text")
 					);
 				if (argv["name"] !== undefined)
 					setNestedValue(

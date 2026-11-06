@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 custom-nameservers get\n\nList an account or zone's custom nameservers."
+			"$0 custom-nameservers get\n\nList an account or zone's custom nameservers.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("dry-run", {
 			type: "boolean",

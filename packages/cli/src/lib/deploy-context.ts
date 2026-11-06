@@ -1,14 +1,17 @@
 import {
+	fetchInternalBase,
 	fetchKVGetValueBase,
 	fetchListResultBase,
 	fetchResultBase,
 	getSanitizeLogs,
+	hasMorePages,
+	throwFetchError,
 } from "@cloudflare/workers-utils";
 import { USER_AGENT } from "../version.js";
 import { confirm, prompt, select } from "./dialog.js";
 import { log } from "./ui/log.js";
 import type { DeployHelpersContext } from "@cloudflare/deploy-helpers";
-import type { Logger } from "@cloudflare/workers-utils";
+import type { FetchResult, Logger } from "@cloudflare/workers-utils";
 
 /**
  * Build the deploy-helpers context that `initDeployHelpersContext` needs.
@@ -57,7 +60,7 @@ export function createDeployContext(authToken: string): DeployHelpersContext {
 
 	// The fetch closures capture auth credentials and user-agent,
 	// delegating to workers-utils' *Base functions. Parameter types
-	// are inferred from DeployHelpersContext to avoid global vs undici
+	// come from DeployHelpersContext to avoid global vs undici
 	// RequestInit conflicts.
 	const ctx: DeployHelpersContext = {
 		fetchResult: (complianceConfig, resource, init, queryParams, abortSignal) =>
@@ -83,19 +86,40 @@ export function createDeployContext(authToken: string): DeployHelpersContext {
 				credentials
 			),
 
-		// Same implementation as fetchListResult — workers-utils has no
-		// separate paged-list base function; both fetch all pages.
-		fetchPagedListResult: (complianceConfig, resource, init, queryParams) =>
-			// TODO: actually move fetchPagedListREsult into workers-utils...
-			fetchListResultBase(
-				complianceConfig,
-				resource,
-				init,
-				userAgent,
-				logger,
-				queryParams,
-				credentials
-			),
+		// workers-utils' list helper only follows cursors. Deploy workflows
+		// also need complete lists from endpoints that use page numbers.
+		fetchPagedListResult: async <ResponseType>(
+			...[complianceConfig, resource, init, queryParams]: Parameters<
+				DeployHelpersContext["fetchPagedListResult"]
+			>
+		) => {
+			const results: ResponseType[] = [];
+			for (let page = 1; ; page++) {
+				const pageQuery = new URLSearchParams(queryParams);
+				pageQuery.set("page", String(page));
+				const {
+					response: json,
+					status,
+					retryAfterMs,
+				} = await fetchInternalBase<FetchResult<ResponseType[]>>(
+					complianceConfig,
+					resource,
+					init,
+					userAgent,
+					logger,
+					pageQuery,
+					undefined,
+					credentials
+				);
+				if (!json.success) {
+					throwFetchError(resource, json, status, retryAfterMs);
+				}
+				results.push(...json.result);
+				if (!hasMorePages(json.result_info)) {
+					return results;
+				}
+			}
+		},
 
 		fetchKVGetValue: (complianceConfig, accountId, namespaceId, key) =>
 			fetchKVGetValueBase(

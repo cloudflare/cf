@@ -96,7 +96,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("parameters-calculations", {
 			type: "string",
 			description:
-				"Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. Provide as a JSON array of objects or @path/to/file.json.",
+				'Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"operator": "count" | "COUNT", "alias"?: string, "key"?: string, "keyType"?: "string" | "number" | "boolean"} | ...more)]. ? marks optional keys.',
 		})
 		.option("parameters-datasets", {
 			type: "string",
@@ -116,17 +116,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("parameters-filters", {
 			type: "string",
 			description:
-				"Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json.",
+				'Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: \'group\'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
 		})
 		.option("parameters-group-bys", {
 			type: "string",
 			description:
-				"Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. Provide as a JSON array of objects or @path/to/file.json.",
+				'Fields to group calculation results by. Only applicable when the query view is \'calculations\'. Produces per-group aggregate values. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "string" | "number" | "boolean", "value": string}].',
 		})
 		.option("parameters-havings", {
 			type: "string",
 			description:
-				"Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). Provide as a JSON array of objects or @path/to/file.json.",
+				'Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "operation": "eq" | "neq" | "gt" | ...more, "value": number}].',
 		})
 		.option("parameters-limit", {
 			type: "number",

@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("updates-raw-data", {
 			type: "string",
 			description:
-				"The updates.raw.data field. Provide as a JSON object or @path/to/file.json.",
+				'The updates.raw.data field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("updates-raw-source", {
 			type: "string",

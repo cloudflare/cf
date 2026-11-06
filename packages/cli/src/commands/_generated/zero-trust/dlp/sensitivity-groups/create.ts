@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("levels", {
 			type: "string",
 			description:
-				"Levels to create with the group. Mutually exclusive with `template_id`. Provide as a JSON array of objects or @path/to/file.json.",
+				'Levels to create with the group. Mutually exclusive with `template_id`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "description"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("template-id", {

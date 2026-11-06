@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("attachments", {
 			type: "string",
 			description:
-				"File attachments and inline images. Provide as a JSON array of objects or @path/to/file.json.",
+				'File attachments and inline images. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"content": string, "content_id": string, "disposition": "inline", "filename": string, "type": string} | {"content": string, "disposition": "attachment", "filename": string, "type": string})].',
 		})
 		.option("bcc-address", {
 			type: "string",
@@ -65,7 +65,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("headers", {
 			type: "string",
 			description:
-				"Custom email headers as key-value pairs. Provide as a JSON object or @path/to/file.json.",
+				'Custom email headers as key-value pairs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("html", {
 			type: "string",

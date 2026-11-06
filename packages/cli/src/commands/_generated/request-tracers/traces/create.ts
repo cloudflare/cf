@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body-json", {
 			type: "string",
 			description:
-				"Arbitrary json as request body. Provide as a JSON object or @path/to/file.json.",
+				'Arbitrary json as request body. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("body-plain-text", {
 			type: "string",
@@ -95,12 +95,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cookies", {
 			type: "string",
 			description:
-				"Cookies added to tracing request. Provide as a JSON object or @path/to/file.json.",
+				'Cookies added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("headers", {
 			type: "string",
 			description:
-				"Headers added to tracing request. Provide as a JSON object or @path/to/file.json.",
+				'Headers added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("method", {
 			type: "string",

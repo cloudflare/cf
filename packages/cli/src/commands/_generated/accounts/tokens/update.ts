@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("policies", {
 			type: "string",
 			description:
-				"List of access policies assigned to the token. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of access policies assigned to the token. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"effect": "allow" | "deny", "permission_groups": [{...}], "resources": {...}}].',
 		})
 		.option("status", {
 			type: "string",

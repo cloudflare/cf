@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filter", {
 			type: "string",
 			description:
-				"A metadata filter expression used to limit nearest neighbor results. Provide as a JSON object or @path/to/file.json.",
+				'A metadata filter expression used to limit nearest neighbor results. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("return-metadata", {
 			type: "string",

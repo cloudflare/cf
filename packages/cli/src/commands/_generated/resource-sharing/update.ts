@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				"Tags associated with the share. Provide as a JSON object or @path/to/file.json.",
+				'Tags associated with the share. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

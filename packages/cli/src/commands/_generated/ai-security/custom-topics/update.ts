@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("topics", {
 			type: "string",
 			description:
-				"Custom topic categories for AI Security for Apps content detection. Provide as a JSON array of objects or @path/to/file.json.",
+				'Custom topic categories for AI Security for Apps content detection. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"label": string, "topic": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

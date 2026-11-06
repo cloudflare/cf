@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("credentials", {
 			type: "string",
 			description:
-				"Credentials for the integration. Provide as a JSON object or @path/to/file.json.",
+				'Credentials for the integration. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("dlp-profiles", {
 			type: "string",

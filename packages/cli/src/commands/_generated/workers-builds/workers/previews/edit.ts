@@ -68,7 +68,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("settings-environment-variables", {
 			type: "string",
 			description:
-				"Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json.",
+				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("settings-path-excludes", {
 			type: "string",

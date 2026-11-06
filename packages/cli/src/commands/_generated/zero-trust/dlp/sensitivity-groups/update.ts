@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("levels", {
 			type: "string",
 			description:
-				"The desired final state of levels.\n- `None` (omitted): no level changes.\n- `Some([])`: delete all levels.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json.",
+				'The desired final state of levels.\n- `None` (omitted): no level changes.\n- `Some([])`: delete all levels.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"description"?: (string | null), "name"?: (string | null)} & {"id"?: (string | null)})]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("dry-run", {

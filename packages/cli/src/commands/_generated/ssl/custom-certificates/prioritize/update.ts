@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("certificates", {
 			type: "string",
 			description:
-				"Array of ordered certificates. Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of ordered certificates. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"priority"?: number}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

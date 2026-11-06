@@ -56,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				"Optional tags to associate with the target. Keys and values are\nuser-defined strings. Provide as a JSON object or @path/to/file.json.",
+				'Optional tags to associate with the target. Keys and values are\nuser-defined strings. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

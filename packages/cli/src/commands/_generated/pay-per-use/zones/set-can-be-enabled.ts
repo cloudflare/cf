@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("zones", {
 			type: "string",
 			description:
-				"The zones field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The zones field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "can_be_enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

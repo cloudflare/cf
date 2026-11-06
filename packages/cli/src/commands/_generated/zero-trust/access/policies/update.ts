@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("approval-groups", {
 			type: "string",
 			description:
-				"Administrators who can approve a temporary authentication request. Provide as a JSON array of objects or @path/to/file.json.",
+				'Administrators who can approve a temporary authentication request. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"approvals_needed": number, "email_addresses"?: [string], "email_list_uuid"?: string}]. ? marks optional keys.',
 		})
 		.option("approval-required", {
 			type: "boolean",
@@ -100,12 +100,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude", {
 			type: "string",
 			description:
-				"Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("include", {
 			type: "string",
 			description:
-				"Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("name", {
 			type: "string",
@@ -119,7 +119,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("require", {
 			type: "string",
 			description:
-				"Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("dry-run", {
 			type: "boolean",

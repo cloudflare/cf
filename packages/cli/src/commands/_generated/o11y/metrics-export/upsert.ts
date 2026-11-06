@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("resources", {
 			type: "string",
 			description:
-				"The resources field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The resources field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"destinations": [string], "resourceId": string, "resourceType": "workers" | "d1" | "r2" | ...more}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

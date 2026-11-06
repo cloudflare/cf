@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("preferences", {
 			type: "string",
 			description:
-				"Preference keys mapped to subscription states to update. Only the preferences in this map change; others remain unchanged. Provide as a JSON object or @path/to/file.json.",
+				'Preference keys mapped to subscription states to update. Only the preferences in this map change; others remain unchanged. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

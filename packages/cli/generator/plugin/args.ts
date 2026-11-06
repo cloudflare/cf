@@ -974,16 +974,25 @@ function bodyParams(
 			o.string("description") ?? bp.description ?? `The ${joined} field`;
 		let description = base;
 		if (type === "objectArray") {
-			const separator = /[.!?]$/.test(base) ? " " : ". ";
-			description = `${base}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
+			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
+			description = `${base.trimEnd()}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
 		}
 		if (type === "nestedArray") {
-			const separator = /[.!?]$/.test(base) ? " " : ". ";
-			description = `${base}${separator}Provide as a JSON array of arrays or @path/to/file.json.`;
+			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
+			description = `${base.trimEnd()}${separator}Provide as a JSON array of arrays or @path/to/file.json.`;
 		}
 		if (type === "objectMap") {
 			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
 			description = `${base.trimEnd()}${separator}Provide as a JSON object or @path/to/file.json.`;
+		}
+		if (
+			bp.jsonShape !== undefined &&
+			(type === "objectArray" || type === "nestedArray" || type === "objectMap")
+		) {
+			description += ` Shape: ${bp.jsonShape.text}.`;
+			if (bp.jsonShape.hasOptionalKeys) {
+				description += " ? marks optional keys.";
+			}
 		}
 		if (type === "scalarUnion") {
 			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";

@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("items", {
 			type: "string",
 			description:
-				"Suppressions to import. Items with the same email address and scope are deduplicated before processing. Provide as a JSON array of objects or @path/to/file.json.",
+				'Suppressions to import. Items with the same email address and scope are deduplicated before processing. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"email": string, "expires_at"?: (string | null), "note"?: string, "scope"?: {...}}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

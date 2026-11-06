@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"action"?: string, "action_parameters"?: {...}, "description"?: string, "enabled"?: boolean, "exposed_credential_check"?: {...}, ...more} & {"action"?: "block", "action_parameters"?: {...}, "description"?: string}) | ...more)]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

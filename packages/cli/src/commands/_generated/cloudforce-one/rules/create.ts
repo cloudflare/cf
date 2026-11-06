@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actions", {
 			type: "string",
 			description:
-				"The actions field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The actions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action_config": {...}, "action_type": "alert_gchat" | "webhook" | "logging" | ...more, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("commit-message", {
 			type: "string",
@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("meta", {
 			type: "string",
 			description:
-				"Adds YARA meta entries to the rule's meta block and stores them in rule_meta alongside content metadata. Use valid YARA identifiers for keys; exclude 'name', 'enabled', and 'description'. You may repeat keys. Provide as a JSON array of objects or @path/to/file.json.",
+				"Adds YARA meta entries to the rule's meta block and stores them in rule_meta alongside content metadata. Use valid YARA identifiers for keys; exclude 'name', 'enabled', and 'description'. You may repeat keys. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}].",
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("namespaces", {

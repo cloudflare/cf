@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("data", {
 			type: "string",
 			description:
-				"The data field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The data field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"category": string, "date": string, "event": string, "raw": {...}, "tlp": string, ...more}].',
 		})
 		.option("dataset-id", {
 			type: "string",

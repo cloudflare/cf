@@ -49,12 +49,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("add-script-tag", {
 			type: "string",
 			description:
-				"Adds a script element into the page with the desired URL or content. Provide as a JSON array of objects or @path/to/file.json.",
+				'Adds a script element into the page with the desired URL or content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "id"?: string, "type"?: string, "url"?: string}]. ? marks optional keys.',
 		})
 		.option("add-style-tag", {
 			type: "string",
 			description:
-				'Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. Provide as a JSON array of objects or @path/to/file.json.',
+				'Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "url"?: string}]. ? marks optional keys.',
 		})
 		.option("allow-request-pattern", {
 			type: "string",
@@ -83,7 +83,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cookies", {
 			type: "string",
 			description:
-				"Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json.",
+				'Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "value": string, "domain"?: string, "expires"?: number, "httpOnly"?: boolean, ...more}]. ? marks optional keys.',
 		})
 		.option("emulate-media-type", {
 			type: "string",
@@ -221,7 +221,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("set-extra-httpheaders", {
 			type: "string",
 			description:
-				"The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json.",
+				'The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("set-java-script-enabled", {
 			type: "boolean",

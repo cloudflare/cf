@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-authorized-keys", {
 			type: "string",
 			description:
-				"The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"public_key": string, "name"?: string}]. ? marks optional keys.',
 		})
 		.option("configuration-command", {
 			type: "string",
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-environment-variables", {
 			type: "string",
 			description:
-				"Container environment variables. Provide as a JSON array of objects or @path/to/file.json.",
+				'Container environment variables. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "value": string}].',
 		})
 		.option("configuration-image", {
 			type: "string",

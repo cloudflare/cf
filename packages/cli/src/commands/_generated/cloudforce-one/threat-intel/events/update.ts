@@ -55,7 +55,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("raw-data", {
 			type: "string",
 			description:
-				"The raw.data field. Provide as a JSON object or @path/to/file.json.",
+				'The raw.data field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("raw-source", {
 			type: "string",

@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"Trace rules in evaluation order. Provide as a JSON array of objects or @path/to/file.json.",
+				'Trace rules in evaluation order. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action": "set_trace_settings", "action_parameters": {...}, "description": string, "enabled": boolean, "expression": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

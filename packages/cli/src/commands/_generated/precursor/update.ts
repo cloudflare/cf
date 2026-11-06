@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"The ordered list of Precursor rules for the zone. Provide as a JSON array of objects or @path/to/file.json.",
+				'The ordered list of Precursor rules for the zone. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"expression": string, "show_interstitial": boolean, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("show-interstitial", {
 			type: "boolean",

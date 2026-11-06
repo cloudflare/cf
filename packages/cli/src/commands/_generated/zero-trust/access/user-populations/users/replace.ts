@@ -47,7 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("emails", {
 			type: "string",
 			description:
-				"The emails field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The emails field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"primary"?: boolean, "type"?: string, "value"?: string}]. ? marks optional keys.',
 		})
 		.option("external-id", {
 			type: "string",

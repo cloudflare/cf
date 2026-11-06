@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("members", {
 			type: "string",
 			description:
-				"Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json.",
+				'Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"user": {...}}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

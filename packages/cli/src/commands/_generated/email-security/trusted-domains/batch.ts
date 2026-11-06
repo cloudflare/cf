@@ -27,22 +27,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"IDs of the trusted domain patterns to delete. Provide as a JSON array of objects or @path/to/file.json.",
+				'IDs of the trusted domain patterns to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
+				'Partial updates to apply — each entry carries the pattern\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "is_recent"?: boolean, "is_regex"?: boolean, "is_similarity"?: boolean, "pattern"?: string} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"Trusted domain patterns to create. Provide as a JSON array of objects or @path/to/file.json.",
+				'Trusted domain patterns to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"is_recent": boolean, "is_regex": boolean, "is_similarity": boolean, "pattern": string, "comments"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
+				'Full replacements to apply — each entry carries the pattern\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"is_recent": boolean, "is_regex": boolean, "is_similarity": boolean, "pattern": string, "comments"?: (string | null)} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

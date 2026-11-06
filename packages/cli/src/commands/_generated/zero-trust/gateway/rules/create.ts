@@ -103,7 +103,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-add-headers", {
 			type: "string",
 			description:
-				"Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json.",
+				'Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("rule-settings-allow-child-bypass", {
 			type: "boolean",
@@ -265,12 +265,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-dns-resolvers-ipv4", {
 			type: "string",
 			description:
-				"The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ip": string, "port"?: number, "route_through_private_network"?: boolean, "vnet_id"?: string}]. ? marks optional keys.',
 		})
 		.option("rule-settings-dns-resolvers-ipv6", {
 			type: "string",
 			description:
-				"The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ip": string, "port"?: number, "route_through_private_network"?: boolean, "vnet_id"?: string}]. ? marks optional keys.',
 		})
 		.option("rule-settings-egress-ipv4", {
 			type: "string",
@@ -399,7 +399,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rule-settings-set-headers", {
 			type: "string",
 			description:
-				"Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json.",
+				'Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("rule-settings-untrusted-cert-action", {
 			type: "string",

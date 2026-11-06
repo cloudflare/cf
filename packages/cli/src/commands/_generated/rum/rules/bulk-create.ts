@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"A list of rules to create or update. Provide as a JSON array of objects or @path/to/file.json.",
+				'A list of rules to create or update. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"host"?: string, "id"?: string, "inclusive"?: boolean, "is_paused"?: boolean, "paths"?: [string]}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("fields", {
 			type: "string",
 			description:
-				"Controls which fields the API ingests. Defaults to all available\nfields when absent.\n. Provide as a JSON array of objects or @path/to/file.json.",
+				'Controls which fields the API ingests. Defaults to all available\nfields when absent. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "name": string}].',
 		})
 		.option("filter", {
 			type: "string",

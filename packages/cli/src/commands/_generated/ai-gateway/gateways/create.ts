@@ -312,7 +312,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("otel", {
 			type: "string",
 			description:
-				"The otel field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The otel field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"headers": {...}, "url": string, "authorization"?: string, "content_type"?: "json" | "protobuf"}]. ? marks optional keys.',
 		})
 		.option("rate-limiting-interval", {
 			type: "number",
@@ -353,7 +353,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("spend-limits-rules", {
 			type: "string",
 			description:
-				"The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"limit": number, "limitType": "cost", "window": number, "enabled"?: boolean, "id"?: string, ...more}]. ? marks optional keys.',
 		})
 		.option("store-id", {
 			type: "string",
@@ -367,7 +367,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("stripe-usage-events", {
 			type: "string",
 			description:
-				"The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"payload": string}].',
 		})
 		.option("workers-ai-billing-mode", {
 			type: "string",

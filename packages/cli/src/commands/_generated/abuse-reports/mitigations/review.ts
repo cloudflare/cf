@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("appeals", {
 			type: "string",
 			description:
-				"List of mitigations to appeal. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of mitigations to appeal. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "reason": "removed" | "misclassified"}].',
 		})
 		.option("data-city", { type: "string", description: "The data.city field" })
 		.option("data-company", {

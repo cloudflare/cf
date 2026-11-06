@@ -345,17 +345,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("mechanisms-email", {
 			type: "string",
 			description:
-				"The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("mechanisms-pagerduty", {
 			type: "string",
 			description:
-				"The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("mechanisms-webhooks", {
 			type: "string",
 			description:
-				"The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "Name of the policy." })
 		.option("dry-run", {

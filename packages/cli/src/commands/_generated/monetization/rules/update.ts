@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"Full desired Payment Required ruleset. An empty array clears all payment rules. The ruleset may contain at most 40 unique wallet addresses; address comparison is case-insensitive. Every address must pass wallet screening before deployment. Provide as a JSON array of objects or @path/to/file.json.",
+				'Full desired Payment Required ruleset. An empty array clears all payment rules. The ruleset may contain at most 40 unique wallet addresses; address comparison is case-insensitive. Every address must pass wallet screening before deployment. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"address": string, "expression": string, "price": string, "scheme": "exact" | "upto", "description"?: string, ...more} | ...more)]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

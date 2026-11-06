@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("additional-routes", {
 			type: "string",
 			description:
-				"Only available for the Waiting Room Advanced subscription. Additional hostname and path combinations to which this waiting room will be applied. There is an implied wildcard at the end of the path. The hostname and path combination must be unique to this and all other waiting rooms. Provide as a JSON array of objects or @path/to/file.json.",
+				'Only available for the Waiting Room Advanced subscription. Additional hostname and path combinations to which this waiting room will be applied. There is an implied wildcard at the end of the path. The hostname and path combination must be unique to this and all other waiting rooms. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"host"?: string, "path"?: string}]. ? marks optional keys.',
 		})
 		.option("cookie-attributes-samesite", {
 			type: "string",

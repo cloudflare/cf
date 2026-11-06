@@ -38,12 +38,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("mesh-config-vips", {
 			type: "string",
 			description:
-				"VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json.",
+				'VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
 		})
 		.option("mesh-config-vips-previous", {
 			type: "string",
 			description:
-				"VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json.",
+				'VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
 		})
 		.option("ha-mode", {
 			type: "string",

@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("matches", {
 			type: "string",
 			description:
-				"Matches to update, as (`query_id`, `domain_id`) pairs. Each pair changes the match for that query only. 1 to 100 items; duplicate pairs are rejected. Send only one format. If both are supplied, `match_ids` takes precedence and `matches` is ignored. Provide as a JSON array of objects or @path/to/file.json.",
+				'Matches to update, as (`query_id`, `domain_id`) pairs. Each pair changes the match for that query only. 1 to 100 items; duplicate pairs are rejected. Send only one format. If both are supplied, `match_ids` takes precedence and `matches` is ignored. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"domain_id": number, "query_id": number}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

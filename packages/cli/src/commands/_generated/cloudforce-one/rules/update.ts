@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("meta", {
 			type: "string",
 			description:
-				"Adds YARA meta entries to the rule's meta block and stores them in rule_meta alongside content metadata. Use valid YARA identifiers for keys; exclude 'name', 'enabled', and 'description'. You may repeat keys. Provide as a JSON array of objects or @path/to/file.json.",
+				"Adds YARA meta entries to the rule's meta block and stores them in rule_meta alongside content metadata. Use valid YARA identifiers for keys; exclude 'name', 'enabled', and 'description'. You may repeat keys. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}].",
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("namespaces", {

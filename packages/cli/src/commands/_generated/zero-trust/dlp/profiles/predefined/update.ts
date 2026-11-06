@@ -54,7 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"The entries field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The entries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "id": string}].',
 		})
 		.option("ocr-enabled", {
 			type: "boolean",

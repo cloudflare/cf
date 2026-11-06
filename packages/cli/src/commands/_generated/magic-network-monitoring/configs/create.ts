@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("warp-devices", {
 			type: "string",
 			description:
-				"The warp_devices field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The warp_devices field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "name": string, "router_ip": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

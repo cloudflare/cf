@@ -179,7 +179,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("custom-headers", {
 			type: "string",
 			description:
-				"Set custom headers. Provide as a JSON object or @path/to/file.json.",
+				'Set custom headers. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("customagent", {
 			type: "string",

@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("layers", {
 			type: "string",
 			description:
-				"Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. Provide as a JSON object or @path/to/file.json.",
+				'Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("meeting-id", {
 			type: "string",

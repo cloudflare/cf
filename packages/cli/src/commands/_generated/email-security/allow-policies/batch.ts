@@ -27,22 +27,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"IDs of the allow policies to delete. Provide as a JSON array of objects or @path/to/file.json.",
+				'IDs of the allow policies to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"Partial updates to apply — each entry carries the policy's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
+				'Partial updates to apply — each entry carries the policy\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "expires_at"?: (string | null), "is_acceptable_sender"?: boolean, "is_exempt_recipient"?: boolean, "is_recipient"?: boolean, ...more} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"Allow policies to create. Provide as a JSON array of objects or @path/to/file.json.",
+				'Allow policies to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"is_acceptable_sender": boolean, "is_exempt_recipient": boolean, "is_regex": boolean, "is_trusted_sender": boolean, "pattern": string, ...more}].',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"Full replacements to apply — each entry carries the policy's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
+				'Full replacements to apply — each entry carries the policy\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"is_acceptable_sender": boolean, "is_exempt_recipient": boolean, "is_regex": boolean, "is_trusted_sender": boolean, "pattern": string, ...more} & {"id": string})].',
 		})
 		.option("dry-run", {
 			type: "boolean",

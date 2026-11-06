@@ -27,22 +27,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"IDs of the blocked sender patterns to delete. Provide as a JSON array of objects or @path/to/file.json.",
+				'IDs of the blocked sender patterns to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
+				'Partial updates to apply — each entry carries the pattern\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "expires_at"?: (string | null), "is_regex"?: boolean, "pattern"?: string, "pattern_type"?: "EMAIL" | "DOMAIN" | "IP" | ...more} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"Blocked sender patterns to create. Provide as a JSON array of objects or @path/to/file.json.",
+				'Blocked sender patterns to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"is_regex": boolean, "pattern": string, "pattern_type": "EMAIL" | "DOMAIN" | "IP" | ...more, "comments"?: (string | null), "expires_at"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
+				'Full replacements to apply — each entry carries the pattern\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"is_regex": boolean, "pattern": string, "pattern_type": "EMAIL" | "DOMAIN" | "IP" | ...more, "comments"?: (string | null), "expires_at"?: (string | null)} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

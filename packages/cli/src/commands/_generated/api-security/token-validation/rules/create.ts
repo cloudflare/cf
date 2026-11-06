@@ -47,12 +47,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("selector-exclude", {
 			type: "string",
 			description:
-				"Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json.",
+				'Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"operation_ids"?: [string]}]. ? marks optional keys.',
 		})
 		.option("selector-include", {
 			type: "string",
 			description:
-				"Select all matching operations. Provide as a JSON array of objects or @path/to/file.json.",
+				'Select all matching operations. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"host"?: [string]}]. ? marks optional keys.',
 		})
 		.option("title", {
 			type: "string",

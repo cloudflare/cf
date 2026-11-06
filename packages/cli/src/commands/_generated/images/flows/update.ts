@@ -23,7 +23,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("flows", {
 			type: "string",
 			description:
-				"The flows field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The flows field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "provider": "fastly", "type": "provider", "version": number} | {"enabled": boolean, "name": string, "transformations": [{...}], "trigger": {...}, "type": "custom"})].',
 		})
 		.option("config-version", {
 			type: "number",

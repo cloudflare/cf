@@ -45,7 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("nameservers", {
 			type: "string",
 			description:
-				"Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set. Provide as a JSON array of objects or @path/to/file.json.",
+				'Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "ip_count"?: number}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

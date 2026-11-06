@@ -55,7 +55,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("headers", {
 			type: "string",
 			description:
-				"List of custom headers to include in webhook requests. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of custom headers to include in webhook requests. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "value"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("label", {
 			type: "string",

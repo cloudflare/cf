@@ -104,7 +104,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source", {
 			type: "string",
 			description:
-				"The source field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The source field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"format": "json", "type": string, "authentication"?: boolean, "cors"?: {...}} | {"format": "json", "type": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

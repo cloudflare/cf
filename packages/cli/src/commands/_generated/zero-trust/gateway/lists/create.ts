@@ -35,7 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("items", {
 			type: "string",
 			description:
-				"Add items to the list. Provide as a JSON array of objects or @path/to/file.json.",
+				'Add items to the list. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"description"?: string, "value"?: string}]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "Specify the list name." })
 		.option("type", {

@@ -16,6 +16,7 @@
 import { bodyUnions, type BodyUnion } from "./body-unions.js";
 import { bodyProperties, discriminator, requiredNames } from "./body.js";
 import { GenerateError, nameWords, obj, type Obj, type Value } from "./js.js";
+import type { JsonShape } from "./json-shape.js";
 import type {
 	Body,
 	Content,
@@ -56,6 +57,7 @@ export interface BodyParamInfo {
 	optionalParentPath: readonly string[] | null;
 	type: string;
 	itemType?: string;
+	jsonShape?: JsonShape;
 	description?: string;
 	enumValues?: string[];
 	default?: Value;

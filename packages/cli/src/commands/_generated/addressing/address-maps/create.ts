@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("memberships", {
 			type: "string",
 			description:
-				"Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. Provide as a JSON array of objects or @path/to/file.json.",
+				'Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"identifier"?: string, "kind"?: "zone" | "account"}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

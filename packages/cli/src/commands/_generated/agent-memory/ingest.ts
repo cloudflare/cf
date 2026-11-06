@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("messages", {
 			type: "string",
 			description:
-				"Conversation messages to extract memories from. Provide as a JSON array of objects or @path/to/file.json.",
+				'Conversation messages to extract memories from. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content": string, "role": "system" | "user" | "assistant", "timestamp"?: string}]. ? marks optional keys.',
 		})
 		.option("session-id", {
 			type: "string",

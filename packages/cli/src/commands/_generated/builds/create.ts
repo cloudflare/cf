@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("seed-repo-files", {
 			type: "string",
 			description:
-				"Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json.",
+				'Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content": string, "filename": string, "isBase64"?: boolean, "replace"?: string}]. ? marks optional keys.',
 		})
 		.option("seed-repo-owner", {
 			type: "string",

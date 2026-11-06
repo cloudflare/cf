@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("policies", {
 			type: "string",
 			description:
-				"Policies attached to the User group. Provide as a JSON array of objects or @path/to/file.json.",
+				'Policies attached to the User group. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"access": "allow" | "deny", "permission_groups": [{...}], "resource_groups": [{...}]}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

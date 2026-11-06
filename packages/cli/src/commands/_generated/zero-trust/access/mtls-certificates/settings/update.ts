@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("settings", {
 			type: "string",
 			description:
-				"The settings field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The settings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"china_network": boolean, "client_certificate_forwarding": boolean, "hostname": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

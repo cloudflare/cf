@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("domains", {
 			type: "string",
 			description:
-				"List of domain objects to evaluate for transfer eligibility. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of domain objects to evaluate for transfer eligibility. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"domain_name": string, "auth_code"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

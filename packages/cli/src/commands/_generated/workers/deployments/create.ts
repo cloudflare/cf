@@ -60,7 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("versions", {
 			type: "string",
 			description:
-				'Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions \'[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]\'`, or from a JSON file with `--versions @versions.json`. Provide as a JSON array of objects or @path/to/file.json.',
+				'Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions \'[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]\'`, or from a JSON file with `--versions @versions.json`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"percentage": number, "version_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

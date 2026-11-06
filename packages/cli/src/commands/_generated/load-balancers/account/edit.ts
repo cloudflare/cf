@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("country-pools", {
 			type: "string",
 			description:
-				"A mapping of country codes to a list of pool IDs (ordered by their failover priority) for the given country. Any country not explicitly defined will fall back to using the corresponding region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json.",
+				'A mapping of country codes to a list of pool IDs (ordered by their failover priority) for the given country. Any country not explicitly defined will fall back to using the corresponding region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("default-pools", {
 			type: "string",
@@ -95,12 +95,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("pool-sets", {
 			type: "string",
 			description:
-				"An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json.",
+				'An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (`region_pools` / `country_pools` / `pop_pools` / `default_pools` / `steering_policy` / `random_steering` / `fallback_pool` / `rules`). On a PATCH, an empty array (`pool_sets: []`) clears all pool sets, while omitting the field leaves existing pool sets unchanged. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"disabled"?: boolean, "fixed_response"?: {...}, "match"?: {...}, "name"?: string, "overrides"?: {...}}]. ? marks optional keys.',
 		})
 		.option("pop-pools", {
 			type: "string",
 			description:
-				"Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json.",
+				'Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("proxied", {
 			type: "boolean",
@@ -115,17 +115,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("random-steering-pool-weights", {
 			type: "string",
 			description:
-				"A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. Provide as a JSON object or @path/to/file.json.",
+				'A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
 		})
 		.option("region-pools", {
 			type: "string",
 			description:
-				"A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. Provide as a JSON object or @path/to/file.json.",
+				'A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("rules", {
 			type: "string",
 			description:
-				"BETA Field Not General Access: A list of rules for this load balancer to execute. Provide as a JSON array of objects or @path/to/file.json.",
+				'BETA Field Not General Access: A list of rules for this load balancer to execute. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"condition"?: string, "disabled"?: boolean, "fixed_response"?: {...}, "name"?: string, "overrides"?: {...}, ...more}]. ? marks optional keys.',
 		})
 		.option("session-affinity", {
 			type: "string",

@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("fields", {
 			type: "string",
 			description:
-				"Controls which fields the API ingests after the update. Defaults\nto all available fields when absent.\n. Provide as a JSON array of objects or @path/to/file.json.",
+				'Controls which fields the API ingests after the update. Defaults\nto all available fields when absent. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "name": string}].',
 		})
 		.option("filter", {
 			type: "string",

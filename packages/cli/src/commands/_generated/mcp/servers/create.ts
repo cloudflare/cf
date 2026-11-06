@@ -78,12 +78,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("updated-prompts", {
 			type: "string",
 			description:
-				"Server-wide prompt capability overrides. Provide as a JSON array of objects or @path/to/file.json.",
+				'Server-wide prompt capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "alias"?: string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("updated-tools", {
 			type: "string",
 			description:
-				"Server-wide tool capability overrides. Provide as a JSON array of objects or @path/to/file.json.",
+				'Server-wide tool capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "alias"?: string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

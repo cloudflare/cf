@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"Provides content list entries. Provide as a JSON array of objects or @path/to/file.json.",
+				'Provides content list entries. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "description"?: string, "type"?: "cid" | "content_path"}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("commands", {
 			type: "string",
 			description:
-				"List of device-level commands to execute. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of device-level commands to execute. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"device_id": string, "type": "pcap" | "speed-test" | "warp-diag", "user_email": string, "args"?: {...}, "registration_id"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

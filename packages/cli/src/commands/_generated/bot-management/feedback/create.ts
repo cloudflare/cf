@@ -44,17 +44,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("requests-by-attribute", {
 			type: "string",
 			description:
-				"Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. Provide as a JSON object or @path/to/file.json.",
+				'Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [{...}]}.',
 		})
 		.option("requests-by-score", {
 			type: "string",
 			description:
-				"Map of bot scores (1-99) to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json.",
+				'Map of bot scores (1-99) to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
 		})
 		.option("requests-by-score-src", {
 			type: "string",
 			description:
-				"Map of score source to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json.",
+				'Map of score source to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
 		})
 		.option("subtype", { type: "string", description: "The subtype field" })
 		.option("type", {

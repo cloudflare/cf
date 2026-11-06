@@ -53,7 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("contact-extensions", {
 			type: "string",
 			description:
-				"Registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` documents the\nrequired keys and allowed values for each extension in the\n`transfer_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Include this object only when the extension's\ntransfer schema defines `contact_extensions`. Provide as a JSON object or @path/to/file.json.",
+				'Registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` documents the\nrequired keys and allowed values for each extension in the\n`transfer_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Include this object only when the extension\'s\ntransfer schema defines `contact_extensions`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("contacts-administrator-email", {
 			type: "string",

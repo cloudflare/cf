@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("refs", {
 			type: "string",
 			description:
-				"The refs field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The refs field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ref": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

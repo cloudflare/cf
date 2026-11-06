@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("schema", {
 			type: "string",
 			description:
-				"Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. Provide as a JSON array of objects or @path/to/file.json.",
+				'Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "kind": "string" | "number" | "enum" | ...more, "allowedValues"?: [string], "annotations"?: {...}, "deprecated"?: boolean, ...more}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

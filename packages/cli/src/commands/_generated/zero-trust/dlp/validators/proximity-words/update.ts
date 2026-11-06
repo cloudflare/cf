@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("words", {
 			type: "string",
 			description:
-				'The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{"word": "patient", "weight": "strong"}, {"word": "diagnosis", "weight": "moderate"},\n{"word": "mrn", "weight": "weak"}]`. Provide as a JSON array of objects or @path/to/file.json.',
+				'The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{"word": "patient", "weight": "strong"}, {"word": "diagnosis", "weight": "moderate"},\n{"word": "mrn", "weight": "weak"}]`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"weight": "strong" | "moderate" | "weak", "word": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

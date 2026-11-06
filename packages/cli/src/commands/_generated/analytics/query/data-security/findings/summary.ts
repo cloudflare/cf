@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filters", {
 			type: "string",
 			description:
-				"Filters to apply. Provide as a JSON array of objects or @path/to/file.json.",
+				'Filters to apply. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "op": string, "values": [(string | boolean | number)]}].',
 		})
 		.option("from", {
 			type: "string",

@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("members", {
 			type: "string",
 			description:
-				"Tunnels to add to the group. Provide as a JSON array of objects or @path/to/file.json.",
+				'Tunnels to add to the group. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "type": "gre" | "ipsec" | "cni"}].',
 		})
 		.option("name", {
 			type: "string",

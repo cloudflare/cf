@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("routes", {
 			type: "string",
 			description:
-				"The routes field. Provide as a JSON array of objects or @path/to/file.json.",
+				"The routes field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{}].",
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("conditions", {
 			type: "string",
 			description:
-				"Triggered if all conditions match. Provide as a JSON array of objects or @path/to/file.json.",
+				'Triggered if all conditions match. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"operator": "InList" | "NotInList" | "MatchRegex" | ...more, "selector": "Recipients" | "Sender" | "DLPProfiles", "value": ([string] | string)}].',
 		})
 		.option("description", {
 			type: "string",

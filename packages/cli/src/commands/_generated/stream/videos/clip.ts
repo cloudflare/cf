@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("meta", {
 			type: "string",
 			description:
-				"A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json.",
+				'A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("name", { type: "string", description: "A name for the video." })
 		.option("require-signed-urls", {

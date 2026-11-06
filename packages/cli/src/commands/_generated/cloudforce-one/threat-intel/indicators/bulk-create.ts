@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("indicators", {
 			type: "string",
 			description:
-				"The indicators field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The indicators field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"indicatorType": string, "value": string, "autoCreateType"?: boolean, "relatedEvents"?: [{...}], "tags"?: [(string | {...})], ...more}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

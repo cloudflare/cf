@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				"Replaces all tags assigned to the physical device. An empty object removes all tags. Provide as a JSON object or @path/to/file.json.",
+				'Replaces all tags assigned to the physical device. An empty object removes all tags. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

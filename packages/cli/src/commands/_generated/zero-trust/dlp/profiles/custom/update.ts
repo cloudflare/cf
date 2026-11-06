@@ -71,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"Custom entries from this profile.\nIf this field is omitted, entries owned by this profile will not be changed. Provide as a JSON array of objects or @path/to/file.json.",
+				'Custom entries from this profile.\nIf this field is omitted, entries owned by this profile will not be changed. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)} & {"entry_id": string}) | {"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)})]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("ocr-enabled", {
@@ -81,12 +81,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sensitivity-levels", {
 			type: "string",
 			description:
-				"Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged. Provide as a JSON array of objects or @path/to/file.json.",
+				'Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
 		})
 		.option("shared-entries", {
 			type: "string",
 			description:
-				"Other entries, e.g. predefined or integration. Provide as a JSON array of objects or @path/to/file.json.",
+				'Other entries, e.g. predefined or integration. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "entry_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

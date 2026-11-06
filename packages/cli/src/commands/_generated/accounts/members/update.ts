@@ -31,12 +31,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("roles", {
 			type: "string",
 			description:
-				"Roles assigned to this member. Provide as a JSON array of objects or @path/to/file.json.",
+				'Roles assigned to this member. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("policies", {
 			type: "string",
 			description:
-				"Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"access": "allow" | "deny", "permission_groups": [{...}], "resource_groups": [{...}]}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -47,7 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"Array of rules to drive notifications. Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of rules to drive notifications. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actions": ["PutObject" | "CopyObject" | "DeleteObject" | ...more], "description"?: string, "prefix"?: string, "suffix"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

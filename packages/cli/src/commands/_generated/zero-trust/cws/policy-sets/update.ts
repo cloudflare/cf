@@ -55,12 +55,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("policies", {
 			type: "string",
 			description:
-				"Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json.",
+				'Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"policy_id": string, "enforce"?: boolean}]. ? marks optional keys.',
 		})
 		.option("tags", {
 			type: "string",
 			description:
-				"Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json.",
+				'Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -242,6 +242,38 @@ describe("cf previews deploy", () => {
 		);
 	});
 
+	it("uploads secrets from --secrets-file", async () => {
+		const rootConfig = { buildContext: { isPreview: true } };
+		const worker = {
+			config: { type: "worker", name: "preview-worker" },
+			bundleDir: "/project/bundle",
+		};
+		mocks.readBuildOutput.mockResolvedValue({
+			rootConfig,
+			workers: { default: worker },
+		});
+		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
+		mocks.getAuthToken.mockResolvedValue("token");
+		mocks.getAccountId.mockResolvedValue("account-id");
+		mocks.createDeployContext.mockReturnValue({
+			logger: { log: vi.fn(), info: vi.fn() },
+		});
+		mocks.previewBuildOutput.mockResolvedValue(previewResult);
+
+		await runPreviewDeploy({
+			"preview-name": "feature",
+			prebuilt: true,
+			"secrets-file": ".env.preview",
+		} as Parameters<typeof runPreviewDeploy>[0]);
+
+		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
+			"account-id",
+			{ name: "feature", json: true, secretsFile: ".env.preview" },
+			expect.any(Object),
+			expect.any(Object)
+		);
+	});
+
 	it("uses the built region to select an account when output omits its ID", async () => {
 		const worker = {
 			config: {

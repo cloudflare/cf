@@ -175,6 +175,17 @@ describe("hand-written command metadata", () => {
 		});
 	});
 
+	it("publishes Preview secrets-file metadata", () => {
+		expect(commands.get("cf previews deploy")?.options).toContainEqual({
+			name: "secrets-file",
+			type: "string",
+			required: false,
+			description: expect.stringMatching(
+				/^Path to a file containing secrets to upload with the Preview deployment /
+			),
+		});
+	});
+
 	it("publishes Quick Tunnel email protection for completions and tools", () => {
 		expect(commands.get("cf tunnels quick-start")?.options).toContainEqual(
 			expect.objectContaining({

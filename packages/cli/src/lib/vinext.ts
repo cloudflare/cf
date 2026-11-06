@@ -49,5 +49,10 @@ function getVinextCommand(
 	details: AutoConfigDetails,
 	command: "dev" | "build"
 ): string {
-	return `${details.packageManager.npx} vite ${command}`;
+	const vite =
+		details.packageJson?.dependencies?.["vite-plus"] ||
+		details.packageJson?.devDependencies?.["vite-plus"]
+			? "vp"
+			: "vite";
+	return `${details.packageManager.npx} ${vite} ${command}`;
 }

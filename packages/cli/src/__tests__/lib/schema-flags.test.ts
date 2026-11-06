@@ -7,6 +7,7 @@ import {
 	isFullySupportedJsonSchema,
 	missingRequired,
 	missingRequiredFromBody,
+	referencesReadOnly,
 	renderFlagHelp,
 	renderPromptQuestion,
 	sanitizeTerminalText,
@@ -27,6 +28,206 @@ const flags = (
 ) => schemaToFlags(schema, { commandFlags: [], ...options });
 
 describe("schema flags", () => {
+	it("guards recursive response-annotation walks", () => {
+		const recursive: JsonSchema = {};
+		recursive.properties = { child: recursive };
+		expect(referencesReadOnly(recursive, {})).toBe(false);
+		const conjunction: JsonSchema = {};
+		conjunction.allOf = [conjunction];
+		expect(isFullySupportedJsonSchema(conjunction)).toBe(false);
+	});
+
+	it("omits read-only flags and ignores absent or invalid response fields", () => {
+		const schema: JsonSchema = {
+			type: "object",
+			required: ["id", "response", "payload", "items"],
+			additionalProperties: false,
+			maxProperties: 2,
+			properties: {
+				id: { allOf: [{ type: "string" }, { readOnly: true }] },
+				response: {
+					type: "object",
+					readOnly: true,
+					required: ["status"],
+					properties: { status: { const: "ready" } },
+				},
+				payload: {
+					type: "object",
+					required: ["value", "created_at"],
+					additionalProperties: false,
+					maxProperties: 1,
+					properties: {
+						value: { type: "string" },
+						created_at: { type: "string", readOnly: true },
+					},
+				},
+				items: {
+					type: "array",
+					items: {
+						type: "object",
+						required: ["id", "value"],
+						properties: {
+							id: { type: "number", readOnly: true },
+							value: { type: "boolean" },
+						},
+					},
+				},
+			},
+		};
+		const descriptors = flags(schema);
+		expect(descriptors.map((field) => field.name)).toEqual([
+			"items",
+			"payload-value",
+		]);
+		expect(renderFlagHelp(descriptors, "Fields")).not.toMatch(
+			/created_at|response|--id/
+		);
+		expect(
+			missingRequiredFromBody(descriptors, {
+				payload: { value: "ok" },
+				items: [],
+			})
+		).toEqual([]);
+		for (const body of [
+			{ payload: { value: "ok" }, items: [{ value: true }] },
+			{
+				id: { invalid: true },
+				response: false,
+				payload: { value: "ok", created_at: 42 },
+				items: [{ id: "invalid", value: true }],
+			},
+		]) {
+			expect(validateJsonSchema(schema, body)).toEqual([]);
+			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
+		}
+		expect(
+			validateJsonSchema(schema, { payload: {}, items: [{ value: 1 }] })
+		).toEqual([
+			"`/payload/value` is required",
+			"`/items/0/value` must be a boolean",
+		]);
+	});
+
+	it("accepts branches that overlap after response-only selectors are ignored", () => {
+		const schema: JsonSchema = {
+			oneOf: ["left", "right"].map((kind) => ({
+				type: "object",
+				additionalProperties: false,
+				required: ["kind", "value"],
+				properties: {
+					kind: { const: kind, readOnly: true },
+					value: { type: "string" },
+				},
+			})),
+		};
+		for (const body of [{ value: "ok" }, { kind: false, value: "ok" }]) {
+			expect(validateJsonSchema(schema, body)).toEqual([]);
+			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
+		}
+		expect(validateJsonSchema(schema, { value: false })).not.toEqual([]);
+	});
+
+	it("ignores shared read-only requirements and conditions across allOf", () => {
+		const schema: JsonSchema = {
+			type: "object",
+			additionalProperties: false,
+			properties: { name: { type: "string" }, other: { type: "string" } },
+			allOf: [
+				{ properties: { id: { type: "string", readOnly: true } } },
+				{ required: ["id", "name"] },
+				{
+					if: { required: ["id"], properties: { id: { const: "ready" } } },
+					// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+					then: { required: ["other"] },
+				},
+			],
+		};
+		expect(
+			flags(schema).map((field) => [field.name, field.requiredIf])
+		).toEqual([
+			["name", undefined],
+			["other", undefined],
+		]);
+		for (const body of [
+			{ name: "ok" },
+			{ name: "ok", id: "ready" },
+			{ name: "ok", id: false },
+		]) {
+			expect(validateJsonSchema(schema, body)).toEqual([]);
+			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
+		}
+	});
+
+	it("ignores conditions on response fields declared only within the condition", () => {
+		const schema: JsonSchema = {
+			type: "object",
+			properties: { other: { type: "string" } },
+			if: {
+				required: ["id"],
+				properties: { id: { const: "ready", readOnly: true } },
+			},
+			// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+			then: { required: ["other"] },
+		};
+		for (const body of [{}, { id: "ready" }, { id: false }]) {
+			expect(validateJsonSchema(schema, body)).toEqual([]);
+			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
+		}
+		expect(flags(schema)[0]?.requiredIf).toBeUndefined();
+	});
+
+	it("ignores conditions referencing a nested response-only selector", () => {
+		const schema: JsonSchema = {
+			type: "object",
+			properties: {
+				settings: {
+					type: "object",
+					properties: { server_id: { type: "string", readOnly: true } },
+				},
+				other: { type: "string" },
+			},
+			if: {
+				required: ["settings"],
+				properties: {
+					settings: {
+						required: ["server_id"],
+						properties: { server_id: { const: "ready" } },
+					},
+				},
+			},
+			// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+			then: { required: ["other"] },
+		};
+		for (const body of [
+			{ settings: {} },
+			{ settings: { server_id: "ready" } },
+			{ settings: { server_id: false } },
+		]) {
+			expect(validateJsonSchema(schema, body)).toEqual([]);
+			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
+		}
+	});
+
+	it("preserves oneOf exclusivity when response fields are unrelated", () => {
+		const schema: JsonSchema = {
+			properties: { id: { readOnly: true } },
+			oneOf: [
+				["left", "overlap"],
+				["right", "overlap"],
+			].map((choices) => ({
+				type: "object",
+				required: ["value"],
+				properties: { value: { enum: choices } },
+			})),
+		};
+		expect(validateJsonSchema(schema, { value: "left" })).toEqual([]);
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			expect(validate(schema, { id: false, value: "overlap" })[0]).toContain(
+				"exactly one allowed shape"
+			);
+		}
+	});
+
 	it("moves a top-level field named after a global to --input-<flag>", () => {
 		const descriptors = flags({
 			type: "object",

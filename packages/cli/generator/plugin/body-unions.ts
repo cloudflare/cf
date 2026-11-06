@@ -32,7 +32,7 @@ function taggedMembers(
 				const field = member.fields.find(
 					(f) => f.wireName === candidate.wireName
 				);
-				if (!field?.required) return false;
+				if (!field?.required || field.readOnly) return false;
 				const t = unwrapNull(deref(field.type));
 				if (t.kind !== "enum" || t.values.some((v) => seen.includes(v)))
 					return false;
@@ -80,7 +80,12 @@ function schema(type: Type, active: readonly Type[] = []): Value {
 				["type", "object"],
 				[
 					"properties",
-					obj(t.fields.map((f) => [f.wireName, schema(f.type, next)])),
+					obj(
+						t.fields.map((f) => [
+							f.wireName,
+							f.readOnly ? obj() : schema(f.type, next),
+						])
+					),
 				],
 				[
 					"required",

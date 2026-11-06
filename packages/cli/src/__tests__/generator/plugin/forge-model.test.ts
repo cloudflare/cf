@@ -403,7 +403,7 @@ describe("the forge model", () => {
 		const code = file(
 			create({
 				type: "object",
-				required: ["display_name"],
+				required: ["display_name", "id"],
 				properties: {
 					display_name: { type: "string", description: "The name." },
 					ttlSeconds: { type: "integer", nullable: true },

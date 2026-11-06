@@ -25,6 +25,7 @@ export { sanitizeTerminalText } from "./ui/sanitize.js";
 
 /** The subset of JSON Schema these endpoints use. */
 export interface JsonSchema {
+	readOnly?: boolean;
 	type?: string | string[];
 	title?: string;
 	description?: string;
@@ -53,6 +54,20 @@ export interface JsonSchema {
 	uniqueItems?: boolean;
 	minProperties?: number;
 	maxProperties?: number;
+}
+
+function isReadOnly(
+	schema: JsonSchema | undefined,
+	seen = new WeakSet<object>()
+): boolean {
+	if (schema === undefined || seen.has(schema)) {
+		return false;
+	}
+	seen.add(schema);
+	return (
+		schema.readOnly === true ||
+		schema.allOf?.some((clause) => isReadOnly(clause, seen)) === true
+	);
 }
 
 const SUPPORTED_SCHEMA_KEYS = new Set([
@@ -123,10 +138,73 @@ function schemaChildren(schema: JsonSchema): JsonSchema[] {
 	];
 }
 
+function containsReadOnly(
+	schema: JsonSchema,
+	seen = new WeakSet<object>()
+): boolean {
+	if (seen.has(schema)) {
+		return false;
+	}
+	seen.add(schema);
+	return (
+		schema.readOnly === true ||
+		schemaChildren(schema).some((child) => containsReadOnly(child, seen))
+	);
+}
+
+/** Whether evaluating a schema would inspect response-only properties. */
+export function referencesReadOnly(
+	condition: JsonSchema,
+	input: JsonSchema,
+	ignored: ReadonlySet<string> = new Set()
+): boolean {
+	if (containsReadOnly(condition)) {
+		return true;
+	}
+	const source = structuralAllOf(input);
+	const clause = structuralAllOf(condition);
+	for (const key of new Set([
+		...(clause.required ?? []),
+		...Object.keys(clause.properties ?? {}),
+	])) {
+		const sourceChild = ownSchemaProperty(source.properties, key);
+		if (ignored.has(key) || isReadOnly(sourceChild)) {
+			return true;
+		}
+		const conditionChild = ownSchemaProperty(clause.properties, key);
+		if (
+			sourceChild &&
+			conditionChild &&
+			referencesReadOnly(conditionChild, sourceChild)
+		) {
+			return true;
+		}
+	}
+	const items = (schema: JsonSchema): JsonSchema[] =>
+		schema.items === undefined
+			? []
+			: Array.isArray(schema.items)
+				? schema.items
+				: [schema.items];
+	return (
+		alternativeGroups(condition).some((group) =>
+			group.some((variant) => referencesReadOnly(variant, input, ignored))
+		) ||
+		items(clause).some((child) =>
+			items(source).some((sourceChild) =>
+				referencesReadOnly(child, sourceChild)
+			)
+		)
+	);
+}
+
 function isFullySupportedJsonSchemaInner(
 	schema: JsonSchema,
 	seen: WeakSet<object>
 ): boolean {
+	if (isReadOnly(schema)) {
+		return true;
+	}
 	if (seen.has(schema)) {
 		return false;
 	}
@@ -701,7 +779,7 @@ function describeLeaf(
 	requiredWhen?: string[],
 	typeOverride?: FlagType
 ): FlagDescriptor | undefined {
-	if (!isSafePropertyPath(path)) {
+	if (!isSafePropertyPath(path) || isReadOnly(schema)) {
 		return undefined;
 	}
 	const type = typeOverride ?? toFlagType(schema);
@@ -856,6 +934,9 @@ export function schemaToFlags(
 			) {
 				continue;
 			}
+			if (referencesReadOnly(condition, level)) {
+				continue;
+			}
 			const conditionRequired = new Set(condition.required ?? []);
 			const conditionProperties = condition.properties ?? {};
 			// A property constraint without `required` also matches an absent
@@ -923,7 +1004,11 @@ export function schemaToFlags(
 			}
 			for (const field of required) {
 				const key = [...path, field].join(".");
-				if (excluded.has(key)) {
+				if (
+					excluded.has(key) ||
+					isReadOnly(ownSchemaProperty(level.properties, field)) ||
+					isReadOnly(ownSchemaProperty(consequent?.properties, field))
+				) {
 					continue;
 				}
 				const requirement: RequiredIf = { predicates };
@@ -969,6 +1054,9 @@ export function schemaToFlags(
 		requiredWhen?: string[],
 		inAlternative = false
 	): void => {
+		if (isReadOnly(level)) {
+			return;
+		}
 		const shared = structuralAllOf(withoutAlternatives(level));
 		if (shared.properties) {
 			const required = new Set(shared.required ?? []);
@@ -979,6 +1067,9 @@ export function schemaToFlags(
 					continue;
 				}
 				const structuralChild = structuralAllOf(child);
+				if (isReadOnly(structuralChild)) {
+					continue;
+				}
 				const hasNestedProperties = hasObjectProperties(child);
 				const nests = hasNestedProperties && isObjectOnly(child);
 				const locallyRequired = !inAlternative && required.has(field);
@@ -1685,8 +1776,23 @@ function jsonPointer(path: readonly string[]): string {
 function validateSchemaAtPath(
 	schema: JsonSchema,
 	value: unknown,
-	path: string[]
+	path: string[],
+	parents: readonly JsonSchema[] = []
 ): string[] {
+	if (isReadOnly(schema)) {
+		return [];
+	}
+	const sources = [...parents, schema];
+	const ignored = new Set<string>();
+	for (const source of sources) {
+		for (const [key, child] of Object.entries(
+			structuralAllOf(source).properties ?? {}
+		)) {
+			if (isReadOnly(child)) {
+				ignored.add(key);
+			}
+		}
+	}
 	const errors: string[] = [];
 	const location = jsonPointer(path);
 	const types =
@@ -1714,9 +1820,14 @@ function validateSchemaAtPath(
 
 	if (schema.oneOf?.length) {
 		const matches = schema.oneOf.filter(
-			(variant) => validateSchemaAtPath(variant, value, path).length === 0
+			(variant) =>
+				validateSchemaAtPath(variant, value, path, sources).length === 0
 		).length;
-		if (matches !== 1) {
+		// Ignoring response fields can make formerly exclusive branches overlap.
+		const widened = schema.oneOf.some((variant) =>
+			sources.some((source) => referencesReadOnly(variant, source, ignored))
+		);
+		if (matches === 0 || (matches !== 1 && !widened)) {
 			const alternatives = scalarAlternativeDescriptions(schema);
 			return [
 				alternatives
@@ -1728,7 +1839,8 @@ function validateSchemaAtPath(
 	if (
 		schema.anyOf?.length &&
 		!schema.anyOf.some(
-			(variant) => validateSchemaAtPath(variant, value, path).length === 0
+			(variant) =>
+				validateSchemaAtPath(variant, value, path, sources).length === 0
 		)
 	) {
 		const alternatives = scalarAlternativeDescriptions(schema);
@@ -1739,14 +1851,17 @@ function validateSchemaAtPath(
 		];
 	}
 	for (const clause of schema.allOf ?? []) {
-		errors.push(...validateSchemaAtPath(clause, value, path));
+		errors.push(...validateSchemaAtPath(clause, value, path, sources));
 	}
 	if (
 		schema.if &&
-		validateSchemaAtPath(schema.if, value, path).length === 0 &&
+		!sources.some((source) =>
+			referencesReadOnly(schema.if ?? {}, source, ignored)
+		) &&
+		validateSchemaAtPath(schema.if, value, path, sources).length === 0 &&
 		schema.then
 	) {
-		errors.push(...validateSchemaAtPath(schema.then, value, path));
+		errors.push(...validateSchemaAtPath(schema.then, value, path, sources));
 	}
 
 	if (typeof value === "string") {
@@ -1857,11 +1972,14 @@ function validateSchemaAtPath(
 		const object = value as Record<string, unknown>;
 		const properties = schema.properties ?? {};
 		for (const required of schema.required ?? []) {
-			if (!Object.hasOwn(object, required)) {
+			if (!ignored.has(required) && !Object.hasOwn(object, required)) {
 				errors.push(`${jsonPointer([...path, required])} is required`);
 			}
 		}
 		for (const [key, child] of Object.entries(object)) {
+			if (ignored.has(key)) {
+				continue;
+			}
 			const propertySchema = Object.hasOwn(properties, key)
 				? properties[key]
 				: undefined;
@@ -1883,7 +2001,7 @@ function validateSchemaAtPath(
 				);
 			}
 		}
-		const count = Object.keys(object).length;
+		const count = Object.keys(object).filter((key) => !ignored.has(key)).length;
 		if (schema.minProperties !== undefined && count < schema.minProperties) {
 			errors.push(
 				`${location} must contain at least ${schema.minProperties} properties`
@@ -1943,6 +2061,9 @@ interface ProjectedSchema {
  * below rather than copied blindly.
  */
 function supportedValidationSchema(schema: JsonSchema): ProjectedSchema {
+	if (isReadOnly(schema)) {
+		return { schema: { readOnly: true }, exact: true };
+	}
 	const raw = schema as Record<string, unknown>;
 	const keys = Object.keys(raw);
 	if (raw.nullable === true || raw["x-nullable"] === true) {

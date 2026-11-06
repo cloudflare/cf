@@ -61,7 +61,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("servers", {
 			type: "string",
 			description:
-				"MCP servers attached to the portal and their portal-specific settings. Provide as a JSON array of objects or @path/to/file.json.",
+				'MCP servers attached to the portal and their portal-specific settings. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"server_id": string, "default_disabled"?: boolean, "on_behalf"?: boolean, "updated_prompts"?: [{...}], "updated_tools"?: [{...}]}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

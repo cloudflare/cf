@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("condition-conditions", {
 			type: "string",
 			description:
-				"The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"field": string, "operator": "==" | "!=" | ">" | ...more, "type": "scalar", "value": (string | number | boolean)} | {"conditions": [{...}], "field": string, "type": "array", "quantifier"?: "any" | "all"} | ...more)]. ? marks optional keys.',
 		})
 		.option("condition-operator", {
 			type: "string",
@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("meta", {
 			type: "string",
 			description:
-				"The meta field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "value": (string | number | boolean)}].',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("status", {
@@ -80,7 +80,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("strings", {
 			type: "string",
 			description:
-				"The strings field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"identifier": string, "type": "string_match", "value": string, "match_type"?: "text" | "hex" | "regex", "modifiers"?: ["nocase" | "wide" | "ascii" | ...more]}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

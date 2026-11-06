@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("credentials", {
 			type: "string",
 			description:
-				"Partial credential fields to merge with existing. Provide as a JSON object or @path/to/file.json.",
+				'Partial credential fields to merge with existing. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("dlp-profiles", {
 			type: "string",

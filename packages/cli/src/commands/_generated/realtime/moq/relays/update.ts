@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("relay-config-upstreams-upstreams", {
 			type: "string",
 			description:
-				"Ordered list of upstream MOQT server publishers. Each entry is an\nobject (not a bare string) so per-upstream configuration can be\nadded in the future without another breaking change.\n. Provide as a JSON array of objects or @path/to/file.json.",
+				'Ordered list of upstream MOQT server publishers. Each entry is an\nobject (not a bare string) so per-upstream configuration can be\nadded in the future without another breaking change. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"url": string}].',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("dry-run", {

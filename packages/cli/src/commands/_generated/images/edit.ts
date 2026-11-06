@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("metadata", {
 			type: "string",
 			description:
-				"User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. Provide as a JSON object or @path/to/file.json.",
+				'User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("require-signed-urls", {
 			type: "boolean",

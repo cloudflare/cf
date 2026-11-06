@@ -84,7 +84,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("previews-base-config-environment-variables", {
 			type: "string",
 			description:
-				"Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json.",
+				'Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("previews-base-config-path-excludes", {
 			type: "string",
@@ -127,7 +127,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("production-settings-environment-variables", {
 			type: "string",
 			description:
-				"Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json.",
+				'Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("production-settings-path-excludes", {
 			type: "string",

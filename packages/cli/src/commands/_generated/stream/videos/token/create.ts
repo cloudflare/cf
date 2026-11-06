@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("access-rules", {
 			type: "string",
 			description:
-				"The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated. Provide as a JSON array of objects or @path/to/file.json.",
+				'The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action"?: "allow" | "block", "country"?: [string], "ip"?: [string], "type"?: "any" | "ip.src" | "ip.geoip.country"}]. ? marks optional keys.',
 		})
 		.option("downloadable", {
 			type: "boolean",

@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				"Tags to create with the category. Mutually exclusive with `template_id`. Provide as a JSON array of objects or @path/to/file.json.",
+				'Tags to create with the category. Mutually exclusive with `template_id`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "description"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("template-id", {
 			type: "string",

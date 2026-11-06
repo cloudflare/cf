@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("items", {
 			type: "string",
 			description:
-				"The list items to delete, identified by their unique IDs. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list items to delete, identified by their unique IDs. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -144,7 +144,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("schema-fields", {
 			type: "string",
 			description:
-				"The schema.fields field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The schema.fields field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"type": "int32"} | {"type": "int64"} | {"type": "float32"} | ...more) & {"name": string, "metadata_key"?: (string | null), "required"?: boolean, "sql_name"?: string})]. ? marks optional keys.',
 		})
 		.option("schema-inferred", {
 			type: "boolean",

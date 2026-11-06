@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("operations", {
 			type: "string",
 			description:
-				"The Operations field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The Operations field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"op": "add" | "remove" | "replace", "path"?: string, "value"?: (string | number | boolean | ...more)}]. ? marks optional keys.',
 		})
 		.option("schemas", {
 			type: "string",

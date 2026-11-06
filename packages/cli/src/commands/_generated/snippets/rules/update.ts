@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"Lists snippet rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Lists snippet rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"expression": string, "snippet_name": string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

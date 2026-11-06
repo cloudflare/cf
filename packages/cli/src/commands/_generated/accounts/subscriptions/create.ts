@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("component-values", {
 			type: "string",
 			description:
-				"Configurable component values for the subscription. Provide as a JSON array of objects or @path/to/file.json.",
+				'Configurable component values for the subscription. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"default"?: number, "display_name"?: string, "kind"?: "enum" | "sum" | "usage", "name"?: string, "price"?: number, ...more}]. ? marks optional keys.',
 		})
 		.option("frequency", {
 			type: "string",

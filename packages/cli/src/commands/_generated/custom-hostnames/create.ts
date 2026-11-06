@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("custom-metadata", {
 			type: "string",
 			description:
-				"Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json.",
+				'Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("custom-origin-server", {
 			type: "string",
@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ssl-custom-cert-bundle", {
 			type: "string",
 			description:
-				"Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"custom_certificate": string, "custom_key": string}].',
 		})
 		.option("ssl-custom-certificate", {
 			type: "string",

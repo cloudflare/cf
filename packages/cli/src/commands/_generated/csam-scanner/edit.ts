@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("value-sources", {
 			type: "string",
 			description:
-				"Map of scanning sources and their enabled state. Provide as a JSON object or @path/to/file.json.",
+				'Map of scanning sources and their enabled state. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": boolean}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

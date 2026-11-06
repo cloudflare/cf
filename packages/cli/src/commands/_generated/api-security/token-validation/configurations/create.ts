@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("credentials-keys", {
 			type: "string",
 			description:
-				"The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"kid": string} & {"alg": "RS256" | "RS384" | "RS512" | ...more, "e": string, "kty": "RSA", "n": string}) | ({"kid": string} & {"kty": "EC", "x": string, "y": string} & {"alg": "ES256", "crv": "P-256"}) | ...more)].',
 		})
 		.option("description", {
 			type: "string",

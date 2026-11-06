@@ -33,17 +33,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-button-text-translations-accept-all", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-button-text-translations-confirm-my-choices", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-button-text-translations-reject-all", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-company-email", {
 			type: "string",
@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-consent-modal-intro-htmlwith-translations", {
 			type: "string",
 			description:
-				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are language codes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("consent-cookie-name", {
 			type: "string",
@@ -93,12 +93,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-purposes", {
 			type: "string",
 			description:
-				"Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("consent-purposes-with-translations", {
 			type: "string",
 			description:
-				"Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json.",
+				'Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("consent-tcf-compliant", {
 			type: "boolean",
@@ -180,12 +180,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("triggers", {
 			type: "string",
 			description:
-				"Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. Provide as a JSON object or @path/to/file.json.",
+				'Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("variables", {
 			type: "string",
 			description:
-				"Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. Provide as a JSON object or @path/to/file.json.",
+				'Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("zaraz-version", {
 			type: "number",
@@ -194,7 +194,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tools", {
 			type: "string",
 			description:
-				"Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json.",
+				'Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

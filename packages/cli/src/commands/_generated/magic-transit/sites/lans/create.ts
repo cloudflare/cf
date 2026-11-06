@@ -59,12 +59,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("remote-subnets", {
 			type: "string",
 			description:
-				"The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"local_alias_prefix": string, "remote_prefix": string}].',
 		})
 		.option("routed-subnets", {
 			type: "string",
 			description:
-				"The routed_subnets field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The routed_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"next_hop": string, "prefix": string, "nat"?: {...}}]. ? marks optional keys.',
 		})
 		.option("static-addressing-address", {
 			type: "string",
@@ -78,7 +78,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("static-addressing-dhcp-server-dhcp-options", {
 			type: "string",
 			description:
-				"Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json.",
+				'Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "type": "text" | "hex" | "ip" | ...more, "value": string}].',
 		})
 		.option("static-addressing-dhcp-server-dhcp-pool-end", {
 			type: "string",
@@ -100,7 +100,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("static-addressing-dhcp-server-reservations", {
 			type: "string",
 			description:
-				"Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json.",
+				'Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("static-addressing-secondary-address", {
 			type: "string",

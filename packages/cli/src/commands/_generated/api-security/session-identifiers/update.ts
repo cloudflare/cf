@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("auth-id-characteristics", {
 			type: "string",
 			description:
-				"The auth_id_characteristics field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The auth_id_characteristics field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"name": string, "type": "header" | "cookie"} | {"name": string, "type": "jwt"})].',
 		})
 		.option("dry-run", {
 			type: "boolean",

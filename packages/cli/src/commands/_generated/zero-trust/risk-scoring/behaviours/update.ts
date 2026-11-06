@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("behaviors", {
 			type: "string",
 			description:
-				"The behaviors field. Provide as a JSON object or @path/to/file.json.",
+				'The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

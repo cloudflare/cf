@@ -31,12 +31,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("acks", {
 			type: "string",
 			description:
-				"The acks field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The acks field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"lease_id"?: string}]. ? marks optional keys.',
 		})
 		.option("retries", {
 			type: "string",
 			description:
-				"The retries field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The retries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"delay_seconds"?: number, "lease_id"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filters", {
 			type: "string",
 			description:
-				"Apply filters to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json.",
+				'Apply filters to the query. Supports nested groups via kind: \'group\'. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
 		})
 		.option("script-id", { type: "string", description: "The scriptId field" })
 		.option("dry-run", {

@@ -73,7 +73,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("http-config-header", {
 			type: "string",
 			description:
-				"The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json.",
+				'The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
 		})
 		.option("http-config-method", {
 			type: "string",

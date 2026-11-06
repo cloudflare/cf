@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("extend", {
 			type: "string",
 			description:
-				"The extend field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The extend field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"lease_id"?: string}]. ? marks optional keys.',
 		})
 		.option("visibility-timeout-ms", {
 			type: "number",

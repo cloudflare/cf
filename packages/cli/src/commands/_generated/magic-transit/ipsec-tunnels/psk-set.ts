@@ -30,7 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("psks", {
 			type: "string",
 			description:
-				"List of tunnel ID and PSK pairs. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of tunnel ID and PSK pairs. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"psk": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

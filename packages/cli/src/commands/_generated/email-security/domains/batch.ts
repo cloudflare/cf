@@ -27,22 +27,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json.",
+				'IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"Partial updates to apply — each entry carries the domain's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
+				'Partial updates to apply — each entry carries the domain\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes"?: ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions"?: ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "folder"?: ("AllItems" | "Inbox" | null), ...more} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json.",
+				'Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "domain": string, "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more}].',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"Full replacements to apply — each entry carries the domain's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
+				'Full replacements to apply — each entry carries the domain\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more} & {"id": string})].',
 		})
 		.option("dry-run", {
 			type: "boolean",

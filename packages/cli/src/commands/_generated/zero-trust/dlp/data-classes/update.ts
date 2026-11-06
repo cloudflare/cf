@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sensitivity-levels", {
 			type: "string",
 			description:
-				"The sensitivity_levels field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The sensitivity_levels field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

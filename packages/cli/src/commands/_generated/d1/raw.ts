@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("batch", {
 			type: "string",
 			description:
-				"The batch field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The batch field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"sql": string, "params"?: [string]}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

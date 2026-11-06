@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("orders", {
 			type: "string",
 			description:
-				"Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json.",
+				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "asset.name" | "affliction_date"}].',
 		})
 		.option("search", { type: "string", description: "A search term." })
 		.option("dry-run", {

@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("acknowledgements", {
 			type: "string",
 			description:
-				"Provides user acknowledgements for a specific extension or premium\nregistration flow. The extension registration schema from the\nextension discovery endpoint identifies the required keys. Provide as a JSON object or @path/to/file.json.",
+				'Provides user acknowledgements for a specific extension or premium\nregistration flow. The extension registration schema from the\nextension discovery endpoint identifies the required keys. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("auto-renew", {
 			type: "boolean",
@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("contact-extensions", {
 			type: "string",
 			description:
-				"Provides registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` identifies\nthe required keys and allowed values for each extension in the\n`registration_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Omit this object when the extension's\nregistration schema excludes `contact_extensions`. Provide as a JSON object or @path/to/file.json.",
+				'Provides registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` identifies\nthe required keys and allowed values for each extension in the\n`registration_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Omit this object when the extension\'s\nregistration schema excludes `contact_extensions`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("contacts-administrator-email", {
 			type: "string",

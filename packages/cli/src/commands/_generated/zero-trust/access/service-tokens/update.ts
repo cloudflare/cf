@@ -57,7 +57,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				"Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json.",
+				'Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

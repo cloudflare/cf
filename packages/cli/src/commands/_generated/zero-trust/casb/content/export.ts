@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("dlp-profile-information", {
 			type: "string",
 			description:
-				"DLP profile metadata for the export. Provide as a JSON array of objects or @path/to/file.json.",
+				'DLP profile metadata for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"entries": [{...}], "id": string, "name": string}].',
 		})
 		.option("integration-id", {
 			type: "string",
@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("orders", {
 			type: "string",
 			description:
-				"Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json.",
+				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"direction": "asc" | "desc", "name": string} & {"name": "asset_name" | "dlp_profile_count" | "integration_name" | ...more})].',
 		})
 		.option("search", {
 			type: "string",

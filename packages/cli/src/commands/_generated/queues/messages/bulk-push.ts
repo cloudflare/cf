@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("messages", {
 			type: "string",
 			description:
-				"The messages field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"delay_seconds"?: number} & ({"body"?: string, "content_type"?: "text"} | {"body"?: {...}, "content_type"?: "json"}))]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

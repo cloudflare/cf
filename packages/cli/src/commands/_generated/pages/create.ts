@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-ai-bindings", {
 			type: "string",
 			description:
-				"Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-always-use-latest-compatibility-date", {
 			type: "boolean",
@@ -62,12 +62,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-analytics-engine-datasets", {
 			type: "string",
 			description:
-				"Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-browsers", {
 			type: "string",
 			description:
-				"Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-build-image-major-version", {
 			type: "number",
@@ -86,17 +86,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-d1-databases", {
 			type: "string",
 			description:
-				"D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-durable-object-namespaces", {
 			type: "string",
 			description:
-				"Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-env-vars", {
 			type: "string",
 			description:
-				"Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-fail-open", {
 			type: "boolean",
@@ -106,12 +106,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-hyperdrive-bindings", {
 			type: "string",
 			description:
-				"Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-kv-namespaces", {
 			type: "string",
 			description:
-				"KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-limits-cpu-ms", {
 			type: "number",
@@ -120,7 +120,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-mtls-certificates", {
 			type: "string",
 			description:
-				"mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-placement-mode", {
 			type: "string",
@@ -129,17 +129,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-queue-producers", {
 			type: "string",
 			description:
-				"Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-r2-buckets", {
 			type: "string",
 			description:
-				"R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-services", {
 			type: "string",
 			description:
-				"Services used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Services used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-usage-model", {
 			type: "string",
@@ -152,7 +152,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-vectorize-bindings", {
 			type: "string",
 			description:
-				"Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-preview-wrangler-config-hash", {
 			type: "string",
@@ -162,7 +162,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-ai-bindings", {
 			type: "string",
 			description:
-				"Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option(
 			"deployment-configs-production-always-use-latest-compatibility-date",
@@ -175,12 +175,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-analytics-engine-datasets", {
 			type: "string",
 			description:
-				"Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-browsers", {
 			type: "string",
 			description:
-				"Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-build-image-major-version", {
 			type: "number",
@@ -199,17 +199,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-d1-databases", {
 			type: "string",
 			description:
-				"D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-durable-object-namespaces", {
 			type: "string",
 			description:
-				"Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-env-vars", {
 			type: "string",
 			description:
-				"Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-fail-open", {
 			type: "boolean",
@@ -219,12 +219,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-hyperdrive-bindings", {
 			type: "string",
 			description:
-				"Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-kv-namespaces", {
 			type: "string",
 			description:
-				"KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-limits-cpu-ms", {
 			type: "number",
@@ -233,7 +233,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-mtls-certificates", {
 			type: "string",
 			description:
-				"mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-placement-mode", {
 			type: "string",
@@ -242,17 +242,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-queue-producers", {
 			type: "string",
 			description:
-				"Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-r2-buckets", {
 			type: "string",
 			description:
-				"R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-services", {
 			type: "string",
 			description:
-				"Services used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Services used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-usage-model", {
 			type: "string",
@@ -269,7 +269,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-vectorize-bindings", {
 			type: "string",
 			description:
-				"Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json.",
+				'Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
 		})
 		.option("deployment-configs-production-wrangler-config-hash", {
 			type: "string",

@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("metadata", {
 			type: "string",
 			description:
-				"Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json.",
+				'Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("type", {
 			type: "string",

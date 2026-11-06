@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("related-events", {
 			type: "string",
 			description:
-				"The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"datasetId": string, "eventId": string}].',
 		})
 		.option("tlp", {
 			type: "string",

@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filters", {
 			type: "string",
 			description:
-				"Apply filters to narrow key discovery. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json.",
+				'Apply filters to narrow key discovery. Supports nested groups via kind: \'group\'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
 		})
 		.option("from", { type: "number", description: "The from field" })
 		.option("key-needle-is-regex", {

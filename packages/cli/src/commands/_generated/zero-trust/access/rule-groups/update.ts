@@ -34,12 +34,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude", {
 			type: "string",
 			description:
-				"Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("include", {
 			type: "string",
 			description:
-				"Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("is-default", {
 			type: "boolean",
@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("require", {
 			type: "string",
 			description:
-				"Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json.",
+				'Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"group": {...}} | {"any_valid_service_token": {...}} | {"auth_context": {...}} | ...more)].',
 		})
 		.option("dry-run", {
 			type: "boolean",

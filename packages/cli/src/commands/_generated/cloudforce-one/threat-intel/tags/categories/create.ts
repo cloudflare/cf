@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("schema", {
 			type: "string",
 			description:
-				"Optional array of FieldDefinition objects defining custom fields for tags in this category. Persisted as JSON; returned as a parsed array. Provide as a JSON array of objects or @path/to/file.json.",
+				'Optional array of FieldDefinition objects defining custom fields for tags in this category. Persisted as JSON; returned as a parsed array. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "kind": "string" | "number" | "enum" | ...more, "allowedValues"?: [string], "annotations"?: {...}, "deprecated"?: boolean, ...more}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -68,7 +68,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"The entries field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The entries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)} | {"enabled": boolean, "name": string, "words": [string]})]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("ocr-enabled", {
@@ -79,12 +79,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sensitivity-levels", {
 			type: "string",
 			description:
-				"Sensitivity levels to associate with the profile. Provide as a JSON array of objects or @path/to/file.json.",
+				'Sensitivity levels to associate with the profile. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
 		})
 		.option("shared-entries", {
 			type: "string",
 			description:
-				"Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles). Provide as a JSON array of objects or @path/to/file.json.",
+				'Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "entry_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

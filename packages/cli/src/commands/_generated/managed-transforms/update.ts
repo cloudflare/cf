@@ -21,12 +21,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("managed-request-headers", {
 			type: "string",
 			description:
-				"The list of Managed Request Transforms. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list of Managed Request Transforms. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "id": string} & {"id"?: string})]. ? marks optional keys.',
 		})
 		.option("managed-response-headers", {
 			type: "string",
 			description:
-				"The list of Managed Response Transforms. Provide as a JSON array of objects or @path/to/file.json.",
+				'The list of Managed Response Transforms. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "id": string} & {"id"?: string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("target-policies", {
 			type: "string",
 			description:
-				"DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json.",
+				'DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "default"?: boolean, "name"?: string}]. ? marks optional keys.',
 		})
 		.option("targeted", { type: "boolean", description: "The targeted field" })
 		.option("dry-run", {

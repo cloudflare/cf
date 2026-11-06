@@ -47,7 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("orders", {
 			type: "string",
 			description:
-				"Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json.",
+				'Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "instance_count" | "finding.name" | "integration.name" | ...more}].',
 		})
 		.option("product", {
 			type: "string",

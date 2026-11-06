@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("items", {
 			type: "string",
 			description:
-				"The items field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The items field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"tags": {...}, "target_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

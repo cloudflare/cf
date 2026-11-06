@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("bot-overrides", {
 			type: "string",
 			description:
-				"The bot_overrides field. Provide as a JSON object or @path/to/file.json.",
+				'The bot_overrides field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": "charge" | "bypass"}.',
 		})
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("price-usd-microcents", {

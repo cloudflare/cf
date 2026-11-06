@@ -33,23 +33,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("excluded-recipients", {
 			type: "string",
 			description:
-				"Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. Provide as a JSON array of objects or @path/to/file.json.",
+				'Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"account_id": string}].',
 		})
 		.option("name", { type: "string", description: "The name of the share." })
 		.option("recipients", {
 			type: "string",
 			description:
-				"The recipients field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The recipients field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"account_id"?: string, "organization_id"?: string, "recipient_account_id"?: string}]. ? marks optional keys.',
 		})
 		.option("resources", {
 			type: "string",
 			description:
-				"The resources field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The resources field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"meta": {...}, "resource_account_id": string, "resource_id": string, "resource_type": "custom-ruleset" | "gateway-policy" | "gateway-destination-ip" | ...more}].',
 		})
 		.option("tags", {
 			type: "string",
 			description:
-				"Tags associated with the share. Provide as a JSON object or @path/to/file.json.",
+				'Tags associated with the share. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

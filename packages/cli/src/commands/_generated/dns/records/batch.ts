@@ -26,22 +26,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"The deletes field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The deletes field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"The patches field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The patches field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"id": string} & (({"comment"?: string, "name"?: string, "proxied"?: boolean, "settings"?: {...}, "tags"?: [string], ...more} & {"content"?: string, "private_routing"?: boolean, "type"?: "A"}) | ...more))]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"The posts field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The posts field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"comment"?: string, "name"?: string, "proxied"?: boolean, "settings"?: {...}, "tags"?: [string], ...more} & {"content"?: string, "private_routing"?: boolean, "type"?: "A"}) | ...more)]. ? marks optional keys.',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"The puts field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The puts field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"id": string} & (({"comment"?: string, "name"?: string, "proxied"?: boolean, "settings"?: {...}, "tags"?: [string], ...more} & {"content"?: string, "private_routing"?: boolean, "type"?: "A"}) | ...more))]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

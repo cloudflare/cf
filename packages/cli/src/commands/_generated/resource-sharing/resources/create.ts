@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("meta", {
 			type: "string",
 			description:
-				"Resource Metadata. Provide as a JSON object or @path/to/file.json.",
+				'Resource Metadata. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("resource-account-id", {
 			type: "string",

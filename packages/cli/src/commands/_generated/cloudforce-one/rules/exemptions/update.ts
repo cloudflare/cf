@@ -26,17 +26,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("namespace", {
 			type: "string",
 			description:
-				"The namespace field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The namespace field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"new_pattern": string, "old_pattern": string}].',
 		})
 		.option("tag-match", {
 			type: "string",
 			description:
-				"The tag_match field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The tag_match field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"new_pattern": string, "old_pattern": string}].',
 		})
 		.option("worker-name", {
 			type: "string",
 			description:
-				"The worker_name field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The worker_name field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"new_pattern": string, "old_pattern": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

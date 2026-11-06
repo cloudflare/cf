@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-authorized-keys", {
 			type: "string",
 			description:
-				"The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"public_key": string, "name"?: string}]. ? marks optional keys.',
 		})
 		.option("configuration-wrangler-ssh-enabled", {
 			type: "boolean",

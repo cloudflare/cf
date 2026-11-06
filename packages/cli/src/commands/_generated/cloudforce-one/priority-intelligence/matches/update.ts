@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("matches", {
 			type: "string",
 			description:
-				"Up to 100 matches to set the triage state on. Provide as a JSON array of objects or @path/to/file.json.",
+				'Up to 100 matches to set the triage state on. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"dataset_id": string, "event_id": string}].',
 		})
 		.option("triage-state", {
 			type: "string",

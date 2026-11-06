@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("version-config", {
 			type: "string",
 			description:
-				"Replaces the entire version_config array. Provide as a JSON array of objects or @path/to/file.json.",
+				'Replaces the entire version_config array. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"target_environment": (string | null), "version": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

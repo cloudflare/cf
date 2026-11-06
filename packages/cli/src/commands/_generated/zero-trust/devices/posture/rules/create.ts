@@ -264,7 +264,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("match", {
 			type: "string",
 			description:
-				"The conditions that the client must match to run the rule. Provide as a JSON array of objects or @path/to/file.json.",
+				'The conditions that the client must match to run the rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"platform"?: "windows" | "mac" | "linux" | ...more}]. ? marks optional keys.',
 		})
 		.option("name", {
 			type: "string",

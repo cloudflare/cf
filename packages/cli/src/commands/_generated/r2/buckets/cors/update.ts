@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"The rules field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The rules field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"allowed": {...}, "exposeHeaders"?: [string], "id"?: string, "maxAgeSeconds"?: number}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

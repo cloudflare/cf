@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				"The desired final state of tags.\n- `None` (omitted): no tag changes.\n- `Some([])`: delete all tags.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json.",
+				'The desired final state of tags.\n- `None` (omitted): no tag changes.\n- `Some([])`: delete all tags.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"description"?: (string | null), "name"?: (string | null)} & {"id"?: (string | null)})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scope-objects", {
 			type: "string",
 			description:
-				"A list of scope objects for additional context. The number of Scope objects should not be zero. Provide as a JSON array of objects or @path/to/file.json.",
+				'A list of scope objects for additional context. The number of Scope objects should not be zero. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": unknown}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

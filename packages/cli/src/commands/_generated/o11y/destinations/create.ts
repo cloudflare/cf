@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-headers", {
 			type: "string",
 			description:
-				"The configuration.headers field. Provide as a JSON object or @path/to/file.json.",
+				'The configuration.headers field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("configuration-logpush-dataset", {
 			type: "string",

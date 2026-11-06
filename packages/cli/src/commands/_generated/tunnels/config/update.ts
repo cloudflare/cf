@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tunnel-config-ingress", {
 			type: "string",
 			description:
-				"List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"hostname": string, "service": string, "originRequest"?: {...}, "path"?: string}]. ? marks optional keys.',
 		})
 		.option("tunnel-config-origin-request-access-aud-tag", {
 			type: "string",

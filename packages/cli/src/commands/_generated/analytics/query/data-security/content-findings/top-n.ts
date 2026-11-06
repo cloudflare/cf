@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filters", {
 			type: "string",
 			description:
-				"Filters to apply. `findingType = content` is applied automatically for CASB data. Provide as a JSON array of objects or @path/to/file.json.",
+				'Filters to apply. `findingType = content` is applied automatically for CASB data. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "op": string, "values": [(string | boolean | number)]}].',
 		})
 		.option("from", {
 			type: "string",

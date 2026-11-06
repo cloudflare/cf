@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("members", {
 			type: "string",
 			description:
-				"List of monitors in this group. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of monitors in this group. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "monitor_id": string, "monitoring_only": boolean, "must_be_healthy": boolean}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

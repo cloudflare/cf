@@ -32,17 +32,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("creates", {
 			type: "string",
 			description:
-				"Nodes to create; parents may be created elsewhere in this request. Provide as a JSON array of objects or @path/to/file.json.",
+				'Nodes to create; parents may be created elsewhere in this request. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"native_id": string, "node_kind": string, "name"?: string, "parent"?: string}]. ? marks optional keys.',
 		})
 		.option("deletes", {
 			type: "string",
 			description:
-				"Nodes to delete; every descendant that will not be reparented must also be deleted. Provide as a JSON array of objects or @path/to/file.json.",
+				'Nodes to delete; every descendant that will not be reparented must also be deleted. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("updates", {
 			type: "string",
 			description:
-				"Nodes whose mutable fields should be fully replaced. Provide as a JSON array of objects or @path/to/file.json.",
+				'Nodes whose mutable fields should be fully replaced. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "name"?: string, "parent"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

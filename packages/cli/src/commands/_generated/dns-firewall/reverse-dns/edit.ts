@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ptr", {
 			type: "string",
 			description:
-				"Map of cluster IP addresses to PTR record contents. Provide as a JSON object or @path/to/file.json.",
+				'Map of cluster IP addresses to PTR record contents. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

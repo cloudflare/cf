@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("new-priorities", {
 			type: "string",
 			description:
-				"The new_priorities field. Provide as a JSON object or @path/to/file.json.",
+				'The new_priorities field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

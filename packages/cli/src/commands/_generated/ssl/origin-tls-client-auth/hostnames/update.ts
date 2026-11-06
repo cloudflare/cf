@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("hostname-config", {
 			type: "string",
 			description:
-				"The config field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The config field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"cert_id"?: string, "enabled"?: (boolean | null), "hostname"?: string}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

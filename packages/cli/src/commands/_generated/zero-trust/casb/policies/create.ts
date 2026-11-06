@@ -28,12 +28,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actions-remediation-types", {
 			type: "string",
 			description:
-				"Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json.",
+				'Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"remediation_type_id": string}].',
 		})
 		.option("actions-webhook-configs", {
 			type: "string",
 			description:
-				"Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json.",
+				'Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"webhook_config_id": string}].',
 		})
 		.option("applies-to-all-integrations", {
 			type: "boolean",

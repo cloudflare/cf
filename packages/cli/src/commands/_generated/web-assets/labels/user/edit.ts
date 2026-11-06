@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("metadata", {
 			type: "string",
 			description:
-				"Metadata for the label. Provide as a JSON object or @path/to/file.json.",
+				'Metadata for the label. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("dry-run", {
 			type: "boolean",

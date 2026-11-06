@@ -247,7 +247,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("permissions-plugins-config", {
 			type: "string",
 			description:
-				"Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json.",
+				'Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("permissions-polls-can-create", {
 			type: "boolean",

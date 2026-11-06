@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("catch-all-rules", {
 			type: "string",
 			description:
-				"Desired catch-all Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json.",
+				'Desired catch-all Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"rule": {...}, "target": string}].',
 		})
 		.option("owner-worker-tag", {
 			type: "string",
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rules", {
 			type: "string",
 			description:
-				"Desired normal Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json.",
+				'Desired normal Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actions": [{...}], "matchers": [{...}], "enabled"?: true | false}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",

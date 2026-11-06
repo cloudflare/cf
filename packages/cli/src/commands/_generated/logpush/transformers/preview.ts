@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("input", {
 			type: "string",
 			description:
-				"A single log record to transform (JSON object). Provide as a JSON object or @path/to/file.json.",
+				'A single log record to transform (JSON object). Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("sql", {
 			type: "string",

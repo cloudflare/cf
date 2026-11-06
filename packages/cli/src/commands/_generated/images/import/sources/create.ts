@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("secret", {
 			type: "string",
 			description:
-				"Storage credentials for accessing the bucket. Shape depends on vendor. Provide as a JSON object or @path/to/file.json.",
+				'Storage credentials for accessing the bucket. Shape depends on vendor. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("vendor", {
 			type: "string",

@@ -27,13 +27,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actions", {
 			type: "string",
 			description:
-				"List actions patterns. Provide as a JSON array of objects or @path/to/file.json.",
+				'List actions patterns. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "drop" | "forward" | "worker", "value"?: [string]}]. ? marks optional keys.',
 		})
 		.option("enabled", { type: "boolean", description: "Routing rule status." })
 		.option("matchers", {
 			type: "string",
 			description:
-				"Matching patterns to forward to your actions. Provide as a JSON array of objects or @path/to/file.json.",
+				'Matching patterns to forward to your actions. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "all" | "literal", "field"?: "to", "value"?: string}]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "Routing rule name." })
 		.option("owner-worker-tag", {

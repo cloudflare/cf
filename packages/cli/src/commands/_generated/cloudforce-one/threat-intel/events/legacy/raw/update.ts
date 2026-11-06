@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("data", {
 			type: "string",
 			description:
-				"The data field. Provide as a JSON object or @path/to/file.json.",
+				'The data field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("source", { type: "string", description: "The source field" })
 		.option("tlp", { type: "string", description: "The tlp field" })

@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("metadata", {
 			type: "string",
 			description:
-				"Optional metadata fields specific to the RFI type. Provide as a JSON object or @path/to/file.json.",
+				'Optional metadata fields specific to the RFI type. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("priority", {
 			type: "string",

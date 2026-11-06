@@ -50,13 +50,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("indicators", {
 			type: "string",
 			description:
-				"Array of indicators for this event. Supports multiple indicators per event for complex scenarios. Provide as a JSON array of objects or @path/to/file.json.",
+				'Array of indicators for this event. Supports multiple indicators per event for complex scenarios. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"indicatorType": string, "value": string}].',
 		})
 		.option("insight", { type: "string", description: "The insight field" })
 		.option("raw-data", {
 			type: "string",
 			description:
-				"The raw.data field. Provide as a JSON object or @path/to/file.json.",
+				'The raw.data field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
 		})
 		.option("raw-source", {
 			type: "string",

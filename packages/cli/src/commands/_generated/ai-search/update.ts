@@ -80,7 +80,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("custom-metadata", {
 			type: "string",
 			description:
-				"The custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"data_type": "text" | "number" | "boolean" | ...more, "field_name": string}].',
 		})
 		.option("embedding-model", {
 			type: "string",
@@ -213,7 +213,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("retrieval-options-boost-by", {
 			type: "string",
 			description:
-				"Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+				'Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to \'asc\' for numeric/datetime fields and \'exists\' for text/boolean fields. Fields must match \'timestamp\' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"field": string, "direction"?: "asc" | "desc" | "exists" | ...more}]. ? marks optional keys.',
 		})
 		.option("retrieval-options-keyword-match-mode", {
 			type: "string",
@@ -302,12 +302,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source-params-web-crawler-parse-options-content-selector", {
 			type: "string",
 			description:
-				"List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"path": string, "selector": string}].',
 		})
 		.option("source-params-web-crawler-parse-options-include-headers", {
 			type: "string",
 			description:
-				"Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json.",
+				'Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
 		})
 		.option("source-params-web-crawler-parse-options-include-images", {
 			type: "boolean",

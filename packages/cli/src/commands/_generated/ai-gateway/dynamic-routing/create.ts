@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("elements", {
 			type: "string",
 			description:
-				"The elements field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The elements field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"id": string, "outputs": {...}, "type": "start"} | {"id": string, "outputs": {...}, "properties": {...}, "type": "conditional"} | {"id": string, "outputs": {...}, "type": "percentage"} | ...more)].',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("dry-run", {

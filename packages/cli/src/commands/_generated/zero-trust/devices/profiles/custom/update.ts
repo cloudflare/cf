@@ -81,7 +81,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("dns-search-suffixes", {
 			type: "string",
 			description:
-				"List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"suffix": string, "description"?: string}]. ? marks optional keys.',
 		})
 		.option("enable-device-credential-authentication", {
 			type: "boolean",
@@ -95,7 +95,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude", {
 			type: "string",
 			description:
-				"List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of routes excluded in the WARP client\'s tunnel. Both \'exclude\' and \'include\' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"address": string, "description"?: string} | {"host": string, "description"?: string})]. ? marks optional keys.',
 		})
 		.option("exclude-office-ips", {
 			type: "boolean",
@@ -135,7 +135,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("include", {
 			type: "string",
 			description:
-				"List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json.",
+				'List of routes included in the WARP client\'s tunnel. Both \'exclude\' and \'include\' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"address": string, "description"?: string} | {"host": string, "description"?: string})]. ? marks optional keys.',
 		})
 		.option("lan-allow-minutes", {
 			type: "number",

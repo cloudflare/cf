@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("messages", {
 			type: "string",
 			description:
-				"The messages field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"alert_id": string, "expected_disposition": "MALICIOUS" | "SUSPICIOUS" | "SPOOF" | ...more, "escalated_submission_id"?: string}]. ? marks optional keys.',
 		})
 		.option("type", {
 			type: "string",

@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("metadata", {
 			type: "string",
 			description:
-				"The metadata field. Provide as a JSON object or @path/to/file.json.",
+				'The metadata field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": (string | number | boolean)}.',
 		})
 		.option("score", { type: "number", description: "The score field" })
 		.option("dry-run", {

@@ -53,7 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("intent-clauses", {
 			type: "string",
 			description:
-				"The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json.",
+				'The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actors": [string], "attacker_countries": [string], "categories": [string], "cves": [string], "keywords": [string], ...more}].',
 		})
 		.option("intent-exclusions-actors", {
 			type: "string",
@@ -129,7 +129,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("query-branches", {
 			type: "string",
 			description:
-				"Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json.",
+				'Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json. Shape: [[({"field": "attacker" | "attackerCountry" | "category" | ...more, "op": "equals" | "not" | "gt" | ...more, "value": string} | ...more)]].',
 		})
 		.option("query-version", {
 			type: "number",

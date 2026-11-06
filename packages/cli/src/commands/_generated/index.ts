@@ -446,15 +446,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"email-domains",
-			"email-domains",
-			() => import("./email-domains/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"email-routing",
 			"Route incoming email to verified destination addresses or Workers with routing rules, catch-all behavior, and managed DNS records",
 			() => import("./email-routing/index.js"),

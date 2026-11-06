@@ -16512,6 +16512,56 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"brand-protection urls get": {
+			"operationId": "brand-protection.urls.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/url/info",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "url",
+					"flag": "url",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "url_id",
+					"flag": "url-id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"brand-protection urls submit": {
+			"operationId": "brand-protection.urls.submit",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/url/submit",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "url",
+					"flag": "url",
+					"type": "string",
+					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"browser-run crawl create": {
 			"operationId": "browser-run.crawl.create",
 			"httpMethod": "POST",
@@ -25444,6 +25494,71 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets preferences delete": {
+			"operationId": "cloudforce-one.threat-intel.datasets.preferences.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/preferences",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "scope",
+					"flag": "scope",
+					"type": "string",
+					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets preferences get": {
+			"operationId": "cloudforce-one.threat-intel.datasets.preferences.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/preferences",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets preferences update": {
+			"operationId": "cloudforce-one.threat-intel.datasets.preferences.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/preferences",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "dataset-ids",
+					"type": "string",
+					"required": true,
+					"description": "The dataset UUIDs to use when a request omits `datasetId`: 1 to 50 datasets you can read. Duplicates are ignored."
+				},
+				{
+					"name": "scope",
+					"type": "string",
+					"required": true,
+					"description": "`user` sets your own default datasets. `account` sets the default datasets for everyone in the account who has not set their own, and requires permission to edit the account's Cloudforce One settings."
+				}
+			]
 		},
 		"cloudforce-one threat-intel datasets update": {
 			"operationId": "cloudforce-one.threat-intel.datasets.update",
@@ -35103,174 +35218,6 @@
 					"required": true
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-domains changes": {
-			"operationId": "email-domains.changes",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/email/domain-changes",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"flag": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "modified_since",
-					"flag": "modified-since",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-domains create": {
-			"operationId": "email-domains.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/email/domains",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "client-reference",
-					"type": "string",
-					"required": false,
-					"description": "Opaque reference for one customer enrollment. Reuse it with the same hostname to retry Create safely. Distinct references can enroll the same unverified hostname; a hostname alone never identifies a customer."
-				},
-				{
-					"name": "hostname",
-					"type": "string",
-					"required": true,
-					"description": "Exact external hostname to enroll. After ASCII conversion, the assigned Return-Path hostname must be at most 201 characters (191 for the current cf-bounce. prefix). Wildcards, provider-zone names, and hostnames inside an existing Cloudflare-managed DNS zone are rejected."
-				}
-			]
-		},
-		"email-domains delete": {
-			"operationId": "email-domains.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/email/domains/{email_domain_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "email_domain_id",
-					"flag": "email-domain-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-domains get": {
-			"operationId": "email-domains.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/email/domains/{email_domain_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "email_domain_id",
-					"flag": "email-domain-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-domains list": {
-			"operationId": "email-domains.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/email/domains",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"flag": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "hostname",
-					"flag": "hostname",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "include",
-					"flag": "include",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-domains verify": {
-			"operationId": "email-domains.verify",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/email/domains/{email_domain_id}/verify",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "email_domain_id",
-					"flag": "email-domain-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -96690,7 +96637,7 @@
 			"queryParams": [
 				{
 					"name": "count",
-					"flag": "count",
+					"flag": "result-count",
 					"type": "number",
 					"required": false
 				},

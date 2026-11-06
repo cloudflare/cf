@@ -1,9 +1,9 @@
-import operation from "../_operations/email-domains/list.js";
+import operation from "../../_operations/brand-protection/urls/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * list command
- * @generated from apis/overlays/email-domains.ts
+ * get command
+ * @generated from apis/overlays/brand-protection.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -20,24 +20,10 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-domains list\n\nReturns account-scoped domain status. DNS records are omitted unless requested; exact hostname filtering may return several candidates; retain the EmailDomain ID for each enrollment. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope."
+			"$0 brand-protection urls get\n\nGet account-scoped URL Scanner summaries by submitted URL or scan UUID. Lookups cover scans submitted within about the last 30 days; a daily cleanup at 00:00 UTC removes older ownership records. Completed results may be served from a cache that is cleared daily, so a cached copy is kept for at most about 48 hours. The response is a v2 migration contract, not the v1 enrichment shape."
 		)
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("cursor", {
-			type: "string",
-			description:
-				"Opaque cursor returned by the previous page. Omit it for the first page.",
-		})
-		.option("hostname", {
-			type: "string",
-			description:
-				"Exact hostname filter for recovering an ambiguous create response.",
-		})
-		.option("include", {
-			type: "string",
-			description: "Include DNS instructions on each list result.",
-			choices: ["dns_records"],
-		})
+		.option("url", { type: "string", description: "An HTTP or HTTPS URL." })
+		.option("url-id", { type: "string", description: "Url ID" })
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -48,31 +34,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List Email Domains",
+	command: "get",
+	describe: "Get URL scan information",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-domains list",
+				command: "brand-protection urls get",
 				classification: {
-					safeFlags: ["include", "dry-run"],
+					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
-					per_page: argv["per-page"],
-					cursor: argv["cursor"],
-					hostname: argv["hostname"],
-					include: argv["include"],
+					url: argv["url"],
+					url_id: argv["url-id"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-domains list",
+						command: "cf brand-protection urls get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email/domains`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/brand-protection/url/info`,
 						pathParams: {},
 						query: queryParams,
 						bodyKind: "none",

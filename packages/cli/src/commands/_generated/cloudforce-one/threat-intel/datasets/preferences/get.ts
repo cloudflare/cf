@@ -1,9 +1,9 @@
-import operation from "../_operations/email-domains/get.js";
+import operation from "../../../../_operations/cloudforce-one/threat-intel/datasets/preferences/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
- * @generated from apis/overlays/email-domains.ts
+ * @generated from apis/overlays/cloudforce-one.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -20,13 +20,8 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-domains get <email-domain-id>\n\nReturns domain status and its four assigned DNS records. Shared provider health is reported by the capability states rather than duplicated on each DNS record. Expired unclaimed candidates and completed deletions return 404. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope."
+			"$0 cloudforce-one threat-intel datasets preferences get\n\nReturns your default datasets, the account's default datasets, and the datasets that event searches currently use when `datasetId` is omitted. `unresolvableDatasetIds` lists saved datasets you can no longer read."
 		)
-		.positional("email-domain-id", {
-			type: "string",
-			description: "Email domain ID",
-			demandOption: true,
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -37,13 +32,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <email-domain-id>",
-	describe: "Get an Email Domain",
+	command: "get",
+	describe: "Get default datasets",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-domains get",
+				command: "cloudforce-one threat-intel datasets preferences get",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -53,12 +48,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-domains get",
+						command: "cf cloudforce-one threat-intel datasets preferences get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email/domains/${argv["email-domain-id"] == null ? "<email-domain-id>" : encodeURIComponent(String(argv["email-domain-id"]))}`,
-						pathParams: {
-							"email-domain-id": String(argv["email-domain-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/datasets/preferences`,
+						pathParams: {},
 						bodyKind: "none",
 					});
 					return;
@@ -68,10 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						email_domain_id: argv["email-domain-id"],
-					})
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

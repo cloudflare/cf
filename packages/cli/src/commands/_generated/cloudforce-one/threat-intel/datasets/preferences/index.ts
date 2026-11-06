@@ -1,28 +1,22 @@
-import $changes from "./changes.js";
-import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
-import $list from "./list.js";
-import $verify from "./verify.js";
+import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
- * email-domains command
- * @generated from apis/overlays/email-domains.ts
+ * preferences command group
+ * @generated from apis/overlays/cloudforce-one.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
-	command: "email-domains",
-	describe: "email-domains",
+	command: "preferences",
+	describe: "Operations for threat-intel.datasets.preferences",
 
 	builder: (yargs) => {
 		return yargs
-			.command($changes)
-			.command($create)
 			.command($delete)
 			.command($get)
-			.command($list)
-			.command($verify)
+			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

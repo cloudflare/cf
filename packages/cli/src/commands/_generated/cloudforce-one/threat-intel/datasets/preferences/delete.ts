@@ -1,9 +1,9 @@
-import operation from "../_operations/email-domains/delete.js";
+import operation from "../../../../_operations/cloudforce-one/threat-intel/datasets/preferences/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
- * @generated from apis/overlays/email-domains.ts
+ * @generated from apis/overlays/cloudforce-one.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -21,11 +21,13 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-domains delete <email-domain-id>\n\nRequires an empty body. Unclaimed, unpublished candidates are removed immediately after token retirement. Acquired or published resources retain deleting state and claims until the deletion worker acknowledges safe revocation and token retirement: deletion completes after the last authorization FWDR may still hold has expired, up to about 31 minutes after the request. Until then the hostname and client_reference cannot be enrolled again. Repeated requests while deleting are idempotent. Retry-After is the expected time until GET returns 404; follow the Location header after it. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope."
+			"$0 cloudforce-one threat-intel datasets preferences delete\n\nRemoves your default datasets (`scope` `user`) or the account's (`scope` `account`). After you remove your own, requests that omit `datasetId` use the account's default datasets, if set."
 		)
-		.positional("email-domain-id", {
+		.option("scope", {
 			type: "string",
-			description: "Email domain ID",
+			description:
+				"`user` removes your own default datasets. `account` removes the account's, and requires permission to edit the account's Cloudforce One settings.",
+			choices: ["user", "account"],
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -44,29 +46,32 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <email-domain-id>",
-	describe: "Delete an Email Domain",
+	command: "delete",
+	describe: "Remove default datasets",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-domains delete",
+				command: "cloudforce-one threat-intel datasets preferences delete",
 				classification: {
-					safeFlags: ["dry-run", "force"],
+					safeFlags: ["scope", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					scope: argv["scope"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-domains delete",
+						command:
+							"cf cloudforce-one threat-intel datasets preferences delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email/domains/${argv["email-domain-id"] == null ? "<email-domain-id>" : encodeURIComponent(String(argv["email-domain-id"]))}`,
-						pathParams: {
-							"email-domain-id": String(argv["email-domain-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/datasets/preferences`,
+						pathParams: {},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -80,10 +85,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						email_domain_id: argv["email-domain-id"],
-					})
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

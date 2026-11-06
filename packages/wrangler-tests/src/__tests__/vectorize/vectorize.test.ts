@@ -601,7 +601,7 @@ describe("vectorize commands", () => {
 		expect,
 	}) => {
 		mockVectorizeV2Request();
-		await runWrangler("vectorize list-vectors test-index --count 2");
+		await runWrangler("vectorize list-vectors test-index --result-count 2");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "count": 2,

@@ -3,9 +3,7 @@ new file mode 100644
 index 0000000000000000000000000000000000000000..c92f8be923e9fb5f0ed44b637bfab59539465c14
 --- /dev/null
 +++ b/dist/custom-api-headers.d.mts
-@@ -0,0 +1,12 @@
-+/** Apply custom headers to an API client's native fetch implementation. */
-+declare function createNativeCustomApiFetch(fetchImpl: typeof globalThis.fetch): typeof globalThis.fetch;
+@@ -0,0 +1,10 @@
 +/** Read additional API headers without retaining environment values between calls. */
 +declare function getCustomApiHeaders(): Record<string, string>;
 +/** Apply configured headers, overriding existing unprotected API request headers. */
@@ -15,13 +13,13 @@ index 0000000000000000000000000000000000000000..c92f8be923e9fb5f0ed44b637bfab595
 +/** Format custom headers using the existing debug-log sanitization setting. */
 +declare function redactCustomApiHeaders(headers: Iterable<readonly [string, string]>): Record<string, string>;
 +
-+export { addCustomApiHeaders, createNativeCustomApiFetch, getCustomApiHeaders, redactCustomApiHeaders };
++export { addCustomApiHeaders, getCustomApiHeaders, redactCustomApiHeaders };
 diff --git a/dist/custom-api-headers.mjs b/dist/custom-api-headers.mjs
 new file mode 100644
 index 0000000000000000000000000000000000000000..e60235c43e02e3711792d329b1bdcf25dcc24e5d
 --- /dev/null
 +++ b/dist/custom-api-headers.mjs
-@@ -0,0 +1,95 @@
+@@ -0,0 +1,83 @@
 +// packages/workers-utils/src/custom-api-headers.ts
 +import { validateHeaderName, validateHeaderValue } from "node:http";
 +import { getSanitizeLogs } from "./chunk-FR75DWDU.mjs";
@@ -41,17 +39,6 @@ index 0000000000000000000000000000000000000000..e60235c43e02e3711792d329b1bdcf25
 +  return new UserError(`CLOUDFLARE_API_HEADERS ${message}`, {
 +    telemetryMessage: "cfetch custom api headers invalid configuration"
 +  });
-+}
-+function createNativeCustomApiFetch(fetchImpl) {
-+  return (input, init) => {
-+    if (!process.env.CLOUDFLARE_API_HEADERS) {
-+      return fetchImpl(input, init);
-+    }
-+    const requestInit = { ...init, duplex: "half" };
-+    const request = new Request(input, requestInit);
-+    addCustomApiHeaders(request.headers);
-+    return fetchImpl(request);
-+  };
 +}
 +function getCustomApiHeaders() {
 +  const raw = process.env.CLOUDFLARE_API_HEADERS;
@@ -113,7 +100,6 @@ index 0000000000000000000000000000000000000000..e60235c43e02e3711792d329b1bdcf25
 +}
 +export {
 +  addCustomApiHeaders,
-+  createNativeCustomApiFetch,
 +  getCustomApiHeaders,
 +  redactCustomApiHeaders
 +};
@@ -122,7 +108,7 @@ index 4fcb26242dc8785d01eea836f54c7d7bf7742e55..81cf6d5b7aa845796d18e56cdd474ee9
 --- a/dist/index.d.mts
 +++ b/dist/index.d.mts
 @@ -1,3 +1,4 @@
-+export { addCustomApiHeaders, createNativeCustomApiFetch, getCustomApiHeaders, redactCustomApiHeaders } from "./custom-api-headers.mjs";
++export { addCustomApiHeaders, getCustomApiHeaders, redactCustomApiHeaders } from "./custom-api-headers.mjs";
  import { C as ComputedFields, B as Binding, R as RawConfig, b as Config, E as Exports, D as DurableObjectExport, W as WorkerEntrypointExport, c as WorkflowExport, d as ContainerApp, e as WorkerMetadataBinding, T as TailConsumer, f as WorkerMetadata, g as CfTailConsumer, L as Logger, A as ApiCredentials, h as ComplianceConfig, i as Route } from './compliance-DXaf_kuR.mjs';
  export { j as ARTIFACTS_EVENT_TYPES, k as Access, l as ArtifactsEventTrigger, m as ArtifactsEventType, n as AssetConfigMetadata, o as Assets, p as AssetsOptions, q as AsyncHook, r as BinaryFile, s as COMPLIANCE_REGION_CONFIG_PUBLIC, t as COMPLIANCE_REGION_CONFIG_UNKNOWN, u as CacheOptions, v as CfAIBinding, w as CfAISearch, x as CfAISearchNamespace, y as CfAccount, z as CfAgentMemory, F as CfAnalyticsEngineDataset, G as CfAnalyticsSQLBinding, H as CfArtifacts, I as CfAssetsBinding, J as CfBrowserBinding, K as CfCapnp, M as CfD1Database, N as CfDataBlobBindings, O as CfDevPluginCfg, P as CfDispatchNamespace, Q as CfDurableObject, S as CfDurableObjectMigrations, U as CfExports, V as CfFlagship, X as CfHelloWorld, Y as CfHyperdrive, Z as CfImagesBinding, _ as CfK2Binding, $ as CfKvNamespace, a0 as CfLogfwdr, a1 as CfLogfwdrBinding, a2 as CfMTlsCertificate, a3 as CfMediaBinding, a4 as CfModule, a5 as CfModuleType, a6 as CfPipeline, a7 as CfPlacement, a8 as CfQueue, a9 as CfR2Bucket, aa as CfRateLimit, ab as CfScriptFormat, ac as CfSecretsStoreSecrets, ad as CfSendEmailBindings, ae as CfService, af as CfStreamBinding, ag as CfTextBlobBindings, ah as CfUnsafe, ai as CfUnsafeBinding, aj as CfUserLimits, ak as CfVars, al as CfVectorize, am as CfVersionMetadataBinding, an as CfVpcNetwork, ao as CfVpcService, ap as CfWasmModuleBindings, aq as CfWorkerContext, ar as CfWorkerInit, as as CfWorkerLoader, at as CfWorkerSourceMap, au as CfWorkflow, av as CloudchamberConfig, aw as ConfigFields, ax as ConfigModuleRuleType, ay as ConfiguredExport, az as ConnectHandler, aA as ContainerEngine, aB as ContainerObservability, aC as CustomDomainRoute, aD as DEFAULT_MODULE_RULES, aE as DispatchNamespaceOutbound, aF as DockerConfiguration, aG as DurableObjectBindings, aH as DurableObjectCodeUpdateStrategy, aI as DurableObjectContainerImage, aJ as DurableObjectExportStorage, aK as DurableObjectMigration, aL as DurableObjectsConfig, aM as ENVIRONMENT_TAG_PREFIX, aN as Entry, aO as Environment, aP as EnvironmentNonInheritable, aQ as ExportsReconciliationEntryBase, aR as ExportsReconciliationErrorDetail, aS as ExportsReconciliationInfo, aT as ExportsReconciliationRename, aU as ExportsReconciliationResult, aV as ExportsReconciliationTransfer, aW as ExportsReconciliationTransferPending, aX as ExportsReconciliationWarning, aY as FetchKVGetValueFetcher, aZ as FetchListResultFetcher, a_ as FetchPagedListResultFetcher, a$ as FetchResult, b0 as FetchResultFetcher, b1 as File, b2 as Hook, b3 as HookValues, b4 as INHERIT_SYMBOL, b5 as JSON_CONFIG_FORMATS, b6 as Json, b7 as LOGGER_LEVELS, b8 as LegacyAssetPaths, b9 as LocalS3Credentials, ba as LogLevel, bb as LoggerLevel, bc as Observability, bd as PATH_TO_DEPLOY_CONFIG, be as PreviewsConfig, bf as RawDevConfig, bg as RawDurableObjectsConfig, bh as RawEnvironment, a as RedirectedRawConfig, bi as Rule, bj as SERVICE_TAG_PREFIX, bk as ServiceFetch, bl as ServiceMetadataRes, bm as StartDevWorkerInput, bn as StreamingTailConsumer, bo as TcpConnectHandler, bp as Trigger, bq as UdpConnectHandler, br as UserLimits, bs as ValidatedAssetsOptions, bt as WORKFLOW_JURISDICTIONS, bu as WorkflowBinding, bv as WorkflowJurisdiction, bw as ZoneIdRoute, bx as ZoneNameRoute, by as addAuthorizationHeader, bz as defaultWranglerConfig, bA as extractAccountTag, bB as extractWAFBlockRayId, bC as fetchInternalBase, bD as fetchKVGetValueBase, bE as fetchListResultBase, bF as fetchResultBase, bG as getBrowserRenderingHeadfulFromEnv, bH as getBuildConditionsFromEnv, bI as getBuildPlatformFromEnv, bJ as getC3CommandFromEnv, bK as getCIGeneratePreviewAlias, bL as getCIMatchTag, bM as getCIOverrideName, bN as getCIOverrideNetworkModeHost, bO as getCfFetchEnabledFromEnv, bP as getCfFetchPathFromEnv, bQ as getCloudflareApiBaseUrl, bR as getCloudflareApiEnvironmentFromEnv, bS as getCloudflareComplianceRegion, bT as getCloudflareContainerRegistry, bU as getCloudflareEnv, bV as getCloudflareIncludeProcessEnvFromEnv, bW as getCloudflareLoadDevVarsFromDotEnv, bX as getCloudflaredPathFromEnv, bY as getComplianceRegionSubdomain, bZ as getD1ExtraLocationChoices, b_ as getDisableConfigWatching, b$ as getLocalExplorerEnabledFromEnv, c0 as getLocalObservabilityEnabledFromEnv, c1 as getNoSkillsUpdatePromptsFromEnv, c2 as getOpenNextDeployFromEnv, c3 as getOutputFileDirectoryFromEnv, c4 as getOutputFilePathFromEnv, c5 as getRegistryPath, c6 as getSanitizeLogs, c7 as getSubdomainMixedStateCheckDisabled, c8 as getTraceHeader, c9 as getWorkersCIBranchName, ca as getWranglerCacheDirFromEnv, cb as getWranglerHideBanner, cc as getWranglerSendErrorReportsFromEnv, cd as getWranglerSendMetricsFromEnv, ce as hasCursor, cf as hasMorePages, cg as isDoNotTrackEnabled, ch as isWAFBlockResponse, ci as maybeAddTraceHeader, cj as parseRetryAfterMs, ck as parseRetryAfterValue, cl as performApiFetchBase, cm as renderError, cn as throwFetchError, co as truncate } from './compliance-DXaf_kuR.mjs';
  import * as jsoncParser from 'jsonc-parser';
@@ -131,7 +117,7 @@ index ffe8682c90b9eacc82905588dc32e7bc4a249cae..829a18025bfd5479769d106be4f2b9e0
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
 @@ -1,3 +1,5 @@
-+export { addCustomApiHeaders, createNativeCustomApiFetch, getCustomApiHeaders, redactCustomApiHeaders } from "./custom-api-headers.mjs";
++export { addCustomApiHeaders, getCustomApiHeaders, redactCustomApiHeaders } from "./custom-api-headers.mjs";
 +import { addCustomApiHeaders, redactCustomApiHeaders } from "./custom-api-headers.mjs";
  import { createRequire } from 'node:module';
  export { getNodeCompat } from './chunk-NDNWG7VN.mjs';

@@ -89,5 +89,19 @@ Results are a ranked JSON array containing `title`, `description`, and `url`.
 Fetch a result's URL with the `Accept: text/markdown` header to read the full
 page as Markdown.
 
+## Feedback
+
+Send bugs, friction and feature requests to the cf team. A note on its own is
+enough; every field is optional:
+
+```sh
+cf feedback "the deploy output does not say which account it used"
+cf feedback --field type=bug --field expected="a deploy" --field actual="error 10000"
+```
+
+Agents can pipe a JSON report with the same fields plus an `agent` object to
+`cf feedback --input-json -`. `cf feedback --help` lists the fields. CLI context
+follows the telemetry setting; `--no-context` leaves it out.
+
 - [Cloudflare developer docs](https://developers.cloudflare.com/)
 - [cf CLI telemetry](https://github.com/cloudflare/cf/blob/main/packages/cli/telemetry.md)

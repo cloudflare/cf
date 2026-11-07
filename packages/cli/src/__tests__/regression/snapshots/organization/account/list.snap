@@ -1,0 +1,1598 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "organization",
+      "account",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required argument: organization-id",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --account-pubname",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --account-pubname-starts-with",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname-starts-with",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.startsWith=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --account-pubname-ends-with",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname-ends-with",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.endsWith=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --account-pubname-contains",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname-contains",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.contains=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-starts-with",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--name-starts-with",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.startsWith=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-ends-with",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--name-ends-with",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.endsWith=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name-contains",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--name-contains",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name.contains=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "active"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?status=active",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--status value 1",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "deleted"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?status=deleted",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --order-by",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--order-by",
+      "account_name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?order_by=account_name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-tags",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-tags=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?include_tags=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-tags value 1",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-tags=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?include_tags=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-total",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-total=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?include_total=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-total value 1",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--include-total=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?include_total=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page-token",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page_token=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page-size",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page-size",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page_size=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --accept",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--accept",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "regression value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-starts-with",
+      "second value &/?+ü",
+      "--account-pubname-ends-with",
+      "second value &/?+ü",
+      "--account-pubname-contains",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--name-starts-with",
+      "second value &/?+ü",
+      "--name-ends-with",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--status",
+      "deleted",
+      "--order-by",
+      "account_name",
+      "--direction",
+      "desc",
+      "--include-tags=false",
+      "--include-total=false",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--page-token",
+      "second value &/?+ü",
+      "--page-size",
+      "2",
+      "--accept",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&name.contains=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&direction=desc&include_tags=false&include_total=false&page=2&per_page=2&page_token=second+value+%26%2F%3F%2B%C3%BC&page_size=2",
+        "headers": {
+          "accept": "second value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname-starts-with",
+      "regression value &/?+ü",
+      "--account-pubname-contains",
+      "regression value &/?+ü",
+      "--name-starts-with",
+      "regression value &/?+ü",
+      "--name-contains",
+      "regression value &/?+ü",
+      "--order-by",
+      "account_name",
+      "--include-tags=true",
+      "--page",
+      "1",
+      "--page-token",
+      "regression value &/?+ü",
+      "--accept",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.startsWith=regression+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=regression+value+%26%2F%3F%2B%C3%BC&name.startsWith=regression+value+%26%2F%3F%2B%C3%BC&name.contains=regression+value+%26%2F%3F%2B%C3%BC&order_by=account_name&include_tags=true&page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "regression value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-ends-with",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--name-ends-with",
+      "second value &/?+ü",
+      "--status",
+      "deleted",
+      "--direction",
+      "desc",
+      "--include-total=false",
+      "--per-page",
+      "2",
+      "--page-size",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&status=deleted&direction=desc&include_total=false&per_page=2&page_size=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname-ends-with",
+      "regression value &/?+ü",
+      "--account-pubname-contains",
+      "regression value &/?+ü",
+      "--name-ends-with",
+      "regression value &/?+ü",
+      "--name-contains",
+      "regression value &/?+ü",
+      "--direction",
+      "asc",
+      "--include-tags=true",
+      "--per-page",
+      "1",
+      "--page-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname.endsWith=regression+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=regression+value+%26%2F%3F%2B%C3%BC&name.endsWith=regression+value+%26%2F%3F%2B%C3%BC&name.contains=regression+value+%26%2F%3F%2B%C3%BC&direction=asc&include_tags=true&per_page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-starts-with",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--name-starts-with",
+      "second value &/?+ü",
+      "--status",
+      "deleted",
+      "--order-by",
+      "account_name",
+      "--include-total=false",
+      "--page",
+      "2",
+      "--page-size",
+      "2",
+      "--accept",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&include_total=false&page=2&page_size=2",
+        "headers": {
+          "accept": "second value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--name-starts-with",
+      "regression value &/?+ü",
+      "--name-ends-with",
+      "regression value &/?+ü",
+      "--name-contains",
+      "regression value &/?+ü",
+      "--include-total=true",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--page-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?name=regression+value+%26%2F%3F%2B%C3%BC&name.startsWith=regression+value+%26%2F%3F%2B%C3%BC&name.endsWith=regression+value+%26%2F%3F%2B%C3%BC&name.contains=regression+value+%26%2F%3F%2B%C3%BC&include_total=true&page=1&per_page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-starts-with",
+      "second value &/?+ü",
+      "--account-pubname-ends-with",
+      "second value &/?+ü",
+      "--account-pubname-contains",
+      "second value &/?+ü",
+      "--status",
+      "deleted",
+      "--order-by",
+      "account_name",
+      "--direction",
+      "desc",
+      "--include-tags=false",
+      "--page-size",
+      "2",
+      "--accept",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&direction=desc&include_tags=false&page_size=2",
+        "headers": {
+          "accept": "second value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "active",
+      "--order-by",
+      "account_name",
+      "--direction",
+      "asc",
+      "--include-tags=true",
+      "--include-total=true",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--page-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?status=active&order_by=account_name&direction=asc&include_tags=true&include_total=true&page=1&per_page=1&page_token=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-starts-with",
+      "second value &/?+ü",
+      "--account-pubname-ends-with",
+      "second value &/?+ü",
+      "--account-pubname-contains",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--name-starts-with",
+      "second value &/?+ü",
+      "--name-ends-with",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--page-size",
+      "2",
+      "--accept",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&name.contains=second+value+%26%2F%3F%2B%C3%BC&page_size=2",
+        "headers": {
+          "accept": "second value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page-size",
+      "1",
+      "--accept",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?page_size=1",
+        "headers": {
+          "accept": "regression value &/?+Ã¼",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--account-pubname",
+      "second value &/?+ü",
+      "--account-pubname-starts-with",
+      "second value &/?+ü",
+      "--account-pubname-ends-with",
+      "second value &/?+ü",
+      "--account-pubname-contains",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--name-starts-with",
+      "second value &/?+ü",
+      "--name-ends-with",
+      "second value &/?+ü",
+      "--name-contains",
+      "second value &/?+ü",
+      "--status",
+      "deleted",
+      "--order-by",
+      "account_name",
+      "--direction",
+      "desc",
+      "--include-tags=false",
+      "--include-total=false",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--page-token",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts?account_pubname=second+value+%26%2F%3F%2B%C3%BC&account_pubname.startsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.endsWith=second+value+%26%2F%3F%2B%C3%BC&account_pubname.contains=second+value+%26%2F%3F%2B%C3%BC&name=second+value+%26%2F%3F%2B%C3%BC&name.startsWith=second+value+%26%2F%3F%2B%C3%BC&name.endsWith=second+value+%26%2F%3F%2B%C3%BC&name.contains=second+value+%26%2F%3F%2B%C3%BC&status=deleted&order_by=account_name&direction=desc&include_tags=false&include_total=false&page=2&per_page=2&page_token=second+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/organizations/0123456789abcdef0123456789abcdef/accounts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "organization",
+      "account",
+      "list",
+      "--organization-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

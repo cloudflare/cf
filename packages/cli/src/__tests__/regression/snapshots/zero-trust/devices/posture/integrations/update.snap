@@ -1,0 +1,1464 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --integration-config-api-url",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "api_url": "https://example.com/a?x=1&y=two"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --integration-config-auth-url",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-auth-url -> integration-config-api-url integration-config-auth-url -> integration-config-client-id integration-config-auth-url -> integration-config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-client-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-client-id -> integration-config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-client-secret",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "client_secret": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --integration-config-customer-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-customer-id -> integration-config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-client-key",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-client-key -> integration-config-api-url integration-config-client-key -> integration-config-client-secret integration-config-client-key -> integration-config-customer-id",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-access-client-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-access-client-id -> integration-config-api-url",
+    "requests": []
+  },
+  {
+    "case": "only --integration-config-access-client-secret",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-access-client-secret -> integration-config-api-url",
+    "requests": []
+  },
+  {
+    "case": "only --interval",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--interval",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "interval": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "workspace_one"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "crowdstrike_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "crowdstrike_s2s"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "uptycs"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "uptycs"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "intune"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "intune"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "kolide"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "kolide"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "tanium_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "tanium_s2s"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "sentinelone_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "sentinelone_s2s"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "custom_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "type": "custom_s2s"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-secret",
+      "second value &/?+ü",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-key",
+      "second value &/?+ü",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-secret",
+      "second value &/?+ü",
+      "--interval",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--type",
+      "crowdstrike_s2s"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-config-auth-url and integration-config-customer-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-client-secret",
+      "regression value &/?+ü",
+      "--integration-config-client-key",
+      "regression value &/?+ü",
+      "--integration-config-access-client-secret",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-auth-url -> integration-config-api-url integration-config-auth-url -> integration-config-client-id integration-config-client-key -> integration-config-api-url integration-config-client-key -> integration-config-customer-id integration-config-access-client-secret -> integration-config-api-url",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--interval",
+      "second value &/?+ü",
+      "--type",
+      "crowdstrike_s2s"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-client-id -> integration-config-client-secret integration-config-customer-id -> integration-config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-secret",
+      "regression value &/?+ü",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-secret",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-access-client-id -> integration-config-api-url integration-config-access-client-secret -> integration-config-api-url",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-key",
+      "second value &/?+ü",
+      "--interval",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-auth-url -> integration-config-client-id integration-config-auth-url -> integration-config-client-secret integration-config-customer-id -> integration-config-client-secret integration-config-client-key -> integration-config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-key",
+      "regression value &/?+ü",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-config-customer-id -> integration-config-client-secret integration-config-client-key -> integration-config-api-url integration-config-client-key -> integration-config-client-secret integration-config-access-client-id -> integration-config-api-url integration-config-access-client-secret -> integration-config-api-url",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-secret",
+      "second value &/?+ü",
+      "--interval",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--type",
+      "crowdstrike_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "273",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "api_url": "https://example.com/a?x=1&y=two",
+            "auth_url": "https://example.com/a?x=1&y=two",
+            "client_id": "0123456789abcdef0123456789abcdef",
+            "client_secret": "second value &/?+ü"
+          },
+          "interval": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "type": "crowdstrike_s2s"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-secret",
+      "second value &/?+ü",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-key",
+      "second value &/?+ü",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-secret",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-config-auth-url and integration-config-customer-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--integration-config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-secret",
+      "regression value &/?+ü",
+      "--integration-config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-client-key",
+      "regression value &/?+ü",
+      "--integration-config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-config-access-client-secret",
+      "regression value &/?+ü",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-config-auth-url and integration-config-customer-id are mutually exclusive",
+    "requests": []
+  }
+]

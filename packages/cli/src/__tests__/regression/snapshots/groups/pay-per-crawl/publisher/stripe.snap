@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "pay-per-crawl",
+    "publisher",
+    "stripe"
+  ],
+  "requests": []
+}

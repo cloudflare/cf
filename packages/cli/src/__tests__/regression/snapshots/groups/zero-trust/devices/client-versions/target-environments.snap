@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "devices",
+    "client-versions",
+    "target-environments"
+  ],
+  "requests": []
+}

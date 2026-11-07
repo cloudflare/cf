@@ -209,8 +209,8 @@ importers:
         specifier: 2.0.0-beta.v.12
         version: 2.0.0-beta.v.12(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(workerd@1.20261104.1)
       '@cloudflare/workers-types':
-        specifier: 5.20261106.1
-        version: 5.20261106.1
+        specifier: 5.20261107.1
+        version: 5.20261107.1
       cf:
         specifier: workspace:*
         version: link:../../packages/cli
@@ -219,7 +219,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
       wrangler:
         specifier: 4.158.0
-        version: 4.158.0(@cloudflare/workers-types@5.20261106.1)(@types/node@26.6.6)
+        version: 4.158.0(@cloudflare/workers-types@5.20261107.1)(@types/node@26.6.6)
 
   fixtures/vite-plugin-project:
     devDependencies:
@@ -227,8 +227,8 @@ importers:
         specifier: 2.0.0-beta.v.12
         version: 2.0.0-beta.v.12(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(workerd@1.20261104.1)
       '@cloudflare/workers-types':
-        specifier: 5.20261106.1
-        version: 5.20261106.1
+        specifier: 5.20261107.1
+        version: 5.20261107.1
       cf:
         specifier: workspace:*
         version: link:../../packages/cli
@@ -237,7 +237,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
       wrangler:
         specifier: 4.158.0
-        version: 4.158.0(@cloudflare/workers-types@5.20261106.1)(@types/node@26.6.6)
+        version: 4.158.0(@cloudflare/workers-types@5.20261107.1)(@types/node@26.6.6)
 
   fixtures/wrangler-bundler-project:
     dependencies:
@@ -246,7 +246,7 @@ importers:
         version: link:../../packages/cli
       wrangler:
         specifier: 4.158.0
-        version: 4.158.0(@cloudflare/workers-types@5.20261106.1)(@types/node@26.6.6)
+        version: 4.158.0(@cloudflare/workers-types@5.20261107.1)(@types/node@26.6.6)
 
   packages/cli:
     dependencies:
@@ -791,8 +791,8 @@ packages:
       vitest:
         optional: true
 
-  '@cloudflare/workers-types@5.20261106.1':
-    resolution: {integrity: sha512-uQtZyYehF0hwImaFi0/z/BWeTC/DMKpEo+nCySs5WZwoMhnIqLnN3sVjS7GCBc222EWf+F6khsHPWIvPEaP6JA==}
+  '@cloudflare/workers-types@5.20261107.1':
+    resolution: {integrity: sha512-Q23LVprqgqdoxBYaH3YyTrtmeJZMzVarvcTZjZC6FnQIqrr+Vm/ASdWtezOQ+oq3FvhoGr1Xe7BAU3XZfkqUQw==}
 
   '@cloudflare/workers-utils@0.52.0':
     resolution: {integrity: sha512-t1Ku5miQSVxWuGJk8jnWwmA/ufKS/S9PxXDdXlyrR2YfY7XWnZTEaAeckuMhB5S+E97bBj6E2gNZ019fN9smrA==}
@@ -4342,7 +4342,7 @@ snapshots:
       msw: 3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
       vitest: 5.0.5(@types/node@26.6.6)(@vitest/browser-preview@5.0.5)(@vitest/ui@5.0.5)(@voidzero-dev/vite-plus-core@1.4.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.3(@types/node@26.6.6)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
 
-  '@cloudflare/workers-types@5.20261106.1': {}
+  '@cloudflare/workers-types@5.20261107.1': {}
 
   '@cloudflare/workers-utils@0.52.0(vitest@5.0.5)':
     dependencies:
@@ -6766,7 +6766,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20261104.1
       '@cloudflare/workerd-windows-64': 1.20261104.1
 
-  wrangler@4.158.0(@cloudflare/workers-types@5.20261106.1)(@types/node@26.6.6):
+  wrangler@4.158.0(@cloudflare/workers-types@5.20261107.1)(@types/node@26.6.6):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261104.1)
@@ -6778,7 +6778,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20261104.1
     optionalDependencies:
-      '@cloudflare/workers-types': 5.20261106.1
+      '@cloudflare/workers-types': 5.20261107.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - '@types/node'

@@ -40,6 +40,12 @@ cf resolves credentials in this order:
 Use `cf auth create`, `delete`, `activate`, `deactivate`, and `list` to manage
 named profiles. `cf auth login` and `cf auth logout` manage the default profile.
 
+`cf dev --profile <name>` passes the selected profile to framework development
+commands and Cloudflare dev-server implementations through
+`CLOUDFLARE_AUTH_PROFILE`, overriding any inherited value. The development
+server needs a version of `@cloudflare/workers-auth` that supports this
+environment variable to use the selected credentials.
+
 Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
 in your OS keychain. The choice is saved across invocations and applies to all
 profiles. Use `cf auth login --no-use-keyring` to save a preference for plaintext

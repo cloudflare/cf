@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description:
-				"The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op.",
+				"The Organization name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op.",
 		})
 		.option("parent-id", {
 			type: "string",

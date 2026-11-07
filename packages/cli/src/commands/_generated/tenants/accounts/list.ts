@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenants accounts list\n\nLists all Cloudflare accounts across this tenant's hierarchy using the legacy Account response shape. Use `GET /organizations/{organization_id}/accounts` to list only accounts immediately attached to a specific Organization using the modern Account response shape. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested."
+			"$0 tenants accounts list\n\nLists all Cloudflare accounts across this tenant's hierarchy using the legacy Account response shape. Use `GET /organizations/{organization_id}/accounts` to list only accounts immediately attached to a specific Organization using the modern Account response shape. Use `page_token` and `page_size` for cursor pagination."
 		)
 		.option("tenant-id", {
 			type: "string",
@@ -82,17 +82,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("include-total", {
 			type: "boolean",
 			description:
-				"Whether to calculate and return the exact `result_info.total_size` for cursor\npagination. Defaults to true. When false, `total_size` is omitted. Legacy\n`page`/`per_page` requests always calculate `total_count`.",
-		})
-		.option("page", {
-			type: "number",
-			description:
-				"Legacy offset page number. Must be provided with `per_page`. Values below 1 are treated as\n1. Cursor pagination takes precedence when requested.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"Legacy offset page size. Must be provided with `page`. Values are clamped to the range\n1-100. Cursor pagination takes precedence when requested.",
+				"Whether to calculate and return the exact `result_info.total_size` for cursor\npagination. Defaults to true. When false, `total_size` is omitted.",
 		})
 		.option("page-token", {
 			type: "string",
@@ -145,8 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					order_by: argv["order-by"],
 					direction: argv["direction"],
 					include_total: argv["include-total"],
-					page: argv["page"],
-					per_page: argv["per-page"],
 					page_token: argv["page-token"],
 					page_size: argv["page-size"],
 				};

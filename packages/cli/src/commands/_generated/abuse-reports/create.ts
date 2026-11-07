@@ -26,7 +26,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare works with select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values."
+			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare delegates processing of abuse reports to select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values."
 		)
 		.positional("report-type", {
 			type: "string",
@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("comments", {
 			type: "string",
 			description:
-				"Any additional comments about the infringement not exceeding 2000 characters. Comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For delegated reports, comments may be shared in full.",
+				"Any additional comments about the infringement not exceeding 2000 characters. With the exception of delegated reports, comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For the limited circumstances where we delegate reports to customers with established abuse-handling programs, comments may be shared in full.",
 		})
 		.option("company", {
 			type: "string",

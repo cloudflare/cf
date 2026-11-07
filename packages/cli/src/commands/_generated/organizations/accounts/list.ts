@@ -14,7 +14,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organizations accounts list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation."
+			"$0 organizations accounts list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation."
 		)
 		.option("organization-id", {
 			type: "string",
@@ -87,17 +87,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("include-total", {
 			type: "boolean",
 			description:
-				"Whether to calculate and return the exact result_info.total_size for cursor\npagination. Defaults to true. When false, total_size is omitted. page_size and\ninclude_total may change between pages; next_page_token remains the authoritative\ncontinuation signal.\nLegacy page/per_page requests always calculate total_count.",
-		})
-		.option("page", {
-			type: "number",
-			description:
-				"Legacy offset page number. Must be provided with `per_page`. Values below 1 are treated as\n1. Cursor pagination takes precedence when requested.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"Legacy offset page size. Must be provided with `page`. Values are clamped to the range\n1-100. Cursor pagination takes precedence when requested.",
+				"Whether to calculate and return the exact result_info.total_size for cursor\npagination. Defaults to true. When false, total_size is omitted. page_size and\ninclude_total may change between pages; next_page_token remains the authoritative\ncontinuation signal.",
 		})
 		.option("page-token", {
 			type: "string",
@@ -157,8 +147,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					direction: argv["direction"],
 					include_tags: argv["include-tags"],
 					include_total: argv["include-total"],
-					page: argv["page"],
-					per_page: argv["per-page"],
 					page_token: argv["page-token"],
 					page_size: argv["page-size"],
 				};

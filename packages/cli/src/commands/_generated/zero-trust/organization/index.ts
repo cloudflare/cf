@@ -1,5 +1,6 @@
 import $create from "./create.js";
 import $doh from "./doh/index.js";
+import $edit from "./edit.js";
 import $get from "./get.js";
 import $trustsettings from "./trust-settings/index.js";
 import $update from "./update.js";
@@ -17,6 +18,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($create)
+			.command($edit)
 			.command($get)
 			.command($update)
 			.command($doh)

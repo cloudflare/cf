@@ -76,6 +76,40 @@ describe("build output", () => {
 		);
 	});
 
+	it("preserves cross-account service identity from Build Output through upload configuration", async () => {
+		await seed({
+			".cloudflare/output/v0/config.json": rootConfig,
+			".cloudflare/output/v0/workers/default/worker.config.json":
+				JSON.stringify({
+					name: "source",
+					compatibilityDate: "2026-11-01",
+					env: {
+						PAYMENTS: {
+							type: "worker",
+							worker: "payments",
+							exportName: "PublicAPI",
+							accountId: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+						},
+					},
+				}),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default {};",
+		});
+		const {
+			rootConfig: parsedRootConfig,
+			workers: { default: worker },
+		} = await readBuildOutput(process.cwd());
+		const { wranglerConfig } = parseWorkerConfig(worker, parsedRootConfig);
+		expect(wranglerConfig.services).toEqual([
+			{
+				binding: "PAYMENTS",
+				service: "payments",
+				entrypoint: "PublicAPI",
+				target_account_id: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+			},
+		]);
+	});
+
 	it("keeps Build Output Containers separate from Worker validation", async () => {
 		await seed({
 			".cloudflare/output/v0/config.json": rootConfig,

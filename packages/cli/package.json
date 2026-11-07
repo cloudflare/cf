@@ -69,11 +69,11 @@
 		"test:imports": "vp run task:test:imports"
 	},
 	"dependencies": {
-		"@cloudflare/build-output-utils": "0.9.10",
-		"@cloudflare/config": "0.30.2",
+		"@cloudflare/build-output-utils": "https://pkg.pr.new/@cloudflare/build-output-utils@55b5567f278ce000cd4a6e00bfeeef06df596cde",
+		"@cloudflare/config": "https://pkg.pr.new/@cloudflare/config@55b5567f278ce000cd4a6e00bfeeef06df596cde",
 		"@cloudflare/runtime-types": "0.1.23",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "5.20261104.0-beta"
+		"miniflare": "https://pkg.pr.new/miniflare@55b5567f278ce000cd4a6e00bfeeef06df596cde"
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
@@ -82,12 +82,12 @@
 		"@clack/prompts": "^1.8.1",
 		"@cloudflare/autoconfig": "0.9.3",
 		"@cloudflare/cli-shared-helpers": "0.3.4",
-		"@cloudflare/codemods": "0.7.4",
-		"@cloudflare/containers-shared": "0.23.9",
-		"@cloudflare/deploy-helpers": "0.26.0",
+		"@cloudflare/codemods": "https://pkg.pr.new/@cloudflare/codemods@55b5567f278ce000cd4a6e00bfeeef06df596cde",
+		"@cloudflare/containers-shared": "https://pkg.pr.new/@cloudflare/containers-shared@55b5567f278ce000cd4a6e00bfeeef06df596cde",
+		"@cloudflare/deploy-helpers": "https://pkg.pr.new/@cloudflare/deploy-helpers@55b5567f278ce000cd4a6e00bfeeef06df596cde",
 		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@0d1877431691b07cbe3b042a4b64cb0bd8e81c03",
 		"@cloudflare/workers-auth": "0.16.0",
-		"@cloudflare/workers-utils": "0.52.0",
+		"@cloudflare/workers-utils": "https://pkg.pr.new/@cloudflare/workers-utils@55b5567f278ce000cd4a6e00bfeeef06df596cde",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",

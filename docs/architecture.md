@@ -823,7 +823,16 @@ workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
 pushes that change the package, and `packages/cli/package.json` pins one by
 commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
-`workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
+`workers-utils`, and `deploy-helpers` normally use exact npm versions. This
+branch pins `build-output-utils`, `config`, `codemods`, `deploy-helpers`,
+`workers-utils`, `containers-shared`, and Miniflare to the same Workers SDK commit prerelease for
+cross-account service bindings. Replace these pins with the corresponding
+released versions after [workers-sdk#16764](https://github.com/cloudflare/workers-sdk/pull/16764) ships.
+The temporary `.pnpmfile.mjs` resolver accepts only those package names at the
+reviewed commit and resolves every accepted reference to its full SHA. Other
+exotic transitive dependencies remain blocked; pnpm records tarball integrity
+in the lockfile. Remove the resolver and its regression test with the prerelease
+pins when released packages are available.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 

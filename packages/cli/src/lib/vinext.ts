@@ -25,8 +25,8 @@ export function maybeApplyVinextCommandOverrides(
 		framework: Object.assign(Object.create(details.framework), {
 			supportsMode: true,
 		}),
-		devCommand: getVinextCommand(details, "dev"),
-		buildCommand: getVinextCommand(details, "build"),
+		devCommand: "vite dev",
+		buildCommand: "vite build",
 		env: {
 			...details.env,
 			CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT: "true",
@@ -43,11 +43,4 @@ function isVinextProject(
 			details.packageJson?.devDependencies?.vinext !== undefined) &&
 		isPackageInstalled("vinext", details.projectPath)
 	);
-}
-
-function getVinextCommand(
-	details: AutoConfigDetails,
-	command: "dev" | "build"
-): string {
-	return `${details.packageManager.npx} vite ${command}`;
 }

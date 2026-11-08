@@ -37,6 +37,7 @@ interface ProjectPreparationOptions extends CommandOutputOptions {
 export interface RunProjectCommandOptions extends CommandOutputOptions {
 	env?: Readonly<Record<string, string>>;
 	args?: readonly string[];
+	preferLocal?: boolean;
 }
 
 export interface ProjectCommandResult {
@@ -186,7 +187,7 @@ export async function runProjectCommand(
 		{ ...process.env, ...options.env }
 	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
-		nodePath: false,
+		nodePath: options.preferLocal ?? false,
 		nodeOptions: {
 			cwd,
 			env: options.env,
@@ -300,7 +301,10 @@ function createAutoConfigContext(
 		},
 		runCommand: async (command, cwd, label) => {
 			info(`${label} Running: ${command}`);
-			const result = await runProjectCommand(command, cwd, commandOptions);
+			const result = await runProjectCommand(command, cwd, {
+				...commandOptions,
+				preferLocal: true,
+			});
 			if (result.exitCode !== 0 || result.signal) {
 				throw new CliExit(result.exitCode, { signal: result.signal });
 			}

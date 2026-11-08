@@ -69,11 +69,11 @@
 		"test:imports": "vp run task:test:imports"
 	},
 	"dependencies": {
-		"@cloudflare/build-output-utils": "https://pkg.pr.new/@cloudflare/build-output-utils@55b5567f278ce000cd4a6e00bfeeef06df596cde",
-		"@cloudflare/config": "https://pkg.pr.new/@cloudflare/config@55b5567f278ce000cd4a6e00bfeeef06df596cde",
+		"@cloudflare/build-output-utils": "https://pkg.pr.new/@cloudflare/build-output-utils@1c83aca232ab1fc105527211f8310c1deacc1073",
+		"@cloudflare/config": "https://pkg.pr.new/@cloudflare/config@1c83aca232ab1fc105527211f8310c1deacc1073",
 		"@cloudflare/runtime-types": "0.1.23",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "https://pkg.pr.new/miniflare@55b5567f278ce000cd4a6e00bfeeef06df596cde"
+		"miniflare": "https://pkg.pr.new/miniflare@1c83aca232ab1fc105527211f8310c1deacc1073"
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
@@ -82,12 +82,12 @@
 		"@clack/prompts": "^1.8.1",
 		"@cloudflare/autoconfig": "0.9.3",
 		"@cloudflare/cli-shared-helpers": "0.3.4",
-		"@cloudflare/codemods": "https://pkg.pr.new/@cloudflare/codemods@55b5567f278ce000cd4a6e00bfeeef06df596cde",
-		"@cloudflare/containers-shared": "https://pkg.pr.new/@cloudflare/containers-shared@55b5567f278ce000cd4a6e00bfeeef06df596cde",
-		"@cloudflare/deploy-helpers": "https://pkg.pr.new/@cloudflare/deploy-helpers@55b5567f278ce000cd4a6e00bfeeef06df596cde",
+		"@cloudflare/codemods": "https://pkg.pr.new/@cloudflare/codemods@1c83aca232ab1fc105527211f8310c1deacc1073",
+		"@cloudflare/containers-shared": "https://pkg.pr.new/@cloudflare/containers-shared@1c83aca232ab1fc105527211f8310c1deacc1073",
+		"@cloudflare/deploy-helpers": "https://pkg.pr.new/@cloudflare/deploy-helpers@1c83aca232ab1fc105527211f8310c1deacc1073",
 		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@0d1877431691b07cbe3b042a4b64cb0bd8e81c03",
 		"@cloudflare/workers-auth": "0.16.0",
-		"@cloudflare/workers-utils": "https://pkg.pr.new/@cloudflare/workers-utils@55b5567f278ce000cd4a6e00bfeeef06df596cde",
+		"@cloudflare/workers-utils": "https://pkg.pr.new/@cloudflare/workers-utils@1c83aca232ab1fc105527211f8310c1deacc1073",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",

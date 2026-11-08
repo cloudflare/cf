@@ -110,6 +110,61 @@ describe("build output", () => {
 		]);
 	});
 
+	it.each([undefined, "a".repeat(32), "b".repeat(32)])(
+		"preserves storage owners from Build Output (%s)",
+		async (accountId) => {
+			await seed({
+				".cloudflare/output/v0/config.json": rootConfig,
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					JSON.stringify({
+						name: "source",
+						compatibilityDate: "2026-11-01",
+						env: {
+							DB: {
+								type: "d1",
+								id: "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+								accountId,
+							},
+							KV: { type: "kv", id: "c".repeat(32), accountId },
+							BUCKET: {
+								type: "r2",
+								name: "existing",
+								jurisdiction: "eu",
+								accountId,
+							},
+						},
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default {};",
+			});
+			const {
+				rootConfig: parsedRootConfig,
+				workers: { default: worker },
+			} = await readBuildOutput(process.cwd());
+			const { wranglerConfig } = parseWorkerConfig(worker, parsedRootConfig);
+			expect(wranglerConfig.d1_databases?.[0]).toMatchObject({
+				database_id: "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+				...(accountId ? { target_account_id: accountId } : {}),
+			});
+			expect(wranglerConfig.kv_namespaces?.[0]).toMatchObject({
+				id: "c".repeat(32),
+				...(accountId ? { target_account_id: accountId } : {}),
+			});
+			expect(wranglerConfig.r2_buckets?.[0]).toMatchObject({
+				bucket_name: "existing",
+				jurisdiction: "eu",
+				...(accountId ? { target_account_id: accountId } : {}),
+			});
+			expect(wranglerConfig.d1_databases?.[0]?.target_account_id).toBe(
+				accountId
+			);
+			expect(wranglerConfig.kv_namespaces?.[0]?.target_account_id).toBe(
+				accountId
+			);
+			expect(wranglerConfig.r2_buckets?.[0]?.target_account_id).toBe(accountId);
+		}
+	);
+
 	it("keeps Build Output Containers separate from Worker validation", async () => {
 		await seed({
 			".cloudflare/output/v0/config.json": rootConfig,

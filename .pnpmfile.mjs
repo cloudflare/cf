@@ -1,6 +1,6 @@
 // Temporary exact-commit resolver for workers-sdk#16764. Keep other exotic
 // transitive sources blocked. Remove this when these packages are released.
-const commit = "55b5567f278ce000cd4a6e00bfeeef06df596cde";
+const commit = "1c83aca232ab1fc105527211f8310c1deacc1073";
 const packages = new Set([
 	"@cloudflare/build-output-utils",
 	"@cloudflare/config",

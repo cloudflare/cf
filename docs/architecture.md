@@ -826,7 +826,7 @@ commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `workers-utils`, and `deploy-helpers` normally use exact npm versions. This
 branch pins `build-output-utils`, `config`, `codemods`, `deploy-helpers`,
 `workers-utils`, `containers-shared`, and Miniflare to the same Workers SDK commit prerelease for
-cross-account service bindings. Replace these pins with the corresponding
+cross-account Worker, D1, and KV bindings and reserved R2 configuration. Replace these pins with the corresponding
 released versions after [workers-sdk#16764](https://github.com/cloudflare/workers-sdk/pull/16764) ships.
 The temporary `.pnpmfile.mjs` resolver accepts only those package names at the
 reviewed commit and resolves every accepted reference to its full SHA. Other

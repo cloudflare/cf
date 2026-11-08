@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
@@ -7,6 +8,7 @@ import {
 } from "../../lib/wrangler-migration.js";
 import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
+import type * as Codemods from "@cloudflare/codemods";
 
 const { migrateWranglerToCf } = vi.hoisted(() => ({
 	migrateWranglerToCf: vi.fn(),
@@ -28,6 +30,43 @@ describe("cf migrate", () => {
 			followUps: [],
 			status: "complete",
 		});
+	});
+
+	it("preserves the target account when migrating a service binding", async () => {
+		const actual = await vi.importActual<typeof Codemods>(
+			"@cloudflare/codemods"
+		);
+		migrateWranglerToCf.mockImplementation(actual.migrateWranglerToCf);
+		await seed({
+			"package.json": JSON.stringify({ name: "checkout", private: true }),
+			"src/index.ts": "export default {};",
+			"wrangler.json": JSON.stringify({
+				name: "checkout",
+				main: "src/index.ts",
+				compatibility_date: "2026-11-01",
+				services: [
+					{
+						binding: "PAYMENTS",
+						service: "payments",
+						entrypoint: "PublicAPI",
+						target_account_id: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+					},
+				],
+			}),
+		});
+
+		const result = await runCf([
+			"migrate",
+			"--bundler",
+			"wrangler",
+			"--no-install",
+		]);
+
+		expect(result.exitCode, std.err).toBe(1);
+		expect(std.err).toContain("Automatic dependency installation was disabled");
+		const config = await readFile("cloudflare.config.ts", "utf8");
+		expect(config).toContain('accountId: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"');
+		expect(config).toContain('exportName: "PublicAPI"');
 	});
 
 	it.each([

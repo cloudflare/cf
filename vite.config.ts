@@ -9,9 +9,13 @@ export default defineConfig({
 				command: "vp run -r task:check:type",
 				cache: false,
 			},
+			"repo:resolver-test": {
+				command: "node --test scripts/pinned-workers-sdk-resolver.test.mjs",
+				cache: false,
+			},
 			"repo:check": {
 				command: "vp check",
-				dependsOn: ["repo:types"],
+				dependsOn: ["repo:types", "repo:resolver-test"],
 				cache: false,
 			},
 			"repo:lint": {

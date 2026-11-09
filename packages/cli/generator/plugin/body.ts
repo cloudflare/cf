@@ -871,8 +871,8 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 }
 
 /**
- * The properties a JSON body of type `type` requires: those its object, and
- * the objects it is an intersection of, list as required.
+ * The writable properties a JSON body requires, including intersection members.
+ * A read-only declaration in any member excludes that wire name.
  */
 export function requiredNames(type: Type): string[] {
 	const required: string[] = [];

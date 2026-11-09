@@ -39,6 +39,24 @@ describe("cf dev", () => {
 	const std = mockConsoleMethods();
 	afterEach(() => vi.restoreAllMocks());
 
+	it.each(["dev", "build"])(
+		"keeps unsupported project setup blocked before %s delegation",
+		async (command) => {
+			await seed({
+				"package.json": JSON.stringify({
+					dependencies: { hono: "4", "@cloudflare/vite-plugin": "beta" },
+				}),
+				"public/index.html": "<h1>Hono</h1>",
+			});
+			vi.mocked(x).mockClear();
+
+			await expect(runCf([command])).rejects.toThrow(
+				'The detected framework ("Hono") cannot be automatically configured.'
+			);
+			expect(x).not.toHaveBeenCalled();
+		}
+	);
+
 	describe("no impl declared", () => {
 		it("errors with install hints and exits 1 when no manifest exists", async () => {
 			const result = await runCf(["dev"]);

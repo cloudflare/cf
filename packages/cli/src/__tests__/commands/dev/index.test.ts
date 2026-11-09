@@ -766,6 +766,8 @@ spawn(process.execPath, ["tool.cjs"], { stdio: "inherit" });
 		it("reports missing project commands and restores signal listeners", async () => {
 			const sigintListeners = process.listenerCount("SIGINT");
 			const sigtermListeners = process.listenerCount("SIGTERM");
+			const sighupListeners = process.listenerCount("SIGHUP");
+			const exitListeners = process.listenerCount("exit");
 			const execution = runProjectCommand(
 				"cf-missing-project-command",
 				process.cwd(),
@@ -778,6 +780,8 @@ spawn(process.execPath, ["tool.cjs"], { stdio: "inherit" });
 			}
 			expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
 			expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
+			expect(process.listenerCount("SIGHUP")).toBe(sighupListeners);
+			expect(process.listenerCount("exit")).toBe(exitListeners);
 		});
 
 		it("hides environment overrides unless DEBUG is set", async () => {

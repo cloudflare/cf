@@ -402,6 +402,10 @@ argument forwarding, environment, signals, and exit handling as other framework
 commands. On POSIX, framework commands run in a separate process group so
 shutdown signals also reach tools started by launchers such as `vp`. Windows
 keeps console Ctrl+C delivery and terminates the command tree for SIGTERM.
+On POSIX, a second interrupt forces termination, and terminal closure forwards
+SIGHUP. A synchronous exit hook makes a best-effort attempt to stop an active
+command tree if cf exits before shutdown completes. SIGKILL of cf itself cannot
+run cleanup; cf does not start a supervisor process.
 Bare commands resolve through the application's and ancestor
 `node_modules/.bin` directories, supporting workspace toolchains. The shared build
 path supplies `CLOUDFLARE_PREVIEW_BUILD` for Preview deployments. Delegate discovery

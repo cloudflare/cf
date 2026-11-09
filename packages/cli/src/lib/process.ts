@@ -24,7 +24,7 @@ export interface ChildProcessController {
 	/** Rejects on a process error; otherwise resolves when the child exits. */
 	exited: Promise<ChildProcessExit>;
 	readonly terminationRequested: boolean;
-	/** Request graceful shutdown, with the configured forced-shutdown fallback. */
+	/** Request shutdown; explicit SIGKILL also overrides a pending graceful shutdown. */
 	terminate(signal?: NodeJS.Signals): void;
 }
 
@@ -75,12 +75,15 @@ export function createChildProcessController(
 		if (
 			child.exitCode !== null ||
 			child.signalCode !== null ||
-			terminationRequested
+			(terminationRequested && signal !== "SIGKILL")
 		) {
 			return;
 		}
 
 		terminationRequested = true;
+		if (signal === "SIGKILL" && forceKillTimer) {
+			clearTimeout(forceKillTimer);
+		}
 		kill(signal);
 		if (signal !== "SIGKILL" && forceKillAfterMs !== null) {
 			forceKillTimer = setTimeout(() => {

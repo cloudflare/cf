@@ -209,28 +209,45 @@ export async function runProjectCommand(
 			],
 		},
 	});
-	// Retain the five-second SIGTERM fallback for framework commands.
+	// Retain the five-second forced-shutdown fallback for framework commands.
 	const controller = subprocess.process
 		? createChildProcessController(subprocess.process, { processGroup: true })
 		: undefined;
 	let forwardedSignal: NodeJS.Signals | undefined;
 	const relay = (signal: NodeJS.Signals) => () => {
+		const repeated = forwardedSignal !== undefined;
 		forwardedSignal ??= signal;
 		// Windows broadcasts Ctrl+C to every process sharing the console.
 		// Resending SIGINT would forcefully terminate the framework command
 		// before its own Ctrl+C handler can finish graceful shutdown.
 		if (shouldRelayProjectCommandSignal(signal)) {
+			const childSignal = repeated ? "SIGKILL" : signal;
 			if (controller) {
-				controller.terminate(signal);
+				controller.terminate(childSignal);
 			} else {
-				subprocess.kill(signal);
+				subprocess.kill(childSignal);
 			}
 		}
 	};
 	const onSigInt = relay("SIGINT");
 	const onSigTerm = relay("SIGTERM");
+	const onSigHup = relay("SIGHUP");
+	const onExit = () => {
+		// Parent exit cannot wait for the graceful-shutdown timer.
+		try {
+			if (controller) {
+				controller.terminate("SIGKILL");
+			} else {
+				subprocess.kill("SIGKILL");
+			}
+		} catch {
+			// Cleanup is best effort once the parent is already exiting.
+		}
+	};
 	process.on("SIGINT", onSigInt);
 	process.on("SIGTERM", onSigTerm);
+	process.on("SIGHUP", onSigHup);
+	process.on("exit", onExit);
 
 	try {
 		const result = await subprocess;
@@ -242,6 +259,8 @@ export async function runProjectCommand(
 	} finally {
 		process.off("SIGINT", onSigInt);
 		process.off("SIGTERM", onSigTerm);
+		process.off("SIGHUP", onSigHup);
+		process.off("exit", onExit);
 	}
 }
 

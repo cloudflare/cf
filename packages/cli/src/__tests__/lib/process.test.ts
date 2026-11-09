@@ -198,6 +198,28 @@ describe("createChildProcessController", () => {
 		await controller.exited;
 	});
 
+	it("allows an explicit force kill during graceful group shutdown", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		controller.terminate("SIGINT");
+		controller.terminate("SIGKILL");
+
+		expect(signalGroup).toHaveBeenNthCalledWith(1, -12345, "SIGINT");
+		expect(signalGroup).toHaveBeenNthCalledWith(2, -12345, "SIGKILL");
+		expect(vi.getTimerCount()).toBe(0);
+		exit(child, null, "SIGKILL");
+		await controller.exited;
+	});
+
 	it("can leave graceful shutdown timing to the child", async ({ expect }) => {
 		vi.useFakeTimers();
 		const { child, kill } = createMockProcess();

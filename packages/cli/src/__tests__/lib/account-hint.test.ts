@@ -34,9 +34,12 @@ describe("printAccountConfigHint", () => {
 
 		expect(render({ cwd: nested })).toMatchInlineSnapshot(`
 			"│
-			●  To make this the project's default account, add accountId to ../cloudflare.config.ts:
+			●  To use this account automatically in future, configure accountId in ../cloudflare.config.ts:
 
 			   accountId: "023e105f4ecef8ad9ca31a8372d0c353",
+
+			│
+			●  Alternatively, set the CLOUDFLARE_ACCOUNT_ID environment variable.
 
 			"
 		`);
@@ -50,10 +53,13 @@ describe("printAccountConfigHint", () => {
 		try {
 			expect(render({ columns: 50 })).toMatchInlineSnapshot(`
 				"│
-				●  To make this the project's default account, add
-				│  **accountId** to **cloudflare.config.ts**:
+				●  To use this account automatically in future,
+				│  configure **accountId** in **cloudflare.config.ts**:
 
 				   accountId: **"023e105f4ecef8ad9ca31a8372d0c353"**,
+
+				│
+				●  Alternatively, set the **CLOUDFLARE_ACCOUNT_ID** environment variable.
 
 				"
 			`);

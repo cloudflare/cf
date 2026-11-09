@@ -5,10 +5,10 @@
  *   1. Temporary preview account when --temporary-account is requested
  *   2. CLOUDFLARE_ACCOUNT_ID environment variable
  *   3. account settings from cloudflare.config.ts's default export
- *   4. workers-auth account cache
+ *   4. workers-auth account selection retained for this invocation
  *   5. Interactive account picker / single-account auto-select
  *
- * Configured sources 2–4 are offline (`resolveAccountIdSilent`); only
+ * Sources 2–4 are offline (`resolveAccountIdSilent`); only
  * `getAccountId` can provision, enumerate accounts, or ask.
  *
  * Zone priority:
@@ -80,8 +80,8 @@ async function resolveAccountId(
 /**
  * Resolve account ID without triggering interactive prompts, network calls,
  * or stderr announcements. Reads env → cloudflare.config.ts settings → the
- * profile's cached account, and returns `undefined` rather than prompting
- * or going looking for accounts when none of those is set.
+ * profile's selection for this invocation, and returns `undefined` rather than
+ * prompting or looking for accounts when none of those is set.
  */
 export async function resolveAccountIdSilent(): Promise<string | undefined> {
 	// Lazily imported for the same dependency-cycle reason as getAccountId.
@@ -96,8 +96,8 @@ export async function resolveAccountIdSilent(): Promise<string | undefined> {
 	if (result) {
 		return result.value;
 	}
-	// The profile's cached account costs nothing to read: no request, no
-	// prompt, no announcement.
+	// The selection retained for this auth instance costs nothing to read: no
+	// request, prompt, or filesystem access.
 	try {
 		return getActiveAccountId();
 	} catch {

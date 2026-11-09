@@ -144,9 +144,9 @@ describe("context", () => {
 			expect(await resolveAccountIdSilent()).toBe("settings-acct");
 		});
 
-		it("falls back to the profile's cached account", async () => {
-			getActiveAccountIdMock.mockReturnValue("cached-acct");
-			expect(await resolveAccountIdSilent()).toBe("cached-acct");
+		it("falls back to the account selected for this invocation", async () => {
+			getActiveAccountIdMock.mockReturnValue("selected-acct");
+			expect(await resolveAccountIdSilent()).toBe("selected-acct");
 		});
 
 		it("returns undefined when nothing is configured", async () => {

@@ -528,6 +528,12 @@ checks preserve enclosing union alternatives. Explicit `--body` input bypasses
 these projected union checks so callers can supply shapes the flags cannot
 represent; the API validates the supplied body.
 
+Read-only properties are ignored in requests, including properties marked required
+in shared request/response schemas. They are omitted from input flags, prompts,
+and validation messages; supplied values are left to the server without local
+validation. This is intentional: API teams reuse response shapes and expect
+server-provided read-only fields to be ignored in requests.
+
 ### `@file` token (universal file ingestion)
 
 Every string-typed body flag (and multipart string field) accepts

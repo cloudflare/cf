@@ -161,7 +161,9 @@ function makeView(type: Type): Schema {
 						fernName: renamed(f),
 					};
 				}),
-				required: type.fields.filter((f) => f.required).map((f) => f.wireName),
+				required: type.fields
+					.filter((f) => f.required && !f.readOnly)
+					.map((f) => f.wireName),
 			};
 		case "union": {
 			// A nullable schema is a union with null, which the resolver did
@@ -288,8 +290,16 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 	let map = false;
 	const insert = (prop: Prop) => {
 		const i = properties.findIndex((p) => p.name === prop.name);
-		if (i >= 0) {
-			properties[i] = prop;
+		const previous = properties[i];
+		if (previous) {
+			properties[i] = {
+				...prop,
+				schema:
+					isObjectValued(previous.schema, []) && isObjectValued(prop.schema, [])
+						? { allOf: [previous.schema, prop.schema], required: [] }
+						: prop.schema,
+				readOnly: prop.readOnly || previous.readOnly,
+			};
 		} else {
 			properties.push(prop);
 		}
@@ -320,7 +330,9 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 		kind: "object",
 		map: map && properties.length === 0,
 		properties,
-		required: dedup(required),
+		required: dedup(required).filter(
+			(name) => !properties.some((prop) => prop.name === name && prop.readOnly)
+		),
 		oneOf,
 	};
 }
@@ -872,11 +884,12 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 }
 
 /**
- * The properties a JSON body of type `type` requires: those its object, and
- * the objects it is an intersection of, list as required.
+ * The writable properties a JSON body requires, including intersection members.
+ * A read-only declaration in any member excludes that wire name.
  */
 export function requiredNames(type: Type): string[] {
 	const required: string[] = [];
+	const readOnly = new Set<string>();
 	const collect = (t: Type, depth: number) => {
 		if (depth > 32) {
 			return;
@@ -884,6 +897,9 @@ export function requiredNames(type: Type): string[] {
 		const u = unwrapNull(deref(t));
 		if (u.kind === "object") {
 			for (const field of u.fields) {
+				if (field.readOnly) {
+					readOnly.add(field.wireName);
+				}
 				if (field.required) {
 					pushUnique(required, field.wireName);
 				}
@@ -895,7 +911,7 @@ export function requiredNames(type: Type): string[] {
 		}
 	};
 	collect(type, 0);
-	return required;
+	return required.filter((name) => !readOnly.has(name));
 }
 
 /**
@@ -922,6 +938,7 @@ export function discriminator(type: Type): BodyDiscriminator | undefined {
 			continue;
 		}
 		const property = variant.fields.find((f) => f.wireName === field);
+		if (property?.readOnly) return undefined;
 		// The one value of the property's enum, or else the value the mapping
 		// gives the variant.
 		let value: string | undefined;
@@ -946,7 +963,7 @@ export function discriminator(type: Type): BodyDiscriminator | undefined {
 			continue;
 		}
 		const required = variant.fields
-			.filter((f) => f.required)
+			.filter((f) => f.required && !f.readOnly)
 			.map((f) => f.wireName);
 		requireds.push([value, required]);
 	}

@@ -37,6 +37,7 @@ import {
 	isFullySupportedJsonSchema,
 	missingRequired,
 	missingRequiredFromBody,
+	referencesReadOnly,
 	renderFlagHelp,
 	renderPromptQuestion,
 	sanitizeTerminalText,
@@ -247,17 +248,21 @@ function findPropertySchemaVariants(
 	property: string,
 	body: Record<string, unknown>,
 	matchingAlternativesOnly = false,
-	candidateValues: readonly unknown[] = []
+	candidateValues: readonly unknown[] = [],
+	parents: readonly JsonSchema[] = []
 ): PropertySchemaVariants {
+	const sources = [...parents, schema];
 	const direct = schema.properties?.[property];
 	let found = direct !== undefined;
 	let bundles: JsonSchema[][] = [direct === undefined ? [] : [direct]];
 
+	const condition = schema.if;
 	const activeConsequent =
-		schema.if &&
+		condition &&
 		schema.then &&
-		isFullySupportedJsonSchema(schema.if) &&
-		validateJsonSchema(schema.if, body).length === 0
+		!sources.some((source) => referencesReadOnly(condition, source)) &&
+		isFullySupportedJsonSchema(condition) &&
+		validateJsonSchema(condition, body).length === 0
 			? [schema.then]
 			: [];
 	for (const clause of [...(schema.allOf ?? []), ...activeConsequent]) {
@@ -266,7 +271,8 @@ function findPropertySchemaVariants(
 			property,
 			body,
 			matchingAlternativesOnly,
-			candidateValues
+			candidateValues,
+			sources
 		);
 		if (nested.found) {
 			found = true;
@@ -297,7 +303,8 @@ function findPropertySchemaVariants(
 				property,
 				body,
 				matchingAlternativesOnly,
-				candidateValues
+				candidateValues,
+				sources
 			)
 		);
 		if (!branches.some((branch) => branch.found)) {

@@ -34,8 +34,8 @@ Generated API commands follow the shape `cf <product> [group…] <operation>`. U
 cf resolves credentials in this order:
 
 1. `CLOUDFLARE_API_TOKEN` environment variable
-2. The OAuth profile selected by `--profile`, the nearest directory binding,
-   or the default profile (refreshed automatically)
+2. The OAuth profile selected by `--profile`, `CLOUDFLARE_AUTH_PROFILE`, the
+   nearest directory binding, or the default profile (refreshed automatically)
 
 Use `cf auth create`, `delete`, `activate`, `deactivate`, and `list` to manage
 named profiles. `cf auth login` and `cf auth logout` manage the default profile.

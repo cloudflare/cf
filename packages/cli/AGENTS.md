@@ -119,10 +119,10 @@ Account ID is resolved from the environment, the account settings in
 `cloudflare.config.ts`'s default export, and workers-auth. The API token comes from
 `CLOUDFLARE_API_TOKEN`; otherwise cf uses a stored, automatically refreshed
 OAuth profile. There are no `--account-id` or `--api-token` flags.
-Named OAuth profiles are selected by `--profile` or the nearest directory
-binding, with the default profile as fallback. Profiles select credentials,
-not accounts: without an account in the environment or project config, cf
-selects one for the active profile on each invocation.
+Named OAuth profiles are selected by `--profile`, `CLOUDFLARE_AUTH_PROFILE`,
+or the nearest directory binding, with the default profile as fallback.
+Profiles select credentials, not accounts: without an account in the environment
+or project config, cf selects one for the active profile on each invocation.
 `cf dev --profile <name>` passes the selection to framework commands and
 Cloudflare dev-server implementations through `CLOUDFLARE_AUTH_PROFILE` in
 the child environment, overriding any inherited value.

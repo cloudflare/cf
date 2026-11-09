@@ -249,7 +249,7 @@ export function getProfileStore() {
 	return createCfProfileStore({ logger });
 }
 
-/** Resolve and select the explicit or directory-bound auth profile. */
+/** Resolve and select the explicit, environment, or directory-bound auth profile. */
 export function resolveProfile(profile?: string, cwd = process.cwd()): string {
 	const resolved = getProfileStore().resolve({ profile, cwd });
 	setProfile(resolved);

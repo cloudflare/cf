@@ -61,6 +61,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("description", {
 			type: "string",
 			description: "Specify the rule description.",
+			default: "",
 		})
 		.option("device-posture", {
 			type: "string",

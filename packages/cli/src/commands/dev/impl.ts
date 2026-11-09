@@ -73,6 +73,10 @@ function noImplError(cwd: string): void {
 		)
 	);
 	console.error("\nInstall one of these:");
+	console.error(
+		`\n${theme.bold("@cloudflare/vite-plugin")}  ${theme.muted("Vite-based dev server (recommended for JavaScript/TypeScript)")}\n` +
+			`${" ".repeat(GUIDE_WIDTH)}${theme.code("npm install --save-dev @cloudflare/vite-plugin@beta vite")}`
+	);
 	for (const impl of KNOWN_IMPLS) {
 		console.error(
 			`\n${theme.bold(impl.pkg)}  ${theme.muted(impl.description)}`
@@ -95,14 +99,6 @@ function multipleImplsError(discovered: DiscoveredImpl[]): void {
 }
 
 function notInstalledError(d: DiscoveredImpl): void {
-	if (d.installed && d.impl.pkg === "@cloudflare/vite-plugin") {
-		printError(
-			`${d.impl.pkg} is installed, but the project's Vite executable could not be found.`,
-			requiredVersionMessage(d),
-			d.impl
-		);
-		return;
-	}
 	if (d.installed && d.impl.versionConstraint) {
 		printError(
 			`${d.impl.pkg} is declared in ${d.manifestPath}, but this installation does not include the cf delegate.`,

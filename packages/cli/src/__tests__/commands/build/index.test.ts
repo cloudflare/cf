@@ -62,6 +62,12 @@ describe("cf build", () => {
 				name: "@cloudflare/vite-plugin",
 				version: "2.0.0-beta.v.13",
 			}),
+			"cloudflare.config.ts": "export default {};",
+			"node_modules/vite/package.json": JSON.stringify({
+				name: "vite",
+				version: "8.1.0",
+				bin: { vite: "bin/vite.js" },
+			}),
 			"node_modules/vite/bin/vite.js": buildScript("vite-worker"),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
@@ -93,6 +99,12 @@ describe("cf build", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.1",
 				}),
+				"cloudflare.config.ts": "export default {};",
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
 				"node_modules/vite/bin/vite.js": buildScript(
 					"vite-worker",
 					'fs.writeFileSync("env.out", JSON.stringify([process.env.CLOUDFLARE_PREVIEW_BUILD, process.env.CLOUDFLARE_CF_AUTH, process.env.CLOUDFLARE_API_TOKEN]));'
@@ -112,6 +124,38 @@ describe("cf build", () => {
 		}
 	);
 
+	it("builds a Preview through Vite+ selected by autoconfig", async () => {
+		vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
+		await seed({
+			"cloudflare.config.ts": "export default {};",
+			"package.json": JSON.stringify({
+				devDependencies: {
+					"@cloudflare/vite-plugin": "beta",
+					"vite-plus": "1.5.0",
+					wrangler: "^4.136.0",
+				},
+			}),
+			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+				version: "2.0.0-beta.1",
+			}),
+			"node_modules/vite-plus/package.json": JSON.stringify({
+				name: "vite-plus",
+				version: "1.5.0",
+				bin: { vp: "bin/vp.js" },
+			}),
+			"node_modules/vite-plus/bin/vp.js": buildScript(
+				"vite-plus-worker",
+				'fs.writeFileSync("preview.out", process.env.CLOUDFLARE_PREVIEW_BUILD ?? "");'
+			),
+		});
+		chmod("node_modules/vite-plus/bin/vp.js");
+
+		await runBuild("staging", {}, { isPreview: true });
+
+		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+		expect(readFileSync("preview.out", "utf8")).toBe("true");
+	});
+
 	it.each([
 		["deploy"],
 		["workers", "versions", "create"],
@@ -125,6 +169,12 @@ describe("cf build", () => {
 			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 				name: "@cloudflare/vite-plugin",
 				version: "2.0.0-beta.1",
+			}),
+			"cloudflare.config.ts": "export default {};",
+			"node_modules/vite/package.json": JSON.stringify({
+				name: "vite",
+				version: "8.1.0",
+				bin: { vite: "bin/vite.js" },
 			}),
 			"node_modules/vite/bin/vite.js": nodeScript(
 				[

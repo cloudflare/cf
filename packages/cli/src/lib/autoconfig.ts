@@ -1,4 +1,5 @@
 import { constants } from "node:os";
+import { delimiter, dirname, join, resolve } from "node:path";
 import {
 	AutoConfigDetectionError,
 	getDetailsForAutoConfig,
@@ -180,17 +181,21 @@ export async function runProjectCommand(
 			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
-	// Match the environment tinyexec gives the child so both resolve the same npm.
+	const env = projectCommandEnvironment(cwd, options.env);
+	// Match the child's environment when resolving npm's Windows launcher.
 	const [file, ...commandArgs] = resolveNpmLauncher(
 		parseProjectCommand(command),
 		cwd,
-		{ ...process.env, ...options.env }
+		env
 	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
 		nodePath: options.preferLocal ?? false,
 		nodeOptions: {
 			cwd,
-			env: options.env,
+			env,
+			// Launchers can start another tool process (for example, vp starts
+			// Vite). Give the command a group so signals reach that tool too.
+			detached: process.platform !== "win32",
 			// Inherited stdin/stderr preserve console Ctrl+C on Windows even
 			// with tinyexec's windowsHide default.
 			stdio: [
@@ -206,7 +211,7 @@ export async function runProjectCommand(
 	});
 	// Retain the five-second SIGTERM fallback for framework commands.
 	const controller = subprocess.process
-		? createChildProcessController(subprocess.process)
+		? createChildProcessController(subprocess.process, { processGroup: true })
 		: undefined;
 	let forwardedSignal: NodeJS.Signals | undefined;
 	const relay = (signal: NodeJS.Signals) => () => {
@@ -215,7 +220,7 @@ export async function runProjectCommand(
 		// Resending SIGINT would forcefully terminate the framework command
 		// before its own Ctrl+C handler can finish graceful shutdown.
 		if (shouldRelayProjectCommandSignal(signal)) {
-			if (signal === "SIGTERM" && controller) {
+			if (controller) {
 				controller.terminate(signal);
 			} else {
 				subprocess.kill(signal);
@@ -238,6 +243,32 @@ export async function runProjectCommand(
 		process.off("SIGINT", onSigInt);
 		process.off("SIGTERM", onSigTerm);
 	}
+}
+
+function projectCommandEnvironment(
+	cwd: string,
+	overrides: Readonly<Record<string, string>> = {}
+): NodeJS.ProcessEnv {
+	const env: NodeJS.ProcessEnv = {
+		...process.env,
+		...overrides,
+		CLOUDFLARE_CF_AUTH: "true",
+	};
+	const pathKey = Object.keys(env).find((key) => /^path$/i.test(key)) ?? "PATH";
+	const directories: string[] = [];
+	let directory = resolve(cwd);
+	// Bare framework commands use the application's toolchain, including binaries
+	// hoisted into an enclosing workspace. Never add cf's own node_modules.
+	while (true) {
+		directories.push(join(directory, "node_modules", ".bin"));
+		const parent = dirname(directory);
+		if (parent === directory) {
+			break;
+		}
+		directory = parent;
+	}
+	env[pathKey] = [...directories, env[pathKey]].filter(Boolean).join(delimiter);
+	return env;
 }
 
 function parseProjectCommand(command: string): [string, ...string[]] {

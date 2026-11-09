@@ -32,6 +32,11 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.5.0
   vite-plus: 1.5.0
 overrides:
+  # The autoconfig PR build rewrites workspace deps to tarball URLs. Keep its
+  # shared dependencies on cf's registry versions while blockExoticSubdeps is on.
+  "@cloudflare/autoconfig>@cloudflare/cli-shared-helpers": 0.3.4
+  "@cloudflare/autoconfig>@cloudflare/config": 0.30.2
+  "@cloudflare/autoconfig>@cloudflare/workers-utils": 0.52.0
   vite@*: "catalog:"
   vitest@*: 5.1.0
 peerDependencyRules:

@@ -71,6 +71,12 @@ describe("cf deploy", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.1",
 				}),
+				"cloudflare.config.ts": "export default {};",
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
 				"node_modules/vite/bin/vite.js": nodeScript(
 					'require("node:fs").writeFileSync("vite-argv.out", JSON.stringify(process.argv.slice(2)));'
 				),

@@ -23,7 +23,7 @@ import { findKnownImpl, type KnownImpl } from "./known-impls.js";
  * `declared` is always true for entries returned from `discoverImpls`.
  * `binary` is the resolved path to the impl's executable, or null if
  * the impl is declared in the manifest but not installed (e.g.
- * `package.json` mentions `@cloudflare/vite-plugin` but
+ * `package.json` mentions `wrangler` but
  * `node_modules/` is missing).
  */
 export interface DiscoveredImpl {

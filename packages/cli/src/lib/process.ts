@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 
 const DEFAULT_FORCE_KILL_AFTER_MS = 5_000;
@@ -5,6 +6,8 @@ const DEFAULT_FORCE_KILL_AFTER_MS = 5_000;
 export interface ChildProcessControllerOptions {
 	/** Forward SIGINT and SIGTERM to the child until it exits. */
 	forwardSignals?: boolean;
+	/** Control the whole command tree; POSIX children must use `detached: true`. */
+	processGroup?: boolean;
 	/**
 	 * Time to wait after requesting shutdown before sending SIGKILL.
 	 * Set to `null` to leave graceful shutdown timing to the child.
@@ -38,6 +41,35 @@ export function createChildProcessController(
 		options.forceKillAfterMs === undefined
 			? DEFAULT_FORCE_KILL_AFTER_MS
 			: options.forceKillAfterMs;
+	const kill = (signal: NodeJS.Signals): void => {
+		if (!options.processGroup || child.pid === undefined) {
+			child.kill(signal);
+			return;
+		}
+		if (process.platform === "win32") {
+			// Windows has no POSIX process groups or graceful SIGTERM. Kill the
+			// tree before its launcher exits and leaves the actual tool running.
+			try {
+				execFileSync("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], {
+					stdio: "ignore",
+					windowsHide: true,
+					timeout: 5_000,
+				});
+			} catch {
+				child.kill(signal);
+			}
+			return;
+		}
+		try {
+			process.kill(-child.pid, signal);
+		} catch (error) {
+			if (
+				!(error instanceof Error && "code" in error && error.code === "ESRCH")
+			) {
+				throw error;
+			}
+		}
+	};
 
 	const terminate = (signal: NodeJS.Signals = "SIGTERM"): void => {
 		if (
@@ -49,11 +81,11 @@ export function createChildProcessController(
 		}
 
 		terminationRequested = true;
-		child.kill(signal);
+		kill(signal);
 		if (signal !== "SIGKILL" && forceKillAfterMs !== null) {
 			forceKillTimer = setTimeout(() => {
 				if (child.exitCode === null && child.signalCode === null) {
-					child.kill("SIGKILL");
+					kill("SIGKILL");
 				}
 			}, forceKillAfterMs);
 			forceKillTimer.unref();
@@ -68,7 +100,7 @@ export function createChildProcessController(
 			return;
 		}
 		if (terminationRequested) {
-			child.kill("SIGKILL");
+			kill("SIGKILL");
 			return;
 		}
 		terminate(signal);

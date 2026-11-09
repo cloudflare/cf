@@ -39,135 +39,96 @@ describe("discoverImpls", () => {
 	runInTempDir();
 
 	describe("npm", () => {
-		it("returns the declared impl when installed", async () => {
+		it("returns the declared Wrangler delegate when installed", async () => {
 			await seed({
 				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					devDependencies: { wrangler: "^4.136.0" },
 				}),
-				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
-					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
+				"node_modules/wrangler/package.json": JSON.stringify({
+					name: "wrangler",
+					version: "4.136.0",
 				}),
-				"node_modules/vite/bin/vite.js": "#!/usr/bin/env node\n",
+				"node_modules/wrangler/bin/cf-wrangler.js": "#!/usr/bin/env node\n",
 			});
-
 			const results = discoverImpls(process.cwd());
 			expect(results).toHaveLength(1);
-			expect(results[0]?.impl.pkg).toBe("@cloudflare/vite-plugin");
-			expect(results[0]?.binary).toBe(resolve("node_modules/vite/bin/vite.js"));
+			expect(results[0]).toMatchObject({
+				installed: true,
+				installedVersion: "4.136.0",
+				binary: resolve("node_modules/wrangler/bin/cf-wrangler.js"),
+			});
 		});
 
-		it("returns binary=null when declared but not installed", async () => {
+		it("reports a missing local installation", async () => {
+			await seed({
+				"package.json": JSON.stringify({
+					dependencies: { wrangler: "^4.136.0" },
+				}),
+			});
+			expect(discoverImpls(process.cwd())[0]).toMatchObject({
+				installed: false,
+				binary: null,
+			});
+		});
+
+		it("reports a missing delegate in an installed package", async () => {
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: { wrangler: "^4.136.0" },
+				}),
+				"node_modules/wrangler/package.json": JSON.stringify({
+					name: "wrangler",
+					version: "4.136.0",
+				}),
+			});
+			expect(discoverImpls(process.cwd())[0]).toMatchObject({
+				installed: true,
+				binary: null,
+			});
+		});
+
+		it("ignores a parent project's installation", async () => {
+			await seed({
+				"node_modules/wrangler/package.json": JSON.stringify({
+					name: "wrangler",
+					version: "4.136.0",
+				}),
+				"node_modules/wrangler/bin/cf-wrangler.js": "#!/usr/bin/env node\n",
+				"child/package.json": JSON.stringify({
+					devDependencies: { wrangler: "^4.136.0" },
+				}),
+			});
+			expect(discoverImpls(resolve("child"))[0]).toMatchObject({
+				installed: false,
+				binary: null,
+			});
+		});
+
+		it("leaves Vite command selection to autoconfig", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
 				}),
 			});
-
-			const results = discoverImpls(process.cwd());
-			expect(results).toHaveLength(1);
-			expect(results[0]?.binary).toBeNull();
-			expect(results[0]?.installed).toBe(false);
-		});
-
-		it("tracks an installed plugin with a missing Vite CLI", async () => {
-			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
-				}),
-				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
-					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
-				}),
-			});
-
-			const results = discoverImpls(process.cwd());
-			expect(results).toHaveLength(1);
-			expect(results[0]?.binary).toBeNull();
-			expect(results[0]?.installed).toBe(true);
-		});
-
-		it("does not use a parent project's Vite installation", async () => {
-			await seed({
-				"node_modules/vite/bin/vite.js": "#!/usr/bin/env node\n",
-				"project/package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
-				}),
-				"project/node_modules/@cloudflare/vite-plugin/package.json":
-					JSON.stringify({
-						name: "@cloudflare/vite-plugin",
-						version: "2.0.0-beta.1",
-					}),
-			});
-
-			const results = discoverImpls(resolve("project"));
-
-			expect(results).toHaveLength(1);
-			expect(results[0]?.installed).toBe(true);
-			expect(results[0]?.binary).toBeNull();
-		});
-
-		it("returns no result when no known impl is declared", async () => {
-			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "some-unrelated-package": "^1.0.0" },
-				}),
-			});
-
 			expect(discoverImpls(process.cwd())).toEqual([]);
 		});
 
-		it("ignores hoisted parent node_modules (uses local install only)", async () => {
-			// Simulate a workspace situation where the package is hoisted
-			// to a parent node_modules but NOT in the project's own. cf
-			// must treat this as not-installed, per the AGENTS.md note
-			// about workspaces.
-			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
-				}),
-				// Note: NO node_modules/@cloudflare/vite-plugin/ entry here.
-			});
-
-			const results = discoverImpls(process.cwd());
-			expect(results).toHaveLength(1);
-			expect(results[0]?.binary).toBeNull();
-		});
-
-		it("handles malformed package.json without crashing", async () => {
-			await seed({
-				"package.json": "{ this is not valid JSON",
-			});
-
+		it("handles malformed package.json", async () => {
+			await seed({ "package.json": "{ this is not valid JSON" });
 			expect(discoverImpls(process.cwd())).toEqual([]);
 		});
 
-		it("collects fallback deps from devDependencies and dependencies alike", async () => {
-			// Either field counts; the discoverer doesn't differentiate.
+		it("uses primary implementations before Wrangler", async () => {
 			await seed({
 				"package.json": JSON.stringify({
-					dependencies: { wrangler: "^1.0.0" },
+					devDependencies: { wrangler: "^4.136.0" },
 				}),
+				"pyproject.toml":
+					'[project]\ndependencies = ["cloudflare-py-dev-server"]\n',
 			});
-
 			const results = discoverImpls(process.cwd());
 			expect(results).toHaveLength(1);
-			expect(results[0]?.impl.pkg).toBe("wrangler");
-		});
-
-		it("uses primary npm impls before wrangler fallback", async () => {
-			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: {
-						"@cloudflare/vite-plugin": "beta",
-						wrangler: "^4.0.0",
-					},
-				}),
-			});
-
-			const results = discoverImpls(process.cwd());
-			expect(results).toHaveLength(1);
-			expect(results[0]?.impl.pkg).toBe("@cloudflare/vite-plugin");
+			expect(results[0]?.impl.pkg).toBe("cloudflare-py-dev-server");
 		});
 	});
 
@@ -273,26 +234,17 @@ describe("discoverImpls", () => {
 	});
 
 	describe("multi-manifest", () => {
-		it("returns one entry per declared impl across ecosystems", async () => {
+		it("returns primary implementations across ecosystems", async () => {
 			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
-				}),
-				"pyproject.toml": [
-					"[project]",
-					'name = "x"',
-					'dependencies = ["cloudflare-py-dev-server"]',
-					"",
-				].join("\n"),
+				"pyproject.toml":
+					'[project]\ndependencies = ["cloudflare-py-dev-server"]\n',
+				"Cargo.toml": '[dependencies]\ncloudflare-rs-dev-server = "0.1"\n',
 			});
-
-			const results = discoverImpls(process.cwd());
-			expect(results).toHaveLength(2);
-			const names = results.map((r) => r.impl.pkg).sort();
-			expect(names).toEqual([
-				"@cloudflare/vite-plugin",
-				"cloudflare-py-dev-server",
-			]);
+			expect(
+				discoverImpls(process.cwd())
+					.map((result) => result.impl.pkg)
+					.sort()
+			).toEqual(["cloudflare-py-dev-server", "cloudflare-rs-dev-server"]);
 		});
 	});
 

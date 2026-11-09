@@ -95,8 +95,6 @@ export async function runBuild(
 
 function formatImplName(discovered: DiscoveredImpl): string {
 	switch (discovered.impl.pkg) {
-		case "@cloudflare/vite-plugin":
-			return "Vite";
 		case "wrangler":
 			return "Wrangler";
 		case "cloudflare-py-dev-server":

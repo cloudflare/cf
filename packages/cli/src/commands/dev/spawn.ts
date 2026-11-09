@@ -1,5 +1,5 @@
 /**
- * Run the project's native Vite CLI or a Cloudflare delegate as a subprocess.
+ * Run a Cloudflare delegate as a subprocess.
  * Dev inherits the terminal; builds route stdout to stderr. Both preserve
  * the child's exit code and termination signal.
  */
@@ -166,7 +166,7 @@ function implEnvironment(
  * (command, prefixArgs) pair.
  *
  * Most impls return a plain absolute path (e.g.
- * `/path/to/node_modules/vite/bin/vite.js`) and we
+ * `/path/to/node_modules/wrangler/bin/cf-wrangler.js`) and we
  * pass it to tinyexec directly. PyPI impls under uv-managed projects return
  * `uv:<pkg>` (the discoverer's sentinel), which we expand to
  * `uv run --no-sync <pkg>` so the impl runs in the project's uv

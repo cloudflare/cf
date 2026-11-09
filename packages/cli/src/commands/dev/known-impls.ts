@@ -10,9 +10,8 @@
  * binary must accept a `dev` subcommand per the subprocess contract
  * (long-running with inherited stdio and forwarded signals).
  *
- * Vite projects use the project's native Vite CLI. Other impls ship
- * delegate binaries such as `cf-wrangler` with the same verb-based
- * subprocess contract.
+ * Autoconfig supplies framework commands, including Vite and Vite+.
+ * These fallback impls ship delegate binaries such as `cf-wrangler`.
  *
  * This file is product knowledge in `src/`, but it's the same
  * unavoidable kind as "cf is the CLI for Cloudflare" — there's no
@@ -107,34 +106,12 @@ function resolveCargoBinary(): string | null {
 	return null;
 }
 
-function resolveViteBinary({ cwd }: ImplResolutionContext): string | null {
-	// Match discovery's project-local resolution instead of finding cf's Vite
-	// dependency or a hoisted installation in an unrelated parent project.
-	const binary = join(cwd, "node_modules", "vite", "bin", "vite.js");
-	return existsSync(binary) ? binary : null;
-}
-
 /**
  * Static allowlist. Order is presentational only — used in install
  * hints when no impl is found, and to make multi-impl error output
  * deterministic.
  */
 export const KNOWN_IMPLS: readonly KnownImpl[] = [
-	{
-		ecosystem: "npm",
-		pkg: "@cloudflare/vite-plugin",
-		versionConstraint: {
-			range: ">=2.0.0-beta.v.13 <3.0.0-0",
-			display: "@cloudflare/vite-plugin v2 beta (2.0.0-beta.v.13 or newer)",
-		},
-		description:
-			"Vite-based dev server (recommended for JavaScript/TypeScript)",
-		manifest: "package.json",
-		binary: resolveViteBinary,
-		installCommands: [
-			"npm install --save-dev @cloudflare/vite-plugin@beta vite",
-		],
-	},
 	{
 		ecosystem: "npm",
 		pkg: "wrangler",

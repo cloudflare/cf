@@ -678,7 +678,17 @@ function isObject(type: Type): boolean {
 }
 
 /** Whether all declared object properties are read-only, with no writable map. */
-function onlyReadOnlyProperties(schema: Type): boolean {
+function onlyReadOnlyProperties(schema: Type, depth = 0): boolean {
+	if (depth > 8) {
+		return false;
+	}
+	const root = unwrapNull(deref(schema));
+	if (root.kind === "union") {
+		return (
+			root.members.length > 0 &&
+			root.members.every((member) => onlyReadOnlyProperties(member, depth + 1))
+		);
+	}
 	const names = new Set<string>();
 	const readOnly = new Set<string>();
 	const collect = (type: Type, depth: number): boolean => {
@@ -701,7 +711,7 @@ function onlyReadOnlyProperties(schema: Type): boolean {
 		);
 	};
 	return (
-		collect(schema, 0) &&
+		collect(schema, depth) &&
 		names.size > 0 &&
 		[...names].every((name) => readOnly.has(name))
 	);

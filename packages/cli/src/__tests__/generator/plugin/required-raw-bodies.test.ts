@@ -368,6 +368,32 @@ describe("JSON bodies without writable flags", () => {
 		}
 	);
 
+	it.each(["oneOf", "anyOf"])(
+		"sends an empty JSON body when every %s variant is read-only",
+		async (kind) => {
+			const { run, client, requestApi, send } = setup(
+				jsonFiles({
+					[kind]: [
+						{ $ref: "#/components/schemas/Response" },
+						{
+							type: "object",
+							required: ["status"],
+							properties: { status: { type: "string", readOnly: true } },
+						},
+					],
+				})
+			);
+			await run();
+			expect(requestApi).toHaveBeenCalledExactlyOnceWith(
+				client,
+				"PUT",
+				"/things",
+				{ body: {} }
+			);
+			expect(send).not.toHaveBeenCalled();
+		}
+	);
+
 	it("sends an empty read-only JSON body through the header request path", async () => {
 		const { run, client, requestApi } = setup(
 			jsonFiles(responseSchema, { withHeader: true })

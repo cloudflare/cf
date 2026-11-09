@@ -80,7 +80,7 @@ describe("cf deploy — assets", () => {
 			expect(buildDelegateWasCalled()).toBe(false);
 			expect(upload.scriptName).toBe("static-site");
 			expect(upload.metadata?.main_module).toBeUndefined();
-			expect(Object.keys(assets.manifest ?? {})).toEqual([
+			expect(Object.keys(assets.manifest ?? {}).sort()).toEqual([
 				"/index.html",
 				"/nested/style.css",
 			]);

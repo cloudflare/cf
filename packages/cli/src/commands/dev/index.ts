@@ -68,6 +68,10 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 
 		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])];
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];
+		const profileEnv: Record<string, string> =
+			argv.profile !== undefined
+				? { CLOUDFLARE_AUTH_PROFILE: argv.profile }
+				: {};
 		if (details?.devCommand) {
 			if (argv.mode && !details.framework?.supportsMode) {
 				throw new Error(
@@ -75,7 +79,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				);
 			}
 			const result = await runProjectCommand(details.devCommand, cwd, {
-				env: details.env,
+				env: { ...details.env, ...profileEnv },
 				args: [...modeArgs, ...implArgs],
 				output: "inherit",
 			});
@@ -87,6 +91,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		// Spawn and propagate the impl's exit code and termination signal.
 		// CliExit flows up to main() which lets bin/cf map to process.exit(code).
 		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs], {
+			env: profileEnv,
 			output: "inherit",
 		});
 		throw new CliExit(result.exitCode, { signal: result.signal });

@@ -158,6 +158,78 @@ describe("schema flags", () => {
 		}
 	});
 
+	it("ignores nested read-only fields shared across sibling allOf clauses", () => {
+		const schema: JsonSchema = {
+			allOf: [
+				{
+					properties: {
+						settings: {
+							properties: { id: { type: "string", readOnly: true } },
+						},
+					},
+				},
+				{
+					properties: {
+						settings: {
+							required: ["id", "value"],
+							additionalProperties: false,
+							maxProperties: 1,
+							properties: {
+								id: { type: "string" },
+								value: { type: "string" },
+							},
+						},
+					},
+				},
+			],
+		};
+		const nestedSchema: JsonSchema = {
+			allOf: schema.allOf?.map((clause) => ({
+				properties: { nested: clause },
+			})),
+		};
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			for (const settings of [{ value: "ok" }, { id: false, value: "ok" }]) {
+				expect(validate(schema, { settings })).toEqual([]);
+				expect(validate(nestedSchema, { nested: { settings } })).toEqual([]);
+			}
+			expect(validate(schema, { settings: {} })).toEqual([
+				"`/settings/value` is required",
+			]);
+			expect(validate(schema, { settings: { value: false } })).toEqual([
+				"`/settings/value` must be a string",
+			]);
+			expect(
+				validate(schema, { settings: { value: "ok", extra: true } })
+			).toContain("`/settings/extra` is not allowed");
+		}
+	});
+
+	it("keeps root read-only annotations from masking writable nested fields", () => {
+		const schema: JsonSchema = {
+			properties: { id: { readOnly: true } },
+			allOf: [
+				{
+					properties: {
+						settings: {
+							required: ["id"],
+							properties: { id: { type: "string" } },
+						},
+					},
+				},
+			],
+		};
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			expect(validate(schema, { id: false, settings: {} })).toEqual([
+				"`/settings/id` is required",
+			]);
+			expect(validate(schema, { settings: { id: false } })).toEqual([
+				"`/settings/id` must be a string",
+			]);
+			expect(validate(schema, { settings: { id: "ok" } })).toEqual([]);
+		}
+	});
+
 	it("ignores conditions on response fields declared only within the condition", () => {
 		const schema: JsonSchema = {
 			type: "object",

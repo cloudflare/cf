@@ -1984,8 +1984,20 @@ function validateSchemaAtPath(
 				? properties[key]
 				: undefined;
 			if (propertySchema) {
+				const propertySources = sources.flatMap((source) => {
+					const sourceProperty = ownSchemaProperty(
+						structuralAllOf(source).properties,
+						key
+					);
+					return sourceProperty === undefined ? [] : [sourceProperty];
+				});
 				errors.push(
-					...validateSchemaAtPath(propertySchema, child, [...path, key])
+					...validateSchemaAtPath(
+						propertySchema,
+						child,
+						[...path, key],
+						propertySources
+					)
 				);
 			} else if (schema.additionalProperties === false) {
 				errors.push(`${jsonPointer([...path, key])} is not allowed`);

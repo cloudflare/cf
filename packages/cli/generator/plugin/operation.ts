@@ -170,6 +170,7 @@ export type OutputKind = "json" | "binary" | "text" | "websocket";
 
 const BINARY = [
 	"application/octet-stream",
+	"application/protobuf",
 	"application/vnd.google.protobuf",
 	"application/zip",
 	"application/pdf",

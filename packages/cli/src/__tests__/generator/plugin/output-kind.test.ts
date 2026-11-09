@@ -4,6 +4,7 @@ import { operation } from "../../helpers/cli-plugin.js";
 
 describe("outputKind", () => {
 	it.each([
+		["application/protobuf", "binary"],
 		["application/vnd.google.protobuf", "binary"],
 		["application/octet-stream", "binary"],
 		["application/zip", "binary"],

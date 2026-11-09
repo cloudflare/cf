@@ -27,6 +27,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Application/vendor identifier.",
 			demandOption: true,
 		})
+		.option("environment", {
+			type: "string",
+			description:
+				"Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+			choices: ["fedramp", "standard"],
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -45,11 +51,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb applications get",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["environment", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					environment: argv["environment"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -59,6 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						pathParams: {
 							"application-id": String(argv["application-id"] ?? ""),
 						},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -71,6 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.send(operation, {
 						account_id: accountId,
 						application_id: argv["application-id"],
+						...queryParams,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

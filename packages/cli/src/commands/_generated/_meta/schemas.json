@@ -6689,6 +6689,34 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"ai-gateway gateways providers test": {
+			"operationId": "ai-gateway.gateways.providers.test",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}/test",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
 		"ai-gateway gateways providers update": {
 			"operationId": "ai-gateway.gateways.providers.update",
 			"httpMethod": "PUT",
@@ -106158,6 +106186,12 @@
 			],
 			"queryParams": [
 				{
+					"name": "environment",
+					"flag": "environment",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "page",
 					"flag": "page",
 					"type": "number",
@@ -106191,7 +106225,14 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "environment",
+					"flag": "environment",
+					"type": "string",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},

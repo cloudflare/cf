@@ -9226,6 +9226,50 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf ai-gateway gateways providers test",
+			"name": "test",
+			"fullPath": ["ai-gateway", "gateways", "providers", "test"],
+			"description": "Checks whether stored credentials can list models through the provider implementation in AI Gateway. Requires AI Gateway content update permission. Does not run inference, check credits or inference permissions, or return provider response bodies. HTTP 401 from the model-list request is classified as invalid, as is AWS Bedrock HTTP 403 with an UnrecognizedClientException error type. Other failures are inconclusive, including other HTTP 400 or 403 responses; a 403 alone does not distinguish rejected credentials from insufficient permissions. Unsupported providers or credential formats also return an inconclusive result.",
+			"summary": "Check stored provider credentials",
+			"usage": "cf ai-gateway gateways providers test <id> [options]",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID"
+				}
+			],
+			"options": [
+				{
+					"name": "gateway-id",
+					"type": "string",
+					"required": true,
+					"description": "Unique identifier of the AI Gateway within the account."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}/test",
+			"operationId": "ai-gateway.gateways.providers.test",
+			"hideCommand": false
+		},
+		{
 			"command": "cf ai-gateway gateways providers update",
 			"name": "update",
 			"fullPath": ["ai-gateway", "gateways", "providers", "update"],
@@ -145354,6 +145398,13 @@
 					"description": "Application/vendor identifier."
 				},
 				{
+					"name": "environment",
+					"type": "string",
+					"required": false,
+					"description": "Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+					"enum": ["fedramp", "standard"]
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false,
@@ -145386,7 +145437,7 @@
 			"fullPath": ["zero-trust", "casb", "applications", "get"],
 			"description": "Returns full application details including auth methods, use cases, and permissions.",
 			"summary": "Get application details",
-			"usage": "cf zero-trust casb applications get <application-id>",
+			"usage": "cf zero-trust casb applications get <application-id> [options]",
 			"arguments": [
 				{
 					"name": "application-id",
@@ -145397,6 +145448,13 @@
 				}
 			],
 			"options": [
+				{
+					"name": "environment",
+					"type": "string",
+					"required": false,
+					"description": "Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+					"enum": ["fedramp", "standard"]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -145425,7 +145483,8 @@
 					"name": "environment",
 					"type": "string",
 					"required": false,
-					"description": "Filter by supported environment (standard, fedramp)."
+					"description": "Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+					"enum": ["fedramp", "standard"]
 				},
 				{
 					"name": "page",
@@ -161417,7 +161476,8 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Specify the rule description."
+					"description": "Specify the rule description.",
+					"default": ""
 				},
 				{
 					"name": "device-posture",

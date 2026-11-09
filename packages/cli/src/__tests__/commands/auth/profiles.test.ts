@@ -88,6 +88,28 @@ describe("cf auth profiles", () => {
 
 		await runCf(["zones", "list", "--profile", "work"], {
 			CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
+			CLOUDFLARE_AUTH_PROFILE: "personal",
+		});
+
+		expect(std.err).toBe("");
+	});
+
+	it("should prefer the environment profile over directory bindings for API commands", async () => {
+		const token = randomUUID();
+		createProfile("work", token);
+		createProfile("personal");
+		store.bindings.activate("personal", process.cwd());
+
+		server.use(
+			http.get(`${TEST_BASE_URL}/zones`, ({ request }) => {
+				expect(request.headers.get("authorization")).toBe(`Bearer ${token}`);
+				return HttpResponse.json({ success: true, result: [] });
+			})
+		);
+
+		await runCf(["zones", "list"], {
+			CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
+			CLOUDFLARE_AUTH_PROFILE: "work",
 		});
 
 		expect(std.err).toBe("");

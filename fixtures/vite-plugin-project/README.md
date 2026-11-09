@@ -23,9 +23,9 @@ The workspace aliases `vite` to Vite+ core, which provides no `vite` CLI. The ro
 
 The current lockfile resolves:
 
-- `@cloudflare/vite-plugin` 2.0.0-beta.sha-ad79608dd;
-- Wrangler 4.145.0;
-- Vite 8.3.0.
+- `@cloudflare/vite-plugin` 2.0.0-beta.v.13;
+- Wrangler 4.159.0;
+- Vite through the workspace's Vite+ core alias.
 
 These versions emit the configuration and Build Output Specification artifacts consumed by cf.
 

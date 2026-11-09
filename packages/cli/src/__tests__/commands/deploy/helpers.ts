@@ -43,11 +43,11 @@ export async function seedBuildDelegate(): Promise<void> {
 	const { seed } = await import("@cloudflare/workers-utils/test-helpers");
 	await seed({
 		"package.json": JSON.stringify({
-			devDependencies: { wrangler: "^4.136.0" },
+			devDependencies: { wrangler: "^4.159.0" },
 		}),
 		"node_modules/wrangler/package.json": JSON.stringify({
 			name: "wrangler",
-			version: "4.136.0",
+			version: "4.159.0",
 		}),
 		"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
 			[

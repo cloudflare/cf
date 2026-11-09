@@ -861,8 +861,8 @@ local image cleanup to cf's successful workflow boundary — see "Patched deps".
 Three dependency patches are registered in `pnpm-workspace.yaml#patchedDependencies`:
 
 - `patches/@changesets__cli@2.31.0.patch`
-- `patches/@cloudflare__containers-shared@0.20.3.patch`
-- `patches/@cloudflare__deploy-helpers@0.20.1.patch`
+- `patches/@cloudflare__containers-shared@0.24.0.patch`
+- `patches/@cloudflare__deploy-helpers@0.26.1.patch`
 
 The Changesets patch permits publishing prerelease state under `latest` and
 suppresses the non-latest-tag warning for that tag. The containers-shared and

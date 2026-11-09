@@ -13,3 +13,5 @@ Omit read-only multipart fields from form flags and required-body checks, and se
 Send an empty JSON body automatically when its only properties are read-only, including referenced and intersected schemas.
 
 Skip flags introduced only by conditions on read-only fields so offered inputs agree with request validation.
+
+Preserve sibling read-only annotations inside map values without applying map annotations to explicitly named properties.

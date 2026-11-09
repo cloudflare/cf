@@ -2013,11 +2013,22 @@ function validateSchemaAtPath(
 				schema.additionalProperties &&
 				typeof schema.additionalProperties === "object"
 			) {
+				const additionalSources = sources.flatMap((source) =>
+					[source, ...conjunctiveMembers(source)].flatMap((member) => {
+						if (ownSchemaProperty(member.properties, key) !== undefined) {
+							return [];
+						}
+						const additional = member.additionalProperties;
+						return typeof additional === "object" ? [additional] : [];
+					})
+				);
 				errors.push(
-					...validateSchemaAtPath(schema.additionalProperties, child, [
-						...path,
-						key,
-					])
+					...validateSchemaAtPath(
+						schema.additionalProperties,
+						child,
+						[...path, key],
+						additionalSources
+					)
 				);
 			}
 		}

@@ -253,6 +253,74 @@ describe("schema flags", () => {
 		}
 	});
 
+	it.each([false, true])(
+		"preserves sibling allOf read-only annotations for map values (reversed: %s)",
+		(reversed) => {
+			const members: JsonSchema[] = [
+				{
+					properties: { value: { readOnly: true } },
+					additionalProperties: {
+						properties: { id: { readOnly: true } },
+					},
+				},
+				{
+					additionalProperties: {
+						required: ["id", "value"],
+						additionalProperties: false,
+						maxProperties: 1,
+						properties: { id: { type: "string" }, value: { type: "string" } },
+					},
+				},
+			];
+			const schema: JsonSchema = {
+				allOf: reversed ? members.toReversed() : members,
+			};
+			for (const validate of [
+				validateJsonSchema,
+				validateSupportedJsonSchema,
+			]) {
+				for (const dynamic of [{ value: "ok" }, { id: false, value: "ok" }]) {
+					expect(validate(schema, { dynamic })).toEqual([]);
+				}
+				expect(validate(schema, { dynamic: {} })).toEqual([
+					"`/dynamic/value` is required",
+				]);
+				expect(validate(schema, { dynamic: { value: false } })).toEqual([
+					"`/dynamic/value` must be a string",
+				]);
+				expect(
+					validate(schema, { dynamic: { value: "ok", extra: true } })
+				).toContain("`/dynamic/extra` is not allowed");
+			}
+		}
+	);
+
+	it("keeps map annotations from applying to explicitly named properties", () => {
+		const schema: JsonSchema = {
+			allOf: [
+				{
+					properties: { named: { type: "object" } },
+					additionalProperties: { properties: { id: { readOnly: true } } },
+				},
+				{
+					additionalProperties: {
+						required: ["id"],
+						properties: { id: { type: "string" } },
+					},
+				},
+			],
+		};
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			expect(validate(schema, { named: {} })).toEqual([
+				"`/named/id` is required",
+			]);
+			expect(validate(schema, { named: { id: false } })).toEqual([
+				"`/named/id` must be a string",
+			]);
+			expect(validate(schema, { dynamic: {} })).toEqual([]);
+		}
+	});
+
 	it.each([
 		{
 			name: "homogeneous items",

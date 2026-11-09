@@ -86,7 +86,7 @@
 		"@cloudflare/containers-shared": "0.23.9",
 		"@cloudflare/deploy-helpers": "0.26.0",
 		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@0d1877431691b07cbe3b042a4b64cb0bd8e81c03",
-		"@cloudflare/workers-auth": "0.16.0",
+		"@cloudflare/workers-auth": "0.17.0",
 		"@cloudflare/workers-utils": "0.52.0",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",

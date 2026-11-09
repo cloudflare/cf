@@ -120,7 +120,9 @@ Account ID is resolved from the environment, the account settings in
 `CLOUDFLARE_API_TOKEN`; otherwise cf uses a stored, automatically refreshed
 OAuth profile. There are no `--account-id` or `--api-token` flags.
 Named OAuth profiles are selected by `--profile` or the nearest directory
-binding, with the default profile as fallback.
+binding, with the default profile as fallback. Profiles select credentials,
+not accounts: without an account in the environment or project config, cf
+selects one for the active profile on each invocation.
 
 ### Reserved names
 

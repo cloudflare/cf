@@ -144,7 +144,7 @@ export async function requireTemporaryAccount(options?: {
 	}
 }
 
-/** Resolve a configured, cached, or newly selected account ID. */
+/** Resolve a configured, retained, or newly selected account ID. */
 export async function getOrSelectAccountId(
 	accountId?: string,
 	options?: { isPreview?: boolean; complianceRegion?: ComplianceRegion }
@@ -173,9 +173,9 @@ export async function getOrSelectAccountId(
 }
 
 /**
- * The account already settled on — config, env, or the profile's cache —
- * without a request or a prompt. `undefined` means nothing is stored yet,
- * not that the user is signed out.
+ * The account already settled on from the environment, a temporary account,
+ * or this auth instance's selection, without a request or prompt. `undefined`
+ * means nothing has been selected yet, not that the user is signed out.
  */
 export function getActiveAccountId(): string | undefined {
 	return auth.getActiveAccountId({});

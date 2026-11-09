@@ -108,7 +108,8 @@ describe("account selection", () => {
 			◇  Select an account
 			│  Acme Corp
 			│
-			●  To make this the project's default account, create cloudflare.config.ts:
+			●  To use this account automatically in future, configure accountId in
+			│  cloudflare.config.ts:
 
 			   import { defineConfig } from "cf/config";
 
@@ -116,13 +117,20 @@ describe("account selection", () => {
 			     accountId: "023e105f4ecef8ad9ca31a8372d0c353",
 			   });
 
+			│
+			●  Alternatively, set the CLOUDFLARE_ACCOUNT_ID environment variable.
+
 			[]
 			"
 		`);
 	});
 
 	it("omits the config hint with --quiet", async () => {
-		await expect(run("--quiet")).resolves.toEqual({ exitCode: 0 });
+		// Use another profile to model a separate invocation without reusing the
+		// selection retained by the auth instance from the preceding test.
+		await expect(run("--quiet", "--profile", "quiet-test")).resolves.toEqual({
+			exitCode: 0,
+		});
 
 		expect(screen(terminal)).toMatchInlineSnapshot(`
 			"│

@@ -205,6 +205,84 @@ describe("schema flags", () => {
 		}
 	});
 
+	it.each([
+		{
+			name: "homogeneous items",
+			tupleAnnotations: false,
+			tupleConstraints: false,
+		},
+		{ name: "tuple items", tupleAnnotations: true, tupleConstraints: true },
+		{
+			name: "tuple annotations",
+			tupleAnnotations: true,
+			tupleConstraints: false,
+		},
+		{
+			name: "tuple constraints",
+			tupleAnnotations: false,
+			tupleConstraints: true,
+		},
+	])(
+		"preserves sibling allOf read-only annotations for $name",
+		({ tupleAnnotations, tupleConstraints }) => {
+			const responseItem: JsonSchema = {
+				properties: { id: { type: "string", readOnly: true } },
+			};
+			const requestItem: JsonSchema = {
+				required: ["id", "value"],
+				properties: { id: { type: "string" }, value: { type: "string" } },
+			};
+			const clauses: JsonSchema[] = [
+				{
+					properties: {
+						items: {
+							items: tupleAnnotations ? [responseItem, {}] : responseItem,
+						},
+					},
+				},
+				{
+					properties: {
+						items: {
+							items: tupleConstraints
+								? [requestItem, requestItem]
+								: requestItem,
+						},
+					},
+				},
+			];
+			for (const allOf of [clauses, clauses.toReversed()]) {
+				const schema: JsonSchema = {
+					properties: { value: { readOnly: true } },
+					allOf,
+				};
+				for (const validate of [
+					validateJsonSchema,
+					validateSupportedJsonSchema,
+				]) {
+					for (const first of [{ value: "ok" }, { id: false, value: "ok" }]) {
+						expect(
+							validate(schema, { items: [first, { id: "next", value: "ok" }] })
+						).toEqual([]);
+					}
+					expect(validate(schema, { items: [{}] })).toEqual([
+						"`/items/0/value` is required",
+					]);
+					expect(validate(schema, { items: [{ value: false }] })).toEqual([
+						"`/items/0/value` must be a string",
+					]);
+					expect(
+						validate(schema, { items: [{ value: "ok" }, { value: "ok" }] })
+					).toEqual(tupleAnnotations ? ["`/items/1/id` is required"] : []);
+					expect(
+						validate(schema, {
+							items: [{ value: "ok" }, { id: false, value: "ok" }],
+						})
+					).toEqual(tupleAnnotations ? ["`/items/1/id` must be a string"] : []);
+				}
+			}
+		}
+	);
+
 	it("keeps root read-only annotations from masking writable nested fields", () => {
 		const schema: JsonSchema = {
 			properties: { id: { readOnly: true } },

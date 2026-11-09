@@ -1949,22 +1949,30 @@ function validateSchemaAtPath(
 		) {
 			errors.push(`${location} must contain unique items`);
 		}
-		if (schema.items && !Array.isArray(schema.items)) {
+		if (schema.items) {
 			for (const [index, item] of value.entries()) {
-				errors.push(
-					...validateSchemaAtPath(schema.items, item, [...path, String(index)])
-				);
-			}
-		} else if (Array.isArray(schema.items)) {
-			for (const [index, itemSchema] of schema.items.entries()) {
-				if (index < value.length) {
-					errors.push(
-						...validateSchemaAtPath(itemSchema, value[index], [
-							...path,
-							String(index),
-						])
-					);
+				const itemSchema = Array.isArray(schema.items)
+					? schema.items[index]
+					: schema.items;
+				if (itemSchema === undefined) {
+					continue;
 				}
+				const itemSources = sources.flatMap((source) =>
+					[source, ...conjunctiveMembers(source)].flatMap((member) => {
+						const sourceItem = Array.isArray(member.items)
+							? member.items[index]
+							: member.items;
+						return sourceItem === undefined ? [] : [sourceItem];
+					})
+				);
+				errors.push(
+					...validateSchemaAtPath(
+						itemSchema,
+						item,
+						[...path, String(index)],
+						itemSources
+					)
+				);
 			}
 		}
 	}

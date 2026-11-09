@@ -79089,6 +79089,12 @@
 					"description": "Control the inclusion of offensive language in transcriptions."
 				},
 				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`."
+				},
+				{
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
@@ -79815,6 +79821,12 @@
 					"description": "Control the inclusion of offensive language in transcriptions."
 				},
 				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`."
+				},
+				{
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
@@ -80004,6 +80016,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Control the inclusion of offensive language in transcriptions."
+				},
+				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
 				},
 				{
 					"name": "live-stream-on-start",
@@ -80267,6 +80285,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
 				},
 				{
 					"name": "permissions-can-livestream",
@@ -80796,6 +80820,12 @@
 					"description": "The permissions.can_edit_display_name field"
 				},
 				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
+				},
+				{
 					"name": "permissions-can-livestream",
 					"type": "boolean",
 					"required": true,
@@ -81225,6 +81255,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
 				},
 				{
 					"name": "permissions-can-livestream",

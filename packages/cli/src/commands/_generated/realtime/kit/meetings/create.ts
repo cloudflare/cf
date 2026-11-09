@@ -92,6 +92,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Control the inclusion of offensive language in transcriptions.",
 		})
+		.option("enable-sip", {
+			type: "boolean",
+			description:
+				"Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`.",
+			default: false,
+		})
 		.option("live-stream-on-start", {
 			type: "boolean",
 			description:
@@ -240,6 +246,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ai-config-summarization-text-format",
 						"ai-config-transcription-language",
 						"ai-config-transcription-profanity-filter",
+						"enable-sip",
 						"live-stream-on-start",
 						"persist-chat",
 						"record-on-start",
@@ -286,6 +293,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["ai-config-transcription-profanity-filter"],
 											},
 										},
+										enable_sip: argv["enable-sip"],
 										live_stream_on_start: argv["live-stream-on-start"],
 										persist_chat: argv["persist-chat"],
 										record_on_start: argv["record-on-start"],
@@ -390,6 +398,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								argv["ai-config-transcription-profanity-filter"],
 						},
 					},
+					enable_sip: argv["enable-sip"],
 					live_stream_on_start: argv["live-stream-on-start"],
 					persist_chat: argv["persist-chat"],
 					record_on_start: argv["record-on-start"],

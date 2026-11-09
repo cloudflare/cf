@@ -26,6 +26,8 @@ function setup(files: Map<string, string>, name = "update") {
 	);
 	const formatOutput = vi.fn();
 	const formatDryRun = vi.fn();
+	const fetchRawBytes = vi.fn(async () => Buffer.from("result"));
+	const writeRawOutput = vi.fn();
 	const command = new Script(source).runInNewContext({
 		Blob,
 		FormData,
@@ -38,6 +40,8 @@ function setup(files: Map<string, string>, name = "update") {
 		resolveFileToken,
 		formatOutput,
 		formatDryRun,
+		fetchRawBytes,
+		writeRawOutput,
 		withProgress: async (_label: string, task: () => Promise<unknown>) =>
 			task(),
 		runWithTelemetry: (
@@ -63,6 +67,8 @@ function setup(files: Map<string, string>, name = "update") {
 		send,
 		formatOutput,
 		formatDryRun,
+		fetchRawBytes,
+		writeRawOutput,
 	};
 }
 
@@ -290,13 +296,20 @@ describe("mixed raw and multipart bodies", () => {
 	);
 });
 
-describe("required JSON bodies without writable flags", () => {
+describe("JSON bodies without writable flags", () => {
 	const responseSchema = {
 		type: "object",
 		required: ["id"],
 		properties: { id: { type: "string", readOnly: true } },
 	};
-	const jsonFiles = (schema: Record<string, unknown>, withHeader = false) =>
+	const jsonFiles = (
+		schema: Record<string, unknown>,
+		{
+			withHeader = false,
+			required = true,
+			responseType,
+		}: { withHeader?: boolean; required?: boolean; responseType?: string } = {}
+	) =>
 		generateFiles({
 			openapi: "3.0.3",
 			info: { title: "Read-only JSON bodies", version: "1" },
@@ -310,10 +323,21 @@ describe("required JSON bodies without writable flags", () => {
 							? [{ name: "revision", in: "header", schema: { type: "string" } }]
 							: [],
 						requestBody: {
-							required: true,
+							required,
 							content: { "application/json": { schema } },
 						},
-						responses: { "200": { description: "OK" } },
+						responses: {
+							"200": {
+								description: "OK",
+								...(responseType === undefined
+									? {}
+									: {
+											content: {
+												[responseType]: { schema: { type: "string" } },
+											},
+										}),
+							},
+						},
 					},
 				},
 			},
@@ -345,7 +369,44 @@ describe("required JSON bodies without writable flags", () => {
 	);
 
 	it("sends an empty read-only JSON body through the header request path", async () => {
-		const { run, client, requestApi } = setup(jsonFiles(responseSchema, true));
+		const { run, client, requestApi } = setup(
+			jsonFiles(responseSchema, { withHeader: true })
+		);
+		await run(["--revision", "current"]);
+		expect(requestApi).toHaveBeenCalledExactlyOnceWith(
+			client,
+			"PUT",
+			"/things",
+			{
+				body: {},
+				headers: { revision: "current" },
+			}
+		);
+	});
+
+	it.each([true, false])(
+		"sends an empty JSON body for raw output (required: %s)",
+		async (required) => {
+			const { run, fetchRawBytes, writeRawOutput, send, requestApi } = setup(
+				jsonFiles(responseSchema, { required, responseType: "text/plain" })
+			);
+			await run();
+			expect(fetchRawBytes).toHaveBeenCalledExactlyOnceWith("/things", {
+				method: "PUT",
+				local: false,
+				persistTo: undefined,
+				body: {},
+			});
+			expect(writeRawOutput).toHaveBeenCalledExactlyOnceWith("result");
+			expect(send).not.toHaveBeenCalled();
+			expect(requestApi).not.toHaveBeenCalled();
+		}
+	);
+
+	it("sends an optional read-only body through the header request path", async () => {
+		const { run, client, requestApi } = setup(
+			jsonFiles(responseSchema, { required: false, withHeader: true })
+		);
 		await run(["--revision", "current"]);
 		expect(requestApi).toHaveBeenCalledExactlyOnceWith(
 			client,

@@ -11,3 +11,5 @@ Preserve read-only annotations for nested properties and array or tuple items sp
 Omit read-only multipart fields from form flags and required-body checks, and select a writable field for file uploads.
 
 Send an empty JSON body automatically when its only properties are read-only, including referenced and intersected schemas.
+
+Skip flags introduced only by conditions on read-only fields so offered inputs agree with request validation.

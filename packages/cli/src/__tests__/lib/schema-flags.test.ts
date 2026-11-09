@@ -158,6 +158,54 @@ describe("schema flags", () => {
 		}
 	});
 
+	it.each(["root", "allOf", "nested"])(
+		"omits fields selected only by read-only conditions at %s",
+		(location) => {
+			const conditional: JsonSchema = {
+				if: { required: ["id"] },
+				// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+				then: {
+					required: ["detail"],
+					properties: { detail: { type: "string" } },
+				},
+			};
+			const level: JsonSchema = {
+				type: "object",
+				additionalProperties: false,
+				required: ["value"],
+				properties: { value: { type: "string" } },
+				...(location === "allOf"
+					? {
+							allOf: [
+								{ properties: { id: { type: "string", readOnly: true } } },
+								conditional,
+							],
+						}
+					: {
+							properties: {
+								value: { type: "string" },
+								id: { type: "string", readOnly: true },
+							},
+							...conditional,
+						}),
+			};
+			const nested = location === "nested";
+			const schema: JsonSchema = nested
+				? { type: "object", properties: { input: level } }
+				: level;
+			const descriptors = flags(schema);
+			const flag = nested ? "input-value" : "value";
+			expect(descriptors.map(({ name }) => name)).toEqual([flag]);
+			const body = nested ? { input: { value: "ok" } } : { value: "ok" };
+			expect(assembleBody(descriptors, { [flag]: "ok" })).toEqual({
+				body,
+				errors: [],
+			});
+			expect(validateJsonSchema(schema, body)).toEqual([]);
+			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
+		}
+	);
+
 	it("ignores nested read-only fields shared across sibling allOf clauses", () => {
 		const schema: JsonSchema = {
 			allOf: [

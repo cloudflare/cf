@@ -1131,7 +1131,7 @@ export function schemaToFlags(
 			}
 		}
 		for (const clause of [level, ...conjunctiveMembers(level)]) {
-			if (clause.if && clause.then) {
+			if (clause.if && clause.then && !referencesReadOnly(clause.if, level)) {
 				walk(clause.then, path, requiredWhen, true);
 			}
 		}

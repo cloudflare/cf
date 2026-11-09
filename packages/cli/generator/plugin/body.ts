@@ -287,10 +287,15 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 	let map = false;
 	const insert = (prop: Prop) => {
 		const i = properties.findIndex((p) => p.name === prop.name);
-		if (i >= 0) {
+		const previous = properties[i];
+		if (previous) {
 			properties[i] = {
 				...prop,
-				readOnly: prop.readOnly || properties[i]?.readOnly === true,
+				schema:
+					isObjectValued(previous.schema, []) && isObjectValued(prop.schema, [])
+						? { allOf: [previous.schema, prop.schema], required: [] }
+						: prop.schema,
+				readOnly: prop.readOnly || previous.readOnly,
 			};
 		} else {
 			properties.push(prop);

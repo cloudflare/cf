@@ -171,6 +171,66 @@ describe("read-only request properties", () => {
 		}
 	);
 
+	it.each([false, true])(
+		"merges nested read-only annotations across intersections (reversed: %s)",
+		async (reversed) => {
+			const members = [
+				{
+					type: "object",
+					properties: {
+						tags: { type: "array", items: { type: "string" } },
+						enabled: { type: "boolean" },
+						settings: {
+							type: "object",
+							properties: { id: { type: "string", readOnly: true } },
+						},
+					},
+				},
+				{
+					type: "object",
+					required: ["settings"],
+					properties: {
+						tags: { type: "array", items: { type: "string" } },
+						enabled: { type: "boolean" },
+						settings: {
+							type: "object",
+							required: ["id", "value"],
+							properties: { id: { type: "string" }, value: { type: "string" } },
+						},
+					},
+				},
+			];
+			const files = generate({
+				allOf: reversed ? members.toReversed() : members,
+			});
+			for (const name of ["create", "update"]) {
+				const code = files.get(`things/${name}.ts`) ?? "";
+				expect(code).not.toMatch(/settings[_-]id|["']id["']/);
+				expect(code).toContain("promptForRequiredField('settings-value'");
+				const c = command(code);
+				await c.run([
+					name,
+					"--settings-value",
+					"ok",
+					"--tags",
+					"first",
+					"second",
+					"--enabled",
+				]);
+				expect(c.send).toHaveBeenCalledWith(
+					{},
+					{
+						body: {
+							settings: { value: "ok" },
+							tags: ["first", "second"],
+							enabled: true,
+						},
+					}
+				);
+			}
+		}
+	);
+
 	it("ignores required response fields in generated prompts and union validation", async () => {
 		const files = generate({
 			type: "object",

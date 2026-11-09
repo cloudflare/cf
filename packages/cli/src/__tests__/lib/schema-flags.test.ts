@@ -32,6 +32,9 @@ describe("schema flags", () => {
 		const recursive: JsonSchema = {};
 		recursive.properties = { child: recursive };
 		expect(referencesReadOnly(recursive, {})).toBe(false);
+		const recursiveMap: JsonSchema = {};
+		recursiveMap.additionalProperties = recursiveMap;
+		expect(referencesReadOnly(recursiveMap, recursiveMap)).toBe(false);
 		const conjunction: JsonSchema = {};
 		conjunction.allOf = [conjunction];
 		expect(isFullySupportedJsonSchema(conjunction)).toBe(false);
@@ -205,6 +208,69 @@ describe("schema flags", () => {
 			expect(validateSupportedJsonSchema(schema, body)).toEqual([]);
 		}
 	);
+
+	it.each(["map", "named", "named condition", "allOf"])(
+		"ignores conditions on read-only map selectors through %s schemas",
+		(location) => {
+			const value: JsonSchema = {
+				properties: { id: { readOnly: true }, value: { type: "string" } },
+			};
+			const selector: JsonSchema = { required: ["id"] };
+			const condition: JsonSchema =
+				location === "named condition"
+					? { properties: { dynamic: selector } }
+					: { additionalProperties: selector };
+			const source: JsonSchema =
+				location === "named"
+					? { properties: { dynamic: value } }
+					: { additionalProperties: value };
+			const conditional: JsonSchema = {
+				if: condition,
+				// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+				then: {
+					required: ["detail"],
+					properties: { detail: { type: "string" } },
+				},
+			};
+			const schema: JsonSchema =
+				location === "allOf"
+					? { allOf: [source, { allOf: [conditional] }] }
+					: { ...source, ...conditional };
+			expect(referencesReadOnly(condition, schema)).toBe(true);
+			expect(flags(schema).map(({ name }) => name)).not.toContain("detail");
+			for (const validate of [
+				validateJsonSchema,
+				validateSupportedJsonSchema,
+			]) {
+				for (const dynamic of [{}, { id: false }]) {
+					expect(validate(schema, { dynamic })).toEqual([]);
+				}
+				expect(validate(schema, { dynamic: { value: false } })).toContain(
+					"`/dynamic/value` must be a string"
+				);
+			}
+		}
+	);
+
+	it("keeps map conditions independent of properties the condition names separately", () => {
+		const condition: JsonSchema = {
+			properties: { excluded: {} },
+			additionalProperties: { required: ["id"] },
+		};
+		const schema: JsonSchema = {
+			properties: { excluded: { properties: { id: { readOnly: true } } } },
+			additionalProperties: { properties: { id: { type: "string" } } },
+			if: condition,
+			// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
+			then: { required: ["detail"] },
+		};
+		expect(referencesReadOnly(condition, schema)).toBe(false);
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			expect(
+				validate(schema, { excluded: {}, dynamic: { id: "client" } })
+			).toEqual(["`/detail` is required"]);
+		}
+	});
 
 	it("ignores nested read-only fields shared across sibling allOf clauses", () => {
 		const schema: JsonSchema = {

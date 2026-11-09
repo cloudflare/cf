@@ -156,26 +156,47 @@ function containsReadOnly(
 export function referencesReadOnly(
 	condition: JsonSchema,
 	input: JsonSchema,
-	ignored: ReadonlySet<string> = new Set()
+	ignored: ReadonlySet<string> = new Set(),
+	seen = new WeakMap<JsonSchema, WeakSet<JsonSchema>>()
 ): boolean {
-	if (containsReadOnly(condition)) {
+	if (containsReadOnly(condition) || isReadOnly(input)) {
 		return true;
 	}
+	let compared = seen.get(condition);
+	if (compared?.has(input)) {
+		return false;
+	}
+	if (compared === undefined) {
+		compared = new WeakSet();
+		seen.set(condition, compared);
+	}
+	compared.add(input);
 	const source = structuralAllOf(input);
 	const clause = structuralAllOf(condition);
 	for (const key of new Set([
 		...(clause.required ?? []),
 		...Object.keys(clause.properties ?? {}),
 	])) {
-		const sourceChild = ownSchemaProperty(source.properties, key);
-		if (ignored.has(key) || isReadOnly(sourceChild)) {
+		const sourceChildren = [source, ...conjunctiveMembers(source)].flatMap(
+			(member) => {
+				const child = ownSchemaProperty(member.properties, key);
+				const additional = member.additionalProperties;
+				return child !== undefined
+					? [child]
+					: typeof additional === "object"
+						? [additional]
+						: [];
+			}
+		);
+		if (ignored.has(key) || sourceChildren.some((child) => isReadOnly(child))) {
 			return true;
 		}
 		const conditionChild = ownSchemaProperty(clause.properties, key);
 		if (
-			sourceChild &&
 			conditionChild &&
-			referencesReadOnly(conditionChild, sourceChild)
+			sourceChildren.some((child) =>
+				referencesReadOnly(conditionChild, child, undefined, seen)
+			)
 		) {
 			return true;
 		}
@@ -188,13 +209,33 @@ export function referencesReadOnly(
 				: [schema.items];
 	return (
 		alternativeGroups(condition).some((group) =>
-			group.some((variant) => referencesReadOnly(variant, input, ignored))
+			group.some((variant) => referencesReadOnly(variant, input, ignored, seen))
 		) ||
 		items(clause).some((child) =>
 			items(source).some((sourceChild) =>
-				referencesReadOnly(child, sourceChild)
+				referencesReadOnly(child, sourceChild, undefined, seen)
 			)
-		)
+		) ||
+		[clause, ...conjunctiveMembers(clause)].some((member) => {
+			const conditionMap = member.additionalProperties;
+			if (typeof conditionMap !== "object") {
+				return false;
+			}
+			const sourceChildren = [source, ...conjunctiveMembers(source)].flatMap(
+				(sourceMember) => {
+					const additional = sourceMember.additionalProperties;
+					return [
+						...Object.entries(sourceMember.properties ?? {})
+							.filter(([key]) => !Object.hasOwn(member.properties ?? {}, key))
+							.map(([, child]) => child),
+						...(typeof additional === "object" ? [additional] : []),
+					];
+				}
+			);
+			return sourceChildren.some((child) =>
+				referencesReadOnly(conditionMap, child, undefined, seen)
+			);
+		})
 	);
 }
 

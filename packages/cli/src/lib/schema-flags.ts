@@ -2020,6 +2020,26 @@ function validateSchemaAtPath(
 	if (value !== null && typeof value === "object" && !Array.isArray(value)) {
 		const object = value as Record<string, unknown>;
 		const properties = schema.properties ?? {};
+		for (const key of new Set([
+			...Object.keys(object),
+			...(schema.required ?? []),
+		])) {
+			if (
+				sources.some((source) =>
+					[source, ...conjunctiveMembers(source)].some(
+						(member) =>
+							ownSchemaProperty(member.properties, key) === undefined &&
+							isReadOnly(
+								typeof member.additionalProperties === "object"
+									? member.additionalProperties
+									: undefined
+							)
+					)
+				)
+			) {
+				ignored.add(key);
+			}
+		}
 		for (const required of schema.required ?? []) {
 			if (!ignored.has(required) && !Object.hasOwn(object, required)) {
 				errors.push(`${jsonPointer([...path, required])} is required`);

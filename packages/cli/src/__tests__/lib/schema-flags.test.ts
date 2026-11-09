@@ -361,6 +361,53 @@ describe("schema flags", () => {
 		}
 	);
 
+	it.each([
+		{
+			maxProperties: 0,
+			required: ["server"],
+			additionalProperties: { readOnly: true },
+		},
+		{
+			allOf: [
+				{ additionalProperties: { readOnly: true } },
+				{ maxProperties: 0, additionalProperties: { type: "string" } },
+			],
+		},
+		{
+			allOf: [
+				{ maxProperties: 0, additionalProperties: { type: "string" } },
+				{ additionalProperties: { readOnly: true } },
+			],
+		},
+	])("omits read-only map entries from property limits: %j", (schema) => {
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			expect(validate(schema, {})).toEqual([]);
+			expect(validate(schema, { server: false })).toEqual([]);
+		}
+	});
+
+	it("counts writable named properties without counting response map entries", () => {
+		const schema: JsonSchema = {
+			minProperties: 1,
+			maxProperties: 1,
+			allOf: [
+				{
+					properties: { client: { type: "string" } },
+					additionalProperties: { readOnly: true },
+				},
+			],
+		};
+		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
+			expect(validate(schema, { client: "ok", server: false })).toEqual([]);
+			expect(validate(schema, { server: false })).toEqual([
+				"the request body must contain at least 1 properties",
+			]);
+			expect(validate(schema, { client: false, server: "ignored" })).toEqual([
+				"`/client` must be a string",
+			]);
+		}
+	});
+
 	it("keeps map annotations from applying to explicitly named properties", () => {
 		const schema: JsonSchema = {
 			allOf: [

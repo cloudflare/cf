@@ -4,9 +4,10 @@ import {
 	readBuildOutput,
 } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vite-plus/test";
+import { describe, expect, it, vi } from "vite-plus/test";
 import {
 	BuildOutputConfigError,
+	applyWorkerNameOverride,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputAccount,
@@ -255,6 +256,35 @@ describe("build output", () => {
 				);
 			}
 		);
+
+		describe("CLOUDFLARE_WORKER_NAME", () => {
+			it("renames only the given Worker", async () => {
+				vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+				const workers = await seedWorkers({
+					default: "my-worker",
+					api: "api",
+				});
+
+				const worker = applyWorkerNameOverride(workers.default);
+
+				expect(worker.config.name).toBe("dashboard-worker");
+				expect(worker.config.compatibilityDate).toBe("2026-04-25");
+				expect(workers.default.config.name).toBe("my-worker");
+				expect(workers.api?.config.name).toBe("api");
+			});
+
+			it.each([undefined, ""])(
+				"keeps the configured name when set to %j",
+				async (value) => {
+					vi.stubEnv("CLOUDFLARE_WORKER_NAME", value);
+					const workers = await seedWorkers({ default: "my-worker" });
+
+					expect(applyWorkerNameOverride(workers.default)).toBe(
+						workers.default
+					);
+				}
+			);
+		});
 
 		it("rejects a name shared by more than one Worker", async () => {
 			const workers = await seedWorkers({ default: "api", api: "api" });

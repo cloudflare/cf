@@ -775,6 +775,56 @@ describe("cf deploy", () => {
 			expect(upload.modules).toEqual(["api.js"]);
 		});
 
+		it.each([
+			{ case: "prebuilt", args: ["deploy", "--prebuilt"] },
+			{ case: "built", args: ["deploy"] },
+		])("deploys $case output to CLOUDFLARE_WORKER_NAME", async ({ args }) => {
+			vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig({ name: "config-worker" }),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			const { exitCode } = await runCf(args);
+
+			expect(exitCode).toBe(0);
+			expect(upload.scriptName).toBe("dashboard-worker");
+		});
+
+		it("applies CLOUDFLARE_WORKER_NAME only to the Worker selected by --worker", async () => {
+			vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-api");
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+				".cloudflare/output/v0/workers/api/worker.config.json": workerConfig({
+					name: "api",
+					mainModule: "api.js",
+					modules: { "api.js": { type: "esm" } },
+				}),
+				".cloudflare/output/v0/workers/api/bundle/api.js":
+					"export default { fetch() { return new Response('api'); } }",
+			});
+
+			const { exitCode } = await runCf([
+				"deploy",
+				"--prebuilt",
+				"--worker",
+				"api",
+			]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.scriptName).toBe("dashboard-api");
+			expect(upload.modules).toEqual(["api.js"]);
+		});
+
 		it("deploys only the Containers referenced by the selected Worker", async () => {
 			vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
 			const upload = mockWorkerUpload();

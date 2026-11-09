@@ -6,6 +6,7 @@ import {
 import { getCloudflareComplianceRegion } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../../lib/build-output-auth.js";
 import {
+	applyWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
@@ -90,7 +91,9 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 		rootConfig.accountId,
 		argv["temporary-account"] === true
 	);
-	const worker = selectBuildOutputWorker(workers, argv.worker);
+	const worker = applyWorkerNameOverride(
+		selectBuildOutputWorker(workers, argv.worker)
+	);
 	const { wranglerConfig } = parseWorkerConfig(worker, rootConfig);
 
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);

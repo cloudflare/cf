@@ -310,6 +310,38 @@ describe("cf workers triggers deploy", () => {
 		expect(std.out).toContain("Deployed api triggers");
 	});
 
+	it("deploys triggers to CLOUDFLARE_WORKER_NAME", async () => {
+		vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+		let scriptName: unknown;
+		msw.use(
+			http.put(
+				"*/accounts/:accountId/workers/scripts/:scriptName/schedules",
+				({ params }) => {
+					scriptName = params.scriptName;
+					return HttpResponse.json(createFetchResult({ schedules: [] }));
+				},
+				{ once: true }
+			)
+		);
+		await seed({
+			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				name: "config-worker",
+				triggers: [{ type: "scheduled", schedule: "*/5 * * * *" }],
+			}),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default { fetch() { return new Response('ok'); } }",
+		});
+
+		const { exitCode } = await runCf([
+			...TRIGGERS_DEPLOY_COMMAND,
+			"--prebuilt",
+		]);
+
+		expect(exitCode).toBe(0);
+		expect(scriptName).toBe("dashboard-worker");
+	});
+
 	it("does not deploy triggers built for a different mode", async () => {
 		let schedulesCalled = false;
 		msw.use(

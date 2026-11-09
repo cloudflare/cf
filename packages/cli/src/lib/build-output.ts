@@ -105,6 +105,21 @@ export function selectBuildOutputWorker(
 }
 
 /**
+ * Apply `CLOUDFLARE_WORKER_NAME`, the environment equivalent of `worker.name`,
+ * to the Worker being deployed. Workers Builds sets it to the connected Worker
+ * so a different configured name cannot redirect the deployment.
+ */
+export function applyWorkerNameOverride(
+	worker: BuildOutputWorker
+): BuildOutputWorker {
+	const name = process.env.CLOUDFLARE_WORKER_NAME;
+	if (!name || name === worker.config.name) {
+		return worker;
+	}
+	return { ...worker, config: { ...worker.config, name } };
+}
+
+/**
  * Convert the Worker config read from the Build Output Specification into the
  * deploy-helpers/Wrangler config shape expected by workers-utils.
  */

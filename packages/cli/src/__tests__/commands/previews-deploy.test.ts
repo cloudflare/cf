@@ -72,6 +72,7 @@ vi.mock("../../lib/deploy-input.js", () => ({
 vi.mock("../../lib/build-output.js", async (importOriginal) => {
 	const actual = await importOriginal<typeof BuildOutputModule>();
 	return {
+		applyWorkerNameOverride: actual.applyWorkerNameOverride,
 		buildOutputWorkerOption: actual.buildOutputWorkerOption,
 		parseWorkerConfig: mocks.parseWorkerConfig,
 		selectBuildOutputWorker: actual.selectBuildOutputWorker,
@@ -240,6 +241,46 @@ describe("cf previews deploy", () => {
 			}),
 			expect.any(Object)
 		);
+	});
+
+	it("deploys the Preview under CLOUDFLARE_WORKER_NAME", async () => {
+		vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+		const rootConfig = { buildContext: { isPreview: true } };
+		const worker = {
+			config: { type: "worker", name: "config-worker" },
+			bundleDir: "/project/bundle",
+		};
+		const auxiliary = {
+			config: { type: "worker", name: "auxiliary-worker" },
+			bundleDir: "/project/auxiliary",
+		};
+		mocks.readBuildOutput.mockResolvedValue({
+			rootConfig,
+			workers: { default: worker, auxiliary },
+		});
+		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
+		mocks.getAuthToken.mockResolvedValue("token");
+		mocks.getAccountId.mockResolvedValue("account-id");
+		mocks.createDeployContext.mockReturnValue({
+			logger: { log: vi.fn(), info: vi.fn() },
+		});
+		mocks.previewBuildOutput.mockResolvedValue(previewResult);
+
+		await runPreviewDeploy({
+			"preview-name": "feature",
+			prebuilt: true,
+		} as Parameters<typeof runPreviewDeploy>[0]);
+
+		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
+			"account-id",
+			{ name: "feature", json: true },
+			expect.objectContaining({
+				workerConfig: { type: "worker", name: "dashboard-worker" },
+			}),
+			expect.any(Object)
+		);
+		expect(worker.config.name).toBe("config-worker");
+		expect(auxiliary.config.name).toBe("auxiliary-worker");
 	});
 
 	it("uses the built region to select an account when output omits its ID", async () => {

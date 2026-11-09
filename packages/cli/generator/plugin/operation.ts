@@ -70,6 +70,7 @@ export interface MultipartField {
 	name: string;
 	type: "number" | "boolean" | "array" | "object" | "string";
 	isBinary: boolean;
+	readOnly: boolean;
 	description: string;
 }
 
@@ -613,8 +614,14 @@ function multipart(body: Body): MultipartInfo | undefined {
 			field.description === ""
 				? `The ${name.replaceAll("_", " ")}`
 				: field.description;
-		fields.push({ name, type, isBinary, description });
-		if (payloadField === undefined) {
+		fields.push({
+			name,
+			type,
+			isBinary,
+			readOnly: field.readOnly,
+			description,
+		});
+		if (payloadField === undefined && !field.readOnly) {
 			const fieldType = field.type;
 			const sameModel =
 				octet !== undefined &&
@@ -732,7 +739,8 @@ function wire(method: Method, info: Omit<OperationInfo, "wire">): Wire {
 	} else if (isMultipart) {
 		const form = contents.find((c) => c.mediaType === "multipart/form-data");
 		const t = form && deref(form.type);
-		bodyRequired = t?.kind === "object" && t.fields.some((f) => f.required);
+		bodyRequired =
+			t?.kind === "object" && t.fields.some((f) => f.required && !f.readOnly);
 	} else {
 		bodyRequired = body !== undefined && !octetOnly;
 	}

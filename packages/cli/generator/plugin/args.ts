@@ -574,7 +574,11 @@ function formTextFlags(
 ): MultipartFieldFlag[] {
 	const out: MultipartFieldFlag[] = [];
 	for (const field of multipart.fields) {
-		if (field.isBinary || field.name === multipart.payloadField) {
+		if (
+			field.readOnly ||
+			field.isBinary ||
+			field.name === multipart.payloadField
+		) {
 			continue;
 		}
 		const twin = args.find(
@@ -605,6 +609,7 @@ function formFileFlags(
 	const out: MultipartFieldFlag[] = [];
 	for (const field of multipart.fields) {
 		if (
+			field.readOnly ||
 			!field.isBinary ||
 			(field.name === multipart.payloadField && field.type !== "array")
 		) {

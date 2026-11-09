@@ -823,10 +823,7 @@ export function sdkCallUsesRequestApi(ctx: Ctx): boolean {
 function bodyUnsatisfiable(ctx: Ctx, typed: boolean): boolean {
 	const d = ctx.derived;
 	return (
-		d.hasBody &&
-		!ctx.op.requestBodyIsReadOnly &&
-		(!d.hasEmptyBody || ctx.op.requestBodyMandatory) &&
-		!typed
+		d.hasBody && (!d.hasEmptyBody || ctx.op.requestBodyMandatory) && !typed
 	);
 }
 
@@ -902,9 +899,7 @@ function bodyAssembly(ctx: Ctx): string[] {
 	}
 	if (ctx.isRawOutput) {
 		const parts = [
-			ctx.op.requestBodyIsReadOnly
-				? "body: bodyData"
-				: "body: Object.keys(bodyData).length > 0 ? bodyData : undefined",
+			"body: Object.keys(bodyData).length > 0 ? bodyData : undefined",
 		];
 		if (ctx.hasHeaders) {
 			parts.push(`headers: ${HEADERS_GUARDED}`);
@@ -926,9 +921,6 @@ function plainCall(ctx: Ctx): string[] {
 	const d = ctx.derived;
 	const lines = [""];
 	const typed = sdk.canEmitTypedCall(ctx);
-	if (ctx.op.requestBodyIsReadOnly && d.hasBody && !typed) {
-		return bodyAssembly(ctx);
-	}
 	const unsatisfiable = bodyUnsatisfiable(ctx, typed);
 	if (ctx.isRawOutput) {
 		let url = `\`${ctx.resolvedRequestPath}\``;

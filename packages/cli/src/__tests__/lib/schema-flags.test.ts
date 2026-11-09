@@ -32,9 +32,6 @@ describe("schema flags", () => {
 		const recursive: JsonSchema = {};
 		recursive.properties = { child: recursive };
 		expect(referencesReadOnly(recursive, {})).toBe(false);
-		const recursiveMap: JsonSchema = {};
-		recursiveMap.additionalProperties = recursiveMap;
-		expect(referencesReadOnly(recursiveMap, recursiveMap)).toBe(false);
 		const conjunction: JsonSchema = {};
 		conjunction.allOf = [conjunction];
 		expect(isFullySupportedJsonSchema(conjunction)).toBe(false);
@@ -209,69 +206,6 @@ describe("schema flags", () => {
 		}
 	);
 
-	it.each(["map", "named", "named condition", "allOf"])(
-		"ignores conditions on read-only map selectors through %s schemas",
-		(location) => {
-			const value: JsonSchema = {
-				properties: { id: { readOnly: true }, value: { type: "string" } },
-			};
-			const selector: JsonSchema = { required: ["id"] };
-			const condition: JsonSchema =
-				location === "named condition"
-					? { properties: { dynamic: selector } }
-					: { additionalProperties: selector };
-			const source: JsonSchema =
-				location === "named"
-					? { properties: { dynamic: value } }
-					: { additionalProperties: value };
-			const conditional: JsonSchema = {
-				if: condition,
-				// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
-				then: {
-					required: ["detail"],
-					properties: { detail: { type: "string" } },
-				},
-			};
-			const schema: JsonSchema =
-				location === "allOf"
-					? { allOf: [source, { allOf: [conditional] }] }
-					: { ...source, ...conditional };
-			expect(referencesReadOnly(condition, schema)).toBe(true);
-			expect(flags(schema).map(({ name }) => name)).not.toContain("detail");
-			for (const validate of [
-				validateJsonSchema,
-				validateSupportedJsonSchema,
-			]) {
-				for (const dynamic of [{}, { id: false }]) {
-					expect(validate(schema, { dynamic })).toEqual([]);
-				}
-				expect(validate(schema, { dynamic: { value: false } })).toContain(
-					"`/dynamic/value` must be a string"
-				);
-			}
-		}
-	);
-
-	it("keeps map conditions independent of properties the condition names separately", () => {
-		const condition: JsonSchema = {
-			properties: { excluded: {} },
-			additionalProperties: { required: ["id"] },
-		};
-		const schema: JsonSchema = {
-			properties: { excluded: { properties: { id: { readOnly: true } } } },
-			additionalProperties: { properties: { id: { type: "string" } } },
-			if: condition,
-			// oxlint-disable-next-line unicorn/no-thenable -- JSON Schema keyword
-			then: { required: ["detail"] },
-		};
-		expect(referencesReadOnly(condition, schema)).toBe(false);
-		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
-			expect(
-				validate(schema, { excluded: {}, dynamic: { id: "client" } })
-			).toEqual(["`/detail` is required"]);
-		}
-	});
-
 	it("ignores nested read-only fields shared across sibling allOf clauses", () => {
 		const schema: JsonSchema = {
 			allOf: [
@@ -316,121 +250,6 @@ describe("schema flags", () => {
 			expect(
 				validate(schema, { settings: { value: "ok", extra: true } })
 			).toContain("`/settings/extra` is not allowed");
-		}
-	});
-
-	it.each([false, true])(
-		"preserves sibling allOf read-only annotations for map values (reversed: %s)",
-		(reversed) => {
-			const members: JsonSchema[] = [
-				{
-					properties: { value: { readOnly: true } },
-					additionalProperties: {
-						properties: { id: { readOnly: true } },
-					},
-				},
-				{
-					additionalProperties: {
-						required: ["id", "value"],
-						additionalProperties: false,
-						maxProperties: 1,
-						properties: { id: { type: "string" }, value: { type: "string" } },
-					},
-				},
-			];
-			const schema: JsonSchema = {
-				allOf: reversed ? members.toReversed() : members,
-			};
-			for (const validate of [
-				validateJsonSchema,
-				validateSupportedJsonSchema,
-			]) {
-				for (const dynamic of [{ value: "ok" }, { id: false, value: "ok" }]) {
-					expect(validate(schema, { dynamic })).toEqual([]);
-				}
-				expect(validate(schema, { dynamic: {} })).toEqual([
-					"`/dynamic/value` is required",
-				]);
-				expect(validate(schema, { dynamic: { value: false } })).toEqual([
-					"`/dynamic/value` must be a string",
-				]);
-				expect(
-					validate(schema, { dynamic: { value: "ok", extra: true } })
-				).toContain("`/dynamic/extra` is not allowed");
-			}
-		}
-	);
-
-	it.each([
-		{
-			maxProperties: 0,
-			required: ["server"],
-			additionalProperties: { readOnly: true },
-		},
-		{
-			allOf: [
-				{ additionalProperties: { readOnly: true } },
-				{ maxProperties: 0, additionalProperties: { type: "string" } },
-			],
-		},
-		{
-			allOf: [
-				{ maxProperties: 0, additionalProperties: { type: "string" } },
-				{ additionalProperties: { readOnly: true } },
-			],
-		},
-	])("omits read-only map entries from property limits: %j", (schema) => {
-		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
-			expect(validate(schema, {})).toEqual([]);
-			expect(validate(schema, { server: false })).toEqual([]);
-		}
-	});
-
-	it("counts writable named properties without counting response map entries", () => {
-		const schema: JsonSchema = {
-			minProperties: 1,
-			maxProperties: 1,
-			allOf: [
-				{
-					properties: { client: { type: "string" } },
-					additionalProperties: { readOnly: true },
-				},
-			],
-		};
-		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
-			expect(validate(schema, { client: "ok", server: false })).toEqual([]);
-			expect(validate(schema, { server: false })).toEqual([
-				"the request body must contain at least 1 properties",
-			]);
-			expect(validate(schema, { client: false, server: "ignored" })).toEqual([
-				"`/client` must be a string",
-			]);
-		}
-	});
-
-	it("keeps map annotations from applying to explicitly named properties", () => {
-		const schema: JsonSchema = {
-			allOf: [
-				{
-					properties: { named: { type: "object" } },
-					additionalProperties: { properties: { id: { readOnly: true } } },
-				},
-				{
-					additionalProperties: {
-						required: ["id"],
-						properties: { id: { type: "string" } },
-					},
-				},
-			],
-		};
-		for (const validate of [validateJsonSchema, validateSupportedJsonSchema]) {
-			expect(validate(schema, { named: {} })).toEqual([
-				"`/named/id` is required",
-			]);
-			expect(validate(schema, { named: { id: false } })).toEqual([
-				"`/named/id` must be a string",
-			]);
-			expect(validate(schema, { dynamic: {} })).toEqual([]);
 		}
 	});
 

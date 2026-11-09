@@ -142,8 +142,6 @@ export interface OperationInfo {
 	requestBodyRef?: string;
 	/** Whether the operation requires its JSON object or non-JSON body. */
 	requestBodyMandatory: boolean;
-	/** Whether the JSON object body declares only read-only properties. */
-	requestBodyIsReadOnly?: boolean;
 	requestBodyRequired: string[];
 	requestBodyDescription?: string;
 	multipart?: MultipartInfo;
@@ -259,7 +257,6 @@ export function resolve(method: Method): OperationInfo {
 			body !== undefined &&
 			body.required &&
 			(jsonResolved === undefined || isObject(jsonResolved)),
-		requestBodyIsReadOnly: jsonResolved && onlyReadOnlyProperties(jsonResolved),
 		requestBodyRequired:
 			jsonResolved && !isArray ? requiredNames(jsonResolved) : [],
 		requestBodyDescription: body && requestBodyDescription(body),
@@ -677,46 +674,6 @@ function isObject(type: Type): boolean {
 	);
 }
 
-/** Whether all declared object properties are read-only, with no writable map. */
-function onlyReadOnlyProperties(schema: Type, depth = 0): boolean {
-	if (depth > 8) {
-		return false;
-	}
-	const root = unwrapNull(deref(schema));
-	if (root.kind === "union") {
-		return (
-			root.members.length > 0 &&
-			root.members.every((member) => onlyReadOnlyProperties(member, depth + 1))
-		);
-	}
-	const names = new Set<string>();
-	const readOnly = new Set<string>();
-	const collect = (type: Type, depth: number): boolean => {
-		if (depth > 8) {
-			return false;
-		}
-		const t = unwrapNull(deref(type));
-		if (t.kind === "object") {
-			for (const field of t.fields) {
-				names.add(field.wireName);
-				if (field.readOnly) {
-					readOnly.add(field.wireName);
-				}
-			}
-			return t.extra === undefined;
-		}
-		return (
-			t.kind === "intersection" &&
-			t.members.every((member) => collect(member, depth + 1))
-		);
-	};
-	return (
-		collect(schema, depth) &&
-		names.size > 0 &&
-		[...names].every((name) => readOnly.has(name))
-	);
-}
-
 /** How a typed call sends `method`, which `info` resolves. */
 function wire(method: Method, info: Omit<OperationInfo, "wire">): Wire {
 	// The path and query parameters, in the order they are declared.
@@ -776,10 +733,9 @@ function wire(method: Method, info: Omit<OperationInfo, "wire">): Wire {
 	if (resolvedJson && !formEncoded) {
 		const required: string[] = [];
 		objectBody(resolvedJson, required, constants);
-		// A mandatory writable body still needs input, as for a map of changes.
-		bodyRequired =
-			(info.requestBodyMandatory && !info.requestBodyIsReadOnly) ||
-			required.length > 0;
+		// A body the operation requires must be passed even when none of its
+		// fields is, as for a map of changes: an empty one says nothing.
+		bodyRequired = info.requestBodyMandatory || required.length > 0;
 	} else if (isMultipart) {
 		const form = contents.find((c) => c.mediaType === "multipart/form-data");
 		const t = form && deref(form.type);

@@ -85,7 +85,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("ai-search-options-reranking-match-threshold", {
 			type: "number",
-			description: "The ai_search_options.reranking.match_threshold field",
+			description:
+				"Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4.",
 		})
 		.option("ai-search-options-reranking-model", {
 			type: "string",

@@ -8,7 +8,6 @@ import $list from "./list.js";
 import $networks from "./networks/index.js";
 import $overridecodes from "./override-codes/index.js";
 import $posture from "./posture/index.js";
-import $profiles from "./profiles/index.js";
 import $registrations from "./registrations/index.js";
 import $settings from "./settings/index.js";
 import $update from "./update.js";
@@ -36,7 +35,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($networks)
 			.command($overridecodes)
 			.command($posture)
-			.command($profiles)
 			.command($registrations)
 			.command($settings)
 			.demandCommand(1, "Please specify a subcommand");

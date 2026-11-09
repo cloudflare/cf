@@ -288,7 +288,10 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 	const insert = (prop: Prop) => {
 		const i = properties.findIndex((p) => p.name === prop.name);
 		if (i >= 0) {
-			properties[i] = prop;
+			properties[i] = {
+				...prop,
+				readOnly: prop.readOnly || properties[i]?.readOnly === true,
+			};
 		} else {
 			properties.push(prop);
 		}
@@ -319,7 +322,9 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 		kind: "object",
 		map: map && properties.length === 0,
 		properties,
-		required: dedup(required),
+		required: dedup(required).filter(
+			(name) => !properties.some((prop) => prop.name === name && prop.readOnly)
+		),
 		oneOf,
 	};
 }
@@ -866,6 +871,7 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
  */
 export function requiredNames(type: Type): string[] {
 	const required: string[] = [];
+	const readOnly = new Set<string>();
 	const collect = (t: Type, depth: number) => {
 		if (depth > 32) {
 			return;
@@ -873,7 +879,10 @@ export function requiredNames(type: Type): string[] {
 		const u = unwrapNull(deref(t));
 		if (u.kind === "object") {
 			for (const field of u.fields) {
-				if (field.required && !field.readOnly) {
+				if (field.readOnly) {
+					readOnly.add(field.wireName);
+				}
+				if (field.required) {
 					pushUnique(required, field.wireName);
 				}
 			}
@@ -884,7 +893,7 @@ export function requiredNames(type: Type): string[] {
 		}
 	};
 	collect(type, 0);
-	return required;
+	return required.filter((name) => !readOnly.has(name));
 }
 
 /**

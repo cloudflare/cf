@@ -126,6 +126,51 @@ function command(code: string) {
 }
 
 describe("read-only request properties", () => {
+	it.each([false, true])(
+		"merges read-only annotations across intersections (reversed: %s)",
+		async (reversed) => {
+			const members = [
+				{
+					type: "object",
+					properties: {
+						server_id: { type: "string", readOnly: true },
+						server_state: { type: "string", readOnly: true },
+					},
+				},
+				{
+					type: "object",
+					required: ["server_id", "server_state", "value", "kind"],
+					properties: {
+						server_id: { type: "string" },
+						server_state: { type: "string", enum: ["response"] },
+						value: { type: "string" },
+						kind: { type: "string", enum: ["request"] },
+					},
+				},
+			];
+			const files = generate({
+				allOf: reversed ? members.toReversed() : members,
+			});
+			for (const name of ["create", "update"]) {
+				const code = files.get(`things/${name}.ts`) ?? "";
+				const operation = files.get(`_operations/things/${name}.ts`) ?? "";
+				expect(code).not.toMatch(/server[_-](?:id|state)/);
+				expect(operation).not.toMatch(/server[_-](?:id|state)/);
+				expect(operation).toContain('kind: "request"');
+				expect(code).toContain("promptForRequiredField('value'");
+				const c = command(code);
+				await c.run([name, "--value", "ok", "--kind", "request"]);
+				expect(c.send).toHaveBeenCalledWith(
+					{},
+					{ body: { value: "ok", kind: "request" } }
+				);
+				await expect(
+					c.run([name, "--server-id", "ignored", "--value", "ok"])
+				).rejects.toThrow(/Unknown argument/);
+			}
+		}
+	);
+
 	it("ignores required response fields in generated prompts and union validation", async () => {
 		const files = generate({
 			type: "object",

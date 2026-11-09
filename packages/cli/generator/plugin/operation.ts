@@ -800,6 +800,7 @@ function operationParamsOf(method: Method): readonly Field[] {
  * `constants`. A read-only property is left out of both.
  */
 function objectBody(schema: Type, required: string[], constants: Obj): void {
+	const writableRequired = new Set(requiredNames(schema));
 	const fields: Field[] = [];
 	const collect = (t: Type, depth: number) => {
 		if (depth > 8) {
@@ -823,7 +824,7 @@ function objectBody(schema: Type, required: string[], constants: Obj): void {
 	};
 	collect(schema, 0);
 	for (const field of fields) {
-		if (field.readOnly) {
+		if (!writableRequired.has(field.wireName)) {
 			continue;
 		}
 		const value = literal(field.type);

@@ -713,7 +713,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Filter by the type of entity the mitigation impacts.",
-					"enum": ["url_pattern", "account", "zone", "custom_expression"]
+					"enum": [
+						"url_pattern",
+						"account",
+						"zone",
+						"domain",
+						"custom_expression"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -89768,6 +89774,75 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf queues subscriptions edit",
+			"name": "edit",
+			"fullPath": ["queues", "subscriptions", "edit"],
+			"description": "Updates an existing Queue event subscription.",
+			"summary": "Update Event Subscription",
+			"usage": "cf queues subscriptions edit <subscription-id> [options]",
+			"arguments": [
+				{
+					"name": "subscription-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "A Resource identifier."
+				}
+			],
+			"options": [
+				{
+					"name": "destination-queue-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the target queue"
+				},
+				{
+					"name": "destination-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of destination",
+					"enum": ["queues.queue"]
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the subscription is active"
+				},
+				{
+					"name": "events",
+					"type": "string",
+					"required": false,
+					"description": "List of event types this subscription handles"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the subscription"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
+			"operationId": "queues.subscriptions.edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf queues subscriptions get",
 			"name": "get",
 			"fullPath": ["queues", "subscriptions", "get"],
@@ -89847,75 +89922,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/event_subscriptions/subscriptions",
 			"operationId": "queues.subscriptions.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf queues subscriptions update",
-			"name": "update",
-			"fullPath": ["queues", "subscriptions", "update"],
-			"description": "Updates an existing Queue event subscription.",
-			"summary": "Update Event Subscription",
-			"usage": "cf queues subscriptions update <subscription-id> [options]",
-			"arguments": [
-				{
-					"name": "subscription-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "A Resource identifier."
-				}
-			],
-			"options": [
-				{
-					"name": "destination-queue-id",
-					"type": "string",
-					"required": false,
-					"description": "ID of the target queue"
-				},
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of destination",
-					"enum": ["queues.queue"]
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the subscription is active"
-				},
-				{
-					"name": "events",
-					"type": "string",
-					"required": false,
-					"description": "List of event types this subscription handles"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the subscription"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
-			"operationId": "queues.subscriptions.update",
 			"hideCommand": false
 		},
 		{
@@ -122894,7 +122900,7 @@
 					"name": "certificates",
 					"type": "string",
 					"required": true,
-					"description": "The uploaded root CA certificate."
+					"description": "The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
 				},
 				{
 					"name": "name",

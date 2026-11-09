@@ -32,7 +32,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("certificates", {
 			type: "string",
-			description: "The uploaded root CA certificate.",
+			description:
+				"The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings.",
 		})
 		.option("name", {
 			type: "string",
@@ -126,7 +127,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["certificates"] === undefined) {
 					argv["certificates"] = await promptForRequiredField(
 						"certificates",
-						"The uploaded root CA certificate."
+						"The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
 					);
 				}
 

@@ -65149,6 +65149,59 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"queues subscriptions edit": {
+			"operationId": "queues.subscriptions.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "subscription_id",
+					"flag": "subscription-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "destination-queue-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the target queue"
+				},
+				{
+					"name": "destination-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of destination"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the subscription is active"
+				},
+				{
+					"name": "events",
+					"type": "string",
+					"required": false,
+					"description": "List of event types this subscription handles"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the subscription"
+				}
+			]
+		},
 		"queues subscriptions get": {
 			"operationId": "queues.subscriptions.get",
 			"httpMethod": "GET",
@@ -65210,59 +65263,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"queues subscriptions update": {
-			"operationId": "queues.subscriptions.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "subscription_id",
-					"flag": "subscription-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "destination-queue-id",
-					"type": "string",
-					"required": false,
-					"description": "ID of the target queue"
-				},
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of destination"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the subscription is active"
-				},
-				{
-					"name": "events",
-					"type": "string",
-					"required": false,
-					"description": "List of event types this subscription handles"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the subscription"
-				}
-			]
 		},
 		"r2 buckets cors delete": {
 			"operationId": "r2.buckets.cors.delete",
@@ -90702,7 +90702,7 @@
 					"name": "certificates",
 					"type": "string",
 					"required": true,
-					"description": "The uploaded root CA certificate."
+					"description": "The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
 				},
 				{
 					"name": "name",

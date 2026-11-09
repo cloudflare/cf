@@ -1,8 +1,8 @@
-import operation from "../../_operations/queues/subscriptions/update.js";
+import operation from "../../_operations/queues/subscriptions/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/queues.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 queues subscriptions update <subscription-id>\n\nUpdates an existing Queue event subscription."
+			"$0 queues subscriptions edit <subscription-id>\n\nUpdates an existing Queue event subscription."
 		)
 		.positional("subscription-id", {
 			type: "string",
@@ -81,13 +81,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <subscription-id>",
+	command: "edit <subscription-id>",
 	describe: "Update Event Subscription",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "queues subscriptions update",
+				command: "queues subscriptions edit",
 				classification: {
 					safeFlags: ["destination-type", "enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -97,7 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf queues subscriptions update",
+						command: "cf queues subscriptions edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/event_subscriptions/subscriptions/${argv["subscription-id"] == null ? "<subscription-id>" : encodeURIComponent(String(argv["subscription-id"]))}`,
 						pathParams: {

@@ -92,6 +92,13 @@ const registry = [
 	{
 		kind: "root",
 		dryRun: "preview",
+		command: "whoami",
+		describe: false,
+		dir: "whoami",
+	},
+	{
+		kind: "root",
+		dryRun: "preview",
 		command: "build",
 		describe: "Build a project for Cloudflare",
 		dir: "build",

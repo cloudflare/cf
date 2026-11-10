@@ -8,6 +8,8 @@ const MAX_HIGHLIGHTED_JSON_SIZE = 50_000;
 
 export interface OutputOptions {
 	quiet?: boolean;
+	/** Keep explicit machine-readable output free of terminal color codes. */
+	highlight?: boolean;
 	/** Short human-readable description of the completed action (e.g. "Updated value"). When the API returns null (successful mutation with no payload), printed to stderr as `✓ <successLabel>` on TTYs, silent otherwise. */
 	successLabel?: string;
 }
@@ -78,7 +80,7 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 		return;
 	}
 
-	console.log(formatJson(payload));
+	console.log(formatJson(payload, options.highlight));
 }
 
 /**
@@ -86,11 +88,12 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
  * JSON values use semantic theme roles. Skips highlighting for large outputs
  * to prevent performance issues.
  */
-function formatJson(data: unknown): string {
+function formatJson(data: unknown, highlight = true): string {
 	const json = JSON.stringify(data, null, 2);
 
 	// Non-interactive output must remain parseable even when FORCE_COLOR is set.
 	if (
+		!highlight ||
 		isNonInteractiveOrCI(process.stdout) ||
 		!supportsColor() ||
 		json.length > MAX_HIGHLIGHTED_JSON_SIZE

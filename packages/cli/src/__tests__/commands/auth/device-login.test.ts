@@ -243,7 +243,7 @@ describe("cf auth device login", () => {
 		expect(std.err).toMatchInlineSnapshot(`
 			"●  Starting OAuth login flow...
 			●  Config file: /test/auth.json
-			│  Scopes: 6 granted. Run cf auth whoami to see the full list or cf auth scopes to view them by product."
+			│  Scopes: 6 granted. Run cf auth scopes to view them by product or cf auth scopes --all for the full list."
 		`);
 	});
 

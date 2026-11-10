@@ -1,17 +1,53 @@
+import {
+	getCloudflareAPITokenFromEnv,
+	getCloudflareAuthProfileFromEnv,
+} from "@cloudflare/workers-auth";
 import { detectAgentContext } from "../../lib/agent-context.js";
 import { getAuthToken } from "../../lib/auth-token.js";
+import { isNonInteractiveOrCI } from "../../lib/interactive.js";
 import {
 	fetchAuthorizedAccounts,
 	getConfigPath,
+	getActiveProfile,
+	getProfileStore,
 	readAuthCredentials,
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
+import { suppressActiveProfileLine } from "../../lib/session.js";
 import { hint } from "../../lib/ui/index.js";
-import type { CommandModule } from "yargs";
+import { printWhoamiSummary } from "./whoami-output.js";
+import type { CommonYargsOptions } from "../../lib/cli-types.js";
+import type { WhoamiProfile, WhoamiSnapshot } from "./whoami-output.js";
+import type { Argv, CommandModule } from "yargs";
 
-const whoamiCommand: CommandModule = {
+interface WhoamiArgs extends CommonYargsOptions {
+	json?: boolean;
+}
+
+function selectedProfile(argv: WhoamiArgs, overridden: boolean): WhoamiProfile {
+	const name = getActiveProfile();
+	const source = argv.profile
+		? "--profile"
+		: getCloudflareAuthProfileFromEnv()
+			? "CLOUDFLARE_AUTH_PROFILE"
+			: getProfileStore().bindings.getProfileForDirectory(process.cwd())
+				? "directory"
+				: "default";
+	return { name, source, overridden };
+}
+
+const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 	command: "whoami",
 	describe: "Show current user and authentication status",
+
+	builder: (yargs: Argv): Argv<WhoamiArgs> =>
+		yargs
+			.option("json", {
+				type: "boolean",
+				description:
+					"Show full JSON (default for CI, non-interactive runs and agents; use --no-json for a summary)",
+			})
+			.middleware(() => suppressActiveProfileLine(), true) as Argv<WhoamiArgs>,
 
 	handler: async (argv): Promise<void> => {
 		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
@@ -21,12 +57,26 @@ const whoamiCommand: CommandModule = {
 		}
 
 		// Determine the authentication source.
-		const envToken = process.env.CLOUDFLARE_API_TOKEN;
+		const envToken = getCloudflareAPITokenFromEnv();
+		const tokenVariable = envToken
+			? process.env.CLOUDFLARE_API_TOKEN
+				? "CLOUDFLARE_API_TOKEN"
+				: "CF_API_TOKEN"
+			: undefined;
 		const stored = envToken ? undefined : readAuthCredentials();
+		const profile = selectedProfile(argv, Boolean(envToken));
+		const json =
+			argv.json ??
+			(isNonInteractiveOrCI(process.stdout) || detectAgentContext().isAgentic);
+		const method = envToken
+			? "api-token"
+			: stored?.oauth_token
+				? "oauth"
+				: "none";
 
 		let authSource: string;
 		if (envToken) {
-			authSource = "CLOUDFLARE_API_TOKEN environment variable";
+			authSource = `${tokenVariable} environment variable`;
 		} else if (stored?.oauth_token) {
 			authSource = `OAuth token from ${getConfigPath()}`;
 		} else {
@@ -36,7 +86,17 @@ const whoamiCommand: CommandModule = {
 		try {
 			await getAuthToken();
 		} catch {
-			formatOutput({ authenticated: false, error: "Not logged in" });
+			const snapshot: WhoamiSnapshot = {
+				result: { authenticated: false, error: "Not logged in", profile },
+				method,
+				tokenVariable,
+				accountsAvailable: false,
+			};
+			if (json) {
+				formatOutput(snapshot.result, { highlight: false });
+			} else {
+				await printWhoamiSummary(snapshot, argv);
+			}
 			if (authSource === "none" && detectAgentContext().isAgentic) {
 				console.error(
 					hint(
@@ -100,12 +160,13 @@ const whoamiCommand: CommandModule = {
 			tokenValid = true;
 		}
 
-		const output: Record<string, unknown> = {
+		const output: Extract<WhoamiSnapshot["result"], { authenticated: true }> = {
 			authenticated: true,
 			authSource,
 			tokenValid,
 			...(userEmail && { email: userEmail }),
 			accounts,
+			profile,
 		};
 
 		const currentCredentials = envToken ? undefined : readAuthCredentials();
@@ -114,7 +175,19 @@ const whoamiCommand: CommandModule = {
 			output.expiresAt = currentCredentials.expiration_time;
 		}
 
-		formatOutput(output);
+		if (json) {
+			formatOutput(output, { highlight: false });
+		} else {
+			await printWhoamiSummary(
+				{
+					result: output,
+					method,
+					tokenVariable,
+					accountsAvailable: accountsResult.status === "fulfilled",
+				},
+				argv
+			);
+		}
 	},
 };
 

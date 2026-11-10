@@ -40,6 +40,7 @@ import tunnelsQuickStartMeta from "./tunnels/quick-start/meta.js";
 import tunnelsReadyMeta from "./tunnels/ready/meta.js";
 import tunnelsRunMeta from "./tunnels/run/meta.js";
 import tunnelsTailMeta from "./tunnels/tail/meta.js";
+import whoamiMeta from "./whoami/meta.js";
 import workersCheckMeta from "./workers/check/meta.js";
 import workersTriggersMeta from "./workers/triggers/meta.js";
 import workersTypesMeta from "./workers/types/meta.js";
@@ -55,6 +56,7 @@ export const handWrittenMeta = {
 	roots: {
 		auth: authMeta,
 		login: loginMeta,
+		whoami: whoamiMeta,
 		build: buildMeta,
 		completions: completionsMeta,
 		deploy: deployMeta,

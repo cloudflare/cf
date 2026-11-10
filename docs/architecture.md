@@ -36,6 +36,7 @@ cf/
 │   │   │   ├── root-commands.ts# each root's lazy loader + telemetry
 │   │   │   ├── auth/           # hand-written: login, logout, whoami, profiles
 │   │   │   ├── login/          # hidden `cf login` alias for `cf auth login`
+│   │   │   ├── whoami/         # hidden `cf whoami` alias for `cf auth whoami`
 │   │   │   ├── cli/            # hand-written: search and telemetry settings
 │   │   │   ├── telemetry/      # implementation of `cf cli telemetry`
 │   │   │   ├── completions/    # hand-written: `cf complete` (@bomb.sh/tab)
@@ -801,6 +802,23 @@ Generated commands additionally get (per-command, not global): `--dry-run` on ev
 An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
+
+`cf auth whoami` (also available as the hidden `cf whoami` alias) shows a human
+summary when stdin and stdout are terminals, outside CI and detected agent
+contexts. Its command-specific `--json` flag forces the full JSON result;
+`--no-json` forces the summary. CI, non-interactive runs, agents, and redirected
+stdout default to JSON. Both modes write the result to stdout; hints and warnings
+go to stderr, and `--quiet` retains the result. JSON preserves the existing fields
+and adds `profile: { name, source, overridden }`, where `source` is `--profile`,
+`CLOUDFLARE_AUTH_PROFILE`, `directory`, or `default` and `overridden` indicates an
+environment API token takes precedence over the profile. The summary shows
+authentication validity and method, email when available, all accessible account
+names and IDs, and OAuth scope counts grouped like `cf auth scopes`. Product
+counts compare granted scopes with the default set, counting custom scopes
+separately; they do not describe effective per-account permissions. Scope grouping
+reuses the cached OAuth catalogue only for human output; lookup failures show a
+compact explanation. Stored OAuth scopes and expiry never describe an active
+environment API token. Exit-code behavior is unchanged.
 
 ### Reserved names
 

@@ -151,8 +151,10 @@ The future names are not registered as options, so cf rejects them as unknown. A
 - Compliance region: `CLOUDFLARE_COMPLIANCE_REGION` → project
   `cloudflare.config.ts` → `public`.
 - Zone: positional value → `--zone` → `CLOUDFLARE_ZONE_ID`.
-- Deployed Worker name: `CLOUDFLARE_WORKER_NAME` → the selected Build
-  Output Worker's `name`. It renames only that Worker, never others.
+- Deployed Worker name: `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME` → the
+  selected Build Output Worker's `name`. This is a Workers Builds override,
+  read only from the process environment; it renames only that Worker and
+  leaves binding targets unchanged.
 
 ## Generated (DO NOT EDIT)
 

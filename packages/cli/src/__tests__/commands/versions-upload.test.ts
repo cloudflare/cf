@@ -9,9 +9,6 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createMockDeployContext } from "../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
-// These integration tests need the real client. Collect its cold import graph
-// before per-test timers start; lightweight tests must not inherit this import.
-import "../../lib/auth.js";
 import {
 	ACCOUNT_ID,
 	buildDelegateWasCalled,
@@ -27,6 +24,18 @@ import {
 	buildOutputRootConfig,
 	workerConfig,
 } from "./deploy/helpers.js";
+// These integration tests need the real client. Collect its cold import graph
+// before per-test timers start; lightweight tests must not inherit this import.
+import "../../lib/auth.js";
+import type * as DeployHelpers from "@cloudflare/deploy-helpers";
+
+const deployHelpers = vi.hoisted(() => ({ versionsUpload: vi.fn() }));
+
+vi.mock("@cloudflare/deploy-helpers", async (importOriginal) => {
+	const actual = await importOriginal<typeof DeployHelpers>();
+	deployHelpers.versionsUpload.mockImplementation(actual.versionsUpload);
+	return { ...actual, versionsUpload: deployHelpers.versionsUpload };
+});
 
 vi.mock("../../lib/deploy-context.js", () => ({
 	createDeployContext: (authToken: string) =>
@@ -368,6 +377,38 @@ describe("cf workers versions create", () => {
 		expect(upload.scriptName).toBe("api");
 		expect(upload.metadata?.main_module).toBe("api.js");
 		expect(upload.modules).toEqual(["api.js"]);
+	});
+
+	it("uploads a version to CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
+		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
+		const upload = mockWorkerUpload();
+		await seed({
+			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				name: "config-worker",
+			}),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default { fetch() { return new Response('ok'); } }",
+		});
+
+		const { exitCode } = await runCf([
+			"workers",
+			"versions",
+			"create",
+			"--prebuilt",
+		]);
+
+		expect(exitCode).toBe(0);
+		expect(upload.scriptName).toBe("dashboard-worker");
+		expect(deployHelpers.versionsUpload).toHaveBeenLastCalledWith(
+			expect.objectContaining({
+				name: "dashboard-worker",
+				workerNameOverridden: true,
+			}),
+			expect.anything(),
+			expect.anything(),
+			expect.anything()
+		);
 	});
 
 	it("uploads Durable Object-managed Container images with the version", async () => {

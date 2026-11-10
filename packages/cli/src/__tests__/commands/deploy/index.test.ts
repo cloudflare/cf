@@ -6,7 +6,14 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
-import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -26,17 +33,29 @@ import {
 	buildOutputRootConfig,
 	workerConfig,
 } from "./helpers.js";
+import type * as DeployHelpers from "@cloudflare/deploy-helpers";
 
 vi.mock("../../../lib/deploy-context.js", () => ({
 	createDeployContext: (authToken: string) =>
 		createMockDeployContext(authToken),
 }));
 
+const deployHelpers = vi.hoisted(() => ({ deploy: vi.fn() }));
+
+vi.mock("@cloudflare/deploy-helpers", async (importOriginal) => {
+	const actual = await importOriginal<typeof DeployHelpers>();
+	deployHelpers.deploy.mockImplementation(actual.deploy);
+	return { ...actual, deploy: deployHelpers.deploy };
+});
+
 describe("cf deploy", () => {
 	setupMsw();
 	runInTempDir();
 	const std = mockConsoleMethods();
 
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
 	beforeEach(async () => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-api-token");
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", ACCOUNT_ID);
@@ -778,8 +797,45 @@ describe("cf deploy", () => {
 		it.each([
 			{ case: "prebuilt", args: ["deploy", "--prebuilt"] },
 			{ case: "built", args: ["deploy"] },
-		])("deploys $case output to CLOUDFLARE_WORKER_NAME", async ({ args }) => {
-			vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+		])(
+			"deploys $case output to CLOUDFLARE_CI_OVERRIDE_WORKER_NAME",
+			async ({ args }) => {
+				vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
+				const warn = vi.spyOn(clack.log, "warn");
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({ name: "config-worker" }),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
+
+				const { exitCode } = await runCf(args);
+
+				expect(exitCode).toBe(0);
+				expect(upload.scriptName).toBe("dashboard-worker");
+				expect(warn).toHaveBeenCalledWith(
+					'Failed to match Worker name. Your config file is using the Worker name "config-worker", but the CI system expected "dashboard-worker". Overriding using the CI provided Worker name.',
+					expect.anything()
+				);
+				expect(deployHelpers.deploy).toHaveBeenLastCalledWith(
+					expect.objectContaining({
+						name: "dashboard-worker",
+						workerNameOverridden: true,
+					}),
+					expect.anything(),
+					expect.anything(),
+					expect.anything()
+				);
+			}
+		);
+
+		it("matches the CI tag against the Worker named by CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
+			vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
+			vi.stubEnv("WRANGLER_CI_MATCH_TAG", "existing-tag");
+			const requests = recordRequests();
+			mockExistingWorker();
 			const upload = mockWorkerUpload();
 			await seed({
 				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
@@ -789,14 +845,49 @@ describe("cf deploy", () => {
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
-			const { exitCode } = await runCf(args);
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
 
 			expect(exitCode).toBe(0);
 			expect(upload.scriptName).toBe("dashboard-worker");
+			const serviceLookups = requests.filter((request) =>
+				request.includes("/workers/services/")
+			);
+			expect(serviceLookups.length).toBeGreaterThan(0);
+			for (const lookup of serviceLookups) {
+				expect(lookup).toMatch(/\/workers\/services\/dashboard-worker$/);
+			}
 		});
 
-		it("applies CLOUDFLARE_WORKER_NAME only to the Worker selected by --worker", async () => {
-			vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-api");
+		it("does not warn or report an override when the names match", async () => {
+			vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "test-worker");
+			const warn = vi.spyOn(clack.log, "warn");
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.scriptName).toBe("test-worker");
+			expect(warn).not.toHaveBeenCalledWith(
+				expect.stringContaining("Failed to match Worker name"),
+				expect.anything()
+			);
+			expect(deployHelpers.deploy).toHaveBeenLastCalledWith(
+				expect.objectContaining({ workerNameOverridden: false }),
+				expect.anything(),
+				expect.anything(),
+				expect.anything()
+			);
+		});
+
+		it("applies CLOUDFLARE_CI_OVERRIDE_WORKER_NAME only to the Worker selected by --worker", async () => {
+			vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-api");
 			const upload = mockWorkerUpload();
 			await seed({
 				".cloudflare/output/v0/config.json": buildOutputRootConfig(),

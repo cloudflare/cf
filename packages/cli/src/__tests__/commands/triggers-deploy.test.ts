@@ -310,8 +310,8 @@ describe("cf workers triggers deploy", () => {
 		expect(std.out).toContain("Deployed api triggers");
 	});
 
-	it("deploys triggers to CLOUDFLARE_WORKER_NAME", async () => {
-		vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+	it("deploys triggers to CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
+		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
 		let scriptName: unknown;
 		msw.use(
 			http.put(

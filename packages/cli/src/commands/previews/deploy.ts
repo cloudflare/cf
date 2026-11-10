@@ -18,7 +18,7 @@ import {
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import {
-	applyWorkerNameOverride,
+	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
@@ -115,7 +115,7 @@ async function deployPreviewBuildOutput(
 		output.rootConfig.accountId,
 		argv["temporary-account"]
 	);
-	const worker = applyWorkerNameOverride(
+	const { worker } = applyCIWorkerNameOverride(
 		selectBuildOutputWorker(output.workers, argv.worker)
 	);
 	const { wranglerConfig, builtConfig } = parseWorkerConfig(

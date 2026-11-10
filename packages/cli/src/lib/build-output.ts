@@ -2,6 +2,7 @@ import path from "node:path";
 import { convertToWranglerConfig } from "@cloudflare/config";
 import { normalizeAndValidateConfig } from "@cloudflare/workers-utils";
 import { BuildOutputConfigError } from "./build-output-error.js";
+import { log } from "./ui/log.js";
 import type {
 	BuildOutputWorker,
 	BuildOutputWorkers,
@@ -104,19 +105,31 @@ export function selectBuildOutputWorker(
 	);
 }
 
+export interface CIWorkerNameOverride {
+	worker: BuildOutputWorker;
+	workerNameOverridden: boolean;
+}
+
 /**
- * Apply `CLOUDFLARE_WORKER_NAME`, the environment equivalent of `worker.name`,
- * to the Worker being deployed. Workers Builds sets it to the connected Worker
- * so a different configured name cannot redirect the deployment.
+ * Deploy the selected Worker under `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME`, the
+ * equivalent of Wrangler's `WRANGLER_CI_OVERRIDE_NAME`. Workers Builds sets it
+ * to the connected Worker. Like Wrangler, only the deployed name changes;
+ * bindings that name the configured Worker keep their targets.
  */
-export function applyWorkerNameOverride(
+export function applyCIWorkerNameOverride(
 	worker: BuildOutputWorker
-): BuildOutputWorker {
-	const name = process.env.CLOUDFLARE_WORKER_NAME;
+): CIWorkerNameOverride {
+	const name = process.env.CLOUDFLARE_CI_OVERRIDE_WORKER_NAME;
 	if (!name || name === worker.config.name) {
-		return worker;
+		return { worker, workerNameOverridden: false };
 	}
-	return { ...worker, config: { ...worker.config, name } };
+	log.warn(
+		`Failed to match Worker name. Your config file is using the Worker name "${worker.config.name}", but the CI system expected "${name}". Overriding using the CI provided Worker name.`
+	);
+	return {
+		worker: { ...worker, config: { ...worker.config, name } },
+		workerNameOverridden: true,
+	};
 }
 
 /**

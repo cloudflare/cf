@@ -1,13 +1,14 @@
 import { join, resolve } from "node:path";
+import * as clack from "@clack/prompts";
 import {
 	BuildOutputError,
 	readBuildOutput,
 } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it, vi } from "vite-plus/test";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	BuildOutputConfigError,
-	applyWorkerNameOverride,
+	applyCIWorkerNameOverride,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputAccount,
@@ -257,31 +258,44 @@ describe("build output", () => {
 			}
 		);
 
-		describe("CLOUDFLARE_WORKER_NAME", () => {
-			it("renames only the given Worker", async () => {
-				vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+		describe("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", () => {
+			afterEach(() => vi.restoreAllMocks());
+
+			it("renames only the given Worker and warns", async () => {
+				vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
+				const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
 				const workers = await seedWorkers({
 					default: "my-worker",
 					api: "api",
 				});
 
-				const worker = applyWorkerNameOverride(workers.default);
+				const { worker, workerNameOverridden } = applyCIWorkerNameOverride(
+					workers.default
+				);
 
+				expect(workerNameOverridden).toBe(true);
 				expect(worker.config.name).toBe("dashboard-worker");
 				expect(worker.config.compatibilityDate).toBe("2026-04-25");
 				expect(workers.default.config.name).toBe("my-worker");
 				expect(workers.api?.config.name).toBe("api");
+				expect(warn).toHaveBeenCalledWith(
+					'Failed to match Worker name. Your config file is using the Worker name "my-worker", but the CI system expected "dashboard-worker". Overriding using the CI provided Worker name.',
+					expect.anything()
+				);
 			});
 
-			it.each([undefined, ""])(
-				"keeps the configured name when set to %j",
+			it.each([undefined, "", "my-worker"])(
+				"keeps the configured name without a warning when set to %j",
 				async (value) => {
-					vi.stubEnv("CLOUDFLARE_WORKER_NAME", value);
+					vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", value);
+					const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
 					const workers = await seedWorkers({ default: "my-worker" });
 
-					expect(applyWorkerNameOverride(workers.default)).toBe(
-						workers.default
-					);
+					expect(applyCIWorkerNameOverride(workers.default)).toEqual({
+						worker: workers.default,
+						workerNameOverridden: false,
+					});
+					expect(warn).not.toHaveBeenCalled();
 				}
 			);
 		});

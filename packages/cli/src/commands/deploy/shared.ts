@@ -16,7 +16,7 @@ import {
 } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import {
-	applyWorkerNameOverride,
+	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
@@ -136,7 +136,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		rootConfig.accountId,
 		argv["temporary-account"] === true
 	);
-	const worker = applyWorkerNameOverride(
+	const { worker, workerNameOverridden } = applyCIWorkerNameOverride(
 		selectBuildOutputWorker(workers, argv.worker)
 	);
 	const parsedWorker = parseWorkerConfig(worker, rootConfig);
@@ -191,6 +191,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 				argv,
 				containerDeployConfig
 			);
+			props.workerNameOverridden = workerNameOverridden;
 
 			log.section("Deploy");
 			({ versionId } = await deploy(props, wranglerConfig, buildResult, {
@@ -221,6 +222,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 				argv,
 				containerDeployConfig
 			);
+			props.workerNameOverridden = workerNameOverridden;
 
 			log.section("Upload");
 			({ versionId } = await versionsUpload(

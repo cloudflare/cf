@@ -72,7 +72,7 @@ vi.mock("../../lib/deploy-input.js", () => ({
 vi.mock("../../lib/build-output.js", async (importOriginal) => {
 	const actual = await importOriginal<typeof BuildOutputModule>();
 	return {
-		applyWorkerNameOverride: actual.applyWorkerNameOverride,
+		applyCIWorkerNameOverride: actual.applyCIWorkerNameOverride,
 		buildOutputWorkerOption: actual.buildOutputWorkerOption,
 		parseWorkerConfig: mocks.parseWorkerConfig,
 		selectBuildOutputWorker: actual.selectBuildOutputWorker,
@@ -243,8 +243,8 @@ describe("cf previews deploy", () => {
 		);
 	});
 
-	it("deploys the Preview under CLOUDFLARE_WORKER_NAME", async () => {
-		vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-worker");
+	it("deploys the Preview under CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
+		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
 		const rootConfig = { buildContext: { isPreview: true } };
 		const worker = {
 			config: { type: "worker", name: "config-worker" },

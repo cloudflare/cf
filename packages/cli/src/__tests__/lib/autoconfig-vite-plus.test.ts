@@ -19,8 +19,8 @@ describe("Vite+ autoconfig", () => {
 		const details = await analyzeProject(process.cwd(), { output: "silent" });
 		expect(details).toMatchObject({
 			configured: true,
-			devCommand: "npx vp dev",
-			buildCommand: "npx vp build",
+			devCommand: "vp dev",
+			buildCommand: "vp build",
 		});
 	});
 
@@ -46,8 +46,8 @@ describe("Vite+ autoconfig", () => {
 			const command = vitePlus ? "vp" : "vite";
 			expect(details).toMatchObject({
 				configured: true,
-				devCommand: `npx ${command} dev`,
-				buildCommand: `npx ${command} build`,
+				devCommand: `${command} dev`,
+				buildCommand: `${command} build`,
 			});
 		}
 	);

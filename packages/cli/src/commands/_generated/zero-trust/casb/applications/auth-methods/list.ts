@@ -27,6 +27,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Application/vendor identifier.",
 			demandOption: true,
 		})
+		.option("environment", {
+			type: "string",
+			description:
+				"Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+			choices: ["fedramp", "standard"],
+		})
 		.option("page", {
 			type: "number",
 			description: "A page number within the paginated result set.",
@@ -53,12 +59,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb applications auth-methods list",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["environment", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
+					environment: argv["environment"],
 					page: argv["page"],
 					page_size: argv["page-size"],
 				};

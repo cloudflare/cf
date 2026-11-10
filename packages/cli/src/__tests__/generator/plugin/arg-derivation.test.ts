@@ -39,6 +39,7 @@ function multipartOperation(): OperationInfo {
 		name,
 		type: "string",
 		isBinary: false,
+		readOnly: false,
 		description,
 	});
 	return operation("post", "/accounts/{account_id}/example", {

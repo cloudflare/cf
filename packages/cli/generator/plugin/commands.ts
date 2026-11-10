@@ -67,12 +67,21 @@ export function operationId(method: ForgeMethod): string {
 	].join(".");
 }
 
+/**
+ * The top-level groups of `forge`: those directly inside the root, which
+ * `forge.groups` has first.
+ *
+ * The root's own methods, those without a group, are deliberately ignored:
+ * every cf command belongs to a top-level group.
+ */
+export function topLevel(forge: Forge): readonly ForgeGroup[] {
+	return forge.groups[0]?.children ?? [];
+}
+
 /** The commands of `forge`, sorted by name. */
 export function commands(forge: Forge): Command[] {
 	const errors: string[] = [];
-	const out = forge.groups
-		.filter((g) => g.parent === undefined)
-		.map((group) => command(group, errors));
+	const out = topLevel(forge).map((group) => command(group, errors));
 	out.sort((a, b) => localeCompare(a.name, b.name));
 	if (errors.length > 0) {
 		throw new GenerateError(

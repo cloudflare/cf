@@ -22,7 +22,8 @@ interface DevArgs extends CommonYargsOptions {
 	 * `bare-positional` arguments and forwards them verbatim to the
 	 * impl. cf does not parse impl-specific flags.
 	 */
-	implArgs?: (string | number)[];
+	implArgs?: string[];
+	"--"?: string[];
 }
 
 const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
@@ -35,7 +36,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				.positional("implArgs", {
 					type: "string",
 					array: true,
-					describe: "Arguments forwarded to the dev-server implementation",
+					describe: "Arguments forwarded to the selected development server",
 				})
 				// Forward unknown flags to the impl. Without this, yargs'
 				// global `.strict()` (set in src/index.ts) would reject any
@@ -43,6 +44,8 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				// "everything after `cf dev` goes to the impl" contract.
 				.parserConfiguration({
 					"unknown-options-as-args": true,
+					"populate--": true,
+					"parse-positional-numbers": false,
 					// Don't camelCase forwarded args — the impl is responsible
 					// for its own flag parsing and we shouldn't double-translate.
 					"camel-case-expansion": false,
@@ -50,8 +53,11 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				.epilogue(
 					`cf dev starts the appropriate development server for your project. ` +
 						`It runs your framework's dev command when available, falling back to an installed Cloudflare dev server.\n\n` +
-						`Only ${theme.brand("--mode")} is forwarded to supported framework development servers. ` +
-						`Other arguments are forwarded only to Cloudflare dev-server implementations.`
+						`Arguments are forwarded to the selected development server. ` +
+						`Supported arguments depend on that server. ` +
+						`Use ${theme.brand("--")} to separate server arguments from cf options; ` +
+						`it does not bypass server validation. ` +
+						`${theme.brand("--mode")} is forwarded when the selected framework supports it.`
 				) as Argv<DevArgs>
 		);
 	},
@@ -60,28 +66,22 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		const cwd = process.cwd();
 		const { details } = await prepareProject(cwd);
 
-		// Coerce yargs' (string | number)[] back to string[] for the
-		// child_process call. Numbers come from yargs auto-detecting
-		// numeric positional values (e.g. `cf dev --port 8080` after
-		// the parser turns `--port` into a positional pair); we
-		// stringify on the way through because the impl expects argv
-		// to be strings.
-		const implArgs = (argv.implArgs ?? []).map(String);
+		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])];
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];
+		const profileEnv: Record<string, string> =
+			argv.profile !== undefined
+				? { CLOUDFLARE_AUTH_PROFILE: argv.profile }
+				: {};
 		if (details?.devCommand) {
-			if (implArgs.length > 0) {
-				throw new Error(
-					`Arguments cannot currently be forwarded to the detected dev command \`${details.devCommand}\`. Run that command directly with the required arguments.`
-				);
-			}
 			if (argv.mode && !details.framework?.supportsMode) {
 				throw new Error(
 					`The detected command \`${details.devCommand}\` does not currently support \`--mode\`.`
 				);
 			}
 			const result = await runProjectCommand(details.devCommand, cwd, {
-				env: details.env,
-				args: modeArgs,
+				preferLocal: true,
+				env: { ...details.env, ...profileEnv },
+				args: [...modeArgs, ...implArgs],
 				output: "inherit",
 			});
 			throw new CliExit(result.exitCode, { signal: result.signal });
@@ -92,6 +92,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		// Spawn and propagate the impl's exit code and termination signal.
 		// CliExit flows up to main() which lets bin/cf map to process.exit(code).
 		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs], {
+			env: profileEnv,
 			output: "inherit",
 		});
 		throw new CliExit(result.exitCode, { signal: result.signal });

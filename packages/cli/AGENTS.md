@@ -119,8 +119,13 @@ Account ID is resolved from the environment, the account settings in
 `cloudflare.config.ts`'s default export, and workers-auth. The API token comes from
 `CLOUDFLARE_API_TOKEN`; otherwise cf uses a stored, automatically refreshed
 OAuth profile. There are no `--account-id` or `--api-token` flags.
-Named OAuth profiles are selected by `--profile` or the nearest directory
-binding, with the default profile as fallback.
+Named OAuth profiles are selected by `--profile`, `CLOUDFLARE_AUTH_PROFILE`,
+or the nearest directory binding, with the default profile as fallback.
+Profiles select credentials, not accounts: without an account in the environment
+or project config, cf selects one for the active profile on each invocation.
+`cf dev --profile <name>` passes the selection to framework commands and
+Cloudflare dev-server implementations through `CLOUDFLARE_AUTH_PROFILE` in
+the child environment, overriding any inherited value.
 
 ### Reserved names
 
@@ -183,14 +188,13 @@ its `--dry-run` option.
 The plugin does not emit the request runtime. It lives in `src/api/` and
 is imported as `#api`, like any other hand-maintained module.
 
-A command's files depend only on its own operation, so forge generates
-them in parallel: `generateGroup` writes each top-level group's command
-modules and indexes, each in a plugin instance of its own, and `generate`
-writes what lists every command (the root index, the Access root, and
-`_meta/`) plus the runtime. The metadata pass checks everything the files
-pass does, so it reports every error. Keep new rules local to the
-operation; a rule that needs other operations would serialize generation
-again.
+forge calls the plugin's `generate` once, on one thread. It writes the
+root index, the Access root, and `_meta/`, then each top-level group's
+command modules and indexes. A command's files depend only on its own
+operation. The metadata pass checks everything the files pass does, so it
+reports every error. Keep new rules local to the operation.
+`generateCliGroup` gets only its own group's operations, so a rule that
+needs another group's operations can't see them.
 
 Each group also writes a module for each of its methods, deprecated ones
 included, at the method's path in the group tree:

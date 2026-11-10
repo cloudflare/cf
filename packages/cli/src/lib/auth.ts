@@ -1,5 +1,6 @@
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
 import { API_TIMEOUT_MS } from "./api-constants.js";
+import { createApiFetch } from "./api-fetch.js";
 import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
@@ -49,6 +50,7 @@ interface CloudflareClientOptions {
 	timeout?: number;
 	fetch?: typeof globalThis.fetch;
 	defaultHeaders?: Record<string, string>;
+	customApiHeaders?: boolean;
 }
 
 /** A list response, unwrapped from its envelope. */
@@ -253,15 +255,19 @@ export async function requestApi<T>(
 export function createCloudflareClientWithToken(
 	options: CloudflareClientOptions
 ): Cloudflare {
+	const baseURL = options.baseURL ?? DEFAULT_BASE_URL;
 	const clientOptions: ClientOptions = {
-		baseUrl: options.baseURL ?? DEFAULT_BASE_URL,
+		baseUrl: baseURL,
 		auth: async () => ({
 			headers: { Authorization: `Bearer ${options.apiToken}` },
 		}),
 		headers: options.defaultHeaders,
 		timeoutInSeconds: (options.timeout ?? API_TIMEOUT_MS) / 1000,
 		maxRetries: 0,
-		fetch: options.fetch ?? globalThis.fetch,
+		fetch:
+			options.customApiHeaders === false
+				? (options.fetch ?? globalThis.fetch)
+				: createApiFetch(options.fetch ?? globalThis.fetch),
 	};
 
 	const client = new Client(clientOptions);
@@ -443,6 +449,7 @@ export async function createCommandClient(
 		const { createLocalFetch } = await import("./local.js");
 		return createCloudflareClientWithToken({
 			apiToken: LOCAL_MODE_PLACEHOLDER_TOKEN,
+			customApiHeaders: false,
 			baseURL,
 			defaultHeaders: getDefaultHeaders(),
 			fetch: createLocalFetch({

@@ -25,6 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("comment", {
 			type: "string",
 			description: "An optional description of the hostname route.",
+			default: "",
 		})
 		.option("hostname", {
 			type: "string",

@@ -54,5 +54,5 @@ function getVinextCommand(
 		details.packageJson?.devDependencies?.["vite-plus"]
 			? "vp"
 			: "vite";
-	return `${details.packageManager.npx} ${vite} ${command}`;
+	return `${vite} ${command}`;
 }

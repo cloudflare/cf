@@ -55,7 +55,7 @@
 					"name": "comments",
 					"type": "string",
 					"required": false,
-					"description": "Any additional comments about the infringement not exceeding 2000 characters. Comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For delegated reports, comments may be shared in full."
+					"description": "Any additional comments about the infringement not exceeding 2000 characters. With the exception of delegated reports, comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For the limited circumstances where we delegate reports to customers with established abuse-handling programs, comments may be shared in full."
 				},
 				{
 					"name": "company",
@@ -6689,6 +6689,34 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"ai-gateway gateways providers test": {
+			"operationId": "ai-gateway.gateways.providers.test",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}/test",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
 		"ai-gateway gateways providers update": {
 			"operationId": "ai-gateway.gateways.providers.update",
 			"httpMethod": "PUT",
@@ -7512,7 +7540,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -8794,7 +8822,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -8948,7 +8976,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -9404,7 +9432,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -10453,7 +10481,7 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": true,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values."
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`."
 				},
 				{
 					"name": "description",
@@ -10508,6 +10536,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -10636,6 +10670,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -10694,6 +10734,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -10964,7 +11010,7 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": false,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values."
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`."
 				},
 				{
 					"name": "description",
@@ -11019,6 +11065,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -11147,6 +11199,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -11205,6 +11263,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -19404,7 +19468,7 @@
 		"builds create": {
 			"operationId": "builds.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/builds",
+			"path": "/accounts/{account_id}/builds/workers/{external_script_id}/builds",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -19412,8 +19476,8 @@
 					"required": true
 				},
 				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
+					"name": "external_script_id",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -19484,7 +19548,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -19519,7 +19583,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -19547,7 +19611,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -19575,24 +19639,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds deploy-hooks trigger": {
-			"operationId": "builds.deploy-hooks.trigger",
-			"httpMethod": "POST",
-			"path": "/workers/builds/deploy_hooks/{deploy_hook_uuid}",
-			"pathParams": [
-				{
-					"name": "deploy_hook_uuid",
-					"flag": "deploy-hook-uuid",
-					"positional": true,
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				}
@@ -19613,7 +19660,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -19691,7 +19738,7 @@
 				},
 				{
 					"name": "external_script_id",
-					"flag": "external-script-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				}
@@ -19713,8 +19760,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"builds logs get": {
-			"operationId": "builds.logs.get",
+		"builds logs": {
+			"operationId": "builds.logs",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/builds/builds/{build_uuid}/logs",
 			"pathParams": [
@@ -19741,6 +19788,281 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"builds previews create-build": {
+			"operationId": "builds.previews.create-build",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch name (required if commit_hash not provided)"
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit hash (required if branch not provided)"
+				},
+				{
+					"name": "seed-repo-branch",
+					"type": "string",
+					"required": false,
+					"description": "Repository branch to seed."
+				},
+				{
+					"name": "seed-repo-files",
+					"type": "string",
+					"required": false,
+					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "seed-repo-owner",
+					"type": "string",
+					"required": false,
+					"description": "Repository owner or namespace."
+				},
+				{
+					"name": "seed-repo-path",
+					"type": "string",
+					"required": false,
+					"description": "Path within the repository to seed."
+				},
+				{
+					"name": "seed-repo-provider",
+					"type": "string",
+					"required": false,
+					"description": "Source control provider for the seed repository."
+				},
+				{
+					"name": "seed-repo-repository",
+					"type": "string",
+					"required": false,
+					"description": "Repository name."
+				}
+			]
+		},
+		"builds previews get": {
+			"operationId": "builds.previews.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds previews list": {
+			"operationId": "builds.previews.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds previews list-builds": {
+			"operationId": "builds.previews.list-builds",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds previews update": {
+			"operationId": "builds.previews.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "auto-build",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
+				},
+				{
+					"name": "auto-delete",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether deleting the git branch also deletes this Preview."
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch this Preview tracks"
+				},
+				{
+					"name": "settings-build-caching-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether builds reuse cached dependencies and build artifacts."
+				},
+				{
+					"name": "settings-build-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to build the Worker."
+				},
+				{
+					"name": "settings-build-token-uuid",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the build token used when deploying the Worker."
+				},
+				{
+					"name": "settings-deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to deploy the Worker."
+				},
+				{
+					"name": "settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
+				},
+				{
+					"name": "settings-path-excludes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that must not start builds."
+				},
+				{
+					"name": "settings-path-includes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that can start builds."
+				},
+				{
+					"name": "settings-root-directory",
+					"type": "string",
+					"required": false,
+					"description": "Repository directory in which build and deploy commands run."
+				}
+			]
 		},
 		"builds repos config-autofill get": {
 			"operationId": "builds.repos.config-autofill.get",
@@ -19857,6 +20179,34 @@
 				}
 			]
 		},
+		"builds retry": {
+			"operationId": "builds.retry",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/builds/{build_uuid}/retry",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "build_uuid",
+					"flag": "build-uuid",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"builds tokens create": {
 			"operationId": "builds.tokens.create",
 			"httpMethod": "POST",
@@ -19940,313 +20290,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"builds triggers cache purge": {
-			"operationId": "builds.triggers.cache.purge",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/purge_build_cache",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers create": {
-			"operationId": "builds.triggers.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/triggers",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "external-script-id",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "repo-connection-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Repository connection UUID."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": true,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": true,
-					"description": "Human-readable name of the build trigger."
-				}
-			]
-		},
-		"builds triggers delete": {
-			"operationId": "builds.triggers.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers environment-variables delete": {
-			"operationId": "builds.triggers.environment-variables.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables/{environment_variable_key}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "environment_variable_key",
-					"flag": "environment-variable-key",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers environment-variables list": {
-			"operationId": "builds.triggers.environment-variables.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers environment-variables upsert": {
-			"operationId": "builds.triggers.environment-variables.upsert",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
-		"builds triggers list": {
-			"operationId": "builds.triggers.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{external_script_id}/triggers",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "external_script_id",
-					"flag": "external-script-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers update": {
-			"operationId": "builds.triggers.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": false,
-					"description": "Human-readable name of the build trigger."
-				}
-			]
 		},
 		"builds versions get": {
 			"operationId": "builds.versions.get",
@@ -20432,7 +20475,7 @@
 					"name": "script-tag",
 					"type": "string",
 					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
+					"description": "Script tag of the Worker."
 				}
 			]
 		},
@@ -20448,7 +20491,7 @@
 				},
 				{
 					"name": "script_tag",
-					"flag": "script-tag",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -20470,7 +20513,58 @@
 				},
 				{
 					"name": "script_tag",
-					"flag": "script-tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds workers migrate-to-previews": {
+			"operationId": "builds.workers.migrate-to-previews",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				}
+			]
+		},
+		"builds workers purge-cache": {
+			"operationId": "builds.workers.purge-cache",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -20492,7 +20586,7 @@
 				},
 				{
 					"name": "script_tag",
-					"flag": "script-tag",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -32322,6 +32416,104 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"d1 insights databases": {
+			"operationId": "d1.insights.databases",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/databases",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "database_name",
+					"flag": "database-name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "exact",
+					"flag": "exact",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "since",
+					"flag": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "until",
+					"flag": "until",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"d1 insights queries": {
+			"operationId": "d1.insights.queries",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/queries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "database_id",
+					"flag": "database-id",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "since",
+					"flag": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "until",
+					"flag": "until",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"d1 list": {
 			"operationId": "d1.list",
 			"httpMethod": "GET",
@@ -33002,119 +33194,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"dns domainconnect get-domain-settings": {
-			"operationId": "dns.domainconnect.get-domain-settings",
-			"httpMethod": "GET",
-			"path": "/v2/{domain}/settings",
-			"pathParams": [
-				{
-					"name": "domain",
-					"flag": "domain",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect get-heartbeat": {
-			"operationId": "dns.domainconnect.get-heartbeat",
-			"httpMethod": "GET",
-			"path": "/_heartbeat",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect get-provider-configuration": {
-			"operationId": "dns.domainconnect.get-provider-configuration",
-			"httpMethod": "GET",
-			"path": "/v2/provconf/{provider}/{service}/{account}",
-			"pathParams": [
-				{
-					"name": "provider",
-					"flag": "provider",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "service",
-					"flag": "service",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account",
-					"flag": "account",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect get-provider-template": {
-			"operationId": "dns.domainconnect.get-provider-template",
-			"httpMethod": "GET",
-			"path": "/v2/domainTemplates/providers/{provider}/services/{service}",
-			"pathParams": [
-				{
-					"name": "provider",
-					"flag": "provider",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "service",
-					"flag": "service",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dump",
-					"flag": "dump",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect post-verify": {
-			"operationId": "dns.domainconnect.post-verify",
-			"httpMethod": "POST",
-			"path": "/v1/verify",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "domain",
-					"type": "string",
-					"required": false,
-					"description": "The domain field"
-				},
-				{
-					"name": "hash",
-					"type": "string",
-					"required": false,
-					"description": "The hash field"
-				},
-				{
-					"name": "sig",
-					"type": "string",
-					"required": false,
-					"description": "The sig field"
-				}
-			]
 		},
 		"dns records batch": {
 			"operationId": "dns.records.batch",
@@ -57324,12 +57403,6 @@
 					"type": "string",
 					"required": false,
 					"description": "A user-friendly name for the subnet."
-				},
-				{
-					"name": "network",
-					"type": "string",
-					"required": false,
-					"description": "The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
 				}
 			]
 		},
@@ -60113,18 +60186,6 @@
 					"required": false
 				},
 				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				},
-				{
 					"name": "page_token",
 					"flag": "page-token",
 					"type": "string",
@@ -60989,7 +61050,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
+					"description": "The Organization name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
 				},
 				{
 					"name": "parent-id",
@@ -65133,6 +65194,59 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"queues subscriptions edit": {
+			"operationId": "queues.subscriptions.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "subscription_id",
+					"flag": "subscription-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "destination-queue-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the target queue"
+				},
+				{
+					"name": "destination-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of destination"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the subscription is active"
+				},
+				{
+					"name": "events",
+					"type": "string",
+					"required": false,
+					"description": "List of event types this subscription handles"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the subscription"
+				}
+			]
+		},
 		"queues subscriptions get": {
 			"operationId": "queues.subscriptions.get",
 			"httpMethod": "GET",
@@ -65194,59 +65308,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"queues subscriptions update": {
-			"operationId": "queues.subscriptions.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "subscription_id",
-					"flag": "subscription-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "destination-queue-id",
-					"type": "string",
-					"required": false,
-					"description": "ID of the target queue"
-				},
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of destination"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the subscription is active"
-				},
-				{
-					"name": "events",
-					"type": "string",
-					"required": false,
-					"description": "List of event types this subscription handles"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the subscription"
-				}
-			]
 		},
 		"r2 buckets cors delete": {
 			"operationId": "r2.buckets.cors.delete",
@@ -79101,6 +79162,12 @@
 					"description": "Control the inclusion of offensive language in transcriptions."
 				},
 				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`."
+				},
+				{
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
@@ -79827,6 +79894,12 @@
 					"description": "Control the inclusion of offensive language in transcriptions."
 				},
 				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`."
+				},
+				{
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
@@ -80016,6 +80089,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Control the inclusion of offensive language in transcriptions."
+				},
+				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
 				},
 				{
 					"name": "live-stream-on-start",
@@ -80279,6 +80358,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
 				},
 				{
 					"name": "permissions-can-livestream",
@@ -80808,6 +80893,12 @@
 					"description": "The permissions.can_edit_display_name field"
 				},
 				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
+				},
+				{
 					"name": "permissions-can-livestream",
 					"type": "boolean",
 					"required": true,
@@ -81237,6 +81328,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
 				},
 				{
 					"name": "permissions-can-livestream",
@@ -90650,7 +90747,7 @@
 					"name": "certificates",
 					"type": "string",
 					"required": true,
-					"description": "The uploaded root CA certificate."
+					"description": "The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
 				},
 				{
 					"name": "name",
@@ -92808,14 +92905,7 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "notification-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL where webhooks will be sent."
-				}
-			]
+			"requestBodyFields": []
 		},
 		"tags account-resources delete": {
 			"operationId": "tags.account-resources.delete",
@@ -93223,18 +93313,6 @@
 					"name": "include_total",
 					"flag": "include-total",
 					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
 					"required": false
 				},
 				{
@@ -100017,310 +100095,6 @@
 				}
 			]
 		},
-		"workers-builds workers migrate-to-previews": {
-			"operationId": "workers-builds.workers.migrate-to-previews",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				}
-			]
-		},
-		"workers-builds workers previews create-build": {
-			"operationId": "workers-builds.workers.previews.create-build",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch name (required if commit_hash not provided)"
-				},
-				{
-					"name": "commit-hash",
-					"type": "string",
-					"required": false,
-					"description": "Git commit hash (required if branch not provided)"
-				},
-				{
-					"name": "seed-repo-branch",
-					"type": "string",
-					"required": false,
-					"description": "Repository branch to seed."
-				},
-				{
-					"name": "seed-repo-files",
-					"type": "string",
-					"required": false,
-					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "seed-repo-owner",
-					"type": "string",
-					"required": false,
-					"description": "Repository owner or namespace."
-				},
-				{
-					"name": "seed-repo-path",
-					"type": "string",
-					"required": false,
-					"description": "Path within the repository to seed."
-				},
-				{
-					"name": "seed-repo-provider",
-					"type": "string",
-					"required": false,
-					"description": "Source control provider for the seed repository."
-				},
-				{
-					"name": "seed-repo-repository",
-					"type": "string",
-					"required": false,
-					"description": "Repository name."
-				}
-			]
-		},
-		"workers-builds workers previews edit": {
-			"operationId": "workers-builds.workers.previews.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "auto-build",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
-				},
-				{
-					"name": "auto-delete",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether deleting the git branch also deletes this Preview."
-				},
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch this Preview tracks"
-				},
-				{
-					"name": "settings-build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "settings-build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "settings-build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "settings-deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "settings-environment-variables",
-					"type": "string",
-					"required": false,
-					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
-				},
-				{
-					"name": "settings-path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "settings-path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "settings-root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				}
-			]
-		},
-		"workers-builds workers previews get": {
-			"operationId": "workers-builds.workers.previews.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"workers-builds workers previews list": {
-			"operationId": "workers-builds.workers.previews.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"workers-builds workers previews list-builds": {
-			"operationId": "workers-builds.workers.previews.list-builds",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"workers-for-platforms dispatch-namespaces create": {
 			"operationId": "workers-for-platforms.dispatch-namespaces.create",
 			"httpMethod": "POST",
@@ -106146,6 +105920,12 @@
 			],
 			"queryParams": [
 				{
+					"name": "environment",
+					"flag": "environment",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "page",
 					"flag": "page",
 					"type": "number",
@@ -106179,7 +105959,14 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "environment",
+					"flag": "environment",
+					"type": "string",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -111989,766 +111776,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The type of device posture rule."
-				}
-			]
-		},
-		"zero-trust devices profiles custom create": {
-			"operationId": "zero-trust.devices.profiles.custom.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/devices/policy",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allow-mode-switch",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes."
-				},
-				{
-					"name": "allow-updates",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available."
-				},
-				{
-					"name": "allowed-to-leave",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow devices to leave the organization."
-				},
-				{
-					"name": "auto-connect",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled."
-				},
-				{
-					"name": "browser-extension-config-proxy-control",
-					"type": "string",
-					"required": false,
-					"description": "Whether the user may disable the browser extension proxy."
-				},
-				{
-					"name": "browser-extension-config-proxy-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the browser extension proxy is active."
-				},
-				{
-					"name": "captive-portal",
-					"type": "number",
-					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time."
-				},
-				{
-					"name": "default",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy is the account default. WARP group profiles cannot set this field."
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "A description of the policy."
-				},
-				{
-					"name": "disable-auto-fallback",
-					"type": "boolean",
-					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
-				},
-				{
-					"name": "dns-search-suffixes",
-					"type": "string",
-					"required": false,
-					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"suffix\": string, \"description\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "enable-device-credential-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy will be applied to matching devices."
-				},
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "exclude-office-ips",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
-				},
-				{
-					"name": "global-acceleration-allow-manual-override",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
-				},
-				{
-					"name": "global-acceleration-api-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the API endpoints."
-				},
-				{
-					"name": "global-acceleration-autoswitch",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically switch Global Acceleration regions based on device location. Defaults to false when not provided."
-				},
-				{
-					"name": "global-acceleration-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Global acceleration settings are used only when \"enabled\"."
-				},
-				{
-					"name": "global-acceleration-masque-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "global-acceleration-wireguard-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": false,
-					"description": "List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "lan-allow-minutes",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "lan-allow-subnet-size",
-					"type": "number",
-					"required": false,
-					"description": "The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "match",
-					"type": "string",
-					"required": false,
-					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\", \"device.tags\"."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name of the device settings profile."
-				},
-				{
-					"name": "precedence",
-					"type": "number",
-					"required": false,
-					"description": "The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field."
-				},
-				{
-					"name": "profile-type",
-					"type": "string",
-					"required": false,
-					"description": "The client type to which the device settings profile applies. This field is set when the profile is created and cannot be changed."
-				},
-				{
-					"name": "register-interface-ip-with-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
-				},
-				{
-					"name": "sccm-vpn-boundary-support",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
-				},
-				{
-					"name": "service-mode-v2-mode",
-					"type": "string",
-					"required": false,
-					"description": "The mode to run the WARP client under."
-				},
-				{
-					"name": "service-mode-v2-port",
-					"type": "number",
-					"required": false,
-					"description": "The port number when used with proxy mode."
-				},
-				{
-					"name": "support-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked."
-				},
-				{
-					"name": "switch-locked",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
-				},
-				{
-					"name": "tunnel-protocol",
-					"type": "string",
-					"required": false,
-					"description": "Determines which tunnel protocol to use."
-				},
-				{
-					"name": "uninstall-protection",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
-				},
-				{
-					"name": "virtual-networks-allowed",
-					"type": "string",
-					"required": false,
-					"description": "List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required."
-				},
-				{
-					"name": "virtual-networks-default",
-					"type": "string",
-					"required": false,
-					"description": "The default virtual network ID. Must be included in the `allowed` list."
-				}
-			]
-		},
-		"zero-trust devices profiles custom delete": {
-			"operationId": "zero-trust.devices.profiles.custom.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/devices/policy/{policy_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "policy_id",
-					"flag": "policy-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust devices profiles custom get": {
-			"operationId": "zero-trust.devices.profiles.custom.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/devices/policy/{policy_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "policy_id",
-					"flag": "policy-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust devices profiles custom list": {
-			"operationId": "zero-trust.devices.profiles.custom.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/devices/policies",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "profile_type",
-					"flag": "profile-type",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust devices profiles custom update": {
-			"operationId": "zero-trust.devices.profiles.custom.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/devices/policy/{policy_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "policy_id",
-					"flag": "policy-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allow-mode-switch",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes."
-				},
-				{
-					"name": "allow-updates",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available."
-				},
-				{
-					"name": "allowed-to-leave",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow devices to leave the organization."
-				},
-				{
-					"name": "auto-connect",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled."
-				},
-				{
-					"name": "browser-extension-config-proxy-control",
-					"type": "string",
-					"required": false,
-					"description": "Whether the user may disable the browser extension proxy."
-				},
-				{
-					"name": "browser-extension-config-proxy-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the browser extension proxy is active."
-				},
-				{
-					"name": "captive-portal",
-					"type": "number",
-					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time."
-				},
-				{
-					"name": "default",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy is the account default. WARP group profiles cannot set this field."
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "A description of the policy."
-				},
-				{
-					"name": "disable-auto-fallback",
-					"type": "boolean",
-					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
-				},
-				{
-					"name": "dns-search-suffixes",
-					"type": "string",
-					"required": false,
-					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"suffix\": string, \"description\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "enable-device-credential-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy will be applied to matching devices."
-				},
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "exclude-office-ips",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
-				},
-				{
-					"name": "global-acceleration-allow-manual-override",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
-				},
-				{
-					"name": "global-acceleration-api-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the API endpoints."
-				},
-				{
-					"name": "global-acceleration-autoswitch",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically switch Global Acceleration regions based on device location. Defaults to false when not provided."
-				},
-				{
-					"name": "global-acceleration-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Global acceleration settings are used only when \"enabled\"."
-				},
-				{
-					"name": "global-acceleration-masque-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "global-acceleration-wireguard-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": false,
-					"description": "List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "lan-allow-minutes",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "lan-allow-subnet-size",
-					"type": "number",
-					"required": false,
-					"description": "The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "match",
-					"type": "string",
-					"required": false,
-					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\", \"device.tags\"."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the device settings profile."
-				},
-				{
-					"name": "precedence",
-					"type": "number",
-					"required": false,
-					"description": "The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field."
-				},
-				{
-					"name": "register-interface-ip-with-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
-				},
-				{
-					"name": "sccm-vpn-boundary-support",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
-				},
-				{
-					"name": "service-mode-v2-mode",
-					"type": "string",
-					"required": false,
-					"description": "The mode to run the WARP client under."
-				},
-				{
-					"name": "service-mode-v2-port",
-					"type": "number",
-					"required": false,
-					"description": "The port number when used with proxy mode."
-				},
-				{
-					"name": "support-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked."
-				},
-				{
-					"name": "switch-locked",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
-				},
-				{
-					"name": "tunnel-protocol",
-					"type": "string",
-					"required": false,
-					"description": "Determines which tunnel protocol to use."
-				},
-				{
-					"name": "uninstall-protection",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
-				},
-				{
-					"name": "virtual-networks-allowed",
-					"type": "string",
-					"required": false,
-					"description": "List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required."
-				},
-				{
-					"name": "virtual-networks-default",
-					"type": "string",
-					"required": false,
-					"description": "The default virtual network ID. Must be included in the `allowed` list."
-				}
-			]
-		},
-		"zero-trust devices profiles default get": {
-			"operationId": "zero-trust.devices.profiles.default.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/devices/policy",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust devices profiles default update": {
-			"operationId": "zero-trust.devices.profiles.default.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/devices/policy",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allow-mode-switch",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes."
-				},
-				{
-					"name": "allow-updates",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available."
-				},
-				{
-					"name": "allowed-to-leave",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow devices to leave the organization."
-				},
-				{
-					"name": "auto-connect",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled."
-				},
-				{
-					"name": "captive-portal",
-					"type": "number",
-					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time."
-				},
-				{
-					"name": "disable-auto-fallback",
-					"type": "boolean",
-					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
-				},
-				{
-					"name": "dns-search-suffixes",
-					"type": "string",
-					"required": false,
-					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"suffix\": string, \"description\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "enable-device-credential-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
-				},
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "exclude-office-ips",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
-				},
-				{
-					"name": "global-acceleration-allow-manual-override",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
-				},
-				{
-					"name": "global-acceleration-api-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the API endpoints."
-				},
-				{
-					"name": "global-acceleration-autoswitch",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically switch Global Acceleration regions based on device location. Defaults to false when not provided."
-				},
-				{
-					"name": "global-acceleration-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Global acceleration settings are used only when \"enabled\"."
-				},
-				{
-					"name": "global-acceleration-masque-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "global-acceleration-wireguard-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": false,
-					"description": "List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "lan-allow-minutes",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "lan-allow-subnet-size",
-					"type": "number",
-					"required": false,
-					"description": "The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "register-interface-ip-with-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
-				},
-				{
-					"name": "sccm-vpn-boundary-support",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
-				},
-				{
-					"name": "service-mode-v2-mode",
-					"type": "string",
-					"required": false,
-					"description": "The mode to run the WARP client under."
-				},
-				{
-					"name": "service-mode-v2-port",
-					"type": "number",
-					"required": false,
-					"description": "The port number when used with proxy mode."
-				},
-				{
-					"name": "support-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked."
-				},
-				{
-					"name": "switch-locked",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
-				},
-				{
-					"name": "tunnel-protocol",
-					"type": "string",
-					"required": false,
-					"description": "Determines which tunnel protocol to use."
-				},
-				{
-					"name": "uninstall-protection",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
-				},
-				{
-					"name": "virtual-networks-allowed",
-					"type": "string",
-					"required": false,
-					"description": "List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required."
-				},
-				{
-					"name": "virtual-networks-default",
-					"type": "string",
-					"required": false,
-					"description": "The default virtual network ID. Must be included in the `allowed` list."
 				}
 			]
 		},
@@ -120276,6 +119303,231 @@
 					"type": "string",
 					"required": false,
 					"description": "The uuid of the service token you want to use for DoH authentication"
+				}
+			]
+		},
+		"zero-trust organization edit": {
+			"operationId": "zero-trust.organization.edit",
+			"httpMethod": "PATCH",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/organizations",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "allow-authenticate-via-warp",
+					"type": "boolean",
+					"required": false,
+					"description": "When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value."
+				},
+				{
+					"name": "auth-domain",
+					"type": "string",
+					"required": false,
+					"description": "The unique subdomain assigned to your Zero Trust organization. If omitted on creation, a unique subdomain is auto-generated in the format `adjective-noun-hex4` (e.g. `frosty-moon-7a3b.cloudflareaccess.com`)."
+				},
+				{
+					"name": "auto-redirect-to-identity",
+					"type": "boolean",
+					"required": false,
+					"description": "When set to `true`, users skip the identity provider selection step during login."
+				},
+				{
+					"name": "custom-pages-forbidden",
+					"type": "string",
+					"required": false,
+					"description": "The uid of the custom page to use when a user is denied access after failing a non-identity rule."
+				},
+				{
+					"name": "custom-pages-identity-denied",
+					"type": "string",
+					"required": false,
+					"description": "The uid of the custom page to use when a user is denied access."
+				},
+				{
+					"name": "deny-unmatched-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array."
+				},
+				{
+					"name": "deny-unmatched-requests-exempted-zone-names",
+					"type": "string",
+					"required": false,
+					"description": "Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request."
+				},
+				{
+					"name": "disable-end-user-app-creation",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether creation of end user applications is disabled for this organization."
+				},
+				{
+					"name": "is-ui-read-only",
+					"type": "boolean",
+					"required": false,
+					"description": "Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled."
+				},
+				{
+					"name": "login-design-background-color",
+					"type": "string",
+					"required": false,
+					"description": "The background color on your login page."
+				},
+				{
+					"name": "login-design-footer-text",
+					"type": "string",
+					"required": false,
+					"description": "The text at the bottom of your login page."
+				},
+				{
+					"name": "login-design-header-text",
+					"type": "string",
+					"required": false,
+					"description": "The text at the top of your login page."
+				},
+				{
+					"name": "login-design-logo-path",
+					"type": "string",
+					"required": false,
+					"description": "The URL of the logo on your login page."
+				},
+				{
+					"name": "login-design-text-color",
+					"type": "string",
+					"required": false,
+					"description": "The text color on your login page."
+				},
+				{
+					"name": "mfa-config-allowed-authenticators",
+					"type": "string",
+					"required": false,
+					"description": "Lists the MFA methods that users can authenticate with. The `piv_key` and `ssh_fido2_key` values are supported only for infrastructure applications."
+				},
+				{
+					"name": "mfa-config-amr-matching-session-duration",
+					"type": "string",
+					"required": false,
+					"description": "Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains \"mfa\". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days)."
+				},
+				{
+					"name": "mfa-config-required-aaguids",
+					"type": "string",
+					"required": false,
+					"description": "Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs."
+				},
+				{
+					"name": "mfa-config-session-duration",
+					"type": "string",
+					"required": false,
+					"description": "Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`."
+				},
+				{
+					"name": "mfa-piv-key-requirements-pin-policy",
+					"type": "string",
+					"required": false,
+					"description": "Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use)."
+				},
+				{
+					"name": "mfa-piv-key-requirements-require-fips-device",
+					"type": "boolean",
+					"required": false,
+					"description": "Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device."
+				},
+				{
+					"name": "mfa-piv-key-requirements-ssh-key-size",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter."
+				},
+				{
+					"name": "mfa-piv-key-requirements-ssh-key-type",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`."
+				},
+				{
+					"name": "mfa-piv-key-requirements-touch-policy",
+					"type": "string",
+					"required": false,
+					"description": "Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds)."
+				},
+				{
+					"name": "mfa-required-for-all-apps",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot contain only the infrastructure SSH authenticators ('piv_key' and 'ssh_fido2_key') if the organization has any non-infrastructure applications."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name of your Zero Trust organization. When omitted on creation, defaults to the provided auth_domain; when both are omitted, defaults to the auto-generated subdomain slug (e.g. frosty-moon-7a3b)."
+				},
+				{
+					"name": "service-token-inactivity-action",
+					"type": "string",
+					"required": false,
+					"description": "The action applied to an inactive service token."
+				},
+				{
+					"name": "service-token-inactivity-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether automatic enforcement for inactive service tokens is enabled."
+				},
+				{
+					"name": "service-token-inactivity-inactivity-threshold-days",
+					"type": "number",
+					"required": false,
+					"description": "The number of days a service token must be inactive before the configured action is applied."
+				},
+				{
+					"name": "session-duration",
+					"type": "string",
+					"required": false,
+					"description": "The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h."
+				},
+				{
+					"name": "strict-service-token-auth",
+					"type": "boolean",
+					"required": false,
+					"description": "Enables new behaviors for requests made with Access service tokens. Unauthorized requests emit audit logs, and return a 401 or 403 status code in the response instead of redirecting to the login page. Successful requests no longer receive a CF_Authorization cookie in the response. Zero Trust organizations created on or after October 5, 2026 will have this setting enabled by default, and cannot disable it."
+				},
+				{
+					"name": "ui-read-only-toggle-reason",
+					"type": "string",
+					"required": false,
+					"description": "A description of the reason why the UI read only field is being toggled."
+				},
+				{
+					"name": "user-seat-expiration-inactive-time",
+					"type": "string",
+					"required": false,
+					"description": "The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`."
+				},
+				{
+					"name": "warp-auth-non-browser-401",
+					"type": "boolean",
+					"required": false,
+					"description": "When enabled, unsuccessful WARP authentication requests with a non-HTML Accept header return a 401 response instead of redirecting to the login page."
+				},
+				{
+					"name": "warp-auth-session-duration",
+					"type": "string",
+					"required": false,
+					"description": "The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h."
 				}
 			]
 		},

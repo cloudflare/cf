@@ -292,6 +292,95 @@ describe("mixed raw and multipart bodies", () => {
 
 describe("multipart bodies", () => {
 	runInTempDir();
+	const multipartFiles = (
+		properties: Record<string, unknown>,
+		required: string[]
+	) =>
+		generateFiles({
+			openapi: "3.0.3",
+			info: { title: "Multipart bodies", version: "1" },
+			paths: {
+				"/things": {
+					put: {
+						"x-fern-sdk-group-name": "things",
+						"x-fern-sdk-method-name": "update",
+						summary: "Update a thing",
+						requestBody: {
+							required: true,
+							content: {
+								"multipart/form-data": {
+									schema: { type: "object", properties, required },
+								},
+							},
+						},
+						responses: { "200": { description: "OK" } },
+					},
+				},
+			},
+		});
+	const readOnlyFields = {
+		id: { type: "string", readOnly: true },
+		snapshot: { type: "string", format: "binary", readOnly: true },
+		archives: {
+			type: "array",
+			items: { type: "string", format: "binary" },
+			readOnly: true,
+		},
+	};
+
+	it("omits read-only text and binary flags and uploads to the writable payload", async () => {
+		const files = multipartFiles(
+			{
+				...readOnlyFields,
+				label: { type: "string" },
+				file: { type: "string", format: "binary" },
+				attachment: { type: "string", format: "binary" },
+			},
+			["id", "snapshot", "archives", "file"]
+		);
+		const code = files.get("things/update.ts") ?? "";
+		for (const field of Object.keys(readOnlyFields)) {
+			expect(code).not.toContain(`.option('${field}',`);
+			expect(code).not.toContain(`formData.append('${field}',`);
+		}
+		await seed({ "payload.txt": "writable content" });
+		const { run, requestApi } = setup(files);
+		await run([
+			"--file",
+			"payload.txt",
+			"--label",
+			"preview",
+			"--attachment",
+			"extra content",
+		]);
+		const form = requestApi.mock.calls[0]?.[3].body as FormData;
+		expect([...form.keys()]).toEqual(["file", "label", "attachment"]);
+		expect(await (form.get("file") as Blob).text()).toBe("writable content");
+		expect(form.get("label")).toBe("preview");
+		expect(await (form.get("attachment") as Blob).text()).toBe("extra content");
+	});
+
+	it("allows omission when only read-only form fields are required", async () => {
+		const { run, send, requestApi } = setup(
+			multipartFiles(readOnlyFields, Object.keys(readOnlyFields))
+		);
+		await run();
+		expect(send).toHaveBeenCalledExactlyOnceWith({}, {});
+		expect(requestApi).not.toHaveBeenCalled();
+	});
+
+	it("still requires input when a writable form field is required", async () => {
+		const { run, createCommandClient, requestApi, send } = setup(
+			multipartFiles(
+				{ ...readOnlyFields, file: { type: "string", format: "binary" } },
+				["id", "file"]
+			)
+		);
+		await expect(run()).rejects.toThrow("--body or --file is required");
+		expect(createCommandClient).not.toHaveBeenCalled();
+		expect(requestApi).not.toHaveBeenCalled();
+		expect(send).not.toHaveBeenCalled();
+	});
 
 	it("rejects an empty file path before making a request", async () => {
 		const files = generateFiles({

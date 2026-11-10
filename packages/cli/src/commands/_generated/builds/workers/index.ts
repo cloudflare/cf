@@ -1,6 +1,8 @@
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
+import $migratetopreviews from "./migrate-to-previews.js";
+import $purgecache from "./purge-cache.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -18,6 +20,8 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($create)
 			.command($delete)
 			.command($get)
+			.command($migratetopreviews)
+			.command($purgecache)
 			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},

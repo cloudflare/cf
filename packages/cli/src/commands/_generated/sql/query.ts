@@ -6,7 +6,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, requestApi } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import {
+	compactBody,
+	mergeBodyPositionals,
+	parseBody,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -100,7 +105,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.file !== undefined
 								? { file: argv.file }
 								: argv.body !== undefined
-									? parseBody(argv.body)
+									? mergeBodyPositionals(parseBody(argv.body), [
+											{ name: "query", field: "query", value: argv["query"] },
+										])
 									: compactBody({
 											scope: {
 												accountTag: resolveFileToken(
@@ -135,7 +142,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.file !== undefined
 						? undefined
 						: argv.body !== undefined
-							? parseBody(argv.body)
+							? mergeBodyPositionals(parseBody(argv.body), [
+									{ name: "query", field: "query", value: argv["query"] },
+								])
 							: undefined;
 				const client = await createCommandClient(argv);
 

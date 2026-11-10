@@ -117,6 +117,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "The permissions.can_edit_display_name field",
 		})
+		.option("permissions-can-edit-meeting-title", {
+			type: "boolean",
+			description: "Allows renaming the meeting for the current session",
+		})
 		.option("permissions-can-livestream", {
 			type: "boolean",
 			description: "The permissions.can_livestream field",
@@ -391,6 +395,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"permissions-can-accept-production-requests",
 						"permissions-can-change-participant-permissions",
 						"permissions-can-edit-display-name",
+						"permissions-can-edit-meeting-title",
 						"permissions-can-livestream",
 						"permissions-can-record",
 						"permissions-can-spotlight",
@@ -509,6 +514,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													],
 												can_edit_display_name:
 													argv["permissions-can-edit-display-name"],
+												can_edit_meeting_title:
+													argv["permissions-can-edit-meeting-title"],
 												can_livestream: argv["permissions-can-livestream"],
 												can_record: argv["permissions-can-record"],
 												can_spotlight: argv["permissions-can-spotlight"],
@@ -1072,6 +1079,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							can_change_participant_permissions:
 								argv["permissions-can-change-participant-permissions"],
 							can_edit_display_name: argv["permissions-can-edit-display-name"],
+							can_edit_meeting_title:
+								argv["permissions-can-edit-meeting-title"],
 							can_livestream: argv["permissions-can-livestream"],
 							can_record: argv["permissions-can-record"],
 							can_spotlight: argv["permissions-can-spotlight"],

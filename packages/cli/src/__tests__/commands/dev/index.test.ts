@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import * as clack from "@clack/prompts";
 import {
@@ -138,7 +138,7 @@ describe("cf dev", () => {
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
+					version: "2.0.0-beta.v.13",
 				}),
 			});
 
@@ -146,9 +146,9 @@ describe("cf dev", () => {
 			expect(result.exitCode).toBe(1);
 			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
-			expect(std.err).toContain("cf dev");
-			expect(std.err).toContain("cf build");
-			expect(std.err).toContain("cf deploy");
+			expect(unframe(std.err)).toContain("cf dev");
+			expect(unframe(std.err)).toContain("cf build");
+			expect(unframe(std.err)).toContain("cf deploy");
 			expect(unframe(std.err)).toContain("cf previews deploy");
 			expect(unframe(std.err)).not.toMatch(
 				/@cloudflare\/vite-plugin .* is not installed/
@@ -169,7 +169,7 @@ describe("cf dev", () => {
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
 			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
-			expect(std.err).toMatch(/wrangler@4\.136\.0 or newer/);
+			expect(std.err).toMatch(/wrangler@4\.159\.0 or newer/);
 			expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 		});
 
@@ -194,6 +194,108 @@ describe("cf dev", () => {
 		});
 	});
 
+	describe.each([
+		{
+			name: "@cloudflare/vite-plugin",
+			version: "2.0.0-beta.v.12",
+			minimum: "2.0.0-beta.v.13",
+			bin: "bin/cf-vite",
+			install: "npm install --save-dev @cloudflare/vite-plugin@beta",
+		},
+		{
+			name: "wrangler",
+			version: "4.158.0",
+			minimum: "4.159.0",
+			bin: "bin/cf-wrangler.js",
+			install: "npm install --save-dev wrangler@latest",
+		},
+	])(
+		"$name profile compatibility",
+		({ name, version, minimum, bin, install }) => {
+			it.each([
+				{ command: "dev", profile: undefined },
+				{ command: "dev", profile: "work" },
+				{ command: "build", profile: undefined },
+				{ command: "build", profile: "work" },
+			])(
+				"rejects $command with profile $profile before starting an older delegate",
+				async ({ command, profile }) => {
+					const executable = `node_modules/${name}/${bin}`;
+					await seed({
+						"package.json": JSON.stringify({
+							devDependencies: { [name]: version },
+						}),
+						[`node_modules/${name}/package.json`]: JSON.stringify({
+							name,
+							version,
+						}),
+						[executable]: nodeScript(
+							'require("node:fs").writeFileSync("delegate-started.out", "started");'
+						),
+					});
+					makeExecutable(executable);
+
+					const result = await runCf([
+						command,
+						...(profile ? ["--profile", profile] : []),
+					]);
+
+					expect(result.exitCode).toBe(1);
+					expect(unframe(std.err)).toContain(`${name}@${version} is installed`);
+					expect(unframe(std.err)).toContain(minimum);
+					expect(std.err).toContain(install);
+					expect(existsSync("delegate-started.out")).toBe(false);
+				}
+			);
+		}
+	);
+
+	describe.each([
+		{
+			name: "@cloudflare/vite-plugin",
+			version: "2.0.0-beta.v.13",
+			bin: "bin/cf-vite",
+		},
+		{ name: "wrangler", version: "4.159.0", bin: "bin/cf-wrangler.js" },
+	])("$name auth profiles", ({ name, version, bin }) => {
+		it.each([
+			{ profile: "work", inherited: "personal", expected: "work" },
+			{ profile: "default", inherited: "work", expected: "default" },
+			{ profile: undefined, inherited: "work", expected: "work" },
+			{ profile: undefined, inherited: undefined, expected: null },
+		])(
+			"passes profile $profile with inherited profile $inherited through the environment",
+			async ({ profile, inherited, expected }) => {
+				const executable = `node_modules/${name}/${bin}`;
+				await seed({
+					"package.json": JSON.stringify({
+						devDependencies: { [name]: version },
+					}),
+					[`node_modules/${name}/package.json`]: JSON.stringify({
+						name,
+						version,
+					}),
+					[executable]: nodeScript(
+						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null }));'
+					),
+				});
+				makeExecutable(executable);
+
+				const result = await runCf(
+					["dev", ...(profile ? ["--profile", profile] : []), "--port", "3000"],
+					{ CLOUDFLARE_AUTH_PROFILE: inherited }
+				);
+
+				expect(result.exitCode).toBe(0);
+				expect(JSON.parse(readFileSync("profile.out", "utf8"))).toEqual({
+					argv: ["dev", "--port", "3000"],
+					profile: expected,
+				});
+				expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe(inherited);
+			}
+		);
+	});
+
 	describe("happy path", () => {
 		it("rejects an installed Vite plugin v1 delegate", async () => {
 			await seed({
@@ -214,9 +316,9 @@ describe("cf dev", () => {
 			expect(result.exitCode).toBe(1);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin@1\.61\.0 is installed/);
-			expect(std.err).toContain("cf dev");
-			expect(std.err).toContain("cf build");
-			expect(std.err).toContain("cf deploy");
+			expect(unframe(std.err)).toContain("cf dev");
+			expect(unframe(std.err)).toContain("cf build");
+			expect(unframe(std.err)).toContain("cf deploy");
 			expect(unframe(std.err)).toContain("cf previews deploy");
 		});
 
@@ -254,6 +356,105 @@ describe("cf dev", () => {
 			]);
 		});
 
+		it.each([
+			{
+				label: "port and host",
+				args: ["--port", "8787", "--host", "127.0.0.1"],
+				expected: ["--port", "8787", "--host", "127.0.0.1"],
+			},
+			{
+				label: "equals-form options",
+				args: ["--port=8788", "--host=::1"],
+				expected: ["--port=8788", "--host=::1"],
+			},
+			{
+				label: "host without an address",
+				args: ["--host"],
+				expected: ["--host"],
+			},
+			{
+				label: "numeric-looking values",
+				args: ["--port", "08080", "--id", "9007199254740993", "1e3"],
+				expected: ["--port", "08080", "--id", "9007199254740993", "1e3"],
+			},
+			{
+				label: "arguments after the separator",
+				args: ["--", "--port", "8789", "--config", "vite config & extra.ts"],
+				expected: ["--port", "8789", "--config", "vite config & extra.ts"],
+			},
+		])(
+			"forwards $label to the detected Vite command",
+			async ({ args, expected }) => {
+				await seed({
+					"cloudflare.config.ts": "export default {};",
+					"package.json": JSON.stringify({
+						name: "vite-project",
+						devDependencies: {
+							vite: "^7.0.0",
+							"@cloudflare/vite-plugin": "beta",
+						},
+					}),
+					"package-lock.json": "{}",
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "7.0.0",
+					}),
+					"node_modules/.bin/vite": nodeScript(
+						'require("node:fs").writeFileSync("vite-argv.json", JSON.stringify(process.argv.slice(2)));'
+					),
+				});
+				makeExecutable("node_modules/.bin/vite", { npmBin: true });
+
+				const result = await runCf(["dev", "--mode", "staging", ...args]);
+
+				expect(result.exitCode).toBe(0);
+				expect(JSON.parse(readFileSync("vite-argv.json", "utf8"))).toEqual([
+					"--mode",
+					"staging",
+					...expected,
+				]);
+			}
+		);
+
+		it.each([{ separator: [] }, { separator: ["--"] }])(
+			"forwards arguments when Vite has a dev script with separator $separator",
+			async ({ separator }) => {
+				await seed({
+					"cloudflare.config.ts": "export default {};",
+					"package.json": JSON.stringify({
+						name: "vite-project",
+						scripts: { dev: "vite --clearScreen false" },
+						devDependencies: { vite: "^7.0.0" },
+					}),
+					"package-lock.json": "{}",
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "7.0.0",
+					}),
+					"node_modules/.bin/vite": nodeScript(
+						'require("node:fs").writeFileSync("vite-argv.json", JSON.stringify(process.argv.slice(2)));'
+					),
+				});
+				makeExecutable("node_modules/.bin/vite", { npmBin: true });
+
+				const args = ["--port", "8787", "--host", "127.0.0.1"];
+				const result = await runCf([
+					"dev",
+					"--mode",
+					"staging",
+					...separator,
+					...args,
+				]);
+
+				expect(result.exitCode).toBe(0);
+				expect(JSON.parse(readFileSync("vite-argv.json", "utf8"))).toEqual([
+					"--mode",
+					"staging",
+					...args,
+				]);
+			}
+		);
+
 		it("runs Vite for a Next.js project with vinext installed", async () => {
 			await seed({
 				"package.json": JSON.stringify({
@@ -273,19 +474,43 @@ describe("cf dev", () => {
 					version: "0.0.1",
 				}),
 				"node_modules/.bin/vite": nodeScript(
-					'require("node:fs").writeFileSync("vite-argv.out", [...process.argv.slice(2), process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT].join("\\n") + "\\n");'
+					'require("node:fs").writeFileSync("vite-argv.out", [...process.argv.slice(2), process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT, process.env.CLOUDFLARE_AUTH_PROFILE].join("\\n") + "\\n");'
 				),
 			});
 			makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
-			const result = await runCf(["dev", "--mode", "staging"]);
+			const result = await runCf(
+				[
+					"dev",
+					"--mode",
+					"staging",
+					"--port",
+					"8790",
+					"--host",
+					"127.0.0.1",
+					"--profile",
+					"work",
+				],
+				{ CLOUDFLARE_AUTH_PROFILE: "personal" }
+			);
 
 			expect(result.exitCode).toBe(0);
 			expect(
 				readFileSync(resolve(process.cwd(), "vite-argv.out"), "utf8")
 					.trim()
 					.split("\n")
-			).toEqual(["dev", "--mode", "staging", "true"]);
+			).toEqual([
+				"dev",
+				"--mode",
+				"staging",
+				"--port",
+				"8790",
+				"--host",
+				"127.0.0.1",
+				"true",
+				"work",
+			]);
+			expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe("personal");
 		});
 
 		it("does not treat an undeclared vinext installation (installed but not present in the project's manifest) as a vinext project", async () => {
@@ -336,7 +561,7 @@ describe("cf dev", () => {
 			});
 
 			await expect(runCf(["dev", "--mode", "staging"])).rejects.toThrow(
-				"The detected command `npx ng serve` does not currently support `--mode`."
+				"The detected command `ng serve` does not currently support `--mode`."
 			);
 		});
 
@@ -382,7 +607,7 @@ describe("cf dev", () => {
 				const result = await runCf(["dev"]);
 
 				expect(result.exitCode).toBe(0);
-				expect(logMessage).toHaveBeenCalledWith("Delegating to npx vite", {
+				expect(logMessage).toHaveBeenCalledWith("Delegating to vite", {
 					output: process.stderr,
 					spacing: 0,
 				});
@@ -427,6 +652,28 @@ describe("cf dev", () => {
 				process.env.PATH,
 				"override",
 			]);
+		});
+
+		it("resolves framework executables from an ancestor's node_modules", async () => {
+			await seed({
+				"node_modules/.bin/cf-local-framework": nodeScript(
+					'require("node:fs").writeFileSync("command.out", process.argv.slice(2).join("\\n"));'
+				),
+				"packages/app/package.json": "{}",
+			});
+			makeExecutable("node_modules/.bin/cf-local-framework", { npmBin: true });
+			const cwd = resolve("packages/app");
+
+			expect(
+				await runProjectCommand("cf-local-framework build", cwd, {
+					preferLocal: true,
+					args: ["--mode", "staging"],
+					output: "silent",
+				})
+			).toEqual({ exitCode: 0 });
+			expect(readFileSync(resolve(cwd, "command.out"), "utf8")).toBe(
+				"build\n--mode\nstaging"
+			);
 		});
 
 		it("propagates non-zero project command exits", async () => {
@@ -544,7 +791,7 @@ describe("cf dev", () => {
 			expect(shouldRelayProjectCommandSignal("SIGINT", "linux")).toBe(true);
 		});
 
-		it("rejects arguments for a detected framework command", async () => {
+		it("forwards arguments to a detected framework command", async () => {
 			await seed({
 				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
@@ -556,11 +803,21 @@ describe("cf dev", () => {
 					name: "astro",
 					version: "5.0.0",
 				}),
+				"node_modules/.bin/astro": nodeScript(
+					'require("node:fs").writeFileSync("astro-argv.json", JSON.stringify(process.argv.slice(2)));'
+				),
 			});
 
-			await expect(runCf(["dev", "--port", "3000"])).rejects.toThrow(
-				"Arguments cannot currently be forwarded to the detected dev command `npx astro dev`"
-			);
+			makeExecutable("node_modules/.bin/astro", { npmBin: true });
+
+			const result = await runCf(["dev", "--port", "3000"]);
+
+			expect(result.exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("astro-argv.json", "utf8"))).toEqual([
+				"dev",
+				"--port",
+				"3000",
+			]);
 		});
 
 		it("spawns the impl and propagates its exit code", async () => {
@@ -571,7 +828,7 @@ describe("cf dev", () => {
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
+					version: "2.0.0-beta.v.13",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
 					nodeScript("process.exit(0);"),
@@ -617,7 +874,7 @@ describe("cf dev", () => {
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
+					version: "2.0.0-beta.v.13",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
 					nodeScript("process.exit(17);"),
@@ -628,50 +885,54 @@ describe("cf dev", () => {
 			expect(result.exitCode).toBe(17);
 		});
 
-		it("forwards unknown flags to the impl", async () => {
-			// The delegate inherits stdout, so write argv to a file for inspection.
-			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
-				}),
-				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
-					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
-				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
-					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
-				),
-			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+		it.each([{ separator: [] }, { separator: ["--"] }])(
+			"forwards unknown flags to the impl with separator $separator",
+			async ({ separator }) => {
+				// The delegate inherits stdout, so write argv to a file for inspection.
+				await seed({
+					"package.json": JSON.stringify({
+						devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					}),
+					"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+						name: "@cloudflare/vite-plugin",
+						version: "2.0.0-beta.v.13",
+					}),
+					"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
+						'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
+					),
+				});
+				makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
-			const result = await runCf([
-				"dev",
-				"--mode",
-				"staging",
-				"--port",
-				"3000",
-				"--my-vite-flag",
-				"some-positional",
-			]);
-			expect(result.exitCode).toBe(0);
+				const result = await runCf([
+					"dev",
+					"--mode",
+					"staging",
+					...separator,
+					"--port",
+					"03000",
+					"--my-vite-flag",
+					"9007199254740993",
+				]);
+				expect(result.exitCode).toBe(0);
 
-			const argv = readFileSync(resolve(process.cwd(), "argv.out"), "utf-8")
-				.trim()
-				.split("\n");
-			// First arg is always `dev` (the subcommand cf inserts);
-			// the rest are forwarded verbatim. Note unknown flags pass
-			// through because of `unknown-options-as-args` in the dev
-			// command's parserConfiguration.
-			expect(argv).toEqual([
-				"dev",
-				"--mode",
-				"staging",
-				"--port",
-				"3000",
-				"--my-vite-flag",
-				"some-positional",
-			]);
-		});
+				const argv = readFileSync(resolve(process.cwd(), "argv.out"), "utf-8")
+					.trim()
+					.split("\n");
+				// First arg is always `dev` (the subcommand cf inserts);
+				// the rest are forwarded verbatim. Note unknown flags pass
+				// through because of `unknown-options-as-args` in the dev
+				// command's parserConfiguration.
+				expect(argv).toEqual([
+					"dev",
+					"--mode",
+					"staging",
+					"--port",
+					"03000",
+					"--my-vite-flag",
+					"9007199254740993",
+				]);
+			}
+		);
 	});
 });
 

@@ -72,7 +72,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entity-type", {
 			type: "string",
 			description: "Filter by the type of entity the mitigation impacts.",
-			choices: ["url_pattern", "account", "zone", "custom_expression"],
+			choices: [
+				"url_pattern",
+				"account",
+				"zone",
+				"domain",
+				"custom_expression",
+			],
 		})
 		.option("dry-run", {
 			type: "boolean",

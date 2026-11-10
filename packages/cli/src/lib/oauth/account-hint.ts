@@ -29,9 +29,7 @@ export function printAccountConfigHint(
 		? relative(cwd, configPath)
 		: CLOUDFLARE_CONFIG_FILENAME;
 
-	const sentence = configPath
-		? `To make this the project's default account, add accountId to ${target}:`
-		: `To make this the project's default account, create ${target}:`;
+	const sentence = `To use this account automatically in future, configure accountId in ${target}:`;
 	const codeTokens = new Set(["accountId", target]);
 	const lines = wrapPlain(sentence, Math.max(20, columns - GUIDE_WIDTH)).map(
 		(line) =>
@@ -63,4 +61,9 @@ export function printAccountConfigHint(
 	output.write(
 		`\n${snippet.map((line) => (line ? indent + line : line)).join("\n")}\n\n`
 	);
+	clack.log.info(
+		`Alternatively, set the ${theme.code("CLOUDFLARE_ACCOUNT_ID")} environment variable.`,
+		{ output }
+	);
+	output.write("\n");
 }

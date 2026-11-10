@@ -470,7 +470,7 @@ describe("queues subscription", () => {
 			);
 
 			await runWrangler(
-				`queues subscriptions update sub-123 --name new-name --events build.completed --events build.failed --enabled false`
+				`queues subscriptions edit sub-123 --name new-name --events build.completed --events build.failed --enabled false`
 			);
 
 			expect(capturedBody).toEqual({
@@ -507,7 +507,7 @@ describe("queues subscription", () => {
 			);
 
 			await runWrangler(
-				`queues subscriptions update sub-123 --name "Renamed Subscription"`
+				`queues subscriptions edit sub-123 --name "Renamed Subscription"`
 			);
 
 			expect(capturedBody).toEqual({ name: "Renamed Subscription" });

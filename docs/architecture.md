@@ -79,8 +79,7 @@ cf/
 ├── fixtures/                   # cf dev discovery fixtures (vite-plugin +
 │                               # wrangler-bundler projects)
 ├── usecases/                   # per-command usage-scenario YAML catalogue
-├── patches/                    # pnpm patches: release publishing + Container image
-│                               # cleanup ownership
+├── patches/                    # pnpm patch for release publishing
 ├── scripts/                    # OpenAPI updater + Renovate changeset writers
 ├── renovate.json5              # dependency updates, incl. the Forge package pin
 ├── .github/workflows/          # CI, changesets publish, prerelease, benchmark,
@@ -157,7 +156,7 @@ the document; the command generator is a forge plugin that lives here, in
 `packages/cli/generator/plugin/`. It is TypeScript written against
 `@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
 WebAssembly component that forge runs. It walks forge's model of the
-operations, each top-level group's commands in parallel, and emits:
+operations, each top-level group's commands in turn, and emits:
 
 - `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
 - `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one
@@ -502,6 +501,10 @@ to know before editing `generator/plugin/`.
 - Per-field-flag `demandOption: true` is suppressed when `--body` is
   also supported (so `--body @file` isn't rejected by yargs for
   missing required fields — handler-time enforcement instead).
+- Required body positionals remain mandatory when `--body` is supplied, even
+  when the JSON contains the same fields. Body positionals merge into JSON
+  `--body` input; conflicting values fail before authentication or a dry-run
+  preview.
 - Array-typed body and query params (e.g. KV bulk-get's `--keys`) emit
   `type: "string", array: true` so users can do `--keys k1 k2` or repeat
   the flag. Query serialization follows the operation's `explode` setting.
@@ -527,6 +530,12 @@ the request's wire shape, before sending or showing a dry-run preview. The
 checks preserve enclosing union alternatives. Explicit `--body` input bypasses
 these projected union checks so callers can supply shapes the flags cannot
 represent; the API validates the supplied body.
+
+Read-only properties are ignored in requests, including properties marked required
+in shared request/response schemas. They are omitted from input flags, prompts,
+and validation messages; supplied values are left to the server without local
+validation. This is intentional: API teams reuse response shapes and expect
+server-provided read-only fields to be ignored in requests.
 
 ### `@file` token (universal file ingestion)
 
@@ -787,7 +796,7 @@ Live globals (`packages/cli/src/index.ts:buildCli`):
 | `--local`             | —     | Run against the project's local Miniflare state                 |
 | `--persist-to`        | —     | Override state directory (default project `.cloudflare/state`)  |
 
-There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project settings → cached/prompted workers-auth selection; compliance region uses its environment variable → project settings; and the token uses `--temporary-account` → `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. `--temporary-account` is rejected when credentials already exist or with `--local`. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account`, is sent only when a new account is created, and is never cached or printed. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
+There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project settings → workers-auth selection retained for the current invocation; compliance region uses its environment variable → project settings; and the token uses `--temporary-account` → `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. `--temporary-account` is rejected when credentials already exist or with `--local`. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account`, is sent only when a new account is created, and is never cached or printed. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
 
 `--mode` is supplied through the CLI and is available as `ctx.mode` when function-form configuration exports are evaluated.
 
@@ -853,21 +862,14 @@ To move either pin by hand, edit the SHA, then run `pnpm install` and
 When the Forge package publishes to npm: switch to the npm version and drop
 the `forge-main` custom manager and datasource.
 
-The containers-shared and deploy-helpers patches stay until those packages defer
-local image cleanup to cf's successful workflow boundary — see "Patched deps".
-
 ## Patched deps
 
-Three dependency patches are registered in `pnpm-workspace.yaml#patchedDependencies`:
+The Changesets patch is registered in `pnpm-workspace.yaml#patchedDependencies`
+as `patches/@changesets__cli@2.31.0.patch`. It permits publishing prerelease
+state under `latest` and suppresses the non-latest-tag warning for that tag.
 
-- `patches/@changesets__cli@2.31.0.patch`
-- `patches/@cloudflare__containers-shared@0.20.3.patch`
-- `patches/@cloudflare__deploy-helpers@0.20.1.patch`
-
-The Changesets patch permits publishing prerelease state under `latest` and
-suppresses the non-latest-tag warning for that tag. The containers-shared and
-deploy-helpers patches defer local image cleanup until the complete upload
-succeeds so later failures remain retryable.
+The released containers-shared and deploy-helpers packages defer local image
+cleanup until the complete upload succeeds, so later failures remain retryable.
 
 ## Common Forge-side Annotations cf Reads
 

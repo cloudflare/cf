@@ -58,24 +58,31 @@ describe("--temporary-account", () => {
 		join(getCfConfigPath(), "cloudflare-temporary-account.json");
 
 	/** Mock account provisioning, returning each creation request body. */
-	function mockProvisioning(): Array<{ eventCode?: string }> {
+	function mockProvisioning(
+		provisioningRequests?: Request[]
+	): Array<{ eventCode?: string }> {
 		rmSync(cachePath());
 		const creationRequests: Array<{ eventCode?: string }> = [];
 		server.use(
-			http.post(`${TEST_BASE_URL}/provisioning/previews/challenge`, () =>
-				HttpResponse.json({
-					success: true,
-					result: {
-						challengeToken: "challenge-token",
-						seed: Buffer.alloc(32, 1).toString("base64url"),
-						k: 2,
-						g: 2,
-					},
-				})
+			http.post(
+				`${TEST_BASE_URL}/provisioning/previews/challenge`,
+				({ request }) => {
+					provisioningRequests?.push(request);
+					return HttpResponse.json({
+						success: true,
+						result: {
+							challengeToken: "challenge-token",
+							seed: Buffer.alloc(32, 1).toString("base64url"),
+							k: 2,
+							g: 2,
+						},
+					});
+				}
 			),
 			http.post(
 				`${TEST_BASE_URL}/provisioning/previews`,
 				async ({ request }) => {
+					provisioningRequests?.push(request);
 					const body = (await request.json()) as { eventCode?: string };
 					creationRequests.push(body);
 					return HttpResponse.json({
@@ -362,6 +369,33 @@ describe("--temporary-account", () => {
 			expect(readAuthCredentials()).toMatchObject(credentials);
 		}
 	);
+
+	it("sends custom API headers when provisioning a temporary account", async () => {
+		captureStderr();
+		const requests: Request[] = [];
+		mockProvisioning(requests);
+		mockNamespaceList();
+
+		const result = await runCf(
+			["kv", "namespaces", "list", "--temporary-account"],
+			{
+				...env,
+				CLOUDFLARE_API_HEADERS:
+					'{"X-Custom-Header":"value","Authorization":"custom-token"}',
+			}
+		);
+
+		expect(result.exitCode).toBe(0);
+		expect(requests.map(({ url }) => url)).toEqual([
+			`${TEST_BASE_URL}/provisioning/previews/challenge`,
+			`${TEST_BASE_URL}/provisioning/previews`,
+		]);
+		for (const request of requests) {
+			expect(request.headers.get("x-custom-header")).toBe("value");
+			expect(request.headers.get("authorization")).toBe("custom-token");
+			expect(request.headers.get("content-type")).toBe("application/json");
+		}
+	});
 
 	it("creates an event account without persisting or printing the code", async () => {
 		const stderr = captureStderr();

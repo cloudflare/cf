@@ -1,4 +1,3 @@
-import operation from "../../_operations/builds/workers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -21,11 +21,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds workers delete <script-tag>\n\nDelete build settings and triggers for a Worker tag and cancel unfinished builds. The Worker is not deleted."
+			"$0 builds workers delete <worker>\n\nDelete build settings and triggers for a Worker tag and cancel unfinished builds. The Worker is not deleted."
 		)
-		.positional("script-tag", {
+		.positional("worker", {
 			type: "string",
-			description: "The Worker script tag (external script ID)",
+			description: "Script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <script-tag>",
+	command: "delete <worker>",
 	describe: "Delete Worker build configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -63,8 +63,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds workers delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["script-tag"] == null ? "<script-tag>" : encodeURIComponent(String(argv["script-tag"]))}`,
-						pathParams: { "script-tag": String(argv["script-tag"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -83,10 +83,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						script_tag: argv["script-tag"],
-					})
+					requestApi<unknown>(
+						client,
+						"DELETE",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

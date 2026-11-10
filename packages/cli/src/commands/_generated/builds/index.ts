@@ -4,10 +4,11 @@ import $deployhooks from "./deploy-hooks/index.js";
 import $get from "./get.js";
 import $limits from "./limits/index.js";
 import $list from "./list.js";
-import $logs from "./logs/index.js";
+import $logs from "./logs.js";
+import $previews from "./previews/index.js";
 import $repos from "./repos/index.js";
+import $retry from "./retry.js";
 import $tokens from "./tokens/index.js";
-import $triggers from "./triggers/index.js";
 import $versions from "./versions/index.js";
 import $workers from "./workers/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -28,12 +29,13 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($create)
 			.command($get)
 			.command($list)
+			.command($logs)
+			.command($retry)
 			.command($deployhooks)
 			.command($limits)
-			.command($logs)
+			.command($previews)
 			.command($repos)
 			.command($tokens)
-			.command($triggers)
 			.command($versions)
 			.command($workers)
 			.demandCommand(1, "Please specify a subcommand");

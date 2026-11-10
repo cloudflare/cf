@@ -24,7 +24,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("environment", {
 			type: "string",
-			description: "Filter by supported environment (standard, fedramp).",
+			description:
+				"Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+			choices: ["fedramp", "standard"],
 		})
 		.option("page", {
 			type: "number",
@@ -52,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb applications list",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["environment", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,

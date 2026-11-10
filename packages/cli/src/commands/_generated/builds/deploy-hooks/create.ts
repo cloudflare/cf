@@ -1,4 +1,3 @@
-import operation from "../../_operations/builds/deploy-hooks/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -23,11 +23,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds deploy-hooks create <script-name>\n\nCreate an HTTP hook that starts a build for a selected Worker branch."
+			"$0 builds deploy-hooks create <worker>\n\nCreate an HTTP hook that starts a build for a selected Worker branch."
 		)
-		.positional("script-name", {
+		.positional("worker", {
 			type: "string",
-			description: "Human-readable name of the worker.",
+			description: "Name or script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("branch", { type: "string", description: "Git branch name." })
@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <script-name>",
+	command: "create <worker>",
 	describe: "Create a deploy hook",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -67,8 +67,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds deploy-hooks create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/deploy_hooks`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/deploy_hooks`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -97,11 +97,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							script_name: argv["script-name"],
-						})
+						requestApi<unknown>(
+							client,
+							"POST",
+							`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/deploy_hooks`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -120,24 +121,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					branch: resolveFileToken(
-						argv["branch"] as string | undefined,
-						"branch",
-						"text"
-					),
-					deploy_hook_name: resolveFileToken(
-						argv["deploy-hook-name"] as string | undefined,
-						"deploy-hook-name",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["branch"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["branch"],
+						resolveFileToken(
+							argv["branch"] as string | undefined,
+							"branch",
+							"text"
+						)
+					);
+				if (argv["deploy-hook-name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["deploy_hook_name"],
+						resolveFileToken(
+							argv["deploy-hook-name"] as string | undefined,
+							"deploy-hook-name",
+							"text"
+						)
+					);
 				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						script_name: argv["script-name"],
-					})
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/deploy_hooks`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

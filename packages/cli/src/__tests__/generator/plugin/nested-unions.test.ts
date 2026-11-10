@@ -125,6 +125,203 @@ function command(code: string) {
 	};
 }
 
+describe("read-only request properties", () => {
+	it.each([false, true])(
+		"merges read-only annotations across intersections (reversed: %s)",
+		async (reversed) => {
+			const members = [
+				{
+					type: "object",
+					properties: {
+						server_id: { type: "string", readOnly: true },
+						server_state: { type: "string", readOnly: true },
+					},
+				},
+				{
+					type: "object",
+					required: ["server_id", "server_state", "value", "kind"],
+					properties: {
+						server_id: { type: "string" },
+						server_state: { type: "string", enum: ["response"] },
+						value: { type: "string" },
+						kind: { type: "string", enum: ["request"] },
+					},
+				},
+			];
+			const files = generate({
+				allOf: reversed ? members.toReversed() : members,
+			});
+			for (const name of ["create", "update"]) {
+				const code = files.get(`things/${name}.ts`) ?? "";
+				const operation = files.get(`_operations/things/${name}.ts`) ?? "";
+				expect(code).not.toMatch(/server[_-](?:id|state)/);
+				expect(operation).not.toMatch(/server[_-](?:id|state)/);
+				expect(operation).toContain('kind: "request"');
+				expect(code).toContain("promptForRequiredField('value'");
+				const c = command(code);
+				await c.run([name, "--value", "ok", "--kind", "request"]);
+				expect(c.send).toHaveBeenCalledWith(
+					{},
+					{ body: { value: "ok", kind: "request" } }
+				);
+				await expect(
+					c.run([name, "--server-id", "ignored", "--value", "ok"])
+				).rejects.toThrow(/Unknown argument/);
+			}
+		}
+	);
+
+	it.each([false, true])(
+		"merges nested read-only annotations across intersections (reversed: %s)",
+		async (reversed) => {
+			const members = [
+				{
+					type: "object",
+					properties: {
+						tags: { type: "array", items: { type: "string" } },
+						enabled: { type: "boolean" },
+						settings: {
+							type: "object",
+							properties: { id: { type: "string", readOnly: true } },
+						},
+					},
+				},
+				{
+					type: "object",
+					required: ["settings"],
+					properties: {
+						tags: { type: "array", items: { type: "string" } },
+						enabled: { type: "boolean" },
+						settings: {
+							type: "object",
+							required: ["id", "value"],
+							properties: { id: { type: "string" }, value: { type: "string" } },
+						},
+					},
+				},
+			];
+			const files = generate({
+				allOf: reversed ? members.toReversed() : members,
+			});
+			for (const name of ["create", "update"]) {
+				const code = files.get(`things/${name}.ts`) ?? "";
+				expect(code).not.toMatch(/settings[_-]id|["']id["']/);
+				expect(code).toContain("promptForRequiredField('settings-value'");
+				const c = command(code);
+				await c.run([
+					name,
+					"--settings-value",
+					"ok",
+					"--tags",
+					"first",
+					"second",
+					"--enabled",
+				]);
+				expect(c.send).toHaveBeenCalledWith(
+					{},
+					{
+						body: {
+							settings: { value: "ok" },
+							tags: ["first", "second"],
+							enabled: true,
+						},
+					}
+				);
+			}
+		}
+	);
+
+	it("ignores required response fields in generated prompts and union validation", async () => {
+		const files = generate({
+			type: "object",
+			required: ["server_top"],
+			properties: {
+				server_top: { type: "string", readOnly: true },
+				settings: {
+					type: "object",
+					properties: {
+						scope: {
+							oneOf: ["first", "second"].map((kind) => ({
+								type: "object",
+								additionalProperties: false,
+								required: ["kind", "server_id"],
+								properties: {
+									kind: { type: "string", enum: [kind] },
+									server_id: {
+										type: "string",
+										enum: ["server"],
+										readOnly: true,
+									},
+								},
+							})),
+						},
+					},
+				},
+			},
+		});
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).not.toContain("server_top");
+		expect(code).not.toContain(".option('settings-scope-server-id'");
+		const start = code.indexOf("const bodyUnions:");
+		const definition = code.slice(start, code.indexOf(";\n", start) + 1);
+		const constraints = new Script(
+			`${stripTypeScriptTypes(definition)}\nbodyUnions;`
+		).runInNewContext() as Parameters<typeof validateBodyUnions>[1];
+		for (const scopeValue of [
+			{ kind: "first" },
+			{ kind: "first", server_id: false },
+		]) {
+			const body = { settings: { scope: scopeValue } };
+			expect(validateBodyUnions(body, constraints)).toBe(body);
+		}
+		expect(() =>
+			validateBodyUnions(
+				{ settings: { scope: { kind: "invalid" } } },
+				constraints
+			)
+		).toThrow(/allowed shape/);
+		const c = command(code);
+		await c.run(["create", "--settings-scope-kind", "first"]);
+		expect(c.send).toHaveBeenCalled();
+	});
+
+	it("does not use response-only selectors to impose request branch conflicts", async () => {
+		const files = generate({
+			type: "object",
+			properties: {
+				settings: {
+					type: "object",
+					properties: {
+						scope: {
+							discriminator: { propertyName: "kind" },
+							oneOf: ["left", "right"].map((kind) => ({
+								type: "object",
+								required: ["kind"],
+								properties: {
+									kind: { type: "string", enum: [kind], readOnly: true },
+									[kind]: { type: "string" },
+								},
+							})),
+						},
+					},
+				},
+			},
+		});
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).not.toContain("validateBodyUnions");
+		expect(code).not.toContain(".option('settings-scope-kind'");
+		const c = command(code);
+		await c.run([
+			"create",
+			"--settings-scope-left",
+			"a",
+			"--settings-scope-right",
+			"b",
+		]);
+		expect(c.send).toHaveBeenCalled();
+	});
+});
+
 describe.each([false, true])(
 	"nested unions (explicit discriminator and reference: %s)",
 	(explicit) => {

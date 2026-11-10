@@ -16,9 +16,9 @@ The current `cf-wrangler` delegate uses Wrangler's TypeScript configuration load
 
 ## Workspace and compatibility
 
-The fixture is included by the root `fixtures/*` workspace glob. Its committed Wrangler dependency is 4.136.1, which emits the configuration and Build Output Specification artifacts consumed by cf. There are no environment-specific `link:` targets.
+The fixture is included by the root `fixtures/*` workspace glob. There are no environment-specific `link:` targets.
 
-cf requires Wrangler 4.136.0 or newer for this delegate and output contract. For an unpublished workers-sdk worktree, a temporary fixture-local link may be used instead, but no such link belongs to the committed fixture. The relevant upstream executable is `packages/wrangler/bin/cf-wrangler.js`.
+cf requires Wrangler 4.159.0 or newer for this delegate, shared authentication profile selection, and output contract. For an unpublished workers-sdk worktree, a temporary fixture-local link may be used instead, but no such link belongs to the committed fixture. The relevant upstream executable is `packages/wrangler/bin/cf-wrangler.js`.
 
 ## Running through cf
 

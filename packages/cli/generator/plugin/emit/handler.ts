@@ -150,7 +150,16 @@ function parseBodyExpression(ctx: Ctx): string {
 	if (ctx.op.maxItems !== undefined) {
 		args.push(String(ctx.op.maxItems));
 	}
-	return `parseBody(${args.join(", ")})`;
+	const parsed = `parseBody(${args.join(", ")})`;
+	const positional = bodyFieldArgs(ctx);
+	if (positional.length === 0) {
+		return parsed;
+	}
+	const values = positional.map(
+		([arg, field]) =>
+			`{ name: ${quote(arg.name)}, field: ${quote(field)}, value: ${bodyArgValue(arg, argvKey(arg.name))} }`
+	);
+	return `mergeBodyPositionals(${parsed}, [${values.join(", ")}])`;
 }
 
 const RAW_BODY_EXPRESSION = "resolveFileToken(argv.body, 'body', 'binary')";
@@ -1169,6 +1178,9 @@ export function imports(ctx: Ctx): Imports {
 		// Non-JSON bodies are sent raw through resolveFileToken.
 		if (d.hasBody && acceptsJson(ctx)) {
 			names.push("parseBody");
+			if (bodyFieldArgs(ctx).length > 0) {
+				names.push("mergeBodyPositionals");
+			}
 		}
 		if (d.hasBodyParams) {
 			names.push("compactBody");

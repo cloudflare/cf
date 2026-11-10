@@ -21,6 +21,7 @@ const binary = (name: string): MultipartField => ({
 	name,
 	type: "string",
 	isBinary: true,
+	readOnly: false,
 	description: `${name} file`,
 });
 const multipartOperation = (fields: MultipartField[]): OperationInfo =>
@@ -31,6 +32,22 @@ const multipartOperation = (fields: MultipartField[]): OperationInfo =>
 	});
 
 describe("binary multipart file flags", () => {
+	it("ignores read-only fields before checking flag ownership", () => {
+		const op = multipartOperation([
+			{ ...binary("_mode"), readOnly: true },
+			{
+				name: "profile",
+				type: "string",
+				isBinary: false,
+				readOnly: true,
+				description: "Profile",
+			},
+		]);
+		const d = derive(upload, "example", op);
+		expect(d.multipartFileFields).toEqual([]);
+		expect(d.multipartFlagFields).toEqual([]);
+	});
+
 	it("gives every binary field after the payload its own flag", () => {
 		const op = multipartOperation([
 			binary("_headers"),
@@ -41,6 +58,7 @@ describe("binary multipart file flags", () => {
 				name: "branch",
 				type: "string",
 				isBinary: false,
+				readOnly: false,
 				description: "Branch",
 			},
 		]);
@@ -58,7 +76,13 @@ describe("binary multipart file flags", () => {
 
 	it("skips fields whose names can't be flags or whose flag another field has", () => {
 		const op = multipartOperation([
-			{ name: "label", type: "string", isBinary: false, description: "Label" },
+			{
+				name: "label",
+				type: "string",
+				isBinary: false,
+				readOnly: false,
+				description: "Label",
+			},
 			...[
 				"_label",
 				"_query",
@@ -151,6 +175,7 @@ describe("binary multipart file flags", () => {
 					name: "label",
 					type: "string",
 					isBinary: false,
+					readOnly: false,
 					description: "Label",
 				},
 			]);
@@ -206,6 +231,7 @@ describe("multipart field flag names", () => {
 		name,
 		type: "string",
 		isBinary: false,
+		readOnly: false,
 		description: `${name} text`,
 	});
 	const renaming = (params: Record<string, { flagName: string }>) =>

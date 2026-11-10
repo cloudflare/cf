@@ -46,7 +46,7 @@ describe("cf build", () => {
 		const result = await runCf(["build"]);
 
 		expect(result.exitCode).toBe(1);
-		expect(std.err).toMatch(/wrangler@4\.136\.0 or newer/);
+		expect(std.err).toMatch(/wrangler@4\.159\.0 or newer/);
 		expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 	});
 
@@ -60,13 +60,13 @@ describe("cf build", () => {
 			}),
 			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 				name: "@cloudflare/vite-plugin",
-				version: "2.0.0-beta.sha-805ec1ff3",
+				version: "2.0.0-beta.v.13",
 			}),
 			"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
 				buildScript("vite-worker"),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
-				version: "4.136.0",
+				version: "4.159.0",
 			}),
 			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
 				'require("node:fs").writeFileSync("wrangler-argv.out", process.argv.slice(2).join("\\n") + "\\n"); process.exit(99);'
@@ -88,7 +88,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
-				version: "4.136.0",
+				version: "4.159.0",
 			}),
 			"node_modules/wrangler/bin/cf-wrangler.js":
 				buildScript("wrangler-worker"),
@@ -108,7 +108,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
-				version: "4.136.0",
+				version: "4.159.0",
 			}),
 			"node_modules/wrangler/bin/cf-wrangler.js":
 				buildScript("wrangler-worker"),
@@ -145,7 +145,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
-				version: "4.136.0",
+				version: "4.159.0",
 			}),
 			"node_modules/wrangler/bin/cf-wrangler.js": buildScript("mode-worker"),
 		});
@@ -175,7 +175,7 @@ describe("cf build", () => {
 		});
 
 		await expect(runBuild("staging", {}, { isPreview: true })).rejects.toThrow(
-			"The detected command `npx ng build --prod` does not currently support `--mode`."
+			"The detected command `ng build --prod` does not currently support `--mode`."
 		);
 	});
 
@@ -201,6 +201,40 @@ describe("cf build", () => {
 		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
 		expect(vi.mocked(x).mock.lastCall?.[2]?.nodeOptions?.stdio?.[1]).toBe(
 			process.stderr
+		);
+	});
+
+	it("builds a workspace application with the hoisted framework executable", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				name: "workspace-root",
+				packageManager: "pnpm@10.0.0",
+			}),
+			"pnpm-workspace.yaml": "packages: ['packages/*']\n",
+			"pnpm-lock.yaml": "",
+			"packages/app/cloudflare.config.ts": "export default {};",
+			"packages/app/package.json": JSON.stringify({
+				name: "astro-project",
+				dependencies: { astro: "^5.0.0" },
+				scripts: { build: "cf build" },
+			}),
+			"node_modules/astro/package.json": JSON.stringify({
+				name: "astro",
+				version: "5.0.0",
+			}),
+			"node_modules/.bin/astro": buildScript("astro-worker"),
+		});
+		chmod("node_modules/.bin/astro", true);
+		process.chdir(resolve("packages/app"));
+
+		const result = await runCf(["build"]);
+
+		expect(result.exitCode).toBe(0);
+		expect(readArgv("argv.out")).toEqual(["build"]);
+		expect(vi.mocked(x).mock.lastCall?.[0]).toBe("astro");
+		expect(std.err).not.toContain("No lock file");
+		expect(readFileSync("package.json", "utf8")).toContain(
+			'"build":"cf build"'
 		);
 	});
 
@@ -256,7 +290,7 @@ describe("cf build", () => {
 		});
 
 		await expect(runCf(["build", "--mode", "staging"])).rejects.toThrow(
-			"The detected command `npx ng build --prod` does not currently support `--mode`."
+			"The detected command `ng build --prod` does not currently support `--mode`."
 		);
 	});
 
@@ -321,7 +355,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
-				version: "4.136.0",
+				version: "4.159.0",
 			}),
 			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
 				'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n"); process.exit(17);'
@@ -342,7 +376,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
-				version: "4.136.0",
+				version: "4.159.0",
 			}),
 			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
 				'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'

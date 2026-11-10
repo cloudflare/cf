@@ -38,7 +38,7 @@
 			"command": "cf abuse-reports create",
 			"name": "create",
 			"fullPath": ["abuse-reports", "create"],
-			"description": "Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare works with select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values.",
+			"description": "Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare delegates processing of abuse reports to select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values.",
 			"summary": "Submit an abuse report",
 			"usage": "cf abuse-reports create <report-type> [options]",
 			"arguments": [
@@ -71,7 +71,7 @@
 					"name": "comments",
 					"type": "string",
 					"required": false,
-					"description": "Any additional comments about the infringement not exceeding 2000 characters. Comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For delegated reports, comments may be shared in full."
+					"description": "Any additional comments about the infringement not exceeding 2000 characters. With the exception of delegated reports, comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For the limited circumstances where we delegate reports to customers with established abuse-handling programs, comments may be shared in full."
 				},
 				{
 					"name": "company",
@@ -713,7 +713,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Filter by the type of entity the mitigation impacts.",
-					"enum": ["url_pattern", "account", "zone", "custom_expression"]
+					"enum": [
+						"url_pattern",
+						"account",
+						"zone",
+						"domain",
+						"custom_expression"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -9226,6 +9232,50 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf ai-gateway gateways providers test",
+			"name": "test",
+			"fullPath": ["ai-gateway", "gateways", "providers", "test"],
+			"description": "Checks whether stored credentials can list models through the provider implementation in AI Gateway. Requires AI Gateway content update permission. Does not run inference, check credits or inference permissions, or return provider response bodies. HTTP 401 from the model-list request is classified as invalid, as is AWS Bedrock HTTP 403 with an UnrecognizedClientException error type. Other failures are inconclusive, including other HTTP 400 or 403 responses; a 403 alone does not distinguish rejected credentials from insufficient permissions. Unsupported providers or credential formats also return an inconclusive result.",
+			"summary": "Check stored provider credentials",
+			"usage": "cf ai-gateway gateways providers test <id> [options]",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID"
+				}
+			],
+			"options": [
+				{
+					"name": "gateway-id",
+					"type": "string",
+					"required": true,
+					"description": "Unique identifier of the AI Gateway within the account."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}/test",
+			"operationId": "ai-gateway.gateways.providers.test",
+			"hideCommand": false
+		},
+		{
 			"command": "cf ai-gateway gateways providers update",
 			"name": "update",
 			"fullPath": ["ai-gateway", "gateways", "providers", "update"],
@@ -10210,7 +10260,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -11820,7 +11870,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -12006,7 +12056,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -12568,7 +12618,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field"
+					"description": "Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -13931,14 +13981,17 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": true,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values.",
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`.",
 					"enum": [
 						"abuse_report_alert",
 						"access_custom_certificate_expiration_type",
 						"advanced_ddos_attack_l4_alert",
 						"advanced_ddos_attack_l7_alert",
 						"advanced_http_alert_error",
+						"attack_lifecycle",
+						"bgp_advertisement_change",
 						"bgp_hijack_notification",
+						"billing_budget_alert",
 						"billing_usage_alert",
 						"block_notification_block_removed",
 						"block_notification_new_block",
@@ -13946,17 +13999,25 @@
 						"bot_traffic_basic_alert",
 						"brand_protection_alert",
 						"brand_protection_digest",
+						"casb_weekly_digest",
 						"clickhouse_alert_fw_anomaly",
 						"clickhouse_alert_fw_ent_anomaly",
+						"closed_port_scan_alert",
 						"cloudforce_one_request_notification",
+						"cmd_managed_defense_notification",
 						"cni_maintenance_notification",
+						"containers_security_alert",
 						"custom_analytics",
 						"custom_bot_detection_alert",
 						"custom_ssl_certificate_event_type",
 						"dedicated_ssl_certificate_event_type",
 						"device_connectivity_anomaly_alert",
+						"dex_device_connectivity_alert",
+						"dex_synthetic_test_availability_alert",
+						"dex_synthetic_test_latency_alert",
 						"dos_attack_l4",
 						"dos_attack_l7",
+						"executive_communications",
 						"expiring_service_token_alert",
 						"failing_logpush_job_disabled_alert",
 						"fbm_auto_advertisement",
@@ -13969,13 +14030,18 @@
 						"image_notification",
 						"image_resizing_notification",
 						"incident_alert",
+						"leaked_service_token_alert",
 						"load_balancing_health_alert",
 						"load_balancing_pool_enablement_alert",
+						"log_explorer_ingest_rate_limit",
+						"log_explorer_scheduled_query_results_alert",
 						"logo_match_alert",
+						"magic_endpoint_healthcheck_alert",
 						"magic_tunnel_health_check_event",
 						"magic_wan_tunnel_health",
 						"maintenance_event_notification",
 						"mtls_certificate_store_certificate_expiration_type",
+						"open_port_scan_alert",
 						"pages_event_alert",
 						"radar_notification",
 						"real_origin_monitoring",
@@ -13993,6 +14059,9 @@
 						"secondary_dns_zone_validation_warning",
 						"security_insights_alert",
 						"sentinel_alert",
+						"stakeout_credential_leak_alert",
+						"stakeout_saved_query_daily_digest_alert",
+						"stakeout_saved_query_immediate_alert",
 						"stream_live_notifications",
 						"synthetic_test_latency_alert",
 						"synthetic_test_low_availability_alert",
@@ -14001,6 +14070,9 @@
 						"tunnel_update_event",
 						"universal_ssl_event_type",
 						"web_analytics_metrics_update",
+						"workers_for_platforms_security_alert",
+						"workers_observability_alert",
+						"workers_observability_real_time_issue",
 						"zone_aop_custom_certificate_expiration_type"
 					]
 				},
@@ -14058,6 +14130,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -14186,6 +14264,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -14244,6 +14328,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -14599,14 +14689,17 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": false,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values.",
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`.",
 					"enum": [
 						"abuse_report_alert",
 						"access_custom_certificate_expiration_type",
 						"advanced_ddos_attack_l4_alert",
 						"advanced_ddos_attack_l7_alert",
 						"advanced_http_alert_error",
+						"attack_lifecycle",
+						"bgp_advertisement_change",
 						"bgp_hijack_notification",
+						"billing_budget_alert",
 						"billing_usage_alert",
 						"block_notification_block_removed",
 						"block_notification_new_block",
@@ -14614,17 +14707,25 @@
 						"bot_traffic_basic_alert",
 						"brand_protection_alert",
 						"brand_protection_digest",
+						"casb_weekly_digest",
 						"clickhouse_alert_fw_anomaly",
 						"clickhouse_alert_fw_ent_anomaly",
+						"closed_port_scan_alert",
 						"cloudforce_one_request_notification",
+						"cmd_managed_defense_notification",
 						"cni_maintenance_notification",
+						"containers_security_alert",
 						"custom_analytics",
 						"custom_bot_detection_alert",
 						"custom_ssl_certificate_event_type",
 						"dedicated_ssl_certificate_event_type",
 						"device_connectivity_anomaly_alert",
+						"dex_device_connectivity_alert",
+						"dex_synthetic_test_availability_alert",
+						"dex_synthetic_test_latency_alert",
 						"dos_attack_l4",
 						"dos_attack_l7",
+						"executive_communications",
 						"expiring_service_token_alert",
 						"failing_logpush_job_disabled_alert",
 						"fbm_auto_advertisement",
@@ -14637,13 +14738,18 @@
 						"image_notification",
 						"image_resizing_notification",
 						"incident_alert",
+						"leaked_service_token_alert",
 						"load_balancing_health_alert",
 						"load_balancing_pool_enablement_alert",
+						"log_explorer_ingest_rate_limit",
+						"log_explorer_scheduled_query_results_alert",
 						"logo_match_alert",
+						"magic_endpoint_healthcheck_alert",
 						"magic_tunnel_health_check_event",
 						"magic_wan_tunnel_health",
 						"maintenance_event_notification",
 						"mtls_certificate_store_certificate_expiration_type",
+						"open_port_scan_alert",
 						"pages_event_alert",
 						"radar_notification",
 						"real_origin_monitoring",
@@ -14661,6 +14767,9 @@
 						"secondary_dns_zone_validation_warning",
 						"security_insights_alert",
 						"sentinel_alert",
+						"stakeout_credential_leak_alert",
+						"stakeout_saved_query_daily_digest_alert",
+						"stakeout_saved_query_immediate_alert",
 						"stream_live_notifications",
 						"synthetic_test_latency_alert",
 						"synthetic_test_low_availability_alert",
@@ -14669,6 +14778,9 @@
 						"tunnel_update_event",
 						"universal_ssl_event_type",
 						"web_analytics_metrics_update",
+						"workers_for_platforms_security_alert",
+						"workers_observability_alert",
+						"workers_observability_real_time_issue",
 						"zone_aop_custom_certificate_expiration_type"
 					]
 				},
@@ -14725,6 +14837,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -14853,6 +14971,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -14911,6 +15035,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -25889,7 +26019,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Build UUID."
+					"description": "UUID of the build, as returned by builds list."
 				}
 			],
 			"options": [
@@ -25912,16 +26042,16 @@
 			"command": "cf builds create",
 			"name": "create",
 			"fullPath": ["builds", "create"],
-			"description": "Start a build for a branch or commit using the selected trigger.",
-			"summary": "Start a Workers build",
-			"usage": "cf builds create <trigger-uuid> [options]",
+			"description": "Start a production build for a branch or commit.",
+			"summary": "Start a Worker build",
+			"usage": "cf builds create <worker> [options]",
 			"arguments": [
 				{
-					"name": "trigger-uuid",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Trigger UUID."
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -25991,7 +26121,7 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/builds",
+			"apiPath": "/accounts/{account_id}/builds/workers/{external_script_id}/builds",
 			"operationId": "builds.create",
 			"hideCommand": false
 		},
@@ -26001,14 +26131,14 @@
 			"fullPath": ["builds", "deploy-hooks", "create"],
 			"description": "Create an HTTP hook that starts a build for a selected Worker branch.",
 			"summary": "Create a deploy hook",
-			"usage": "cf builds deploy-hooks create <script-name> [options]",
+			"usage": "cf builds deploy-hooks create <worker> [options]",
 			"arguments": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				}
 			],
 			"options": [
@@ -26058,15 +26188,15 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deploy hook UUID"
+					"description": "UUID of the deploy hook, as returned by deploy-hooks list."
 				}
 			],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "dry-run",
@@ -26104,15 +26234,15 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deploy hook UUID"
+					"description": "UUID of the deploy hook, as returned by deploy-hooks list."
 				}
 			],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "dry-run",
@@ -26139,10 +26269,10 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "dry-run",
@@ -26160,38 +26290,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds deploy-hooks trigger",
-			"name": "trigger",
-			"fullPath": ["builds", "deploy-hooks", "trigger"],
-			"description": "Trigger a build using a deploy hook. This endpoint does not require authentication - the deploy_hook_uuid acts as a secret token.",
-			"summary": "Trigger deploy hook",
-			"usage": "cf builds deploy-hooks trigger <deploy-hook-uuid>",
-			"arguments": [
-				{
-					"name": "deploy-hook-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Deploy hook UUID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/workers/builds/deploy_hooks/{deploy_hook_uuid}",
-			"operationId": "builds.deploy-hooks.trigger",
-			"hideCommand": false
-		},
-		{
 			"command": "cf builds deploy-hooks update",
 			"name": "update",
 			"fullPath": ["builds", "deploy-hooks", "update"],
@@ -26204,15 +26302,15 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deploy hook UUID"
+					"description": "UUID of the deploy hook, as returned by deploy-hooks list."
 				}
 			],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "branch",
@@ -26260,7 +26358,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Build UUID."
+					"description": "UUID of the build, as returned by builds list."
 				}
 			],
 			"options": [
@@ -26307,16 +26405,16 @@
 			"command": "cf builds list",
 			"name": "list",
 			"fullPath": ["builds", "list"],
-			"description": "List paginated build records associated with a Worker tag.",
+			"description": "List paginated build records associated with a Worker.",
 			"summary": "List builds for a Worker",
 			"usage": "cf builds list [options]",
 			"arguments": [],
 			"options": [
 				{
-					"name": "external-script-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
+					"description": "Script tag of the Worker."
 				},
 				{
 					"name": "page",
@@ -26346,19 +26444,19 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds logs get",
-			"name": "get",
-			"fullPath": ["builds", "logs", "get"],
+			"command": "cf builds logs",
+			"name": "logs",
+			"fullPath": ["builds", "logs"],
 			"description": "Retrieve cursor-paginated log lines for a build UUID.",
 			"summary": "Get Workers build logs",
-			"usage": "cf builds logs get <build-uuid> [options]",
+			"usage": "cf builds logs <build-uuid> [options]",
 			"arguments": [
 				{
 					"name": "build-uuid",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Build UUID."
+					"description": "UUID of the build, as returned by builds list."
 				}
 			],
 			"options": [
@@ -26376,11 +26474,344 @@
 					"default": false
 				}
 			],
-			"category": "read",
+			"category": "action",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/builds/builds/{build_uuid}/logs",
-			"operationId": "builds.logs.get",
+			"operationId": "builds.logs",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews create-build",
+			"name": "create-build",
+			"fullPath": ["builds", "previews", "create-build"],
+			"description": "Trigger a build for a single Preview.",
+			"summary": "Create preview build",
+			"usage": "cf builds previews create-build <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch name (required if commit_hash not provided)"
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit hash (required if branch not provided)"
+				},
+				{
+					"name": "seed-repo-branch",
+					"type": "string",
+					"required": false,
+					"description": "Repository branch to seed."
+				},
+				{
+					"name": "seed-repo-files",
+					"type": "string",
+					"required": false,
+					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "seed-repo-owner",
+					"type": "string",
+					"required": false,
+					"description": "Repository owner or namespace."
+				},
+				{
+					"name": "seed-repo-path",
+					"type": "string",
+					"required": false,
+					"description": "Path within the repository to seed."
+				},
+				{
+					"name": "seed-repo-provider",
+					"type": "string",
+					"required": false,
+					"description": "Source control provider for the seed repository.",
+					"enum": ["github", "gitlab"]
+				},
+				{
+					"name": "seed-repo-repository",
+					"type": "string",
+					"required": false,
+					"description": "Repository name."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"operationId": "builds.previews.create-build",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews get",
+			"name": "get",
+			"fullPath": ["builds", "previews", "get"],
+			"description": "Retrieve a single Preview of a Worker, including the build settings it currently uses.",
+			"summary": "Get preview",
+			"usage": "cf builds previews get <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"operationId": "builds.previews.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews list",
+			"name": "list",
+			"fullPath": ["builds", "previews", "list"],
+			"description": "List the Previews of a Worker with pagination.",
+			"summary": "List previews",
+			"usage": "cf builds previews list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number for pagination"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
+			"operationId": "builds.previews.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews list-builds",
+			"name": "list-builds",
+			"fullPath": ["builds", "previews", "list-builds"],
+			"description": "List the builds of a single Preview with pagination.",
+			"summary": "List builds by preview",
+			"usage": "cf builds previews list-builds <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number for pagination"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"operationId": "builds.previews.list-builds",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews update",
+			"name": "update",
+			"fullPath": ["builds", "previews", "update"],
+			"description": "Update a single Preview of a Worker. Supports partial updates to the tracked branch, the automation flags, and the build settings.",
+			"summary": "Update preview",
+			"usage": "cf builds previews update <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "auto-build",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
+				},
+				{
+					"name": "auto-delete",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether deleting the git branch also deletes this Preview."
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch this Preview tracks"
+				},
+				{
+					"name": "settings-build-caching-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether builds reuse cached dependencies and build artifacts."
+				},
+				{
+					"name": "settings-build-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to build the Worker."
+				},
+				{
+					"name": "settings-build-token-uuid",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the build token used when deploying the Worker."
+				},
+				{
+					"name": "settings-deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to deploy the Worker."
+				},
+				{
+					"name": "settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
+				},
+				{
+					"name": "settings-path-excludes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that must not start builds."
+				},
+				{
+					"name": "settings-path-includes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that can start builds."
+				},
+				{
+					"name": "settings-root-directory",
+					"type": "string",
+					"required": false,
+					"description": "Repository directory in which build and deploy commands run."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"operationId": "builds.previews.update",
 			"hideCommand": false
 		},
 		{
@@ -26541,6 +26972,44 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf builds retry",
+			"name": "retry",
+			"fullPath": ["builds", "retry"],
+			"description": "Start a new build from the branch and commit of a stopped build.",
+			"summary": "Retry a Worker build",
+			"usage": "cf builds retry <build-uuid> [options]",
+			"arguments": [
+				{
+					"name": "build-uuid",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the build, as returned by builds list."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/builds/{build_uuid}/retry",
+			"operationId": "builds.retry",
+			"hideCommand": false
+		},
+		{
 			"command": "cf builds tokens create",
 			"name": "create",
 			"fullPath": ["builds", "tokens", "create"],
@@ -26665,431 +27134,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds triggers cache purge",
-			"name": "purge",
-			"fullPath": ["builds", "triggers", "cache", "purge"],
-			"description": "Delete cached dependencies and build artifacts associated with a trigger.",
-			"summary": "Purge a trigger's build cache",
-			"usage": "cf builds triggers cache purge <trigger-uuid>",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/purge_build_cache",
-			"operationId": "builds.triggers.cache.purge",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers create",
-			"name": "create",
-			"fullPath": ["builds", "triggers", "create"],
-			"description": "Create a trigger defining the repository connection, Worker tag, commands, filters, cache setting, and build token.",
-			"summary": "Create a build trigger",
-			"usage": "cf builds triggers create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts.",
-					"default": false
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "external-script-id",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "repo-connection-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Repository connection UUID."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": true,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": true,
-					"description": "Human-readable name of the build trigger."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/triggers",
-			"operationId": "builds.triggers.create",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers delete",
-			"name": "delete",
-			"fullPath": ["builds", "triggers", "delete"],
-			"description": "Delete a trigger and cancel its unfinished builds.",
-			"summary": "Delete a build trigger",
-			"usage": "cf builds triggers delete <trigger-uuid>",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"operationId": "builds.triggers.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers environment-variables delete",
-			"name": "delete",
-			"fullPath": ["builds", "triggers", "environment-variables", "delete"],
-			"description": "Delete one build-time variable or secret by key.",
-			"summary": "Delete a build variable",
-			"usage": "cf builds triggers environment-variables delete <environment-variable-key> [options]",
-			"arguments": [
-				{
-					"name": "environment-variable-key",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Environment variable key."
-				}
-			],
-			"options": [
-				{
-					"name": "trigger-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables/{environment_variable_key}",
-			"operationId": "builds.triggers.environment-variables.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers environment-variables list",
-			"name": "list",
-			"fullPath": ["builds", "triggers", "environment-variables", "list"],
-			"description": "List build-time variables configured for a trigger. Secret values are not returned.",
-			"summary": "List build variables",
-			"usage": "cf builds triggers environment-variables list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "trigger-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"operationId": "builds.triggers.environment-variables.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers environment-variables upsert",
-			"name": "upsert",
-			"fullPath": ["builds", "triggers", "environment-variables", "upsert"],
-			"description": "Add or replace build-time variables and secrets without changing unspecified keys.",
-			"summary": "Set build variables",
-			"usage": "cf builds triggers environment-variables upsert <trigger-uuid>",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"operationId": "builds.triggers.environment-variables.upsert",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers list",
-			"name": "list",
-			"fullPath": ["builds", "triggers", "list"],
-			"description": "List trigger UUIDs and build settings associated with a Worker tag.",
-			"summary": "List triggers for a Worker",
-			"usage": "cf builds triggers list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "external-script-id",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{external_script_id}/triggers",
-			"operationId": "builds.triggers.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers update",
-			"name": "update",
-			"fullPath": ["builds", "triggers", "update"],
-			"description": "Update commands, cache settings, or branch and path filters for a trigger.",
-			"summary": "Update a build trigger",
-			"usage": "cf builds triggers update <trigger-uuid> [options]",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": false,
-					"description": "Human-readable name of the build trigger."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"operationId": "builds.triggers.update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf builds versions get",
 			"name": "get",
 			"fullPath": ["builds", "versions", "get"],
@@ -27125,8 +27169,16 @@
 			"fullPath": ["builds", "workers", "create"],
 			"description": "Connect a Worker tag to a repository and production build settings.",
 			"summary": "Create Worker build configuration",
-			"usage": "cf builds workers create [options]",
-			"arguments": [],
+			"usage": "cf builds workers create <script-tag> [options]",
+			"arguments": [
+				{
+					"name": "script-tag",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
 			"options": [
 				{
 					"name": "git-repository-branch",
@@ -27278,12 +27330,6 @@
 					"default": "/"
 				},
 				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -27310,14 +27356,14 @@
 			"fullPath": ["builds", "workers", "delete"],
 			"description": "Delete build settings and triggers for a Worker tag and cancel unfinished builds. The Worker is not deleted.",
 			"summary": "Delete Worker build configuration",
-			"usage": "cf builds workers delete <script-tag>",
+			"usage": "cf builds workers delete <worker>",
 			"arguments": [
 				{
-					"name": "script-tag",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "The Worker script tag (external script ID)"
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -27350,14 +27396,14 @@
 			"fullPath": ["builds", "workers", "get"],
 			"description": "Retrieve the repository and production build settings associated with a Worker tag.",
 			"summary": "Get Worker build configuration",
-			"usage": "cf builds workers get <script-tag>",
+			"usage": "cf builds workers get <worker>",
 			"arguments": [
 				{
-					"name": "script-tag",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "The Worker script tag (external script ID)"
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -27377,19 +27423,111 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf builds workers migrate-to-previews",
+			"name": "migrate-to-previews",
+			"fullPath": ["builds", "workers", "migrate-to-previews"],
+			"description": "Migrate a Worker's legacy non-production trigger to Previews. The legacy build settings become the Previews base config and the legacy trigger is removed.",
+			"summary": "Migrate worker to previews",
+			"usage": "cf builds workers migrate-to-previews <worker> [options]",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"operationId": "builds.workers.migrate-to-previews",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds workers purge-cache",
+			"name": "purge-cache",
+			"fullPath": ["builds", "workers", "purge-cache"],
+			"description": "Delete cached dependencies and build artifacts for a Worker's production and Preview builds.",
+			"summary": "Purge a Worker's build cache",
+			"usage": "cf builds workers purge-cache <worker>",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"operationId": "builds.workers.purge-cache",
+			"hideCommand": false
+		},
+		{
 			"command": "cf builds workers update",
 			"name": "update",
 			"fullPath": ["builds", "workers", "update"],
 			"description": "Update the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings.",
 			"summary": "Update Worker build configuration",
-			"usage": "cf builds workers update <script-tag> [options]",
+			"usage": "cf builds workers update <worker> [options]",
 			"arguments": [
 				{
-					"name": "script-tag",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "The Worker script tag (external script ID)"
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -42193,7 +42331,7 @@
 			"command": "cf containers usage",
 			"name": "usage",
 			"fullPath": ["containers", "usage"],
-			"description": "Get current live resource usage and maximum account limits for the authenticated Cloudchamber account. Usage includes active and assigned instances.",
+			"description": "Get current live resource usage and maximum limits for your account. Usage includes active and assigned instances.",
 			"summary": "Get live account usage",
 			"usage": "cf containers usage",
 			"arguments": [],
@@ -44228,6 +44366,122 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf d1 insights databases",
+			"name": "databases",
+			"fullPath": ["d1", "insights", "databases"],
+			"description": "List the databases in your account with the highest usage in a time window, sorted by `order_by` from highest to lowest. Totals are computed from the same data as D1 billing and the GraphQL Analytics API. They include every batch in the window: queries, imports and exports, successful and failed. Totals from other insights endpoints that read per-statement data can be lower than these numbers. Deleted databases are included if they had usage in the window. Databases with no usage in the window are not included. Usage is available a few minutes after a batch completes. For more complex filtering, or other metrics, groupings or time windows, run your own SQL on the `events.d1Queries` dataset with `cf sql query`. For examples, see https://developers.cloudflare.com/d1/observability/find-expensive-queries/",
+			"summary": "List D1 Databases by Usage",
+			"usage": "cf d1 insights databases [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "The usage metric to sort by, from highest to lowest.",
+					"enum": ["rows_read", "rows_written", "queries"]
+				},
+				{
+					"name": "database-name",
+					"type": "string",
+					"required": false,
+					"description": "Only count usage from databases whose name contains this value, case-insensitive. Usage recorded before 2026-10-30 has no database name and is not matched."
+				},
+				{
+					"name": "exact",
+					"type": "boolean",
+					"required": false,
+					"description": "If true, `database_name` must match the full database name, case-sensitive."
+				},
+				{
+					"name": "since",
+					"type": "string",
+					"required": false,
+					"description": "Start of the window (inclusive), in RFC 3339 format. Defaults to 24 hours before `until`. Must be before `until`, and at most 90 days ago. The window from `since` to `until` must be at most 31 days."
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": false,
+					"description": "End of the window (exclusive), in RFC 3339 format. Defaults to the current time."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of databases to return. Results are not paginated, so only the top `limit` databases are returned."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/databases",
+			"operationId": "d1.insights.databases",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 insights queries",
+			"name": "queries",
+			"fullPath": ["d1", "insights", "queries"],
+			"description": "List the SQL statements with the highest usage in a time window, across all databases in your account or for one database, sorted by `order_by` from highest to lowest. Each item is one query text in one database. The same text run in two databases is two items. Values are estimates computed from sampled per-statement data. They include statements that failed with a SQL error, and deleted databases. They do not include imports and exports, so they can be lower than the totals from `GET /accounts/{account_id}/d1/insights/databases`, billing, and the GraphQL Analytics API. Usage is available a few minutes after a query completes. For more complex filtering, or other metrics, groupings or time windows, run your own SQL on the `events.d1Queries` dataset with `cf sql query`. For examples, see https://developers.cloudflare.com/d1/observability/find-expensive-queries/",
+			"summary": "List Top D1 Queries",
+			"usage": "cf d1 insights queries [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "The usage metric to sort by, from highest to lowest. `duration` sorts by `total_duration_ms`.",
+					"enum": ["rows_read", "duration", "executions"]
+				},
+				{
+					"name": "database-id",
+					"type": "string",
+					"required": false,
+					"description": "Only return queries for this database. Defaults to all databases in the account. A database with no usage in the window, or that is not in the account, returns an empty list."
+				},
+				{
+					"name": "since",
+					"type": "string",
+					"required": false,
+					"description": "Start of the window (inclusive), in RFC 3339 format. Defaults to 24 hours before `until`. Must be before `until`, and at most 90 days ago. The window from `since` to `until` must be at most 7 days."
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": false,
+					"description": "End of the window (exclusive), in RFC 3339 format. Defaults to the current time."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of queries to return. Results are not paginated, so only the top `limit` queries are returned."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/queries",
+			"operationId": "d1.insights.queries",
+			"hideCommand": false
+		},
+		{
 			"command": "cf d1 list",
 			"name": "list",
 			"fullPath": ["d1", "list"],
@@ -44759,7 +45013,7 @@
 					"position": 0,
 					"type": "string",
 					"required": false,
-					"description": "Arguments forwarded to the dev-server implementation"
+					"description": "Arguments forwarded to the selected development server"
 				}
 			],
 			"options": [
@@ -45456,198 +45710,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/dnssec/zsk",
 			"operationId": "dns.dnssec.list.zsks",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-domain-settings",
-			"name": "get-domain-settings",
-			"fullPath": ["dns", "domainconnect", "get-domain-settings"],
-			"description": "Checks whether a domain is in Quicksilver and returns its settings.",
-			"summary": "Provide settings if domain is served by Cloudflare",
-			"usage": "cf dns domainconnect get-domain-settings <domain>",
-			"arguments": [
-				{
-					"name": "domain",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Domain name."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/v2/{domain}/settings",
-			"operationId": "dns.domainconnect.get-domain-settings",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-heartbeat",
-			"name": "get-heartbeat",
-			"fullPath": ["dns", "domainconnect", "get-heartbeat"],
-			"description": "Used by Kubernetes readiness and liveness probes, and CI builder by executing test/staging.sh.",
-			"summary": "Heartbeat response",
-			"usage": "cf dns domainconnect get-heartbeat",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/_heartbeat",
-			"operationId": "dns.domainconnect.get-heartbeat",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-provider-configuration",
-			"name": "get-provider-configuration",
-			"fullPath": ["dns", "domainconnect", "get-provider-configuration"],
-			"description": "Provides Stratus with extra information about domain connect provider(s).",
-			"summary": "Serve a provider configuration",
-			"usage": "cf dns domainconnect get-provider-configuration <account> [options]",
-			"arguments": [
-				{
-					"name": "account",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Account ID."
-				}
-			],
-			"options": [
-				{
-					"name": "provider",
-					"type": "string",
-					"required": true,
-					"description": "Provider ID."
-				},
-				{
-					"name": "service",
-					"type": "string",
-					"required": true,
-					"description": "Service ID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/v2/provconf/{provider}/{service}/{account}",
-			"operationId": "dns.domainconnect.get-provider-configuration",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-provider-template",
-			"name": "get-provider-template",
-			"fullPath": ["dns", "domainconnect", "get-provider-template"],
-			"description": "Providers are the external parties that are configured to interact with Cloudflare.",
-			"summary": "Serve a provider template",
-			"usage": "cf dns domainconnect get-provider-template <service> [options]",
-			"arguments": [
-				{
-					"name": "service",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Service name."
-				}
-			],
-			"options": [
-				{
-					"name": "provider",
-					"type": "string",
-					"required": true,
-					"description": "Provider name."
-				},
-				{
-					"name": "dump",
-					"type": "string",
-					"required": false,
-					"description": "Dump raw template."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/v2/domainTemplates/providers/{provider}/services/{service}",
-			"operationId": "dns.domainconnect.get-provider-template",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect post-verify",
-			"name": "post-verify",
-			"fullPath": ["dns", "domainconnect", "post-verify"],
-			"description": "Validates a Domain Connect signed request using DNS TXT public keys.",
-			"summary": "Request domain connect validation",
-			"usage": "cf dns domainconnect post-verify [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "domain",
-					"type": "string",
-					"required": false,
-					"description": "The domain field"
-				},
-				{
-					"name": "hash",
-					"type": "string",
-					"required": false,
-					"description": "The hash field"
-				},
-				{
-					"name": "sig",
-					"type": "string",
-					"required": false,
-					"description": "The sig field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/v1/verify",
-			"operationId": "dns.domainconnect.post-verify",
 			"hideCommand": false
 		},
 		{
@@ -77528,8 +77590,7 @@
 					"name": "ha",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates that the tunnel will be created to be highly available. If omitted, defaults to false.",
-					"default": false
+					"description": "Indicates that the tunnel will be created to be highly available. If omitted, defaults to false."
 				},
 				{
 					"name": "name",
@@ -78481,7 +78542,8 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "An optional description of the hostname route."
+					"description": "An optional description of the hostname route.",
+					"default": ""
 				},
 				{
 					"name": "hostname",
@@ -79159,12 +79221,6 @@
 					"type": "string",
 					"required": false,
 					"description": "A user-friendly name for the subnet."
-				},
-				{
-					"name": "network",
-					"type": "string",
-					"required": false,
-					"description": "The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
 				},
 				{
 					"name": "dry-run",
@@ -82820,7 +82876,7 @@
 			"command": "cf organizations accounts list",
 			"name": "list",
 			"fullPath": ["organizations", "accounts", "list"],
-			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation.",
+			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation.",
 			"summary": "List organization accounts",
 			"usage": "cf organizations accounts list [options]",
 			"arguments": [],
@@ -82910,19 +82966,7 @@
 					"name": "include-total",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to calculate and return the exact result_info.total_size for cursor\npagination. Defaults to true. When false, total_size is omitted. page_size and\ninclude_total may change between pages; next_page_token remains the authoritative\ncontinuation signal.\nLegacy page/per_page requests always calculate total_count."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Legacy offset page number. Must be provided with `per_page`. Values below 1 are treated as\n1. Cursor pagination takes precedence when requested."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Legacy offset page size. Must be provided with `page`. Values are clamped to the range\n1-100. Cursor pagination takes precedence when requested."
+					"description": "Whether to calculate and return the exact result_info.total_size for cursor\npagination. Defaults to true. When false, total_size is omitted. page_size and\ninclude_total may change between pages; next_page_token remains the authoritative\ncontinuation signal."
 				},
 				{
 					"name": "page-token",
@@ -84088,7 +84132,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
+					"description": "The Organization name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
 				},
 				{
 					"name": "parent-id",
@@ -89736,6 +89780,75 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf queues subscriptions edit",
+			"name": "edit",
+			"fullPath": ["queues", "subscriptions", "edit"],
+			"description": "Updates an existing Queue event subscription.",
+			"summary": "Update Event Subscription",
+			"usage": "cf queues subscriptions edit <subscription-id> [options]",
+			"arguments": [
+				{
+					"name": "subscription-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "A Resource identifier."
+				}
+			],
+			"options": [
+				{
+					"name": "destination-queue-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the target queue"
+				},
+				{
+					"name": "destination-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of destination",
+					"enum": ["queues.queue"]
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the subscription is active"
+				},
+				{
+					"name": "events",
+					"type": "string",
+					"required": false,
+					"description": "List of event types this subscription handles"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the subscription"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
+			"operationId": "queues.subscriptions.edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf queues subscriptions get",
 			"name": "get",
 			"fullPath": ["queues", "subscriptions", "get"],
@@ -89815,75 +89928,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/event_subscriptions/subscriptions",
 			"operationId": "queues.subscriptions.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf queues subscriptions update",
-			"name": "update",
-			"fullPath": ["queues", "subscriptions", "update"],
-			"description": "Updates an existing Queue event subscription.",
-			"summary": "Update Event Subscription",
-			"usage": "cf queues subscriptions update <subscription-id> [options]",
-			"arguments": [
-				{
-					"name": "subscription-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "A Resource identifier."
-				}
-			],
-			"options": [
-				{
-					"name": "destination-queue-id",
-					"type": "string",
-					"required": false,
-					"description": "ID of the target queue"
-				},
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of destination",
-					"enum": ["queues.queue"]
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the subscription is active"
-				},
-				{
-					"name": "events",
-					"type": "string",
-					"required": false,
-					"description": "List of event types this subscription handles"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the subscription"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
-			"operationId": "queues.subscriptions.update",
 			"hideCommand": false
 		},
 		{
@@ -107638,6 +107682,13 @@
 					"description": "Control the inclusion of offensive language in transcriptions."
 				},
 				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`.",
+					"default": false
+				},
+				{
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
@@ -108585,6 +108636,12 @@
 					"description": "Control the inclusion of offensive language in transcriptions."
 				},
 				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`."
+				},
+				{
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
@@ -108818,6 +108875,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Control the inclusion of offensive language in transcriptions."
+				},
+				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
 				},
 				{
 					"name": "live-stream-on-start",
@@ -109106,6 +109169,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
 				},
 				{
 					"name": "permissions-can-livestream",
@@ -109698,6 +109767,12 @@
 					"description": "The permissions.can_edit_display_name field"
 				},
 				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
+				},
+				{
 					"name": "permissions-can-livestream",
 					"type": "boolean",
 					"required": true,
@@ -110154,6 +110229,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
 				},
 				{
 					"name": "permissions-can-livestream",
@@ -122825,7 +122906,7 @@
 					"name": "certificates",
 					"type": "string",
 					"required": true,
-					"description": "The uploaded root CA certificate."
+					"description": "The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
 				},
 				{
 					"name": "name",
@@ -126004,15 +126085,9 @@
 			"fullPath": ["stream", "webhooks", "update"],
 			"description": "Create a webhook for notifications about on-demand video uploads.",
 			"summary": "Create VOD webhooks",
-			"usage": "cf stream webhooks update [options]",
+			"usage": "cf stream webhooks update",
 			"arguments": [],
 			"options": [
-				{
-					"name": "notification-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL where webhooks will be sent."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -126660,7 +126735,7 @@
 			"command": "cf tenants accounts list",
 			"name": "list",
 			"fullPath": ["tenants", "accounts", "list"],
-			"description": "Lists all Cloudflare accounts across this tenant's hierarchy using the legacy Account response shape. Use `GET /organizations/{organization_id}/accounts` to list only accounts immediately attached to a specific Organization using the modern Account response shape. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested.",
+			"description": "Lists all Cloudflare accounts across this tenant's hierarchy using the legacy Account response shape. Use `GET /organizations/{organization_id}/accounts` to list only accounts immediately attached to a specific Organization using the modern Account response shape. Use `page_token` and `page_size` for cursor pagination.",
 			"summary": "List tenant accounts",
 			"usage": "cf tenants accounts list [options]",
 			"arguments": [],
@@ -126744,19 +126819,7 @@
 					"name": "include-total",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to calculate and return the exact `result_info.total_size` for cursor\npagination. Defaults to true. When false, `total_size` is omitted. Legacy\n`page`/`per_page` requests always calculate `total_count`."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Legacy offset page number. Must be provided with `per_page`. Values below 1 are treated as\n1. Cursor pagination takes precedence when requested."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Legacy offset page size. Must be provided with `page`. Values are clamped to the range\n1-100. Cursor pagination takes precedence when requested."
+					"description": "Whether to calculate and return the exact `result_info.total_size` for cursor\npagination. Defaults to true. When false, `total_size` is omitted."
 				},
 				{
 					"name": "page-token",
@@ -137024,383 +137087,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf workers-builds workers migrate-to-previews",
-			"name": "migrate-to-previews",
-			"fullPath": ["workers-builds", "workers", "migrate-to-previews"],
-			"description": "Migrate a Worker's legacy non-production trigger to Previews. The legacy build settings become the Previews base config and the legacy trigger is removed.",
-			"summary": "Migrate worker to previews",
-			"usage": "cf workers-builds workers migrate-to-previews <script-tag> [options]",
-			"arguments": [
-				{
-					"name": "script-tag",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				}
-			],
-			"options": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"operationId": "workers-builds.workers.migrate-to-previews",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews create-build",
-			"name": "create-build",
-			"fullPath": ["workers-builds", "workers", "previews", "create-build"],
-			"description": "Trigger a build for a single Preview.",
-			"summary": "Create preview build",
-			"usage": "cf workers-builds workers previews create-build <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch name (required if commit_hash not provided)"
-				},
-				{
-					"name": "commit-hash",
-					"type": "string",
-					"required": false,
-					"description": "Git commit hash (required if branch not provided)"
-				},
-				{
-					"name": "seed-repo-branch",
-					"type": "string",
-					"required": false,
-					"description": "Repository branch to seed."
-				},
-				{
-					"name": "seed-repo-files",
-					"type": "string",
-					"required": false,
-					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "seed-repo-owner",
-					"type": "string",
-					"required": false,
-					"description": "Repository owner or namespace."
-				},
-				{
-					"name": "seed-repo-path",
-					"type": "string",
-					"required": false,
-					"description": "Path within the repository to seed."
-				},
-				{
-					"name": "seed-repo-provider",
-					"type": "string",
-					"required": false,
-					"description": "Source control provider for the seed repository.",
-					"enum": ["github", "gitlab"]
-				},
-				{
-					"name": "seed-repo-repository",
-					"type": "string",
-					"required": false,
-					"description": "Repository name."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"operationId": "workers-builds.workers.previews.create-build",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews edit",
-			"name": "edit",
-			"fullPath": ["workers-builds", "workers", "previews", "edit"],
-			"description": "Update a single Preview of a Worker. Supports partial updates to the tracked branch, the automation flags, and the build settings.",
-			"summary": "Update preview",
-			"usage": "cf workers-builds workers previews edit <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "auto-build",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
-				},
-				{
-					"name": "auto-delete",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether deleting the git branch also deletes this Preview."
-				},
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch this Preview tracks"
-				},
-				{
-					"name": "settings-build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "settings-build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "settings-build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "settings-deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "settings-environment-variables",
-					"type": "string",
-					"required": false,
-					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
-				},
-				{
-					"name": "settings-path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "settings-path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "settings-root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"operationId": "workers-builds.workers.previews.edit",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews get",
-			"name": "get",
-			"fullPath": ["workers-builds", "workers", "previews", "get"],
-			"description": "Retrieve a single Preview of a Worker, including the build settings it currently uses.",
-			"summary": "Get preview",
-			"usage": "cf workers-builds workers previews get <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"operationId": "workers-builds.workers.previews.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews list",
-			"name": "list",
-			"fullPath": ["workers-builds", "workers", "previews", "list"],
-			"description": "List the Previews of a Worker with pagination.",
-			"summary": "List previews",
-			"usage": "cf workers-builds workers previews list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number for pagination"
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Number of items per page"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
-			"operationId": "workers-builds.workers.previews.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews list-builds",
-			"name": "list-builds",
-			"fullPath": ["workers-builds", "workers", "previews", "list-builds"],
-			"description": "List the builds of a single Preview with pagination.",
-			"summary": "List builds by preview",
-			"usage": "cf workers-builds workers previews list-builds <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number for pagination"
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Number of items per page"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"operationId": "workers-builds.workers.previews.list-builds",
-			"hideCommand": false
-		},
-		{
 			"command": "cf workers-for-platforms dispatch-namespaces create",
 			"name": "create",
 			"fullPath": ["workers-for-platforms", "dispatch-namespaces", "create"],
@@ -145341,6 +145027,13 @@
 					"description": "Application/vendor identifier."
 				},
 				{
+					"name": "environment",
+					"type": "string",
+					"required": false,
+					"description": "Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+					"enum": ["fedramp", "standard"]
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false,
@@ -145373,7 +145066,7 @@
 			"fullPath": ["zero-trust", "casb", "applications", "get"],
 			"description": "Returns full application details including auth methods, use cases, and permissions.",
 			"summary": "Get application details",
-			"usage": "cf zero-trust casb applications get <application-id>",
+			"usage": "cf zero-trust casb applications get <application-id> [options]",
 			"arguments": [
 				{
 					"name": "application-id",
@@ -145384,6 +145077,13 @@
 				}
 			],
 			"options": [
+				{
+					"name": "environment",
+					"type": "string",
+					"required": false,
+					"description": "Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+					"enum": ["fedramp", "standard"]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -145412,7 +145112,8 @@
 					"name": "environment",
 					"type": "string",
 					"required": false,
-					"description": "Filter by supported environment (standard, fedramp)."
+					"description": "Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+					"enum": ["fedramp", "standard"]
 				},
 				{
 					"name": "page",
@@ -153375,876 +153076,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/devices/posture/{rule_id}",
 			"operationId": "zero-trust.devices.posture.rules.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles custom create",
-			"name": "create",
-			"fullPath": ["zero-trust", "devices", "profiles", "custom", "create"],
-			"description": "Creates a device settings profile to be applied to certain devices matching the criteria.",
-			"summary": "Create a device settings profile",
-			"usage": "cf zero-trust devices profiles custom create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "allow-mode-switch",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes.",
-					"default": false
-				},
-				{
-					"name": "allow-updates",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available.",
-					"default": false
-				},
-				{
-					"name": "allowed-to-leave",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow devices to leave the organization.",
-					"default": true
-				},
-				{
-					"name": "auto-connect",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled.",
-					"default": 0
-				},
-				{
-					"name": "browser-extension-config-proxy-control",
-					"type": "string",
-					"required": false,
-					"description": "Whether the user may disable the browser extension proxy.",
-					"enum": ["unlocked", "locked"]
-				},
-				{
-					"name": "browser-extension-config-proxy-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the browser extension proxy is active."
-				},
-				{
-					"name": "captive-portal",
-					"type": "number",
-					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time.",
-					"default": 180
-				},
-				{
-					"name": "default",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy is the account default. WARP group profiles cannot set this field.",
-					"default": false
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "A description of the policy.",
-					"default": ""
-				},
-				{
-					"name": "disable-auto-fallback",
-					"type": "boolean",
-					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.",
-					"default": false
-				},
-				{
-					"name": "dns-search-suffixes",
-					"type": "string",
-					"required": false,
-					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"suffix\": string, \"description\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "enable-device-credential-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication.",
-					"default": false
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy will be applied to matching devices.",
-					"default": true
-				},
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "exclude-office-ips",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions.",
-					"default": false
-				},
-				{
-					"name": "global-acceleration-allow-manual-override",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
-				},
-				{
-					"name": "global-acceleration-api-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the API endpoints."
-				},
-				{
-					"name": "global-acceleration-autoswitch",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically switch Global Acceleration regions based on device location. Defaults to false when not provided."
-				},
-				{
-					"name": "global-acceleration-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Global acceleration settings are used only when \"enabled\"."
-				},
-				{
-					"name": "global-acceleration-masque-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "global-acceleration-wireguard-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": false,
-					"description": "List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "lan-allow-minutes",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "lan-allow-subnet-size",
-					"type": "number",
-					"required": false,
-					"description": "The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "match",
-					"type": "string",
-					"required": false,
-					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\", \"device.tags\"."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name of the device settings profile."
-				},
-				{
-					"name": "precedence",
-					"type": "number",
-					"required": false,
-					"description": "The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field."
-				},
-				{
-					"name": "profile-type",
-					"type": "string",
-					"required": false,
-					"description": "The client type to which the device settings profile applies. This field is set when the profile is created and cannot be changed.",
-					"default": "warp",
-					"enum": ["warp", "browser_extension"]
-				},
-				{
-					"name": "register-interface-ip-with-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.",
-					"default": true
-				},
-				{
-					"name": "sccm-vpn-boundary-support",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).",
-					"default": false
-				},
-				{
-					"name": "service-mode-v2-mode",
-					"type": "string",
-					"required": false,
-					"description": "The mode to run the WARP client under."
-				},
-				{
-					"name": "service-mode-v2-port",
-					"type": "number",
-					"required": false,
-					"description": "The port number when used with proxy mode."
-				},
-				{
-					"name": "support-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked.",
-					"default": ""
-				},
-				{
-					"name": "switch-locked",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client.",
-					"default": false
-				},
-				{
-					"name": "tunnel-protocol",
-					"type": "string",
-					"required": false,
-					"description": "Determines which tunnel protocol to use.",
-					"default": ""
-				},
-				{
-					"name": "uninstall-protection",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only).",
-					"default": false
-				},
-				{
-					"name": "virtual-networks-allowed",
-					"type": "string",
-					"required": false,
-					"description": "List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required."
-				},
-				{
-					"name": "virtual-networks-default",
-					"type": "string",
-					"required": false,
-					"description": "The default virtual network ID. Must be included in the `allowed` list."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/devices/policy",
-			"operationId": "zero-trust.devices.profiles.custom.create",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles custom delete",
-			"name": "delete",
-			"fullPath": ["zero-trust", "devices", "profiles", "custom", "delete"],
-			"description": "Deletes a device settings profile and fetches a list of the remaining profiles for an account.",
-			"summary": "Delete a device settings profile",
-			"usage": "cf zero-trust devices profiles custom delete <policy-id>",
-			"arguments": [
-				{
-					"name": "policy-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Policy ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/devices/policy/{policy_id}",
-			"operationId": "zero-trust.devices.profiles.custom.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles custom get",
-			"name": "get",
-			"fullPath": ["zero-trust", "devices", "profiles", "custom", "get"],
-			"description": "Fetches a device settings profile by ID.",
-			"summary": "Get device settings profile by ID",
-			"usage": "cf zero-trust devices profiles custom get <policy-id>",
-			"arguments": [
-				{
-					"name": "policy-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Policy ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/devices/policy/{policy_id}",
-			"operationId": "zero-trust.devices.profiles.custom.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles custom list",
-			"name": "list",
-			"fullPath": ["zero-trust", "devices", "profiles", "custom", "list"],
-			"description": "Fetches a list of the device settings profiles for an account.",
-			"summary": "List device settings profiles",
-			"usage": "cf zero-trust devices profiles custom list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "profile-type",
-					"type": "string",
-					"required": false,
-					"description": "Filter profiles by client type. When omitted, only WARP profiles are returned.",
-					"enum": ["warp", "browser_extension"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/devices/policies",
-			"operationId": "zero-trust.devices.profiles.custom.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles custom update",
-			"name": "update",
-			"fullPath": ["zero-trust", "devices", "profiles", "custom", "update"],
-			"description": "Updates a configured device settings profile.",
-			"summary": "Update a device settings profile",
-			"usage": "cf zero-trust devices profiles custom update <policy-id> [options]",
-			"arguments": [
-				{
-					"name": "policy-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Policy ID"
-				}
-			],
-			"options": [
-				{
-					"name": "allow-mode-switch",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes."
-				},
-				{
-					"name": "allow-updates",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available."
-				},
-				{
-					"name": "allowed-to-leave",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow devices to leave the organization."
-				},
-				{
-					"name": "auto-connect",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled."
-				},
-				{
-					"name": "browser-extension-config-proxy-control",
-					"type": "string",
-					"required": false,
-					"description": "Whether the user may disable the browser extension proxy.",
-					"enum": ["unlocked", "locked"]
-				},
-				{
-					"name": "browser-extension-config-proxy-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the browser extension proxy is active."
-				},
-				{
-					"name": "captive-portal",
-					"type": "number",
-					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time."
-				},
-				{
-					"name": "default",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy is the account default. WARP group profiles cannot set this field."
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "A description of the policy."
-				},
-				{
-					"name": "disable-auto-fallback",
-					"type": "boolean",
-					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
-				},
-				{
-					"name": "dns-search-suffixes",
-					"type": "string",
-					"required": false,
-					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"suffix\": string, \"description\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "enable-device-credential-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the policy will be applied to matching devices."
-				},
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "exclude-office-ips",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
-				},
-				{
-					"name": "global-acceleration-allow-manual-override",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
-				},
-				{
-					"name": "global-acceleration-api-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the API endpoints."
-				},
-				{
-					"name": "global-acceleration-autoswitch",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically switch Global Acceleration regions based on device location. Defaults to false when not provided."
-				},
-				{
-					"name": "global-acceleration-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Global acceleration settings are used only when \"enabled\"."
-				},
-				{
-					"name": "global-acceleration-masque-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "global-acceleration-wireguard-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": false,
-					"description": "List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "lan-allow-minutes",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "lan-allow-subnet-size",
-					"type": "number",
-					"required": false,
-					"description": "The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "match",
-					"type": "string",
-					"required": false,
-					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\", \"device.tags\"."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the device settings profile."
-				},
-				{
-					"name": "precedence",
-					"type": "number",
-					"required": false,
-					"description": "The precedence of the policy. Lower values indicate higher precedence. Policies will be evaluated in ascending order of this field."
-				},
-				{
-					"name": "register-interface-ip-with-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
-				},
-				{
-					"name": "sccm-vpn-boundary-support",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
-				},
-				{
-					"name": "service-mode-v2-mode",
-					"type": "string",
-					"required": false,
-					"description": "The mode to run the WARP client under."
-				},
-				{
-					"name": "service-mode-v2-port",
-					"type": "number",
-					"required": false,
-					"description": "The port number when used with proxy mode."
-				},
-				{
-					"name": "support-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked."
-				},
-				{
-					"name": "switch-locked",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
-				},
-				{
-					"name": "tunnel-protocol",
-					"type": "string",
-					"required": false,
-					"description": "Determines which tunnel protocol to use."
-				},
-				{
-					"name": "uninstall-protection",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
-				},
-				{
-					"name": "virtual-networks-allowed",
-					"type": "string",
-					"required": false,
-					"description": "List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required."
-				},
-				{
-					"name": "virtual-networks-default",
-					"type": "string",
-					"required": false,
-					"description": "The default virtual network ID. Must be included in the `allowed` list."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/devices/policy/{policy_id}",
-			"operationId": "zero-trust.devices.profiles.custom.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles default get",
-			"name": "get",
-			"fullPath": ["zero-trust", "devices", "profiles", "default", "get"],
-			"description": "Fetches the default device settings profile for an account.",
-			"summary": "Get the default device settings profile",
-			"usage": "cf zero-trust devices profiles default get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/devices/policy",
-			"operationId": "zero-trust.devices.profiles.default.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust devices profiles default update",
-			"name": "update",
-			"fullPath": ["zero-trust", "devices", "profiles", "default", "update"],
-			"description": "Updates the default device settings profile for an account.",
-			"summary": "Update the default device settings profile",
-			"usage": "cf zero-trust devices profiles default update [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "allow-mode-switch",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes."
-				},
-				{
-					"name": "allow-updates",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available."
-				},
-				{
-					"name": "allowed-to-leave",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow devices to leave the organization."
-				},
-				{
-					"name": "auto-connect",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled."
-				},
-				{
-					"name": "captive-portal",
-					"type": "number",
-					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time."
-				},
-				{
-					"name": "disable-auto-fallback",
-					"type": "boolean",
-					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
-				},
-				{
-					"name": "dns-search-suffixes",
-					"type": "string",
-					"required": false,
-					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"suffix\": string, \"description\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "enable-device-credential-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
-				},
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "List of routes excluded in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "exclude-office-ips",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
-				},
-				{
-					"name": "global-acceleration-allow-manual-override",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
-				},
-				{
-					"name": "global-acceleration-api-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the API endpoints."
-				},
-				{
-					"name": "global-acceleration-autoswitch",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically switch Global Acceleration regions based on device location. Defaults to false when not provided."
-				},
-				{
-					"name": "global-acceleration-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Global acceleration settings are used only when \"enabled\"."
-				},
-				{
-					"name": "global-acceleration-masque-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the MASQUE tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "global-acceleration-wireguard-endpoints",
-					"type": "string",
-					"required": false,
-					"description": "IP:port entries for the WireGuard tunnel endpoints. Either wireguard_endpoints or masque_endpoints must be provided."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": false,
-					"description": "List of routes included in the WARP client's tunnel. Both 'exclude' and 'include' cannot be set in the same request. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"address\": string, \"description\"?: string} | {\"host\": string, \"description\"?: string})]. ? marks optional keys."
-				},
-				{
-					"name": "lan-allow-minutes",
-					"type": "number",
-					"required": false,
-					"description": "The amount of time in minutes a user is allowed access to their LAN. A value of 0 will allow LAN access until the next WARP reconnection, such as a reboot or a laptop waking from sleep. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "lan-allow-subnet-size",
-					"type": "number",
-					"required": false,
-					"description": "The size of the subnet for the local access network. Note that this field is omitted from the response if null or unset."
-				},
-				{
-					"name": "register-interface-ip-with-dns",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
-				},
-				{
-					"name": "sccm-vpn-boundary-support",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
-				},
-				{
-					"name": "service-mode-v2-mode",
-					"type": "string",
-					"required": false,
-					"description": "The mode to run the WARP client under."
-				},
-				{
-					"name": "service-mode-v2-port",
-					"type": "number",
-					"required": false,
-					"description": "The port number when used with proxy mode."
-				},
-				{
-					"name": "support-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked."
-				},
-				{
-					"name": "switch-locked",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
-				},
-				{
-					"name": "tunnel-protocol",
-					"type": "string",
-					"required": false,
-					"description": "Determines which tunnel protocol to use."
-				},
-				{
-					"name": "uninstall-protection",
-					"type": "boolean",
-					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
-				},
-				{
-					"name": "virtual-networks-allowed",
-					"type": "string",
-					"required": false,
-					"description": "List of virtual network IDs the device is allowed to access. When virtual_networks is set, at least one entry is required."
-				},
-				{
-					"name": "virtual-networks-default",
-					"type": "string",
-					"required": false,
-					"description": "The default virtual network ID. Must be included in the `allowed` list."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/devices/policy",
-			"operationId": "zero-trust.devices.profiles.default.update",
 			"hideCommand": false
 		},
 		{
@@ -162274,7 +161105,8 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Specify the rule description."
+					"description": "Specify the rule description.",
+					"default": ""
 				},
 				{
 					"name": "device-posture",
@@ -164378,6 +163210,243 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/access/organizations/doh",
 			"operationId": "zero-trust.organization.doh.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust organization edit",
+			"name": "edit",
+			"fullPath": ["zero-trust", "organization", "edit"],
+			"description": "Updates only the fields included in the request body. Omitted fields keep their current values. To clear `mfa_config` or `mfa_piv_key_requirements`, send the field as `{}`.",
+			"summary": "Partially update your Zero Trust organization",
+			"usage": "cf zero-trust organization edit [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "allow-authenticate-via-warp",
+					"type": "boolean",
+					"required": false,
+					"description": "When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value."
+				},
+				{
+					"name": "auth-domain",
+					"type": "string",
+					"required": false,
+					"description": "The unique subdomain assigned to your Zero Trust organization. If omitted on creation, a unique subdomain is auto-generated in the format `adjective-noun-hex4` (e.g. `frosty-moon-7a3b.cloudflareaccess.com`)."
+				},
+				{
+					"name": "auto-redirect-to-identity",
+					"type": "boolean",
+					"required": false,
+					"description": "When set to `true`, users skip the identity provider selection step during login."
+				},
+				{
+					"name": "custom-pages-forbidden",
+					"type": "string",
+					"required": false,
+					"description": "The uid of the custom page to use when a user is denied access after failing a non-identity rule."
+				},
+				{
+					"name": "custom-pages-identity-denied",
+					"type": "string",
+					"required": false,
+					"description": "The uid of the custom page to use when a user is denied access."
+				},
+				{
+					"name": "deny-unmatched-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether to deny all requests to Cloudflare-protected resources that lack an associated Access application. If enabled, you must explicitly configure an Access application and policy to allow traffic to your Cloudflare-protected resources. For domains you want to be public across all subdomains, add the domain to the `deny_unmatched_requests_exempted_zone_names` array."
+				},
+				{
+					"name": "deny-unmatched-requests-exempted-zone-names",
+					"type": "string",
+					"required": false,
+					"description": "Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request."
+				},
+				{
+					"name": "disable-end-user-app-creation",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether creation of end user applications is disabled for this organization."
+				},
+				{
+					"name": "is-ui-read-only",
+					"type": "boolean",
+					"required": false,
+					"description": "Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled."
+				},
+				{
+					"name": "login-design-background-color",
+					"type": "string",
+					"required": false,
+					"description": "The background color on your login page."
+				},
+				{
+					"name": "login-design-footer-text",
+					"type": "string",
+					"required": false,
+					"description": "The text at the bottom of your login page."
+				},
+				{
+					"name": "login-design-header-text",
+					"type": "string",
+					"required": false,
+					"description": "The text at the top of your login page."
+				},
+				{
+					"name": "login-design-logo-path",
+					"type": "string",
+					"required": false,
+					"description": "The URL of the logo on your login page."
+				},
+				{
+					"name": "login-design-text-color",
+					"type": "string",
+					"required": false,
+					"description": "The text color on your login page."
+				},
+				{
+					"name": "mfa-config-allowed-authenticators",
+					"type": "string",
+					"required": false,
+					"description": "Lists the MFA methods that users can authenticate with. The `piv_key` and `ssh_fido2_key` values are supported only for infrastructure applications."
+				},
+				{
+					"name": "mfa-config-amr-matching-session-duration",
+					"type": "string",
+					"required": false,
+					"description": "Allows a user to skip MFA via Authentication Method Reference (AMR) matching when the AMR claim provided by the IdP the user used to authenticate contains \"mfa\". Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days)."
+				},
+				{
+					"name": "mfa-config-required-aaguids",
+					"type": "string",
+					"required": false,
+					"description": "Specifies a Cloudflare List of required FIDO2 authenticator device AAGUIDs."
+				},
+				{
+					"name": "mfa-config-session-duration",
+					"type": "string",
+					"required": false,
+					"description": "Defines the duration of an MFA session. Must be in minutes (m) or hours (h). Minimum: 0m. Maximum: 720h (30 days). Examples:`5m` or `24h`."
+				},
+				{
+					"name": "mfa-piv-key-requirements-pin-policy",
+					"type": "string",
+					"required": false,
+					"description": "Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).",
+					"enum": ["never", "once", "always"]
+				},
+				{
+					"name": "mfa-piv-key-requirements-require-fips-device",
+					"type": "boolean",
+					"required": false,
+					"description": "Requires the PIV key to be stored on a FIPS 140-2 Level 1 or higher validated device."
+				},
+				{
+					"name": "mfa-piv-key-requirements-ssh-key-size",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the allowed SSH key sizes in bits. Valid sizes depend on key type. Ed25519 has a fixed key size and does not accept this parameter."
+				},
+				{
+					"name": "mfa-piv-key-requirements-ssh-key-type",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the allowed SSH key types. Valid values are `ecdsa`, `ed25519`, and `rsa`."
+				},
+				{
+					"name": "mfa-piv-key-requirements-touch-policy",
+					"type": "string",
+					"required": false,
+					"description": "Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).",
+					"enum": ["never", "always", "cached"]
+				},
+				{
+					"name": "mfa-required-for-all-apps",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot contain only the infrastructure SSH authenticators ('piv_key' and 'ssh_fido2_key') if the organization has any non-infrastructure applications."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name of your Zero Trust organization. When omitted on creation, defaults to the provided auth_domain; when both are omitted, defaults to the auto-generated subdomain slug (e.g. frosty-moon-7a3b)."
+				},
+				{
+					"name": "service-token-inactivity-action",
+					"type": "string",
+					"required": false,
+					"description": "The action applied to an inactive service token.",
+					"enum": ["disable", "delete"]
+				},
+				{
+					"name": "service-token-inactivity-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether automatic enforcement for inactive service tokens is enabled."
+				},
+				{
+					"name": "service-token-inactivity-inactivity-threshold-days",
+					"type": "number",
+					"required": false,
+					"description": "The number of days a service token must be inactive before the configured action is applied."
+				},
+				{
+					"name": "session-duration",
+					"type": "string",
+					"required": false,
+					"description": "The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h."
+				},
+				{
+					"name": "strict-service-token-auth",
+					"type": "boolean",
+					"required": false,
+					"description": "Enables new behaviors for requests made with Access service tokens. Unauthorized requests emit audit logs, and return a 401 or 403 status code in the response instead of redirecting to the login page. Successful requests no longer receive a CF_Authorization cookie in the response. Zero Trust organizations created on or after October 5, 2026 will have this setting enabled by default, and cannot disable it."
+				},
+				{
+					"name": "ui-read-only-toggle-reason",
+					"type": "string",
+					"required": false,
+					"description": "A description of the reason why the UI read only field is being toggled."
+				},
+				{
+					"name": "user-seat-expiration-inactive-time",
+					"type": "string",
+					"required": false,
+					"description": "The amount of time a user seat is inactive before it expires. When the user seat exceeds the set time of inactivity, the user is removed as an active seat and no longer counts against your Teams seat count.  Minimum value for this setting is 1 month (730h). Must be in the format `300ms` or `2h45m`. Valid time units are: `ns`, `us` (or `µs`), `ms`, `s`, `m`, `h`."
+				},
+				{
+					"name": "warp-auth-non-browser-401",
+					"type": "boolean",
+					"required": false,
+					"description": "When enabled, unsuccessful WARP authentication requests with a non-HTML Accept header return a 401 response instead of redirecting to the login page."
+				},
+				{
+					"name": "warp-auth-session-duration",
+					"type": "string",
+					"required": false,
+					"description": "The amount of time that tokens issued for applications will be valid. Must be in the format `30m` or `2h45m`. Valid time units are: m, h."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/access/organizations",
+			"operationId": "zero-trust.organization.edit",
 			"hideCommand": false
 		},
 		{
@@ -167466,14 +166535,11 @@
 		"builds": "Build and deploy Workers from connected repositories, then inspect build status and logs.",
 		"builds deploy-hooks": "Manage branch-specific HTTP hooks that start builds.",
 		"builds limits": "View build-minute availability and refresh information.",
-		"builds logs": "Retrieve build logs.",
+		"builds previews": "Manage the Previews that Workers Builds creates for non-production branches.",
 		"builds repos": "Manage source repository connections for Workers Builds.",
 		"builds repos config-autofill": "Operations for repos.config-autofill",
 		"builds repos connections": "Operations for repos.connections",
 		"builds tokens": "Manage credentials used by Workers Builds to deploy Workers.",
-		"builds triggers": "Configure how repository changes build and deploy Workers.",
-		"builds triggers cache": "Operations for triggers.cache",
-		"builds triggers environment-variables": "Operations for triggers.environment-variables",
 		"builds versions": "Find builds associated with Worker versions.",
 		"builds workers": "Manage repository-backed build configuration for Workers.",
 		"cache": "Purge cached content and configure Cache Reserve, tiered caching, and variant serving",
@@ -167596,6 +166662,7 @@
 		"custom-pages account-custom-pages": "Manage account-level custom pages",
 		"custom-pages account-custom-pages preview-tokens": "Preview tokens for account-level custom pages",
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
+		"d1 insights": "show usage insights for the D1 databases in your account",
 		"d1 time-travel": "use specific point-in-time backups of your D1 database",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"diagnostics": "Network diagnostic tools — traceroutes from Cloudflare's edge and endpoint health checks",
@@ -167608,7 +166675,6 @@
 		"dns": "dns",
 		"dns dnssec": "Operations for dnssec",
 		"dns dnssec list": "Operations for dnssec.list",
-		"dns domainconnect": "Operations for domainconnect",
 		"dns records": "Operations for records",
 		"dns settings": "Operations for settings",
 		"dns settings account": "Operations for settings.account",
@@ -168264,9 +167330,6 @@
 		"workers secrets": "Manage secrets bound to Worker scripts",
 		"workers versions": "Create, list, inspect, and manage Worker versions",
 		"workers triggers": "Manage triggers (Routes, Workflows, Cron triggers etc.)",
-		"workers-builds": "workers-builds",
-		"workers-builds workers": "Operations for workers",
-		"workers-builds workers previews": "Operations for workers.previews",
 		"workers-for-platforms": "Workers for Platforms uses dispatch namespaces to isolate and route requests to many individual user Workers, letting platforms run untrusted customer or AI-generated code at scale with per-tenant bindings, limits, and observability",
 		"workers-for-platforms dispatch-namespaces": "Isolate and route requests to many individual user Workers",
 		"workers-for-platforms dispatch-namespaces scripts": "Operations around customer Workers deployed inside a dispatch namespace",
@@ -168368,9 +167431,6 @@
 		"zero-trust devices posture": "Operations for devices.posture",
 		"zero-trust devices posture integrations": "Operations for devices.posture.integrations",
 		"zero-trust devices posture rules": "Operations for devices.posture.rules",
-		"zero-trust devices profiles": "Operations for devices.profiles",
-		"zero-trust devices profiles custom": "Operations for devices.profiles.custom",
-		"zero-trust devices profiles default": "Operations for devices.profiles.default",
 		"zero-trust devices registrations": "Operations for devices.registrations",
 		"zero-trust devices registrations override-codes": "Operations for devices.registrations.override-codes",
 		"zero-trust devices settings": "Operations for devices.settings",

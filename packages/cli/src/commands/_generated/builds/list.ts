@@ -1,4 +1,3 @@
-import operation from "../_operations/builds/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -20,12 +20,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds list\n\nList paginated build records associated with a Worker tag."
+			"$0 builds list\n\nList paginated build records associated with a Worker."
 		)
-		.option("external-script-id", {
+		.option("worker", {
 			type: "string",
-			description:
-				"System-generated tag of the Worker. This is not the Worker name.",
+			description: "Script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("page", {
@@ -68,10 +67,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["external-script-id"] == null ? "<external-script-id>" : encodeURIComponent(String(argv["external-script-id"]))}/builds`,
-						pathParams: {
-							"external-script-id": String(argv["external-script-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/builds`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						query: queryParams,
 						bodyKind: "none",
 					});
@@ -82,11 +79,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						external_script_id: argv["external-script-id"],
-						...queryParams,
-					})
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/builds`,
+						{ query: queryParams }
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

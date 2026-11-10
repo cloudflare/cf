@@ -1,5 +1,4 @@
 import { constants } from "node:os";
-import { delimiter, dirname, join, resolve } from "node:path";
 import {
 	AutoConfigDetectionError,
 	getDetailsForAutoConfig,
@@ -181,12 +180,12 @@ export async function runProjectCommand(
 			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
-	const env = projectCommandEnvironment(cwd, options.env);
-	// Match the child's environment when resolving npm's Windows launcher.
+	const env = { ...options.env, CLOUDFLARE_CF_AUTH: "true" };
+	// Match the environment tinyexec gives the child so both resolve the same npm.
 	const [file, ...commandArgs] = resolveNpmLauncher(
 		parseProjectCommand(command),
 		cwd,
-		env
+		{ ...process.env, ...env }
 	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
 		nodePath: options.preferLocal ?? false,
@@ -262,32 +261,6 @@ export async function runProjectCommand(
 		process.off("SIGHUP", onSigHup);
 		process.off("exit", onExit);
 	}
-}
-
-function projectCommandEnvironment(
-	cwd: string,
-	overrides: Readonly<Record<string, string>> = {}
-): NodeJS.ProcessEnv {
-	const env: NodeJS.ProcessEnv = {
-		...process.env,
-		...overrides,
-		CLOUDFLARE_CF_AUTH: "true",
-	};
-	const pathKey = Object.keys(env).find((key) => /^path$/i.test(key)) ?? "PATH";
-	const directories: string[] = [];
-	let directory = resolve(cwd);
-	// Bare framework commands use the application's toolchain, including binaries
-	// hoisted into an enclosing workspace. Never add cf's own node_modules.
-	while (true) {
-		directories.push(join(directory, "node_modules", ".bin"));
-		const parent = dirname(directory);
-		if (parent === directory) {
-			break;
-		}
-		directory = parent;
-	}
-	env[pathKey] = [...directories, env[pathKey]].filter(Boolean).join(delimiter);
-	return env;
 }
 
 function parseProjectCommand(command: string): [string, ...string[]] {

@@ -1,9 +1,64 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import satisfies from "semver/functions/satisfies.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { errorBlock, theme } from "../../lib/ui/index.js";
 import { GUIDE_WIDTH } from "../../lib/ui/log.js";
 import { discoverImpls, type DiscoveredImpl } from "./discover.js";
 import { KNOWN_IMPLS, type KnownImpl } from "./known-impls.js";
+
+type ImplCompatibility = Pick<
+	KnownImpl,
+	"pkg" | "versionConstraint" | "installCommands"
+>;
+
+// Native Vite commands still need the plugin release that understands cf profiles.
+export function validateVitePluginCompatibility(cwd: string): void {
+	const pkg = "@cloudflare/vite-plugin";
+	let installedVersion: string | undefined;
+	try {
+		const manifest = JSON.parse(
+			readFileSync(join(cwd, "package.json"), "utf8")
+		) as Record<string, Record<string, unknown> | undefined>;
+		if (
+			![
+				"dependencies",
+				"devDependencies",
+				"peerDependencies",
+				"optionalDependencies",
+			].some((field) => manifest[field]?.[pkg] !== undefined)
+		) {
+			return;
+		}
+		const installed = JSON.parse(
+			readFileSync(join(cwd, "node_modules", pkg, "package.json"), "utf8")
+		) as { version?: unknown };
+		installedVersion =
+			typeof installed.version === "string" ? installed.version : undefined;
+	} catch {
+		return;
+	}
+	// Autoconfig handles missing packages and incompatible plugin majors.
+	if (
+		isVersionCompatible(installedVersion, ">=2.0.0-0 <3.0.0-0") &&
+		!isVersionCompatible(installedVersion, ">=2.0.0-beta.v.13 <3.0.0-0")
+	) {
+		incompatibleVersionError({
+			installedVersion,
+			impl: {
+				pkg,
+				versionConstraint: {
+					range: ">=2.0.0-beta.v.13 <3.0.0-0",
+					display: "@cloudflare/vite-plugin v2 beta (2.0.0-beta.v.13 or newer)",
+				},
+				installCommands: [
+					"npm install --save-dev @cloudflare/vite-plugin@beta",
+				],
+			},
+		});
+		throw new CliExit(1);
+	}
+}
 
 export function resolveProjectImpl(cwd: string): DiscoveredImpl {
 	const discovered = discoverImpls(cwd);
@@ -51,7 +106,10 @@ function isVersionCompatible(
 	);
 }
 
-function incompatibleVersionError(d: DiscoveredImpl): void {
+function incompatibleVersionError(d: {
+	impl: ImplCompatibility;
+	installedVersion?: string;
+}): void {
 	printError(
 		`${d.impl.pkg}@${d.installedVersion ?? "unknown"} is installed, but it is not compatible with cf's local runtime.`,
 		requiredVersionMessage(d),
@@ -59,7 +117,7 @@ function incompatibleVersionError(d: DiscoveredImpl): void {
 	);
 }
 
-function requiredVersionMessage(d: DiscoveredImpl): string {
+function requiredVersionMessage(d: { impl: ImplCompatibility }): string {
 	const requirement =
 		d.impl.versionConstraint?.display ?? "a compatible version";
 	return `cf requires ${requirement} for cf dev, cf build, cf deploy, and cf previews deploy.`;
@@ -117,7 +175,7 @@ function notInstalledError(d: DiscoveredImpl): void {
 function printError(
 	message: string,
 	details: string | undefined,
-	impl: KnownImpl
+	impl: Pick<KnownImpl, "installCommands">
 ): void {
 	console.error(errorBlock(message, details));
 	console.error("\nTry:");
@@ -125,7 +183,7 @@ function printError(
 }
 
 /** Each command on its own line, outside the frame, so it copies cleanly. */
-function printInstallCommands(impl: KnownImpl): void {
+function printInstallCommands(impl: Pick<KnownImpl, "installCommands">): void {
 	for (const command of impl.installCommands) {
 		console.error(`${" ".repeat(GUIDE_WIDTH)}${theme.code(command)}`);
 	}

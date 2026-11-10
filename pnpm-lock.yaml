@@ -172,9 +172,9 @@ catalogs:
       version: 1.5.0
 
 overrides:
-  '@cloudflare/autoconfig>@cloudflare/cli-shared-helpers': 0.3.4
-  '@cloudflare/autoconfig>@cloudflare/config': 0.30.2
-  '@cloudflare/autoconfig>@cloudflare/workers-utils': 0.52.0
+  '@cloudflare/autoconfig>@cloudflare/cli-shared-helpers': 0.3.6
+  '@cloudflare/autoconfig>@cloudflare/config': 0.31.1
+  '@cloudflare/autoconfig>@cloudflare/workers-utils': 0.53.0
   vite@*: npm:@voidzero-dev/vite-plus-core@1.5.0
   vitest@*: 5.1.0
 

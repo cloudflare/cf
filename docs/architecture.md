@@ -392,6 +392,8 @@ continues through the normal Build Output upload path. Without `[directory]`,
 these commands consume Build Output from a delegated build or `--prebuilt`.
 
 Autoconfig owns the dev/build command choice, including Vite versus Vite+.
+cf retains its minimum Vite plugin version check for auth-profile support
+before project preparation and native command execution.
 Pages detection and migration checks take precedence over native fallbacks.
 Other unsupported frameworks can use a native fallback after the project has
 been configured for cf; their automatic setup restrictions still apply.

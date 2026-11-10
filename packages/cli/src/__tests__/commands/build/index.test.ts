@@ -97,7 +97,7 @@ describe("cf build", () => {
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.1",
+					version: "2.0.0-beta.v.13",
 				}),
 				"cloudflare.config.ts": "export default {};",
 				"node_modules/vite/package.json": JSON.stringify({
@@ -136,7 +136,7 @@ describe("cf build", () => {
 				},
 			}),
 			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
-				version: "2.0.0-beta.1",
+				version: "2.0.0-beta.v.13",
 			}),
 			"node_modules/vite-plus/package.json": JSON.stringify({
 				name: "vite-plus",
@@ -168,7 +168,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 				name: "@cloudflare/vite-plugin",
-				version: "2.0.0-beta.1",
+				version: "2.0.0-beta.v.13",
 			}),
 			"cloudflare.config.ts": "export default {};",
 			"node_modules/vite/package.json": JSON.stringify({

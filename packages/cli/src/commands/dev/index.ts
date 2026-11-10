@@ -9,7 +9,7 @@
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { theme } from "../../lib/ui/index.js";
-import { resolveProjectImpl } from "./impl.js";
+import { resolveProjectImpl, validateVitePluginCompatibility } from "./impl.js";
 import { spawnImpl } from "./spawn.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
@@ -64,6 +64,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 
 	handler: async (argv: ArgumentsCamelCase<DevArgs>): Promise<void> => {
 		const cwd = process.cwd();
+		validateVitePluginCompatibility(cwd);
 		const { details } = await prepareProject(cwd);
 
 		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])];

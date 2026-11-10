@@ -6,7 +6,10 @@ import {
 } from "../../lib/build-output.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { log } from "../../lib/ui/log.js";
-import { resolveProjectImpl } from "../dev/impl.js";
+import {
+	resolveProjectImpl,
+	validateVitePluginCompatibility,
+} from "../dev/impl.js";
 import { spawnImpl } from "../dev/spawn.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -33,6 +36,7 @@ export async function runBuild(
 ): Promise<"built" | "setup-needed"> {
 	const output = options.output ?? "stderr";
 	const cwd = process.cwd();
+	validateVitePluginCompatibility(cwd);
 	const { details, configuration, setupNeeded } = await prepareProject(cwd, {
 		...options,
 		dryRun,

@@ -217,28 +217,29 @@ describe("cf dev", () => {
 			name: "@cloudflare/vite-plugin",
 			version: "2.0.0-beta.v.12",
 			minimum: "2.0.0-beta.v.13",
-			bin: "bin/cf-vite",
+			executable: "node_modules/vite/bin/vite.js",
+			vite: true,
 			install: "npm install --save-dev @cloudflare/vite-plugin@beta",
 		},
 		{
 			name: "wrangler",
 			version: "4.160.1",
 			minimum: "4.161.0",
-			bin: "bin/cf-wrangler.js",
+			executable: "node_modules/wrangler/bin/cf-wrangler.js",
+			vite: false,
 			install: "npm install --save-dev wrangler@latest",
 		},
 	])(
 		"$name profile compatibility",
-		({ name, version, minimum, bin, install }) => {
+		({ name, version, minimum, executable, vite, install }) => {
 			it.each([
 				{ command: "dev", profile: undefined },
 				{ command: "dev", profile: "work" },
 				{ command: "build", profile: undefined },
 				{ command: "build", profile: "work" },
 			])(
-				"rejects $command with profile $profile before starting an older delegate",
+				"rejects $command with profile $profile before starting an older tool",
 				async ({ command, profile }) => {
-					const executable = `node_modules/${name}/${bin}`;
 					await seed({
 						"package.json": JSON.stringify({
 							devDependencies: { [name]: version },
@@ -250,6 +251,16 @@ describe("cf dev", () => {
 						[executable]: nodeScript(
 							'require("node:fs").writeFileSync("delegate-started.out", "started");'
 						),
+						...(vite
+							? {
+									"cloudflare.config.ts": "export default {};",
+									"node_modules/vite/package.json": JSON.stringify({
+										name: "vite",
+										version: "8.1.0",
+										bin: { vite: "bin/vite.js" },
+									}),
+								}
+							: {}),
 					});
 					makeExecutable(executable);
 
@@ -272,10 +283,16 @@ describe("cf dev", () => {
 		{
 			name: "@cloudflare/vite-plugin",
 			version: "2.0.0-beta.v.13",
-			bin: "bin/cf-vite",
+			executable: "node_modules/vite/bin/vite.js",
+			vite: true,
 		},
-		{ name: "wrangler", version: "4.161.0", bin: "bin/cf-wrangler.js" },
-	])("$name auth profiles", ({ name, version, bin }) => {
+		{
+			name: "wrangler",
+			version: "4.161.0",
+			executable: "node_modules/wrangler/bin/cf-wrangler.js",
+			vite: false,
+		},
+	])("$name auth profiles", ({ name, version, executable, vite }) => {
 		it.each([
 			{ profile: "work", inherited: "personal", expected: "work" },
 			{ profile: "default", inherited: "work", expected: "default" },
@@ -284,7 +301,6 @@ describe("cf dev", () => {
 		])(
 			"passes profile $profile with inherited profile $inherited through the environment",
 			async ({ profile, inherited, expected }) => {
-				const executable = `node_modules/${name}/${bin}`;
 				await seed({
 					"package.json": JSON.stringify({
 						devDependencies: { [name]: version },
@@ -294,8 +310,18 @@ describe("cf dev", () => {
 						version,
 					}),
 					[executable]: nodeScript(
-						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null }));'
+						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null, cfAuth: process.env.CLOUDFLARE_CF_AUTH }));'
 					),
+					...(vite
+						? {
+								"cloudflare.config.ts": "export default {};",
+								"node_modules/vite/package.json": JSON.stringify({
+									name: "vite",
+									version: "8.1.0",
+									bin: { vite: "bin/vite.js" },
+								}),
+							}
+						: {}),
 				});
 				makeExecutable(executable);
 
@@ -308,6 +334,7 @@ describe("cf dev", () => {
 				expect(JSON.parse(readFileSync("profile.out", "utf8"))).toEqual({
 					argv: ["dev", "--port", "3000"],
 					profile: expected,
+					cfAuth: "true",
 				});
 				expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe(inherited);
 			}
@@ -672,12 +699,10 @@ describe("cf dev", () => {
 				{ env: { CF_TEST_ENV: "override" } }
 			);
 
-			const [path, override] = JSON.parse(
-				readFileSync("command-env.json", "utf8")
-			);
-			expect(path).toContain(resolve("node_modules/.bin"));
-			expect(path.endsWith(process.env.PATH ?? "")).toBe(true);
-			expect(override).toBe("override");
+			expect(JSON.parse(readFileSync("command-env.json", "utf8"))).toEqual([
+				process.env.PATH,
+				"override",
+			]);
 		});
 
 		it("resolves framework executables from an ancestor's node_modules", async () => {
@@ -932,7 +957,7 @@ spawn(process.execPath, ["tool.cjs"], { stdio: "inherit" });
 					},
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
-					version: "2.0.0-beta.1",
+					version: "2.0.0-beta.v.13",
 				}),
 				"node_modules/vite-plus/package.json": JSON.stringify({
 					name: "vite-plus",

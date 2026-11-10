@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import {
+	compactBody,
+	mergeBodyPositionals,
+	parseBody,
+	parseJsonMap,
+} from "#lib/body-parser.js";
 import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
@@ -249,7 +254,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
+								? mergeBodyPositionals(parseBody(argv.body), [
+										{
+											name: "script-tag",
+											field: "script_tag",
+											value: argv["script-tag"],
+										},
+									])
 								: validateBodyUnions(
 										compactBody(
 											{
@@ -390,7 +401,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
+					argv.body !== undefined
+						? mergeBodyPositionals(parseBody(argv.body), [
+								{
+									name: "script-tag",
+									field: "script_tag",
+									value: argv["script-tag"],
+								},
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;

@@ -501,6 +501,10 @@ to know before editing `generator/plugin/`.
 - Per-field-flag `demandOption: true` is suppressed when `--body` is
   also supported (so `--body @file` isn't rejected by yargs for
   missing required fields — handler-time enforcement instead).
+- Required body positionals remain mandatory when `--body` is supplied, even
+  when the JSON contains the same fields. Body positionals merge into JSON
+  `--body` input; conflicting values fail before authentication or a dry-run
+  preview.
 - Array-typed body and query params (e.g. KV bulk-get's `--keys`) emit
   `type: "string", array: true` so users can do `--keys k1 k2` or repeat
   the flag. Query serialization follows the operation's `explode` setting.

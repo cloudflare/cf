@@ -11,7 +11,11 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import {
+	compactBody,
+	mergeBodyPositionals,
+	parseBody,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -68,7 +72,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
+								? mergeBodyPositionals(parseBody(argv.body), [
+										{
+											name: "domains",
+											field: "domains",
+											value: argv["domains"],
+										},
+									])
 								: compactBody({
 										domains: argv["domains"],
 									}),
@@ -76,7 +86,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
+					argv.body !== undefined
+						? mergeBodyPositionals(parseBody(argv.body), [
+								{ name: "domains", field: "domains", value: argv["domains"] },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;

@@ -81,4 +81,81 @@ describe("cf registrar registrations check", () => {
 			bodyKind: "json",
 		});
 	});
+
+	it.each([false, true])(
+		"combines variadic domains with --body (dry run: %s)",
+		async (dryRun) => {
+			let body: unknown;
+			server.use(
+				http.post(
+					`${TEST_BASE_URL}/accounts/test-account/registrar/domain-check`,
+					async ({ request }) => {
+						body = await request.json();
+						return HttpResponse.json({ success: true, result: [] });
+					}
+				)
+			);
+			for (const args of [
+				["example.com", "example.net", "--body", "{}"],
+				[
+					"example.com",
+					"example.net",
+					"--body",
+					'{"domains":["example.com","example.net"]}',
+				],
+			]) {
+				logSpy.mockClear();
+				const { exitCode } = await runCf(
+					[
+						"registrar",
+						"registrations",
+						"check",
+						...args,
+						...(dryRun ? ["--dry-run"] : []),
+					],
+					ENV
+				);
+				expect(exitCode).toBe(0);
+				const expected = { domains: ["example.com", "example.net"] };
+				if (dryRun) {
+					expect(JSON.parse(String(logSpy.mock.calls[0]?.[0]))).toMatchObject({
+						body: expected,
+					});
+				} else {
+					expect(body).toEqual(expected);
+				}
+			}
+		}
+	);
+
+	it.each([false, true])(
+		"requires variadic domains even when --body contains them (dry run: %s)",
+		async (dryRun) => {
+			const request = vi.fn(() =>
+				HttpResponse.json({ success: true, result: [] })
+			);
+			server.use(
+				http.post(
+					`${TEST_BASE_URL}/accounts/test-account/registrar/domain-check`,
+					request
+				)
+			);
+			await expect(
+				runCf(
+					[
+						"registrar",
+						"registrations",
+						"check",
+						"--body",
+						'{"domains":["example.com","example.net"]}',
+						...(dryRun ? ["--dry-run"] : []),
+					],
+					ENV
+				)
+			).rejects.toThrow(/Not enough non-option arguments/);
+
+			expect(request).not.toHaveBeenCalled();
+			expect(logSpy).not.toHaveBeenCalled();
+		}
+	);
 });

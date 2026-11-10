@@ -156,7 +156,7 @@ the document; the command generator is a forge plugin that lives here, in
 `packages/cli/generator/plugin/`. It is TypeScript written against
 `@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
 WebAssembly component that forge runs. It walks forge's model of the
-operations, each top-level group's commands in parallel, and emits:
+operations, each top-level group's commands in turn, and emits:
 
 - `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
 - `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one

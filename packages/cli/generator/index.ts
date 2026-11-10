@@ -8,7 +8,7 @@ import { handWrittenMeta } from "../src/commands/hand-written-meta.js";
 import { handWrittenCommands } from "../src/commands/hand-written.js";
 import { cliPlugin } from "./plugin/index.js";
 
-export const { generate, generateGroup } = cliPlugin({
+export const { generate } = cliPlugin({
 	handWritten: handWrittenCommands,
 	sidecars: handWrittenMeta,
 });

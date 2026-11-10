@@ -10,9 +10,9 @@
  * `operation.ts` too. The commands send their requests through cf's
  * runtime library, `#api` (`src/api/`), which the plugin doesn't write.
  *
- * Each top-level group's commands are generated in parallel, in an instance
- * of the plugin of their own: what a command's files say depends on its own
- * operation alone. The files that list every command are generated once.
+ * forge calls the plugin once. It writes the files that list every command,
+ * then each top-level group's command: what a command's files say depends
+ * on its own operation alone.
  *
  * A plugin reads nothing but the document, so what else it needs is built
  * into it: `generator/index.ts`, its entry module, calls {@link cliPlugin}
@@ -25,7 +25,7 @@ import {
 	type Forge,
 	type Group,
 } from "@cloudflare/forge/plugin";
-import { command, commands, operationId } from "./commands.js";
+import { command, commands, operationId, topLevel } from "./commands.js";
 import { commandFiles, metadataFiles, type Operations } from "./files.js";
 import { type Config, HandWritten } from "./hand-written.js";
 import { resolve } from "./operation.js";
@@ -45,36 +45,46 @@ function operations(groups: readonly Group[]): Operations {
 
 /**
  * Generates the files that list every one of cf's commands from `forge`,
- * with `config`: the root index and the metadata.
+ * with `config`: the root index and the metadata. The root's own methods
+ * are left out, as {@link topLevel} says.
  */
 export function generateCli(forge: Forge, config: Config): File[] {
+	const groups = topLevel(forge).flatMap((group) => [
+		group,
+		...group.descendants,
+	]);
 	return metadataFiles(
-		operations(forge.groups),
+		operations(groups),
 		commands(forge),
 		new HandWritten(config)
 	);
 }
 
 /**
- * Generates the files of the command of `group`, if it is a top-level
- * group, with `config`: a module for each of its leaves, and an index for it
- * and each of its groups.
+ * Generates the files of the command of the top-level group `group`, with
+ * `config`: a module for each of its leaves, and an index for it and each
+ * of its groups.
  */
 export function generateCliGroup(group: Group, config: Config): File[] {
-	if (group.parent !== undefined) {
-		return [];
-	}
 	const ops = operations([group, ...group.descendants]);
 	return commandFiles(ops, command(group), new HandWritten(config));
 }
 
 /**
- * The exports of the plugin: {@link generateCli} once, and
- * {@link generateCliGroup} for each group, in parallel.
+ * Generates every file of cf's commands from `forge`, with `config`: those
+ * of {@link generateCli}, then those of {@link generateCliGroup} for each
+ * top-level group.
  */
+export function generateAll(forge: Forge, config: Config): File[] {
+	return [
+		...generateCli(forge, config),
+		...topLevel(forge).flatMap((group) => generateCliGroup(group, config)),
+	];
+}
+
+/** The exports of the plugin, which calls {@link generateAll}. */
 export function cliPlugin(config: Config): Exports {
 	return definePlugin({
-		generate: (forge) => generateCli(forge, config),
-		generateGroup: (group) => generateCliGroup(group, config),
+		generate: (forge) => generateAll(forge, config),
 	});
 }

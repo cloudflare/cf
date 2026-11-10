@@ -188,14 +188,13 @@ its `--dry-run` option.
 The plugin does not emit the request runtime. It lives in `src/api/` and
 is imported as `#api`, like any other hand-maintained module.
 
-A command's files depend only on its own operation, so forge generates
-them in parallel: `generateGroup` writes each top-level group's command
-modules and indexes, each in a plugin instance of its own, and `generate`
-writes what lists every command (the root index, the Access root, and
-`_meta/`) plus the runtime. The metadata pass checks everything the files
-pass does, so it reports every error. Keep new rules local to the
-operation; a rule that needs other operations would serialize generation
-again.
+forge calls the plugin's `generate` once, on one thread. It writes the
+root index, the Access root, and `_meta/`, then each top-level group's
+command modules and indexes. A command's files depend only on its own
+operation. The metadata pass checks everything the files pass does, so it
+reports every error. Keep new rules local to the operation.
+`generateCliGroup` gets only its own group's operations, so a rule that
+needs another group's operations can't see them.
 
 Each group also writes a module for each of its methods, deprecated ones
 included, at the method's path in the group tree:

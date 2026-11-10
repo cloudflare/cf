@@ -29,8 +29,7 @@ import type { CommandMeta } from "../../lib/metadata.js";
  * The plugin the tests run. Building one takes seconds, and each test
  * generates with a configuration of its own, so it is built once, to read
  * its configuration from the document: the JSON in `info.version`, which
- * the plugin otherwise doesn't read. A group doesn't have the forge it is
- * in, so `generateGroup` reads it from the host.
+ * the plugin otherwise doesn't read.
  */
 const require = createRequire(import.meta.url);
 const forgeDir = dirname(require.resolve("@cloudflare/forge/package.json"));
@@ -52,13 +51,10 @@ function plugin(): string {
 			entry,
 			[
 				`import { definePlugin } from ${specifier(require.resolve("@cloudflare/forge/plugin"))};`,
-				'import { info } from "forge:plugin/forge@0.3.0";',
-				`import { generateCli, generateCliGroup } from ${specifier(fileURLToPath(new URL("../../../generator/plugin/index.ts", import.meta.url)))};`,
+				`import { generateAll } from ${specifier(fileURLToPath(new URL("../../../generator/plugin/index.ts", import.meta.url)))};`,
 				"",
-				"const config = () => JSON.parse(info().version);",
-				"export const { generate, generateGroup } = definePlugin({",
-				"\tgenerate: (forge) => generateCli(forge, config()),",
-				"\tgenerateGroup: (group) => generateCliGroup(group, config()),",
+				"export const { generate } = definePlugin({",
+				"\tgenerate: (forge) => generateAll(forge, JSON.parse(forge.version)),",
 				"});",
 				"",
 			].join("\n")

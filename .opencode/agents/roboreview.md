@@ -83,7 +83,7 @@ Follow this workflow when implementation mode applies:
 10. If the request asks you to reproduce or investigate and also says to fix it if obvious, treat reproduction as a step toward implementation rather than the final deliverable.
 11. If you are blocked by ambiguity, ask one targeted clarifying question. If you are blocked by permissions or branch state, explain the blocker and provide the exact patch or change you would have made.
 12. If your change affects generator behaviour or schema interpretation, re-run `pnpm generate` and commit the resulting diff under `_generated/` alongside the source change. Do not commit generator changes without their regenerated output, and do not commit `_generated/` churn without the corresponding source change.
-13. Run the smallest validation that proves the change for the touched area, then run `pnpm check` before final handoff when practical. Avoid running the e2e suite (`packages/cli/e2e/_generated/run-e2e.sh`) unless explicitly asked — it hits a real Cloudflare account.
+13. Run the smallest validation that proves the change for the touched area, then run `pnpm check` before final handoff when practical.
 14. Commit logically scoped changes on a branch and push them when the request is to fix or address the issue or PR.
 
 Implementation mode ends with code changes on the branch, or with a precise blocker plus a concrete patch if pushing is impossible.
@@ -128,7 +128,6 @@ Use triage mode when you are asked to investigate rather than change code.
 - `packages/cli/src/` — hand-written CLI source (yargs entry, the central `commands/hand-written.ts` registry, root commands, generated-tree exceptions, and `lib/`).
 - `packages/cli/src/commands/_generated/` — tracked generator output. It must only be modified by running `pnpm generate` after changing its source.
 - `packages/cli/generator/` — OpenAPI preparation and the code generator, a forge plugin under `generator/plugin/` (argument derivation, per-command emitters, operation literals, metadata, and index emitters) compiled to WebAssembly.
-- `packages/cli/e2e/` — JSON fixtures and a generated bash runner that hits a real Cloudflare account. Don't run unless asked.
 - `patches/` — pnpm patch files.
 
 **TypeScript:**
@@ -156,7 +155,6 @@ Use triage mode when you are asked to investigate rather than change code.
 
 - Add tests for new behaviour where there's an existing test surface.
 - Do not leave `.only()` in tests.
-- E2E runs against a real Cloudflare account — never run them as part of normal review unless explicitly asked.
 
 **Releases:** Per-PR and per-`main`-commit prereleases ship automatically via `.github/workflows/prerelease.yml` and pkg-pr-new. User-facing changes also need a Changesets entry; `.github/workflows/changesets.yml` versions and publishes stable releases from `main`. Documentation-only, test-only, CI, and internal refactors do not need a changeset; see `.changeset/README.md`.
 
@@ -217,7 +215,6 @@ Negative examples:
 - Missing curly braces on control flow
 - Hand-editing `packages/cli/src/commands/_generated/` instead of changing the generator
 - Committing generator changes without the regenerated `_generated/` diff (or vice versa)
-- Running the e2e suite unprompted (it hits a real Cloudflare account)
 - Suggestion-only responses when the user explicitly asked for a fix
   </anti_patterns>
 

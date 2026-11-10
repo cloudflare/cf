@@ -146,8 +146,7 @@ task references in `dependsOn`, and dependency selectors for dependency builds.
 
 For a focused CLI test, run `pnpm test src/__tests__/lib/local-e2e.test.ts`
 from `packages/cli/`. Pass the path directly: inserting `--` runs the full
-suite. Real-account smoke tests under `packages/cli/e2e/` are out-of-band;
-see the architecture reference for invocation.
+suite.
 
 Before pushing any code change, run the exact root command `pnpm check` and
 require it to pass. Narrower checks and builds do not replace it. If it cannot

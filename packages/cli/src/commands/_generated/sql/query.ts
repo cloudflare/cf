@@ -6,7 +6,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, requestApi } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import {
+	compactBody,
+	mergeBodyPositionals,
+	parseBody,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -16,13 +21,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 sql query <query>\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
+			"$0 sql query [query]\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
 		)
 		.positional("query", {
 			type: "string",
 			description:
 				"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. ",
-			demandOption: true,
 		})
 		.option("scope-account", {
 			type: "string",
@@ -55,6 +59,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Path to a file to upload as the request body",
 		})
+		.check((argv) => {
+			if (argv.body === undefined && argv["query"] === undefined) {
+				throw new Error("<query> is required (or pass --body with query set).");
+			}
+			return true;
+		})
 		.conflicts("scope-account", ["scope-zone"])
 		.conflicts("scope-zone", ["scope-account"])
 		.check((argv) => {
@@ -76,7 +86,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "query <query>",
+	command: "query [query]",
 	describe: "Query analytics datasets",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -100,7 +110,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.file !== undefined
 								? { file: argv.file }
 								: argv.body !== undefined
-									? parseBody(argv.body)
+									? mergeBodyPositionals(parseBody(argv.body), [
+											{ name: "query", field: "query", value: argv["query"] },
+										])
 									: compactBody({
 											scope: {
 												accountTag: resolveFileToken(
@@ -135,7 +147,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.file !== undefined
 						? undefined
 						: argv.body !== undefined
-							? parseBody(argv.body)
+							? mergeBodyPositionals(parseBody(argv.body), [
+									{ name: "query", field: "query", value: argv["query"] },
+								])
 							: undefined;
 				const client = await createCommandClient(argv);
 

@@ -13,6 +13,7 @@
 
 import { readFileSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
+import { isDeepStrictEqual } from "node:util";
 
 /**
  * Set a value at a nested path in an object, creating intermediate objects as needed.
@@ -153,6 +154,37 @@ export function parseBody<T = unknown>(
 
 function isJsonObject(value: unknown): value is Record<string, unknown> {
 	return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+/** Body positionals still identify the subject when --body supplies other fields. */
+export function mergeBodyPositionals(
+	body: unknown,
+	positionals: readonly { name: string; field: string; value: unknown }[]
+): unknown {
+	// Yargs supplies [] for an omitted optional variadic positional.
+	const supplied = positionals.filter(
+		({ value }) =>
+			value !== undefined && !(Array.isArray(value) && value.length === 0)
+	);
+	if (supplied.length === 0) {
+		return body;
+	}
+	if (!isJsonObject(body)) {
+		throw new Error(
+			"--body must be a JSON object when combined with body positional arguments."
+		);
+	}
+	for (const { name, field, value } of supplied) {
+		if (Object.hasOwn(body, field) && !isDeepStrictEqual(body[field], value)) {
+			throw new Error(
+				`The <${name}> positional conflicts with "${field}" in --body.`
+			);
+		}
+	}
+	return {
+		...body,
+		...Object.fromEntries(supplied.map(({ field, value }) => [field, value])),
+	};
 }
 
 /** Keep JSON primitive types when a body flag accepts more than one scalar type. */

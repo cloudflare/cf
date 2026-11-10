@@ -11,7 +11,11 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import {
+	compactBody,
+	mergeBodyPositionals,
+	parseBody,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -23,12 +27,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search tokens create <name>\n\nCreate a stored Cloudflare credential for an AI Search instance to access its data source."
+			"$0 ai-search tokens create [name]\n\nCreate a stored Cloudflare credential for an AI Search instance to access its data source."
 		)
 		.positional("name", {
 			type: "string",
 			description: "Human-readable name for the credential.",
-			demandOption: true,
 		})
 		.option("api-token-id", {
 			type: "string",
@@ -51,13 +54,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			if (argv.body === undefined && argv["name"] === undefined) {
+				throw new Error("<name> is required (or pass --body with name set).");
+			}
+			return true;
 		});
 }
 
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <name>",
+	command: "create [name]",
 	describe: "Create a token",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -80,7 +89,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
+								? mergeBodyPositionals(parseBody(argv.body), [
+										{ name: "name", field: "name", value: argv["name"] },
+									])
 								: compactBody({
 										cf_api_id: resolveFileToken(
 											argv["api-token-id"] as string | undefined,
@@ -100,7 +111,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
+					argv.body !== undefined
+						? mergeBodyPositionals(parseBody(argv.body), [
+								{ name: "name", field: "name", value: argv["name"] },
+							])
+						: undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;

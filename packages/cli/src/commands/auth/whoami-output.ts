@@ -44,41 +44,36 @@ const PROFILE_SOURCES = {
 	default: "default profile",
 } satisfies Record<WhoamiProfile["source"], string>;
 
-function statusLabel(result: WhoamiResult): string {
+function authenticationMessage(
+	result: WhoamiResult,
+	method: WhoamiSnapshot["method"]
+): string {
 	if (!result.authenticated) {
 		return "Not authenticated";
 	}
 	if (result.tokenValid === false) {
-		return "Credentials rejected (token disabled or expired)";
+		return "Not authenticated (API token disabled or expired)";
 	}
+	const authenticationMethod = method === "oauth" ? "OAuth" : "API Token";
 	if (result.tokenValid === null) {
-		return "Credentials present; unable to verify";
+		return `Unable to verify authentication via ${authenticationMethod}`;
 	}
-	return "Authenticated";
+	return result.email
+		? `Authenticated as ${sanitizeTerminalText(result.email)} via ${authenticationMethod}`
+		: `Authenticated via ${authenticationMethod} (email unavailable)`;
 }
 
 export async function printWhoamiSummary(
 	{ result, method, tokenVariable, accountsAvailable }: WhoamiSnapshot,
 	argv: ArgumentsCamelCase<CommonYargsOptions>
 ): Promise<void> {
-	const profile = `${result.profile.name} (${PROFILE_SOURCES[result.profile.source]}${result.profile.overridden ? `; overridden by ${tokenVariable}` : ""})`;
-	const row = (label: string, value: string) =>
-		`${theme.bold(label.padEnd(9))} ${sanitizeTerminalText(value)}`;
-	const lines = [
-		row("Status", statusLabel(result)),
-		row(
-			"Method",
-			method === "api-token"
-				? `API token (${tokenVariable})`
-				: method === "oauth"
-					? "OAuth"
-					: "None"
-		),
-		...(result.authenticated
-			? [row("Email", result.email ?? "Unavailable for these credentials")]
-			: []),
-		row("Profile", profile),
-	];
+	const lines = [authenticationMessage(result, method)];
+	const profileName = sanitizeTerminalText(result.profile.name);
+	if (result.profile.name !== "default") {
+		lines.push(
+			`Active profile: ${profileName} (${PROFILE_SOURCES[result.profile.source]}${result.profile.overridden ? `; overridden by ${sanitizeTerminalText(tokenVariable ?? "environment API token")}` : ""})`
+		);
+	}
 
 	if (!result.authenticated) {
 		console.log(lines.join("\n"));
@@ -88,7 +83,7 @@ export async function printWhoamiSummary(
 				: "Log in to authenticate with Cloudflare.",
 			result.profile.name === "default"
 				? `cf auth login${method === "oauth" ? " --force" : ""}`
-				: `cf auth create ${result.profile.name}`
+				: `cf auth create ${profileName}`
 		);
 		return;
 	}
@@ -115,12 +110,9 @@ export async function printWhoamiSummary(
 	}
 
 	if (method === "api-token") {
-		lines.push(
-			"",
-			row("Scopes", "API token permissions are not available here")
-		);
+		lines.push("", "Scopes: API token permissions are not available here");
 	} else if (result.scopes === undefined) {
-		lines.push("", row("Scopes", "Not recorded for this OAuth login"));
+		lines.push("", "Scopes: Not recorded for this OAuth login");
 	} else {
 		lines.push(
 			"",

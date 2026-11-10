@@ -118,8 +118,9 @@ Normal structured API results are pretty-printed JSON. Null mutation results lea
 `cf auth whoami` (hidden alias: `cf whoami`) defaults to a human summary when
 stdin and stdout are terminals, outside CI and detected agent contexts, and to
 full JSON otherwise. Its command-specific `--json` / `--no-json` overrides that
-choice. Keep profile reporting, account names and IDs, and grouped OAuth scope
-counts in the summary; catalogue failures must stay compact. Both output modes
+choice. Start the summary with an authentication sentence, show profile information
+only for named profiles, and retain account names and IDs and grouped OAuth scope
+counts; catalogue failures must stay compact. Both output modes
 describe the active credentials, so an environment API token must never inherit
 stored OAuth scopes or expiry. `--quiet` retains the command result.
 

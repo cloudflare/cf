@@ -143,10 +143,8 @@ describe("whoami output", () => {
 		await runCf(["auth", "whoami"]);
 
 		expect(std.out).toMatchInlineSnapshot(`
-			"Status    Authenticated
-			Method    OAuth
-			Email     user@example.com
-			Profile   work (activated for this directory)
+			"Authenticated as user@example.com via OAuth
+			Active profile: work (activated for this directory)
 
 			Accounts (2)
 			  Account One  account-1
@@ -195,7 +193,9 @@ describe("whoami output", () => {
 				});
 			} else {
 				const text = stripVTControlCharacters(rawOutput);
-				expect(text).toContain("Email     user     @example.com");
+				expect(text).toContain(
+					"Authenticated as user     @example.com via OAuth"
+				);
 				expect(text).toContain("  Account [31m     End  id   End");
 				for (const line of text.split("\n")) {
 					expect(line).not.toMatch(/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/gu);
@@ -288,7 +288,9 @@ describe("whoami output", () => {
 				});
 				expect(catalogueRequests).toBe(0);
 			} else {
-				expect(std.out).toContain("Status    Authenticated");
+				expect(std.out).toContain(
+					"Authenticated as user@example.com via OAuth"
+				);
 				expect(std.out).not.toContain("dns.read");
 			}
 		}
@@ -300,23 +302,32 @@ describe("whoami output", () => {
 			envProfile: "personal",
 			name: "work",
 			source: "--profile",
+			activation: "selected by --profile",
 		},
 		{
 			flags: [],
 			envProfile: "personal",
 			name: "personal",
 			source: "CLOUDFLARE_AUTH_PROFILE",
+			activation: "selected by CLOUDFLARE_AUTH_PROFILE",
 		},
-		{ flags: [], envProfile: undefined, name: "work", source: "directory" },
+		{
+			flags: [],
+			envProfile: undefined,
+			name: "work",
+			source: "directory",
+			activation: "activated for this directory",
+		},
 		{
 			flags: ["--profile", "default"],
 			envProfile: "personal",
 			name: "default",
 			source: "--profile",
+			activation: undefined,
 		},
 	])(
 		"reports the selected profile $name from $source",
-		async ({ flags, envProfile, name, source }) => {
+		async ({ flags, envProfile, name, source, activation }) => {
 			writeLogin("work");
 			writeLogin("personal");
 			profiles.bindings.activate("work", process.cwd());
@@ -336,11 +347,21 @@ describe("whoami output", () => {
 				CLOUDFLARE_AUTH_PROFILE: envProfile,
 			});
 
-			expect(JSON.parse(std.out).profile).toEqual({
+			expect(JSON.parse(std.getAndClearOut()).profile).toEqual({
 				name,
 				source,
 				overridden: false,
 			});
+
+			await runCf(["auth", "whoami", "--no-json", ...flags], {
+				CLOUDFLARE_AUTH_PROFILE: envProfile,
+			});
+
+			if (name === "default") {
+				expect(std.out).not.toContain("profile");
+			} else {
+				expect(std.out).toContain(`Active profile: ${name} (${activation})`);
+			}
 		}
 	);
 
@@ -362,9 +383,11 @@ describe("whoami output", () => {
 			CLOUDFLARE_API_TOKEN: "environment-token",
 		});
 
-		expect(std.out).toContain("Method    API token (CLOUDFLARE_API_TOKEN)");
 		expect(std.out).toContain(
-			"Profile   work (activated for this directory; overridden by CLOUDFLARE_API_TOKEN)"
+			"Authenticated as user@example.com via API Token"
+		);
+		expect(std.out).toContain(
+			"Active profile: work (activated for this directory; overridden by CLOUDFLARE_API_TOKEN)"
 		);
 		expect(std.out).toContain("API token permissions are not available here");
 		expect(std.out).not.toContain("OAuth scopes");
@@ -374,8 +397,10 @@ describe("whoami output", () => {
 	it("recognizes the supported CF_API_TOKEN alias", async () => {
 		await runCf(["whoami"], { CF_API_TOKEN: "environment-token" });
 
-		expect(std.out).toContain("Method    API token (CF_API_TOKEN)");
-		expect(std.out).toContain("overridden by CF_API_TOKEN");
+		expect(std.out).toContain(
+			"Authenticated as user@example.com via API Token"
+		);
+		expect(std.out).not.toContain("profile");
 		expect(std.out).not.toContain("OAuth scopes");
 		expect(catalogueRequests).toBe(0);
 	});
@@ -391,8 +416,9 @@ describe("whoami output", () => {
 
 		await runCf(["auth", "whoami"], { CLOUDFLARE_API_TOKEN: "limited-token" });
 
-		expect(std.out).toContain("Status    Authenticated");
-		expect(std.out).toContain("Email     Unavailable for these credentials");
+		expect(std.out).toContain(
+			"Authenticated via API Token (email unavailable)"
+		);
 		expect(std.out).toContain("Unavailable; could not list accounts");
 		expect(std.out).not.toContain("No accessible accounts");
 		expect(std.out).not.toContain("Accounts (0)");
@@ -426,7 +452,7 @@ describe("whoami output", () => {
 			});
 
 			expect(std.out).toContain(
-				"Status    Credentials rejected (token disabled or expired)"
+				"Not authenticated (API token disabled or expired)"
 			);
 		}
 	);
@@ -449,15 +475,14 @@ describe("whoami output", () => {
 			CLOUDFLARE_API_TOKEN: "unverified-token",
 		});
 
-		expect(std.out).toContain(
-			"Status    Credentials present; unable to verify"
-		);
+		expect(std.out).toContain("Unable to verify authentication via API Token");
 	});
 
 	it("keeps the result when quiet and suppresses optional hints", async () => {
 		await runCf(["auth", "whoami", "--quiet"]);
 
-		expect(std.out).toContain("Profile   default (default profile)");
+		expect(std.out).toContain("Authenticated as user@example.com via OAuth");
+		expect(std.out).not.toContain("profile");
 		expect(std.out).toContain("OAuth scopes (3 granted)");
 		expect(std.err).not.toContain("View granted permissions");
 		expect(std.err).not.toContain("cf auth scopes");
@@ -539,7 +564,7 @@ describe("whoami output", () => {
 
 		await runCf(["auth", "whoami"]);
 
-		expect(std.out).toContain("Scopes    Not recorded for this OAuth login");
+		expect(std.out).toContain("Scopes: Not recorded for this OAuth login");
 		expect(catalogueRequests).toBe(0);
 	});
 
@@ -552,7 +577,7 @@ describe("whoami output", () => {
 		expect(catalogueRequests).toBe(0);
 	});
 
-	it("shows unauthenticated status and a profile-specific login hint", async () => {
+	it("shows an unauthenticated message and a profile-specific login hint", async () => {
 		const { exitCode } = await runCf([
 			"auth",
 			"whoami",
@@ -562,8 +587,9 @@ describe("whoami output", () => {
 		]);
 
 		expect(exitCode).toBe(0);
-		expect(std.out).toContain("Status    Not authenticated");
-		expect(std.out).toContain("Profile   missing (selected by --profile)");
+		expect(std.out).toBe(
+			"Not authenticated\nActive profile: missing (selected by --profile)"
+		);
 		expect(std.err).toContain("cf auth create missing");
 		expect(catalogueRequests).toBe(0);
 	});
@@ -582,8 +608,7 @@ describe("whoami output", () => {
 
 		await runCf(["auth", "whoami"]);
 
-		expect(std.out).toContain("Status    Not authenticated");
-		expect(std.out).toContain("Method    OAuth");
+		expect(std.out).toBe("Not authenticated");
 		expect(std.err).toContain("Could not refresh your OAuth credentials");
 		expect(std.err).toContain("cf auth login --force");
 	});

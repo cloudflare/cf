@@ -82,6 +82,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				preferLocal: true,
 				env: { ...details.env, ...profileEnv },
 				args: [...modeArgs, ...implArgs],
+				output: "inherit",
 			});
 			throw new CliExit(result.exitCode, { signal: result.signal });
 		}

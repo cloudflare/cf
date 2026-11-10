@@ -1,5 +1,6 @@
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
+import { sanitizeTerminalText } from "../../lib/ui/sanitize.js";
 import { loadScopeCatalogue } from "./scope-catalogue.js";
 import { formatScopeSummary, hasProductScopes } from "./scope-groups.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
@@ -62,7 +63,7 @@ export async function printWhoamiSummary(
 ): Promise<void> {
 	const profile = `${result.profile.name} (${PROFILE_SOURCES[result.profile.source]}${result.profile.overridden ? `; overridden by ${tokenVariable}` : ""})`;
 	const row = (label: string, value: string) =>
-		`${theme.bold(label.padEnd(9))} ${value}`;
+		`${theme.bold(label.padEnd(9))} ${sanitizeTerminalText(value)}`;
 	const lines = [
 		row("Status", statusLabel(result)),
 		row(
@@ -107,7 +108,9 @@ export async function printWhoamiSummary(
 			(a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id)
 		);
 		for (const account of accounts) {
-			lines.push(`  ${account.name}  ${theme.muted(account.id)}`);
+			const name = sanitizeTerminalText(account.name);
+			const id = sanitizeTerminalText(account.id);
+			lines.push(`  ${name}  ${theme.muted(id)}`);
 		}
 	}
 

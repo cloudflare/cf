@@ -1,3 +1,4 @@
+import { stripVTControlCharacters } from "node:util";
 import {
 	createCfProfileStore,
 	writeAuthConfigFile,
@@ -160,6 +161,48 @@ describe("whoami output", () => {
 		expect(std.err).toContain("cf auth scopes --all");
 		expect(catalogueRequests).toBe(1);
 	});
+
+	it.each([
+		{ flags: ["--no-json"], json: false },
+		{ flags: ["--json"], json: true },
+	])(
+		"handles terminal controls in API details with $flags",
+		async ({ flags, json }) => {
+			const account = {
+				name: "Account\u001b[31m\u0007\u202e\u2028\u2029\nEnd",
+				id: "id\u0000\u2066\tEnd",
+			};
+			const email = "user\u0007\u202e\u2028\u2029\n@example.com";
+			server.use(
+				http.get(`${TEST_BASE_URL}/user`, () =>
+					HttpResponse.json({ success: true, result: { email } })
+				),
+				http.get(`${TEST_BASE_URL}/accounts`, () =>
+					HttpResponse.json({ success: true, result: [account] })
+				),
+				http.get(`${TEST_BASE_URL}/memberships`, () =>
+					HttpResponse.json({ success: true, result: [{ account }] })
+				)
+			);
+
+			await runCf(["auth", "whoami", ...flags]);
+
+			const rawOutput = String(vi.mocked(console.log).mock.lastCall?.[0]);
+			if (json) {
+				expect(JSON.parse(rawOutput)).toMatchObject({
+					email,
+					accounts: [account],
+				});
+			} else {
+				const text = stripVTControlCharacters(rawOutput);
+				expect(text).toContain("Email     user     @example.com");
+				expect(text).toContain("  Account [31m     End  id   End");
+				for (const line of text.split("\n")) {
+					expect(line).not.toMatch(/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/gu);
+				}
+			}
+		}
+	);
 
 	it.each([
 		{

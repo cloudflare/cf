@@ -19443,6 +19443,112 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"browser-run script create": {
+			"operationId": "browser-run.script.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/browser-rendering/script",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "keep_alive",
+					"flag": "keep-alive",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "lab",
+					"flag": "lab",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "recording",
+					"flag": "recording",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"flag": "browser",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "code",
+					"type": "string",
+					"required": true,
+					"description": "Function body executed against the selected library's runner."
+				},
+				{
+					"name": "library",
+					"type": "string",
+					"required": false,
+					"description": "Library the script runs with. Defaults to raw CDP when omitted."
+				},
+				{
+					"name": "timeout",
+					"type": "number",
+					"required": false,
+					"description": "Maximum script run time in milliseconds."
+				}
+			]
+		},
+		"browser-run script execute": {
+			"operationId": "browser-run.script.execute",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/browser-rendering/script/{session_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "session_id",
+					"flag": "session-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "code",
+					"type": "string",
+					"required": true,
+					"description": "Function body executed against the selected library's runner."
+				},
+				{
+					"name": "library",
+					"type": "string",
+					"required": false,
+					"description": "Library the script runs with. Defaults to raw CDP when omitted."
+				},
+				{
+					"name": "target-id",
+					"type": "string",
+					"required": false,
+					"description": "Page target the script attaches to. Defaults to the session's first page."
+				},
+				{
+					"name": "timeout",
+					"type": "number",
+					"required": false,
+					"description": "Maximum script run time in milliseconds."
+				}
+			]
+		},
 		"builds cancel": {
 			"operationId": "builds.cancel",
 			"httpMethod": "PUT",
@@ -64075,6 +64181,28 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"pipelines sinks update": {
+			"operationId": "pipelines.sinks.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/pipelines/v1/sinks/{sink_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "sink_id",
+					"flag": "sink-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
 		"pipelines streams create": {
 			"operationId": "pipelines.streams.create",
 			"httpMethod": "POST",
@@ -64311,6 +64439,28 @@
 					"description": "Indicates that the worker binding is enabled."
 				}
 			]
+		},
+		"pipelines update-tables": {
+			"operationId": "pipelines.update-tables",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/pipelines/v1/pipelines/{pipeline_id}/update_tables",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "pipeline_id",
+					"flag": "pipeline-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"pipelines validate-sql": {
 			"operationId": "pipelines.validate-sql",
@@ -65416,28 +65566,6 @@
 				}
 			]
 		},
-		"r2 buckets create-by-name": {
-			"operationId": "r2.buckets.create-by-name",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"flag": "bucket-name",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"r2 buckets delete": {
 			"operationId": "r2.buckets.delete",
 			"httpMethod": "DELETE",
@@ -66214,8 +66342,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"r2 buckets sippy delete": {
-			"operationId": "r2.buckets.sippy.delete",
+		"r2 buckets sippy disable": {
+			"operationId": "r2.buckets.sippy.disable",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
 			"pathParams": [
@@ -66236,30 +66364,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"r2 buckets sippy get": {
-			"operationId": "r2.buckets.sippy.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"flag": "bucket-name",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2 buckets sippy update": {
-			"operationId": "r2.buckets.sippy.update",
+		"r2 buckets sippy enable": {
+			"operationId": "r2.buckets.sippy.enable",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
 			"pathParams": [
@@ -66370,6 +66476,28 @@
 					"description": "Shared Access Signature token for the Azure Storage account. Mutually exclusive with accountKey."
 				}
 			]
+		},
+		"r2 buckets sippy get": {
+			"operationId": "r2.buckets.sippy.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"flag": "bucket-name",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"r2 objects bulk-delete": {
 			"operationId": "r2.objects.bulk-delete",
@@ -100114,6 +100242,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The name of the dispatch namespace."
+				},
+				{
+					"name": "trusted-workers",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the Workers in the namespace are executed in a \"trusted\" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are \"untrusted\"."
 				}
 			]
 		},

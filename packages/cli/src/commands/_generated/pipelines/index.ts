@@ -9,6 +9,7 @@ import $legacyupdate from "./legacy-update.js";
 import $list from "./list.js";
 import $sinks from "./sinks/index.js";
 import $streams from "./streams/index.js";
+import $updatetables from "./update-tables.js";
 import $validatesql from "./validate-sql.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -33,6 +34,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($legacylist)
 			.command($legacyupdate)
 			.command($list)
+			.command($updatetables)
 			.command($validatesql)
 			.command($sinks)
 			.command($streams)

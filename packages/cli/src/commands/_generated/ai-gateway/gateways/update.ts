@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-gateway gateways update <gateway-id>\n\nUpdates the configuration of an AI Gateway, such as its caching, rate limiting, logging, and authentication settings."
+			"$0 ai-gateway gateways update <gateway-id>\n\nUpdates the configuration of an AI Gateway, such as its caching, rate limiting, spend limits, logging, and authentication settings."
 		)
 		.positional("gateway-id", {
 			type: "string",

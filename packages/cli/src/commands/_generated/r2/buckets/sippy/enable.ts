@@ -1,7 +1,7 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * enable command
  * @generated from apis/overlays/r2.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 r2 buckets sippy update <bucket-name>\n\nConfigures and enables Sippy on-demand migration for an R2 bucket. When a requested object is missing from R2, Sippy serves it from the configured source storage provider and copies it to R2."
+			"$0 r2 buckets sippy enable <bucket-name>\n\nConfigures and enables Sippy on-demand migration for an R2 bucket. When a requested object is missing from R2, Sippy serves it from the configured source storage provider and copies it to R2."
 		)
 		.positional("bucket-name", {
 			type: "string",
@@ -124,13 +124,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <bucket-name>",
+	command: "enable <bucket-name>",
 	describe: "Enable Sippy",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "r2 buckets sippy update",
+				command: "r2 buckets sippy enable",
 				classification: {
 					safeFlags: ["destination-provider", "source-provider", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -143,7 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf r2 buckets sippy update",
+						command: "cf r2 buckets sippy enable",
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/sippy`,
 						pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },

@@ -9355,7 +9355,7 @@
 			"command": "cf ai-gateway gateways update",
 			"name": "update",
 			"fullPath": ["ai-gateway", "gateways", "update"],
-			"description": "Updates the configuration of an AI Gateway, such as its caching, rate limiting, logging, and authentication settings.",
+			"description": "Updates the configuration of an AI Gateway, such as its caching, rate limiting, spend limits, logging, and authentication settings.",
 			"summary": "Update a gateway",
 			"usage": "cf ai-gateway gateways update <gateway-id> [options]",
 			"arguments": [
@@ -26072,6 +26072,145 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/browser-rendering/recording/{session_id}/network",
 			"operationId": "browser-run.recording.network.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf browser-run script create",
+			"name": "create",
+			"fullPath": ["browser-run", "script", "create"],
+			"description": "Acquires a browser session and runs the provided code in it. The session stays open for reuse; close it with `DELETE /devtools/browser/:sessionId` or `browser.close()`, otherwise it ends at the idle timeout.",
+			"summary": "Dynamic Script - execute code and return browser session details.",
+			"usage": "cf browser-run script create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "keep-alive",
+					"type": "number",
+					"required": false,
+					"description": "Keep-alive time in milliseconds"
+				},
+				{
+					"name": "lab",
+					"type": "boolean",
+					"required": false,
+					"description": "Use experimental browser."
+				},
+				{
+					"name": "recording",
+					"type": "boolean",
+					"required": false,
+					"description": "Record the browser session. Retrieve it with `GET /recording/:session_id`."
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend for this script. Set to `kitesurf` to run it on Kitesurf (beta), which supports CDP only and rejects `keep_alive`, `lab` and `recording`.",
+					"enum": ["kitesurf"]
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"required": true,
+					"description": "Function body executed against the selected library's runner."
+				},
+				{
+					"name": "library",
+					"type": "string",
+					"required": false,
+					"description": "Library the script runs with. Defaults to raw CDP when omitted.",
+					"enum": ["playwright", "puppeteer"]
+				},
+				{
+					"name": "timeout",
+					"type": "number",
+					"required": false,
+					"description": "Maximum script run time in milliseconds.",
+					"default": 60000
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/browser-rendering/script",
+			"operationId": "browser-run.script.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf browser-run script execute",
+			"name": "execute",
+			"fullPath": ["browser-run", "script", "execute"],
+			"description": "Runs the provided code in an existing browser session. The session stays open; close it with `DELETE /devtools/browser/:sessionId` or `browser.close()`, otherwise it ends at the idle timeout.",
+			"summary": "Dynamic Script - execute code in an existing browser session.",
+			"usage": "cf browser-run script execute <session-id> [options]",
+			"arguments": [
+				{
+					"name": "session-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Browser session ID"
+				}
+			],
+			"options": [
+				{
+					"name": "code",
+					"type": "string",
+					"required": true,
+					"description": "Function body executed against the selected library's runner."
+				},
+				{
+					"name": "library",
+					"type": "string",
+					"required": false,
+					"description": "Library the script runs with. Defaults to raw CDP when omitted.",
+					"enum": ["playwright", "puppeteer"]
+				},
+				{
+					"name": "target-id",
+					"type": "string",
+					"required": false,
+					"description": "Page target the script attaches to. Defaults to the session's first page."
+				},
+				{
+					"name": "timeout",
+					"type": "number",
+					"required": false,
+					"description": "Maximum script run time in milliseconds.",
+					"default": 60000
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/browser-rendering/script/{session_id}",
+			"operationId": "browser-run.script.execute",
 			"hideCommand": false
 		},
 		{
@@ -88390,6 +88529,44 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf pipelines sinks update",
+			"name": "update",
+			"fullPath": ["pipelines", "sinks", "update"],
+			"description": "Update a Sink's credentials or rolling policy, creating a new version of the Sink. Only `credentials` and `rolling_policy` (R2) or `token` and `rolling_policy` (Basin Catalog, including Sinks created with the legacy `r2_data_catalog` type) can be changed; omitted fields keep their current values. Secrets are never returned in responses. Pipelines that use the Sink keep their current version until they are moved to the latest one with Update Pipeline Tables.",
+			"summary": "Update Sink",
+			"usage": "cf pipelines sinks update <sink-id>",
+			"arguments": [
+				{
+					"name": "sink-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Specifies the publid ID of the sink."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/pipelines/v1/sinks/{sink_id}",
+			"operationId": "pipelines.sinks.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf pipelines streams create",
 			"name": "create",
 			"fullPath": ["pipelines", "streams", "create"],
@@ -88695,6 +88872,38 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/pipelines/v1/streams/{stream_id}",
 			"operationId": "pipelines.streams.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pipelines update-tables",
+			"name": "update-tables",
+			"fullPath": ["pipelines", "update-tables"],
+			"description": "Move a Pipeline to the latest version of every stream and sink it uses, such as after updating a Sink. A running Pipeline restarts on the latest versions from a final checkpoint; a paused or stopped Pipeline uses them once it starts.",
+			"summary": "Update Pipeline Tables",
+			"usage": "cf pipelines update-tables <pipeline-id>",
+			"arguments": [
+				{
+					"name": "pipeline-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Specifies the public ID of the pipeline."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/pipelines/v1/pipelines/{pipeline_id}/update_tables",
+			"operationId": "pipelines.update-tables",
 			"hideCommand": false
 		},
 		{
@@ -90376,50 +90585,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf r2 buckets create-by-name",
-			"name": "create-by-name",
-			"fullPath": ["r2", "buckets", "create-by-name"],
-			"description": "Creates a new R2 bucket using the name from the URL path. Similar to `r2-create-bucket` (POST), but the bucket name comes from the path and the optional storage class is supplied via the `cf-r2-storage-class` header. There is no request body. Unlike the POST variant, this endpoint does not accept a location hint — the bucket is placed in the R2 region for the caller's edge colo. Use the POST variant if you need to set a `locationHint`.",
-			"summary": "Create Bucket (by name)",
-			"usage": "cf r2 buckets create-by-name <bucket-name> [options]",
-			"arguments": [
-				{
-					"name": "bucket-name",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Name of the bucket."
-				}
-			],
-			"options": [
-				{
-					"name": "cf-r2-jurisdiction",
-					"type": "string",
-					"required": false,
-					"description": "Jurisdiction where objects in this bucket are guaranteed to be stored."
-				},
-				{
-					"name": "cf-r2-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class for newly uploaded objects, unless specified otherwise."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}",
-			"operationId": "r2.buckets.create-by-name",
-			"hideCommand": false
-		},
-		{
 			"command": "cf r2 buckets delete",
 			"name": "delete",
 			"fullPath": ["r2", "buckets", "delete"],
@@ -91717,12 +91882,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf r2 buckets sippy delete",
-			"name": "delete",
-			"fullPath": ["r2", "buckets", "sippy", "delete"],
+			"command": "cf r2 buckets sippy disable",
+			"name": "disable",
+			"fullPath": ["r2", "buckets", "sippy", "disable"],
 			"description": "Disables Sippy on-demand migration for an R2 bucket. Requests no longer fetch missing objects from the source storage provider. Objects already copied to R2 remain in the bucket.",
 			"summary": "Disable Sippy",
-			"usage": "cf r2 buckets sippy delete <bucket-name> [options]",
+			"usage": "cf r2 buckets sippy disable <bucket-name> [options]",
 			"arguments": [
 				{
 					"name": "bucket-name",
@@ -91755,58 +91920,20 @@
 					"default": false
 				}
 			],
-			"category": "delete",
+			"category": "action",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
-			"operationId": "r2.buckets.sippy.delete",
+			"operationId": "r2.buckets.sippy.disable",
 			"hideCommand": false
 		},
 		{
-			"command": "cf r2 buckets sippy get",
-			"name": "get",
-			"fullPath": ["r2", "buckets", "sippy", "get"],
-			"description": "Gets configuration for Sippy for an existing R2 bucket.",
-			"summary": "Get Sippy Configuration",
-			"usage": "cf r2 buckets sippy get <bucket-name> [options]",
-			"arguments": [
-				{
-					"name": "bucket-name",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Name of the bucket."
-				}
-			],
-			"options": [
-				{
-					"name": "cf-r2-jurisdiction",
-					"type": "string",
-					"required": false,
-					"description": "Jurisdiction where objects in this bucket are guaranteed to be stored."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
-			"operationId": "r2.buckets.sippy.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf r2 buckets sippy update",
-			"name": "update",
-			"fullPath": ["r2", "buckets", "sippy", "update"],
+			"command": "cf r2 buckets sippy enable",
+			"name": "enable",
+			"fullPath": ["r2", "buckets", "sippy", "enable"],
 			"description": "Configures and enables Sippy on-demand migration for an R2 bucket. When a requested object is missing from R2, Sippy serves it from the configured source storage provider and copies it to R2.",
 			"summary": "Enable Sippy",
-			"usage": "cf r2 buckets sippy update <bucket-name> [options]",
+			"usage": "cf r2 buckets sippy enable <bucket-name> [options]",
 			"arguments": [
 				{
 					"name": "bucket-name",
@@ -91929,11 +92056,49 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "update",
+			"category": "action",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
-			"operationId": "r2.buckets.sippy.update",
+			"operationId": "r2.buckets.sippy.enable",
+			"hideCommand": false
+		},
+		{
+			"command": "cf r2 buckets sippy get",
+			"name": "get",
+			"fullPath": ["r2", "buckets", "sippy", "get"],
+			"description": "Gets configuration for Sippy for an existing R2 bucket.",
+			"summary": "Get Sippy Configuration",
+			"usage": "cf r2 buckets sippy get <bucket-name> [options]",
+			"arguments": [
+				{
+					"name": "bucket-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name of the bucket."
+				}
+			],
+			"options": [
+				{
+					"name": "cf-r2-jurisdiction",
+					"type": "string",
+					"required": false,
+					"description": "Jurisdiction where objects in this bucket are guaranteed to be stored."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
+			"operationId": "r2.buckets.sippy.get",
 			"hideCommand": false
 		},
 		{
@@ -137382,6 +137547,13 @@
 					"description": "The name of the dispatch namespace."
 				},
 				{
+					"name": "trusted-workers",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the Workers in the namespace are executed in a \"trusted\" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are \"untrusted\".",
+					"default": false
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -166832,6 +167004,7 @@
 		"browser-run quick-action": "Operations for quick-action",
 		"browser-run recording": "Operations for recording",
 		"browser-run recording network": "Operations for recording.network",
+		"browser-run script": "Operations for script",
 		"builds": "Build and deploy Workers from connected repositories, then inspect build status and logs.",
 		"builds deploy-hooks": "Manage branch-specific HTTP hooks that start builds.",
 		"builds limits": "View build-minute availability and refresh information.",

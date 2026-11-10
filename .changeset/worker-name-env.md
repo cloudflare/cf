@@ -9,4 +9,5 @@ Deploy to the Worker named by `CLOUDFLARE_WORKER_NAME`
 equivalent of `worker.name`, as the selected Worker's name. Workers Builds sets
 it to the connected Worker, so production deployments and Previews stay attached
 to that Worker even when `cloudflare.config.ts` uses a different name. Other
-Workers in the Build Output keep their configured names.
+Workers in the Build Output keep their configured names. Like other Cloudflare
+settings, it can also be set in `.env`, and a process value takes precedence.

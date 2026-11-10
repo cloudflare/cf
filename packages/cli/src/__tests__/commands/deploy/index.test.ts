@@ -795,6 +795,34 @@ describe("cf deploy", () => {
 			expect(upload.scriptName).toBe("dashboard-worker");
 		});
 
+		it.each([
+			{ case: ".env", processValue: undefined, expected: "dotenv-worker" },
+			{
+				case: "the process over .env",
+				processValue: "dashboard-worker",
+				expected: "dashboard-worker",
+			},
+		])(
+			"reads CLOUDFLARE_WORKER_NAME from $case",
+			async ({ processValue, expected }) => {
+				vi.stubEnv("CLOUDFLARE_WORKER_NAME", processValue);
+				const upload = mockWorkerUpload();
+				await seed({
+					".env": "CLOUDFLARE_WORKER_NAME=dotenv-worker",
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({ name: "config-worker" }),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
+
+				const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+				expect(exitCode).toBe(0);
+				expect(upload.scriptName).toBe(expected);
+			}
+		);
+
 		it("applies CLOUDFLARE_WORKER_NAME only to the Worker selected by --worker", async () => {
 			vi.stubEnv("CLOUDFLARE_WORKER_NAME", "dashboard-api");
 			const upload = mockWorkerUpload();

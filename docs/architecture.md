@@ -47,6 +47,7 @@ cf/
 │   │   │   ├── init/           # hand-written: `cf init` / `cf init workers`
 │   │   │   │                   # (hello-world scaffold or autoconfig setup)
 │   │   │   ├── containers/     # hand-written: local image build/push leaves
+│   │   │   ├── observability/tail/ # hand-written: live tail streaming
 │   │   │   ├── tunnels/        # hand-written cloudflared-backed leaves
 │   │   │   ├── workers/check/          # hand-written local startup profiling leaf
 │   │   │   ├── workers/triggers/       # hand-written `cf workers triggers` subgroup
@@ -209,32 +210,32 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 
 ## Where to Edit
 
-| Task                            | Location                                                                                                                                                                                                                                                          |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                        |
-| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                  |
-| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
-| Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
-| Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                              |
-| `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                      |
-| `cf dev` discovery / spawn      | `packages/cli/src/commands/dev/{discover,known-impls,spawn}.ts`                                                                                                                                                                                                   |
-| `cf deploy` pipeline            | `packages/cli/src/commands/deploy/index.ts` + `lib/{build-output,deploy-context,deploy-input}.ts`                                                                                                                                                                 |
-| Container image build / push    | `packages/cli/src/commands/containers/{build,push}/`                                                                                                                                                                                                              |
-| Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                     |
-| `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                        |
-| Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                         |
-| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                      |
-| `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                   |
-| Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                |
-| Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                              |
-| Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                           |
-| Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
-| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                              |
-| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
-| Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
-| Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
-| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                |
-| Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
+| Task                            | Location                                                                                                                                                                                                                                                                        |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                                      |
+| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                                |
+| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                   |
+| Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,observability,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
+| Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                                            |
+| `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                                    |
+| `cf dev` discovery / spawn      | `packages/cli/src/commands/dev/{discover,known-impls,spawn}.ts`                                                                                                                                                                                                                 |
+| `cf deploy` pipeline            | `packages/cli/src/commands/deploy/index.ts` + `lib/{build-output,deploy-context,deploy-input}.ts`                                                                                                                                                                               |
+| Container image build / push    | `packages/cli/src/commands/containers/{build,push}/`                                                                                                                                                                                                                            |
+| Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                                   |
+| `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                                      |
+| Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                                       |
+| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                                    |
+| `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                                 |
+| Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                              |
+| Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                                            |
+| Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                                         |
+| Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                                             |
+| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                                            |
+| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                                        |
+| Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                              |
+| Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                                |
+| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                              |
+| Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                              |
 
 ## Library Map (`packages/cli/src/lib/`)
 
@@ -592,13 +593,17 @@ have bodies whose real schema sits behind a sibling endpoint; the third replaces
 a request-body-driven upload with the Build Output workflow shared by deploy.
 Each overridden leaf needs a spec drift guard in `src/__tests__/`.
 
-**Leaf command** (`kind: "leaf"`) — there is **no** spec operation, but a
-single executable leaf is added directly to a generated product. Its
-`meta.ts` carries one complete `CommandMeta`. Current entries are
+**Leaf command** (`kind: "leaf"`) — adds an executable workflow directly to a
+generated product. Use it for local work or orchestration that spans API calls.
+Its `meta.ts` carries one complete `CommandMeta`. Examples include
 `workers/check`, which profiles a local Build Output Worker;
-`workers/types`, which generates types from source config; and
+`workers/types`, which generates types from source config;
 `tunnels/quick-start` plus `tunnels/run`, which run cloudflared; and the
-process-backed Access leaves. None has an API endpoint.
+process-backed Access leaves.
+
+`cf observability tail` is a streaming leaf that combines generated API
+operations into a live session. Its implementation stays in
+`src/commands/observability/tail/`.
 
 **Generated-parent override** (`kind: "parentOverride"`) — changes only the
 description and visibility of an existing generated product root. It does not

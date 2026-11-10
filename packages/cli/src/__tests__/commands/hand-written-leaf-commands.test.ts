@@ -355,6 +355,15 @@ describe("hand-written leaf commands", () => {
 		);
 	});
 
+	it.each(["observability"])(
+		"guards %s tail against a future generated command",
+		(name) => {
+			expect(() =>
+				generateResourceIndexFile({ ...workersSchema, name }, ["tail"], [])
+			).toThrow(`Hand-written leaf command "${name} tail" collides`);
+		}
+	);
+
 	it("fails clearly if a generated group gains the nested leaf", () => {
 		expect(() =>
 			generateGroupIndexFile(

@@ -13981,14 +13981,17 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": true,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values.",
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`.",
 					"enum": [
 						"abuse_report_alert",
 						"access_custom_certificate_expiration_type",
 						"advanced_ddos_attack_l4_alert",
 						"advanced_ddos_attack_l7_alert",
 						"advanced_http_alert_error",
+						"attack_lifecycle",
+						"bgp_advertisement_change",
 						"bgp_hijack_notification",
+						"billing_budget_alert",
 						"billing_usage_alert",
 						"block_notification_block_removed",
 						"block_notification_new_block",
@@ -13996,17 +13999,25 @@
 						"bot_traffic_basic_alert",
 						"brand_protection_alert",
 						"brand_protection_digest",
+						"casb_weekly_digest",
 						"clickhouse_alert_fw_anomaly",
 						"clickhouse_alert_fw_ent_anomaly",
+						"closed_port_scan_alert",
 						"cloudforce_one_request_notification",
+						"cmd_managed_defense_notification",
 						"cni_maintenance_notification",
+						"containers_security_alert",
 						"custom_analytics",
 						"custom_bot_detection_alert",
 						"custom_ssl_certificate_event_type",
 						"dedicated_ssl_certificate_event_type",
 						"device_connectivity_anomaly_alert",
+						"dex_device_connectivity_alert",
+						"dex_synthetic_test_availability_alert",
+						"dex_synthetic_test_latency_alert",
 						"dos_attack_l4",
 						"dos_attack_l7",
+						"executive_communications",
 						"expiring_service_token_alert",
 						"failing_logpush_job_disabled_alert",
 						"fbm_auto_advertisement",
@@ -14019,13 +14030,18 @@
 						"image_notification",
 						"image_resizing_notification",
 						"incident_alert",
+						"leaked_service_token_alert",
 						"load_balancing_health_alert",
 						"load_balancing_pool_enablement_alert",
+						"log_explorer_ingest_rate_limit",
+						"log_explorer_scheduled_query_results_alert",
 						"logo_match_alert",
+						"magic_endpoint_healthcheck_alert",
 						"magic_tunnel_health_check_event",
 						"magic_wan_tunnel_health",
 						"maintenance_event_notification",
 						"mtls_certificate_store_certificate_expiration_type",
+						"open_port_scan_alert",
 						"pages_event_alert",
 						"radar_notification",
 						"real_origin_monitoring",
@@ -14043,6 +14059,9 @@
 						"secondary_dns_zone_validation_warning",
 						"security_insights_alert",
 						"sentinel_alert",
+						"stakeout_credential_leak_alert",
+						"stakeout_saved_query_daily_digest_alert",
+						"stakeout_saved_query_immediate_alert",
 						"stream_live_notifications",
 						"synthetic_test_latency_alert",
 						"synthetic_test_low_availability_alert",
@@ -14051,6 +14070,9 @@
 						"tunnel_update_event",
 						"universal_ssl_event_type",
 						"web_analytics_metrics_update",
+						"workers_for_platforms_security_alert",
+						"workers_observability_alert",
+						"workers_observability_real_time_issue",
 						"zone_aop_custom_certificate_expiration_type"
 					]
 				},
@@ -14108,6 +14130,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -14236,6 +14264,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -14294,6 +14328,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -14649,14 +14689,17 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": false,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values.",
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`.",
 					"enum": [
 						"abuse_report_alert",
 						"access_custom_certificate_expiration_type",
 						"advanced_ddos_attack_l4_alert",
 						"advanced_ddos_attack_l7_alert",
 						"advanced_http_alert_error",
+						"attack_lifecycle",
+						"bgp_advertisement_change",
 						"bgp_hijack_notification",
+						"billing_budget_alert",
 						"billing_usage_alert",
 						"block_notification_block_removed",
 						"block_notification_new_block",
@@ -14664,17 +14707,25 @@
 						"bot_traffic_basic_alert",
 						"brand_protection_alert",
 						"brand_protection_digest",
+						"casb_weekly_digest",
 						"clickhouse_alert_fw_anomaly",
 						"clickhouse_alert_fw_ent_anomaly",
+						"closed_port_scan_alert",
 						"cloudforce_one_request_notification",
+						"cmd_managed_defense_notification",
 						"cni_maintenance_notification",
+						"containers_security_alert",
 						"custom_analytics",
 						"custom_bot_detection_alert",
 						"custom_ssl_certificate_event_type",
 						"dedicated_ssl_certificate_event_type",
 						"device_connectivity_anomaly_alert",
+						"dex_device_connectivity_alert",
+						"dex_synthetic_test_availability_alert",
+						"dex_synthetic_test_latency_alert",
 						"dos_attack_l4",
 						"dos_attack_l7",
+						"executive_communications",
 						"expiring_service_token_alert",
 						"failing_logpush_job_disabled_alert",
 						"fbm_auto_advertisement",
@@ -14687,13 +14738,18 @@
 						"image_notification",
 						"image_resizing_notification",
 						"incident_alert",
+						"leaked_service_token_alert",
 						"load_balancing_health_alert",
 						"load_balancing_pool_enablement_alert",
+						"log_explorer_ingest_rate_limit",
+						"log_explorer_scheduled_query_results_alert",
 						"logo_match_alert",
+						"magic_endpoint_healthcheck_alert",
 						"magic_tunnel_health_check_event",
 						"magic_wan_tunnel_health",
 						"maintenance_event_notification",
 						"mtls_certificate_store_certificate_expiration_type",
+						"open_port_scan_alert",
 						"pages_event_alert",
 						"radar_notification",
 						"real_origin_monitoring",
@@ -14711,6 +14767,9 @@
 						"secondary_dns_zone_validation_warning",
 						"security_insights_alert",
 						"sentinel_alert",
+						"stakeout_credential_leak_alert",
+						"stakeout_saved_query_daily_digest_alert",
+						"stakeout_saved_query_immediate_alert",
 						"stream_live_notifications",
 						"synthetic_test_latency_alert",
 						"synthetic_test_low_availability_alert",
@@ -14719,6 +14778,9 @@
 						"tunnel_update_event",
 						"universal_ssl_event_type",
 						"web_analytics_metrics_update",
+						"workers_for_platforms_security_alert",
+						"workers_observability_alert",
+						"workers_observability_real_time_issue",
 						"zone_aop_custom_certificate_expiration_type"
 					]
 				},
@@ -14775,6 +14837,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -14903,6 +14971,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -14961,6 +15035,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -25939,7 +26019,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Build UUID."
+					"description": "UUID of the build, as returned by builds list."
 				}
 			],
 			"options": [
@@ -25962,16 +26042,16 @@
 			"command": "cf builds create",
 			"name": "create",
 			"fullPath": ["builds", "create"],
-			"description": "Start a build for a branch or commit using the selected trigger.",
-			"summary": "Start a Workers build",
-			"usage": "cf builds create <trigger-uuid> [options]",
+			"description": "Start a production build for a branch or commit.",
+			"summary": "Start a Worker build",
+			"usage": "cf builds create <worker> [options]",
 			"arguments": [
 				{
-					"name": "trigger-uuid",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Trigger UUID."
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -26041,7 +26121,7 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/builds",
+			"apiPath": "/accounts/{account_id}/builds/workers/{external_script_id}/builds",
 			"operationId": "builds.create",
 			"hideCommand": false
 		},
@@ -26051,14 +26131,14 @@
 			"fullPath": ["builds", "deploy-hooks", "create"],
 			"description": "Create an HTTP hook that starts a build for a selected Worker branch.",
 			"summary": "Create a deploy hook",
-			"usage": "cf builds deploy-hooks create <script-name> [options]",
+			"usage": "cf builds deploy-hooks create <worker> [options]",
 			"arguments": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				}
 			],
 			"options": [
@@ -26108,15 +26188,15 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deploy hook UUID"
+					"description": "UUID of the deploy hook, as returned by deploy-hooks list."
 				}
 			],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "dry-run",
@@ -26154,15 +26234,15 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deploy hook UUID"
+					"description": "UUID of the deploy hook, as returned by deploy-hooks list."
 				}
 			],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "dry-run",
@@ -26189,10 +26269,10 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "dry-run",
@@ -26210,38 +26290,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds deploy-hooks trigger",
-			"name": "trigger",
-			"fullPath": ["builds", "deploy-hooks", "trigger"],
-			"description": "Trigger a build using a deploy hook. This endpoint does not require authentication - the deploy_hook_uuid acts as a secret token.",
-			"summary": "Trigger deploy hook",
-			"usage": "cf builds deploy-hooks trigger <deploy-hook-uuid>",
-			"arguments": [
-				{
-					"name": "deploy-hook-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Deploy hook UUID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/workers/builds/deploy_hooks/{deploy_hook_uuid}",
-			"operationId": "builds.deploy-hooks.trigger",
-			"hideCommand": false
-		},
-		{
 			"command": "cf builds deploy-hooks update",
 			"name": "update",
 			"fullPath": ["builds", "deploy-hooks", "update"],
@@ -26254,15 +26302,15 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Deploy hook UUID"
+					"description": "UUID of the deploy hook, as returned by deploy-hooks list."
 				}
 			],
 			"options": [
 				{
-					"name": "script-name",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Human-readable name of the worker."
+					"description": "Name or script tag of the Worker."
 				},
 				{
 					"name": "branch",
@@ -26310,7 +26358,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Build UUID."
+					"description": "UUID of the build, as returned by builds list."
 				}
 			],
 			"options": [
@@ -26357,16 +26405,16 @@
 			"command": "cf builds list",
 			"name": "list",
 			"fullPath": ["builds", "list"],
-			"description": "List paginated build records associated with a Worker tag.",
+			"description": "List paginated build records associated with a Worker.",
 			"summary": "List builds for a Worker",
 			"usage": "cf builds list [options]",
 			"arguments": [],
 			"options": [
 				{
-					"name": "external-script-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
+					"description": "Script tag of the Worker."
 				},
 				{
 					"name": "page",
@@ -26396,19 +26444,19 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds logs get",
-			"name": "get",
-			"fullPath": ["builds", "logs", "get"],
+			"command": "cf builds logs",
+			"name": "logs",
+			"fullPath": ["builds", "logs"],
 			"description": "Retrieve cursor-paginated log lines for a build UUID.",
 			"summary": "Get Workers build logs",
-			"usage": "cf builds logs get <build-uuid> [options]",
+			"usage": "cf builds logs <build-uuid> [options]",
 			"arguments": [
 				{
 					"name": "build-uuid",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Build UUID."
+					"description": "UUID of the build, as returned by builds list."
 				}
 			],
 			"options": [
@@ -26426,11 +26474,344 @@
 					"default": false
 				}
 			],
-			"category": "read",
+			"category": "action",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/builds/builds/{build_uuid}/logs",
-			"operationId": "builds.logs.get",
+			"operationId": "builds.logs",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews create-build",
+			"name": "create-build",
+			"fullPath": ["builds", "previews", "create-build"],
+			"description": "Trigger a build for a single Preview.",
+			"summary": "Create preview build",
+			"usage": "cf builds previews create-build <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch name (required if commit_hash not provided)"
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit hash (required if branch not provided)"
+				},
+				{
+					"name": "seed-repo-branch",
+					"type": "string",
+					"required": false,
+					"description": "Repository branch to seed."
+				},
+				{
+					"name": "seed-repo-files",
+					"type": "string",
+					"required": false,
+					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "seed-repo-owner",
+					"type": "string",
+					"required": false,
+					"description": "Repository owner or namespace."
+				},
+				{
+					"name": "seed-repo-path",
+					"type": "string",
+					"required": false,
+					"description": "Path within the repository to seed."
+				},
+				{
+					"name": "seed-repo-provider",
+					"type": "string",
+					"required": false,
+					"description": "Source control provider for the seed repository.",
+					"enum": ["github", "gitlab"]
+				},
+				{
+					"name": "seed-repo-repository",
+					"type": "string",
+					"required": false,
+					"description": "Repository name."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"operationId": "builds.previews.create-build",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews get",
+			"name": "get",
+			"fullPath": ["builds", "previews", "get"],
+			"description": "Retrieve a single Preview of a Worker, including the build settings it currently uses.",
+			"summary": "Get preview",
+			"usage": "cf builds previews get <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"operationId": "builds.previews.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews list",
+			"name": "list",
+			"fullPath": ["builds", "previews", "list"],
+			"description": "List the Previews of a Worker with pagination.",
+			"summary": "List previews",
+			"usage": "cf builds previews list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number for pagination"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
+			"operationId": "builds.previews.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews list-builds",
+			"name": "list-builds",
+			"fullPath": ["builds", "previews", "list-builds"],
+			"description": "List the builds of a single Preview with pagination.",
+			"summary": "List builds by preview",
+			"usage": "cf builds previews list-builds <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number for pagination"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"operationId": "builds.previews.list-builds",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds previews update",
+			"name": "update",
+			"fullPath": ["builds", "previews", "update"],
+			"description": "Update a single Preview of a Worker. Supports partial updates to the tracked branch, the automation flags, and the build settings.",
+			"summary": "Update preview",
+			"usage": "cf builds previews update <preview> [options]",
+			"arguments": [
+				{
+					"name": "preview",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Preview."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "auto-build",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
+				},
+				{
+					"name": "auto-delete",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether deleting the git branch also deletes this Preview."
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch this Preview tracks"
+				},
+				{
+					"name": "settings-build-caching-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether builds reuse cached dependencies and build artifacts."
+				},
+				{
+					"name": "settings-build-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to build the Worker."
+				},
+				{
+					"name": "settings-build-token-uuid",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the build token used when deploying the Worker."
+				},
+				{
+					"name": "settings-deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to deploy the Worker."
+				},
+				{
+					"name": "settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
+				},
+				{
+					"name": "settings-path-excludes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that must not start builds."
+				},
+				{
+					"name": "settings-path-includes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that can start builds."
+				},
+				{
+					"name": "settings-root-directory",
+					"type": "string",
+					"required": false,
+					"description": "Repository directory in which build and deploy commands run."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"operationId": "builds.previews.update",
 			"hideCommand": false
 		},
 		{
@@ -26591,6 +26972,44 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf builds retry",
+			"name": "retry",
+			"fullPath": ["builds", "retry"],
+			"description": "Start a new build from the branch and commit of a stopped build.",
+			"summary": "Retry a Worker build",
+			"usage": "cf builds retry <build-uuid> [options]",
+			"arguments": [
+				{
+					"name": "build-uuid",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the build, as returned by builds list."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/builds/{build_uuid}/retry",
+			"operationId": "builds.retry",
+			"hideCommand": false
+		},
+		{
 			"command": "cf builds tokens create",
 			"name": "create",
 			"fullPath": ["builds", "tokens", "create"],
@@ -26715,431 +27134,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds triggers cache purge",
-			"name": "purge",
-			"fullPath": ["builds", "triggers", "cache", "purge"],
-			"description": "Delete cached dependencies and build artifacts associated with a trigger.",
-			"summary": "Purge a trigger's build cache",
-			"usage": "cf builds triggers cache purge <trigger-uuid>",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/purge_build_cache",
-			"operationId": "builds.triggers.cache.purge",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers create",
-			"name": "create",
-			"fullPath": ["builds", "triggers", "create"],
-			"description": "Create a trigger defining the repository connection, Worker tag, commands, filters, cache setting, and build token.",
-			"summary": "Create a build trigger",
-			"usage": "cf builds triggers create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts.",
-					"default": false
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "external-script-id",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "repo-connection-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Repository connection UUID."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": true,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": true,
-					"description": "Human-readable name of the build trigger."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/triggers",
-			"operationId": "builds.triggers.create",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers delete",
-			"name": "delete",
-			"fullPath": ["builds", "triggers", "delete"],
-			"description": "Delete a trigger and cancel its unfinished builds.",
-			"summary": "Delete a build trigger",
-			"usage": "cf builds triggers delete <trigger-uuid>",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"operationId": "builds.triggers.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers environment-variables delete",
-			"name": "delete",
-			"fullPath": ["builds", "triggers", "environment-variables", "delete"],
-			"description": "Delete one build-time variable or secret by key.",
-			"summary": "Delete a build variable",
-			"usage": "cf builds triggers environment-variables delete <environment-variable-key> [options]",
-			"arguments": [
-				{
-					"name": "environment-variable-key",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Environment variable key."
-				}
-			],
-			"options": [
-				{
-					"name": "trigger-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables/{environment_variable_key}",
-			"operationId": "builds.triggers.environment-variables.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers environment-variables list",
-			"name": "list",
-			"fullPath": ["builds", "triggers", "environment-variables", "list"],
-			"description": "List build-time variables configured for a trigger. Secret values are not returned.",
-			"summary": "List build variables",
-			"usage": "cf builds triggers environment-variables list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "trigger-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"operationId": "builds.triggers.environment-variables.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers environment-variables upsert",
-			"name": "upsert",
-			"fullPath": ["builds", "triggers", "environment-variables", "upsert"],
-			"description": "Add or replace build-time variables and secrets without changing unspecified keys.",
-			"summary": "Set build variables",
-			"usage": "cf builds triggers environment-variables upsert <trigger-uuid>",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"operationId": "builds.triggers.environment-variables.upsert",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers list",
-			"name": "list",
-			"fullPath": ["builds", "triggers", "list"],
-			"description": "List trigger UUIDs and build settings associated with a Worker tag.",
-			"summary": "List triggers for a Worker",
-			"usage": "cf builds triggers list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "external-script-id",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{external_script_id}/triggers",
-			"operationId": "builds.triggers.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds triggers update",
-			"name": "update",
-			"fullPath": ["builds", "triggers", "update"],
-			"description": "Update commands, cache settings, or branch and path filters for a trigger.",
-			"summary": "Update a build trigger",
-			"usage": "cf builds triggers update <trigger-uuid> [options]",
-			"arguments": [
-				{
-					"name": "trigger-uuid",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Trigger UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": false,
-					"description": "Human-readable name of the build trigger."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"operationId": "builds.triggers.update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf builds versions get",
 			"name": "get",
 			"fullPath": ["builds", "versions", "get"],
@@ -27175,8 +27169,16 @@
 			"fullPath": ["builds", "workers", "create"],
 			"description": "Connect a Worker tag to a repository and production build settings.",
 			"summary": "Create Worker build configuration",
-			"usage": "cf builds workers create [options]",
-			"arguments": [],
+			"usage": "cf builds workers create <script-tag> [options]",
+			"arguments": [
+				{
+					"name": "script-tag",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
 			"options": [
 				{
 					"name": "git-repository-branch",
@@ -27328,12 +27330,6 @@
 					"default": "/"
 				},
 				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -27360,14 +27356,14 @@
 			"fullPath": ["builds", "workers", "delete"],
 			"description": "Delete build settings and triggers for a Worker tag and cancel unfinished builds. The Worker is not deleted.",
 			"summary": "Delete Worker build configuration",
-			"usage": "cf builds workers delete <script-tag>",
+			"usage": "cf builds workers delete <worker>",
 			"arguments": [
 				{
-					"name": "script-tag",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "The Worker script tag (external script ID)"
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -27400,14 +27396,14 @@
 			"fullPath": ["builds", "workers", "get"],
 			"description": "Retrieve the repository and production build settings associated with a Worker tag.",
 			"summary": "Get Worker build configuration",
-			"usage": "cf builds workers get <script-tag>",
+			"usage": "cf builds workers get <worker>",
 			"arguments": [
 				{
-					"name": "script-tag",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "The Worker script tag (external script ID)"
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -27427,19 +27423,111 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf builds workers migrate-to-previews",
+			"name": "migrate-to-previews",
+			"fullPath": ["builds", "workers", "migrate-to-previews"],
+			"description": "Migrate a Worker's legacy non-production trigger to Previews. The legacy build settings become the Previews base config and the legacy trigger is removed.",
+			"summary": "Migrate worker to previews",
+			"usage": "cf builds workers migrate-to-previews <worker> [options]",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"operationId": "builds.workers.migrate-to-previews",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds workers purge-cache",
+			"name": "purge-cache",
+			"fullPath": ["builds", "workers", "purge-cache"],
+			"description": "Delete cached dependencies and build artifacts for a Worker's production and Preview builds.",
+			"summary": "Purge a Worker's build cache",
+			"usage": "cf builds workers purge-cache <worker>",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"operationId": "builds.workers.purge-cache",
+			"hideCommand": false
+		},
+		{
 			"command": "cf builds workers update",
 			"name": "update",
 			"fullPath": ["builds", "workers", "update"],
 			"description": "Update the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings.",
 			"summary": "Update Worker build configuration",
-			"usage": "cf builds workers update <script-tag> [options]",
+			"usage": "cf builds workers update <worker> [options]",
 			"arguments": [
 				{
-					"name": "script-tag",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "The Worker script tag (external script ID)"
+					"description": "Script tag of the Worker."
 				}
 			],
 			"options": [
@@ -42243,7 +42331,7 @@
 			"command": "cf containers usage",
 			"name": "usage",
 			"fullPath": ["containers", "usage"],
-			"description": "Get current live resource usage and maximum account limits for the authenticated Cloudchamber account. Usage includes active and assigned instances.",
+			"description": "Get current live resource usage and maximum limits for your account. Usage includes active and assigned instances.",
 			"summary": "Get live account usage",
 			"usage": "cf containers usage",
 			"arguments": [],
@@ -44278,6 +44366,122 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf d1 insights databases",
+			"name": "databases",
+			"fullPath": ["d1", "insights", "databases"],
+			"description": "List the databases in your account with the highest usage in a time window, sorted by `order_by` from highest to lowest. Totals are computed from the same data as D1 billing and the GraphQL Analytics API. They include every batch in the window: queries, imports and exports, successful and failed. Totals from other insights endpoints that read per-statement data can be lower than these numbers. Deleted databases are included if they had usage in the window. Databases with no usage in the window are not included. Usage is available a few minutes after a batch completes. For more complex filtering, or other metrics, groupings or time windows, run your own SQL on the `events.d1Queries` dataset with `cf sql query`. For examples, see https://developers.cloudflare.com/d1/observability/find-expensive-queries/",
+			"summary": "List D1 Databases by Usage",
+			"usage": "cf d1 insights databases [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "The usage metric to sort by, from highest to lowest.",
+					"enum": ["rows_read", "rows_written", "queries"]
+				},
+				{
+					"name": "database-name",
+					"type": "string",
+					"required": false,
+					"description": "Only count usage from databases whose name contains this value, case-insensitive. Usage recorded before 2026-10-30 has no database name and is not matched."
+				},
+				{
+					"name": "exact",
+					"type": "boolean",
+					"required": false,
+					"description": "If true, `database_name` must match the full database name, case-sensitive."
+				},
+				{
+					"name": "since",
+					"type": "string",
+					"required": false,
+					"description": "Start of the window (inclusive), in RFC 3339 format. Defaults to 24 hours before `until`. Must be before `until`, and at most 90 days ago. The window from `since` to `until` must be at most 31 days."
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": false,
+					"description": "End of the window (exclusive), in RFC 3339 format. Defaults to the current time."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of databases to return. Results are not paginated, so only the top `limit` databases are returned."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/databases",
+			"operationId": "d1.insights.databases",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 insights queries",
+			"name": "queries",
+			"fullPath": ["d1", "insights", "queries"],
+			"description": "List the SQL statements with the highest usage in a time window, across all databases in your account or for one database, sorted by `order_by` from highest to lowest. Each item is one query text in one database. The same text run in two databases is two items. Values are estimates computed from sampled per-statement data. They include statements that failed with a SQL error, and deleted databases. They do not include imports and exports, so they can be lower than the totals from `GET /accounts/{account_id}/d1/insights/databases`, billing, and the GraphQL Analytics API. Usage is available a few minutes after a query completes. For more complex filtering, or other metrics, groupings or time windows, run your own SQL on the `events.d1Queries` dataset with `cf sql query`. For examples, see https://developers.cloudflare.com/d1/observability/find-expensive-queries/",
+			"summary": "List Top D1 Queries",
+			"usage": "cf d1 insights queries [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "The usage metric to sort by, from highest to lowest. `duration` sorts by `total_duration_ms`.",
+					"enum": ["rows_read", "duration", "executions"]
+				},
+				{
+					"name": "database-id",
+					"type": "string",
+					"required": false,
+					"description": "Only return queries for this database. Defaults to all databases in the account. A database with no usage in the window, or that is not in the account, returns an empty list."
+				},
+				{
+					"name": "since",
+					"type": "string",
+					"required": false,
+					"description": "Start of the window (inclusive), in RFC 3339 format. Defaults to 24 hours before `until`. Must be before `until`, and at most 90 days ago. The window from `since` to `until` must be at most 7 days."
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": false,
+					"description": "End of the window (exclusive), in RFC 3339 format. Defaults to the current time."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of queries to return. Results are not paginated, so only the top `limit` queries are returned."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/queries",
+			"operationId": "d1.insights.queries",
+			"hideCommand": false
+		},
+		{
 			"command": "cf d1 list",
 			"name": "list",
 			"fullPath": ["d1", "list"],
@@ -45506,198 +45710,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/dnssec/zsk",
 			"operationId": "dns.dnssec.list.zsks",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-domain-settings",
-			"name": "get-domain-settings",
-			"fullPath": ["dns", "domainconnect", "get-domain-settings"],
-			"description": "Checks whether a domain is in Quicksilver and returns its settings.",
-			"summary": "Provide settings if domain is served by Cloudflare",
-			"usage": "cf dns domainconnect get-domain-settings <domain>",
-			"arguments": [
-				{
-					"name": "domain",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Domain name."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/v2/{domain}/settings",
-			"operationId": "dns.domainconnect.get-domain-settings",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-heartbeat",
-			"name": "get-heartbeat",
-			"fullPath": ["dns", "domainconnect", "get-heartbeat"],
-			"description": "Used by Kubernetes readiness and liveness probes, and CI builder by executing test/staging.sh.",
-			"summary": "Heartbeat response",
-			"usage": "cf dns domainconnect get-heartbeat",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/_heartbeat",
-			"operationId": "dns.domainconnect.get-heartbeat",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-provider-configuration",
-			"name": "get-provider-configuration",
-			"fullPath": ["dns", "domainconnect", "get-provider-configuration"],
-			"description": "Provides Stratus with extra information about domain connect provider(s).",
-			"summary": "Serve a provider configuration",
-			"usage": "cf dns domainconnect get-provider-configuration <account> [options]",
-			"arguments": [
-				{
-					"name": "account",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Account ID."
-				}
-			],
-			"options": [
-				{
-					"name": "provider",
-					"type": "string",
-					"required": true,
-					"description": "Provider ID."
-				},
-				{
-					"name": "service",
-					"type": "string",
-					"required": true,
-					"description": "Service ID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/v2/provconf/{provider}/{service}/{account}",
-			"operationId": "dns.domainconnect.get-provider-configuration",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect get-provider-template",
-			"name": "get-provider-template",
-			"fullPath": ["dns", "domainconnect", "get-provider-template"],
-			"description": "Providers are the external parties that are configured to interact with Cloudflare.",
-			"summary": "Serve a provider template",
-			"usage": "cf dns domainconnect get-provider-template <service> [options]",
-			"arguments": [
-				{
-					"name": "service",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Service name."
-				}
-			],
-			"options": [
-				{
-					"name": "provider",
-					"type": "string",
-					"required": true,
-					"description": "Provider name."
-				},
-				{
-					"name": "dump",
-					"type": "string",
-					"required": false,
-					"description": "Dump raw template."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/v2/domainTemplates/providers/{provider}/services/{service}",
-			"operationId": "dns.domainconnect.get-provider-template",
-			"hideCommand": false
-		},
-		{
-			"command": "cf dns domainconnect post-verify",
-			"name": "post-verify",
-			"fullPath": ["dns", "domainconnect", "post-verify"],
-			"description": "Validates a Domain Connect signed request using DNS TXT public keys.",
-			"summary": "Request domain connect validation",
-			"usage": "cf dns domainconnect post-verify [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "domain",
-					"type": "string",
-					"required": false,
-					"description": "The domain field"
-				},
-				{
-					"name": "hash",
-					"type": "string",
-					"required": false,
-					"description": "The hash field"
-				},
-				{
-					"name": "sig",
-					"type": "string",
-					"required": false,
-					"description": "The sig field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/v1/verify",
-			"operationId": "dns.domainconnect.post-verify",
 			"hideCommand": false
 		},
 		{
@@ -77578,8 +77590,7 @@
 					"name": "ha",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates that the tunnel will be created to be highly available. If omitted, defaults to false.",
-					"default": false
+					"description": "Indicates that the tunnel will be created to be highly available. If omitted, defaults to false."
 				},
 				{
 					"name": "name",
@@ -78531,7 +78542,8 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "An optional description of the hostname route."
+					"description": "An optional description of the hostname route.",
+					"default": ""
 				},
 				{
 					"name": "hostname",
@@ -79209,12 +79221,6 @@
 					"type": "string",
 					"required": false,
 					"description": "A user-friendly name for the subnet."
-				},
-				{
-					"name": "network",
-					"type": "string",
-					"required": false,
-					"description": "The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
 				},
 				{
 					"name": "dry-run",
@@ -126079,15 +126085,9 @@
 			"fullPath": ["stream", "webhooks", "update"],
 			"description": "Create a webhook for notifications about on-demand video uploads.",
 			"summary": "Create VOD webhooks",
-			"usage": "cf stream webhooks update [options]",
+			"usage": "cf stream webhooks update",
 			"arguments": [],
 			"options": [
-				{
-					"name": "notification-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL where webhooks will be sent."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -137084,383 +137084,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
 			"operationId": "workers.versions.profile",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers migrate-to-previews",
-			"name": "migrate-to-previews",
-			"fullPath": ["workers-builds", "workers", "migrate-to-previews"],
-			"description": "Migrate a Worker's legacy non-production trigger to Previews. The legacy build settings become the Previews base config and the legacy trigger is removed.",
-			"summary": "Migrate worker to previews",
-			"usage": "cf workers-builds workers migrate-to-previews <script-tag> [options]",
-			"arguments": [
-				{
-					"name": "script-tag",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				}
-			],
-			"options": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"operationId": "workers-builds.workers.migrate-to-previews",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews create-build",
-			"name": "create-build",
-			"fullPath": ["workers-builds", "workers", "previews", "create-build"],
-			"description": "Trigger a build for a single Preview.",
-			"summary": "Create preview build",
-			"usage": "cf workers-builds workers previews create-build <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch name (required if commit_hash not provided)"
-				},
-				{
-					"name": "commit-hash",
-					"type": "string",
-					"required": false,
-					"description": "Git commit hash (required if branch not provided)"
-				},
-				{
-					"name": "seed-repo-branch",
-					"type": "string",
-					"required": false,
-					"description": "Repository branch to seed."
-				},
-				{
-					"name": "seed-repo-files",
-					"type": "string",
-					"required": false,
-					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "seed-repo-owner",
-					"type": "string",
-					"required": false,
-					"description": "Repository owner or namespace."
-				},
-				{
-					"name": "seed-repo-path",
-					"type": "string",
-					"required": false,
-					"description": "Path within the repository to seed."
-				},
-				{
-					"name": "seed-repo-provider",
-					"type": "string",
-					"required": false,
-					"description": "Source control provider for the seed repository.",
-					"enum": ["github", "gitlab"]
-				},
-				{
-					"name": "seed-repo-repository",
-					"type": "string",
-					"required": false,
-					"description": "Repository name."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"operationId": "workers-builds.workers.previews.create-build",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews edit",
-			"name": "edit",
-			"fullPath": ["workers-builds", "workers", "previews", "edit"],
-			"description": "Update a single Preview of a Worker. Supports partial updates to the tracked branch, the automation flags, and the build settings.",
-			"summary": "Update preview",
-			"usage": "cf workers-builds workers previews edit <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "auto-build",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
-				},
-				{
-					"name": "auto-delete",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether deleting the git branch also deletes this Preview."
-				},
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch this Preview tracks"
-				},
-				{
-					"name": "settings-build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "settings-build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "settings-build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "settings-deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "settings-environment-variables",
-					"type": "string",
-					"required": false,
-					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
-				},
-				{
-					"name": "settings-path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "settings-path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "settings-root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"operationId": "workers-builds.workers.previews.edit",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews get",
-			"name": "get",
-			"fullPath": ["workers-builds", "workers", "previews", "get"],
-			"description": "Retrieve a single Preview of a Worker, including the build settings it currently uses.",
-			"summary": "Get preview",
-			"usage": "cf workers-builds workers previews get <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"operationId": "workers-builds.workers.previews.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews list",
-			"name": "list",
-			"fullPath": ["workers-builds", "workers", "previews", "list"],
-			"description": "List the Previews of a Worker with pagination.",
-			"summary": "List previews",
-			"usage": "cf workers-builds workers previews list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number for pagination"
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Number of items per page"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
-			"operationId": "workers-builds.workers.previews.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workers-builds workers previews list-builds",
-			"name": "list-builds",
-			"fullPath": ["workers-builds", "workers", "previews", "list-builds"],
-			"description": "List the builds of a single Preview with pagination.",
-			"summary": "List builds by preview",
-			"usage": "cf workers-builds workers previews list-builds <preview-id> [options]",
-			"arguments": [
-				{
-					"name": "preview-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The script tag of the Preview, which is a Worker in its own right"
-				}
-			],
-			"options": [
-				{
-					"name": "script-tag",
-					"type": "string",
-					"required": true,
-					"description": "The Worker script tag (external script ID)"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number for pagination"
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Number of items per page"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"operationId": "workers-builds.workers.previews.list-builds",
 			"hideCommand": false
 		},
 		{
@@ -166912,14 +166535,11 @@
 		"builds": "Build and deploy Workers from connected repositories, then inspect build status and logs.",
 		"builds deploy-hooks": "Manage branch-specific HTTP hooks that start builds.",
 		"builds limits": "View build-minute availability and refresh information.",
-		"builds logs": "Retrieve build logs.",
+		"builds previews": "Manage the Previews that Workers Builds creates for non-production branches.",
 		"builds repos": "Manage source repository connections for Workers Builds.",
 		"builds repos config-autofill": "Operations for repos.config-autofill",
 		"builds repos connections": "Operations for repos.connections",
 		"builds tokens": "Manage credentials used by Workers Builds to deploy Workers.",
-		"builds triggers": "Configure how repository changes build and deploy Workers.",
-		"builds triggers cache": "Operations for triggers.cache",
-		"builds triggers environment-variables": "Operations for triggers.environment-variables",
 		"builds versions": "Find builds associated with Worker versions.",
 		"builds workers": "Manage repository-backed build configuration for Workers.",
 		"cache": "Purge cached content and configure Cache Reserve, tiered caching, and variant serving",
@@ -167042,6 +166662,7 @@
 		"custom-pages account-custom-pages": "Manage account-level custom pages",
 		"custom-pages account-custom-pages preview-tokens": "Preview tokens for account-level custom pages",
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
+		"d1 insights": "show usage insights for the D1 databases in your account",
 		"d1 time-travel": "use specific point-in-time backups of your D1 database",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"diagnostics": "Network diagnostic tools — traceroutes from Cloudflare's edge and endpoint health checks",
@@ -167054,7 +166675,6 @@
 		"dns": "dns",
 		"dns dnssec": "Operations for dnssec",
 		"dns dnssec list": "Operations for dnssec.list",
-		"dns domainconnect": "Operations for domainconnect",
 		"dns records": "Operations for records",
 		"dns settings": "Operations for settings",
 		"dns settings account": "Operations for settings.account",
@@ -167710,9 +167330,6 @@
 		"workers secrets": "Manage secrets bound to Worker scripts",
 		"workers versions": "Create, list, inspect, and manage Worker versions",
 		"workers triggers": "Manage triggers (Routes, Workflows, Cron triggers etc.)",
-		"workers-builds": "workers-builds",
-		"workers-builds workers": "Operations for workers",
-		"workers-builds workers previews": "Operations for workers.previews",
 		"workers-for-platforms": "Workers for Platforms uses dispatch namespaces to isolate and route requests to many individual user Workers, letting platforms run untrusted customer or AI-generated code at scale with per-tenant bindings, limits, and observability",
 		"workers-for-platforms dispatch-namespaces": "Isolate and route requests to many individual user Workers",
 		"workers-for-platforms dispatch-namespaces scripts": "Operations around customer Workers deployed inside a dispatch namespace",

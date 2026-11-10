@@ -24,7 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("build-uuid", {
 			type: "string",
-			description: "Build UUID.",
+			description: "UUID of the build, as returned by builds list.",
 			demandOption: true,
 		})
 		.option("dry-run", {

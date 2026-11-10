@@ -27,7 +27,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Indicates that the tunnel will be created to be highly available. If omitted, defaults to false.",
-			default: false,
 		})
 		.option("name", {
 			type: "string",

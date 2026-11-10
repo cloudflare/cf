@@ -10481,7 +10481,7 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": true,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values."
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`."
 				},
 				{
 					"name": "description",
@@ -10536,6 +10536,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -10664,6 +10670,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -10722,6 +10734,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -10992,7 +11010,7 @@
 					"name": "alert-type",
 					"type": "string",
 					"required": false,
-					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values."
+					"description": "Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`."
 				},
 				{
 					"name": "description",
@@ -11047,6 +11065,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-check-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures."
 				},
 				{
 					"name": "filters-enabled",
@@ -11175,6 +11199,12 @@
 					"description": "Used for configuring advanced_ddos_attack_l4_alert"
 				},
 				{
+					"name": "filters-query-id",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID."
+				},
+				{
 					"name": "filters-query-tag",
 					"type": "string",
 					"required": false,
@@ -11233,6 +11263,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens."
+				},
+				{
+					"name": "filters-total-spend-dollars",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero."
 				},
 				{
 					"name": "filters-traffic-exclusions",
@@ -19432,7 +19468,7 @@
 		"builds create": {
 			"operationId": "builds.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/builds",
+			"path": "/accounts/{account_id}/builds/workers/{external_script_id}/builds",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -19440,8 +19476,8 @@
 					"required": true
 				},
 				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
+					"name": "external_script_id",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -19512,7 +19548,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -19547,7 +19583,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -19575,7 +19611,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -19603,24 +19639,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds deploy-hooks trigger": {
-			"operationId": "builds.deploy-hooks.trigger",
-			"httpMethod": "POST",
-			"path": "/workers/builds/deploy_hooks/{deploy_hook_uuid}",
-			"pathParams": [
-				{
-					"name": "deploy_hook_uuid",
-					"flag": "deploy-hook-uuid",
-					"positional": true,
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				}
@@ -19641,7 +19660,7 @@
 				},
 				{
 					"name": "script_name",
-					"flag": "script-name",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				},
@@ -19719,7 +19738,7 @@
 				},
 				{
 					"name": "external_script_id",
-					"flag": "external-script-id",
+					"flag": "worker",
 					"type": "string",
 					"required": true
 				}
@@ -19741,8 +19760,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"builds logs get": {
-			"operationId": "builds.logs.get",
+		"builds logs": {
+			"operationId": "builds.logs",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/builds/builds/{build_uuid}/logs",
 			"pathParams": [
@@ -19769,6 +19788,281 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"builds previews create-build": {
+			"operationId": "builds.previews.create-build",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch name (required if commit_hash not provided)"
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit hash (required if branch not provided)"
+				},
+				{
+					"name": "seed-repo-branch",
+					"type": "string",
+					"required": false,
+					"description": "Repository branch to seed."
+				},
+				{
+					"name": "seed-repo-files",
+					"type": "string",
+					"required": false,
+					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "seed-repo-owner",
+					"type": "string",
+					"required": false,
+					"description": "Repository owner or namespace."
+				},
+				{
+					"name": "seed-repo-path",
+					"type": "string",
+					"required": false,
+					"description": "Path within the repository to seed."
+				},
+				{
+					"name": "seed-repo-provider",
+					"type": "string",
+					"required": false,
+					"description": "Source control provider for the seed repository."
+				},
+				{
+					"name": "seed-repo-repository",
+					"type": "string",
+					"required": false,
+					"description": "Repository name."
+				}
+			]
+		},
+		"builds previews get": {
+			"operationId": "builds.previews.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds previews list": {
+			"operationId": "builds.previews.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds previews list-builds": {
+			"operationId": "builds.previews.list-builds",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds previews update": {
+			"operationId": "builds.previews.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "auto-build",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
+				},
+				{
+					"name": "auto-delete",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether deleting the git branch also deletes this Preview."
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch this Preview tracks"
+				},
+				{
+					"name": "settings-build-caching-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether builds reuse cached dependencies and build artifacts."
+				},
+				{
+					"name": "settings-build-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to build the Worker."
+				},
+				{
+					"name": "settings-build-token-uuid",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the build token used when deploying the Worker."
+				},
+				{
+					"name": "settings-deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Command to deploy the Worker."
+				},
+				{
+					"name": "settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
+				},
+				{
+					"name": "settings-path-excludes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that must not start builds."
+				},
+				{
+					"name": "settings-path-includes",
+					"type": "string",
+					"required": false,
+					"description": "Path patterns that can start builds."
+				},
+				{
+					"name": "settings-root-directory",
+					"type": "string",
+					"required": false,
+					"description": "Repository directory in which build and deploy commands run."
+				}
+			]
 		},
 		"builds repos config-autofill get": {
 			"operationId": "builds.repos.config-autofill.get",
@@ -19885,6 +20179,34 @@
 				}
 			]
 		},
+		"builds retry": {
+			"operationId": "builds.retry",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/builds/{build_uuid}/retry",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "build_uuid",
+					"flag": "build-uuid",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"builds tokens create": {
 			"operationId": "builds.tokens.create",
 			"httpMethod": "POST",
@@ -19968,313 +20290,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"builds triggers cache purge": {
-			"operationId": "builds.triggers.cache.purge",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/purge_build_cache",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers create": {
-			"operationId": "builds.triggers.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/triggers",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": true,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": true,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "external-script-id",
-					"type": "string",
-					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": true,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "repo-connection-uuid",
-					"type": "string",
-					"required": true,
-					"description": "Repository connection UUID."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": true,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": true,
-					"description": "Human-readable name of the build trigger."
-				}
-			]
-		},
-		"builds triggers delete": {
-			"operationId": "builds.triggers.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers environment-variables delete": {
-			"operationId": "builds.triggers.environment-variables.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables/{environment_variable_key}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "environment_variable_key",
-					"flag": "environment-variable-key",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers environment-variables list": {
-			"operationId": "builds.triggers.environment-variables.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers environment-variables upsert": {
-			"operationId": "builds.triggers.environment-variables.upsert",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}/environment_variables",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
-		"builds triggers list": {
-			"operationId": "builds.triggers.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{external_script_id}/triggers",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "external_script_id",
-					"flag": "external-script-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds triggers update": {
-			"operationId": "builds.triggers.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/builds/triggers/{trigger_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "trigger_uuid",
-					"flag": "trigger-uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "branch-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that must not start builds."
-				},
-				{
-					"name": "branch-includes",
-					"type": "string",
-					"required": false,
-					"description": "Branch patterns that can start builds."
-				},
-				{
-					"name": "build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				},
-				{
-					"name": "trigger-name",
-					"type": "string",
-					"required": false,
-					"description": "Human-readable name of the build trigger."
-				}
-			]
 		},
 		"builds versions get": {
 			"operationId": "builds.versions.get",
@@ -20460,7 +20475,7 @@
 					"name": "script-tag",
 					"type": "string",
 					"required": true,
-					"description": "System-generated tag of the Worker. This is not the Worker name."
+					"description": "Script tag of the Worker."
 				}
 			]
 		},
@@ -20476,7 +20491,7 @@
 				},
 				{
 					"name": "script_tag",
-					"flag": "script-tag",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -20498,7 +20513,58 @@
 				},
 				{
 					"name": "script_tag",
-					"flag": "script-tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds workers migrate-to-previews": {
+			"operationId": "builds.workers.migrate-to-previews",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				}
+			]
+		},
+		"builds workers purge-cache": {
+			"operationId": "builds.workers.purge-cache",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -20520,7 +20586,7 @@
 				},
 				{
 					"name": "script_tag",
-					"flag": "script-tag",
+					"flag": "worker",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -32350,6 +32416,104 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"d1 insights databases": {
+			"operationId": "d1.insights.databases",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/databases",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "database_name",
+					"flag": "database-name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "exact",
+					"flag": "exact",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "since",
+					"flag": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "until",
+					"flag": "until",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"d1 insights queries": {
+			"operationId": "d1.insights.queries",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/queries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "database_id",
+					"flag": "database-id",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "since",
+					"flag": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "until",
+					"flag": "until",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"d1 list": {
 			"operationId": "d1.list",
 			"httpMethod": "GET",
@@ -33030,119 +33194,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"dns domainconnect get-domain-settings": {
-			"operationId": "dns.domainconnect.get-domain-settings",
-			"httpMethod": "GET",
-			"path": "/v2/{domain}/settings",
-			"pathParams": [
-				{
-					"name": "domain",
-					"flag": "domain",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect get-heartbeat": {
-			"operationId": "dns.domainconnect.get-heartbeat",
-			"httpMethod": "GET",
-			"path": "/_heartbeat",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect get-provider-configuration": {
-			"operationId": "dns.domainconnect.get-provider-configuration",
-			"httpMethod": "GET",
-			"path": "/v2/provconf/{provider}/{service}/{account}",
-			"pathParams": [
-				{
-					"name": "provider",
-					"flag": "provider",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "service",
-					"flag": "service",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account",
-					"flag": "account",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect get-provider-template": {
-			"operationId": "dns.domainconnect.get-provider-template",
-			"httpMethod": "GET",
-			"path": "/v2/domainTemplates/providers/{provider}/services/{service}",
-			"pathParams": [
-				{
-					"name": "provider",
-					"flag": "provider",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "service",
-					"flag": "service",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dump",
-					"flag": "dump",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns domainconnect post-verify": {
-			"operationId": "dns.domainconnect.post-verify",
-			"httpMethod": "POST",
-			"path": "/v1/verify",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "domain",
-					"type": "string",
-					"required": false,
-					"description": "The domain field"
-				},
-				{
-					"name": "hash",
-					"type": "string",
-					"required": false,
-					"description": "The hash field"
-				},
-				{
-					"name": "sig",
-					"type": "string",
-					"required": false,
-					"description": "The sig field"
-				}
-			]
 		},
 		"dns records batch": {
 			"operationId": "dns.records.batch",
@@ -57352,12 +57403,6 @@
 					"type": "string",
 					"required": false,
 					"description": "A user-friendly name for the subnet."
-				},
-				{
-					"name": "network",
-					"type": "string",
-					"required": false,
-					"description": "The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
 				}
 			]
 		},
@@ -92860,14 +92905,7 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "notification-url",
-					"type": "string",
-					"required": false,
-					"description": "The URL where webhooks will be sent."
-				}
-			]
+			"requestBodyFields": []
 		},
 		"tags account-resources delete": {
 			"operationId": "tags.account-resources.delete",
@@ -100056,310 +100094,6 @@
 					"description": "The profile_type field"
 				}
 			]
-		},
-		"workers-builds workers migrate-to-previews": {
-			"operationId": "workers-builds.workers.migrate-to-previews",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				}
-			]
-		},
-		"workers-builds workers previews create-build": {
-			"operationId": "workers-builds.workers.previews.create-build",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch name (required if commit_hash not provided)"
-				},
-				{
-					"name": "commit-hash",
-					"type": "string",
-					"required": false,
-					"description": "Git commit hash (required if branch not provided)"
-				},
-				{
-					"name": "seed-repo-branch",
-					"type": "string",
-					"required": false,
-					"description": "Repository branch to seed."
-				},
-				{
-					"name": "seed-repo-files",
-					"type": "string",
-					"required": false,
-					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": string, \"filename\": string, \"isBase64\"?: boolean, \"replace\"?: string}]. ? marks optional keys."
-				},
-				{
-					"name": "seed-repo-owner",
-					"type": "string",
-					"required": false,
-					"description": "Repository owner or namespace."
-				},
-				{
-					"name": "seed-repo-path",
-					"type": "string",
-					"required": false,
-					"description": "Path within the repository to seed."
-				},
-				{
-					"name": "seed-repo-provider",
-					"type": "string",
-					"required": false,
-					"description": "Source control provider for the seed repository."
-				},
-				{
-					"name": "seed-repo-repository",
-					"type": "string",
-					"required": false,
-					"description": "Repository name."
-				}
-			]
-		},
-		"workers-builds workers previews edit": {
-			"operationId": "workers-builds.workers.previews.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "auto-build",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting."
-				},
-				{
-					"name": "auto-delete",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether deleting the git branch also deletes this Preview."
-				},
-				{
-					"name": "branch",
-					"type": "string",
-					"required": false,
-					"description": "Git branch this Preview tracks"
-				},
-				{
-					"name": "settings-build-caching-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts."
-				},
-				{
-					"name": "settings-build-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to build the Worker."
-				},
-				{
-					"name": "settings-build-token-uuid",
-					"type": "string",
-					"required": false,
-					"description": "UUID of the build token used when deploying the Worker."
-				},
-				{
-					"name": "settings-deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Command to deploy the Worker."
-				},
-				{
-					"name": "settings-environment-variables",
-					"type": "string",
-					"required": false,
-					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": ({...} | null)}."
-				},
-				{
-					"name": "settings-path-excludes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that must not start builds."
-				},
-				{
-					"name": "settings-path-includes",
-					"type": "string",
-					"required": false,
-					"description": "Path patterns that can start builds."
-				},
-				{
-					"name": "settings-root-directory",
-					"type": "string",
-					"required": false,
-					"description": "Repository directory in which build and deploy commands run."
-				}
-			]
-		},
-		"workers-builds workers previews get": {
-			"operationId": "workers-builds.workers.previews.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"workers-builds workers previews list": {
-			"operationId": "workers-builds.workers.previews.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"workers-builds workers previews list-builds": {
-			"operationId": "workers-builds.workers.previews.list-builds",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "script-tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preview_id",
-					"flag": "preview-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"workers-for-platforms dispatch-namespaces create": {
 			"operationId": "workers-for-platforms.dispatch-namespaces.create",

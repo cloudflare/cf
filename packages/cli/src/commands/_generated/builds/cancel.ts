@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage("$0 builds cancel <build-uuid>\n\nCancel a queued or running build.")
 		.positional("build-uuid", {
 			type: "string",
-			description: "Build UUID.",
+			description: "UUID of the build, as returned by builds list.",
 			demandOption: true,
 		})
 		.option("dry-run", {

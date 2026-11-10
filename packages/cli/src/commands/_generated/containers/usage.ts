@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 containers usage\n\nGet current live resource usage and maximum account limits for the authenticated Cloudchamber account. Usage includes active and assigned instances."
+			"$0 containers usage\n\nGet current live resource usage and maximum limits for your account. Usage includes active and assigned instances."
 		)
 		.option("dry-run", {
 			type: "boolean",

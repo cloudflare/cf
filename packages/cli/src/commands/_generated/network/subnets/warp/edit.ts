@@ -42,11 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "A user-friendly name for the subnet.",
 		})
-		.option("network", {
-			type: "string",
-			description:
-				"The private IPv4 or IPv6 range defining the subnet, in CIDR notation.",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -97,11 +92,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										network: resolveFileToken(
-											argv["network"] as string | undefined,
-											"network",
-											"text"
-										),
 									}),
 					});
 					return;
@@ -136,11 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
-						"text"
-					),
-					network: resolveFileToken(
-						argv["network"] as string | undefined,
-						"network",
 						"text"
 					),
 				});

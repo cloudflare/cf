@@ -1,4 +1,3 @@
-import operation from "../../_operations/builds/deploy-hooks/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -22,9 +22,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 builds deploy-hooks list\n\nList the branch-specific deploy hooks configured for a Worker."
 		)
-		.option("script-name", {
+		.option("worker", {
 			type: "string",
-			description: "Human-readable name of the worker.",
+			description: "Name or script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -55,8 +55,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds deploy-hooks list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/deploy_hooks`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/deploy_hooks`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -66,10 +66,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						script_name: argv["script-name"],
-					})
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/deploy_hooks`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

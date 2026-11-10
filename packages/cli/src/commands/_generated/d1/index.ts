@@ -2,6 +2,7 @@ import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
+import $insights from "./insights/index.js";
 import $list from "./list.js";
 import $query from "./query.js";
 import $raw from "./raw.js";
@@ -31,6 +32,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($query)
 			.command($raw)
 			.command($undelete)
+			.command($insights)
 			.command(withHandWrittenDryRun($migrations, "preview"))
 			.command($timetravel)
 			.demandCommand(1, "Please specify a subcommand");

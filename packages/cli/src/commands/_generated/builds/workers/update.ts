@@ -1,4 +1,3 @@
-import operation from "../../_operations/builds/workers/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,9 +8,15 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -22,11 +27,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds workers update <script-tag>\n\nUpdate the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings."
+			"$0 builds workers update <worker>\n\nUpdate the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings."
 		)
-		.positional("script-tag", {
+		.positional("worker", {
 			type: "string",
-			description: "The Worker script tag (external script ID)",
+			description: "Script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("patch-existing-previews", {
@@ -133,7 +138,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <script-tag>",
+	command: "update <worker>",
 	describe: "Update Worker build configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -160,8 +165,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds workers update",
 						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["script-tag"] == null ? "<script-tag>" : encodeURIComponent(String(argv["script-tag"]))}`,
-						pathParams: { "script-tag": String(argv["script-tag"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						query: queryParams,
 						bodyKind: "json",
 						body:
@@ -280,120 +285,185 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							script_tag: argv["script-tag"],
-							...queryParams,
-						})
+						requestApi<unknown>(
+							client,
+							"PATCH",
+							`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}${qs ? "?" + qs : ""}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						git_repository: {
-							branch: resolveFileToken(
-								argv["git-repository-branch"] as string | undefined,
-								"git-repository-branch",
-								"text"
-							),
-						},
-						previews_base_config: {
-							build_caching_enabled:
-								argv["previews-base-config-build-caching-enabled"],
-							build_command: resolveFileToken(
-								argv["previews-base-config-build-command"] as
-									| string
-									| undefined,
-								"previews-base-config-build-command",
-								"text"
-							),
-							build_token_uuid: resolveFileToken(
-								argv["previews-base-config-build-token-uuid"] as
-									| string
-									| undefined,
-								"previews-base-config-build-token-uuid",
-								"text"
-							),
-							deploy_command: resolveFileToken(
-								argv["previews-base-config-deploy-command"] as
-									| string
-									| undefined,
-								"previews-base-config-deploy-command",
-								"text"
-							),
-							environment_variables: parseJsonMap(
-								argv["previews-base-config-environment-variables"],
-								"previews-base-config-environment-variables"
-							),
-							path_excludes: argv["previews-base-config-path-excludes"],
-							path_includes: argv["previews-base-config-path-includes"],
-							root_directory: resolveFileToken(
-								argv["previews-base-config-root-directory"] as
-									| string
-									| undefined,
-								"previews-base-config-root-directory",
-								"text"
-							),
-						},
-						previews_enabled: argv["previews-enabled"],
-						production_settings: {
-							build_caching_enabled:
-								argv["production-settings-build-caching-enabled"],
-							build_command: resolveFileToken(
-								argv["production-settings-build-command"] as string | undefined,
-								"production-settings-build-command",
-								"text"
-							),
-							build_token_uuid: resolveFileToken(
-								argv["production-settings-build-token-uuid"] as
-									| string
-									| undefined,
-								"production-settings-build-token-uuid",
-								"text"
-							),
-							deploy_command: resolveFileToken(
-								argv["production-settings-deploy-command"] as
-									| string
-									| undefined,
-								"production-settings-deploy-command",
-								"text"
-							),
-							environment_variables: parseJsonMap(
-								argv["production-settings-environment-variables"],
-								"production-settings-environment-variables"
-							),
-							path_excludes: argv["production-settings-path-excludes"],
-							path_includes: argv["production-settings-path-includes"],
-							root_directory: resolveFileToken(
-								argv["production-settings-root-directory"] as
-									| string
-									| undefined,
-								"production-settings-root-directory",
-								"text"
-							),
-						},
-					},
-					[
+				const bodyData: Record<string, unknown> = {};
+				if (argv["git-repository-branch"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["git_repository", "branch"],
+						resolveFileToken(
+							argv["git-repository-branch"] as string | undefined,
+							"git-repository-branch",
+							"text"
+						)
+					);
+				if (argv["previews-base-config-build-caching-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "build_caching_enabled"],
+						argv["previews-base-config-build-caching-enabled"]
+					);
+				if (argv["previews-base-config-build-command"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "build_command"],
+						resolveFileToken(
+							argv["previews-base-config-build-command"] as string | undefined,
+							"previews-base-config-build-command",
+							"text"
+						)
+					);
+				if (argv["previews-base-config-build-token-uuid"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "build_token_uuid"],
+						resolveFileToken(
+							argv["previews-base-config-build-token-uuid"] as
+								| string
+								| undefined,
+							"previews-base-config-build-token-uuid",
+							"text"
+						)
+					);
+				if (argv["previews-base-config-deploy-command"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "deploy_command"],
+						resolveFileToken(
+							argv["previews-base-config-deploy-command"] as string | undefined,
+							"previews-base-config-deploy-command",
+							"text"
+						)
+					);
+				if (argv["previews-base-config-environment-variables"] !== undefined)
+					setNestedValue(
+						bodyData,
 						["previews_base_config", "environment_variables"],
+						parseJsonMap(
+							argv["previews-base-config-environment-variables"],
+							"previews-base-config-environment-variables"
+						)
+					);
+				if (argv["previews-base-config-path-excludes"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "path_excludes"],
+						argv["previews-base-config-path-excludes"]
+					);
+				if (argv["previews-base-config-path-includes"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "path_includes"],
+						argv["previews-base-config-path-includes"]
+					);
+				if (argv["previews-base-config-root-directory"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_base_config", "root_directory"],
+						resolveFileToken(
+							argv["previews-base-config-root-directory"] as string | undefined,
+							"previews-base-config-root-directory",
+							"text"
+						)
+					);
+				if (argv["previews-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["previews_enabled"],
+						argv["previews-enabled"]
+					);
+				if (argv["production-settings-build-caching-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "build_caching_enabled"],
+						argv["production-settings-build-caching-enabled"]
+					);
+				if (argv["production-settings-build-command"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "build_command"],
+						resolveFileToken(
+							argv["production-settings-build-command"] as string | undefined,
+							"production-settings-build-command",
+							"text"
+						)
+					);
+				if (argv["production-settings-build-token-uuid"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "build_token_uuid"],
+						resolveFileToken(
+							argv["production-settings-build-token-uuid"] as
+								| string
+								| undefined,
+							"production-settings-build-token-uuid",
+							"text"
+						)
+					);
+				if (argv["production-settings-deploy-command"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "deploy_command"],
+						resolveFileToken(
+							argv["production-settings-deploy-command"] as string | undefined,
+							"production-settings-deploy-command",
+							"text"
+						)
+					);
+				if (argv["production-settings-environment-variables"] !== undefined)
+					setNestedValue(
+						bodyData,
 						["production_settings", "environment_variables"],
-					]
-				);
+						parseJsonMap(
+							argv["production-settings-environment-variables"],
+							"production-settings-environment-variables"
+						)
+					);
+				if (argv["production-settings-path-excludes"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "path_excludes"],
+						argv["production-settings-path-excludes"]
+					);
+				if (argv["production-settings-path-includes"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "path_includes"],
+						argv["production-settings-path-includes"]
+					);
+				if (argv["production-settings-root-directory"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["production_settings", "root_directory"],
+						resolveFileToken(
+							argv["production-settings-root-directory"] as string | undefined,
+							"production-settings-root-directory",
+							"text"
+						)
+					);
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)
 						.filter(([, v]) => v !== undefined)
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						script_tag: argv["script-tag"],
-						...queryParams,
-					})
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}${qs ? "?" + qs : ""}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

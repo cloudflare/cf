@@ -1,4 +1,3 @@
-import operation from "../../_operations/builds/deploy-hooks/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -24,12 +24,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("deploy-hook-uuid", {
 			type: "string",
-			description: "Deploy hook UUID",
+			description: "UUID of the deploy hook, as returned by deploy-hooks list.",
 			demandOption: true,
 		})
-		.option("script-name", {
+		.option("worker", {
 			type: "string",
-			description: "Human-readable name of the worker.",
+			description: "Name or script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -60,9 +60,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds deploy-hooks get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/deploy_hooks/${argv["deploy-hook-uuid"] == null ? "<deploy-hook-uuid>" : encodeURIComponent(String(argv["deploy-hook-uuid"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/deploy_hooks/${argv["deploy-hook-uuid"] == null ? "<deploy-hook-uuid>" : encodeURIComponent(String(argv["deploy-hook-uuid"]))}`,
 						pathParams: {
-							"script-name": String(argv["script-name"] ?? ""),
+							worker: String(argv["worker"] ?? ""),
 							"deploy-hook-uuid": String(argv["deploy-hook-uuid"] ?? ""),
 						},
 						bodyKind: "none",
@@ -74,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						script_name: argv["script-name"],
-						deploy_hook_uuid: argv["deploy-hook-uuid"],
-					})
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/deploy_hooks/${encodeURIComponent(String(argv["deploy-hook-uuid"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

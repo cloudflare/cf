@@ -27,8 +27,13 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds workers create\n\nConnect a Worker tag to a repository and production build settings."
+			"$0 builds workers create <script-tag>\n\nConnect a Worker tag to a repository and production build settings."
 		)
+		.positional("script-tag", {
+			type: "string",
+			description: "Script tag of the Worker.",
+			demandOption: true,
+		})
 		.option("git-repository-branch", {
 			type: "string",
 			description: "Git branch to watch for builds",
@@ -145,11 +150,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Repository directory in which build and deploy commands run.",
 			default: "/",
 		})
-		.option("script-tag", {
-			type: "string",
-			description:
-				"System-generated tag of the Worker. This is not the Worker name.",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -220,7 +220,7 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 ];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
+	command: "create <script-tag>",
 	describe: "Create Worker build configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -377,11 +377,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"text"
 													),
 												},
-												script_tag: resolveFileToken(
-													argv["script-tag"] as string | undefined,
-													"script-tag",
-													"text"
-												),
+												script_tag: argv["script-tag"],
 											},
 											[
 												["previews_base_config", "environment_variables"],
@@ -493,12 +489,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"production-settings-deploy-command",
 							"Command to deploy the Worker."
 						);
-				}
-				if (argv["script-tag"] === undefined) {
-					argv["script-tag"] = await promptForRequiredField(
-						"script-tag",
-						"System-generated tag of the Worker. This is not the Worker name."
-					);
 				}
 
 				// Assemble request body from individual flags
@@ -616,11 +606,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 						},
-						script_tag: resolveFileToken(
-							argv["script-tag"] as string | undefined,
-							"script-tag",
-							"text"
-						),
+						script_tag: argv["script-tag"],
 					},
 					[
 						["previews_base_config", "environment_variables"],

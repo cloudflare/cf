@@ -1,4 +1,3 @@
-import operation from "../_operations/builds/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -9,9 +8,15 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseObjectArray,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -22,11 +27,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds create <trigger-uuid>\n\nStart a build for a branch or commit using the selected trigger."
+			"$0 builds create <worker>\n\nStart a production build for a branch or commit."
 		)
-		.positional("trigger-uuid", {
+		.positional("worker", {
 			type: "string",
-			description: "Trigger UUID.",
+			description: "Script tag of the Worker.",
 			demandOption: true,
 		})
 		.option("branch", {
@@ -103,8 +108,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <trigger-uuid>",
-	describe: "Start a Workers build",
+	command: "create <worker>",
+	describe: "Start a Worker build",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -121,8 +126,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf builds create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/triggers/${argv["trigger-uuid"] == null ? "<trigger-uuid>" : encodeURIComponent(String(argv["trigger-uuid"]))}/builds`,
-						pathParams: { "trigger-uuid": String(argv["trigger-uuid"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/builds`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -178,59 +183,98 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							trigger_uuid: argv["trigger-uuid"],
-						})
+						requestApi<unknown>(
+							client,
+							"POST",
+							`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/builds`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					branch: resolveFileToken(
-						argv["branch"] as string | undefined,
-						"branch",
-						"text"
-					),
-					commit_hash: resolveFileToken(
-						argv["commit-hash"] as string | undefined,
-						"commit-hash",
-						"text"
-					),
-					seed_repo: {
-						branch: resolveFileToken(
+				const bodyData: Record<string, unknown> = {};
+				if (argv["branch"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["branch"],
+						resolveFileToken(
+							argv["branch"] as string | undefined,
+							"branch",
+							"text"
+						)
+					);
+				if (argv["commit-hash"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["commit_hash"],
+						resolveFileToken(
+							argv["commit-hash"] as string | undefined,
+							"commit-hash",
+							"text"
+						)
+					);
+				if (argv["seed-repo-branch"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["seed_repo", "branch"],
+						resolveFileToken(
 							argv["seed-repo-branch"] as string | undefined,
 							"seed-repo-branch",
 							"text"
-						),
-						files: parseObjectArray(argv["seed-repo-files"], "seed-repo-files"),
-						owner: resolveFileToken(
+						)
+					);
+				if (argv["seed-repo-files"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["seed_repo", "files"],
+						parseObjectArray(argv["seed-repo-files"], "seed-repo-files")
+					);
+				if (argv["seed-repo-owner"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["seed_repo", "owner"],
+						resolveFileToken(
 							argv["seed-repo-owner"] as string | undefined,
 							"seed-repo-owner",
 							"text"
-						),
-						path: resolveFileToken(
+						)
+					);
+				if (argv["seed-repo-path"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["seed_repo", "path"],
+						resolveFileToken(
 							argv["seed-repo-path"] as string | undefined,
 							"seed-repo-path",
 							"text"
-						),
-						provider: argv["seed-repo-provider"],
-						repository: resolveFileToken(
+						)
+					);
+				if (argv["seed-repo-provider"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["seed_repo", "provider"],
+						argv["seed-repo-provider"]
+					);
+				if (argv["seed-repo-repository"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["seed_repo", "repository"],
+						resolveFileToken(
 							argv["seed-repo-repository"] as string | undefined,
 							"seed-repo-repository",
 							"text"
-						),
-					},
-				});
+						)
+					);
 				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						trigger_uuid: argv["trigger-uuid"],
-					})
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/builds`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

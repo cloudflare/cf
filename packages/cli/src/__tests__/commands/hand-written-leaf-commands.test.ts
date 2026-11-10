@@ -347,13 +347,21 @@ describe("hand-written leaf commands", () => {
 		).toBeLessThan(generated.indexOf(".command($delete)"));
 	});
 
-	it("fails clearly if the spec adds a leaf command with the same name", () => {
-		expect(() =>
-			generateResourceIndexFile(workersSchema, ["check"], [])
-		).toThrow(
-			'Hand-written leaf command "workers check" collides with a command or group of the same name in the spec.'
-		);
-	});
+	it.each([
+		{ parent: "workers", leaf: "check" },
+		{ parent: "observability", leaf: "tail" },
+	])(
+		"guards $parent $leaf against a future generated command",
+		({ parent, leaf }) => {
+			expect(() =>
+				generateResourceIndexFile(
+					{ ...workersSchema, name: parent },
+					[leaf],
+					[]
+				)
+			).toThrow(`Hand-written leaf command "${parent} ${leaf}" collides`);
+		}
+	);
 
 	it("fails clearly if a generated group gains the nested leaf", () => {
 		expect(() =>

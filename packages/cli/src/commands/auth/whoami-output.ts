@@ -61,9 +61,10 @@ function authenticationMessage(
 	if (result.tokenValid === null) {
 		return `Unable to verify authentication via ${authenticationMethod}`;
 	}
-	return result.email
+	const identity = result.email
 		? `${theme.bold(sanitizeTerminalText(result.email))} ${theme.muted(`via ${authenticationMethod}`)}`
-		: `Authenticated ${theme.muted(`via ${authenticationMethod} (email unavailable)`)}`;
+		: theme.muted(`via ${authenticationMethod} (email unavailable)`);
+	return `${theme.bold("Authenticated")}\n${identity}`;
 }
 
 export async function printWhoamiSummary(
@@ -109,7 +110,9 @@ export async function printWhoamiSummary(
 		);
 		for (const { name, id } of accounts) {
 			const padding = " ".repeat(nameWidth - stringWidth(name));
-			lines.push(`${theme.info(name)}${padding}  ${theme.muted(id)}`);
+			lines.push(
+				`${theme.bold(theme.info(name))}${padding}  ${theme.muted(id)}`
+			);
 		}
 	}
 

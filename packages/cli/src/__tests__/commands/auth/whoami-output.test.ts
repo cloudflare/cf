@@ -143,7 +143,8 @@ describe("whoami output", () => {
 		await runCf(["auth", "whoami"]);
 
 		expect(std.out).toMatchInlineSnapshot(`
-			"user@example.com via OAuth
+			"Authenticated
+			user@example.com via OAuth
 			Active profile: work (activated for this directory)
 
 			Accounts
@@ -412,7 +413,7 @@ describe("whoami output", () => {
 		await runCf(["auth", "whoami"], { CLOUDFLARE_API_TOKEN: "limited-token" });
 
 		expect(std.out).toContain(
-			"Authenticated via API Token (email unavailable)"
+			"Authenticated\nvia API Token (email unavailable)"
 		);
 		expect(std.out).toContain("Unavailable; could not list accounts");
 		expect(std.out).not.toContain("No accessible accounts");

@@ -10370,13 +10370,13 @@
 			"fullPath": ["ai-search", "create"],
 			"description": "Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance.",
 			"summary": "Create an AI Search instance.",
-			"usage": "cf ai-search create [id] [options]",
+			"usage": "cf ai-search create <id> [options]",
 			"arguments": [
 				{
 					"name": "id",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "Unique ID for the new AI Search instance."
 				}
 			],
@@ -12154,13 +12154,13 @@
 			"fullPath": ["ai-search", "namespace", "create"],
 			"description": "Create a namespace for organizing AI Search instances.",
 			"summary": "Create a namespace",
-			"usage": "cf ai-search namespace create [namespace] [options]",
+			"usage": "cf ai-search namespace create <namespace> [options]",
 			"arguments": [
 				{
 					"name": "namespace",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "Name for the new namespace."
 				}
 			],
@@ -12755,13 +12755,13 @@
 			"fullPath": ["ai-search", "tokens", "create"],
 			"description": "Create a stored Cloudflare credential for an AI Search instance to access its data source.",
 			"summary": "Create a token",
-			"usage": "cf ai-search tokens create [name] [options]",
+			"usage": "cf ai-search tokens create <name> [options]",
 			"arguments": [
 				{
 					"name": "name",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "Human-readable name for the credential."
 				}
 			],
@@ -112669,13 +112669,13 @@
 			"fullPath": ["registrar", "registrations", "check"],
 			"description": "Performs real-time, authoritative availability checks directly against domain registries. Use this endpoint to verify a domain is available before attempting registration via `POST /registrations`. **Important:** Unlike the Search endpoint, these results are authoritative and reflect current registry status. Always check availability immediately before registration as domain status can change rapidly. **Note:** This endpoint uses POST to accept a list of domains in the request body. It is a read-only operation — it does not create, modify, or reserve any domains. ### Extension support Only domains on extensions supported for programmatic registration by this API can be registered. If you check a domain on an unsupported extension, the response will include `registrable: false` with a `reason` field explaining why: - `extension_not_supported_via_api` — Cloudflare Registrar supports this extension in the dashboard, but it is not yet available for programmatic registration via this API. Register via `https://dash.cloudflare.com/{account_id}/domains/registrations` instead. - `extension_not_supported` — This extension is not supported by Cloudflare Registrar. - `extension_disallows_registration` — The extension's registry has temporarily or permanently frozen new registrations. No registrar can register domains on this extension at this time. - `domain_premium` — The domain is premium priced. Premium registration is not currently supported by this API. - `domain_unavailable` — The domain is already registered, reserved, or otherwise not available for registration on a supported extension. The `reason` field is only present when `registrable` is `false`. ### Behavior - Maximum 20 domains per request - Pricing is only returned for domains where `registrable: true` - Results are not cached; each request queries the registry ### Workflow 1. Call this endpoint with domains the user wants to register. 2. For each domain where `registrable: true`, present pricing to the user. 3. If `tier: premium`, note that premium registration is not currently supported by this API and do not proceed to `POST /registrations`. 4. Proceed to `POST /registrations` only for supported non-premium domains.",
 			"summary": "Check domain availability",
-			"usage": "cf registrar registrations check [domains...]",
+			"usage": "cf registrar registrations check <domains...>",
 			"arguments": [
 				{
 					"name": "domains",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "List of fully qualified domain names (FQDNs) to check for availability. Each domain must include the extension.\n- Minimum: 1 domain.\n- Maximum: 20 domains per request.\n- The response returns domains on unsupported extensions with `registrable: false` and a `reason` field.\n- The response may omit malformed domain names (e.g., names missing an extension).\n"
 				}
 			],
@@ -113358,13 +113358,13 @@
 			"fullPath": ["registrar-sandbox", "registrations", "check"],
 			"description": "Performs real-time, authoritative availability checks directly against domain registries. Use this endpoint to verify a domain is available before attempting registration via `POST /registrations`. **Important:** Unlike the Search endpoint, these results are authoritative and reflect current registry status. Always check availability immediately before registration as domain status can change rapidly. **Note:** This endpoint uses POST to accept a list of domains in the request body. It is a read-only operation — it does not create, modify, or reserve any domains. ### Extension support Only domains on extensions supported for programmatic registration by this API can be registered. If you check a domain on an unsupported extension, the response will include `registrable: false` with a `reason` field explaining why: - `extension_not_supported_via_api` — Cloudflare Registrar supports this extension in the dashboard, but it is not yet available for programmatic registration via this API. Register via `https://dash.cloudflare.com/{account_id}/domains/registrations` instead. - `extension_not_supported` — This extension is not supported by Cloudflare Registrar. - `extension_disallows_registration` — The extension's registry has temporarily or permanently frozen new registrations. No registrar can register domains on this extension at this time. - `domain_premium` — The domain is premium priced. Premium registration is not currently supported by this API. - `domain_unavailable` — The domain is already registered, reserved, or otherwise not available for registration on a supported extension. The `reason` field is only present when `registrable` is `false`. ### Behavior - Maximum 20 domains per request - Pricing is only returned for domains where `registrable: true` - Results are not cached; each request queries the registry ### Workflow 1. Call this endpoint with domains the user wants to register. 2. For each domain where `registrable: true`, present pricing to the user. 3. If `tier: premium`, note that premium registration is not currently supported by this API and do not proceed to `POST /registrations`. 4. Proceed to `POST /registrations` only for supported non-premium domains.",
 			"summary": "Check domain availability",
-			"usage": "cf registrar-sandbox registrations check [domains...]",
+			"usage": "cf registrar-sandbox registrations check <domains...>",
 			"arguments": [
 				{
 					"name": "domains",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "List of fully qualified domain names (FQDNs) to check for availability. Each domain must include the extension.\n- Minimum: 1 domain.\n- Maximum: 20 domains per request.\n- The response returns domains on unsupported extensions with `registrable: false` and a `reason` field.\n- The response may omit malformed domain names (e.g., names missing an extension).\n"
 				}
 			],
@@ -121409,13 +121409,13 @@
 			"fullPath": ["sql", "query"],
 			"description": "Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
 			"summary": "Query analytics datasets",
-			"usage": "cf sql query [query] [options]",
+			"usage": "cf sql query <query> [options]",
 			"arguments": [
 				{
 					"name": "query",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
 				}
 			],
@@ -136677,13 +136677,13 @@
 			"fullPath": ["workers", "secrets", "update"],
 			"description": "Add a secret to a Worker script by creating a new version with that secret. When changing more than one secret at a time, prefer the \"Patch multiple script secrets\" API instead of changing many secrets individually.",
 			"summary": "Add a secret to a Worker script",
-			"usage": "cf workers secrets update [name] [options]",
+			"usage": "cf workers secrets update <name> [options]",
 			"arguments": [
 				{
 					"name": "name",
 					"position": 0,
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "A JavaScript variable name for the binding."
 				}
 			],

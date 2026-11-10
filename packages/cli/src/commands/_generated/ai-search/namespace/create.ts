@@ -26,11 +26,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace create [namespace]\n\nCreate a namespace for organizing AI Search instances."
+			"$0 ai-search namespace create <namespace>\n\nCreate a namespace for organizing AI Search instances."
 		)
 		.positional("namespace", {
 			type: "string",
 			description: "Name for the new namespace.",
+			demandOption: true,
 		})
 		.option("description", {
 			type: "string",
@@ -108,21 +109,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
-			if (argv.body === undefined && argv["namespace"] === undefined) {
-				throw new Error(
-					"<namespace> is required (or pass --body with name set)."
-				);
-			}
-			return true;
 		});
 }
 
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create [namespace]",
+	command: "create <namespace>",
 	describe: "Create a namespace",
 	builder,
 	handler: async (argv): Promise<void> =>

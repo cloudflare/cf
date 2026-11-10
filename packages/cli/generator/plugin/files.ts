@@ -14,7 +14,6 @@ import {
 	multipartFileFlagDescription,
 	optionDefaults,
 	options as optionArgs,
-	positionalRequired,
 	positionals,
 	scalar,
 	WORKER_ALIASES,
@@ -261,9 +260,7 @@ class Walk {
 		const positionalUsage = positional
 			.map((a) => {
 				const name = a.type === "array" ? `${a.name}...` : a.name;
-				return positionalRequired(a, derived) && !a.isWorkerName
-					? `<${name}>`
-					: `[${name}]`;
+				return a.required && !a.isWorkerName ? `<${name}>` : `[${name}]`;
 			})
 			.join(" ");
 		const suffix = options.length === 0 ? "" : " [options]";
@@ -276,7 +273,7 @@ class Walk {
 			m["name"] = a.name;
 			m["position"] = i;
 			m["type"] = scalar(a.type);
-			m["required"] = positionalRequired(a, derived) && !a.isWorkerName;
+			m["required"] = a.required && !a.isWorkerName;
 			m["description"] = a.description;
 			if (a.choices !== undefined && a.choices.length > 0) {
 				m["enum"] = a.choices;

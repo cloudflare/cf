@@ -110,10 +110,10 @@ describe("body positionals with --body", () => {
 			commands: CommandMeta[];
 		};
 		expect(commands[0]).toMatchObject({
-			usage: "cf things save <thing-id> [worker-tag] [options]",
+			usage: "cf things save <thing-id> <worker-tag> [options]",
 			arguments: [
 				{ name: "thing-id", required: true },
-				{ name: "worker-tag", required: false },
+				{ name: "worker-tag", required: true },
 			],
 		});
 	});
@@ -126,10 +126,6 @@ describe("body positionals with --body", () => {
 				[
 					["tag", "--body", '{"label":"raw"}'],
 					{ script_tag: "tag", label: "raw" },
-				],
-				[
-					["--body", '{"script_tag":"from-body","label":"raw"}'],
-					{ script_tag: "from-body", label: "raw" },
 				],
 				[["tag", "--body", '{"script_tag":"tag"}'], { script_tag: "tag" }],
 				[
@@ -192,13 +188,25 @@ describe("body positionals with --body", () => {
 		}
 	);
 
-	it("requires a body positional when --body is absent", async () => {
-		const { run, createCommandClient } = command();
-		await expect(run(["thing"])).rejects.toThrow(
-			/worker-tag.*required.*--body/
-		);
-		expect(createCommandClient).not.toHaveBeenCalled();
-	});
+	it.each([false, true])(
+		"requires a body positional even when --body contains its field (dry run: %s)",
+		async (dryRun) => {
+			await seed({ "body ü.json": '{"script_tag":"tag"}' });
+			for (const args of [
+				[],
+				["--body", '{"script_tag":"tag"}'],
+				["--body", "@body ü.json"],
+			]) {
+				const { run, createCommandClient, send, formatDryRun } = command();
+				await expect(
+					run(["thing", ...args, ...(dryRun ? ["--dry-run"] : [])])
+				).rejects.toThrow(/Not enough non-option arguments/);
+				expect(createCommandClient).not.toHaveBeenCalled();
+				expect(send).not.toHaveBeenCalled();
+				expect(formatDryRun).not.toHaveBeenCalled();
+			}
+		}
+	);
 
 	it("still requires URL positionals with --body", async () => {
 		const { run, createCommandClient } = command();

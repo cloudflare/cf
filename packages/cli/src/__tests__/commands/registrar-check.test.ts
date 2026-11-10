@@ -96,7 +96,6 @@ describe("cf registrar registrations check", () => {
 				)
 			);
 			for (const args of [
-				["--body", '{"domains":["example.com","example.net"]}'],
 				["example.com", "example.net", "--body", "{}"],
 				[
 					"example.com",
@@ -126,6 +125,37 @@ describe("cf registrar registrations check", () => {
 					expect(body).toEqual(expected);
 				}
 			}
+		}
+	);
+
+	it.each([false, true])(
+		"requires variadic domains even when --body contains them (dry run: %s)",
+		async (dryRun) => {
+			const request = vi.fn(() =>
+				HttpResponse.json({ success: true, result: [] })
+			);
+			server.use(
+				http.post(
+					`${TEST_BASE_URL}/accounts/test-account/registrar/domain-check`,
+					request
+				)
+			);
+			await expect(
+				runCf(
+					[
+						"registrar",
+						"registrations",
+						"check",
+						"--body",
+						'{"domains":["example.com","example.net"]}',
+						...(dryRun ? ["--dry-run"] : []),
+					],
+					ENV
+				)
+			).rejects.toThrow(/Not enough non-option arguments/);
+
+			expect(request).not.toHaveBeenCalled();
+			expect(logSpy).not.toHaveBeenCalled();
 		}
 	);
 });

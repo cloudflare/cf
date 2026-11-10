@@ -85,7 +85,7 @@ describe("path parameter overrides in generated commands", () => {
 			description: "Name",
 			default: "default",
 		});
-		expect(code).toContain("command: 'create [id]'");
+		expect(code).toContain("command: 'create <id>'");
 		expect(code).not.toContain(".positional('namespace'");
 	});
 
@@ -104,7 +104,7 @@ describe("path parameter overrides in generated commands", () => {
 				default: "default",
 			})
 		);
-		expect(meta?.usage).toBe("cf ai-search create [id] [options]");
+		expect(meta?.usage).toBe("cf ai-search create <id> [options]");
 		const code = read("ai-search/create.ts");
 		expect(code).toContain('encodeURIComponent(String(argv["namespace"]))');
 		expect(code).toContain('"namespace": String(argv["namespace"]');

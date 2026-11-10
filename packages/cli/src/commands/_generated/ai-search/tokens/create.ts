@@ -27,11 +27,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search tokens create [name]\n\nCreate a stored Cloudflare credential for an AI Search instance to access its data source."
+			"$0 ai-search tokens create <name>\n\nCreate a stored Cloudflare credential for an AI Search instance to access its data source."
 		)
 		.positional("name", {
 			type: "string",
 			description: "Human-readable name for the credential.",
+			demandOption: true,
 		})
 		.option("api-token-id", {
 			type: "string",
@@ -54,19 +55,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
-			if (argv.body === undefined && argv["name"] === undefined) {
-				throw new Error("<name> is required (or pass --body with name set).");
-			}
-			return true;
 		});
 }
 
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create [name]",
+	command: "create <name>",
 	describe: "Create a token",
 	builder,
 	handler: async (argv): Promise<void> =>

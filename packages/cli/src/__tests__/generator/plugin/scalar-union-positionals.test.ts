@@ -65,7 +65,7 @@ describe.each([true, false])(
 						["@scalar value.json", "--body", '{"threshold":0.25}'],
 						{ threshold: 0.25 },
 					],
-					[["--body", '{"threshold":false}'], { threshold: false }],
+					[["false", "--body", '{"threshold":false}'], { threshold: false }],
 				] as const) {
 					const send = vi.fn(async () => undefined);
 					const requestApi = vi.fn(async () => undefined);

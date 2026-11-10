@@ -32,11 +32,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			'$0 workers secrets update [name]\n\nAdd a secret to a Worker script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually.'
+			'$0 workers secrets update <name>\n\nAdd a secret to a Worker script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually.'
 		)
 		.positional("name", {
 			type: "string",
 			description: "A JavaScript variable name for the binding.",
+			demandOption: true,
 		})
 		.option("worker", {
 			type: "string",
@@ -87,12 +88,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "A secret value accessible through a binding.",
 		})
-		.check((argv) => {
-			if (argv.body === undefined && argv["name"] === undefined) {
-				throw new Error("<name> is required (or pass --body with name set).");
-			}
-			return true;
-		})
 		.conflicts("text", [
 			"algorithm",
 			"format",
@@ -115,7 +110,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update [name]",
+	command: "update <name>",
 	describe: "Add a secret to a Worker script",
 	builder,
 	handler: async (argv): Promise<void> =>

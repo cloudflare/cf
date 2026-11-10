@@ -6,7 +6,6 @@ import {
 	multipartFileFlagDescription,
 	optionDefaults,
 	options as optionArgs,
-	positionalRequired,
 	positionals,
 	WORKER_ALIASES,
 } from "../args.js";
@@ -64,7 +63,7 @@ export function builderLines(ctx: Ctx): string[] {
 		const base = escapeSingle(arg.description);
 		const desc = arg.isZone ? `${base} (or use --zone flag)` : base;
 		lines.push(`        description: '${desc}',`);
-		if (positionalRequired(arg, d) && !arg.isZone && !arg.isWorkerName) {
+		if (arg.required && !arg.isZone && !arg.isWorkerName) {
 			lines.push("        demandOption: true,");
 		}
 		lines.push("      })");
@@ -156,22 +155,6 @@ export function builderLines(ctx: Ctx): string[] {
 				["description", multipartFileFlagDescription(field)],
 			])
 		);
-	}
-	for (const arg of positional) {
-		if (arg.origin.in !== "body" || !d.hasBody || !arg.required) {
-			continue;
-		}
-		lines.push("      .check((argv) => {");
-		const read = `argv[${stringify(arg.name)}]`;
-		const missing =
-			arg.type === "array" ? `!${read}?.length` : `${read} === undefined`;
-		lines.push(`        if (argv.body === undefined && ${missing}) {`);
-		lines.push(
-			`          throw new Error(${stringify(`<${arg.name}> is required (or pass --body with ${arg.origin.path.join(".")} set).`)});`
-		);
-		lines.push("        }");
-		lines.push("        return true;");
-		lines.push("      })");
 	}
 	for (const arg of d.args) {
 		if (!isBody(arg) || arg.positional) {

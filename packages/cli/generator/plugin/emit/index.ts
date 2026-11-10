@@ -20,7 +20,6 @@ import {
 	isWorkerName,
 	options,
 	pathParamReadKey,
-	positionalRequired,
 	positionals,
 	queryArgs,
 	ZONE_PATH_PARAMS,
@@ -283,7 +282,7 @@ export function context(
 	const positionalStr = positional
 		.map((a) => {
 			const name = a.type === "array" ? `${a.name}...` : a.name;
-			return a.isZone || a.isWorkerName || !positionalRequired(a, derived)
+			return a.isZone || a.isWorkerName || !a.required
 				? `[${name}]`
 				: `<${name}>`;
 		})

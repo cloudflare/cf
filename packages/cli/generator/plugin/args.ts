@@ -148,8 +148,6 @@ export const options = (d: Derived): Arg[] =>
 	d.args.filter((a) => !a.positional || (isPath(a) && a.isWorkerName));
 export const bodyOptions = (d: Derived): Arg[] =>
 	d.args.filter((a) => isBody(a) && !a.positional);
-export const positionalRequired = (arg: Arg, d: Derived): boolean =>
-	arg.required && !(isBody(arg) && d.hasBody);
 export const queryArgs = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.origin.in === "query");
 export const headerArgs = (d: Derived): Arg[] =>

@@ -21,12 +21,13 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 sql query [query]\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
+			"$0 sql query <query>\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
 		)
 		.positional("query", {
 			type: "string",
 			description:
 				"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. ",
+			demandOption: true,
 		})
 		.option("scope-account", {
 			type: "string",
@@ -59,12 +60,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Path to a file to upload as the request body",
 		})
-		.check((argv) => {
-			if (argv.body === undefined && argv["query"] === undefined) {
-				throw new Error("<query> is required (or pass --body with query set).");
-			}
-			return true;
-		})
 		.conflicts("scope-account", ["scope-zone"])
 		.conflicts("scope-zone", ["scope-account"])
 		.check((argv) => {
@@ -86,7 +81,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "query [query]",
+	command: "query <query>",
 	describe: "Query analytics datasets",
 	builder,
 	handler: async (argv): Promise<void> =>

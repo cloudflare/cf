@@ -28,11 +28,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search create [id]\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
+			"$0 ai-search create <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
 		)
 		.positional("id", {
 			type: "string",
 			description: "Unique ID for the new AI Search instance.",
+			demandOption: true,
 		})
 		.option("namespace", {
 			type: "string",
@@ -375,12 +376,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
-			if (argv.body === undefined && argv["id"] === undefined) {
-				throw new Error("<id> is required (or pass --body with id set).");
-			}
-			return true;
-		})
-		.check((argv) => {
 			const groupSet = ["index-method-keyword", "index-method-vector"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -419,7 +414,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create [id]",
+	command: "create <id>",
 	describe: "Create an AI Search instance.",
 	builder,
 	handler: async (argv): Promise<void> =>

@@ -63,6 +63,7 @@ export async function runBuild(
 	if (buildCommand) {
 		result = await runProjectCommand(buildCommand, cwd, {
 			...options,
+			preferLocal: true,
 			env,
 			args: buildArgs,
 		});

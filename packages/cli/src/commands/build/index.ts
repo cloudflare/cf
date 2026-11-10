@@ -1,3 +1,4 @@
+import { assertProjectCommandsAvailable } from "@cloudflare/autoconfig";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import {
@@ -36,7 +37,6 @@ export async function runBuild(
 ): Promise<"built" | "setup-needed"> {
 	const output = options.output ?? "stderr";
 	const cwd = process.cwd();
-	validateVitePluginCompatibility(cwd);
 	const { details, configuration, setupNeeded } = await prepareProject(cwd, {
 		...options,
 		dryRun,
@@ -46,6 +46,10 @@ export async function runBuild(
 		// configuration the build needs has not been written yet.
 		return "setup-needed";
 	}
+	if (details) {
+		assertProjectCommandsAvailable(details);
+	}
+	validateVitePluginCompatibility(cwd, details?.nodeModulesPaths);
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {
 		...details?.env,
@@ -68,6 +72,7 @@ export async function runBuild(
 		result = await runProjectCommand(buildCommand, cwd, {
 			...options,
 			preferLocal: true,
+			nodeModulesPaths: details?.nodeModulesPaths,
 			env,
 			args: buildArgs,
 		});

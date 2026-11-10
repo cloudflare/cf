@@ -72,6 +72,7 @@ describe("cf deploy", () => {
 					version: "2.0.0-beta.v.13",
 				}),
 				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from '@cloudflare/vite-plugin'; export default { plugins: [cloudflare()] };`,
 				"node_modules/vite/package.json": JSON.stringify({
 					name: "vite",
 					version: "8.1.0",

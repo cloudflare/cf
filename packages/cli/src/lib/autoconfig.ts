@@ -1,6 +1,8 @@
 import { constants } from "node:os";
+import { delimiter, join } from "node:path";
 import {
 	AutoConfigDetectionError,
+	assertProjectCommandsAvailable,
 	getDetailsForAutoConfig,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
@@ -38,6 +40,7 @@ export interface RunProjectCommandOptions extends CommandOutputOptions {
 	env?: Readonly<Record<string, string>>;
 	args?: readonly string[];
 	preferLocal?: boolean;
+	nodeModulesPaths?: readonly string[];
 }
 
 export interface ProjectCommandResult {
@@ -98,7 +101,11 @@ export async function configureProject(
 ): Promise<AutoConfigSummary> {
 	return runAutoConfig(details, {
 		target: "cf",
-		context: createAutoConfigContext(options),
+		context: createAutoConfigContext({
+			...options,
+			env: details.env,
+			nodeModulesPaths: details.nodeModulesPaths,
+		}),
 		dryRun: options.dryRun,
 		runBuild: false,
 	});
@@ -122,6 +129,14 @@ export async function prepareProject(
 	let details = await analyzeProject(cwd, options);
 	if (details?.configured) {
 		return { details };
+	}
+	// Setup can add cloudflare() to a config, but missing or incompatible
+	// declared dependencies need to be fixed before preparing the project.
+	if (
+		details?.commandError &&
+		details.commandError.code !== "vite-plugin-not-configured"
+	) {
+		assertProjectCommandsAvailable(details);
 	}
 
 	const context = createAutoConfigContext(options);
@@ -156,6 +171,41 @@ export async function prepareProject(
 	};
 }
 
+function projectCommandEnvironment(
+	cwd: string,
+	options: RunProjectCommandOptions
+): NodeJS.ProcessEnv {
+	const env: NodeJS.ProcessEnv = {
+		...process.env,
+		...options.env,
+		CLOUDFLARE_CF_AUTH: "true",
+	};
+	if (options.preferLocal) {
+		const pathKey =
+			process.platform === "win32"
+				? (Object.keys(env).findLast((key) => key.toUpperCase() === "PATH") ??
+					"PATH")
+				: "PATH";
+		const inheritedPath = env[pathKey];
+		const localBins = (
+			options.nodeModulesPaths ?? [join(cwd, "node_modules")]
+		).map((directory) => join(directory, ".bin"));
+		env[pathKey] = [
+			...localBins,
+			...(inheritedPath ? [inheritedPath] : []),
+		].join(delimiter);
+		if (process.platform === "win32") {
+			// tinyexec merges process.env again; keep every PATH spelling in sync.
+			for (const key of Object.keys(env)) {
+				if (key.toUpperCase() === "PATH") {
+					env[key] = env[pathKey];
+				}
+			}
+		}
+	}
+	return env;
+}
+
 export async function runProjectCommand(
 	command: string,
 	cwd: string,
@@ -180,15 +230,15 @@ export async function runProjectCommand(
 			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
-	const env = { ...options.env, CLOUDFLARE_CF_AUTH: "true" };
+	const env = projectCommandEnvironment(cwd, options);
 	// Match the environment tinyexec gives the child so both resolve the same npm.
 	const [file, ...commandArgs] = resolveNpmLauncher(
 		parseProjectCommand(command),
 		cwd,
-		{ ...process.env, ...env }
+		env
 	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
-		nodePath: options.preferLocal ?? false,
+		nodePath: false,
 		nodeOptions: {
 			cwd,
 			env,
@@ -283,7 +333,7 @@ function parseProjectCommand(command: string): [string, ...string[]] {
 }
 
 function createAutoConfigContext(
-	commandOptions: CommandOutputOptions = {}
+	commandOptions: RunProjectCommandOptions = {}
 ): AutoConfigContext {
 	const output = commandOptions.output ?? "stderr";
 	const info = output === "silent" ? () => {} : console.error;

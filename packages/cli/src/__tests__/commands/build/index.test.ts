@@ -63,6 +63,7 @@ describe("cf build", () => {
 				version: "2.0.0-beta.v.13",
 			}),
 			"cloudflare.config.ts": "export default {};",
+			"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
 			"node_modules/vite/package.json": JSON.stringify({
 				name: "vite",
 				version: "8.1.0",
@@ -100,6 +101,7 @@ describe("cf build", () => {
 					version: "2.0.0-beta.v.13",
 				}),
 				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
 				"node_modules/vite/package.json": JSON.stringify({
 					name: "vite",
 					version: "8.1.0",
@@ -128,6 +130,7 @@ describe("cf build", () => {
 		vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
 		await seed({
 			"cloudflare.config.ts": "export default {};",
+			"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
 			"package.json": JSON.stringify({
 				devDependencies: {
 					"@cloudflare/vite-plugin": "beta",
@@ -171,6 +174,7 @@ describe("cf build", () => {
 				version: "2.0.0-beta.v.13",
 			}),
 			"cloudflare.config.ts": "export default {};",
+			"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
 			"node_modules/vite/package.json": JSON.stringify({
 				name: "vite",
 				version: "8.1.0",

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import satisfies from "semver/functions/satisfies.js";
 import { CliExit } from "../../lib/cli-exit.js";
@@ -13,7 +13,10 @@ type ImplCompatibility = Pick<
 >;
 
 // Native Vite commands still need the plugin release that understands cf profiles.
-export function validateVitePluginCompatibility(cwd: string): void {
+export function validateVitePluginCompatibility(
+	cwd: string,
+	nodeModulesPaths: readonly string[] = [join(cwd, "node_modules")]
+): void {
 	const pkg = "@cloudflare/vite-plugin";
 	let installedVersion: string | undefined;
 	try {
@@ -30,9 +33,15 @@ export function validateVitePluginCompatibility(cwd: string): void {
 		) {
 			return;
 		}
-		const installed = JSON.parse(
-			readFileSync(join(cwd, "node_modules", pkg, "package.json"), "utf8")
-		) as { version?: unknown };
+		const manifestPath = nodeModulesPaths
+			.map((directory) => join(directory, pkg, "package.json"))
+			.find(existsSync);
+		if (!manifestPath) {
+			return;
+		}
+		const installed = JSON.parse(readFileSync(manifestPath, "utf8")) as {
+			version?: unknown;
+		};
 		installedVersion =
 			typeof installed.version === "string" ? installed.version : undefined;
 	} catch {

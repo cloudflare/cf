@@ -6,6 +6,7 @@
  * Cloudflare implementation from the project's npm, PyPI, or Cargo manifest
  * and spawns its delegate with inherited stdio and forwarded signals.
  */
+import { assertProjectCommandsAvailable } from "@cloudflare/autoconfig";
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { theme } from "../../lib/ui/index.js";
@@ -64,8 +65,11 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 
 	handler: async (argv: ArgumentsCamelCase<DevArgs>): Promise<void> => {
 		const cwd = process.cwd();
-		validateVitePluginCompatibility(cwd);
 		const { details } = await prepareProject(cwd);
+		if (details) {
+			assertProjectCommandsAvailable(details);
+		}
+		validateVitePluginCompatibility(cwd, details?.nodeModulesPaths);
 
 		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])];
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];
@@ -81,6 +85,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 			}
 			const result = await runProjectCommand(details.devCommand, cwd, {
 				preferLocal: true,
+				nodeModulesPaths: details.nodeModulesPaths,
 				env: { ...details.env, ...profileEnv },
 				args: [...modeArgs, ...implArgs],
 				output: "inherit",

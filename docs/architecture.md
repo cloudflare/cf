@@ -392,13 +392,16 @@ continues through the normal Build Output upload path. Without `[directory]`,
 these commands consume Build Output from a delegated build or `--prebuilt`.
 
 Autoconfig owns the dev/build command choice, including Vite versus Vite+.
-cf retains its minimum Vite plugin version check for auth-profile support
-before project preparation and native command execution.
+Autoconfig reports command-readiness problems as data so inspection can recognize
+configured projects before dependencies are installed. cf raises those problems
+and checks its minimum Vite plugin version for auth-profile support before
+executing a development or build command.
 Pages detection and migration checks take precedence over native fallbacks.
 Other unsupported frameworks can use a native fallback after the project has
 been configured for cf; their automatic setup restrictions still apply.
-When no framework command is detected for a Vite-plugin project, it validates
-the plugin's compatibility and returns the project's installed native executable
+Autoconfig validates plugin compatibility for eligible cf projects that declare
+the plugin. When neither framework command is detected, it also checks that the
+Vite configuration enables the plugin and returns the installed native executable
 in `devCommand` / `buildCommand`. cf executes those commands using the same
 argument forwarding, environment, signals, and exit handling as other framework
 commands. On POSIX, framework commands run in a separate process group so
@@ -408,8 +411,10 @@ On POSIX, a second interrupt forces termination, and terminal closure forwards
 SIGHUP. A synchronous exit hook makes a best-effort attempt to stop an active
 command tree if cf exits before shutdown completes. SIGKILL of cf itself cannot
 run cleanup; cf does not start a supervisor process.
-Bare commands resolve through the application's and ancestor
-`node_modules/.bin` directories, supporting workspace toolchains. The shared build
+Bare commands prepend autoconfig's ordered `nodeModulesPaths`, from the
+application's `node_modules/.bin` through its validated workspace root, and retain
+the inherited PATH. This supports hoisted workspace toolchains without adding
+unrelated parent installations. The shared build
 path supplies `CLOUDFLARE_PREVIEW_BUILD` for Preview deployments. Delegate discovery
 is reserved for Wrangler, Python, and Rust implementations. Configure
 `cloudflare({ remoteBindings: false })` instead of using the removed internal

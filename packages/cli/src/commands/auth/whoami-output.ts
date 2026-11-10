@@ -45,6 +45,8 @@ const PROFILE_SOURCES = {
 	default: "default profile",
 } satisfies Record<WhoamiProfile["source"], string>;
 
+const JSON_HINT = "Use --json to see all information in a JSON object.";
+
 function authenticationMessage(
 	result: WhoamiResult,
 	method: WhoamiSnapshot["method"]
@@ -60,8 +62,8 @@ function authenticationMessage(
 		return `Unable to verify authentication via ${authenticationMethod}`;
 	}
 	return result.email
-		? `Authenticated as ${sanitizeTerminalText(result.email)} via ${authenticationMethod}`
-		: `Authenticated via ${authenticationMethod} (email unavailable)`;
+		? `${theme.bold(sanitizeTerminalText(result.email))} ${theme.muted(`via ${authenticationMethod}`)}`
+		: `Authenticated ${theme.muted(`via ${authenticationMethod} (email unavailable)`)}`;
 }
 
 export async function printWhoamiSummary(
@@ -72,7 +74,7 @@ export async function printWhoamiSummary(
 	const profileName = sanitizeTerminalText(result.profile.name);
 	if (result.profile.name !== "default") {
 		lines.push(
-			`Active profile: ${profileName} (${PROFILE_SOURCES[result.profile.source]}${result.profile.overridden ? `; overridden by ${sanitizeTerminalText(tokenVariable ?? "environment API token")}` : ""})`
+			`Active profile: ${theme.bold(profileName)} ${theme.muted(`(${PROFILE_SOURCES[result.profile.source]}${result.profile.overridden ? `; overridden by ${sanitizeTerminalText(tokenVariable ?? "environment API token")}` : ""})`)}`
 		);
 	}
 
@@ -86,19 +88,15 @@ export async function printWhoamiSummary(
 				? `cf auth login${method === "oauth" ? " --force" : ""}`
 				: `cf auth create ${profileName}`
 		);
+		log.info(JSON_HINT);
 		return;
 	}
 
-	lines.push(
-		"",
-		theme.bold(
-			accountsAvailable ? `Accounts (${result.accounts.length})` : "Accounts"
-		)
-	);
+	lines.push("", theme.bold("Accounts"));
 	if (!accountsAvailable) {
-		lines.push("  Unavailable; could not list accounts with these credentials");
+		lines.push("Unavailable; could not list accounts with these credentials");
 	} else if (result.accounts.length === 0) {
-		lines.push("  No accessible accounts");
+		lines.push("No accessible accounts");
 	} else {
 		const accounts = [...result.accounts]
 			.sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id))
@@ -107,15 +105,11 @@ export async function printWhoamiSummary(
 				id: sanitizeTerminalText(id),
 			}));
 		const nameWidth = Math.max(
-			"Account name".length,
 			...accounts.map(({ name }) => stringWidth(name))
-		);
-		lines.push(
-			`  ${theme.bold("Account name".padEnd(nameWidth))}  ${theme.bold("Account ID")}`
 		);
 		for (const { name, id } of accounts) {
 			const padding = " ".repeat(nameWidth - stringWidth(name));
-			lines.push(`  ${name}${padding}  ${theme.muted(id)}`);
+			lines.push(`${theme.info(name)}${padding}  ${theme.muted(id)}`);
 		}
 	}
 
@@ -152,4 +146,5 @@ export async function printWhoamiSummary(
 			"cf auth scopes --all"
 		);
 	}
+	log.info(JSON_HINT);
 }

@@ -812,13 +812,14 @@ go to stderr, and `--quiet` retains the result. JSON preserves the existing fiel
 and adds `profile: { name, source, overridden }`, where `source` is `--profile`,
 `CLOUDFLARE_AUTH_PROFILE`, `directory`, or `default` and `overridden` indicates an
 environment API token takes precedence over the profile. The summary starts with
-`Authenticated as <email> via OAuth` or `via API Token`, with a fallback when email
-is unavailable, or an explanation when authentication fails or cannot be verified.
-Only named profiles get an `Active profile: <name> (<activation method>)` line;
-the default profile is omitted. It also shows all accessible accounts in a table
-with aligned name and ID columns, and OAuth scope counts grouped like
-`cf auth scopes`. Product
-counts compare granted scopes with the default set, counting custom scopes
+`<email> via OAuth` or `via API Token`, with a bold email and muted method, a fallback
+when email is unavailable, or an explanation when authentication fails or cannot be
+verified. Only named profiles get an `Active profile: <name> (<activation method>)`
+line with a bold name and muted activation method; the default profile is omitted.
+The `Accounts` block has aligned name and ID columns without indentation or column
+headings, using info styling for names and muted styling for IDs. OAuth scope counts
+are grouped like `cf auth scopes`, and a hint points to `--json` for all information.
+Product counts compare granted scopes with the default set, counting custom scopes
 separately; they do not describe effective per-account permissions. Scope grouping
 reuses the cached OAuth catalogue only for human output; lookup failures show a
 compact explanation. Stored OAuth scopes and expiry never describe an active

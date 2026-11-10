@@ -143,13 +143,12 @@ describe("whoami output", () => {
 		await runCf(["auth", "whoami"]);
 
 		expect(std.out).toMatchInlineSnapshot(`
-			"Authenticated as user@example.com via OAuth
+			"user@example.com via OAuth
 			Active profile: work (activated for this directory)
 
-			Accounts (2)
-			  Account name        Account ID
-			  Account One         account-1
-			  Longer Account Two  account-2
+			Accounts
+			Account One         account-1
+			Longer Account Two  account-2
 
 			OAuth scopes (3 granted)
 			Developer Platform  1/1
@@ -158,6 +157,9 @@ describe("whoami output", () => {
 		expect(std.err).not.toContain("Active profile:");
 		expect(std.err).toContain("cf auth scopes <product>");
 		expect(std.err).toContain("cf auth scopes --all");
+		expect(std.err).toContain(
+			"Use --json to see all information in a JSON object."
+		);
 		expect(catalogueRequests).toBe(1);
 	});
 
@@ -194,10 +196,8 @@ describe("whoami output", () => {
 				});
 			} else {
 				const text = stripVTControlCharacters(rawOutput);
-				expect(text).toContain(
-					"Authenticated as user     @example.com via OAuth"
-				);
-				expect(text).toContain("  Account [31m     End  id   End");
+				expect(text).toContain("user     @example.com via OAuth");
+				expect(text).toContain("Account [31m     End  id   End");
 				for (const line of text.split("\n")) {
 					expect(line).not.toMatch(/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/gu);
 				}
@@ -289,9 +289,7 @@ describe("whoami output", () => {
 				});
 				expect(catalogueRequests).toBe(0);
 			} else {
-				expect(std.out).toContain(
-					"Authenticated as user@example.com via OAuth"
-				);
+				expect(std.out).toContain("user@example.com via OAuth");
 				expect(std.out).not.toContain("dns.read");
 			}
 		}
@@ -384,9 +382,7 @@ describe("whoami output", () => {
 			CLOUDFLARE_API_TOKEN: "environment-token",
 		});
 
-		expect(std.out).toContain(
-			"Authenticated as user@example.com via API Token"
-		);
+		expect(std.out).toContain("user@example.com via API Token");
 		expect(std.out).toContain(
 			"Active profile: work (activated for this directory; overridden by CLOUDFLARE_API_TOKEN)"
 		);
@@ -398,9 +394,7 @@ describe("whoami output", () => {
 	it("recognizes the supported CF_API_TOKEN alias", async () => {
 		await runCf(["whoami"], { CF_API_TOKEN: "environment-token" });
 
-		expect(std.out).toContain(
-			"Authenticated as user@example.com via API Token"
-		);
+		expect(std.out).toContain("user@example.com via API Token");
 		expect(std.out).not.toContain("profile");
 		expect(std.out).not.toContain("OAuth scopes");
 		expect(catalogueRequests).toBe(0);
@@ -422,7 +416,7 @@ describe("whoami output", () => {
 		);
 		expect(std.out).toContain("Unavailable; could not list accounts");
 		expect(std.out).not.toContain("No accessible accounts");
-		expect(std.out).not.toContain("Accounts (0)");
+		expect(std.out).not.toContain("Accounts (");
 	});
 
 	it("shows a successful empty account list", async () => {
@@ -436,7 +430,7 @@ describe("whoami output", () => {
 
 		await runCf(["auth", "whoami"]);
 
-		expect(std.out).toContain("Accounts (0)\n  No accessible accounts");
+		expect(std.out).toContain("Accounts\nNo accessible accounts");
 	});
 
 	it.each(["disabled", "expired"])(
@@ -482,11 +476,12 @@ describe("whoami output", () => {
 	it("keeps the result when quiet and suppresses optional hints", async () => {
 		await runCf(["auth", "whoami", "--quiet"]);
 
-		expect(std.out).toContain("Authenticated as user@example.com via OAuth");
+		expect(std.out).toContain("user@example.com via OAuth");
 		expect(std.out).not.toContain("profile");
 		expect(std.out).toContain("OAuth scopes (3 granted)");
 		expect(std.err).not.toContain("View granted permissions");
 		expect(std.err).not.toContain("cf auth scopes");
+		expect(std.err).not.toContain("Use --json");
 	});
 
 	it("keeps scope catalogue failures compact", async () => {

@@ -22,7 +22,7 @@ const whoamiCommand: CommandModule = {
 
 		// Determine the authentication source.
 		const envToken = process.env.CLOUDFLARE_API_TOKEN;
-		const stored = readAuthCredentials();
+		const stored = envToken ? undefined : readAuthCredentials();
 
 		let authSource: string;
 		if (envToken) {
@@ -108,9 +108,10 @@ const whoamiCommand: CommandModule = {
 			accounts,
 		};
 
-		if (stored?.oauth_token) {
-			output.scopes = stored.scopes;
-			output.expiresAt = stored.expiration_time;
+		const currentCredentials = envToken ? undefined : readAuthCredentials();
+		if (currentCredentials?.oauth_token) {
+			output.scopes = currentCredentials.scopes;
+			output.expiresAt = currentCredentials.expiration_time;
 		}
 
 		formatOutput(output);

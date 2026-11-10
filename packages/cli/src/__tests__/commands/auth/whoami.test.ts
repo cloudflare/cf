@@ -292,4 +292,57 @@ describe("cf auth whoami", () => {
 		expect(output.tokenValid).toBe(true);
 		expect(verificationRequests).toBe(0);
 	});
+
+	it("does not report stored OAuth scopes for an environment API token", async () => {
+		writeAuthConfigFile({
+			oauth_token: "stored-oauth-token",
+			expiration_time: "2999-01-01T00:00:00.000Z",
+			scopes: ["dns.read"],
+		});
+		server.use(
+			http.get("*/user", () => HttpResponse.json({ success: true, result: {} }))
+		);
+		const empty = {
+			status: 200,
+			body: { success: true, result: [] },
+		};
+
+		const output = await runWithAccountResponses(empty, empty);
+
+		expect(output.authSource).toBe("CLOUDFLARE_API_TOKEN environment variable");
+		expect(output).not.toHaveProperty("scopes");
+		expect(output).not.toHaveProperty("expiresAt");
+	});
+
+	it("reports OAuth metadata after refreshing the token", async () => {
+		writeAuthConfigFile({
+			oauth_token: "expired-oauth-token",
+			refresh_token: "refresh-token",
+			expiration_time: "2000-01-01T00:00:00.000Z",
+			scopes: ["dns.read"],
+		});
+		server.use(
+			http.post("https://dash.cloudflare.com/oauth2/token", () =>
+				HttpResponse.json({
+					access_token: "refreshed-oauth-token",
+					refresh_token: "new-refresh-token",
+					expires_in: 3600,
+					scope: "dns.read queues.read",
+					token_type: "bearer",
+				})
+			),
+			http.get("*/user", () => HttpResponse.json({ success: true, result: {} }))
+		);
+		const empty = {
+			status: 200,
+			body: { success: true, result: [] },
+		};
+
+		const output = await runWithAccountResponses(empty, empty, {
+			CLOUDFLARE_API_TOKEN: undefined,
+		});
+
+		expect(output.scopes).toEqual(["dns.read", "queues.read"]);
+		expect(Date.parse(String(output.expiresAt))).toBeGreaterThan(Date.now());
+	});
 });

@@ -328,7 +328,7 @@ describe("r2", () => {
 		});
 
 		describe("sippy", () => {
-			// cf's `r2 buckets sippy update` exposes the raw API shape:
+			// cf's `r2 buckets sippy enable` exposes the raw API shape:
 			// `--source-provider`, `--source-bucket`, `--source-region`,
 			// `--source-access-key-id`, `--source-secret-access-key`,
 			// `--destination-access-key-id`,
@@ -386,10 +386,8 @@ describe("r2", () => {
 							{ once: true }
 						)
 					);
-					// cf: `r2 buckets sippy delete <bucketName>` (DELETE
-					// op; wrangler called this `sippy disable`). `--force`
-					// skips the delete-confirm prompt.
-					await runWrangler("r2 buckets sippy delete testBucket --force");
+					// `--force` skips the cf delete-confirm prompt.
+					await runWrangler("r2 buckets sippy disable testBucket --force");
 				});
 			});
 

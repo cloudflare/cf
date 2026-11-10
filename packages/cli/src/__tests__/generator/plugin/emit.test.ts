@@ -253,7 +253,12 @@ describe("bodyless raw response emission", () => {
 });
 
 describe("binary response emission", () => {
-	it.each(["application/vnd.google.protobuf", "audio/mpeg", "audio/wav"])(
+	it.each([
+		"application/protobuf",
+		"application/vnd.google.protobuf",
+		"audio/mpeg",
+		"audio/wav",
+	])(
 		"writes %s bytes directly while sending the JSON request body",
 		(contentType) => {
 			const op = operation(

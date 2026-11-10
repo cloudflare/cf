@@ -51,6 +51,8 @@ encrypted credentials, so affected profiles must authenticate again.
 
 `cf init [directory]` starts a project. If you leave out the directory, cf asks for one (use `cf init .` for the current directory in scripts). In a new or empty directory (only `.git` is allowed), it creates a hello-world Worker with `cloudflare.config.ts`, `vite.config.ts`, `vitest.config.ts`, `src/index.ts`, `test/index.test.ts`, `tsconfig.json`, `package.json`, and `.gitignore` (plus `pnpm-workspace.yaml` for pnpm or `.yarnrc.yml` for Yarn), then installs dependencies with the package manager you choose (`--package-manager`, or `--no-install` to skip) and, once they are installed, generates Worker types in `.cloudflare/types/index.d.ts`. With `--no-install`, the types are generated later by `cf dev` or the project's `typecheck` script, which runs `cf workers types && vp check --no-fmt --no-lint`. In a directory that already contains files, it configures the existing project with autoconfig instead. Either way, it finishes with the next steps to run. `cf init workers [directory]` is the default initializer and currently does the same thing.
 
+New Worker projects use a local Vite+ toolchain. `cf dev` and `cf build` run `vp dev` and `vp build` through autoconfig. Package-manager overrides make plugins share Vite+'s Vite core and bundled Vitest version, which avoids duplicate Vite instances and split test runner state. The test plugin loads `cloudflare.config.ts` with `cloudflareTest({ config: true })`.
+
 ```sh
 cf init my-worker
 cd my-worker

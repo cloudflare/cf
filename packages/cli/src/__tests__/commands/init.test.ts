@@ -185,7 +185,7 @@ describe("cf init", () => {
 					expect(existsSync("my-app/.yarnrc.yml")).toBe(false);
 				}
 				expect(readFileSync("my-app/vitest.config.ts", "utf8")).toContain(
-					"experimental: { newConfig: true }"
+					"cloudflareTest({ config: true })"
 				);
 				expect(readFileSync("my-app/vite.config.ts", "utf8")).toContain(
 					"typeAware: true, typeCheck: true"
@@ -348,8 +348,14 @@ describe("cf init", () => {
 	describe("dependency installation", () => {
 		it("installs with the package manager that launched cf", async () => {
 			vi.mocked(runProjectCommand).mockImplementationOnce(async () => {
-				expect(readFileSync("my-app/pnpm-workspace.yaml", "utf8")).toContain(
-					"allowBuilds:\n  esbuild: true\n  workerd: true\n"
+				expect(readFileSync("my-app/pnpm-workspace.yaml", "utf8")).toBe(
+					'packages:\n  - "."\n\n' +
+						"# Share Vite+'s core and Vitest with plugins to avoid duplicate runtimes.\n" +
+						"overrides:\n" +
+						`  vite: ${JSON.stringify(WORKER_TEMPLATE_DEV_DEPENDENCIES.vite)}\n` +
+						`  vitest: ${JSON.stringify(WORKER_TEMPLATE_DEV_DEPENDENCIES.vitest)}\n\n` +
+						"# Approve build scripts needed by the generated Worker's dependencies.\n" +
+						"allowBuilds:\n  esbuild: true\n  workerd: true\n"
 				);
 				return { exitCode: 0 };
 			});

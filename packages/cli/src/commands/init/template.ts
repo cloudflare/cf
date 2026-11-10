@@ -1,8 +1,11 @@
 import type { PackageManager } from "./workers.js";
 
+// Plugins import vite/vitest directly. Share Vite+'s core and bundled Vitest
+// to avoid duplicate Vite instances and split test runner state.
+// https://viteplus.dev/guide/local-cli#manual-installation
 export const WORKER_TEMPLATE_DEV_DEPENDENCIES = {
 	"@cloudflare/vite-plugin": "beta",
-	"@cloudflare/vitest-plugin": "^1.4.10",
+	"@cloudflare/vitest-plugin": "^1.5.0",
 	typescript: "^7.0.2",
 	vite: "npm:@voidzero-dev/vite-plus-core@1.4.0",
 	"vite-plus": "1.4.0",
@@ -41,7 +44,7 @@ function renderPnpmWorkspace(): string {
 	return `packages:
   - "."
 
-# Keep the toolchain used by plugins aligned with Vite+.
+# Share Vite+'s core and Vitest with plugins to avoid duplicate runtimes.
 overrides:
   vite: ${JSON.stringify(WORKER_TEMPLATE_DEV_DEPENDENCIES.vite)}
   vitest: ${JSON.stringify(WORKER_TEMPLATE_DEV_DEPENDENCIES.vitest)}
@@ -95,7 +98,7 @@ function renderVitestConfig(): string {
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-	plugins: [cloudflareTest({ experimental: { newConfig: true } })],
+	plugins: [cloudflareTest({ config: true })],
 });
 `;
 }
@@ -162,23 +165,31 @@ function renderPackageJson(options: WorkerTemplateOptions): string {
 }
 
 function renderTsconfig(): string {
-	return `{
-	"compilerOptions": {
-		"target": "es2024",
-		"lib": ["es2024"],
-		"module": "preserve",
-		"moduleResolution": "bundler",
-		"types": ["@cloudflare/vitest-plugin/types"],
-		"strict": true,
-		"noEmit": true,
-		"allowImportingTsExtensions": true,
-		"isolatedModules": true,
-		"verbatimModuleSyntax": true,
-		"skipLibCheck": true
-	},
-	"include": ["src", "test", "cloudflare.config.ts", ".cloudflare/types"]
-}
-`;
+	const tsconfig = {
+		compilerOptions: {
+			target: "es2024",
+			lib: ["es2024"],
+			module: "preserve",
+			moduleResolution: "bundler",
+			types: ["@cloudflare/vitest-plugin/types"],
+			strict: true,
+			noEmit: true,
+			allowImportingTsExtensions: true,
+			isolatedModules: true,
+			verbatimModuleSyntax: true,
+			skipLibCheck: true,
+		},
+		include: ["src", "test", "cloudflare.config.ts", ".cloudflare/types"],
+	};
+	// Keep string arrays compact so the new project passes `vp check`.
+	const json = JSON.stringify(tsconfig, null, "\t").replace(
+		/\[\n(?:\s*"(?:[^"\\]|\\.)*",?\n)+\s*\]/g,
+		(array) => {
+			const values = JSON.parse(array) as string[];
+			return `[${values.map((value) => JSON.stringify(value)).join(", ")}]`;
+		}
+	);
+	return `${json}\n`;
 }
 
 function renderGitignore(): string {

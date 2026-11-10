@@ -62,7 +62,7 @@ function authenticationMessage(
 		return `Unable to verify authentication via ${authenticationMethod}`;
 	}
 	const identity = result.email
-		? `${theme.bold(sanitizeTerminalText(result.email))} ${theme.muted(`via ${authenticationMethod}`)}`
+		? `${theme.bold(theme.info(sanitizeTerminalText(result.email)))} ${theme.muted(`via ${authenticationMethod}`)}`
 		: theme.muted(`via ${authenticationMethod} (email unavailable)`);
 	return `${theme.bold("Authenticated")}\n${identity}`;
 }

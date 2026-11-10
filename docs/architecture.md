@@ -813,7 +813,7 @@ and adds `profile: { name, source, overridden }`, where `source` is `--profile`,
 `CLOUDFLARE_AUTH_PROFILE`, `directory`, or `default` and `overridden` indicates an
 environment API token takes precedence over the profile. Verified credentials get
 a bold `Authenticated` heading followed by `<email> via OAuth` or `via API Token`,
-with a bold email and muted method, a fallback
+with a bold info-colored email and muted method, a fallback
 when email is unavailable, or an explanation when authentication fails or cannot be
 verified. Only named profiles get an `Active profile: <name> (<activation method>)`
 line with a bold name and muted activation method; the default profile is omitted.

@@ -79,8 +79,7 @@ cf/
 ├── fixtures/                   # cf dev discovery fixtures (vite-plugin +
 │                               # wrangler-bundler projects)
 ├── usecases/                   # per-command usage-scenario YAML catalogue
-├── patches/                    # pnpm patches: release publishing + Container image
-│                               # cleanup ownership
+├── patches/                    # pnpm patch for release publishing
 ├── scripts/                    # OpenAPI updater + Renovate changeset writers
 ├── renovate.json5              # dependency updates, incl. the Forge package pin
 ├── .github/workflows/          # CI, changesets publish, prerelease, benchmark,
@@ -859,21 +858,14 @@ To move either pin by hand, edit the SHA, then run `pnpm install` and
 When the Forge package publishes to npm: switch to the npm version and drop
 the `forge-main` custom manager and datasource.
 
-The containers-shared and deploy-helpers patches stay until those packages defer
-local image cleanup to cf's successful workflow boundary — see "Patched deps".
-
 ## Patched deps
 
-Three dependency patches are registered in `pnpm-workspace.yaml#patchedDependencies`:
+The Changesets patch is registered in `pnpm-workspace.yaml#patchedDependencies`
+as `patches/@changesets__cli@2.31.0.patch`. It permits publishing prerelease
+state under `latest` and suppresses the non-latest-tag warning for that tag.
 
-- `patches/@changesets__cli@2.31.0.patch`
-- `patches/@cloudflare__containers-shared@0.24.0.patch`
-- `patches/@cloudflare__deploy-helpers@0.26.1.patch`
-
-The Changesets patch permits publishing prerelease state under `latest` and
-suppresses the non-latest-tag warning for that tag. The containers-shared and
-deploy-helpers patches defer local image cleanup until the complete upload
-succeeds so later failures remain retryable.
+The released containers-shared and deploy-helpers packages defer local image
+cleanup until the complete upload succeeds, so later failures remain retryable.
 
 ## Common Forge-side Annotations cf Reads
 

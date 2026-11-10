@@ -86,7 +86,7 @@ describe("custom API headers", () => {
 	});
 
 	it.for([undefined, "true", "false"])(
-		"follows WRANGLER_LOG_SANITIZE=%s for deployment diagnostics",
+		"always applies the deployment header allowlist with sanitization=%s",
 		async (sanitize, { expect }) => {
 			vi.stubEnv("DEBUG", "1");
 			vi.stubEnv("WRANGLER_LOG_SANITIZE", sanitize);
@@ -115,7 +115,7 @@ describe("custom API headers", () => {
 			);
 			const output = messages.mock.calls.map(([message]) => message).join("\n");
 			if (sanitize === "false") {
-				expect(output).toContain('"x-custom-header": "configured-secret"');
+				expect(output).toContain('"x-custom-header": "[REDACTED]"');
 			} else {
 				expect(output).toContain("omitted; set WRANGLER_LOG_SANITIZE=false");
 				expect(output).not.toContain("configured-secret");

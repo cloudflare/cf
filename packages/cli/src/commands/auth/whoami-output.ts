@@ -1,3 +1,4 @@
+import stringWidth from "string-width";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import { sanitizeTerminalText } from "../../lib/ui/sanitize.js";
@@ -99,13 +100,22 @@ export async function printWhoamiSummary(
 	} else if (result.accounts.length === 0) {
 		lines.push("  No accessible accounts");
 	} else {
-		const accounts = [...result.accounts].sort(
-			(a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id)
+		const accounts = [...result.accounts]
+			.sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id))
+			.map(({ name, id }) => ({
+				name: sanitizeTerminalText(name),
+				id: sanitizeTerminalText(id),
+			}));
+		const nameWidth = Math.max(
+			"Account name".length,
+			...accounts.map(({ name }) => stringWidth(name))
 		);
-		for (const account of accounts) {
-			const name = sanitizeTerminalText(account.name);
-			const id = sanitizeTerminalText(account.id);
-			lines.push(`  ${name}  ${theme.muted(id)}`);
+		lines.push(
+			`  ${theme.bold("Account name".padEnd(nameWidth))}  ${theme.bold("Account ID")}`
+		);
+		for (const { name, id } of accounts) {
+			const padding = " ".repeat(nameWidth - stringWidth(name));
+			lines.push(`  ${name}${padding}  ${theme.muted(id)}`);
 		}
 	}
 

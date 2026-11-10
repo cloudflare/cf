@@ -99,7 +99,7 @@ describe("whoami output", () => {
 					success: true,
 					result: [
 						{ id: "account-1", name: "Account One", settings: {} },
-						{ id: "account-2", name: "Account Two", settings: {} },
+						{ id: "account-2", name: "Longer Account Two", settings: {} },
 					],
 				})
 			),
@@ -108,7 +108,7 @@ describe("whoami output", () => {
 					success: true,
 					result: [
 						{ account: { id: "account-1", name: "Account One" } },
-						{ account: { id: "account-2", name: "Account Two" } },
+						{ account: { id: "account-2", name: "Longer Account Two" } },
 					],
 				})
 			),
@@ -147,8 +147,9 @@ describe("whoami output", () => {
 			Active profile: work (activated for this directory)
 
 			Accounts (2)
-			  Account One  account-1
-			  Account Two  account-2
+			  Account name        Account ID
+			  Account One         account-1
+			  Longer Account Two  account-2
 
 			OAuth scopes (3 granted)
 			Developer Platform  1/1

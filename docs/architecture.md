@@ -815,8 +815,9 @@ environment API token takes precedence over the profile. The summary starts with
 `Authenticated as <email> via OAuth` or `via API Token`, with a fallback when email
 is unavailable, or an explanation when authentication fails or cannot be verified.
 Only named profiles get an `Active profile: <name> (<activation method>)` line;
-the default profile is omitted. It also shows all accessible account names and
-IDs, and OAuth scope counts grouped like `cf auth scopes`. Product
+the default profile is omitted. It also shows all accessible accounts in a table
+with aligned name and ID columns, and OAuth scope counts grouped like
+`cf auth scopes`. Product
 counts compare granted scopes with the default set, counting custom scopes
 separately; they do not describe effective per-account permissions. Scope grouping
 reuses the cached OAuth catalogue only for human output; lookup failures show a

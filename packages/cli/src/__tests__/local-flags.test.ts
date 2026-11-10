@@ -58,6 +58,7 @@ describe("--local flag middleware", () => {
 	it.each([
 		["auth", ["auth", "whoami"]],
 		["login", ["login"]],
+		["whoami", ["whoami"]],
 		["build", ["build"]],
 		["complete", ["complete"]],
 		["deploy", ["deploy"]],

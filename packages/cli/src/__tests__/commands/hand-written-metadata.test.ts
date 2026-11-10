@@ -82,10 +82,21 @@ describe("hand-written command metadata", () => {
 		expect(commands.get("cf cli telemetry status")?.hideCommand).not.toBe(true);
 	});
 
-	it("keeps the cf login compatibility alias out of command metadata", () => {
-		expect(
-			metadata.commands.some((command) => command.fullPath[0] === "login")
-		).toBe(false);
+	it.each(["login", "whoami"])(
+		"keeps the cf %s alias out of command metadata",
+		(alias) => {
+			expect(
+				metadata.commands.some((command) => command.fullPath[0] === alias)
+			).toBe(false);
+		}
+	);
+
+	it("publishes whoami's contextual JSON option without a fixed default", () => {
+		const option = commands
+			.get("cf auth whoami")
+			?.options.find((entry) => entry.name === "json");
+		expect(option).toMatchObject({ type: "boolean", required: false });
+		expect(option).not.toHaveProperty("default");
 	});
 
 	it("publishes the keyring login option without overriding saved preferences", () => {

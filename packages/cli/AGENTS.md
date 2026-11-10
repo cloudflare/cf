@@ -115,6 +115,15 @@ or alias is added.
 
 Normal structured API results are pretty-printed JSON. Null mutation results leave stdout empty and may print a TTY-only success marker on stderr. Endpoints declared as raw bytes or raw text write their payload directly to stdout, and some raw-byte commands accept `--text` to decode as UTF-8. Callers needing newline-delimited JSON can pipe structured results through `jq -c '.[]'` or similar; there is no global output-format `--format` / `--ndjson` flag, though some leaves use those words for endpoint-specific API parameters.
 
+`cf auth whoami` (hidden alias: `cf whoami`) defaults to a human summary when
+stdin and stdout are terminals, outside CI and detected agent contexts, and to
+full JSON otherwise. Its command-specific `--json` / `--no-json` overrides that
+choice. Start the summary with authentication status, identity and method, show profile information
+only for named profiles, and retain account names and IDs and grouped OAuth scope
+counts; catalogue failures must stay compact. Both output modes
+describe the active credentials, so an environment API token must never inherit
+stored OAuth scopes or expiry. `--quiet` retains the command result.
+
 Account ID is resolved from the environment, the account settings in
 `cloudflare.config.ts`'s default export, and workers-auth. The API token comes from
 `CLOUDFLARE_API_TOKEN`; otherwise cf uses a stored, automatically refreshed
@@ -142,7 +151,12 @@ the child environment, overriding any inherited value.
 - `--json`, `--ndjson`, `--pretty` — potential output-format toggles. Normal structured results are JSON today, while raw response endpoints remain raw; these names are claimed so future formatting choices do not collide.
 - Any other single lowercase letter, for aliases.
 
-The future names are not registered as options, so cf rejects them as unknown. Add a new cross-cutting flag to `FUTURE_OPTION_NAMES` before shipping it; `pnpm generate` then lists every API field that would take it. `cf schema` shows the flag that fills a path or query parameter when the parameter has one; cf resolves account parameters itself.
+The future names are not registered globally, so cf rejects them as unknown
+unless a command explicitly supports one (`cf auth whoami` supports `--json`).
+Add a new cross-cutting flag to `FUTURE_OPTION_NAMES` before shipping it;
+`pnpm generate` then lists every API field that would take it. `cf schema` shows
+the flag that fills a path or query parameter when the parameter has one;
+cf resolves account parameters itself.
 
 ## Runtime Value Priority (highest → lowest)
 

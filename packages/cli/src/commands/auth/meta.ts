@@ -81,9 +81,16 @@ export default [
 		fullPath: ["auth", "whoami"],
 		category: "read",
 		description: "Show current user and authentication status",
-		usage: "cf auth whoami",
+		usage: "cf auth whoami [options]",
 		arguments: [],
 		options: [
+			{
+				name: "json",
+				type: "boolean",
+				required: false,
+				description:
+					"Show full JSON (default for CI, non-interactive runs and agents; use --no-json for a summary)",
+			},
 			{
 				name: "dry-run",
 				type: "boolean",

@@ -140,6 +140,7 @@ describe("shouldApplyCloudflareDotEnv", () => {
 		"auth create",
 		"auth login",
 		"auth whoami",
+		"whoami",
 		"ai run",
 		"containers build",
 		"containers push",

@@ -27,6 +27,10 @@ const runtime = {
 		load: () => import("./login/index.js"),
 		telemetry: null,
 	},
+	whoami: {
+		load: () => import("./whoami/index.js"),
+		telemetry: null,
+	},
 	build: {
 		load: () => import("./build/index.js"),
 		telemetry: { command: "build", classification: { safeFlags: [] } },

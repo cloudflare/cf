@@ -223,7 +223,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(51);
+		expect(commands.size).toBe(52);
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);
@@ -252,6 +252,7 @@ describe("hand-written-only command metadata", () => {
 				"cf init workers",
 				"cf migrate",
 				"cf d1 migrations create",
+				"cf observability tail",
 				"cf workers triggers deploy",
 				"cf workers versions create",
 				"cf workers check",

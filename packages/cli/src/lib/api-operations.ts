@@ -26,3 +26,26 @@ export const listTunnels: Operation = {
 		"page",
 	],
 };
+
+export const prepareLiveTail = {
+	method: "POST",
+	path: (request) =>
+		path`/accounts/${request.account_id}/workers/observability/telemetry/live-tail`,
+	body: "json",
+	errors: {
+		401: "UnauthorizedError",
+		403: "ForbiddenError",
+		500: "InternalServerError",
+	},
+} as const satisfies Operation;
+
+export const sendLiveTailHeartbeat = {
+	method: "POST",
+	path: (request) =>
+		path`/accounts/${request.account_id}/workers/observability/telemetry/live-tail/heartbeat`,
+	body: "json",
+	errors: {
+		401: "UnauthorizedError",
+		500: "InternalServerError",
+	},
+} as const satisfies Operation;

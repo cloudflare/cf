@@ -1,6 +1,5 @@
 src/
 generator/
-e2e/
 *.config.ts
 *.config.js
 tsconfig*.json

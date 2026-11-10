@@ -66,9 +66,6 @@ cf/
 │   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
 │   │   ├── flag-names-cli-compat.ts # temporary flag names for clashing API fields
 │   │   └── workers-secret-cli-compat.ts # temporary spec patch
-│   ├── e2e/                    # 114 JSON product fixtures +
-│   │                           # generated bash runner (run-e2e.sh) hitting a
-│   │                           # real Cloudflare account
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
@@ -129,9 +126,6 @@ Test infrastructure is split across two packages:
 - `pnpm check:type` (tsrs) across workspace packages, including the full
   generated CLI tree and the container fixture. Dependency builds run first
   so the fixture can resolve `cf/config` declarations.
-- `packages/cli/e2e/` — JSON fixtures driving a generated bash runner
-  (`packages/cli/e2e/_generated/run-e2e.sh`) that hits a real
-  Cloudflare account. Out-of-band; not run on every commit.
 - `cli-startup-bench.yml` — hyperfine benchmark of `cf --help` cold
   start, posted as a sticky comment on PRs.
 
@@ -952,14 +946,6 @@ those tasks. Reference configured tasks directly in `dependsOn` (for example
 `cf#task:generate`) to share one task within the graph. Use dependency selectors
 for `task:build`, as in the container fixture's type-check. Pass focused test
 paths directly to `pnpm test`.
-
-End-to-end smoke tests against a real Cloudflare account:
-
-```bash
-export CLOUDFLARE_API_TOKEN=...
-export CLOUDFLARE_ACCOUNT_ID=...
-bash packages/cli/e2e/_generated/run-e2e.sh [--zone ZONE_ID] [--product NAME]
-```
 
 ## Publishing
 

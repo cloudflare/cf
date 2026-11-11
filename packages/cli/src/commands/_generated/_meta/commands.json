@@ -26140,6 +26140,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "create",
@@ -26204,6 +26211,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",

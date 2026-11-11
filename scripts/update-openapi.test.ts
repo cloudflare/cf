@@ -50,8 +50,7 @@ await test("Forge latest release reads are anonymous while cf requests can authe
 				authorization: new Headers(init.headers).get("Authorization"),
 			});
 			return Response.json({
-				tag_name: `openapi@${version}`,
-				assets: [{ name: "openapi.forge.json", id: 123 }],
+				sha: version,
 			});
 		}
 	);
@@ -62,7 +61,7 @@ await test("Forge latest release reads are anonymous while cf requests can authe
 	});
 	await githubResponse("/repos/cloudflare/cf/pulls", {}, "cf-write-token");
 	assert.deepEqual(requests, [
-		{ path: "/repos/cloudflare/forge/releases/latest", authorization: null },
+		{ path: "/repos/cloudflare/api-schemas/commits/forge", authorization: null },
 		{
 			path: "/repos/cloudflare/cf/pulls",
 			authorization: "Bearer cf-write-token",
@@ -84,28 +83,14 @@ await test("Forge subprocesses receive no GitHub tokens or injected Git credenti
 	assert.deepEqual(environment, originalEnvironment);
 });
 
-await test("latest releases without the OpenAPI asset are rejected", async (context) => {
-	for (const assets of [undefined, [], [{ name: "other.json" }]]) {
-		context.mock.method(globalThis, "fetch", async () =>
-			Response.json({ tag_name: `openapi@${version}`, assets })
-		);
-		await assert.rejects(
-			getLatestOpenApiRelease(),
-			/has no openapi\.forge\.json asset/
-		);
-	}
-});
-
-await test("OpenAPI lookup rejects invalid latest releases without scanning history", async (context) => {
+await test("OpenAPI lookup rejects invalid latest commits without scanning history", async (context) => {
 	for (const response of [
 		null,
 		[],
 		{},
-		{ tag_name: 123 },
-		{ tag_name: "v0.2.0" },
-		{ tag_name: "openapi@invalid" },
-		{ tag_name: `openapi@${version}`, draft: true },
-		{ tag_name: `openapi@${version}`, prerelease: true },
+		{ sha: 123 },
+		{ sha: "v0.2.0" },
+		{ sha: "invalid" },
 	]) {
 		const requests: string[] = [];
 		context.mock.method(globalThis, "fetch", async (url: string) => {
@@ -114,13 +99,13 @@ await test("OpenAPI lookup rejects invalid latest releases without scanning hist
 		});
 		await assert.rejects(
 			getLatestOpenApiRelease(),
-			/not a published OpenAPI release|does not have a valid OpenAPI tag/
+			/Latest cloudflare\/api-schemas forge commit does not have a valid SHA/
 		);
-		assert.deepEqual(requests, ["/repos/cloudflare/forge/releases/latest"]);
+		assert.deepEqual(requests, ["/repos/cloudflare/api-schemas/commits/forge"]);
 	}
 });
 
-await test("a missing latest release is reported without scanning history", async (context) => {
+await test("a missing latest commit is reported without scanning history", async (context) => {
 	const requests: string[] = [];
 	context.mock.method(globalThis, "fetch", async (url: string) => {
 		requests.push(new URL(url).pathname);
@@ -128,9 +113,9 @@ await test("a missing latest release is reported without scanning history", asyn
 	});
 	await assert.rejects(
 		getLatestOpenApiRelease(),
-		/GitHub API GET \/repos\/cloudflare\/forge\/releases\/latest failed \(404/
+		/GitHub API GET \/repos\/cloudflare\/api-schemas\/commits\/forge failed \(404/
 	);
-	assert.deepEqual(requests, ["/repos/cloudflare/forge/releases/latest"]);
+	assert.deepEqual(requests, ["/repos/cloudflare/api-schemas/commits/forge"]);
 });
 
 await test("the renamed updater recognizes old and new bot commits while protecting human edits", async (context) => {
@@ -321,8 +306,7 @@ await test("release reads retry failures while consuming the response body", asy
 			);
 		}
 		return Response.json({
-			tag_name: `openapi@${version}`,
-			assets: [{ name: "openapi.forge.json", id: 123 }],
+			sha: version,
 		});
 	});
 	const result = getLatestOpenApiRelease();

@@ -70,7 +70,7 @@ depend on generation, including when invoked from this package directory.
 Build and type-check tasks also build workspace dependencies first. `pnpm dev`
 starts the source entry without generation or bundling. Task caching is disabled.
 
-`pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset
+`pnpm generate` downloads the pinned `cloudflare/api-schemas` `openapi.json`
 (or reads a local bundle override), prepares it, and runs the forge
 binary with the generator plugin (`forge --target wasm://generator/cli.wasm`)
 into a cleared `src/commands/_generated/`; a post-step formats the emitted

@@ -138,7 +138,7 @@ pnpm build
             ├─ cf#task:generate:plugin
             │    └─ forge-plugin build generator/index.ts -o generator/cli.wasm
             └─ cf#task:generate: tsx packages/cli/generate.ts
-                 ├─ fetch pinned Forge OpenAPI release (or preview bundle)
+                 ├─ fetch pinned cloudflare/api-schemas openapi.json (or preview bundle)
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
                  ├─ rm -rf _generated/
                  ├─ forge normalize --leave-old-extensions -
@@ -867,8 +867,8 @@ The two Forge inputs are updated separately:
 - **`FORGE_OPENAPI_VERSION`** in `packages/cli/generate.ts` — the `Update OpenAPI`
   workflow (`.github/workflows/update-openapi.yml`) runs `scripts/update-openapi.ts`
   hourly and on a `forge-release-published` `repository_dispatch`. It pins the
-  latest `openapi@<sha>` Forge release, regenerates with the pinned forge
-  build, writes a `minor` changeset, and opens or refreshes the
+  latest `cloudflare/api-schemas` `forge` commit SHA, regenerates with the pinned
+  forge build, writes a `minor` changeset, and opens or refreshes the
   `automation/update-forge` PR. The existing branch and concurrency group are
   retained so the renamed workflow continues managing existing update PRs.
 

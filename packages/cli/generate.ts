@@ -13,11 +13,11 @@ import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secre
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
-// Bump this SHA to generate the commands from a new release.
-const FORGE_OPENAPI_VERSION = "756f9aff74f1e99065fffe66b66402c07723578d";
+// Bump this SHA to generate the commands from a newer cloudflare/api-schemas forge commit.
+const FORGE_OPENAPI_VERSION = "a52b8036a85272eb079e4c4894cd369369cd7520";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
-const FORGE_OPENAPI_ASSET = "openapi.forge.json";
-const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
+const FORGE_OPENAPI_ASSET = "openapi.json";
+const FORGE_OPENAPI_ASSET_URL = `https://raw.githubusercontent.com/cloudflare/api-schemas/${FORGE_OPENAPI_VERSION}/${FORGE_OPENAPI_ASSET}`;
 const HTTP_METHODS = [
 	"get",
 	"put",

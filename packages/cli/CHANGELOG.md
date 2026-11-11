@@ -1,5 +1,65 @@
 # cf
 
+## 1.0.0-beta.30
+
+### Minor Changes
+
+- ef863e6: Summarize authentication for humans and add `cf whoami`
+
+  Start interactive output for verified credentials with a bold `Authenticated` heading, a bold info-colored email and muted `via OAuth` or `via API Token`, and show a separate activation line only for named profiles. Include accessible account names and IDs in aligned columns without headings or indentation, styling account names like scope product headings. Show grouped OAuth scope counts and a hint to use `--json` for all information. CI, non-interactive runs, and agents continue to receive full JSON; use `--json` or `--no-json` to choose explicitly. JSON adds profile selection information while retaining the existing fields.
+
+  Sanitize control and Unicode formatting characters in human-readable account and identity details while preserving the original values in JSON.
+
+  Add `cf whoami` as a hidden alias for `cf auth whoami`. The interactive default output changes in this beta release; scripts can request JSON explicitly.
+
+- a7f874a: Move streaming tail consumers to `experimental.streamingTailConsumers` in `cloudflare.config.ts`
+
+  This is a breaking change to the experimental config API from `@cloudflare/config` 0.32.0. A `tailConsumers` entry with `streaming: true` is now an invalid config, so commands such as `cf workers types` fail until it is updated. Move each entry that set `streaming: true` to `experimental.streamingTailConsumers`, without the `streaming` field:
+
+  ```ts
+  export default defineConfig({
+  	worker: {
+  		tailConsumers: [{ worker: "tail-worker" }],
+  		experimental: {
+  			streamingTailConsumers: [{ worker: "streaming-tail-worker" }],
+  		},
+  	},
+  });
+  ```
+
+  `cf migrate` now converts Wrangler's `streaming_tail_consumers` to `experimental.streamingTailConsumers`.
+
+- b41c8c2: Update the generated command surface for Forge OpenAPI release
+  `ed698981af6372f8885d147b985cbde121ed2fe2`.
+
+### Patch Changes
+
+- 990a9c4: Include the raw-response `--text` flag in command metadata
+
+  Expose the existing optional flag in shell completions and `cf tools` schemas for commands with binary responses. Keep its type, description, and default aligned with the generated command builder.
+
+- ef863e6: Report scopes and expiry for the active whoami credentials
+
+  Omit stored OAuth scopes and expiry when an environment API token supplies the active credentials. Read OAuth metadata after refreshing the token so whoami reports the current grant.
+
+- 642ab1f: Include multipart form-field flags in command metadata
+
+  Shell completions and `cf tools` schemas now list the flags for multipart form fields, such as `--metadata` on `cf kv keys put` and `--branch` on `cf pages deployments create`. The commands already accepted these flags.
+
+- a7f874a: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.11.0` → `0.11.1`
+  - `@cloudflare/build-output-utils`: `0.9.12` → `0.9.13`
+  - `@cloudflare/cli-shared-helpers`: `0.3.6` → `0.3.7`
+  - `@cloudflare/codemods`: `0.7.6` → `0.7.7`
+  - `@cloudflare/config`: `0.31.1` → `0.32.0`
+  - `@cloudflare/containers-shared`: `0.25.0` → `0.26.0`
+  - `@cloudflare/deploy-helpers`: `0.26.2` → `0.26.3`
+  - `@cloudflare/runtime-types`: `0.1.25` → `0.1.26`
+  - `@cloudflare/workers-auth`: `0.18.0` → `0.18.1`
+  - `@cloudflare/workers-utils`: `0.53.0` → `0.53.1`
+  - `miniflare`: `5.20261110.0-beta` → `5.20261110.1-beta`
+
 ## 1.0.0-beta.29
 
 ### Minor Changes

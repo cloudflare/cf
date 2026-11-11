@@ -362,6 +362,25 @@ class Walk {
 				])
 			);
 		}
+		for (const { field, flag } of derived.multipartFlagFields) {
+			// A form field that shares a body field's flag is already listed.
+			if ([...options, ...positional].some((a) => kebab(a.name) === flag)) {
+				continue;
+			}
+			optionMetas.push(
+				obj([
+					["name", flag],
+					[
+						"type",
+						field.type === "number" || field.type === "boolean"
+							? field.type
+							: "string",
+					],
+					["required", false],
+					["description", field.description],
+				])
+			);
+		}
 		for (const { field, flag } of derived.multipartFileFields) {
 			optionMetas.push(
 				obj([

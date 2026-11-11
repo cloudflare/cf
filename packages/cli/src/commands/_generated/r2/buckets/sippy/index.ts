@@ -1,6 +1,6 @@
-import $delete from "./delete.js";
+import $disable from "./disable.js";
+import $enable from "./enable.js";
 import $get from "./get.js";
-import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sippy command group
@@ -14,9 +14,9 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($delete)
+			.command($disable)
+			.command($enable)
 			.command($get)
-			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

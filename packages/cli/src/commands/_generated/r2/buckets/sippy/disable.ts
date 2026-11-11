@@ -1,7 +1,7 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * create-by-name command
+ * disable command
  * @generated from apis/overlays/r2.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -15,12 +15,13 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 r2 buckets create-by-name <bucket-name>\n\nCreates a new R2 bucket using the name from the URL path. Similar to `r2-create-bucket` (POST), but the bucket name comes from the path and the optional storage class is supplied via the `cf-r2-storage-class` header. There is no request body. Unlike the POST variant, this endpoint does not accept a location hint — the bucket is placed in the R2 region for the caller's edge colo. Use the POST variant if you need to set a `locationHint`."
+			"$0 r2 buckets sippy disable <bucket-name>\n\nDisables Sippy on-demand migration for an R2 bucket. Requests no longer fetch missing objects from the source storage provider. Objects already copied to R2 remain in the bucket."
 		)
 		.positional("bucket-name", {
 			type: "string",
@@ -32,14 +33,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
 		})
-		.option("cf-r2-storage-class", {
-			type: "string",
-			description:
-				"Storage class for newly uploaded objects, unless specified otherwise.",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
 		});
 }
@@ -47,15 +49,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create-by-name <bucket-name>",
-	describe: "Create Bucket (by name)",
+	command: "disable <bucket-name>",
+	describe: "Disable Sippy",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "r2 buckets create-by-name",
+				command: "r2 buckets sippy disable",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -63,14 +66,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["cf-r2-jurisdiction"] !== undefined)
 					headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
-				if (argv["cf-r2-storage-class"] !== undefined)
-					headers["cf-r2-storage-class"] = String(argv["cf-r2-storage-class"]);
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf r2 buckets create-by-name",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}`,
+						command: "cf r2 buckets sippy disable",
+						method: "DELETE",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/sippy`,
 						pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
 						bodyKind: "none",
 					});
@@ -80,15 +81,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				const result = await withProgress(`Updating`, async () =>
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `This disables Sippy on-demand migration for the R2 bucket. Objects already copied to R2 remain in the bucket.`,
+					}))
+				) {
+					return;
+				}
+
+				const result = await withProgress(`Deleting`, async () =>
 					requestApi<unknown>(
 						client,
-						"PUT",
-						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}`,
+						"DELETE",
+						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/sippy`,
 						{ headers: Object.keys(headers).length > 0 ? headers : undefined }
 					)
 				);
-				formatOutput(result, { successLabel: `Updated` });
+				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
 };

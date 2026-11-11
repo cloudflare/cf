@@ -1,5 +1,4 @@
 import $cors from "./cors/index.js";
-import $createbyname from "./create-by-name.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $domains from "./domains/index.js";
@@ -28,7 +27,6 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($create)
-			.command($createbyname)
 			.command($delete)
 			.command($edit)
 			.command($get)

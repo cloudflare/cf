@@ -5065,6 +5065,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "loa-document",
+					"type": "string",
+					"required": false,
+					"description": "LOA document to upload."
 				}
 			],
 			"category": "create",
@@ -6936,6 +6942,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "file-name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the file (adapter_config.json or adapter_model.safetensors)."
 				}
 			],
 			"category": "create",
@@ -11335,6 +11347,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "JSON string of custom metadata key-value pairs."
+				},
+				{
+					"name": "wait-for-completion",
+					"type": "boolean",
+					"required": false,
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false."
 				}
 			],
 			"category": "action",
@@ -31219,6 +31243,18 @@
 					"description": "Path to a file to upload as the request body"
 				},
 				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional description of the asset"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Optional JSON string of key-value pairs (e.g., '{\"key1\":\"value1\"}')"
+				},
+				{
 					"name": "source",
 					"type": "string",
 					"required": false,
@@ -45987,6 +46023,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "proxied",
+					"type": "string",
+					"required": false,
+					"description": "Whether or not proxiable records should receive the performance and security benefits of Cloudflare.\n\nThe value should be either `true` or `false`."
 				}
 			],
 			"category": "action",
@@ -59477,6 +59519,36 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "creator",
+					"type": "string",
+					"required": false,
+					"description": "Can set the creator field with an internal user ID."
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": false,
+					"description": "An optional custom unique identifier for your image."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "User modifiable key-value store. Can use used for keeping references to another system of record for managing images."
+				},
+				{
+					"name": "require-signed-urls",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the image requires a signature token for the access."
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": false,
+					"description": "A URL to fetch an image from origin. Only needed when type is uploading from a URL."
 				}
 			],
 			"category": "create",
@@ -59553,6 +59625,36 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "creator",
+					"type": "string",
+					"required": false,
+					"description": "Can set the creator field with an internal user ID."
+				},
+				{
+					"name": "expiry",
+					"type": "string",
+					"required": false,
+					"description": "The date after which the upload will not be accepted. Minimum: Now + 2 minutes. Maximum: Now + 6 hours."
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": false,
+					"description": "Optional Image Custom ID. Up to 1024 chars. Can include any number of subpaths, and utf8 characters. Cannot start nor end with a / (forward slash). Cannot be a UUID."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "User modifiable key-value store. Can be used for keeping references to another system of record, for managing images."
+				},
+				{
+					"name": "require-signed-urls",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the image requires a signature token to be accessed."
 				}
 			],
 			"category": "action",
@@ -61469,6 +61571,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "source",
+					"type": "string",
+					"required": false,
+					"description": "The file to upload. Either a plain STIX2/CRDF body\nor a gzipped one (recognised by `0x1f 0x8b` magic\nbytes or a `.gz` filename suffix).\n"
 				}
 			],
 			"category": "update",
@@ -62858,6 +62966,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Associates arbitrary JSON data with a key/value pair."
 				}
 			],
 			"category": "action",
@@ -85048,6 +85162,48 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch to deploy. Uses the branch's `HEAD`; defaults to the project's production branch."
+				},
+				{
+					"name": "commit-dirty",
+					"type": "string",
+					"required": false,
+					"description": "Whether the associated Git working tree has uncommitted changes. Provide `true` or `false`."
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit SHA associated with the deployment."
+				},
+				{
+					"name": "commit-message",
+					"type": "string",
+					"required": false,
+					"description": "Git commit message associated with the deployment."
+				},
+				{
+					"name": "manifest",
+					"type": "string",
+					"required": false,
+					"description": "JSON-encoded object mapping deployment file paths to their uploaded content hashes.\nRequired for Direct Upload deployments. Maximum 20,000 entries.\n"
+				},
+				{
+					"name": "pages-build-output-dir",
+					"type": "string",
+					"required": false,
+					"description": "The build output directory path."
+				},
+				{
+					"name": "wrangler-config-hash",
+					"type": "string",
+					"required": false,
+					"description": "Hash of the Wrangler configuration file used for this deployment."
 				},
 				{
 					"name": "redirects",
@@ -120088,6 +120244,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Provide metadata about the snippet."
 				}
 			],
 			"category": "update",
@@ -137784,6 +137946,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to a file to upload as the request body"
+				},
+				{
+					"name": "settings",
+					"type": "string",
+					"required": false,
+					"description": "Script and version settings for Workers for Platforms namespace scripts. Same as script-and-version-settings-item but without annotations, which are not supported for namespace scripts.\n"
 				}
 			],
 			"category": "update",

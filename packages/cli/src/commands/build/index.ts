@@ -1,5 +1,8 @@
 import { assertProjectCommandsAvailable } from "@cloudflare/autoconfig";
-import { readBuildOutput } from "@cloudflare/build-output-utils";
+import {
+	BuildOutputError,
+	readBuildOutput,
+} from "@cloudflare/build-output-utils";
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import {
 	parseWorkerConfig,
@@ -7,10 +10,7 @@ import {
 } from "../../lib/build-output.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { log } from "../../lib/ui/log.js";
-import {
-	resolveProjectImpl,
-	validateVitePluginCompatibility,
-} from "../dev/impl.js";
+import { resolveProjectImpl } from "../dev/impl.js";
 import { spawnImpl } from "../dev/spawn.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -49,7 +49,6 @@ export async function runBuild(
 	if (details) {
 		assertProjectCommandsAvailable(details);
 	}
-	validateVitePluginCompatibility(cwd, details?.nodeModulesPaths);
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {
 		...details?.env,
@@ -91,7 +90,21 @@ export async function runBuild(
 		throw new CliExit(result.exitCode, { signal: result.signal });
 	}
 
-	const { workers, rootConfig } = await readBuildOutput(cwd);
+	const { workers, rootConfig } = await readBuildOutput(cwd).catch(
+		(error: unknown) => {
+			if (
+				env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT === "true" &&
+				error instanceof BuildOutputError &&
+				error.message.startsWith(
+					"Build Output Specification: no root config found at "
+				)
+			) {
+				error.message +=
+					"\nCheck that your Vite config includes cloudflare() from @cloudflare/vite-plugin.";
+			}
+			throw error;
+		}
+	);
 	parseWorkerConfig(
 		selectBuildOutputWorker(workers, selectedWorker),
 		rootConfig

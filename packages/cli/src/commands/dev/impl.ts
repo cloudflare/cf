@@ -1,5 +1,3 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import satisfies from "semver/functions/satisfies.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { errorBlock, theme } from "../../lib/ui/index.js";
@@ -11,63 +9,6 @@ type ImplCompatibility = Pick<
 	KnownImpl,
 	"pkg" | "versionConstraint" | "installCommands"
 >;
-
-// Native Vite commands still need the plugin release that understands cf profiles.
-export function validateVitePluginCompatibility(
-	cwd: string,
-	nodeModulesPaths: readonly string[] = [join(cwd, "node_modules")]
-): void {
-	const pkg = "@cloudflare/vite-plugin";
-	let installedVersion: string | undefined;
-	try {
-		const manifest = JSON.parse(
-			readFileSync(join(cwd, "package.json"), "utf8")
-		) as Record<string, Record<string, unknown> | undefined>;
-		if (
-			![
-				"dependencies",
-				"devDependencies",
-				"peerDependencies",
-				"optionalDependencies",
-			].some((field) => manifest[field]?.[pkg] !== undefined)
-		) {
-			return;
-		}
-		const manifestPath = nodeModulesPaths
-			.map((directory) => join(directory, pkg, "package.json"))
-			.find(existsSync);
-		if (!manifestPath) {
-			return;
-		}
-		const installed = JSON.parse(readFileSync(manifestPath, "utf8")) as {
-			version?: unknown;
-		};
-		installedVersion =
-			typeof installed.version === "string" ? installed.version : undefined;
-	} catch {
-		return;
-	}
-	// Autoconfig handles missing packages and incompatible plugin majors.
-	if (
-		isVersionCompatible(installedVersion, ">=2.0.0-0 <3.0.0-0") &&
-		!isVersionCompatible(installedVersion, ">=2.0.0-beta.v.13 <3.0.0-0")
-	) {
-		incompatibleVersionError({
-			installedVersion,
-			impl: {
-				pkg,
-				versionConstraint: {
-					range: ">=2.0.0-beta.v.13 <3.0.0-0",
-					display: "@cloudflare/vite-plugin v2 beta (2.0.0-beta.v.13 or newer)",
-				},
-				installCommands: [
-					"npm install --save-dev @cloudflare/vite-plugin@beta",
-				],
-			},
-		});
-		throw new CliExit(1);
-	}
-}
 
 export function resolveProjectImpl(cwd: string): DiscoveredImpl {
 	const discovered = discoverImpls(cwd);

@@ -130,12 +130,8 @@ export async function prepareProject(
 	if (details?.configured) {
 		return { details };
 	}
-	// Setup can add cloudflare() to a config, but missing or incompatible
-	// declared dependencies need to be fixed before preparing the project.
-	if (
-		details?.commandError &&
-		details.commandError.code !== "vite-plugin-not-configured"
-	) {
+	// Missing or incompatible declared dependencies need to be fixed before setup.
+	if (details?.commandError) {
 		assertProjectCommandsAvailable(details);
 	}
 

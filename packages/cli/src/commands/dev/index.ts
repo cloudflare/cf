@@ -10,7 +10,7 @@ import { assertProjectCommandsAvailable } from "@cloudflare/autoconfig";
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { theme } from "../../lib/ui/index.js";
-import { resolveProjectImpl, validateVitePluginCompatibility } from "./impl.js";
+import { resolveProjectImpl } from "./impl.js";
 import { spawnImpl } from "./spawn.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
@@ -69,7 +69,6 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		if (details) {
 			assertProjectCommandsAvailable(details);
 		}
-		validateVitePluginCompatibility(cwd, details?.nodeModulesPaths);
 
 		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])];
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];

@@ -563,15 +563,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"internal",
-			"internal",
-			() => import("./internal/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"ips",
 			"ips",
 			() => import("./ips/index.js"),
@@ -605,15 +596,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"live",
-			"live",
-			() => import("./live/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -851,15 +833,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"ready",
-			"ready",
-			() => import("./ready/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"realtime",
 			"Real-time audio, video, and data services on Cloudflare's global network",
 			() => import("./realtime/index.js"),
@@ -974,15 +947,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"signed-url",
-			"signed-url",
-			() => import("./signed-url/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

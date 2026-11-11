@@ -12,6 +12,7 @@ export default {
 		"include_domain_id",
 		"include_dismissed",
 		"domain_search",
+		"quality",
 		"orderBy",
 		"order",
 	],

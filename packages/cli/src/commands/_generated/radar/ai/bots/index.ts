@@ -1,3 +1,4 @@
+import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $timeseries from "./timeseries.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -13,6 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($summary)
 			.command($timeseries)
 			.command($timeseriesgroups)
 			.demandCommand(1, "Please specify a subcommand");

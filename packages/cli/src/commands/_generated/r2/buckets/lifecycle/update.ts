@@ -107,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This replaces the R2 bucket's object lifecycle rules and can schedule object deletion or abort multipart uploads.`,
+						message: `This operation replaces all of the R2 bucket's object lifecycle rules. Rules left out of the request are removed, including the Default Multipart Abort Rule that aborts incomplete multipart uploads after 7 days, and the new rules can schedule object deletion.`,
 					}))
 				) {
 					return;

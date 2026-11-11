@@ -1,5 +1,5 @@
-import $getbyid from "./get-by-id.js";
 import $get from "./get.js";
+import $list from "./list.js";
 import $locations from "./locations/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -16,7 +16,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($get)
-			.command($getbyid)
+			.command($list)
 			.command($locations)
 			.demandCommand(1, "Please specify a subcommand");
 	},

@@ -2998,7 +2998,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Account name, limited to 65 UTF-8 bytes."
+					"description": "Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "settings-abuse-contact-email",
@@ -16387,6 +16387,12 @@
 					"required": false
 				},
 				{
+					"name": "quality",
+					"flag": "quality",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "orderBy",
 					"flag": "order-by",
 					"type": "string",
@@ -25750,7 +25756,7 @@
 					"name": "dataset-ids",
 					"type": "string",
 					"required": true,
-					"description": "The dataset UUIDs to use when a request omits `datasetId`: 1 to 50 datasets you can read. Duplicates are ignored."
+					"description": "The dataset UUIDs to use when a request omits `datasetId`: 1 to 50 datasets you can read, either all analytics datasets or all intelligence datasets. Duplicates are ignored."
 				},
 				{
 					"name": "scope",
@@ -34436,8 +34442,8 @@
 				}
 			]
 		},
-		"dns zone-transfers force-axfr create": {
-			"operationId": "dns.zone-transfers.force-axfr.create",
+		"dns zone-transfers force-axfr": {
+			"operationId": "dns.zone-transfers.force-axfr",
 			"httpMethod": "POST",
 			"path": "/zones/{zone_id}/secondary_dns/force_axfr",
 			"pathParams": [
@@ -34663,8 +34669,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"dns zone-transfers outgoing status get": {
-			"operationId": "dns.zone-transfers.outgoing.status.get",
+		"dns zone-transfers outgoing status": {
+			"operationId": "dns.zone-transfers.outgoing.status",
 			"httpMethod": "GET",
 			"path": "/zones/{zone_id}/secondary_dns/outgoing/status",
 			"pathParams": [
@@ -45249,15 +45255,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"internal submit create": {
-			"operationId": "internal.submit.create",
-			"httpMethod": "POST",
-			"path": "/internal/submit",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"ips list": {
 			"operationId": "ips.list",
 			"httpMethod": "GET",
@@ -46040,15 +46037,6 @@
 					"description": "Determines whether or not Leaked Credential Checks are enabled."
 				}
 			]
-		},
-		"live get": {
-			"operationId": "live.get",
-			"httpMethod": "GET",
-			"path": "/live",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"load-balancers account create": {
 			"operationId": "load-balancers.account.create",
@@ -67212,6 +67200,120 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"radar ai bots summary": {
+			"operationId": "radar.ai.bots.summary",
+			"httpMethod": "GET",
+			"path": "/radar/ai/bots/summary/{dimension}",
+			"pathParams": [
+				{
+					"name": "dimension",
+					"flag": "dimension",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "crawlPurpose",
+					"flag": "crawl-purpose",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "userAgent",
+					"flag": "user-agent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "vertical",
+					"flag": "vertical",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "industry",
+					"flag": "industry",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "contentType",
+					"flag": "content-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "responseStatus",
+					"flag": "response-status",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "responseStatusCategory",
+					"flag": "response-status-category",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "limitPerGroup",
+					"flag": "limit-per-group",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"radar ai bots timeseries": {
 			"operationId": "radar.ai.bots.timeseries",
 			"httpMethod": "GET",
@@ -67450,8 +67552,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar ai inference summary-v2": {
-			"operationId": "radar.ai.inference.summary-v2",
+		"radar ai inference summary": {
+			"operationId": "radar.ai.inference.summary",
 			"httpMethod": "GET",
 			"path": "/radar/ai/inference/summary/{dimension}",
 			"pathParams": [
@@ -67522,8 +67624,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar ai inference timeseries-groups-v2": {
-			"operationId": "radar.ai.inference.timeseries-groups-v2",
+		"radar ai inference timeseries-groups": {
+			"operationId": "radar.ai.inference.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/ai/inference/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -67692,120 +67794,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar ai timeseries-groups summary": {
-			"operationId": "radar.ai.timeseries-groups.summary",
-			"httpMethod": "GET",
-			"path": "/radar/ai/bots/summary/{dimension}",
-			"pathParams": [
-				{
-					"name": "dimension",
-					"flag": "dimension",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "crawlPurpose",
-					"flag": "crawl-purpose",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "userAgent",
-					"flag": "user-agent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "vertical",
-					"flag": "vertical",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "industry",
-					"flag": "industry",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "contentType",
-					"flag": "content-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "responseStatus",
-					"flag": "response-status",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "responseStatusCategory",
-					"flag": "response-status-category",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "limitPerGroup",
-					"flag": "limit-per-group",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"radar annotations get": {
 			"operationId": "radar.annotations.get",
 			"httpMethod": "GET",
@@ -67960,8 +67948,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar annotations outages get": {
-			"operationId": "radar.annotations.outages.get",
+		"radar annotations outages list": {
+			"operationId": "radar.annotations.outages.list",
 			"httpMethod": "GET",
 			"path": "/radar/annotations/outages",
 			"pathParams": [],
@@ -68124,8 +68112,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar as112 summary-v2": {
-			"operationId": "radar.as112.summary-v2",
+		"radar as112 summary": {
+			"operationId": "radar.as112.summary",
 			"httpMethod": "GET",
 			"path": "/radar/as112/summary/{dimension}",
 			"pathParams": [
@@ -68284,8 +68272,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar as112 timeseries-groups-v2": {
-			"operationId": "radar.as112.timeseries-groups-v2",
+		"radar as112 timeseries-groups": {
+			"operationId": "radar.as112.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/as112/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -68374,8 +68362,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar as112 top dnssec": {
-			"operationId": "radar.as112.top.dnssec",
+		"radar as112 top locations dnssec get": {
+			"operationId": "radar.as112.top.locations.dnssec.get",
 			"httpMethod": "GET",
 			"path": "/radar/as112/top/locations/dnssec/{dnssec}",
 			"pathParams": [
@@ -68440,8 +68428,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar as112 top edns": {
-			"operationId": "radar.as112.top.edns",
+		"radar as112 top locations edns get": {
+			"operationId": "radar.as112.top.locations.edns.get",
 			"httpMethod": "GET",
 			"path": "/radar/as112/top/locations/edns/{edns}",
 			"pathParams": [
@@ -68506,8 +68494,66 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar as112 top ip-version": {
-			"operationId": "radar.as112.top.ip-version",
+		"radar as112 top locations get": {
+			"operationId": "radar.as112.top.locations.get",
+			"httpMethod": "GET",
+			"path": "/radar/as112/top/locations",
+			"pathParams": [],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar as112 top locations ip-version get": {
+			"operationId": "radar.as112.top.locations.ip-version.get",
 			"httpMethod": "GET",
 			"path": "/radar/as112/top/locations/ip_version/{ip_version}",
 			"pathParams": [
@@ -68572,66 +68618,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar as112 top locations": {
-			"operationId": "radar.as112.top.locations",
-			"httpMethod": "GET",
-			"path": "/radar/as112/top/locations",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar attacks layer3 summary-v2": {
-			"operationId": "radar.attacks.layer3.summary-v2",
+		"radar attacks layer3 summary": {
+			"operationId": "radar.attacks.layer3.summary",
 			"httpMethod": "GET",
 			"path": "/radar/attacks/layer3/summary/{dimension}",
 			"pathParams": [
@@ -68808,8 +68796,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar attacks layer3 timeseries-groups-v2": {
-			"operationId": "radar.attacks.layer3.timeseries-groups-v2",
+		"radar attacks layer3 timeseries-groups": {
+			"operationId": "radar.attacks.layer3.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/attacks/layer3/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -69138,8 +69126,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar attacks layer7 summary-v2": {
-			"operationId": "radar.attacks.layer7.summary-v2",
+		"radar attacks layer7 summary": {
+			"operationId": "radar.attacks.layer7.summary",
 			"httpMethod": "GET",
 			"path": "/radar/attacks/layer7/summary/{dimension}",
 			"pathParams": [
@@ -69328,8 +69316,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar attacks layer7 timeseries-groups-v2": {
-			"operationId": "radar.attacks.layer7.timeseries-groups-v2",
+		"radar attacks layer7 timeseries-groups": {
+			"operationId": "radar.attacks.layer7.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/attacks/layer7/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -70677,6 +70665,198 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"radar bots crawlers summary": {
+			"operationId": "radar.bots.crawlers.summary",
+			"httpMethod": "GET",
+			"path": "/radar/bots/crawlers/summary/{dimension}",
+			"pathParams": [
+				{
+					"name": "dimension",
+					"flag": "dimension",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "limitPerGroup",
+					"flag": "limit-per-group",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "botOperator",
+					"flag": "bot-operator",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "vertical",
+					"flag": "vertical",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "industry",
+					"flag": "industry",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "clientType",
+					"flag": "client-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "responseStatus",
+					"flag": "response-status",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "responseStatusCategory",
+					"flag": "response-status-category",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar bots crawlers timeseries-groups": {
+			"operationId": "radar.bots.crawlers.timeseries-groups",
+			"httpMethod": "GET",
+			"path": "/radar/bots/crawlers/timeseries_groups/{dimension}",
+			"pathParams": [
+				{
+					"name": "dimension",
+					"flag": "dimension",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "aggInterval",
+					"flag": "agg-interval",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "limitPerGroup",
+					"flag": "limit-per-group",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "normalization",
+					"flag": "normalization",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "botOperator",
+					"flag": "bot-operator",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "vertical",
+					"flag": "vertical",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "industry",
+					"flag": "industry",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "clientType",
+					"flag": "client-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "responseStatus",
+					"flag": "response-status",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "responseStatusCategory",
+					"flag": "response-status-category",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"radar bots get": {
 			"operationId": "radar.bots.get",
 			"httpMethod": "GET",
@@ -71044,198 +71224,6 @@
 				{
 					"name": "botVerificationStatus",
 					"flag": "bot-verification-status",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar bots web-crawlers summary": {
-			"operationId": "radar.bots.web-crawlers.summary",
-			"httpMethod": "GET",
-			"path": "/radar/bots/crawlers/summary/{dimension}",
-			"pathParams": [
-				{
-					"name": "dimension",
-					"flag": "dimension",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "limitPerGroup",
-					"flag": "limit-per-group",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "botOperator",
-					"flag": "bot-operator",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "vertical",
-					"flag": "vertical",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "industry",
-					"flag": "industry",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "clientType",
-					"flag": "client-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "responseStatus",
-					"flag": "response-status",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "responseStatusCategory",
-					"flag": "response-status-category",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar bots web-crawlers timeseries-groups": {
-			"operationId": "radar.bots.web-crawlers.timeseries-groups",
-			"httpMethod": "GET",
-			"path": "/radar/bots/crawlers/timeseries_groups/{dimension}",
-			"pathParams": [
-				{
-					"name": "dimension",
-					"flag": "dimension",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "aggInterval",
-					"flag": "agg-interval",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "limitPerGroup",
-					"flag": "limit-per-group",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "normalization",
-					"flag": "normalization",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "botOperator",
-					"flag": "bot-operator",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "vertical",
-					"flag": "vertical",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "industry",
-					"flag": "industry",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "clientType",
-					"flag": "client-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "responseStatus",
-					"flag": "response-status",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "responseStatusCategory",
-					"flag": "response-status-category",
 					"type": "array",
 					"required": false
 				},
@@ -71875,8 +71863,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar dns summary-v2": {
-			"operationId": "radar.dns.summary-v2",
+		"radar dns summary": {
+			"operationId": "radar.dns.summary",
 			"httpMethod": "GET",
 			"path": "/radar/dns/summary/{dimension}",
 			"pathParams": [
@@ -72155,8 +72143,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar dns timeseries-groups-v2": {
-			"operationId": "radar.dns.timeseries-groups-v2",
+		"radar dns timeseries-groups": {
+			"operationId": "radar.dns.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/dns/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -72589,8 +72577,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar email routing summary-v2": {
-			"operationId": "radar.email.routing.summary-v2",
+		"radar email routing summary": {
+			"operationId": "radar.email.routing.summary",
 			"httpMethod": "GET",
 			"path": "/radar/email/routing/summary/{dimension}",
 			"pathParams": [
@@ -72679,8 +72667,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar email routing timeseries-groups-v2": {
-			"operationId": "radar.email.routing.timeseries-groups-v2",
+		"radar email routing timeseries-groups": {
+			"operationId": "radar.email.routing.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/email/routing/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -72775,8 +72763,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar email security summary-v2": {
-			"operationId": "radar.email.security.summary-v2",
+		"radar email security summary": {
+			"operationId": "radar.email.security.summary",
 			"httpMethod": "GET",
 			"path": "/radar/email/security/summary/{dimension}",
 			"pathParams": [
@@ -72859,8 +72847,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar email security timeseries-groups-v2": {
-			"operationId": "radar.email.security.timeseries-groups-v2",
+		"radar email security timeseries-groups": {
+			"operationId": "radar.email.security.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/email/security/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -73511,8 +73499,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar entities get": {
-			"operationId": "radar.entities.get",
+		"radar entities ips get": {
+			"operationId": "radar.entities.ips.get",
 			"httpMethod": "GET",
 			"path": "/radar/entities/ip",
 			"pathParams": [],
@@ -73673,2164 +73661,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar http ases bot-class get": {
-			"operationId": "radar.http.ases.bot-class.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/bot_class/{bot_class}",
-			"pathParams": [
-				{
-					"name": "bot_class",
-					"flag": "bot-class",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases browser-family get": {
-			"operationId": "radar.http.ases.browser-family.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/browser_family/{browser_family}",
-			"pathParams": [
-				{
-					"name": "browser_family",
-					"flag": "browser-family",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases device-type get": {
-			"operationId": "radar.http.ases.device-type.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/device_type/{device_type}",
-			"pathParams": [
-				{
-					"name": "device_type",
-					"flag": "device-type",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases get": {
-			"operationId": "radar.http.ases.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases http-method get": {
-			"operationId": "radar.http.ases.http-method.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/http_version/{http_version}",
-			"pathParams": [
-				{
-					"name": "http_version",
-					"flag": "http-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases http-protocol get": {
-			"operationId": "radar.http.ases.http-protocol.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/http_protocol/{http_protocol}",
-			"pathParams": [
-				{
-					"name": "http_protocol",
-					"flag": "http-protocol",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases ip-version get": {
-			"operationId": "radar.http.ases.ip-version.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/ip_version/{ip_version}",
-			"pathParams": [
-				{
-					"name": "ip_version",
-					"flag": "ip-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases os get": {
-			"operationId": "radar.http.ases.os.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/os/{os}",
-			"pathParams": [
-				{
-					"name": "os",
-					"flag": "os",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http ases tls-version get": {
-			"operationId": "radar.http.ases.tls-version.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/ases/tls_version/{tls_version}",
-			"pathParams": [
-				{
-					"name": "tls_version",
-					"flag": "tls-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations bot-class get": {
-			"operationId": "radar.http.locations.bot-class.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/bot_class/{bot_class}",
-			"pathParams": [
-				{
-					"name": "bot_class",
-					"flag": "bot-class",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations browser-family get": {
-			"operationId": "radar.http.locations.browser-family.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/browser_family/{browser_family}",
-			"pathParams": [
-				{
-					"name": "browser_family",
-					"flag": "browser-family",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations device-type get": {
-			"operationId": "radar.http.locations.device-type.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/device_type/{device_type}",
-			"pathParams": [
-				{
-					"name": "device_type",
-					"flag": "device-type",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations get": {
-			"operationId": "radar.http.locations.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations http-method get": {
-			"operationId": "radar.http.locations.http-method.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/http_version/{http_version}",
-			"pathParams": [
-				{
-					"name": "http_version",
-					"flag": "http-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations http-protocol get": {
-			"operationId": "radar.http.locations.http-protocol.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/http_protocol/{http_protocol}",
-			"pathParams": [
-				{
-					"name": "http_protocol",
-					"flag": "http-protocol",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations ip-version get": {
-			"operationId": "radar.http.locations.ip-version.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/ip_version/{ip_version}",
-			"pathParams": [
-				{
-					"name": "ip_version",
-					"flag": "ip-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations os get": {
-			"operationId": "radar.http.locations.os.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/os/{os}",
-			"pathParams": [
-				{
-					"name": "os",
-					"flag": "os",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tlsVersion",
-					"flag": "tls-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http locations tls-version get": {
-			"operationId": "radar.http.locations.tls-version.get",
-			"httpMethod": "GET",
-			"path": "/radar/http/top/locations/tls_version/{tls_version}",
-			"pathParams": [
-				{
-					"name": "tls_version",
-					"flag": "tls-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "limit",
-					"flag": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "name",
-					"flag": "name",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateRange",
-					"flag": "date-range",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateStart",
-					"flag": "date-start",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "dateEnd",
-					"flag": "date-end",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "asn",
-					"flag": "asn",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "location",
-					"flag": "location",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "continent",
-					"flag": "continent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "geoId",
-					"flag": "geo-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "botClass",
-					"flag": "bot-class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "deviceType",
-					"flag": "device-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpProtocol",
-					"flag": "http-protocol",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "httpVersion",
-					"flag": "http-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "ipVersion",
-					"flag": "ip-version",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "os",
-					"flag": "os",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "browserFamily",
-					"flag": "browser-family",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"radar http summary-v2": {
-			"operationId": "radar.http.summary-v2",
+		"radar http summary": {
+			"operationId": "radar.http.summary",
 			"httpMethod": "GET",
 			"path": "/radar/http/summary/{dimension}",
 			"pathParams": [
@@ -76097,8 +73929,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar http timeseries-groups-v2": {
-			"operationId": "radar.http.timeseries-groups-v2",
+		"radar http timeseries-groups": {
+			"operationId": "radar.http.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/http/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -76241,8 +74073,2164 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar leaked-credentials summary-v2": {
-			"operationId": "radar.leaked-credentials.summary-v2",
+		"radar http top ases bot-class get": {
+			"operationId": "radar.http.top.ases.bot-class.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/bot_class/{bot_class}",
+			"pathParams": [
+				{
+					"name": "bot_class",
+					"flag": "bot-class",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases browser-family get": {
+			"operationId": "radar.http.top.ases.browser-family.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/browser_family/{browser_family}",
+			"pathParams": [
+				{
+					"name": "browser_family",
+					"flag": "browser-family",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases device-type get": {
+			"operationId": "radar.http.top.ases.device-type.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/device_type/{device_type}",
+			"pathParams": [
+				{
+					"name": "device_type",
+					"flag": "device-type",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases get": {
+			"operationId": "radar.http.top.ases.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases",
+			"pathParams": [],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases http-protocol get": {
+			"operationId": "radar.http.top.ases.http-protocol.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/http_protocol/{http_protocol}",
+			"pathParams": [
+				{
+					"name": "http_protocol",
+					"flag": "http-protocol",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases http-version get": {
+			"operationId": "radar.http.top.ases.http-version.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/http_version/{http_version}",
+			"pathParams": [
+				{
+					"name": "http_version",
+					"flag": "http-version",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases ip-version get": {
+			"operationId": "radar.http.top.ases.ip-version.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/ip_version/{ip_version}",
+			"pathParams": [
+				{
+					"name": "ip_version",
+					"flag": "ip-version",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases os get": {
+			"operationId": "radar.http.top.ases.os.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/os/{os}",
+			"pathParams": [
+				{
+					"name": "os",
+					"flag": "os",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top ases tls-version get": {
+			"operationId": "radar.http.top.ases.tls-version.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/ases/tls_version/{tls_version}",
+			"pathParams": [
+				{
+					"name": "tls_version",
+					"flag": "tls-version",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations bot-class get": {
+			"operationId": "radar.http.top.locations.bot-class.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/bot_class/{bot_class}",
+			"pathParams": [
+				{
+					"name": "bot_class",
+					"flag": "bot-class",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations browser-family get": {
+			"operationId": "radar.http.top.locations.browser-family.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/browser_family/{browser_family}",
+			"pathParams": [
+				{
+					"name": "browser_family",
+					"flag": "browser-family",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations device-type get": {
+			"operationId": "radar.http.top.locations.device-type.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/device_type/{device_type}",
+			"pathParams": [
+				{
+					"name": "device_type",
+					"flag": "device-type",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations get": {
+			"operationId": "radar.http.top.locations.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations",
+			"pathParams": [],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations http-protocol get": {
+			"operationId": "radar.http.top.locations.http-protocol.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/http_protocol/{http_protocol}",
+			"pathParams": [
+				{
+					"name": "http_protocol",
+					"flag": "http-protocol",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations http-version get": {
+			"operationId": "radar.http.top.locations.http-version.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/http_version/{http_version}",
+			"pathParams": [
+				{
+					"name": "http_version",
+					"flag": "http-version",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations ip-version get": {
+			"operationId": "radar.http.top.locations.ip-version.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/ip_version/{ip_version}",
+			"pathParams": [
+				{
+					"name": "ip_version",
+					"flag": "ip-version",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations os get": {
+			"operationId": "radar.http.top.locations.os.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/os/{os}",
+			"pathParams": [
+				{
+					"name": "os",
+					"flag": "os",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tlsVersion",
+					"flag": "tls-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar http top locations tls-version get": {
+			"operationId": "radar.http.top.locations.tls-version.get",
+			"httpMethod": "GET",
+			"path": "/radar/http/top/locations/tls_version/{tls_version}",
+			"pathParams": [
+				{
+					"name": "tls_version",
+					"flag": "tls-version",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateRange",
+					"flag": "date-range",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateStart",
+					"flag": "date-start",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "dateEnd",
+					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asn",
+					"flag": "asn",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "location",
+					"flag": "location",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "continent",
+					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "geoId",
+					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "botClass",
+					"flag": "bot-class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "deviceType",
+					"flag": "device-type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpProtocol",
+					"flag": "http-protocol",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "httpVersion",
+					"flag": "http-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "ipVersion",
+					"flag": "ip-version",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "os",
+					"flag": "os",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "browserFamily",
+					"flag": "browser-family",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar leaked-credentials summary": {
+			"operationId": "radar.leaked-credentials.summary",
 			"httpMethod": "GET",
 			"path": "/radar/leaked_credential_checks/summary/{dimension}",
 			"pathParams": [
@@ -76325,8 +76313,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar leaked-credentials timeseries-groups-v2": {
-			"operationId": "radar.leaked-credentials.timeseries-groups-v2",
+		"radar leaked-credentials timeseries-groups": {
+			"operationId": "radar.leaked-credentials.timeseries-groups",
 			"httpMethod": "GET",
 			"path": "/radar/leaked_credential_checks/timeseries_groups/{dimension}",
 			"pathParams": [
@@ -76427,8 +76415,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar netflows summary-v2": {
-			"operationId": "radar.netflows.summary-v2",
+		"radar netflows summary": {
+			"operationId": "radar.netflows.summary",
 			"httpMethod": "GET",
 			"path": "/radar/netflows/summary/{dimension}",
 			"pathParams": [
@@ -78382,6 +78370,30 @@
 		"radar traffic-anomalies get": {
 			"operationId": "radar.traffic-anomalies.get",
 			"httpMethod": "GET",
+			"path": "/radar/traffic_anomalies/{uuid}",
+			"pathParams": [
+				{
+					"name": "uuid",
+					"flag": "uuid",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "format",
+					"flag": "format",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"radar traffic-anomalies list": {
+			"operationId": "radar.traffic-anomalies.list",
+			"httpMethod": "GET",
 			"path": "/radar/traffic_anomalies",
 			"pathParams": [],
 			"queryParams": [
@@ -78461,30 +78473,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"radar traffic-anomalies get-by-id": {
-			"operationId": "radar.traffic-anomalies.get-by-id",
-			"httpMethod": "GET",
-			"path": "/radar/traffic_anomalies/{uuid}",
-			"pathParams": [
-				{
-					"name": "uuid",
-					"flag": "uuid",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "format",
-					"flag": "format",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"radar traffic-anomalies locations get": {
 			"operationId": "radar.traffic-anomalies.locations.get",
 			"httpMethod": "GET",
@@ -78528,15 +78516,6 @@
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"ready get": {
-			"operationId": "ready.get",
-			"httpMethod": "GET",
-			"path": "/ready",
-			"pathParams": [],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -88100,15 +88079,6 @@
 					"description": "The preferred_languages field"
 				}
 			]
-		},
-		"signed-url get": {
-			"operationId": "signed-url.get",
-			"httpMethod": "GET",
-			"path": "/signed-url",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"smart-shield cache-reserve-clear clear": {
 			"operationId": "smart-shield.cache-reserve-clear.clear",

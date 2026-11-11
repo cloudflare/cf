@@ -52,6 +52,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Return only matches whose domain contains this text (case-insensitive).",
 		})
+		.option("quality", {
+			type: "string",
+			description: "Filter matches by quality. Options: 'high' or 'low'",
+			choices: ["high", "low"],
+		})
 		.option("order-by", {
 			type: "string",
 			description:
@@ -82,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "brand-protection matches get",
 				classification: {
-					safeFlags: ["order-by", "order", "dry-run"],
+					safeFlags: ["quality", "order-by", "order", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -94,6 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					include_domain_id: argv["include-domain-id"],
 					include_dismissed: argv["include-dismissed"],
 					domain_search: argv["domain-search"],
+					quality: argv["quality"],
 					orderBy: argv["order-by"],
 					order: argv["order"],
 				};

@@ -155,6 +155,9 @@ The future names are not registered as options, so cf rejects them as unknown. A
   selected Build Output Worker's `name`. This is a Workers Builds override,
   read only from the process environment; it renames only that Worker and
   leaves binding targets unchanged.
+- CI Worker tag check: `CLOUDFLARE_CI_MATCH_WORKER_TAG` → Wrangler's
+  `WRANGLER_CI_MATCH_TAG`, passed to deploy-helpers for `cf deploy` and
+  `cf workers versions create`.
 
 ## Generated (DO NOT EDIT)
 

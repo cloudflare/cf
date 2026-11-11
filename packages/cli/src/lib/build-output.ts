@@ -133,6 +133,27 @@ export function applyCIWorkerNameOverride(
 }
 
 /**
+ * Pass `CLOUDFLARE_CI_MATCH_WORKER_TAG` to deploy-helpers, which checks the
+ * deployed Worker's tag through Wrangler's `WRANGLER_CI_MATCH_TAG`. Returns a
+ * callback that restores the previous value.
+ */
+export function applyCIMatchWorkerTag(): () => void {
+	const tag = process.env.CLOUDFLARE_CI_MATCH_WORKER_TAG;
+	if (!tag) {
+		return () => {};
+	}
+	const previous = process.env.WRANGLER_CI_MATCH_TAG;
+	process.env.WRANGLER_CI_MATCH_TAG = tag;
+	return () => {
+		if (previous === undefined) {
+			delete process.env.WRANGLER_CI_MATCH_TAG;
+		} else {
+			process.env.WRANGLER_CI_MATCH_TAG = previous;
+		}
+	};
+}
+
+/**
  * Convert the Worker config read from the Build Output Specification into the
  * deploy-helpers/Wrangler config shape expected by workers-utils.
  */

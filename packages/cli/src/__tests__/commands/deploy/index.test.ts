@@ -831,31 +831,56 @@ describe("cf deploy", () => {
 			}
 		);
 
-		it("matches the CI tag against the Worker named by CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
-			vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
-			vi.stubEnv("WRANGLER_CI_MATCH_TAG", "existing-tag");
-			const requests = recordRequests();
-			mockExistingWorker();
+		it.each(["WRANGLER_CI_MATCH_TAG", "CLOUDFLARE_CI_MATCH_WORKER_TAG"])(
+			"matches %s against the Worker named by CLOUDFLARE_CI_OVERRIDE_WORKER_NAME",
+			async (tagVariable) => {
+				vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
+				vi.stubEnv(tagVariable, "existing-tag");
+				const requests = recordRequests();
+				mockExistingWorker();
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({ name: "config-worker" }),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
+
+				const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+				expect(exitCode).toBe(0);
+				expect(upload.scriptName).toBe("dashboard-worker");
+				const serviceLookups = requests.filter((request) =>
+					request.includes("/workers/services/")
+				);
+				expect(serviceLookups.length).toBeGreaterThan(0);
+				for (const lookup of serviceLookups) {
+					expect(lookup).toMatch(/\/workers\/services\/dashboard-worker$/);
+				}
+				expect(process.env.WRANGLER_CI_MATCH_TAG).toBe(
+					tagVariable === "WRANGLER_CI_MATCH_TAG" ? "existing-tag" : undefined
+				);
+			}
+		);
+
+		it("rejects a Worker whose tag differs from CLOUDFLARE_CI_MATCH_WORKER_TAG", async () => {
+			vi.stubEnv("CLOUDFLARE_CI_MATCH_WORKER_TAG", "other-tag");
 			const upload = mockWorkerUpload();
+			mockExistingWorker();
 			await seed({
 				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
 				".cloudflare/output/v0/workers/default/worker.config.json":
-					workerConfig({ name: "config-worker" }),
+					workerConfig(),
 				".cloudflare/output/v0/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
-			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
-
-			expect(exitCode).toBe(0);
-			expect(upload.scriptName).toBe("dashboard-worker");
-			const serviceLookups = requests.filter((request) =>
-				request.includes("/workers/services/")
+			await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
+				"must match the name of your Worker"
 			);
-			expect(serviceLookups.length).toBeGreaterThan(0);
-			for (const lookup of serviceLookups) {
-				expect(lookup).toMatch(/\/workers\/services\/dashboard-worker$/);
-			}
+			expect(upload.scriptName).toBeUndefined();
+			expect(process.env.WRANGLER_CI_MATCH_TAG).toBeUndefined();
 		});
 
 		it("does not warn or report an override when the names match", async () => {

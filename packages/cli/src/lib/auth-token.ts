@@ -51,3 +51,23 @@ Please set one of the following:
 
 For API tokens, visit: https://dash.cloudflare.com/profile/api-tokens`);
 }
+
+/**
+ * Return cf's current stored OAuth token after `rejected` failed
+ * authentication, refreshing it if it has expired. Returns `undefined` when a
+ * temporary account or environment token takes precedence over stored OAuth
+ * credentials, or when no different token is available.
+ */
+export async function recoverRejectedOAuthToken(
+	rejected: string
+): Promise<string | undefined> {
+	if (isTemporaryAccountRequested()) {
+		return undefined;
+	}
+	const envAuth = getAuthFromEnv({ allowGlobalAuthKey: false });
+	if (envAuth && "apiToken" in envAuth) {
+		return undefined;
+	}
+	const current = await getOAuthToken();
+	return current === rejected ? undefined : current;
+}

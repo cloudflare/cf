@@ -2,7 +2,8 @@ import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
 import { API_TIMEOUT_MS } from "./api-constants.js";
 import { createApiFetch } from "./api-fetch.js";
 import { isUploadBody } from "./api-upload.js";
-import { getAuthToken } from "./auth-token.js";
+import { type TokenRecovery, withTokenRecovery } from "./auth-retry.js";
+import { getAuthToken, recoverRejectedOAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import { isTemporaryAccountRequested } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
@@ -51,6 +52,8 @@ interface CloudflareClientOptions {
 	fetch?: typeof globalThis.fetch;
 	defaultHeaders?: Record<string, string>;
 	customApiHeaders?: boolean;
+	/** Replace `apiToken` and retry once when the API rejects it. */
+	recoverToken?: TokenRecovery;
 }
 
 /** A list response, unwrapped from its envelope. */
@@ -256,18 +259,24 @@ export function createCloudflareClientWithToken(
 	options: CloudflareClientOptions
 ): Cloudflare {
 	const baseURL = options.baseURL ?? DEFAULT_BASE_URL;
+	let apiToken = options.apiToken;
+	const baseFetch =
+		options.customApiHeaders === false
+			? (options.fetch ?? globalThis.fetch)
+			: createApiFetch(options.fetch ?? globalThis.fetch);
 	const clientOptions: ClientOptions = {
 		baseUrl: baseURL,
 		auth: async () => ({
-			headers: { Authorization: `Bearer ${options.apiToken}` },
+			headers: { Authorization: `Bearer ${apiToken}` },
 		}),
 		headers: options.defaultHeaders,
 		timeoutInSeconds: (options.timeout ?? API_TIMEOUT_MS) / 1000,
 		maxRetries: 0,
-		fetch:
-			options.customApiHeaders === false
-				? (options.fetch ?? globalThis.fetch)
-				: createApiFetch(options.fetch ?? globalThis.fetch),
+		fetch: options.recoverToken
+			? withTokenRecovery(baseFetch, options.recoverToken, (token) => {
+					apiToken = token;
+				})
+			: baseFetch,
 	};
 
 	const client = new Client(clientOptions);
@@ -317,6 +326,7 @@ export async function resolveAccountIdForHelp(
 			apiToken: token,
 			baseURL,
 			defaultHeaders: getDefaultHeaders(),
+			recoverToken: recoverRejectedOAuthToken,
 		});
 		const requestOptions = {
 			timeoutInSeconds: timeout / 1000,
@@ -463,5 +473,6 @@ export async function createCommandClient(
 		apiToken: await getAuthToken(),
 		baseURL,
 		defaultHeaders: getDefaultHeaders(),
+		recoverToken: recoverRejectedOAuthToken,
 	});
 }

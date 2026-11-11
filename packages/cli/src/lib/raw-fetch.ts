@@ -2,7 +2,8 @@ import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
 import { API_TIMEOUT_MS } from "./api-constants.js";
 import { createApiFetch } from "./api-fetch.js";
 import { isUploadBody } from "./api-upload.js";
-import { getAuthToken } from "./auth-token.js";
+import { withTokenRecovery } from "./auth-retry.js";
+import { getAuthToken, recoverRejectedOAuthToken } from "./auth-token.js";
 import { getComplianceRegion } from "./context.js";
 import { createLocalFetch } from "./local.js";
 import { getDefaultHeaders } from "./request-headers.js";
@@ -131,6 +132,7 @@ export async function fetchRawBytes(
 	} else {
 		const token = await getAuthToken();
 		headers["Authorization"] = `Bearer ${token}`;
+		fetchImpl = withTokenRecovery(fetchImpl, recoverRejectedOAuthToken);
 	}
 
 	// Normalize the request body to a `fetch`-acceptable `BodyInit` and

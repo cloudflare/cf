@@ -1,5 +1,5 @@
 import $acls from "./acls/index.js";
-import $forceaxfr from "./force-axfr/index.js";
+import $forceaxfr from "./force-axfr.js";
 import $incoming from "./incoming/index.js";
 import $outgoing from "./outgoing/index.js";
 import $peers from "./peers/index.js";
@@ -17,8 +17,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($acls)
 			.command($forceaxfr)
+			.command($acls)
 			.command($incoming)
 			.command($outgoing)
 			.command($peers)

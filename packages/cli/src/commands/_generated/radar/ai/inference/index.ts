@@ -1,5 +1,5 @@
-import $summaryv2 from "./summary-v2.js";
-import $timeseriesgroupsv2 from "./timeseries-groups-v2.js";
+import $summary from "./summary.js";
+import $timeseriesgroups from "./timeseries-groups.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * inference command group
@@ -13,8 +13,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($summaryv2)
-			.command($timeseriesgroupsv2)
+			.command($summary)
+			.command($timeseriesgroups)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

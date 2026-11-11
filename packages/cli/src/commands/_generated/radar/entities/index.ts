@@ -1,5 +1,5 @@
 import $asns from "./asns/index.js";
-import $get from "./get.js";
+import $ips from "./ips/index.js";
 import $locations from "./locations/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -15,8 +15,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($get)
 			.command($asns)
+			.command($ips)
 			.command($locations)
 			.demandCommand(1, "Please specify a subcommand");
 	},

@@ -28,7 +28,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("id", { type: "string", description: "Identifier" })
 		.option("name", {
 			type: "string",
-			description: "Account name, limited to 65 UTF-8 bytes.",
+			description:
+				"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes.",
 		})
 		.option("settings-abuse-contact-email", {
 			type: "string",
@@ -122,7 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
-						"Account name, limited to 65 UTF-8 bytes."
+						"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes."
 					);
 				}
 

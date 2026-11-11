@@ -338,6 +338,20 @@ class Walk {
 				])
 			);
 		}
+		if (outputKind(op) === "binary") {
+			optionMetas.push(
+				obj([
+					["name", "text"],
+					["type", "boolean"],
+					["required", false],
+					[
+						"description",
+						"Decode the response body as UTF-8 text instead of writing raw bytes",
+					],
+					["default", false],
+				])
+			);
+		}
 		if (derived.hasFileUpload) {
 			optionMetas.push(
 				obj([

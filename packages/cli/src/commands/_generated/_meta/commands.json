@@ -1521,6 +1521,13 @@
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",
@@ -5096,6 +5103,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -11017,6 +11031,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -18693,6 +18714,13 @@
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "read",
@@ -18894,6 +18922,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -19230,6 +19265,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -25042,6 +25084,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",
@@ -25600,6 +25649,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",
@@ -31130,6 +31186,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -59745,6 +59808,13 @@
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",
@@ -62747,6 +62817,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -72986,6 +73063,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -91856,6 +91940,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -119844,6 +119935,13 @@
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "read",
@@ -128690,6 +128788,13 @@
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",
@@ -137083,6 +137188,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
 				}
 			],
 			"category": "action",
@@ -139252,6 +139364,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],
@@ -153787,6 +153906,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
 					"default": false
 				}
 			],

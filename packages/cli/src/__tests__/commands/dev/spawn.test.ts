@@ -70,20 +70,6 @@ describe("spawnImpl", () => {
 		}
 	);
 
-	it("marks the impl to use cf authentication", async () => {
-		const authFile = join(
-			mkdtempSync(join(tmpdir(), "cf-spawn-auth-")),
-			"auth"
-		);
-		const fake = makeFakeImpl(
-			`require("node:fs").writeFileSync(${JSON.stringify(authFile)}, process.env.CLOUDFLARE_CF_AUTH ?? "")`
-		);
-
-		await spawnImpl(fake, "dev", []);
-
-		expect(readFileSync(authFile, "utf-8")).toBe("true");
-	});
-
 	it("preserves PATH and environment overrides", async () => {
 		const envFile = join(mkdtempSync(join(tmpdir(), "cf-spawn-path-")), "env");
 		const fake = makeFakeImpl(

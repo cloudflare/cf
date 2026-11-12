@@ -170,8 +170,6 @@ function implEnvironment(
 	return {
 		...appendNodeOption(process.env, "--no-deprecation"),
 		...overrides,
-		// Shared integrations use this marker to select cf's auth profile.
-		CLOUDFLARE_CF_AUTH: "true",
 	};
 }
 

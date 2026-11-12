@@ -52,6 +52,21 @@ function document(): ForgeOpenApiDocument {
 const overrides = (doc: ForgeOpenApiDocument, path: string, method: string) =>
 	doc.paths?.[path]?.[method]?.["x-forge-params"];
 
+function setProfileBody(doc: ForgeOpenApiDocument, schema: object): void {
+	const op = doc.paths?.[PROFILE]?.put;
+	if (op) {
+		op.requestBody = { content: { "application/json": { schema } } };
+	}
+}
+
+const organizationShape = {
+	type: "object",
+	properties: {
+		organization: { type: "object" },
+		revision: { type: "integer" },
+	},
+};
+
 describe("applyTemporaryFlagNames", () => {
 	it("names each field and keeps its other overrides", () => {
 		const doc = document();
@@ -95,6 +110,25 @@ describe("applyTemporaryFlagNames", () => {
 		});
 	});
 
+	it.each(["anyOf", "oneOf"])(
+		"names a field in one of the body's %s shapes",
+		(key) => {
+			const doc = document();
+			setProfileBody(doc, {
+				[key]: [
+					organizationShape,
+					{ type: "object", properties: { profile: { type: "string" } } },
+				],
+			});
+
+			applyTemporaryFlagNames(doc);
+
+			expect(overrides(doc, PROFILE, "put")).toEqual({
+				profile: { flagName: "organization-profile" },
+			});
+		}
+	);
+
 	it.each<[string, (doc: ForgeOpenApiDocument) => void, string]>([
 		[
 			"a missing operation",
@@ -124,6 +158,25 @@ describe("applyTemporaryFlagNames", () => {
 				}
 			},
 			"field missing",
+		],
+		[
+			"a field missing from every body shape",
+			(doc) => {
+				setProfileBody(doc, { anyOf: [organizationShape] });
+			},
+			"field missing",
+		],
+		[
+			"a field retyped in one body shape",
+			(doc) => {
+				setProfileBody(doc, {
+					anyOf: [
+						{ type: "object", properties: { profile: { type: "string" } } },
+						{ type: "object", properties: { profile: { type: "integer" } } },
+					],
+				});
+			},
+			'field type is now "integer"',
 		],
 		[
 			"a retyped field",

@@ -4,7 +4,7 @@ interface TemporaryFlagName {
 	readonly method: "put";
 	readonly path: string;
 	readonly operationId: string;
-	/** A top-level field of the JSON request body. */
+	/** A top-level field of the JSON request body or of one of its shapes. */
 	readonly wire: string;
 	readonly type: "string";
 	readonly flagName: string;
@@ -75,13 +75,15 @@ function staleness(
 	if (operation.operationId !== entry.operationId) {
 		return `operationId is now ${JSON.stringify(operation.operationId)}`;
 	}
-	const field = bodyField(openapi, operation, entry.wire);
-	if (field === undefined) {
+	const fields = bodyFields(openapi, operation, entry.wire);
+	if (fields.length === 0) {
 		return "field missing";
 	}
-	const type = fieldType(openapi, field);
-	if (type !== entry.type) {
-		return `field type is now ${JSON.stringify(type)}`;
+	for (const field of fields) {
+		const type = fieldType(openapi, field);
+		if (type !== entry.type) {
+			return `field type is now ${JSON.stringify(type)}`;
+		}
 	}
 	const overrides = operation["x-forge-params"] as Overrides | undefined;
 	if (overrides?.[entry.wire]?.["flagName"] !== undefined) {
@@ -90,18 +92,42 @@ function staleness(
 	return undefined;
 }
 
-function bodyField(
+function bodyFields(
 	openapi: ForgeOpenApiDocument,
 	operation: OpenApiOperation,
 	wire: string
-): Record<string, unknown> | undefined {
+): Record<string, unknown>[] {
 	const body = deref(openapi, operation["requestBody"]);
 	const content = record(body?.["content"]);
-	const schema = deref(
+	return shapeFields(
 		openapi,
-		record(content?.["application/json"])?.["schema"]
+		record(content?.["application/json"])?.["schema"],
+		wire,
+		0
 	);
-	return deref(openapi, record(schema?.["properties"])?.[wire]);
+}
+
+// A body can accept several object shapes, such as an anyOf of alternatives.
+// Their same-named fields share one flag name, so check each one's type.
+function shapeFields(
+	openapi: ForgeOpenApiDocument,
+	value: unknown,
+	wire: string,
+	depth: number
+): Record<string, unknown>[] {
+	const schema = deref(openapi, value);
+	if (schema === undefined || depth >= 10) {
+		return [];
+	}
+	const field = deref(openapi, record(schema["properties"])?.[wire]);
+	const shapes = ["allOf", "anyOf", "oneOf"].flatMap((key) => {
+		const members = schema[key];
+		return Array.isArray(members) ? members : [];
+	});
+	return [
+		...(field === undefined ? [] : [field]),
+		...shapes.flatMap((shape) => shapeFields(openapi, shape, wire, depth + 1)),
+	];
 }
 
 function fieldType(

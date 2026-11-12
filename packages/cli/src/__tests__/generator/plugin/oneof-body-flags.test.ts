@@ -7,6 +7,7 @@ import {
 	parseBody,
 	setNestedValue,
 } from "../../../lib/body-parser.js";
+import { validateBodyUnions } from "../../../lib/body-unions.js";
 import { resolveFileToken } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
 
@@ -117,6 +118,7 @@ function setup(code: string, initialFlags: string[] = []) {
 		compactBody,
 		parseBody,
 		setNestedValue,
+		validateBodyUnions,
 		resolveFileToken,
 		formatDryRun,
 		createCommandClient: async () => ({
@@ -379,4 +381,155 @@ describe("oneOf alternatives with only optional settings", () => {
 			}
 		}
 	);
+});
+
+describe("a property that is a value in one oneOf alternative and an object in another", () => {
+	const text = { type: "string" };
+	const managed = {
+		type: "object",
+		additionalProperties: false,
+		required: ["mode", "topic_id"],
+		properties: {
+			mode: { type: "string", enum: ["managed"] },
+			topic_id: text,
+			question: {
+				oneOf: [
+					{
+						type: "object",
+						additionalProperties: false,
+						required: ["mode"],
+						properties: { mode: { type: "string", enum: ["inherit"] } },
+					},
+					{
+						type: "object",
+						additionalProperties: false,
+						required: ["mode", "value"],
+						properties: {
+							mode: { type: "string", enum: ["replace"] },
+							value: text,
+						},
+					},
+				],
+			},
+		},
+	};
+	const custom = {
+		type: "object",
+		additionalProperties: false,
+		required: ["mode", "question", "criteria"],
+		properties: {
+			mode: { type: "string", enum: ["custom"] },
+			question: text,
+			criteria: text,
+		},
+	};
+	const generateOrder = (variants: Record<string, unknown>[]) =>
+		generateSchema({
+			type: "object",
+			required: ["definition"],
+			properties: { definition: { oneOf: variants } },
+		});
+	const options = (code: string) =>
+		[...code.matchAll(/\.option\(['"]([^'"]+)['"]/g)]
+			.map((m) => String(m[1]))
+			.sort((a, b) => a.localeCompare(b));
+	const orders = [
+		["managed first", generateOrder([managed, custom])],
+		["custom first", generateOrder([custom, managed])],
+	] as const;
+
+	it("gives both shapes flags whatever the order of the alternatives", () => {
+		const [[, first], [, second]] = orders;
+		expect(options(first)).toEqual(options(second));
+		expect(options(first)).toEqual(
+			expect.arrayContaining([
+				"definition-question",
+				"definition-question-mode",
+				"definition-question-value",
+			])
+		);
+	});
+
+	describe.each(orders)("%s", (_order, code) => {
+		it.each([false, true])(
+			"builds either alternative from flags (dry run: %s)",
+			async (dryRun) => {
+				for (const [flags, definition] of [
+					[
+						[
+							"--definition-mode",
+							"custom",
+							"--definition-question",
+							"Which groups target hospitals?",
+							"--definition-criteria",
+							"Healthcare victims",
+						],
+						{
+							mode: "custom",
+							question: "Which groups target hospitals?",
+							criteria: "Healthcare victims",
+						},
+					],
+					[
+						[
+							"--definition-mode",
+							"managed",
+							"--definition-topic-id",
+							"ransomware",
+							"--definition-question-mode",
+							"replace",
+							"--definition-question-value",
+							"Which groups target our suppliers?",
+						],
+						{
+							mode: "managed",
+							topic_id: "ransomware",
+							question: {
+								mode: "replace",
+								value: "Which groups target our suppliers?",
+							},
+						},
+					],
+				] as const) {
+					const { parse, requestBody, formatDryRun } = setup(code);
+					await parse([...flags, ...(dryRun ? ["--dry-run"] : [])]);
+					if (dryRun) {
+						expect(formatDryRun).toHaveBeenCalledWith(
+							expect.objectContaining({ body: { definition } })
+						);
+					} else {
+						expect(requestBody).toHaveBeenCalledWith({ definition });
+					}
+				}
+			}
+		);
+
+		// Each alternative's flags are complete, so only the conflict fails.
+		it.each([
+			["--definition-question-mode", "inherit", "--definition-topic-id", "t"],
+			["--definition-topic-id", "ransomware"],
+		])("rejects flags of different alternatives: %j", async (...input) => {
+			const { parse, requestBody } = setup(code);
+			await expect(
+				parse([
+					"--definition-mode",
+					"custom",
+					"--definition-question",
+					"q",
+					"--definition-criteria",
+					"c",
+					...input,
+				])
+			).rejects.toThrow("mutually exclusive");
+			expect(requestBody).not.toHaveBeenCalled();
+		});
+
+		it("requires the rest of the value's alternative", async () => {
+			const { parse, requestBody } = setup(code);
+			await expect(
+				parse(["--definition-mode", "custom", "--definition-question", "q"])
+			).rejects.toThrow("definition-criteria");
+			expect(requestBody).not.toHaveBeenCalled();
+		});
+	});
 });

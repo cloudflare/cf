@@ -588,47 +588,131 @@ function objectSchema(schema: Schema): Schema {
 	return resolved.allOf === undefined ? resolved : flattenAllOf(resolved.allOf);
 }
 
-function hasProperty(schema: Schema, path: readonly string[]): boolean {
-	if (path.length === 0) return true;
+/**
+ * The property a flag sets, at `path` within a union, and whether the flag
+ * takes a value, a scalar or an array, rather than a JSON object.
+ */
+interface FlagTarget {
+	readonly path: readonly string[];
+	readonly setsValue: boolean;
+}
+
+const NO_FLAG: FlagTarget = { path: [], setsValue: false };
+
+function flagTarget(param: BodyParamInfo, base: readonly string[]): FlagTarget {
+	return {
+		path: param.apiFieldPath.slice(base.length),
+		setsValue: param.type !== "object",
+	};
+}
+
+function descend(target: FlagTarget): FlagTarget {
+	return { ...target, path: target.path.slice(1) };
+}
+
+/**
+ * Whether the flag can set a variant's property. A value flag cannot set an
+ * object whose own properties take flags: that object is the variant's shape
+ * of a property another variant makes a value.
+ */
+function takesFlag(schema: Schema, target: FlagTarget): boolean {
+	return !target.setsValue || flagShape(schema) !== "properties";
+}
+
+function hasProperty(schema: Schema, target: FlagTarget): boolean {
+	if (target.path.length === 0) return true;
 	const resolved = objectSchema(schema);
 	if (resolved.oneOf !== undefined) {
-		return resolved.oneOf.some((variant) => hasProperty(variant, path));
+		return resolved.oneOf.some((variant) => hasProperty(variant, target));
 	}
-	const prop = resolved.properties?.find((p) => p.name === path[0]);
-	return prop !== undefined && hasProperty(prop.schema, path.slice(1));
+	const prop = resolved.properties?.find((p) => p.name === target.path[0]);
+	if (prop === undefined) return false;
+	return target.path.length === 1
+		? takesFlag(prop.schema, target)
+		: hasProperty(prop.schema, descend(target));
 }
 
 /** Optional containers impose requirements only when a flag inside them is set. */
 function requiredProperty(
 	schema: Schema,
-	path: readonly string[],
-	trigger: readonly string[] = []
+	target: FlagTarget,
+	trigger: FlagTarget = NO_FLAG
 ): boolean {
 	const resolved = objectSchema(schema);
 	if (resolved.oneOf !== undefined) {
 		const variants = resolved.oneOf.filter((v) => hasProperty(v, trigger));
 		return (
 			variants.length > 0 &&
-			variants.every((v) => requiredProperty(v, path, trigger))
+			variants.every((v) => requiredProperty(v, target, trigger))
 		);
 	}
-	const [name, ...rest] = path;
+	const [name, ...rest] = target.path;
 	const prop = resolved.properties?.find((p) => p.name === name);
 	if (prop === undefined || name === undefined) return false;
 	if (
 		!resolved.required.includes(name) &&
-		!(rest.length > 0 && trigger[0] === name)
+		!(rest.length > 0 && trigger.path[0] === name)
 	) {
 		return false;
 	}
-	return (
-		rest.length === 0 ||
-		requiredProperty(
-			prop.schema,
-			rest,
-			trigger[0] === name ? trigger.slice(1) : []
-		)
-	);
+	return rest.length === 0
+		? takesFlag(prop.schema, target)
+		: requiredProperty(
+				prop.schema,
+				descend(target),
+				trigger.path[0] === name ? descend(trigger) : NO_FLAG
+			);
+}
+
+/**
+ * How `propertiesFromSchema` flags a property: with one flag for its value,
+ * a scalar or an array; one JSON flag for a map; or flags for its own
+ * properties.
+ */
+function flagShape(schema: Schema): "value" | "map" | "properties" | undefined {
+	const resolved = resolve(schema);
+	if (scalarSchema(resolved) !== undefined) return "value";
+	const variants = resolved.oneOf ?? resolved.anyOf;
+	if (
+		variants !== undefined &&
+		variants.length > 0 &&
+		variants.every((variant) => scalarSchema(variant) !== undefined)
+	) {
+		return "value";
+	}
+	if (resolved.oneOf !== undefined) return "properties";
+	if (resolved.allOf !== undefined) {
+		return flattenAllOf(resolved.allOf).map ? "map" : "properties";
+	}
+	if (isObjectKind(resolved)) return resolved.map ? "map" : "properties";
+	return resolved.kind === "array" ? "value" : undefined;
+}
+
+/**
+ * Adds a variant's property to those of the other variants, merged into one
+ * of the same name. A value in one variant and an object in another cannot
+ * merge, so both are kept: the value takes the property's own flag, and the
+ * object's properties take theirs, whatever the order of the variants.
+ */
+function addProperty(props: Prop[], prop: Prop): void {
+	const shape = flagShape(prop.schema);
+	let separate = true;
+	for (const [i, existing] of props.entries()) {
+		if (existing.name !== prop.name) continue;
+		const merged =
+			deepMergeObjects(existing, prop) ?? mergeEnumSchemas(existing, prop);
+		if (merged) {
+			props[i] = merged;
+			return;
+		}
+		const other = flagShape(existing.schema);
+		separate &&=
+			(shape === "value" && other === "properties") ||
+			(shape === "properties" && other === "value");
+	}
+	if (separate) {
+		props.push(prop);
+	}
 }
 
 function mergeEnumSchemas(a: Prop, b: Prop): Prop | undefined {
@@ -659,16 +743,7 @@ function deepMergeObjects(a: Prop, b: Prop): Prop | undefined {
 	}
 	const props: Prop[] = [...(ra.properties ?? [])];
 	for (const pb of rb.properties ?? []) {
-		const i = props.findIndex((p) => p.name === pb.name);
-		if (i < 0) {
-			props.push(pb);
-		} else {
-			const pa = props[i] as Prop;
-			const merged = deepMergeObjects(pa, pb) ?? mergeEnumSchemas(pa, pb);
-			if (merged) {
-				props[i] = merged;
-			}
-		}
+		addProperty(props, pb);
 	}
 	const required = rb.required.filter((r) => ra.required.includes(r));
 	return {
@@ -719,17 +794,7 @@ function oneOfConstraints(
 	const mergedProps: Prop[] = [];
 	for (const v of resolvedVariants) {
 		for (const prop of v.schema.properties ?? []) {
-			const i = mergedProps.findIndex((p) => p.name === prop.name);
-			if (i < 0) {
-				mergedProps.push(prop);
-			} else {
-				const existing = mergedProps[i] as Prop;
-				const merged =
-					deepMergeObjects(existing, prop) ?? mergeEnumSchemas(existing, prop);
-				if (merged) {
-					mergedProps[i] = merged;
-				}
-			}
+			addProperty(mergedProps, prop);
 		}
 	}
 	const mergedSchema: Schema = {
@@ -748,34 +813,28 @@ function oneOfConstraints(
 
 	for (const param of params) {
 		param.required = resolvedVariants.every((v) =>
-			requiredProperty(v.schema, param.apiFieldPath.slice(path.length))
+			requiredProperty(v.schema, flagTarget(param, path))
 		);
 	}
 	// Optional settings alone do not establish mutually exclusive input shapes.
 	const inferConflicts = resolvedVariants.some((v) => v.required.length > 0);
 	for (const param of params) {
+		const target = flagTarget(param, path);
 		const containing = resolvedVariants.filter((v) =>
-			hasProperty(v.schema, param.apiFieldPath.slice(path.length))
+			hasProperty(v.schema, target)
 		);
 		if (containing.length === 0) continue;
 		for (const other of params) {
 			if (other === param) continue;
+			const otherTarget = flagTarget(other, path);
 			if (
 				inferConflicts &&
-				!containing.some((v) =>
-					hasProperty(v.schema, other.apiFieldPath.slice(path.length))
-				)
+				!containing.some((v) => hasProperty(v.schema, otherTarget))
 			) {
 				param.conflicts = dedup([...(param.conflicts ?? []), other.name]);
 			} else if (
 				!other.required &&
-				containing.every((v) =>
-					requiredProperty(
-						v.schema,
-						other.apiFieldPath.slice(path.length),
-						param.apiFieldPath.slice(path.length)
-					)
-				)
+				containing.every((v) => requiredProperty(v.schema, otherTarget, target))
 			) {
 				param.implies = dedup([...(param.implies ?? []), other.name]);
 			}

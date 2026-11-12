@@ -520,6 +520,13 @@ Top-level nullable wrappers are omitted because
 the flag parsers require an array or object; nested nullable values remain visible. These
 are schema sketches rather than copyable JSON examples.
 
+Union alternatives share flags for properties of the same name. A property
+that is a value in one alternative and an object in another keeps both shapes:
+the value takes the property's own flag, the object's properties take theirs,
+and the two sides conflict. Flag names come only from field paths, so adding,
+removing, or reordering alternatives never renames another alternative's
+flags.
+
 Nested tagged unions are validated after per-field flags are assembled into
 the request's wire shape, before sending or showing a dry-run preview. The
 checks preserve enclosing union alternatives. Explicit `--body` input bypasses

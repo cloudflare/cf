@@ -27,6 +27,15 @@ import {
 	buildOutputRootConfig,
 	workerConfig,
 } from "./deploy/helpers.js";
+import type * as DeployHelpers from "@cloudflare/deploy-helpers";
+
+const deployHelpers = vi.hoisted(() => ({ versionsUpload: vi.fn() }));
+
+vi.mock("@cloudflare/deploy-helpers", async (importOriginal) => {
+	const actual = await importOriginal<typeof DeployHelpers>();
+	deployHelpers.versionsUpload.mockImplementation(actual.versionsUpload);
+	return { ...actual, versionsUpload: deployHelpers.versionsUpload };
+});
 
 vi.mock("../../lib/deploy-context.js", () => ({
 	createDeployContext: (authToken: string) =>
@@ -368,6 +377,38 @@ describe("cf workers versions create", () => {
 		expect(upload.scriptName).toBe("api");
 		expect(upload.metadata?.main_module).toBe("api.js");
 		expect(upload.modules).toEqual(["api.js"]);
+	});
+
+	it("uploads a version to CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
+		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
+		const upload = mockWorkerUpload();
+		await seed({
+			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				name: "config-worker",
+			}),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default { fetch() { return new Response('ok'); } }",
+		});
+
+		const { exitCode } = await runCf([
+			"workers",
+			"versions",
+			"create",
+			"--prebuilt",
+		]);
+
+		expect(exitCode).toBe(0);
+		expect(upload.scriptName).toBe("dashboard-worker");
+		expect(deployHelpers.versionsUpload).toHaveBeenLastCalledWith(
+			expect.objectContaining({
+				name: "dashboard-worker",
+				workerNameOverridden: true,
+			}),
+			expect.anything(),
+			expect.anything(),
+			expect.anything()
+		);
 	});
 
 	it("uploads Durable Object-managed Container images with the version", async () => {

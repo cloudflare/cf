@@ -17,6 +17,9 @@
 	dependencyDashboard: false,
 	labels: ["dependencies"],
 	minimumReleaseAge: "3 days",
+	// One workers-sdk release can update several groups at once. The default
+	// limit of two PRs per hour silently skips the rest until the next run.
+	prHourlyLimit: 0,
 	rangeStrategy: "bump",
 	postUpdateOptions: ["pnpmDedupe"],
 	schedule: ["on monday"],

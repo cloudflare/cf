@@ -533,3 +533,77 @@ describe("a property that is a value in one oneOf alternative and an object in a
 		});
 	});
 });
+
+describe("a body that is an anyOf of closed objects", () => {
+	const revision = { type: "integer" };
+	const structured = {
+		type: "object",
+		additionalProperties: false,
+		required: ["organization", "revision"],
+		properties: {
+			organization: {
+				type: "object",
+				additionalProperties: false,
+				required: ["name"],
+				properties: { name: { type: "string" } },
+			},
+			revision,
+		},
+	};
+	const freeText = {
+		type: "object",
+		additionalProperties: false,
+		required: ["summary"],
+		properties: { summary: { type: "string" }, revision },
+	};
+	const code = generateSchema({ anyOf: [structured, freeText] });
+
+	it.each([
+		[["--summary", "Acme"], { summary: "Acme" }],
+		[
+			["--summary", "Acme", "--revision", "3"],
+			{ summary: "Acme", revision: 3 },
+		],
+		[
+			["--organization-name", "Acme", "--revision", "3"],
+			{ organization: { name: "Acme" }, revision: 3 },
+		],
+	])("builds either alternative from flags: %j", async (flags, body) => {
+		const { parse, requestBody } = setup(code);
+		await parse(flags);
+		expect(requestBody).toHaveBeenCalledWith(body);
+	});
+
+	it("rejects flags of different alternatives", async () => {
+		const { parse, requestBody } = setup(code);
+		await expect(
+			parse([
+				"--summary",
+				"Acme",
+				"--organization-name",
+				"Acme",
+				"--revision",
+				"3",
+			])
+		).rejects.toThrow("mutually exclusive");
+		expect(requestBody).not.toHaveBeenCalled();
+	});
+
+	it("requires the rest of an alternative", async () => {
+		const { parse, requestBody } = setup(code);
+		await expect(parse(["--organization-name", "Acme"])).rejects.toThrow(
+			"revision"
+		);
+		expect(requestBody).not.toHaveBeenCalled();
+	});
+
+	it("leaves a body with an open alternative to --body", () => {
+		const open = generateSchema({
+			anyOf: [structured, { ...freeText, additionalProperties: true }],
+		});
+		expect(open).toContain(".option('body'");
+		expect(open).not.toMatch(
+			/\.option\(['"](summary|revision|organization-name)['"]/
+		);
+	});
+});

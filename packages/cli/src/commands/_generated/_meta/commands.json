@@ -22901,6 +22901,291 @@
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
 				},
 				{
+					"name": "action-timeout",
+					"type": "number",
+					"required": false,
+					"description": "The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error."
+				},
+				{
+					"name": "add-script-tag",
+					"type": "string",
+					"required": false,
+					"description": "Adds a script element into the page with the desired URL or content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\"?: string, \"id\"?: string, \"type\"?: string, \"url\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "add-style-tag",
+					"type": "string",
+					"required": false,
+					"description": "Adds a `<link rel=\"stylesheet\">` tag into the page with the desired URL or a `<style type=\"text/css\">` tag with the content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\"?: string, \"url\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "allow-request-pattern",
+					"type": "string",
+					"required": false,
+					"description": "Only allow requests that match the provided regex patterns, eg. '/^.*\\.(css)'. Reject rules are applied first."
+				},
+				{
+					"name": "allow-resource-types",
+					"type": "string",
+					"required": false,
+					"description": "Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first."
+				},
+				{
+					"name": "authenticate-password",
+					"type": "string",
+					"required": false,
+					"description": "The authenticate.password field"
+				},
+				{
+					"name": "authenticate-username",
+					"type": "string",
+					"required": false,
+					"description": "The authenticate.username field"
+				},
+				{
+					"name": "best-attempt",
+					"type": "boolean",
+					"required": false,
+					"description": "Attempt to proceed when 'awaited' events fail or timeout."
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend for this crawl. Set to `kitesurf` to render pages with Kitesurf (beta). Only valid when `render` is `true`.",
+					"enum": ["kitesurf"]
+				},
+				{
+					"name": "content-use",
+					"type": "string",
+					"required": false,
+					"description": "Intended content use level to respect the `use` Content-Signal directive in robots.txt. Levels (least to most permissive): 'reference', 'full'. A URL is disallowed when the publisher's declared `use` level is lower than this intent. Learn more: https://contentsignals.org/. Default: 'full'.",
+					"default": "full",
+					"enum": ["reference", "full"]
+				},
+				{
+					"name": "cookies",
+					"type": "string",
+					"required": false,
+					"description": "Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"value\": string, \"domain\"?: string, \"expires\"?: number, \"httpOnly\"?: boolean, ...more}]. ? marks optional keys."
+				},
+				{
+					"name": "crawl-purposes",
+					"type": "string",
+					"required": false,
+					"description": "List of crawl purposes to respect Content-Signal directives in robots.txt. Allowed values: 'search', 'ai-input', 'ai-train'. Learn more: https://contentsignals.org/. Default: ['search', 'ai-input', 'ai-train']."
+				},
+				{
+					"name": "depth",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of levels deep the crawler will traverse from the starting URL.",
+					"default": 100000
+				},
+				{
+					"name": "emulate-media-type",
+					"type": "string",
+					"required": false,
+					"description": "The emulateMediaType field"
+				},
+				{
+					"name": "formats",
+					"type": "string",
+					"required": false,
+					"description": "Formats to return. Default is `html`."
+				},
+				{
+					"name": "goto-options-referer",
+					"type": "string",
+					"required": false,
+					"description": "The gotoOptions.referer field"
+				},
+				{
+					"name": "goto-options-referrer-policy",
+					"type": "string",
+					"required": false,
+					"description": "The gotoOptions.referrerPolicy field"
+				},
+				{
+					"name": "goto-options-timeout",
+					"type": "number",
+					"required": false,
+					"description": "The gotoOptions.timeout field"
+				},
+				{
+					"name": "json-options-custom-ai",
+					"type": "string",
+					"required": false,
+					"description": "Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"model\": string, \"authorization\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "json-options-prompt",
+					"type": "string",
+					"required": false,
+					"description": "The jsonOptions.prompt field"
+				},
+				{
+					"name": "json-options-response-format-type",
+					"type": "string",
+					"required": false,
+					"description": "The jsonOptions.response_format.type field"
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of URLs to crawl.",
+					"default": 10
+				},
+				{
+					"name": "max-age",
+					"type": "number",
+					"required": false,
+					"description": "Maximum age of a resource that can be returned from cache in seconds. Default is 1 day.",
+					"default": 86400
+				},
+				{
+					"name": "modified-since",
+					"type": "number",
+					"required": false,
+					"description": "Unix timestamp (seconds since epoch) indicating to only crawl pages that were modified since this time. For sitemap URLs with a lastmod field, this is compared directly. For other URLs, the crawler will use If-Modified-Since header when fetching. URLs without modification information (no lastmod in sitemap and no Last-Modified header support) will be crawled. Note: This works in conjunction with maxAge - both filters must pass for a cached resource to be used. Must be within the last year and not in the future."
+				},
+				{
+					"name": "options-exclude-patterns",
+					"type": "string",
+					"required": false,
+					"description": "Exclude links matching the provided wildcard patterns in the crawl job. Example: 'https://example.com/privacy/**'."
+				},
+				{
+					"name": "options-include-external-links",
+					"type": "boolean",
+					"required": false,
+					"description": "Include external links in the crawl job. If set to true, includeSubdomains is ignored."
+				},
+				{
+					"name": "options-include-patterns",
+					"type": "string",
+					"required": false,
+					"description": "Include only links matching the provided wildcard patterns in the crawl job. Include patterns are evaluated before exclude patterns. URLs that match any of the specified include patterns will be included in the crawl job. Example: 'https://example.com/blog/**'."
+				},
+				{
+					"name": "options-include-subdomains",
+					"type": "boolean",
+					"required": false,
+					"description": "Include links to subdomains in the crawl job. This option is ignored if includeExternalLinks is true."
+				},
+				{
+					"name": "reject-request-pattern",
+					"type": "string",
+					"required": false,
+					"description": "Block undesired requests that match the provided regex patterns, eg. '/^.*\\.(css)'."
+				},
+				{
+					"name": "reject-resource-types",
+					"type": "string",
+					"required": false,
+					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+				},
+				{
+					"name": "render",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to render the page or fetch static content. True by default.",
+					"default": true
+				},
+				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": string}."
+				},
+				{
+					"name": "set-java-script-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The setJavaScriptEnabled field"
+				},
+				{
+					"name": "source",
+					"type": "string",
+					"required": false,
+					"description": "Source of links to crawl. 'sitemaps' - only crawl URLs from sitemaps, 'links' - only crawl URLs scraped from pages, 'all' - crawl both sitemap and scraped links (default).",
+					"default": "all",
+					"enum": ["sitemaps", "links", "all"]
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": true,
+					"description": "URL to navigate to, eg. `https://example.com`."
+				},
+				{
+					"name": "viewport-device-scale-factor",
+					"type": "number",
+					"required": false,
+					"description": "The viewport.deviceScaleFactor field"
+				},
+				{
+					"name": "viewport-has-touch",
+					"type": "boolean",
+					"required": false,
+					"description": "The viewport.hasTouch field"
+				},
+				{
+					"name": "viewport-height",
+					"type": "number",
+					"required": false,
+					"description": "The viewport.height field"
+				},
+				{
+					"name": "viewport-is-landscape",
+					"type": "boolean",
+					"required": false,
+					"description": "The viewport.isLandscape field"
+				},
+				{
+					"name": "viewport-is-mobile",
+					"type": "boolean",
+					"required": false,
+					"description": "The viewport.isMobile field"
+				},
+				{
+					"name": "viewport-width",
+					"type": "number",
+					"required": false,
+					"description": "The viewport.width field"
+				},
+				{
+					"name": "wait-for-selector-hidden",
+					"type": "boolean",
+					"required": false,
+					"description": "The waitForSelector.hidden field"
+				},
+				{
+					"name": "wait-for-selector-selector",
+					"type": "string",
+					"required": false,
+					"description": "The waitForSelector.selector field"
+				},
+				{
+					"name": "wait-for-selector-timeout",
+					"type": "number",
+					"required": false,
+					"description": "The waitForSelector.timeout field"
+				},
+				{
+					"name": "wait-for-selector-visible",
+					"type": "boolean",
+					"required": false,
+					"description": "The waitForSelector.visible field"
+				},
+				{
+					"name": "wait-for-timeout",
+					"type": "number",
+					"required": false,
+					"description": "Waits for a specified timeout before continuing."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -27919,9 +28204,39 @@
 			"fullPath": ["cache", "invalidate"],
 			"description": "Marks cached content as stale in every Cloudflare data center and cache tier, including Cache Reserve. The content stays in cache. The next request for it makes Cloudflare revalidate it with your origin, using the `ETag` and `Last-Modified` values it was cached with: - If your origin answers `304 Not Modified`, Cloudflare serves the cached copy without downloading it again, and `CF-Cache-Status` is `REVALIDATED`. - If your origin sends a full response, Cloudflare serves and caches the new content, and `CF-Cache-Status` is `EXPIRED`. With Tiered Cache, each tier revalidates with the tier above it, so a visitor can see `EXPIRED` even when your origin answered `304`. Until content is revalidated, your `stale-while-revalidate` and `stale-if-error` directives still apply, counted from the time you invalidated it. For example, if your origin fails during revalidation, Cloudflare can keep serving the stale copy for the `stale-if-error` window. ### Invalidate or purge? - **Invalidate** when content may not have changed, for example after a deploy. Unchanged content costs your origin a `304` instead of a full response. That saving needs an origin that sends `ETag` or `Last-Modified` and answers conditional requests. Otherwise, every revalidation downloads the full response. - **Purge**, with `POST /zones/{zone_id}/purge_cache`, when content must not be served again, for example content you removed for legal or security reasons. Invalidating takes the same request bodies as purging, needs the same permission, and counts against the same rate limits. After a broad invalidation, such as `purge_everything`, expect more conditional requests to your origin while visitors request the invalidated content again. ### Choose what to invalidate Send one of these fields in the request body: - `files`: specific URLs. If your cache key includes request headers, send each URL with the header values it was cached with. - `tags`: all content whose `Cache-Tag` response header contains one of the tags. - `hosts`: all content cached for the hostnames. - `prefixes`: all content whose URL starts with one of the prefixes. - `purge_everything`: all cached content in the zone. ### Check the result A `200` response with `success: true` means Cloudflare accepted the request. To check, request an invalidated URL and confirm that the `CF-Cache-Status` response header is `REVALIDATED` or `EXPIRED`. ### Availability and limits Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).",
 			"summary": "Invalidate Cached Content",
-			"usage": "cf cache invalidate",
+			"usage": "cf cache invalidate [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+				},
+				{
+					"name": "hosts",
+					"type": "string",
+					"required": false,
+					"description": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+				},
+				{
+					"name": "prefixes",
+					"type": "string",
+					"required": false,
+					"description": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+				},
+				{
+					"name": "purge-everything",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+				},
+				{
+					"name": "files",
+					"type": "string",
+					"required": false,
+					"description": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -27957,7 +28272,7 @@
 			"fullPath": ["cache", "invalidate-environment"],
 			"description": "Marks cached content as stale for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/invalidate_cache`: the next request for invalidated content makes Cloudflare revalidate it with your origin, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To delete the content instead, use `POST /zones/{zone_id}/environments/{environment_id}/purge_cache`. Invalidating by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments. ### Availability and limits Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).",
 			"summary": "Invalidate Cached Content by Environment",
-			"usage": "cf cache invalidate-environment <environment-id>",
+			"usage": "cf cache invalidate-environment <environment-id> [options]",
 			"arguments": [
 				{
 					"name": "environment-id",
@@ -27968,6 +28283,36 @@
 				}
 			],
 			"options": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+				},
+				{
+					"name": "hosts",
+					"type": "string",
+					"required": false,
+					"description": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+				},
+				{
+					"name": "prefixes",
+					"type": "string",
+					"required": false,
+					"description": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+				},
+				{
+					"name": "purge-everything",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+				},
+				{
+					"name": "files",
+					"type": "string",
+					"required": false,
+					"description": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -28259,9 +28604,39 @@
 			"fullPath": ["cache", "purge"],
 			"description": "Deletes cached content in every Cloudflare data center and cache tier, including Cache Reserve. The next request for purged content is a cache `MISS`: Cloudflare fetches the full response from your origin and caches it again. Cloudflare does not serve purged content from cache again, even if your origin is unavailable. To keep content cached and have Cloudflare revalidate it with your origin instead, use `POST /zones/{zone_id}/invalidate_cache`. ### Choose what to purge Send one of these fields in the request body: - `files`: specific URLs. If your cache key includes request headers, send each URL with the header values it was cached with. - `tags`: all content whose `Cache-Tag` response header contains one of the tags. - `hosts`: all content cached for the hostnames. - `prefixes`: all content whose URL starts with one of the prefixes. - `purge_everything`: all cached content in the zone. ### Check the result A `200` response with `success: true` means Cloudflare accepted the request. It does not confirm that any content was cached or removed. To check, request a purged URL and confirm that the `CF-Cache-Status` response header is `MISS`. ### Availability and limits Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).",
 			"summary": "Purge Cached Content",
-			"usage": "cf cache purge",
+			"usage": "cf cache purge [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+				},
+				{
+					"name": "hosts",
+					"type": "string",
+					"required": false,
+					"description": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+				},
+				{
+					"name": "prefixes",
+					"type": "string",
+					"required": false,
+					"description": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+				},
+				{
+					"name": "purge-everything",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+				},
+				{
+					"name": "files",
+					"type": "string",
+					"required": false,
+					"description": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -28297,7 +28672,7 @@
 			"fullPath": ["cache", "purge-environment"],
 			"description": "Deletes cached content for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/purge_cache`: the next request for purged content is a cache `MISS`, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To keep content cached and have Cloudflare revalidate it instead, use `POST /zones/{zone_id}/environments/{environment_id}/invalidate_cache`. Purging by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments. ### Availability and limits Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).",
 			"summary": "Purge Cached Content by Environment",
-			"usage": "cf cache purge-environment <environment-id>",
+			"usage": "cf cache purge-environment <environment-id> [options]",
 			"arguments": [
 				{
 					"name": "environment-id",
@@ -28308,6 +28683,36 @@
 				}
 			],
 			"options": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+				},
+				{
+					"name": "hosts",
+					"type": "string",
+					"required": false,
+					"description": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+				},
+				{
+					"name": "prefixes",
+					"type": "string",
+					"required": false,
+					"description": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+				},
+				{
+					"name": "purge-everything",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+				},
+				{
+					"name": "files",
+					"type": "string",
+					"required": false,
+					"description": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -73243,9 +73648,89 @@
 			"fullPath": ["magic-transit", "pcaps", "create"],
 			"description": "Create new PCAP request for account.",
 			"summary": "Create PCAP request",
-			"usage": "cf magic-transit pcaps create",
+			"usage": "cf magic-transit pcaps create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "filter-v1-destination-address",
+					"type": "string",
+					"required": false,
+					"description": "The destination IP address of the packet."
+				},
+				{
+					"name": "filter-v1-destination-port",
+					"type": "number",
+					"required": false,
+					"description": "The destination port of the packet."
+				},
+				{
+					"name": "filter-v1-protocol",
+					"type": "number",
+					"required": false,
+					"description": "The protocol number of the packet."
+				},
+				{
+					"name": "filter-v1-source-address",
+					"type": "string",
+					"required": false,
+					"description": "The source IP address of the packet."
+				},
+				{
+					"name": "filter-v1-source-port",
+					"type": "number",
+					"required": false,
+					"description": "The source port of the packet."
+				},
+				{
+					"name": "offset-time",
+					"type": "string",
+					"required": false,
+					"description": "The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request."
+				},
+				{
+					"name": "packet-limit",
+					"type": "number",
+					"required": false,
+					"description": "The limit of packets contained in a packet capture."
+				},
+				{
+					"name": "system",
+					"type": "string",
+					"required": true,
+					"description": "The system used to collect packet captures.",
+					"enum": ["magic-transit"]
+				},
+				{
+					"name": "time-limit",
+					"type": "number",
+					"required": true,
+					"description": "The packet capture duration in seconds."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets.",
+					"enum": ["simple", "full"]
+				},
+				{
+					"name": "byte-limit",
+					"type": "number",
+					"required": false,
+					"description": "The maximum number of bytes to capture. This field only applies to `full` packet captures."
+				},
+				{
+					"name": "colo-name",
+					"type": "string",
+					"required": false,
+					"description": "The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures."
+				},
+				{
+					"name": "destination-conf",
+					"type": "string",
+					"required": false,
+					"description": "The full URI for the bucket. This field only applies to `full` packet captures."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",

@@ -6,8 +6,8 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/cache.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -23,6 +23,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The environment ID, from Version Management.",
 			demandOption: true,
+		})
+		.option("tags", {
+			type: "string",
+			array: true,
+			description:
+				"Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/).",
+		})
+		.option("hosts", {
+			type: "string",
+			array: true,
+			description:
+				"Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/).",
+		})
+		.option("prefixes", {
+			type: "string",
+			array: true,
+			description:
+				"URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/).",
+		})
+		.option("purge-everything", {
+			type: "boolean",
+			description:
+				"Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/).",
+		})
+		.option("files", {
+			type: "string",
+			array: true,
+			description:
+				"Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/).",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -52,7 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "cache invalidate-environment",
 				classification: {
-					safeFlags: ["dry-run", "force"],
+					safeFlags: ["purge-everything", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
@@ -68,7 +97,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"environment-id": String(argv["environment-id"] ?? ""),
 						},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										tags: argv["tags"],
+										hosts: argv["hosts"],
+										prefixes: argv["prefixes"],
+										purge_everything: argv["purge-everything"],
+										files: argv["files"],
+									}),
 					});
 					return;
 				}
@@ -102,12 +140,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					tags: argv["tags"],
+					hosts: argv["hosts"],
+					prefixes: argv["prefixes"],
+					purge_everything: argv["purge-everything"],
+					files: argv["files"],
+				});
 				const result = await withProgress(`Processing`, async () =>
-					requestApi<unknown>(
-						client,
-						"POST",
-						`/zones/${argv.zoneId}/environments/${encodeURIComponent(String(argv["environment-id"]))}/invalidate_cache`
-					)
+					client.send(operation, {
+						body: bodyData,
+						zone_id: zoneId,
+						environment_id: argv["environment-id"],
+					})
 				);
 				formatOutput(result, { successLabel: `Done` });
 			}

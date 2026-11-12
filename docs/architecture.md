@@ -525,7 +525,11 @@ that is a value in one alternative and an object in another keeps both shapes:
 the value takes the property's own flag, the object's properties take theirs,
 and the two sides conflict. Flag names come only from field paths, so adding,
 removing, or reordering alternatives never renames another alternative's
-flags.
+flags. A body that is an `anyOf` gets flags the same way when every
+alternative is an object that allows no other keys. Forge reads an unstated
+`additionalProperties` as none, as union validation does. A body with an open
+alternative takes only `--body`, since it could match several alternatives at
+once.
 
 Nested tagged unions are validated after per-field flags are assembled into
 the request's wire shape, before sending or showing a dry-run preview. The

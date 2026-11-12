@@ -1093,24 +1093,38 @@ describe("the forge model", () => {
 		);
 	});
 
-	it("leaves the members of an anyOf to the body", () => {
-		const code = file(
+	const tagsOrHosts = (extra: Record<string, unknown>) =>
+		file(
 			create({
 				anyOf: [
 					{
 						type: "object",
 						properties: { tags: { type: "array", items: { type: "string" } } },
+						...extra,
 					},
 					{
 						type: "object",
 						properties: { hosts: { type: "array", items: { type: "string" } } },
+						...extra,
 					},
 				],
 			}),
 			"things/create.ts"
 		);
+
+	it("leaves the members of an open anyOf to the body", () => {
+		const code = tagsOrHosts({ additionalProperties: true });
 		expect(code).not.toContain("'tags'");
 		expect(code).not.toContain("'hosts'");
+		expect(code).not.toContain(".conflicts(");
+		expect(code).toContain(".option('body'");
+	});
+
+	// forge reads unstated additionalProperties as none, as union validation does.
+	it("flags the members of a closed anyOf, without conflicts when all are optional", () => {
+		const code = tagsOrHosts({});
+		expect(code).toContain(".option('tags'");
+		expect(code).toContain(".option('hosts'");
 		expect(code).not.toContain(".conflicts(");
 		expect(code).toContain(".option('body'");
 	});

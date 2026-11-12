@@ -50,6 +50,8 @@ interface Schema {
 	readonly reference?: Model;
 	readonly kind?: Kind;
 	readonly map?: boolean;
+	/** Whether an object allows no keys but its properties, from `additionalProperties: false`. */
+	readonly closed?: boolean;
 	/** The properties, when the schema has `properties`. */
 	readonly properties?: readonly Prop[];
 	readonly required: readonly string[];
@@ -140,6 +142,7 @@ function makeView(type: Type): Schema {
 			return {
 				kind: "object",
 				map: type.fields.length === 0 && type.extra !== undefined,
+				closed: type.extra === undefined,
 				properties: type.fields.map((f) => {
 					const d = f.default;
 					return {
@@ -843,14 +846,33 @@ function oneOfConstraints(
 	return params;
 }
 
+/**
+ * The variants of a body that is a non-exclusive union, when every variant
+ * is a closed object. A body then matches only variants with all of its
+ * fields, so their flags relate as an exclusive union's do. An open variant
+ * accepts other variants' fields, and conflicts would reject valid bodies.
+ */
+function closedVariants(
+	variants: readonly Schema[] | undefined
+): readonly Schema[] | undefined {
+	return variants !== undefined &&
+		variants.length > 0 &&
+		variants.every((variant) => resolve(variant).closed === true)
+		? variants
+		: undefined;
+}
+
 /** `extractBodyProperties`: the flags of a JSON body of type `type`. */
 export function bodyProperties(type: Type): BodyParamInfo[] {
 	let resolved = resolve(view(type));
 	if (resolved.allOf !== undefined) {
 		resolved = flattenAllOf(resolved.allOf);
 	}
-	if (resolved.oneOf !== undefined && resolved.properties === undefined) {
-		return oneOfConstraints(resolved.oneOf, "", [], null, 0);
+	if (resolved.properties === undefined) {
+		const variants = resolved.oneOf ?? closedVariants(resolved.anyOf);
+		if (variants !== undefined) {
+			return oneOfConstraints(variants, "", [], null, 0);
+		}
 	}
 	const required = resolved.required;
 	const results: BodyParamInfo[] = [];

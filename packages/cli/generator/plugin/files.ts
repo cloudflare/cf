@@ -338,6 +338,20 @@ class Walk {
 				])
 			);
 		}
+		if (outputKind(op) === "binary") {
+			optionMetas.push(
+				obj([
+					["name", "text"],
+					["type", "boolean"],
+					["required", false],
+					[
+						"description",
+						"Decode the response body as UTF-8 text instead of writing raw bytes",
+					],
+					["default", false],
+				])
+			);
+		}
 		if (derived.hasFileUpload) {
 			optionMetas.push(
 				obj([
@@ -345,6 +359,25 @@ class Walk {
 					["type", "string"],
 					["required", false],
 					["description", "Path to a file to upload as the request body"],
+				])
+			);
+		}
+		for (const { field, flag } of derived.multipartFlagFields) {
+			// A form field that shares a body field's flag is already listed.
+			if ([...options, ...positional].some((a) => kebab(a.name) === flag)) {
+				continue;
+			}
+			optionMetas.push(
+				obj([
+					["name", flag],
+					[
+						"type",
+						field.type === "number" || field.type === "boolean"
+							? field.type
+							: "string",
+					],
+					["required", false],
+					["description", field.description],
 				])
 			);
 		}

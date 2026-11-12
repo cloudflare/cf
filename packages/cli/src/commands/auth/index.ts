@@ -28,7 +28,7 @@ const authCommands: CommandModule & { describe: string } = {
 				})
 			)
 			.command(telemetryCommand(logoutCommand, "auth logout"))
-			.command(telemetryCommand(whoamiCommand, "auth whoami"))
+			.command(telemetryCommand(whoamiCommand, "auth whoami", ["json"]))
 			.command(telemetryCommand(scopesCommand, "auth scopes", ["all"]))
 			.command(
 				telemetryCommand(createCommand, "auth create", ["browser", "device"])

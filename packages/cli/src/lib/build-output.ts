@@ -2,6 +2,7 @@ import path from "node:path";
 import { convertToWranglerConfig } from "@cloudflare/config";
 import { normalizeAndValidateConfig } from "@cloudflare/workers-utils";
 import { BuildOutputConfigError } from "./build-output-error.js";
+import { log } from "./ui/log.js";
 import type {
 	BuildOutputWorker,
 	BuildOutputWorkers,
@@ -102,6 +103,54 @@ export function selectBuildOutputWorker(
 	throw new BuildOutputConfigError(
 		`The Build Output has no Worker named "${name}". Available Workers: ${available.join(", ")}.`
 	);
+}
+
+export interface CIWorkerNameOverride {
+	worker: BuildOutputWorker;
+	workerNameOverridden: boolean;
+}
+
+/**
+ * Deploy the selected Worker under `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME`, the
+ * equivalent of Wrangler's `WRANGLER_CI_OVERRIDE_NAME`. Workers Builds sets it
+ * to the connected Worker. Like Wrangler, only the deployed name changes;
+ * bindings that name the configured Worker keep their targets.
+ */
+export function applyCIWorkerNameOverride(
+	worker: BuildOutputWorker
+): CIWorkerNameOverride {
+	const name = process.env.CLOUDFLARE_CI_OVERRIDE_WORKER_NAME;
+	if (!name || name === worker.config.name) {
+		return { worker, workerNameOverridden: false };
+	}
+	log.warn(
+		`Failed to match Worker name. Your config file is using the Worker name "${worker.config.name}", but the CI system expected "${name}". Overriding using the CI provided Worker name.`
+	);
+	return {
+		worker: { ...worker, config: { ...worker.config, name } },
+		workerNameOverridden: true,
+	};
+}
+
+/**
+ * Pass `CLOUDFLARE_CI_MATCH_WORKER_TAG` to deploy-helpers, which checks the
+ * deployed Worker's tag through Wrangler's `WRANGLER_CI_MATCH_TAG`. Returns a
+ * callback that restores the previous value.
+ */
+export function applyCIMatchWorkerTag(): () => void {
+	const tag = process.env.CLOUDFLARE_CI_MATCH_WORKER_TAG;
+	if (!tag) {
+		return () => {};
+	}
+	const previous = process.env.WRANGLER_CI_MATCH_TAG;
+	process.env.WRANGLER_CI_MATCH_TAG = tag;
+	return () => {
+		if (previous === undefined) {
+			delete process.env.WRANGLER_CI_MATCH_TAG;
+		} else {
+			process.env.WRANGLER_CI_MATCH_TAG = previous;
+		}
+	};
 }
 
 /**

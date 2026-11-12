@@ -186,13 +186,18 @@ describe("cf auth profiles", () => {
 		);
 	});
 
-	it("does not duplicate the active profile in whoami output", async () => {
+	it("includes the selected profile in whoami JSON", async () => {
 		await runCf(["auth", "whoami", "--profile", "work"]);
 
 		expect(std.out).toMatchInlineSnapshot(`
 			"{
 			  "authenticated": false,
-			  "error": "Not logged in"
+			  "error": "Not logged in",
+			  "profile": {
+			    "name": "work",
+			    "source": "--profile",
+			    "overridden": false
+			  }
 			}"
 		`);
 	});

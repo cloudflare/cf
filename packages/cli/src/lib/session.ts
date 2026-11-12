@@ -35,6 +35,11 @@ let bannerSuppressed = false;
 /** Whether the active profile has been printed this process. */
 let activeProfilePrinted = false;
 
+/** Let a command include the selected profile in its own output. */
+export function suppressActiveProfileLine(): void {
+	activeProfilePrinted = true;
+}
+
 /**
  * Print the cf banner once per process. Idempotent — safe to call
  * from any number of entry points.

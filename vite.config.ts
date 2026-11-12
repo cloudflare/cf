@@ -41,8 +41,6 @@ export default defineConfig({
 			".changeset/pre.json",
 			// Keep product fixtures in their own upstream Vite format.
 			"fixtures/**",
-			// Recorded API-fixture responses; reformatting them creates noise on every re-record.
-			"packages/cli/e2e/**/*.json",
 		],
 	},
 	lint: {

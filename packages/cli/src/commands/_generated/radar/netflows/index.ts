@@ -1,4 +1,4 @@
-import $summaryv2 from "./summary-v2.js";
+import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $timeseries from "./timeseries.js";
 import $top from "./top/index.js";
@@ -15,7 +15,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($summaryv2)
+			.command($summary)
 			.command($timeseries)
 			.command($timeseriesgroups)
 			.command($top)

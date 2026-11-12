@@ -36,6 +36,7 @@ cf/
 │   │   │   ├── root-commands.ts# each root's lazy loader + telemetry
 │   │   │   ├── auth/           # hand-written: login, logout, whoami, profiles
 │   │   │   ├── login/          # hidden `cf login` alias for `cf auth login`
+│   │   │   ├── whoami/         # hidden `cf whoami` alias for `cf auth whoami`
 │   │   │   ├── cli/            # hand-written: search and telemetry settings
 │   │   │   ├── telemetry/      # implementation of `cf cli telemetry`
 │   │   │   ├── completions/    # hand-written: `cf complete` (@bomb.sh/tab)
@@ -65,9 +66,6 @@ cf/
 │   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
 │   │   ├── flag-names-cli-compat.ts # temporary flag names for clashing API fields
 │   │   └── workers-secret-cli-compat.ts # temporary spec patch
-│   ├── e2e/                    # 114 JSON product fixtures +
-│   │                           # generated bash runner (run-e2e.sh) hitting a
-│   │                           # real Cloudflare account
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
@@ -128,9 +126,6 @@ Test infrastructure is split across two packages:
 - `pnpm check:type` (tsrs) across workspace packages, including the full
   generated CLI tree and the container fixture. Dependency builds run first
   so the fixture can resolve `cf/config` declarations.
-- `packages/cli/e2e/` — JSON fixtures driving a generated bash runner
-  (`packages/cli/e2e/_generated/run-e2e.sh`) that hits a real
-  Cloudflare account. Out-of-band; not run on every commit.
 - `cli-startup-bench.yml` — hyperfine benchmark of `cf --help` cold
   start, posted as a sticky comment on PRs.
 
@@ -419,7 +414,7 @@ What cf DOES read:
   the project's Miniflare resources for `--local`, matching the Cloudflare Vite
   plugin's default for `cf dev`. `--persist-to` overrides it and is required
   outside a project.
-- **Build Output under `.cloudflare/output/v0/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries account settings and `buildContext`; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand.
+- **Build Output under `.cloudflare/output/v0/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries account settings and `buildContext`; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand. When `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME` is set, `cf deploy`, `cf previews deploy`, `cf workers versions create`, and `cf workers triggers deploy` deploy the selected Worker under that name and warn if it differs from the configured one. Workers Builds sets it to the connected Worker, as `WRANGLER_CI_OVERRIDE_NAME` does for Wrangler. Only the deployed name changes; bindings that name the configured Worker keep their targets. `cf deploy` and `cf workers versions create` also check the deployed Worker's tag against `CLOUDFLARE_CI_MATCH_WORKER_TAG`, the equivalent of `WRANGLER_CI_MATCH_TAG`.
 
 What cf does NOT read:
 
@@ -806,6 +801,30 @@ An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<ke
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 
+`cf auth whoami` (also available as the hidden `cf whoami` alias) shows a human
+summary when stdin and stdout are terminals, outside CI and detected agent
+contexts. Its command-specific `--json` flag forces the full JSON result;
+`--no-json` forces the summary. CI, non-interactive runs, agents, and redirected
+stdout default to JSON. Both modes write the result to stdout; hints and warnings
+go to stderr, and `--quiet` retains the result. JSON preserves the existing fields
+and adds `profile: { name, source, overridden }`, where `source` is `--profile`,
+`CLOUDFLARE_AUTH_PROFILE`, `directory`, or `default` and `overridden` indicates an
+environment API token takes precedence over the profile. Verified credentials get
+a bold `Authenticated` heading followed by `<email> via OAuth` or `via API Token`,
+with a bold info-colored email and muted method, a fallback
+when email is unavailable, or an explanation when authentication fails or cannot be
+verified. Only named profiles get an `Active profile: <name> (<activation method>)`
+line with a bold name and muted activation method; the default profile is omitted.
+The `Accounts` block has aligned name and ID columns without indentation or column
+headings, using bold info styling for names, matching scope product headings, and
+muted styling for IDs. OAuth scope counts
+are grouped like `cf auth scopes`, and a hint points to `--json` for all information.
+Product counts compare granted scopes with the default set, counting custom scopes
+separately; they do not describe effective per-account permissions. Scope grouping
+reuses the cached OAuth catalogue only for human output; lookup failures show a
+compact explanation. Stored OAuth scopes and expiry never describe an active
+environment API token. Exit-code behavior is unchanged.
+
 ### Reserved names
 
 `flagOwnership` in `packages/cli/src/lib/global-options.ts` is the enforced policy, shared by the generator and the runtime-schema commands. Besides the live globals and their aliases, it reserves:
@@ -927,14 +946,6 @@ those tasks. Reference configured tasks directly in `dependsOn` (for example
 `cf#task:generate`) to share one task within the graph. Use dependency selectors
 for `task:build`, as in the container fixture's type-check. Pass focused test
 paths directly to `pnpm test`.
-
-End-to-end smoke tests against a real Cloudflare account:
-
-```bash
-export CLOUDFLARE_API_TOKEN=...
-export CLOUDFLARE_ACCOUNT_ID=...
-bash packages/cli/e2e/_generated/run-e2e.sh [--zone ZONE_ID] [--product NAME]
-```
 
 ## Publishing
 

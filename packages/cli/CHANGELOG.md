@@ -1,5 +1,209 @@
 # cf
 
+## 1.0.0-beta.30
+
+### Minor Changes
+
+- ef863e6: Summarize authentication for humans and add `cf whoami`
+
+  Start interactive output for verified credentials with a bold `Authenticated` heading, a bold info-colored email and muted `via OAuth` or `via API Token`, and show a separate activation line only for named profiles. Include accessible account names and IDs in aligned columns without headings or indentation, styling account names like scope product headings. Show grouped OAuth scope counts and a hint to use `--json` for all information. CI, non-interactive runs, and agents continue to receive full JSON; use `--json` or `--no-json` to choose explicitly. JSON adds profile selection information while retaining the existing fields.
+
+  Sanitize control and Unicode formatting characters in human-readable account and identity details while preserving the original values in JSON.
+
+  Add `cf whoami` as a hidden alias for `cf auth whoami`. The interactive default output changes in this beta release; scripts can request JSON explicitly.
+
+- a7f874a: Move streaming tail consumers to `experimental.streamingTailConsumers` in `cloudflare.config.ts`
+
+  This is a breaking change to the experimental config API from `@cloudflare/config` 0.32.0. A `tailConsumers` entry with `streaming: true` is now an invalid config, so commands such as `cf workers types` fail until it is updated. Move each entry that set `streaming: true` to `experimental.streamingTailConsumers`, without the `streaming` field:
+
+  ```ts
+  export default defineConfig({
+  	worker: {
+  		tailConsumers: [{ worker: "tail-worker" }],
+  		experimental: {
+  			streamingTailConsumers: [{ worker: "streaming-tail-worker" }],
+  		},
+  	},
+  });
+  ```
+
+  `cf migrate` now converts Wrangler's `streaming_tail_consumers` to `experimental.streamingTailConsumers`.
+
+- b41c8c2: Update the generated command surface for Forge OpenAPI release
+  `ed698981af6372f8885d147b985cbde121ed2fe2`.
+
+### Patch Changes
+
+- 990a9c4: Include the raw-response `--text` flag in command metadata
+
+  Expose the existing optional flag in shell completions and `cf tools` schemas for commands with binary responses. Keep its type, description, and default aligned with the generated command builder.
+
+- ef863e6: Report scopes and expiry for the active whoami credentials
+
+  Omit stored OAuth scopes and expiry when an environment API token supplies the active credentials. Read OAuth metadata after refreshing the token so whoami reports the current grant.
+
+- 642ab1f: Include multipart form-field flags in command metadata
+
+  Shell completions and `cf tools` schemas now list the flags for multipart form fields, such as `--metadata` on `cf kv keys put` and `--branch` on `cf pages deployments create`. The commands already accepted these flags.
+
+- a7f874a: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.11.0` → `0.11.1`
+  - `@cloudflare/build-output-utils`: `0.9.12` → `0.9.13`
+  - `@cloudflare/cli-shared-helpers`: `0.3.6` → `0.3.7`
+  - `@cloudflare/codemods`: `0.7.6` → `0.7.7`
+  - `@cloudflare/config`: `0.31.1` → `0.32.0`
+  - `@cloudflare/containers-shared`: `0.25.0` → `0.26.0`
+  - `@cloudflare/deploy-helpers`: `0.26.2` → `0.26.3`
+  - `@cloudflare/runtime-types`: `0.1.25` → `0.1.26`
+  - `@cloudflare/workers-auth`: `0.18.0` → `0.18.1`
+  - `@cloudflare/workers-utils`: `0.53.0` → `0.53.1`
+  - `miniflare`: `5.20261110.0-beta` → `5.20261110.1-beta`
+
+## 1.0.0-beta.29
+
+### Minor Changes
+
+- 1d05d66: Stop persisting account selections between invocations
+
+  If the active credentials can access one account, select it automatically. If they can access multiple accounts and neither `cloudflare.config.ts` nor `CLOUDFLARE_ACCOUNT_ID` chooses one, ask again the next time cf starts while reusing the selection within the current invocation.
+
+- 7c1d66e: Use `--worker` consistently across generated `cf workers` commands
+
+  Accept `--worker` for Worker and version operations that previously required
+  `--worker-id` or a positional Worker identifier. Keep `--worker-id` and
+  `--script-name` as aliases, and retain positional input for `cf workers get`
+  and `cf workers delete`.
+
+  Keep the Worker flag alongside the other command options in help.
+
+- d354737: Deploy any prebuilt static asset directory directly with `cf deploy [directory]` and the equivalent Preview deployment and version creation commands.
+
+  The directory form creates assets-only Build Output, reuses optional assets-only Worker configuration, and skips project build delegation. Projects containing a configured Worker entrypoint or Container continue to omit the directory and use the delegated build path.
+
+- 660bd2f: Add custom Cloudflare API headers through `CLOUDFLARE_API_HEADERS`
+
+  Set `CLOUDFLARE_API_HEADERS` to a JSON object such as `{"X-Custom-Header":"value"}` to add headers to Cloudflare API requests. Custom headers override existing unprotected request headers, body and transport headers are protected, and header values outside the diagnostic allowlist remain redacted regardless of log sanitization settings.
+
+- 4fc2294: Add `--force` to `cf deploy` for CI conflict overrides
+
+  Use `cf deploy --force` to upload a Worker when its last deployment came from the script API or its remote configuration conflicts with the local Build Output. Deploys remain strict by default. An aborted upload now points to `cf deploy --force` and exits without a success message.
+
+- 4e4cb09: Store `--local` state in the project's `.cloudflare/state` directory
+
+  `--local` commands now use `.cloudflare/state` next to the nearest `cloudflare.config.ts`, the same directory the Cloudflare Vite plugin uses, so commands like `cf kv keys list --local` see the data your Vite dev server created. Outside a project, pass `--persist-to <dir>` to choose where local state is stored.
+
+  `--local` no longer reads the previous global default. To keep using that state, pass `--persist-to` with the `state` directory under cf's config directory (for example `~/.config/cloudflare/state` on Linux or `~/Library/Preferences/cloudflare/state` on macOS).
+
+- e5105e4: Replace the Preview name positional argument with `--preview-name`
+
+  This is a breaking change during the 1.0 beta: use `cf previews deploy --preview-name feature` instead of `cf previews deploy feature`. Omitting the flag still defaults to the current CI or Git branch; when no branch is available, the error now shows the flag syntax.
+
+- 009a15f: Pass the selected auth profile to development servers
+
+  `cf dev --profile <name>` now sets `CLOUDFLARE_AUTH_PROFILE` for child processes, including framework development commands and the `cf-vite` and `cf-wrangler` delegates. This overrides an inherited profile without passing an unsupported command-line argument.
+
+  Experimental cf delegates now require Wrangler 4.159.0 or newer, or Cloudflare Vite plugin v2 starting at 2.0.0-beta.v.13. Older delegates are rejected even when no profile is specified, so they cannot silently use credentials from another profile. Framework development servers need `@cloudflare/workers-auth` 0.17.0 or newer to use the selected credentials.
+
+- 70082ac: Update the generated command surface for Forge OpenAPI release
+  `0f98950b33b0fe5f18e64574cc186c820796d40e`.
+- 3785264: Update the generated command surface for Forge OpenAPI release
+  `12bf77761d2d2b586854255293d125493d685033`.
+- f811aa0: Update the generated command surface for Forge OpenAPI release
+  `1bba4ee186a20eceada455707ca28902a644c770`.
+- 535514a: Update the generated command surface for Forge OpenAPI release
+  `305b054ec4ae4f706ed1270d0d18a45a8c41dd5c`.
+- c9820aa: Update the generated command surface for Forge OpenAPI release
+  `5ac2398724b4f7e888a22136f87e2098e1c36302`.
+- 03d98f2: Update the generated command surface for Forge OpenAPI release
+  `5cd842b29c1b114b8e0b2550e281b049168c70e0`.
+- 2ab9263: Update the generated command surface for Forge OpenAPI release
+  `650bd71c22db3b938a4611bf4cc5afd896b400b7`.
+- a49ccc4: Update the generated command surface for Forge OpenAPI release
+  `681d29f5e85e306719df10b35716789877ac7273`.
+- 54749e6: Update the generated command surface for Forge OpenAPI release
+  `756f9aff74f1e99065fffe66b66402c07723578d`.
+- ed6ede0: Update the generated command surface for Forge OpenAPI release
+  `80f6db555998a4c823486cd330c4aed0bfc0f758`.
+- 31c2752: Update the generated command surface for Forge OpenAPI release
+  `8340c3b1a7398334c201a86a5bf679aae28b715e`.
+- 23a346e: Update the generated command surface for Forge OpenAPI release
+  `93e5a0d5d5550d0b849622f86c949bd3f606241f`.
+
+### Patch Changes
+
+- ae3ef2f: Write `application/protobuf` API responses as binary output
+
+  Responses declared as `application/protobuf` (the standard protobuf media type) are now treated as binary, like `application/vnd.google.protobuf`, so `cf workers versions profile` keeps writing raw pprof bytes when the API spec adopts the standard type.
+
+- 04aa606: Run detected framework commands using locally installed executables.
+
+  Resolve framework executables from the application and ancestor node_modules directories, including hoisted workspace dependencies. Keep generic delegated commands, package installation behavior, and the dev server's inherited terminal streams unchanged.
+
+- 524fd1c: Read every numbered page during deployment resource lookups
+
+  Fix `cf previews deploy` failing to find a Container's Durable Object namespace
+  when it appears after the first 1000 namespaces. Deployment helpers now follow
+  page-number pagination, including for Queue provisioning lookups.
+
+- 0a3ae03: Forward arguments to detected development servers
+
+  Pass development-server arguments through `cf dev` when a framework command is
+  detected, so Vite projects can use `--port` and `--host`. Preserve arguments after
+  `--` and preserve argument boundaries, including paths containing spaces and
+  numeric-looking values. Clarify that the selected development server still
+  validates which arguments it supports.
+
+- ee5d0b0: Ignore read-only fields in request validation
+
+  Omit server-provided read-only fields from input flags, prompts, and validation messages, even when shared request/response schemas mark them required. Ignore supplied read-only values during local validation while preserving checks for writable fields.
+
+  Preserve read-only annotations for nested properties and array or tuple items split across sibling `allOf` clauses without applying annotations from unrelated parent fields or tuple positions. Merge read-only annotations for duplicated intersection fields by wire name and retain both schemas of duplicated object fields so generated flags, requirements, and request constants omit response-only fields regardless of member order.
+
+  Omit read-only multipart fields from form flags and required-body checks, and select a writable field for file uploads.
+
+- b0703f6: Show shallow JSON shapes in structured parameter descriptions
+
+  Include wire field names, value types, enum choices, and optional keys in command help and `cf schema` for JSON array and map flags. Abbreviate nested objects with `{...}` and omitted fields or choices with `...more`, simplify redundant alternatives, and show nullable values only where the flag parser accepts them. Omit read-only response fields from the sketches.
+
+- 382b6fb: Preserve body positionals when using `--body`
+
+  Merge positional values into JSON request bodies while keeping required
+  positionals mandatory. Reject conflicting values before sending a request or
+  showing a dry run.
+
+- 71918a0: Update the generated command surface for `@cloudflare/forge` build
+  `0d1877431691b07cbe3b042a4b64cb0bd8e81c03`.
+- 4d8895f: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.9.3` → `0.10.0`
+  - `@cloudflare/build-output-utils`: `0.9.10` → `0.9.11`
+  - `@cloudflare/cli-shared-helpers`: `0.3.4` → `0.3.5`
+  - `@cloudflare/codemods`: `0.7.4` → `0.7.5`
+  - `@cloudflare/config`: `0.30.2` → `0.31.0`
+  - `@cloudflare/containers-shared`: `0.23.9` → `0.24.0`
+  - `@cloudflare/deploy-helpers`: `0.26.0` → `0.26.1`
+  - `@cloudflare/runtime-types`: `0.1.23` → `0.1.24`
+  - `@cloudflare/workers-utils`: `0.52.0` → `0.52.1`
+  - `miniflare`: `5.20261104.0-beta` → `5.20261109.0-beta`
+
+- 04aa606: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.10.0` → `0.11.0`
+  - `@cloudflare/codemods`: `0.7.5` → `0.7.6`
+  - `@cloudflare/runtime-types`: `0.1.24` → `0.1.25`
+
+- 8605a4b: Redact header values outside a safe diagnostic allowlist, regardless of log sanitization settings.
+
+  Strip `X-Auth-Key` alongside `Authorization` when forwarding requests to local services.
+
+- fed10c4: Exit cleanly after Ctrl+C when a framework command runs through npm on Windows
+
+  `cf dev`, `cf build`, and `cf init` now start `npm` and `npx` commands through
+  npm's CLI script instead of the `npm.cmd` and `npx.cmd` launchers. Those
+  launchers keep a batch file running, so pressing Ctrl+C left cf waiting at
+  cmd's "Terminate batch job (Y/N)?" prompt after the dev server had stopped.
+
 ## 1.0.0-beta.28
 
 ### Minor Changes

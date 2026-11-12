@@ -2,6 +2,7 @@ import $crawl from "./crawl/index.js";
 import $devtools from "./devtools/index.js";
 import $quickaction from "./quick-action/index.js";
 import $recording from "./recording/index.js";
+import $script from "./script/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * browser-run command
@@ -19,6 +20,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($devtools)
 			.command($quickaction)
 			.command($recording)
+			.command($script)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

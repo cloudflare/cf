@@ -1,9 +1,9 @@
+import $crawlers from "./crawlers/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $timeseries from "./timeseries.js";
-import $webcrawlers from "./web-crawlers/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * bots command group
@@ -23,7 +23,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($summary)
 			.command($timeseries)
 			.command($timeseriesgroups)
-			.command($webcrawlers)
+			.command($crawlers)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

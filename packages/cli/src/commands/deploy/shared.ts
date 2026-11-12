@@ -16,6 +16,8 @@ import {
 } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import {
+	applyCIMatchWorkerTag,
+	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
@@ -135,7 +137,9 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		rootConfig.accountId,
 		argv["temporary-account"] === true
 	);
-	const worker = selectBuildOutputWorker(workers, argv.worker);
+	const { worker, workerNameOverridden } = applyCIWorkerNameOverride(
+		selectBuildOutputWorker(workers, argv.worker)
+	);
 	const parsedWorker = parseWorkerConfig(worker, rootConfig);
 	const wranglerConfig = applyDependenciesInstrumentationEnv(
 		parsedWorker.wranglerConfig
@@ -177,6 +181,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	let versionId: string | null;
 	let uploadAborted = false;
 	const previousExitCode = process.exitCode;
+	const restoreCIMatchTag = applyCIMatchWorkerTag();
 	try {
 		// deploy-helpers signals strict aborts through exitCode; isolate this call.
 		process.exitCode = undefined;
@@ -188,6 +193,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 				argv,
 				containerDeployConfig
 			);
+			props.workerNameOverridden = workerNameOverridden;
 
 			log.section("Deploy");
 			({ versionId } = await deploy(props, wranglerConfig, buildResult, {
@@ -218,6 +224,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 				argv,
 				containerDeployConfig
 			);
+			props.workerNameOverridden = workerNameOverridden;
 
 			log.section("Upload");
 			({ versionId } = await versionsUpload(
@@ -243,6 +250,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			versionId === null && process.exitCode === 1 && !argv["dry-run"];
 	} finally {
 		process.exitCode ??= previousExitCode;
+		restoreCIMatchTag();
 	}
 	if (uploadAborted) {
 		throw new CliExit(1);

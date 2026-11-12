@@ -4,7 +4,7 @@ import $disable from "./disable.js";
 import $enable from "./enable.js";
 import $forcenotify from "./force-notify.js";
 import $get from "./get.js";
-import $status from "./status/index.js";
+import $status from "./status.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -25,8 +25,8 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($enable)
 			.command($forcenotify)
 			.command($get)
-			.command($update)
 			.command($status)
+			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -23,13 +23,13 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-intel datasets preferences update\n\nSets the datasets to use when a request omits `datasetId`, for you (`scope` `user`) or for the account (`scope` `account`). Your own default datasets take precedence over the account's. Every dataset must exist and be readable by the account."
+			"$0 cloudforce-one threat-intel datasets preferences update\n\nSets the datasets to use when a request omits `datasetId`, for you (`scope` `user`) or for the account (`scope` `account`). Your own default datasets take precedence over the account's. Every dataset must exist and be readable by the account, and the list cannot mix analytics and intelligence datasets."
 		)
 		.option("dataset-ids", {
 			type: "string",
 			array: true,
 			description:
-				"The dataset UUIDs to use when a request omits `datasetId`: 1 to 50 datasets you can read. Duplicates are ignored.",
+				"The dataset UUIDs to use when a request omits `datasetId`: 1 to 50 datasets you can read, either all analytics datasets or all intelligence datasets. Duplicates are ignored.",
 		})
 		.option("scope", {
 			type: "string",

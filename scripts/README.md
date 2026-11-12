@@ -2,10 +2,10 @@
 
 The two generator inputs have independent update paths:
 
-| Automation              | Update branch             | Input it updates                                                         |
-| ----------------------- | ------------------------- | ------------------------------------------------------------------------ |
-| Renovate Forge group    | `renovate/forge`          | Forge package commit in `packages/cli/package.json` and `pnpm-lock.yaml` |
-| Update OpenAPI workflow | `automation/update-forge` | OpenAPI revision in `packages/cli/generate.ts`                           |
+| Automation              | Update branch             | Input it updates                                                                |
+| ----------------------- | ------------------------- | ------------------------------------------------------------------------------- |
+| Renovate Forge group    | `renovate/forge`          | Forge package commit in `packages/cli/package.json` and `pnpm-lock.yaml`        |
+| Update OpenAPI workflow | `automation/update-forge` | OpenAPI revision in `config.forgeOpenApiVersion` of `packages/cli/package.json` |
 
 Renovate follows the newest successful Forge package publication from `main`
 and pins its pkg.pr.new URL. It regenerates commands with the existing OpenAPI

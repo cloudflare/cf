@@ -1,6 +1,7 @@
 /* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation tests */
 import assert from "node:assert/strict";
 import { mkdtempSync, rmSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -13,12 +14,14 @@ const originalToken = process.env.GH_TOKEN;
 process.env.GH_TOKEN = "cf-write-token";
 const {
 	createOrUpdatePullRequest,
+	extractOpenApiVersion,
 	formatError,
 	getForgeEnvironment,
 	getLatestOpenApiRelease,
 	getManagedUpdateCommit,
 	githubResponse,
 	run,
+	setOpenApiVersion,
 } = await import("./update-openapi.ts");
 if (originalToken === undefined) {
 	delete process.env.GH_TOKEN;
@@ -82,6 +85,49 @@ await test("Forge subprocesses receive no GitHub tokens or injected Git credenti
 		RUNNER_TEMP: "temp",
 	});
 	assert.deepEqual(environment, originalEnvironment);
+});
+
+await test("the OpenAPI revision is read from package.json config", async () => {
+	const source = await readFile(
+		new URL("../packages/cli/package.json", import.meta.url),
+		"utf8"
+	);
+	assert.match(extractOpenApiVersion(source, "cli"), /^[0-9a-f]{40}$/);
+	for (const invalid of [
+		"{}",
+		JSON.stringify({ config: {} }),
+		JSON.stringify({ config: { forgeOpenApiVersion: "main" } }),
+	]) {
+		assert.throws(
+			() => extractOpenApiVersion(invalid, "invalid"),
+			/Could not read config\.forgeOpenApiVersion from invalid/
+		);
+	}
+});
+
+await test("pinning an OpenAPI revision rewrites only the package.json config", () => {
+	const source = `${JSON.stringify(
+		{
+			name: "cf",
+			scripts: { generate: "vp run task:generate" },
+			config: { forgeOpenApiVersion: "a".repeat(40) },
+			dependencies: { tinyexec: "^1.3.1" },
+		},
+		null,
+		"\t"
+	)}\n`;
+	assert.equal(
+		setOpenApiVersion(source, version, "cli"),
+		source.replace("a".repeat(40), version)
+	);
+	assert.throws(
+		() => setOpenApiVersion(source, "main", "cli"),
+		/Invalid OpenAPI revision/
+	);
+	assert.throws(
+		() => setOpenApiVersion("{}", version, "cli"),
+		/Could not read config\.forgeOpenApiVersion/
+	);
 });
 
 await test("latest releases without the OpenAPI asset are rejected", async (context) => {

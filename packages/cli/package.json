@@ -108,6 +108,9 @@
 		"vite-plus": "catalog:",
 		"yargs": "18.2.0"
 	},
+	"config": {
+		"forgeOpenApiVersion": "517dfa10c98d10ea39f6559dd2a10be2aa7108c8"
+	},
 	"engines": {
 		"node": "^22.23.0 || ^24.22.0 || ^26.12.0"
 	}

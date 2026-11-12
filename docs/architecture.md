@@ -864,7 +864,8 @@ The two Forge inputs are updated separately:
   OpenAPI pin, and write a `patch` changeset with
   `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
   must match `allowedCommands` in `.github/renovate-global.json`.
-- **`FORGE_OPENAPI_VERSION`** in `packages/cli/generate.ts` — the `Update OpenAPI`
+- **`config.forgeOpenApiVersion`** in `packages/cli/package.json`, read by
+  `packages/cli/generate.ts` — the `Update OpenAPI`
   workflow (`.github/workflows/update-openapi.yml`) runs `scripts/update-openapi.ts`
   hourly and on a `forge-release-published` `repository_dispatch`. It pins the
   latest `openapi@<sha>` Forge release, regenerates with the pinned forge

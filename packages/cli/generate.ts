@@ -10,11 +10,11 @@ import { filterForCliAudience } from "./generator/cli-audience.js";
 import { applyTemporaryFlagNames } from "./generator/flag-names-cli-compat.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
+import packageJson from "./package.json" with { type: "json" };
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
-// Bump this SHA to generate the commands from a new release.
-const FORGE_OPENAPI_VERSION = "517dfa10c98d10ea39f6559dd2a10be2aa7108c8";
+const FORGE_OPENAPI_VERSION = packageJson.config.forgeOpenApiVersion;
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
 const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;

@@ -292,8 +292,8 @@ importers:
         specifier: 0.26.3
         version: 0.26.3(@types/node@26.6.6)(vitest@5.1.0)
       '@cloudflare/forge':
-        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@45c005a259a5507763d866e12d1e907af6ce745d
-        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@45c005a259a5507763d866e12d1e907af6ce745d(@bytecodealliance/jco@1.41.0)
+        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2
+        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2(@bytecodealliance/jco@1.41.0)
       '@cloudflare/workers-auth':
         specifier: 0.18.1
         version: 0.18.1(msw@3.0.4(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
@@ -718,8 +718,8 @@ packages:
   '@cloudflare/deploy-helpers@0.26.3':
     resolution: {integrity: sha512-0tKy+Vrj3OVhE0rX53x0qzpBoBUh+t17Z10pfUueCVyyFidl0BRbya8PE+yzaa8u8uh1/gDQ5bIwzRlbZw0RTg==}
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@45c005a259a5507763d866e12d1e907af6ce745d':
-    resolution: {integrity: sha512-nWxfij/ENM6whtI3rXBrEyzdApU33gnqIZUgiv1nVDVI+JgH6gTtdolsYszVnq4C8Ll67QbkwKmhp38rMI3x/g==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@45c005a259a5507763d866e12d1e907af6ce745d}
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2':
+    resolution: {integrity: sha512-l/2RZSxVNwyp7YHR81D7u21RdIHOXK95cvqjtvQrcgSEt+HMr9BIMIILbhvq2Xca0hUpzcBFSTvQzAbpIX+xnw==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2}
     version: 0.1.0
     engines: {node: '>=18'}
     hasBin: true
@@ -4289,7 +4289,7 @@ snapshots:
       - utf-8-validate
       - vitest
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@45c005a259a5507763d866e12d1e907af6ce745d(@bytecodealliance/jco@1.41.0)':
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2(@bytecodealliance/jco@1.41.0)':
     optionalDependencies:
       '@bytecodealliance/jco': 1.41.0
 

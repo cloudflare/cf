@@ -1,5 +1,42 @@
 # cf
 
+## 1.0.0-beta.31
+
+### Minor Changes
+
+- c7a0976: Show project-relative paths in source-mapped stack traces of deployed Workers
+
+  Bundlers write source map `sources` relative to the map file, so maps in a Build Output bundle referred to paths like `../../../../../../src/index.ts`, and deployed stack traces showed them verbatim. `cf deploy`, `cf workers versions create`, and `cf previews deploy` now rewrite `sources` relative to the project root before uploading, so stack traces show `src/index.ts`, and files outside the project keep their `../` prefix. Source maps on disk are unchanged.
+
+  Breaking change: Wrangler projects now require Wrangler 4.161.0 or newer, which writes Build Output source maps with `sources` relative to each map, as `cf` now expects. `cf dev`, `cf build`, and the commands that build before uploading reject older versions with an upgrade hint.
+
+- f76ebf3: Update the generated command surface for Forge OpenAPI release
+  `517dfa10c98d10ea39f6559dd2a10be2aa7108c8`.
+
+### Patch Changes
+
+- 6521749: Deploy to the Worker named by `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME`
+
+  `cf deploy`, `cf previews deploy`, `cf workers versions create`, and
+  `cf workers triggers deploy` now deploy the selected Worker under
+  `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME` when it is set, matching Wrangler's
+  `WRANGLER_CI_OVERRIDE_NAME`. Workers Builds sets it to the connected Worker, so
+  production deployments and Previews stay attached to that Worker even when
+  `cloudflare.config.ts` uses a different name. cf warns when the names differ
+  and reports the override in the output file. Other Workers and binding targets
+  are unchanged.
+
+  `cf deploy` and `cf workers versions create` also accept
+  `CLOUDFLARE_CI_MATCH_WORKER_TAG`, the equivalent of `WRANGLER_CI_MATCH_TAG`, and
+  fail when the deployed Worker's tag differs.
+
+- 09758be: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.11.1` → `0.12.0`
+  - `@cloudflare/deploy-helpers`: `0.26.3` → `0.26.4`
+  - `@cloudflare/runtime-types`: `0.1.26` → `0.1.27`
+  - `miniflare`: `5.20261110.1-beta` → `5.20261110.2-beta`
+
 ## 1.0.0-beta.30
 
 ### Minor Changes

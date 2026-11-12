@@ -132,8 +132,8 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 		pkg: "wrangler",
 		fallback: true,
 		versionConstraint: {
-			range: ">=4.159.0",
-			display: "wrangler@4.159.0 or newer",
+			range: ">=4.161.0",
+			display: "wrangler@4.161.0 or newer",
 		},
 		description: "Wrangler-based dev server (legacy Worker projects)",
 		manifest: "package.json",

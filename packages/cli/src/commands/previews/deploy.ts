@@ -198,7 +198,7 @@ async function deployPreviewBuildOutput(
 				)
 				.map(({ config }) => config),
 			buildResult: worker.bundleDir
-				? assembleBuildResult(worker, builtConfig)
+				? assembleBuildResult(worker, builtConfig, output.root)
 				: undefined,
 			assets: worker.assetsDir ? { directory: worker.assetsDir } : undefined,
 		},

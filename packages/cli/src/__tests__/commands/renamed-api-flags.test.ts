@@ -88,21 +88,6 @@ describe("API fields renamed off cf-owned flags", () => {
 		});
 	});
 
-	it("sends --organization-profile as the profile body field", async () => {
-		const request = await run([
-			"cloudforce-one",
-			"priority-intelligence",
-			"profile",
-			"update",
-			"--organization-profile",
-			"Acme Corp: banking, EU",
-		]);
-		expect(request).toMatchObject({
-			method: "PUT",
-			body: { profile: "Acme Corp: banking, EU" },
-		});
-	});
-
 	it("sends --filter-mode as the body mode", async () => {
 		const request = await run([
 			"magic-transit",

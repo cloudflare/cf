@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
-import { dirname, join, sep } from "node:path";
+import { dirname, join, relative, resolve, sep } from "node:path";
+import { fileURLToPath } from "node:url";
 import { BuildOutputConfigError } from "./build-output.js";
 import type { SharedUploadArgs } from "../commands/deploy/shared.js";
 import type {
@@ -204,7 +205,8 @@ function resolveAssetsDir(
 // TODO: possibly pull in shared code from workers-utils?
 export function assembleBuildResult(
 	worker: BuildOutputWorker,
-	outputConfig: ResolvedOutputWorkerConfig
+	outputConfig: ResolvedOutputWorkerConfig,
+	root: string
 ): WorkerBuildResult {
 	// Assets-only deploys have no manifest / bundle: deploy() creates a
 	// synthetic Worker, so there are no modules to assemble. The package
@@ -263,7 +265,11 @@ export function assembleBuildResult(
 				}
 				sourceMaps.push({
 					name,
-					content: readFileSync(filePath, "utf8"),
+					content: normalizeSourceMapForUpload(
+						readFileSync(filePath, "utf8"),
+						filePath,
+						root
+					),
 				});
 				continue;
 			}
@@ -302,6 +308,76 @@ export function assembleBuildResult(
 		bundleType,
 		content,
 	};
+}
+
+/**
+ * Source map `sources` are relative to the map file, so a map in a Build Output
+ * bundle refers to `../../../../../../src/index.ts`. The runtime shows `sources`
+ * as-is in stack traces, so rewrite them relative to the project root.
+ */
+function normalizeSourceMapForUpload(
+	content: string,
+	mapPath: string,
+	root: string
+): string {
+	let map: unknown;
+	try {
+		map = JSON.parse(content);
+	} catch {
+		return content;
+	}
+	if (
+		typeof map !== "object" ||
+		map === null ||
+		!("sources" in map) ||
+		!Array.isArray(map.sources)
+	) {
+		return content;
+	}
+	const { sourceRoot: rawSourceRoot, ...rest } = map as {
+		sourceRoot?: unknown;
+	};
+	const sourceRoot = toFilePath(rawSourceRoot ?? "");
+	if (sourceRoot === undefined) {
+		return content;
+	}
+
+	const mapDirectory = dirname(mapPath);
+	const sources = map.sources.map((source: unknown) => {
+		const sourcePath = toFilePath(source);
+		return sourcePath === undefined
+			? source
+			: relative(root, resolve(mapDirectory, sourceRoot, sourcePath))
+					.split(sep)
+					.join("/");
+	});
+	return JSON.stringify({ ...rest, sources });
+}
+
+// A scheme of two or more characters, so a Windows drive letter is not one, or
+// a protocol-relative `//` URL.
+const URL_PATTERN = /^(?:[a-z][a-z\d+.-]+:|\/\/)/i;
+
+/**
+ * A `file:` URL names a file like an absolute path does. Other URLs, such as
+ * `webpack://` or `node:` sources, name something only their tool knows, so
+ * they are left as they are.
+ */
+function toFilePath(value: unknown): string | undefined {
+	if (typeof value !== "string") {
+		return undefined;
+	}
+	if (!URL_PATTERN.test(value)) {
+		return value;
+	}
+	if (!/^file:/i.test(value)) {
+		return undefined;
+	}
+	try {
+		return fileURLToPath(value);
+	} catch {
+		return undefined;
+	}
 }
 
 function validateModulePath(name: string, bundlePath: string): void {

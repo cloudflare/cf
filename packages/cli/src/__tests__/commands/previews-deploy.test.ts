@@ -333,6 +333,7 @@ describe("cf previews deploy", () => {
 		};
 		const buildResult = { content: "api code" };
 		mocks.readBuildOutput.mockResolvedValue({
+			root: "/project",
 			rootConfig,
 			workers: {
 				default: {
@@ -367,7 +368,11 @@ describe("cf previews deploy", () => {
 			{ output: "silent", worker: "api" },
 			{ isPreview: true }
 		);
-		expect(mocks.assembleBuildResult).toHaveBeenCalledWith(api, api.config);
+		expect(mocks.assembleBuildResult).toHaveBeenCalledWith(
+			api,
+			api.config,
+			"/project"
+		);
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"account-id",
 			{ name: "feature", json: true },

@@ -115,7 +115,7 @@ export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 
 async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	// Parse the build output with cf's dotenv values available.
-	const { workers, rootConfig, containers } = await readBuildOutput(
+	const { root, workers, rootConfig, containers } = await readBuildOutput(
 		process.cwd()
 	);
 	// --prebuilt can reuse files left behind by a Preview build.
@@ -144,7 +144,11 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	const wranglerConfig = applyDependenciesInstrumentationEnv(
 		parsedWorker.wranglerConfig
 	);
-	const buildResult = assembleBuildResult(worker, parsedWorker.builtConfig);
+	const buildResult = assembleBuildResult(
+		worker,
+		parsedWorker.builtConfig,
+		root
+	);
 
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({

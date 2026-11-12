@@ -59,14 +59,14 @@ const command: CommandModule<CommonYargsOptions, CheckArgs> = {
 			});
 		}
 
-		const { workers, rootConfig } = await readBuildOutput(process.cwd());
+		const { root, workers, rootConfig } = await readBuildOutput(process.cwd());
 		validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
 		const worker = selectBuildOutputWorker(workers, argv.worker);
 		const { wranglerConfig, builtConfig } = parseWorkerConfig(
 			worker,
 			rootConfig
 		);
-		const buildResult = assembleBuildResult(worker, builtConfig);
+		const buildResult = assembleBuildResult(worker, builtConfig, root);
 
 		if (!buildResult.resolvedEntryPointPath) {
 			throw new BuildOutputConfigError(

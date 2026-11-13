@@ -17,6 +17,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 ssl keyless-certificates list\n\nList all Keyless SSL configurations for a given zone."
 		)
+		.option("page", {
+			type: "number",
+			description: "Page number of Keyless SSL configurations, starting at 1.",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "Number of Keyless SSL configurations per page.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -40,6 +48,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+				};
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf ssl keyless-certificates list",
@@ -48,6 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						pathParams: {
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -59,7 +72,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId })
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

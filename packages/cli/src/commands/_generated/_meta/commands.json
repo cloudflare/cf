@@ -8229,6 +8229,18 @@
 					"description": "ID"
 				},
 				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of deployments per page"
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -8487,6 +8499,18 @@
 					"type": "string",
 					"required": true,
 					"description": "ID"
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of versions per page"
 				},
 				{
 					"name": "dry-run",
@@ -10675,6 +10699,19 @@
 					"description": "R2 bucket name or HTTP(S) root website URL to index. When type is omitted, the source determines it."
 				},
 				{
+					"name": "source-params-d1-query",
+					"type": "string",
+					"required": false,
+					"description": "Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored."
+				},
+				{
+					"name": "source-params-d1-template",
+					"type": "string",
+					"required": false,
+					"description": "How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object.",
+					"enum": ["labelled", "content_only", "key_value", "json"]
+				},
+				{
 					"name": "source-params-exclude-items",
 					"type": "string",
 					"required": false,
@@ -10789,7 +10826,7 @@
 					"type": "string",
 					"required": false,
 					"description": "Data source type: r2 or web-crawler.",
-					"enum": ["r2", "web-crawler"]
+					"enum": ["r2", "web-crawler", "d1"]
 				},
 				{
 					"name": "dry-run",
@@ -13303,6 +13340,19 @@
 					"description": "R2 bucket name or HTTP(S) root website URL to index."
 				},
 				{
+					"name": "source-params-d1-query",
+					"type": "string",
+					"required": false,
+					"description": "Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. Omit to keep the stored query."
+				},
+				{
+					"name": "source-params-d1-template",
+					"type": "string",
+					"required": false,
+					"description": "How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. Omit to keep the stored template.",
+					"enum": ["labelled", "content_only", "key_value", "json"]
+				},
+				{
 					"name": "source-params-exclude-items",
 					"type": "string",
 					"required": false,
@@ -13907,7 +13957,7 @@
 			"command": "cf alerting destinations webhooks update",
 			"name": "update",
 			"fullPath": ["alerting", "destinations", "webhooks", "update"],
-			"description": "Update a webhook destination.",
+			"description": "Update a webhook destination. Only `name` can be updated. `url` and `secret` are immutable; to change them, delete the webhook and create a new one.",
 			"summary": "Update a webhook",
 			"usage": "cf alerting destinations webhooks update <webhook-id> [options]",
 			"arguments": [
@@ -13925,18 +13975,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the webhook destination. This will be included in the request body when you receive a webhook notification."
-				},
-				{
-					"name": "secret",
-					"type": "string",
-					"required": false,
-					"description": "Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body."
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": true,
-					"description": "The POST endpoint to call when dispatching a notification."
 				},
 				{
 					"name": "dry-run",
@@ -29904,11 +29942,23 @@
 			"command": "cf cloudforce-one priority-intelligence create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "create"],
-			"description": "Creates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. An active PIR requires a query.",
+			"description": "Creates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. A free-form PIR has a `requirement`, and an active one requires a query. A structured PIR has a `definition` instead; its requirement and event query are generated, and the response includes them in `resolved`.",
 			"summary": "Create a priority intelligence requirement",
 			"usage": "cf cloudforce-one priority-intelligence create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "based-on-profile-revision",
+					"type": "number",
+					"required": false,
+					"description": "The based_on.profile_revision field"
+				},
+				{
+					"name": "based-on-topic-fingerprint",
+					"type": "string",
+					"required": false,
+					"description": "The based_on.topic_fingerprint field"
+				},
 				{
 					"name": "dataset-scope-type",
 					"type": "string",
@@ -29921,6 +29971,227 @@
 					"type": "string",
 					"required": false,
 					"description": "The dataset_scope.dataset_ids field"
+				},
+				{
+					"name": "definition-additional-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "definition-criterion-selections-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.add field"
+				},
+				{
+					"name": "definition-criterion-selections-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.remove field"
+				},
+				{
+					"name": "definition-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.mode field",
+					"enum": ["managed", "custom"]
+				},
+				{
+					"name": "definition-question-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-question-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.value field"
+				},
+				{
+					"name": "definition-schema-version",
+					"type": "number",
+					"required": false,
+					"description": "The definition.schema_version field"
+				},
+				{
+					"name": "definition-selections-actor-notes",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_notes field"
+				},
+				{
+					"name": "definition-selections-actor-types-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-actor-types-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.value field"
+				},
+				{
+					"name": "definition-selections-actors-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.add field"
+				},
+				{
+					"name": "definition-selections-actors-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.remove field"
+				},
+				{
+					"name": "definition-selections-attributed-countries",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.attributed_countries field"
+				},
+				{
+					"name": "definition-selections-countries-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-countries-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.value field"
+				},
+				{
+					"name": "definition-selections-cves",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.cves field"
+				},
+				{
+					"name": "definition-selections-excluded-actors",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.excluded_actors field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-key-suppliers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-malware-tools",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.malware_tools field"
+				},
+				{
+					"name": "definition-selections-motivations-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-motivations-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.value field"
+				},
+				{
+					"name": "definition-selections-peers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-peers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-sectors-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-sectors-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.value field"
+				},
+				{
+					"name": "definition-selections-targets-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-targets-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.value field"
+				},
+				{
+					"name": "definition-selections-technique-ids",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technique_ids field"
+				},
+				{
+					"name": "definition-selections-technologies-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-technologies-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.value field"
+				},
+				{
+					"name": "definition-title-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-title-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.value field"
+				},
+				{
+					"name": "definition-topic-id",
+					"type": "string",
+					"required": false,
+					"description": "The definition.topic_id field"
+				},
+				{
+					"name": "definition-relevance-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
 				},
 				{
 					"name": "digest-interval-hours",
@@ -30044,8 +30315,8 @@
 				{
 					"name": "requirement",
 					"type": "string",
-					"required": true,
-					"description": "The requirement field"
+					"required": false,
+					"description": "Free-form requirement. Required unless `definition` is sent."
 				},
 				{
 					"name": "status",
@@ -30174,7 +30445,7 @@
 			"command": "cf cloudforce-one priority-intelligence get",
 			"name": "get",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "get"],
-			"description": "Returns a single free-form Priority Intelligence Requirement for the authenticated account.",
+			"description": "Returns a single Priority Intelligence Requirement for the authenticated account. For a structured PIR, `resolved` has its current generated requirement and event query, which follow later topic and profile changes.",
 			"summary": "Get a priority intelligence requirement by ID",
 			"usage": "cf cloudforce-one priority-intelligence get <priority-id>",
 			"arguments": [
@@ -31077,17 +31348,11 @@
 				"profile",
 				"update"
 			],
-			"description": "Creates or replaces the account's organization profile: who the organization is, such as its name, brands, domains, sector, regions, key systems and suppliers. All of the account's Priority Intelligence Requirements share it. An account has at most one profile, and it does not count against the PIR quota.",
+			"description": "Creates or replaces the account's organization profile: who the organization is, such as its name, brands, domains, sector, regions, key systems and suppliers. All of the account's Priority Intelligence Requirements share it. An account has at most one profile, and it does not count against the PIR quota. Send structured `organization` facts, which structured PIRs inherit and from which the profile text is generated, or free `profile` text. `revision` must match the stored profile's, or 0 when there is none; it is required with `organization`. Free `profile` text cannot replace structured facts; delete the profile first to switch back.",
 			"summary": "Create or replace the organization profile",
-			"usage": "cf cloudforce-one priority-intelligence profile update [options]",
+			"usage": "cf cloudforce-one priority-intelligence profile update",
 			"arguments": [],
 			"options": [
-				{
-					"name": "organization-profile",
-					"type": "string",
-					"required": true,
-					"description": "Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -31139,10 +31404,285 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one priority-intelligence resolve",
+			"name": "resolve",
+			"fullPath": ["cloudforce-one", "priority-intelligence", "resolve"],
+			"description": "Returns the requirement and event query that saving `definition` would generate, using the account's current organization profile and topic. `resolved.issues` lists problems that would block saving, and `resolved.notices` inputs that would be ignored. Search events with `resolved.event_plan.branches`: a beta value for running searches, not a stable contract, which changes whenever a topic's event rules change. Show `resolved.event_plan.rules[].explanation` to explain matches. Send `resolved.based_on` with the save so it fails with 409 if the profile or topic changes in between. Nothing is saved, and no model is called.",
+			"summary": "Resolve structured PIR answers without saving",
+			"usage": "cf cloudforce-one priority-intelligence resolve [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "definition-additional-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "definition-criterion-selections-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.add field"
+				},
+				{
+					"name": "definition-criterion-selections-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.remove field"
+				},
+				{
+					"name": "definition-mode",
+					"type": "string",
+					"required": true,
+					"description": "The definition.mode field",
+					"enum": ["managed", "custom"]
+				},
+				{
+					"name": "definition-question-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-question-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.value field"
+				},
+				{
+					"name": "definition-schema-version",
+					"type": "number",
+					"required": true,
+					"description": "The definition.schema_version field"
+				},
+				{
+					"name": "definition-selections-actor-notes",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_notes field"
+				},
+				{
+					"name": "definition-selections-actor-types-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-actor-types-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.value field"
+				},
+				{
+					"name": "definition-selections-actors-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.add field"
+				},
+				{
+					"name": "definition-selections-actors-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.remove field"
+				},
+				{
+					"name": "definition-selections-attributed-countries",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.attributed_countries field"
+				},
+				{
+					"name": "definition-selections-countries-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-countries-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.value field"
+				},
+				{
+					"name": "definition-selections-cves",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.cves field"
+				},
+				{
+					"name": "definition-selections-excluded-actors",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.excluded_actors field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-key-suppliers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-malware-tools",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.malware_tools field"
+				},
+				{
+					"name": "definition-selections-motivations-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-motivations-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.value field"
+				},
+				{
+					"name": "definition-selections-peers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-peers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-sectors-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-sectors-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.value field"
+				},
+				{
+					"name": "definition-selections-targets-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-targets-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.value field"
+				},
+				{
+					"name": "definition-selections-technique-ids",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technique_ids field"
+				},
+				{
+					"name": "definition-selections-technologies-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-technologies-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.value field"
+				},
+				{
+					"name": "definition-title-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-title-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.value field"
+				},
+				{
+					"name": "definition-topic-id",
+					"type": "string",
+					"required": false,
+					"description": "The definition.topic_id field"
+				},
+				{
+					"name": "definition-relevance-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/resolve",
+			"operationId": "cloudforce-one.priority-intelligence.resolve",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one priority-intelligence topics list",
+			"name": "list",
+			"fullPath": ["cloudforce-one", "priority-intelligence", "topics", "list"],
+			"description": "Returns the managed topics a structured PIR can follow, with their default question, relevance criteria, suggested actors and event rules. Suggested actors the account cannot see are left out. Topics change centrally; PIRs follow a topic's defaults wherever the customer has not changed them. Also returns `organization_types` for the organization profile form.",
+			"summary": "List managed PIR topics",
+			"usage": "cf cloudforce-one priority-intelligence topics list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/topics",
+			"operationId": "cloudforce-one.priority-intelligence.topics.list",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one priority-intelligence update",
 			"name": "update",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "update"],
-			"description": "Updates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one.",
+			"description": "Updates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one. Updates to a structured PIR must send its `revision` and change its answers through `definition`; its requirement, title and query are generated.",
 			"summary": "Update a priority intelligence requirement",
 			"usage": "cf cloudforce-one priority-intelligence update <priority-id> [options]",
 			"arguments": [
@@ -31155,6 +31695,18 @@
 				}
 			],
 			"options": [
+				{
+					"name": "based-on-profile-revision",
+					"type": "number",
+					"required": false,
+					"description": "The based_on.profile_revision field"
+				},
+				{
+					"name": "based-on-topic-fingerprint",
+					"type": "string",
+					"required": false,
+					"description": "The based_on.topic_fingerprint field"
+				},
 				{
 					"name": "confirm-query",
 					"type": "boolean",
@@ -31173,6 +31725,227 @@
 					"type": "string",
 					"required": false,
 					"description": "The dataset_scope.dataset_ids field"
+				},
+				{
+					"name": "definition-additional-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "definition-criterion-selections-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.add field"
+				},
+				{
+					"name": "definition-criterion-selections-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.remove field"
+				},
+				{
+					"name": "definition-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.mode field",
+					"enum": ["managed", "custom"]
+				},
+				{
+					"name": "definition-question-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-question-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.value field"
+				},
+				{
+					"name": "definition-schema-version",
+					"type": "number",
+					"required": false,
+					"description": "The definition.schema_version field"
+				},
+				{
+					"name": "definition-selections-actor-notes",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_notes field"
+				},
+				{
+					"name": "definition-selections-actor-types-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-actor-types-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.value field"
+				},
+				{
+					"name": "definition-selections-actors-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.add field"
+				},
+				{
+					"name": "definition-selections-actors-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.remove field"
+				},
+				{
+					"name": "definition-selections-attributed-countries",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.attributed_countries field"
+				},
+				{
+					"name": "definition-selections-countries-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-countries-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.value field"
+				},
+				{
+					"name": "definition-selections-cves",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.cves field"
+				},
+				{
+					"name": "definition-selections-excluded-actors",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.excluded_actors field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-key-suppliers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-malware-tools",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.malware_tools field"
+				},
+				{
+					"name": "definition-selections-motivations-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-motivations-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.value field"
+				},
+				{
+					"name": "definition-selections-peers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-peers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-sectors-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-sectors-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.value field"
+				},
+				{
+					"name": "definition-selections-targets-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-targets-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.value field"
+				},
+				{
+					"name": "definition-selections-technique-ids",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technique_ids field"
+				},
+				{
+					"name": "definition-selections-technologies-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-selections-technologies-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.value field"
+				},
+				{
+					"name": "definition-title-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.mode field",
+					"enum": ["inherit", "replace"]
+				},
+				{
+					"name": "definition-title-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.value field"
+				},
+				{
+					"name": "definition-topic-id",
+					"type": "string",
+					"required": false,
+					"description": "The definition.topic_id field"
+				},
+				{
+					"name": "definition-relevance-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
 				},
 				{
 					"name": "digest-interval-hours",
@@ -31295,6 +32068,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The requirement field"
+				},
+				{
+					"name": "revision",
+					"type": "number",
+					"required": false,
+					"description": "The `revision` the change is based on. Required for structured PIRs; a different stored revision returns 409."
 				},
 				{
 					"name": "status",
@@ -54680,7 +55459,7 @@
 			"command": "cf email-sending suppressions create",
 			"name": "create",
 			"fullPath": ["email-sending", "suppressions", "create"],
-			"description": "Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier. If a mutable legacy zone-linked account row already exists, it is promoted without changing its identifier.",
+			"description": "Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier. If a legacy zone-linked account row already exists, it is promoted without changing its identifier.",
 			"summary": "Create account Email Sending suppression",
 			"usage": "cf email-sending suppressions create [options]",
 			"arguments": [],
@@ -54905,7 +55684,7 @@
 			"command": "cf email-sending suppressions list",
 			"name": "list",
 			"fullPath": ["email-sending", "suppressions", "list"],
-			"description": "Lists every active Email Sending suppression owned by the account: sending-domain suppressions first, then account-wide suppressions (including legacy rows with internal zone memberships). Each group is newest first.",
+			"description": "Lists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions (including legacy rows with internal zone memberships). Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope.",
 			"summary": "List account Email Sending suppressions",
 			"usage": "cf email-sending suppressions list [options]",
 			"arguments": [],
@@ -54951,7 +55730,7 @@
 					"name": "scope-type",
 					"type": "string",
 					"required": false,
-					"description": "Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both, sending-domain suppressions first.",
+					"description": "Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both; the order between the two scopes is not fixed.",
 					"enum": ["account", "sending_domain"]
 				},
 				{
@@ -80072,7 +80851,7 @@
 					"name": "bgp-mode",
 					"type": "string",
 					"required": false,
-					"description": "The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
+					"description": "Controls the customer-facing route exchange behavior. Omitting this field during an update preserves the current mode. When enabling BGP on a BGP-disabled CNI, an omitted or null mode defaults to AdvertiseOnly. Otherwise, null clears the explicitly selected mode.",
 					"enum": ["dynamic_route_exchange", "advertise_only"]
 				},
 				{
@@ -83088,7 +83867,7 @@
 			"command": "cf observability usage-limit get",
 			"name": "get",
 			"fullPath": ["observability", "usage-limit", "get"],
-			"description": "Whether Workers Observability is keeping fewer of the account's events, usually because it passed its daily limit, and what that limit is. Daily limits reset at 00:00 UTC; paid accounts are brought back in stages over the following hours.",
+			"description": "Whether Workers Observability is keeping fewer of the account's events, because it passed its daily limit or for another reason, and what that limit is. Daily limits reset at 00:00 UTC; paid accounts are brought back in stages over the following hours.",
 			"summary": "Get usage limit status",
 			"usage": "cf observability usage-limit get",
 			"arguments": [],
@@ -85842,6 +86621,18 @@
 					"type": "string",
 					"required": true,
 					"description": "Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number of custom domains, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of custom domains per page."
 				},
 				{
 					"name": "dry-run",
@@ -89593,9 +90384,21 @@
 			"fullPath": ["queues", "list"],
 			"description": "Returns the queues owned by an account.",
 			"summary": "List Queues",
-			"usage": "cf queues list",
+			"usage": "cf queues list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number of queues, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of queues per page. Takes precedence over the legacy perPage query parameter."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -118953,7 +119756,7 @@
 			"command": "cf security-insights partners settings update",
 			"name": "update",
 			"fullPath": ["security-insights", "partners", "settings", "update"],
-			"description": "Enables or disables the selected partner integration for the account. Enabling the integration for the first time also schedules an account scan for that partner.",
+			"description": "Enables or disables the selected partner integration for the account. Enabling the integration for the first time also schedules an account scan for that partner. Disabling the integration will purge all partner integration-related data, including partner insights, shadow zones, and shadow hosts.",
 			"summary": "Updates Partner Integration Settings",
 			"usage": "cf security-insights partners settings update <partner> [options]",
 			"arguments": [
@@ -118970,7 +119773,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": true,
-					"description": "Whether the partner integration is enabled for the account."
+					"description": "Whether the partner integration is enabled for the account.\nEnabling the integration for the first time also schedules an account scan for that partner.\nDisabling the integration will purge all partner integration-related data, including partner insights, shadow zones, and shadow hosts."
 				},
 				{
 					"name": "dry-run",
@@ -119333,55 +120136,55 @@
 					"name": "acknowledgments",
 					"type": "string",
 					"required": false,
-					"description": "The acknowledgments field"
+					"description": "Link(s) to a page where security researchers are recognised for their reports."
 				},
 				{
 					"name": "canonical",
 					"type": "string",
 					"required": false,
-					"description": "The canonical field"
+					"description": "Canonical URI where the security.txt file is located."
 				},
 				{
 					"name": "contact",
 					"type": "string",
-					"required": false,
-					"description": "The contact field"
+					"required": true,
+					"description": "Methods that researchers should use for reporting vulnerabilities. Can be a URI for an email address, phone number, or URL."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field"
+					"description": "Whether or not to serve the security.txt file in this zone. If false, security.txt requests will pass through to the origin server."
 				},
 				{
 					"name": "encryption",
 					"type": "string",
 					"required": false,
-					"description": "The encryption field"
+					"description": "URI(s) pointing to a location where an encryption key that researchers should use for encrypted communications can be retrieved. The key itself must not appear in this field."
 				},
 				{
 					"name": "expires",
 					"type": "string",
-					"required": false,
-					"description": "The expires field"
+					"required": true,
+					"description": "RFC3339-formatted date and time string indicating the time that, after which, the contents of the security.txt file should be considered stale. It is recommended that this value is less than a year into the future."
 				},
 				{
 					"name": "hiring",
 					"type": "string",
 					"required": false,
-					"description": "The hiring field"
+					"description": "Link(s) to any security-related job positions."
 				},
 				{
 					"name": "policy",
 					"type": "string",
 					"required": false,
-					"description": "The policy field"
+					"description": "Link(s) to where a vulnerability disclosure policy is located."
 				},
 				{
 					"name": "preferred-languages",
 					"type": "string",
 					"required": false,
-					"description": "The preferred_languages field"
+					"description": "Comma-separated list of natural languages that are preferred when submitting security reports. Language codes should be as defined in RFC5646."
 				},
 				{
 					"name": "dry-run",
@@ -123202,9 +124005,21 @@
 			"fullPath": ["ssl", "keyless-certificates", "list"],
 			"description": "List all Keyless SSL configurations for a given zone.",
 			"summary": "List Keyless SSL Configurations",
-			"usage": "cf ssl keyless-certificates list",
+			"usage": "cf ssl keyless-certificates list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number of Keyless SSL configurations, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of Keyless SSL configurations per page."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -123385,6 +124200,30 @@
 			"usage": "cf ssl mtls-certificates list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1. Defaults to 1. Ignored when offset is provided."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "offset",
+					"type": "number",
+					"required": false,
+					"description": "Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0."
+				},
 				{
 					"name": "type",
 					"type": "string",
@@ -123778,9 +124617,33 @@
 			],
 			"description": "Lists all client certificates configured for per-hostname authenticated origin pulls on the zone.",
 			"summary": "List Certificates",
-			"usage": "cf ssl origin-tls-client-auth hostname-certificates list",
+			"usage": "cf ssl origin-tls-client-auth hostname-certificates list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1. Defaults to 1. Ignored when offset is provided."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "offset",
+					"type": "number",
+					"required": false,
+					"description": "Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -124059,9 +124922,33 @@
 			],
 			"description": "Lists all client certificates configured for zone-level authenticated origin pulls.",
 			"summary": "List Certificates",
-			"usage": "cf ssl origin-tls-client-auth zone-certificates list",
+			"usage": "cf ssl origin-tls-client-auth zone-certificates list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1. Defaults to 1. Ignored when offset is provided."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "offset",
+					"type": "number",
+					"required": false,
+					"description": "Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -126490,24 +127377,17 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "if-match",
-					"type": "string",
-					"required": false,
-					"description": "ETag value for optimistic concurrency control. When provided, the server will\nverify the current resource ETag matches before applying the write. Returns\n412 Precondition Failed if the resource has been modified since the ETag was\nobtained. Omit this header for unconditional writes."
-				},
-				{
 					"name": "resource-id",
 					"type": "string",
 					"required": true,
-					"description": "Identifies the unique resource."
+					"description": "The ID of the resource to remove tags from."
 				},
 				{
 					"name": "resource-type",
 					"type": "string",
 					"required": true,
-					"description": "Enum for worker_version resource type.",
+					"description": "The type of the resource.",
 					"enum": [
-						"worker_version",
 						"access_application",
 						"access_group",
 						"access_service_token",
@@ -126541,14 +127421,21 @@
 						"stream_live_input",
 						"stream_video",
 						"vectorize_index",
-						"worker"
+						"worker",
+						"worker_version"
 					]
 				},
 				{
 					"name": "worker-id",
 					"type": "string",
 					"required": false,
-					"description": "Worker ID is required only for worker_version resources"
+					"description": "Worker identifier. Required for worker_version resources."
+				},
+				{
+					"name": "if-match",
+					"type": "string",
+					"required": false,
+					"description": "ETag value for optimistic concurrency control. When provided, the server will\nverify the current resource ETag matches before applying the write. Returns\n412 Precondition Failed if the resource has been modified since the ETag was\nobtained. Omit this header for unconditional writes."
 				},
 				{
 					"name": "dry-run",
@@ -126564,16 +127451,10 @@
 					"required": false,
 					"description": "Skip confirmation (useful in scripts and CI)",
 					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
 			"category": "delete",
-			"hasRequestBody": true,
+			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/{account_or_zone}/{account_or_zone_id}/tags",
 			"operationId": "tags.account-resources.delete",
@@ -127229,6 +128110,46 @@
 				}
 			],
 			"hideCommand": true
+		},
+		{
+			"command": "cf tunnels config delete",
+			"name": "delete",
+			"fullPath": ["tunnels", "config", "delete"],
+			"description": "Resets a remotely managed Cloudflare Tunnel to an empty configuration, removing ingress rules and origin request settings. The tunnel remains remotely managed, and private network routes continue to determine WARP routing. Publishes a new configuration version when the configuration changes. Repeated requests succeed without creating additional versions. If the tunnel or configuration is absent, returns a null result. Locally managed tunnels cannot be reset with this endpoint.",
+			"summary": "Reset Tunnel configuration",
+			"usage": "cf tunnels config delete <tunnel-id>",
+			"arguments": [
+				{
+					"name": "tunnel-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations",
+			"operationId": "tunnels.config.delete",
+			"hideCommand": false
 		},
 		{
 			"command": "cf tunnels config get",
@@ -152783,7 +153704,9 @@
 						"unknown",
 						"notapplicable",
 						"ingraceperiod",
-						"error"
+						"error",
+						"conflict",
+						"configmanager"
 					]
 				},
 				{
@@ -153267,7 +154190,9 @@
 						"unknown",
 						"notapplicable",
 						"ingraceperiod",
-						"error"
+						"error",
+						"conflict",
+						"configmanager"
 					]
 				},
 				{
@@ -164255,6 +165180,122 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust region delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "region", "delete"],
+			"description": "Clears the account's active region. This operation is idempotent. Clearing an account without an active region returns success with a `null` `region_key`.",
+			"summary": "Clear active region",
+			"usage": "cf zero-trust region delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/zerotrust/region",
+			"operationId": "zero-trust.region.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust region get",
+			"name": "get",
+			"fullPath": ["zero-trust", "region", "get"],
+			"description": "Gets the region that the account is using for Cloudflare One. `region_key` is `null` if the account has not selected a region.",
+			"summary": "Get active region",
+			"usage": "cf zero-trust region get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zerotrust/region",
+			"operationId": "zero-trust.region.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust region update",
+			"name": "update",
+			"fullPath": ["zero-trust", "region", "update"],
+			"description": "Selects the region that the account uses for Cloudflare One. The region must be one of the account's available regions. Selecting the active region again has no effect.",
+			"summary": "Select region",
+			"usage": "cf zero-trust region update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "region-key",
+					"type": "string",
+					"required": true,
+					"description": "The key of a Data Localization Suite region."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/zerotrust/region",
+			"operationId": "zero-trust.region.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust regions list",
+			"name": "list",
+			"fullPath": ["zero-trust", "regions", "list"],
+			"description": "Lists the regions that the account can select for Cloudflare One. Returns an empty list if no regions are available to the account.",
+			"summary": "List available regions",
+			"usage": "cf zero-trust regions list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zerotrust/regions",
+			"operationId": "zero-trust.regions.list",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust risk-scoring behaviours get",
 			"name": "get",
 			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "get"],
@@ -165489,7 +166530,7 @@
 			"fullPath": ["zones", "hostnames", "settings", "tls", "get"],
 			"description": "List the requested TLS setting for the hostnames under this zone.",
 			"summary": "List TLS setting for hostnames",
-			"usage": "cf zones hostnames settings tls get <setting-id>",
+			"usage": "cf zones hostnames settings tls get <setting-id> [options]",
 			"arguments": [
 				{
 					"name": "setting-id",
@@ -165500,6 +166541,30 @@
 				}
 			],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1. Defaults to 1. Ignored when offset is provided."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000."
+				},
+				{
+					"name": "offset",
+					"type": "number",
+					"required": false,
+					"description": "Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -166978,6 +168043,7 @@
 		"cloudforce-one priority-intelligence matches": "Operations for priority-intelligence.matches",
 		"cloudforce-one priority-intelligence profile": "Operations for priority-intelligence.profile",
 		"cloudforce-one priority-intelligence quota": "Operations for priority-intelligence.quota",
+		"cloudforce-one priority-intelligence topics": "Operations for priority-intelligence.topics",
 		"cloudforce-one requests": "Additional request operations — priority listing and asset creation",
 		"cloudforce-one requests assets": "Operations for requests.assets",
 		"cloudforce-one requests constants": "Operations for requests.constants",
@@ -167909,6 +168975,8 @@
 		"zero-trust organization": "Operations for organization",
 		"zero-trust organization doh": "Operations for organization.doh",
 		"zero-trust organization trust-settings": "Operations for organization.trust-settings",
+		"zero-trust region": "Operations for region",
+		"zero-trust regions": "Operations for regions",
 		"zero-trust risk-scoring": "User Risk Scoring - retrieve and reset user risk scores",
 		"zero-trust risk-scoring behaviours": "User Risk Scoring - manage behaviors used to calculate user risk scores",
 		"zero-trust risk-scoring integrations": "User Risk Scoring - manage integrations that provide risk score signals",

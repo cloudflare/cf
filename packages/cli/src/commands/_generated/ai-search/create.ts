@@ -262,6 +262,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"R2 bucket name or HTTP(S) root website URL to index. When type is omitted, the source determines it.",
 		})
+		.option("source-params-d1-query", {
+			type: "string",
+			description:
+				"Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored.",
+		})
+		.option("source-params-d1-template", {
+			type: "string",
+			description:
+				"How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object.",
+			choices: ["labelled", "content_only", "key_value", "json"],
+		})
+		.coerce("source-params-d1-template", (value) =>
+			resolveFileToken(value, "source-params-d1-template", "text")
+		)
 		.option("source-params-exclude-items", {
 			type: "string",
 			array: true,
@@ -363,7 +377,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("type", {
 			type: "string",
 			description: "Data source type: r2 or web-crawler.",
-			choices: ["r2", "web-crawler"],
+			choices: ["r2", "web-crawler", "d1"],
 		})
 		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
@@ -408,6 +422,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"source-params-d1-query",
+				"source-params-d1-template",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["source-params-d1-query"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --source-params-d1-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -443,6 +474,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"reranking",
 						"retrieval-options-keyword-match-mode",
 						"rewrite-query",
+						"source-params-d1-template",
 						"source-params-web-crawler-discover-options-include-external-links",
 						"source-params-web-crawler-discover-options-include-subdomains",
 						"source-params-web-crawler-discover-options-source",
@@ -595,6 +627,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											source_params: {
+												d1: {
+													query: resolveFileToken(
+														argv["source-params-d1-query"] as
+															| string
+															| undefined,
+														"source-params-d1-query",
+														"text"
+													),
+													template: argv["source-params-d1-template"],
+												},
 												exclude_items: argv["source-params-exclude-items"],
 												include_items: argv["source-params-include-items"],
 												prefix: resolveFileToken(
@@ -826,6 +868,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						source_params: {
+							d1: {
+								query: resolveFileToken(
+									argv["source-params-d1-query"] as string | undefined,
+									"source-params-d1-query",
+									"text"
+								),
+								template: argv["source-params-d1-template"],
+							},
 							exclude_items: argv["source-params-exclude-items"],
 							include_items: argv["source-params-include-items"],
 							prefix: resolveFileToken(

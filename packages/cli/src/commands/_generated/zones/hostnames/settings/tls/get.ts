@@ -23,6 +23,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'The TLS Setting name. The value type depends on the setting: - \`ciphers\`: value is an array of cipher suite strings (e.g., \`["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]\`). - \`min_tls_version\`: value is a TLS version string (\`"1.0"\`, \`"1.1"\`, \`"1.2"\`, or \`"1.3"\`). - \`http2\`: value is \`"on"\` or \`"off"\`.',
 			demandOption: true,
 		})
+		.option("page", {
+			type: "number",
+			description:
+				"Page number, starting at 1. Defaults to 1. Ignored when offset is provided.",
+		})
+		.option("per-page", {
+			type: "number",
+			description:
+				"Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000.",
+		})
+		.option("limit", {
+			type: "number",
+			description:
+				"Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000.",
+		})
+		.option("offset", {
+			type: "number",
+			description:
+				"Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -46,6 +66,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+					limit: argv["limit"],
+					offset: argv["offset"],
+				};
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf zones hostnames settings tls get",
@@ -55,6 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 							"setting-id": String(argv["setting-id"] ?? ""),
 						},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -69,6 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.send(operation, {
 						zone_id: zoneId,
 						setting_id: argv["setting-id"],
+						...queryParams,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

@@ -5885,7 +5885,20 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -6078,7 +6091,20 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -7887,6 +7913,18 @@
 					"type": "string",
 					"required": false,
 					"description": "R2 bucket name or HTTP(S) root website URL to index. When type is omitted, the source determines it."
+				},
+				{
+					"name": "source-params-d1-query",
+					"type": "string",
+					"required": false,
+					"description": "Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored."
+				},
+				{
+					"name": "source-params-d1-template",
+					"type": "string",
+					"required": false,
+					"description": "How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object."
 				},
 				{
 					"name": "source-params-exclude-items",
@@ -9969,6 +10007,18 @@
 					"description": "R2 bucket name or HTTP(S) root website URL to index."
 				},
 				{
+					"name": "source-params-d1-query",
+					"type": "string",
+					"required": false,
+					"description": "Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. Omit to keep the stored query."
+				},
+				{
+					"name": "source-params-d1-template",
+					"type": "string",
+					"required": false,
+					"description": "How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. Omit to keep the stored template."
+				},
+				{
 					"name": "source-params-exclude-items",
 					"type": "string",
 					"required": false,
@@ -10402,18 +10452,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the webhook destination. This will be included in the request body when you receive a webhook notification."
-				},
-				{
-					"name": "secret",
-					"type": "string",
-					"required": false,
-					"description": "Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body."
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": true,
-					"description": "The POST endpoint to call when dispatching a notification."
 				}
 			]
 		},
@@ -22143,6 +22181,18 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "based-on-profile-revision",
+					"type": "number",
+					"required": false,
+					"description": "The based_on.profile_revision field"
+				},
+				{
+					"name": "based-on-topic-fingerprint",
+					"type": "string",
+					"required": false,
+					"description": "The based_on.topic_fingerprint field"
+				},
+				{
 					"name": "dataset-scope-type",
 					"type": "string",
 					"required": false,
@@ -22153,6 +22203,216 @@
 					"type": "string",
 					"required": false,
 					"description": "The dataset_scope.dataset_ids field"
+				},
+				{
+					"name": "definition-additional-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "definition-criterion-selections-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.add field"
+				},
+				{
+					"name": "definition-criterion-selections-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.remove field"
+				},
+				{
+					"name": "definition-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.mode field"
+				},
+				{
+					"name": "definition-question-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.mode field"
+				},
+				{
+					"name": "definition-question-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.value field"
+				},
+				{
+					"name": "definition-schema-version",
+					"type": "number",
+					"required": false,
+					"description": "The definition.schema_version field"
+				},
+				{
+					"name": "definition-selections-actor-notes",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_notes field"
+				},
+				{
+					"name": "definition-selections-actor-types-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.mode field"
+				},
+				{
+					"name": "definition-selections-actor-types-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.value field"
+				},
+				{
+					"name": "definition-selections-actors-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.add field"
+				},
+				{
+					"name": "definition-selections-actors-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.remove field"
+				},
+				{
+					"name": "definition-selections-attributed-countries",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.attributed_countries field"
+				},
+				{
+					"name": "definition-selections-countries-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.mode field"
+				},
+				{
+					"name": "definition-selections-countries-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.value field"
+				},
+				{
+					"name": "definition-selections-cves",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.cves field"
+				},
+				{
+					"name": "definition-selections-excluded-actors",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.excluded_actors field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.mode field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-malware-tools",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.malware_tools field"
+				},
+				{
+					"name": "definition-selections-motivations-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.mode field"
+				},
+				{
+					"name": "definition-selections-motivations-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.value field"
+				},
+				{
+					"name": "definition-selections-peers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.mode field"
+				},
+				{
+					"name": "definition-selections-peers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-sectors-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.mode field"
+				},
+				{
+					"name": "definition-selections-sectors-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.value field"
+				},
+				{
+					"name": "definition-selections-targets-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.mode field"
+				},
+				{
+					"name": "definition-selections-targets-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.value field"
+				},
+				{
+					"name": "definition-selections-technique-ids",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technique_ids field"
+				},
+				{
+					"name": "definition-selections-technologies-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.mode field"
+				},
+				{
+					"name": "definition-selections-technologies-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.value field"
+				},
+				{
+					"name": "definition-title-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.mode field"
+				},
+				{
+					"name": "definition-title-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.value field"
+				},
+				{
+					"name": "definition-topic-id",
+					"type": "string",
+					"required": false,
+					"description": "The definition.topic_id field"
+				},
+				{
+					"name": "definition-relevance-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
 				},
 				{
 					"name": "digest-interval-hours",
@@ -22271,8 +22531,8 @@
 				{
 					"name": "requirement",
 					"type": "string",
-					"required": true,
-					"description": "The requirement field"
+					"required": false,
+					"description": "Free-form requirement. Required unless `definition` is sent."
 				},
 				{
 					"name": "status",
@@ -22955,19 +23215,253 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "organization-profile",
-					"type": "string",
-					"required": true,
-					"description": "Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
-				}
-			]
+			"requestBodyFields": []
 		},
 		"cloudforce-one priority-intelligence quota create": {
 			"operationId": "cloudforce-one.priority-intelligence.quota.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/quota",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one priority-intelligence resolve": {
+			"operationId": "cloudforce-one.priority-intelligence.resolve",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/resolve",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "definition-additional-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "definition-criterion-selections-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.add field"
+				},
+				{
+					"name": "definition-criterion-selections-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.remove field"
+				},
+				{
+					"name": "definition-mode",
+					"type": "string",
+					"required": true,
+					"description": "The definition.mode field"
+				},
+				{
+					"name": "definition-question-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.mode field"
+				},
+				{
+					"name": "definition-question-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.value field"
+				},
+				{
+					"name": "definition-schema-version",
+					"type": "number",
+					"required": true,
+					"description": "The definition.schema_version field"
+				},
+				{
+					"name": "definition-selections-actor-notes",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_notes field"
+				},
+				{
+					"name": "definition-selections-actor-types-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.mode field"
+				},
+				{
+					"name": "definition-selections-actor-types-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.value field"
+				},
+				{
+					"name": "definition-selections-actors-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.add field"
+				},
+				{
+					"name": "definition-selections-actors-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.remove field"
+				},
+				{
+					"name": "definition-selections-attributed-countries",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.attributed_countries field"
+				},
+				{
+					"name": "definition-selections-countries-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.mode field"
+				},
+				{
+					"name": "definition-selections-countries-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.value field"
+				},
+				{
+					"name": "definition-selections-cves",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.cves field"
+				},
+				{
+					"name": "definition-selections-excluded-actors",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.excluded_actors field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.mode field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-malware-tools",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.malware_tools field"
+				},
+				{
+					"name": "definition-selections-motivations-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.mode field"
+				},
+				{
+					"name": "definition-selections-motivations-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.value field"
+				},
+				{
+					"name": "definition-selections-peers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.mode field"
+				},
+				{
+					"name": "definition-selections-peers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-sectors-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.mode field"
+				},
+				{
+					"name": "definition-selections-sectors-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.value field"
+				},
+				{
+					"name": "definition-selections-targets-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.mode field"
+				},
+				{
+					"name": "definition-selections-targets-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.value field"
+				},
+				{
+					"name": "definition-selections-technique-ids",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technique_ids field"
+				},
+				{
+					"name": "definition-selections-technologies-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.mode field"
+				},
+				{
+					"name": "definition-selections-technologies-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.value field"
+				},
+				{
+					"name": "definition-title-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.mode field"
+				},
+				{
+					"name": "definition-title-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.value field"
+				},
+				{
+					"name": "definition-topic-id",
+					"type": "string",
+					"required": false,
+					"description": "The definition.topic_id field"
+				},
+				{
+					"name": "definition-relevance-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				}
+			]
+		},
+		"cloudforce-one priority-intelligence topics list": {
+			"operationId": "cloudforce-one.priority-intelligence.topics.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/topics",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -23001,6 +23495,18 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "based-on-profile-revision",
+					"type": "number",
+					"required": false,
+					"description": "The based_on.profile_revision field"
+				},
+				{
+					"name": "based-on-topic-fingerprint",
+					"type": "string",
+					"required": false,
+					"description": "The based_on.topic_fingerprint field"
+				},
+				{
 					"name": "confirm-query",
 					"type": "boolean",
 					"required": false,
@@ -23017,6 +23523,216 @@
 					"type": "string",
 					"required": false,
 					"description": "The dataset_scope.dataset_ids field"
+				},
+				{
+					"name": "definition-additional-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
+				},
+				{
+					"name": "definition-criterion-selections-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.add field"
+				},
+				{
+					"name": "definition-criterion-selections-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.criterion_selections.remove field"
+				},
+				{
+					"name": "definition-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.mode field"
+				},
+				{
+					"name": "definition-question-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.mode field"
+				},
+				{
+					"name": "definition-question-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.question.value field"
+				},
+				{
+					"name": "definition-schema-version",
+					"type": "number",
+					"required": false,
+					"description": "The definition.schema_version field"
+				},
+				{
+					"name": "definition-selections-actor-notes",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_notes field"
+				},
+				{
+					"name": "definition-selections-actor-types-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.mode field"
+				},
+				{
+					"name": "definition-selections-actor-types-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actor_types.value field"
+				},
+				{
+					"name": "definition-selections-actors-add",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.add field"
+				},
+				{
+					"name": "definition-selections-actors-remove",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.actors.remove field"
+				},
+				{
+					"name": "definition-selections-attributed-countries",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.attributed_countries field"
+				},
+				{
+					"name": "definition-selections-countries-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.mode field"
+				},
+				{
+					"name": "definition-selections-countries-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.countries.value field"
+				},
+				{
+					"name": "definition-selections-cves",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.cves field"
+				},
+				{
+					"name": "definition-selections-excluded-actors",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.excluded_actors field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.mode field"
+				},
+				{
+					"name": "definition-selections-key-suppliers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-malware-tools",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.malware_tools field"
+				},
+				{
+					"name": "definition-selections-motivations-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.mode field"
+				},
+				{
+					"name": "definition-selections-motivations-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.motivations.value field"
+				},
+				{
+					"name": "definition-selections-peers-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.mode field"
+				},
+				{
+					"name": "definition-selections-peers-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"domains\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "definition-selections-sectors-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.mode field"
+				},
+				{
+					"name": "definition-selections-sectors-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.sectors.value field"
+				},
+				{
+					"name": "definition-selections-targets-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.mode field"
+				},
+				{
+					"name": "definition-selections-targets-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.targets.value field"
+				},
+				{
+					"name": "definition-selections-technique-ids",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technique_ids field"
+				},
+				{
+					"name": "definition-selections-technologies-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.mode field"
+				},
+				{
+					"name": "definition-selections-technologies-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.selections.technologies.value field"
+				},
+				{
+					"name": "definition-title-mode",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.mode field"
+				},
+				{
+					"name": "definition-title-value",
+					"type": "string",
+					"required": false,
+					"description": "The definition.title.value field"
+				},
+				{
+					"name": "definition-topic-id",
+					"type": "string",
+					"required": false,
+					"description": "The definition.topic_id field"
+				},
+				{
+					"name": "definition-relevance-criteria",
+					"type": "string",
+					"required": false,
+					"description": "The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"band\": \"highly\" | \"somewhat\" | \"not\", \"id\": string, \"text\": string}]."
 				},
 				{
 					"name": "digest-interval-hours",
@@ -23137,6 +23853,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The requirement field"
+				},
+				{
+					"name": "revision",
+					"type": "number",
+					"required": false,
+					"description": "The `revision` the change is based on. Required for structured PIRs; a different stored revision returns 409."
 				},
 				{
 					"name": "status",
@@ -57890,7 +58612,7 @@
 					"name": "bgp-mode",
 					"type": "string",
 					"required": false,
-					"description": "The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`"
+					"description": "Controls the customer-facing route exchange behavior. Omitting this field during an update preserves the current mode. When enabling BGP on a BGP-disabled CNI, an omitted or null mode defaults to AdvertiseOnly. Otherwise, null clears the explicitly selected mode."
 				},
 				{
 					"name": "cust-ip",
@@ -62145,7 +62867,20 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -64931,7 +65666,20 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -87774,7 +88522,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": true,
-					"description": "Whether the partner integration is enabled for the account."
+					"description": "Whether the partner integration is enabled for the account.\nEnabling the integration for the first time also schedules an account scan for that partner.\nDisabling the integration will purge all partner integration-related data, including partner insights, shadow zones, and shadow hosts."
 				}
 			]
 		},
@@ -88028,55 +88776,55 @@
 					"name": "acknowledgments",
 					"type": "string",
 					"required": false,
-					"description": "The acknowledgments field"
+					"description": "Link(s) to a page where security researchers are recognised for their reports."
 				},
 				{
 					"name": "canonical",
 					"type": "string",
 					"required": false,
-					"description": "The canonical field"
+					"description": "Canonical URI where the security.txt file is located."
 				},
 				{
 					"name": "contact",
 					"type": "string",
-					"required": false,
-					"description": "The contact field"
+					"required": true,
+					"description": "Methods that researchers should use for reporting vulnerabilities. Can be a URI for an email address, phone number, or URL."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field"
+					"description": "Whether or not to serve the security.txt file in this zone. If false, security.txt requests will pass through to the origin server."
 				},
 				{
 					"name": "encryption",
 					"type": "string",
 					"required": false,
-					"description": "The encryption field"
+					"description": "URI(s) pointing to a location where an encryption key that researchers should use for encrypted communications can be retrieved. The key itself must not appear in this field."
 				},
 				{
 					"name": "expires",
 					"type": "string",
-					"required": false,
-					"description": "The expires field"
+					"required": true,
+					"description": "RFC3339-formatted date and time string indicating the time that, after which, the contents of the security.txt file should be considered stale. It is recommended that this value is less than a year into the future."
 				},
 				{
 					"name": "hiring",
 					"type": "string",
 					"required": false,
-					"description": "The hiring field"
+					"description": "Link(s) to any security-related job positions."
 				},
 				{
 					"name": "policy",
 					"type": "string",
 					"required": false,
-					"description": "The policy field"
+					"description": "Link(s) to where a vulnerability disclosure policy is located."
 				},
 				{
 					"name": "preferred-languages",
 					"type": "string",
 					"required": false,
-					"description": "The preferred_languages field"
+					"description": "Comma-separated list of natural languages that are preferred when submitting security reports. Language codes should be as defined in RFC5646."
 				}
 			]
 		},
@@ -90796,7 +91544,20 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -90917,6 +91678,30 @@
 				}
 			],
 			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "offset",
+					"flag": "offset",
+					"type": "number",
+					"required": false
+				},
 				{
 					"name": "type",
 					"flag": "type",
@@ -91151,7 +91936,32 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "offset",
+					"flag": "offset",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -91327,7 +92137,32 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "offset",
+					"flag": "offset",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -93021,28 +93856,28 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
+			"queryParams": [
 				{
-					"name": "resource-id",
+					"name": "resource_id",
+					"flag": "resource-id",
 					"type": "string",
-					"required": true,
-					"description": "Identifies the unique resource."
+					"required": true
 				},
 				{
-					"name": "resource-type",
+					"name": "resource_type",
+					"flag": "resource-type",
 					"type": "string",
-					"required": true,
-					"description": "Enum for worker_version resource type."
+					"required": true
 				},
 				{
-					"name": "worker-id",
+					"name": "worker_id",
+					"flag": "worker-id",
 					"type": "string",
-					"required": false,
-					"description": "Worker ID is required only for worker_version resources"
+					"required": false
 				}
-			]
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"tags account-resources get": {
 			"operationId": "tags.account-resources.get",
@@ -93426,6 +94261,28 @@
 					"required": false
 				}
 			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tunnels config delete": {
+			"operationId": "tunnels.config.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tunnel_id",
+					"flag": "tunnel-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -119966,6 +120823,73 @@
 				}
 			]
 		},
+		"zero-trust region delete": {
+			"operationId": "zero-trust.region.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/zerotrust/region",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust region get": {
+			"operationId": "zero-trust.region.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zerotrust/region",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust region update": {
+			"operationId": "zero-trust.region.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/zerotrust/region",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "region-key",
+					"type": "string",
+					"required": true,
+					"description": "The key of a Data Localization Suite region."
+				}
+			]
+		},
+		"zero-trust regions list": {
+			"operationId": "zero-trust.regions.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zerotrust/regions",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"zero-trust risk-scoring behaviours get": {
 			"operationId": "zero-trust.risk-scoring.behaviours.get",
 			"httpMethod": "GET",
@@ -120783,7 +121707,32 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "offset",
+					"flag": "offset",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},

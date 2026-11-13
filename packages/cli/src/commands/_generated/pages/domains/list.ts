@@ -28,6 +28,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
 			demandOption: true,
 		})
+		.option("page", {
+			type: "number",
+			description: "Page number of custom domains, starting at 1.",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "Number of custom domains per page.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -51,6 +59,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -58,6 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects/${argv["project-name"] == null ? "<project-name>" : encodeURIComponent(String(argv["project-name"]))}/domains`,
 						pathParams: { "project-name": String(argv["project-name"] ?? "") },
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -70,6 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
+						...queryParams,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

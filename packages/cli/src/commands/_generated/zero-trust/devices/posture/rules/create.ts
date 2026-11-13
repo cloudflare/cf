@@ -138,6 +138,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"notapplicable",
 				"ingraceperiod",
 				"error",
+				"conflict",
+				"configmanager",
 			],
 		})
 		.coerce("input-compliance-status", (value) =>

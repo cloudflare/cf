@@ -9,5 +9,6 @@ export default {
 	response: false,
 	errors: {
 		400: "BadRequestError",
+		409: "ConflictError",
 	},
 } as const;

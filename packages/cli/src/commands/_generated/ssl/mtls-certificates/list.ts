@@ -22,6 +22,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 ssl mtls-certificates list\n\nLists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](/api/resources/client_certificates/methods/list/)."
 		)
+		.option("page", {
+			type: "number",
+			description:
+				"Page number, starting at 1. Defaults to 1. Ignored when offset is provided.",
+		})
+		.option("per-page", {
+			type: "number",
+			description:
+				"Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000.",
+		})
+		.option("limit", {
+			type: "number",
+			description:
+				"Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000.",
+		})
+		.option("offset", {
+			type: "number",
+			description:
+				"Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0.",
+		})
 		.option("type", {
 			type: "string",
 			array: true,
@@ -52,6 +72,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+					limit: argv["limit"],
+					offset: argv["offset"],
 					type: argv["type"],
 				};
 				if (argv.dryRun) {

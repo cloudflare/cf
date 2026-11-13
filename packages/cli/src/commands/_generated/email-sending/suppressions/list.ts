@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-sending suppressions list\n\nLists every active Email Sending suppression owned by the account: sending-domain suppressions first, then account-wide suppressions (including legacy rows with internal zone memberships). Each group is newest first."
+			"$0 email-sending suppressions list\n\nLists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions (including legacy rows with internal zone memberships). Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope."
 		)
 		.option("per-page", {
 			type: "number",
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scope-type", {
 			type: "string",
 			description:
-				"Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both, sending-domain suppressions first.",
+				"Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both; the order between the two scopes is not fixed.",
 			choices: ["account", "sending_domain"],
 		})
 		.option("scope-value", {

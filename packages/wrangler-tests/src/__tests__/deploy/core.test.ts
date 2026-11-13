@@ -384,11 +384,11 @@ describe("deploy", () => {
 
 async function seedBuildOutput(accountId?: string): Promise<void> {
 	await seed({
-		".cloudflare/output/v0/config.json": JSON.stringify({
+		".cloudflare/output/v1/config.json": JSON.stringify({
 			buildContext: { isPreview: false },
-			accountId,
+			...(accountId ? { settings: { accountId } } : {}),
 		}),
-		".cloudflare/output/v0/workers/default/worker.config.json": JSON.stringify({
+		".cloudflare/output/v1/workers/default/worker.config.json": JSON.stringify({
 			name: "test-name",
 			compatibilityDate: "2025-01-01",
 			manifest: {
@@ -397,7 +397,7 @@ async function seedBuildOutput(accountId?: string): Promise<void> {
 				modules: { "index.js": { type: "esm" } },
 			},
 		}),
-		".cloudflare/output/v0/workers/default/bundle/index.js":
+		".cloudflare/output/v1/workers/default/bundle/index.js":
 			"export default { fetch() { return new Response('ok'); } }",
 	});
 }

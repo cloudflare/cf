@@ -6,7 +6,7 @@ import {
 import { isLiveDurableObjectExport } from "@cloudflare/workers-utils";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import type { BuildOutputContainers } from "@cloudflare/build-output-utils";
-import type { ParsedOutputContainerConfig } from "@cloudflare/config";
+import type { ParsedBuildOutputContainerConfig } from "@cloudflare/config";
 import type {
 	BuiltContainerImage,
 	ContainerNormalizedConfig,
@@ -28,14 +28,18 @@ import type {
 
 type OutputImage = { reference: string } | { localReference: string };
 
+// `@cloudflare/config` leaves `maxInstances` unset when it isn't configured.
+// Match Wrangler's deploy default.
+const DEFAULT_MAX_INSTANCES = 20;
+
 type StandardOutputContainerConfig = Exclude<
-	ParsedOutputContainerConfig,
+	ParsedBuildOutputContainerConfig,
 	{ schedulingPolicy: "durable-object" }
 >;
 
 interface ContainerWithClass {
 	className: string;
-	config: ParsedOutputContainerConfig;
+	config: ParsedBuildOutputContainerConfig;
 }
 
 interface ContainerDeployOptions {
@@ -188,7 +192,7 @@ function withClassNames(
 }
 
 function toCommonContainerApp(
-	config: ParsedOutputContainerConfig,
+	config: ParsedBuildOutputContainerConfig,
 	className: string
 ): ContainerApp {
 	return {
@@ -217,11 +221,12 @@ function normalizeStandardContainer(
 	options: ContainerDeployOptions
 ): ContainerNormalizedConfig {
 	const { container, className } = containerWithClass;
-	const rolloutStepFallback = container.maxInstances < 2 ? 100 : [10, 100];
+	const maxInstances = container.maxInstances ?? DEFAULT_MAX_INSTANCES;
+	const rolloutStepFallback = maxInstances < 2 ? 100 : [10, 100];
 	const shared: SharedContainerConfig = {
 		name: container.name,
 		class_name: className,
-		max_instances: container.maxInstances,
+		max_instances: maxInstances,
 		scheduling_policy: (container.schedulingPolicy ??
 			SchedulingPolicy.DEFAULT) as SchedulingPolicy,
 		rollout_step_percentage:
@@ -293,7 +298,7 @@ function normalizeInstanceType(
 }
 
 function normalizeObservability(
-	container: ParsedOutputContainerConfig["observability"],
+	container: ParsedBuildOutputContainerConfig["observability"],
 	root: Observability | undefined
 ): SharedContainerConfig["observability"] {
 	let logsEnabled =
@@ -320,7 +325,7 @@ function normalizeObservability(
 }
 
 function toContainerObservability(
-	observability: ParsedOutputContainerConfig["observability"]
+	observability: ParsedBuildOutputContainerConfig["observability"]
 ): ContainerObservability | undefined {
 	if (observability === undefined) {
 		return undefined;

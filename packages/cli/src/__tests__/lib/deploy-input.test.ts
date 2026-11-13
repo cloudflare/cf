@@ -22,17 +22,17 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("reads modules and maps types", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				modules: {
 					"index.js": { type: "esm" },
 					"helper.wasm": { type: "wasm" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
-			".cloudflare/output/v0/workers/default/bundle/helper.wasm": "wasm-bytes",
+			".cloudflare/output/v1/workers/default/bundle/helper.wasm": "wasm-bytes",
 		});
 
 		const {
@@ -43,7 +43,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 		const result = assembleBuildResult(worker, builtConfig, process.cwd());
 
 		expect(result.resolvedEntryPointPath).toBe(
-			resolve(".cloudflare/output/v0/workers/default/bundle/index.js")
+			resolve(".cloudflare/output/v1/workers/default/bundle/index.js")
 		);
 		expect(result.bundleType).toBe("esm");
 		expect(result.content).toBe("export default {}");
@@ -55,8 +55,8 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("resolves and deploys modules from a partial manifest", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					compatibilityDate: "2026-04-25",
@@ -66,12 +66,12 @@ describe("transforms Build Output Specification into deploy input", () => {
 						modules: { "helper.wasm": { type: "wasm" } },
 					},
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
-			".cloudflare/output/v0/workers/default/bundle/chunk.mjs":
+			".cloudflare/output/v1/workers/default/bundle/chunk.mjs":
 				"export const value = 1",
-			".cloudflare/output/v0/workers/default/bundle/chunk.mjs.map": "{}",
-			".cloudflare/output/v0/workers/default/bundle/helper.wasm": "wasm-bytes",
+			".cloudflare/output/v1/workers/default/bundle/chunk.mjs.map": "{}",
+			".cloudflare/output/v1/workers/default/bundle/helper.wasm": "wasm-bytes",
 		});
 
 		const {
@@ -98,17 +98,17 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("includes sourcemaps declared in the manifest", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				modules: {
 					"index.js": { type: "esm" },
 					"index.js.map": { type: "sourcemap" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
-			".cloudflare/output/v0/workers/default/bundle/index.js.map":
+			".cloudflare/output/v1/workers/default/bundle/index.js.map":
 				'{"version":3}',
 		});
 
@@ -133,10 +133,10 @@ describe("transforms Build Output Specification into deploy input", () => {
 			map: Record<string, unknown>,
 			mapKey = "index.js.map"
 		) {
-			const bundle = ".cloudflare/output/v0/workers/default/bundle";
+			const bundle = ".cloudflare/output/v1/workers/default/bundle";
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					JSON.stringify({
 						name: "my-worker",
 						compatibilityDate: "2026-04-25",
@@ -253,7 +253,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 				mappings: "",
 			});
 			expect(result.sources).toEqual([
-				".cloudflare/output/v0/workers/default/bundle/index.src.js",
+				".cloudflare/output/v1/workers/default/bundle/index.src.js",
 			]);
 		});
 
@@ -299,17 +299,17 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("uploads a source map it cannot parse unchanged", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				modules: {
 					"index.js": { type: "esm" },
 					"index.js.map": { type: "sourcemap" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
-			".cloudflare/output/v0/workers/default/bundle/index.js.map":
+			".cloudflare/output/v1/workers/default/bundle/index.js.map":
 				'{"sources": ["../src/index.ts"',
 		});
 
@@ -326,15 +326,15 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("throws when a manifest sourcemap is missing", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				modules: {
 					"index.js": { type: "esm" },
 					"index.js.map": { type: "sourcemap" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
 		});
 
@@ -353,13 +353,13 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("returns empty result for assets-only (no mainModule)", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				mainModule: undefined,
 				modules: undefined,
 			}),
-			".cloudflare/output/v0/workers/default/assets/index.html": "",
+			".cloudflare/output/v1/workers/default/assets/index.html": "",
 		});
 
 		const {
@@ -375,13 +375,13 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("rejects module path traversal", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				mainModule: "../../../etc/passwd",
 				modules: { "../../../etc/passwd": { type: "esm" } },
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
 		});
 
 		const {
@@ -403,17 +403,17 @@ describe("transforms Build Output Specification into deploy input", () => {
 		// shares the "bundle" prefix. Without the trailing-separator check
 		// this would pass a naive startsWith guard.
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				modules: {
 					"index.js": { type: "esm" },
 					"../bundle-evil/payload.js": { type: "esm" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
-			".cloudflare/output/v0/workers/default/bundle-evil/payload.js": "evil()",
+			".cloudflare/output/v1/workers/default/bundle-evil/payload.js": "evil()",
 		});
 
 		const {
@@ -441,19 +441,19 @@ describe("transforms Build Output Specification into deploy input", () => {
 		};
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				modules,
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default {}",
-			".cloudflare/output/v0/workers/default/bundle/lib.cjs":
+			".cloudflare/output/v1/workers/default/bundle/lib.cjs":
 				"module.exports = {}",
-			".cloudflare/output/v0/workers/default/bundle/app.py": "pass",
-			".cloudflare/output/v0/workers/default/bundle/dep.txt": "hello",
-			".cloudflare/output/v0/workers/default/bundle/blob.bin": "\x00",
-			".cloudflare/output/v0/workers/default/bundle/config.json": '{"a":1}',
+			".cloudflare/output/v1/workers/default/bundle/app.py": "pass",
+			".cloudflare/output/v1/workers/default/bundle/dep.txt": "hello",
+			".cloudflare/output/v1/workers/default/bundle/blob.bin": "\x00",
+			".cloudflare/output/v1/workers/default/bundle/config.json": '{"a":1}',
 		});
 
 		const {
@@ -478,8 +478,8 @@ describe("transforms Build Output Specification into deploy input", () => {
 		// Python Workers import vendored packages from `python_modules/` and use
 		// module names as file paths, so a `./` prefix makes `import workers` fail.
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				compatibilityFlags: ["python_workers"],
 				mainModule: "entry.py",
@@ -491,14 +491,14 @@ describe("transforms Build Output Specification into deploy input", () => {
 					"python_modules/workers/workflows.js": { type: "esm" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/entry.py":
+			".cloudflare/output/v1/workers/default/bundle/entry.py":
 				"from workers import WorkerEntrypoint",
-			".cloudflare/output/v0/workers/default/bundle/helpers.py": "pass",
-			".cloudflare/output/v0/workers/default/bundle/python_modules/workers/__init__.py":
+			".cloudflare/output/v1/workers/default/bundle/helpers.py": "pass",
+			".cloudflare/output/v1/workers/default/bundle/python_modules/workers/__init__.py":
 				"",
-			".cloudflare/output/v0/workers/default/bundle/python_modules/_workers_sdk_patch_loader.pth":
+			".cloudflare/output/v1/workers/default/bundle/python_modules/_workers_sdk_patch_loader.pth":
 				"",
-			".cloudflare/output/v0/workers/default/bundle/python_modules/workers/workflows.js":
+			".cloudflare/output/v1/workers/default/bundle/python_modules/workers/workflows.js":
 				"export {}",
 		});
 
@@ -520,14 +520,14 @@ describe("transforms Build Output Specification into deploy input", () => {
 
 	it("throws when run_worker_first is set without a user Worker", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "my-worker",
 				mainModule: undefined,
 				modules: undefined,
 				assets: { runWorkerFirst: true },
 			}),
-			".cloudflare/output/v0/workers/default/assets/index.html": "",
+			".cloudflare/output/v1/workers/default/assets/index.html": "",
 		});
 
 		const {

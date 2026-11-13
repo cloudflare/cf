@@ -27195,12 +27195,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds repos connections upsert",
-			"name": "upsert",
-			"fullPath": ["builds", "repos", "connections", "upsert"],
+			"command": "cf builds repos connections replace",
+			"name": "replace",
+			"fullPath": ["builds", "repos", "connections", "replace"],
 			"description": "Save the repository connection required by build triggers.",
 			"summary": "Create or update a repository connection",
-			"usage": "cf builds repos connections upsert [options]",
+			"usage": "cf builds repos connections replace [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -27252,7 +27252,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/builds/repos/connections",
-			"operationId": "builds.repos.connections.upsert",
+			"operationId": "builds.repos.connections.replace",
 			"hideCommand": false
 		},
 		{
@@ -27675,136 +27675,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf builds workers get",
-			"name": "get",
-			"fullPath": ["builds", "workers", "get"],
-			"description": "Retrieve the repository and production build settings associated with a Worker tag.",
-			"summary": "Get Worker build configuration",
-			"usage": "cf builds workers get <worker>",
-			"arguments": [
-				{
-					"name": "worker",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Script tag of the Worker."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}",
-			"operationId": "builds.workers.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds workers migrate-to-previews",
-			"name": "migrate-to-previews",
-			"fullPath": ["builds", "workers", "migrate-to-previews"],
-			"description": "Migrate a Worker's legacy non-production trigger to Previews. The legacy build settings become the Previews base config and the legacy trigger is removed.",
-			"summary": "Migrate worker to previews",
-			"usage": "cf builds workers migrate-to-previews <worker> [options]",
-			"arguments": [
-				{
-					"name": "worker",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Script tag of the Worker."
-				}
-			],
-			"options": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"operationId": "builds.workers.migrate-to-previews",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds workers purge-cache",
-			"name": "purge-cache",
-			"fullPath": ["builds", "workers", "purge-cache"],
-			"description": "Delete cached dependencies and build artifacts for a Worker's production and Preview builds.",
-			"summary": "Purge a Worker's build cache",
-			"usage": "cf builds workers purge-cache <worker>",
-			"arguments": [
-				{
-					"name": "worker",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Script tag of the Worker."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
-			"operationId": "builds.workers.purge-cache",
-			"hideCommand": false
-		},
-		{
-			"command": "cf builds workers update",
-			"name": "update",
-			"fullPath": ["builds", "workers", "update"],
+			"command": "cf builds workers edit",
+			"name": "edit",
+			"fullPath": ["builds", "workers", "edit"],
 			"description": "Update the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings.",
 			"summary": "Update Worker build configuration",
-			"usage": "cf builds workers update <worker> [options]",
+			"usage": "cf builds workers edit <worker> [options]",
 			"arguments": [
 				{
 					"name": "worker",
@@ -27948,7 +27824,131 @@
 			"hasRequestBody": true,
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}",
-			"operationId": "builds.workers.update",
+			"operationId": "builds.workers.edit",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds workers get",
+			"name": "get",
+			"fullPath": ["builds", "workers", "get"],
+			"description": "Retrieve the repository and production build settings associated with a Worker tag.",
+			"summary": "Get Worker build configuration",
+			"usage": "cf builds workers get <worker>",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}",
+			"operationId": "builds.workers.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds workers migrate-to-previews",
+			"name": "migrate-to-previews",
+			"fullPath": ["builds", "workers", "migrate-to-previews"],
+			"description": "Migrate a Worker's legacy non-production trigger to Previews. The legacy build settings become the Previews base config and the legacy trigger is removed.",
+			"summary": "Migrate worker to previews",
+			"usage": "cf builds workers migrate-to-previews <worker> [options]",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"operationId": "builds.workers.migrate-to-previews",
+			"hideCommand": false
+		},
+		{
+			"command": "cf builds workers purge-cache",
+			"name": "purge-cache",
+			"fullPath": ["builds", "workers", "purge-cache"],
+			"description": "Delete cached dependencies and build artifacts for a Worker's production and Preview builds.",
+			"summary": "Purge a Worker's build cache",
+			"usage": "cf builds workers purge-cache <worker>",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Script tag of the Worker."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"operationId": "builds.workers.purge-cache",
 			"hideCommand": false
 		},
 		{
@@ -127398,6 +127398,7 @@
 						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
+						"app_library_application",
 						"cloudflared_tunnel",
 						"cws_deployment",
 						"cws_policy",
@@ -127491,6 +127492,7 @@
 						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
+						"app_library_application",
 						"cloudflared_tunnel",
 						"cws_deployment",
 						"cws_policy",
@@ -127577,6 +127579,7 @@
 						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
+						"app_library_application",
 						"cloudflared_tunnel",
 						"cws_deployment",
 						"cws_policy",
@@ -127789,6 +127792,7 @@
 						"alerting_policy",
 						"alerting_webhook",
 						"api_gateway_operation",
+						"app_library_application",
 						"cloudflared_tunnel",
 						"custom_certificate",
 						"custom_hostname",
@@ -144714,12 +144718,42 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust access targets bulk delete",
-			"name": "delete",
-			"fullPath": ["zero-trust", "access", "targets", "bulk", "delete"],
+			"command": "cf zero-trust access targets bulk-create",
+			"name": "bulk-create",
+			"fullPath": ["zero-trust", "access", "targets", "bulk-create"],
+			"description": "Adds one or more targets.",
+			"summary": "Create new targets",
+			"usage": "cf zero-trust access targets bulk-create",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/infrastructure/targets/batch",
+			"operationId": "zero-trust.access.targets.bulk-create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access targets bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": ["zero-trust", "access", "targets", "bulk-delete"],
 			"description": "Removes one or more targets.",
 			"summary": "Delete targets",
-			"usage": "cf zero-trust access targets bulk delete [options]",
+			"usage": "cf zero-trust access targets bulk-delete [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -144742,20 +144776,20 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "delete",
+			"category": "action",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/infrastructure/targets/batch_delete",
-			"operationId": "zero-trust.access.targets.bulk.delete",
+			"operationId": "zero-trust.access.targets.bulk-delete",
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust access targets bulk replace-tags",
-			"name": "replace-tags",
-			"fullPath": ["zero-trust", "access", "targets", "bulk", "replace-tags"],
+			"command": "cf zero-trust access targets bulk-replace-tags",
+			"name": "bulk-replace-tags",
+			"fullPath": ["zero-trust", "access", "targets", "bulk-replace-tags"],
 			"description": "Replaces tags for one or more existing infrastructure access targets.",
 			"summary": "Replace tags on existing targets",
-			"usage": "cf zero-trust access targets bulk replace-tags [options]",
+			"usage": "cf zero-trust access targets bulk-replace-tags [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -144782,37 +144816,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/infrastructure/targets/batch_tags",
-			"operationId": "zero-trust.access.targets.bulk.replace-tags",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust access targets bulk update",
-			"name": "update",
-			"fullPath": ["zero-trust", "access", "targets", "bulk", "update"],
-			"description": "Adds one or more targets.",
-			"summary": "Create new targets",
-			"usage": "cf zero-trust access targets bulk update",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/infrastructure/targets/batch",
-			"operationId": "zero-trust.access.targets.bulk.update",
+			"operationId": "zero-trust.access.targets.bulk-replace-tags",
 			"hideCommand": false
 		},
 		{
@@ -148030,7 +148034,7 @@
 			"command": "cf zero-trust casb integrations create",
 			"name": "create",
 			"fullPath": ["zero-trust", "casb", "integrations", "create"],
-			"description": "Creates a new integration for the specified application. Integration creation with OAuth is not supported by API at the moment. For other auth methods, use `GET /v2/applications/{application_id}/credential-guide` to see the required credential structure and example payloads for each vendor.",
+			"description": "Creates a new integration for the specified application. For other auth methods, use `GET /v2/applications/{application_id}/credential-guide` to see the required credential structure and example payloads for each vendor.",
 			"summary": "Create integration",
 			"usage": "cf zero-trust casb integrations create [options]",
 			"arguments": [],
@@ -148343,7 +148347,7 @@
 			"command": "cf zero-trust casb integrations update",
 			"name": "update",
 			"fullPath": ["zero-trust", "casb", "integrations", "update"],
-			"description": "Updates an integration's name, permissions, DLP profiles, use cases, or credentials.",
+			"description": "Updates an integration's name, permissions, DLP profiles, use cases, credentials, or GitLab resources.",
 			"summary": "Update integration",
 			"usage": "cf zero-trust casb integrations update <id> [options]",
 			"arguments": [
@@ -148356,6 +148360,18 @@
 				}
 			],
 			"options": [
+				{
+					"name": "integration-config-gitlab-group-ids",
+					"type": "string",
+					"required": false,
+					"description": "Selected top-level GitLab group IDs as string-encoded positive integers."
+				},
+				{
+					"name": "integration-config-gitlab-project-ids",
+					"type": "string",
+					"required": false,
+					"description": "Selected GitLab project IDs as string-encoded positive integers."
+				},
 				{
 					"name": "credentials",
 					"type": "string",
@@ -168853,7 +168869,6 @@
 		"zero-trust access signing-keys": "Operations for access.signing-keys",
 		"zero-trust access tags": "Operations for access.tags",
 		"zero-trust access targets": "Operations for access.targets",
-		"zero-trust access targets bulk": "Operations for access.targets.bulk",
 		"zero-trust access user-populations": "Operations for access.user-populations",
 		"zero-trust access user-populations users": "Operations for access.user-populations.users",
 		"zero-trust access users": "Operations for access.users",

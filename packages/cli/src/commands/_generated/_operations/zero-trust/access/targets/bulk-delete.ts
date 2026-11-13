@@ -1,4 +1,4 @@
-/** @generated from zero-trust.access.targets.bulk.delete */
+/** @generated from zero-trust.access.targets.bulk-delete */
 import { path } from "#api";
 
 export default {

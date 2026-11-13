@@ -1,8 +1,8 @@
-import operation from "../../../_operations/builds/repos/connections/upsert.js";
+import operation from "../../../_operations/builds/repos/connections/replace.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * upsert command
+ * replace command
  * @generated from apis/overlays/builds.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -26,7 +26,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds repos connections upsert\n\nSave the repository connection required by build triggers."
+			"$0 builds repos connections replace\n\nSave the repository connection required by build triggers."
 		)
 		.option("provider-account-id", {
 			type: "string",
@@ -68,13 +68,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "upsert",
+	command: "replace",
 	describe: "Create or update a repository connection",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "builds repos connections upsert",
+				command: "builds repos connections replace",
 				classification: {
 					safeFlags: ["provider-type", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -84,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf builds repos connections upsert",
+						command: "cf builds repos connections replace",
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/repos/connections`,
 						pathParams: {},

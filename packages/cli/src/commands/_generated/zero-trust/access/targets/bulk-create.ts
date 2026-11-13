@@ -1,8 +1,8 @@
-import operation from "../../../../_operations/zero-trust/access/targets/bulk/delete.js";
+import operation from "../../../_operations/zero-trust/access/targets/bulk-create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * delete command
+ * bulk-create command
  * @generated from apis/overlays/zero-trust.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -21,13 +21,8 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access targets bulk delete\n\nRemoves one or more targets."
+			"$0 zero-trust access targets bulk-create\n\nAdds one or more targets."
 		)
-		.option("target-ids", {
-			type: "string",
-			array: true,
-			description: "List of target IDs to bulk delete",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -42,13 +37,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete",
-	describe: "Delete targets",
+	command: "bulk-create",
+	describe: "Create new targets",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "zero-trust access targets bulk delete",
+				command: "zero-trust access targets bulk-create",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -58,19 +53,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf zero-trust access targets bulk delete",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/infrastructure/targets/batch_delete`,
+						command: "cf zero-trust access targets bulk-create",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/infrastructure/targets/batch`,
 						pathParams: {},
 						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										target_ids: argv["target-ids"],
-									}),
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
+				}
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
 				}
 				const parsedBody =
 					argv.body !== undefined ? parseBody(argv.body) : undefined;
@@ -80,26 +75,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
+					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
-					formatOutput(result, { successLabel: `Created` });
+					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["target-ids"] === undefined) {
-					throw new Error(
-						"--target-ids is required (or pass --body with this field set)."
-					);
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					target_ids: argv["target-ids"],
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

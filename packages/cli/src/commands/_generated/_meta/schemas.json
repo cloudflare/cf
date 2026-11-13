@@ -20283,8 +20283,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"builds repos connections upsert": {
-			"operationId": "builds.repos.connections.upsert",
+		"builds repos connections replace": {
+			"operationId": "builds.repos.connections.replace",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/builds/repos/connections",
 			"pathParams": [
@@ -20651,81 +20651,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"builds workers get": {
-			"operationId": "builds.workers.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "worker",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds workers migrate-to-previews": {
-			"operationId": "builds.workers.migrate-to-previews",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "worker",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				}
-			]
-		},
-		"builds workers purge-cache": {
-			"operationId": "builds.workers.purge-cache",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "worker",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds workers update": {
-			"operationId": "builds.workers.update",
+		"builds workers edit": {
+			"operationId": "builds.workers.edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/builds/workers/{script_tag}",
 			"pathParams": [
@@ -20861,6 +20788,79 @@
 					"description": "Repository directory in which build and deploy commands run."
 				}
 			]
+		},
+		"builds workers get": {
+			"operationId": "builds.workers.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds workers migrate-to-previews": {
+			"operationId": "builds.workers.migrate-to-previews",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				}
+			]
+		},
+		"builds workers purge-cache": {
+			"operationId": "builds.workers.purge-cache",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"cache invalidate": {
 			"operationId": "cache.invalidate",
@@ -105674,8 +105674,23 @@
 				}
 			]
 		},
-		"zero-trust access targets bulk delete": {
-			"operationId": "zero-trust.access.targets.bulk.delete",
+		"zero-trust access targets bulk-create": {
+			"operationId": "zero-trust.access.targets.bulk-create",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/infrastructure/targets/batch",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"zero-trust access targets bulk-delete": {
+			"operationId": "zero-trust.access.targets.bulk-delete",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/infrastructure/targets/batch_delete",
 			"pathParams": [
@@ -105696,8 +105711,8 @@
 				}
 			]
 		},
-		"zero-trust access targets bulk replace-tags": {
-			"operationId": "zero-trust.access.targets.bulk.replace-tags",
+		"zero-trust access targets bulk-replace-tags": {
+			"operationId": "zero-trust.access.targets.bulk-replace-tags",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/infrastructure/targets/batch_tags",
 			"pathParams": [
@@ -105717,21 +105732,6 @@
 					"description": "The items field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"tags\": {...}, \"target_id\": string}]."
 				}
 			]
-		},
-		"zero-trust access targets bulk update": {
-			"operationId": "zero-trust.access.targets.bulk.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/infrastructure/targets/batch",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
 		},
 		"zero-trust access targets create": {
 			"operationId": "zero-trust.access.targets.create",
@@ -108333,6 +108333,18 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "integration-config-gitlab-group-ids",
+					"type": "string",
+					"required": false,
+					"description": "Selected top-level GitLab group IDs as string-encoded positive integers."
+				},
+				{
+					"name": "integration-config-gitlab-project-ids",
+					"type": "string",
+					"required": false,
+					"description": "Selected GitLab project IDs as string-encoded positive integers."
+				},
 				{
 					"name": "credentials",
 					"type": "string",

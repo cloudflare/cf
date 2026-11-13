@@ -8,6 +8,8 @@ import $dlp from "./dlp/index.js";
 import $gateway from "./gateway/index.js";
 import $identityproviders from "./identity-providers/index.js";
 import $organization from "./organization/index.js";
+import $region from "./region/index.js";
+import $regions from "./regions/index.js";
 import $riskscoring from "./risk-scoring/index.js";
 import $users from "./users/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -34,6 +36,8 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($gateway)
 			.command($identityproviders)
 			.command($organization)
+			.command($region)
+			.command($regions)
 			.command($riskscoring)
 			.command($users)
 			.demandCommand(1, "Please specify a subcommand");

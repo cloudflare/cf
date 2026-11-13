@@ -5,6 +5,6 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/mtls_certificates`,
-	query: ["type"],
+	query: ["page", "per_page", "limit", "offset", "type"],
 	joined: ["type"],
 } as const;

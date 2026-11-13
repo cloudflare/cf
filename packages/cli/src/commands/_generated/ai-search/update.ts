@@ -242,6 +242,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "R2 bucket name or HTTP(S) root website URL to index.",
 		})
+		.option("source-params-d1-query", {
+			type: "string",
+			description:
+				"Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. Omit to keep the stored query.",
+		})
+		.option("source-params-d1-template", {
+			type: "string",
+			description:
+				"How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. Omit to keep the stored template.",
+			choices: ["labelled", "content_only", "key_value", "json"],
+		})
+		.coerce("source-params-d1-template", (value) =>
+			resolveFileToken(value, "source-params-d1-template", "text")
+		)
 		.option("source-params-exclude-items", {
 			type: "string",
 			array: true,
@@ -437,6 +451,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"reranking",
 						"retrieval-options-keyword-match-mode",
 						"rewrite-query",
+						"source-params-d1-template",
 						"source-params-web-crawler-discover-options-include-external-links",
 						"source-params-web-crawler-discover-options-include-subdomains",
 						"source-params-web-crawler-discover-options-source",
@@ -590,6 +605,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											source_params: {
+												d1: {
+													query: resolveFileToken(
+														argv["source-params-d1-query"] as
+															| string
+															| undefined,
+														"source-params-d1-query",
+														"text"
+													),
+													template: argv["source-params-d1-template"],
+												},
 												exclude_items: argv["source-params-exclude-items"],
 												include_items: argv["source-params-include-items"],
 												prefix: resolveFileToken(
@@ -978,6 +1003,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"source",
 							"text"
 						)
+					);
+				if (argv["source-params-d1-query"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["source_params", "d1", "query"],
+						resolveFileToken(
+							argv["source-params-d1-query"] as string | undefined,
+							"source-params-d1-query",
+							"text"
+						)
+					);
+				if (argv["source-params-d1-template"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["source_params", "d1", "template"],
+						argv["source-params-d1-template"]
 					);
 				if (argv["source-params-exclude-items"] !== undefined)
 					setNestedValue(

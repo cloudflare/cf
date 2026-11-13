@@ -23,14 +23,21 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence create\n\nCreates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. An active PIR requires a query."
+			"$0 cloudforce-one priority-intelligence create\n\nCreates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. A free-form PIR has a `requirement`, and an active one requires a query. A structured PIR has a `definition` instead; its requirement and event query are generated, and the response includes them in `resolved`."
 		)
+		.option("based-on-profile-revision", {
+			type: "number",
+			description: "The based_on.profile_revision field",
+		})
+		.option("based-on-topic-fingerprint", {
+			type: "string",
+			description: "The based_on.topic_fingerprint field",
+		})
 		.option("dataset-scope-type", {
 			type: "string",
 			description: "The dataset_scope.type field",
@@ -43,6 +50,213 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "The dataset_scope.dataset_ids field",
+		})
+		.option("definition-additional-criteria", {
+			type: "string",
+			description:
+				'The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
+		})
+		.option("definition-criterion-selections-add", {
+			type: "string",
+			array: true,
+			description: "The definition.criterion_selections.add field",
+		})
+		.option("definition-criterion-selections-remove", {
+			type: "string",
+			array: true,
+			description: "The definition.criterion_selections.remove field",
+		})
+		.option("definition-mode", {
+			type: "string",
+			description: "The definition.mode field",
+			choices: ["managed", "custom"],
+		})
+		.coerce("definition-mode", (value) =>
+			resolveFileToken(value, "definition-mode", "text")
+		)
+		.option("definition-question-mode", {
+			type: "string",
+			description: "The definition.question.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-question-mode", (value) =>
+			resolveFileToken(value, "definition-question-mode", "text")
+		)
+		.option("definition-question-value", {
+			type: "string",
+			description: "The definition.question.value field",
+		})
+		.option("definition-schema-version", {
+			type: "number",
+			description: "The definition.schema_version field",
+		})
+		.option("definition-selections-actor-notes", {
+			type: "string",
+			description: "The definition.selections.actor_notes field",
+		})
+		.option("definition-selections-actor-types-mode", {
+			type: "string",
+			description: "The definition.selections.actor_types.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-actor-types-mode", (value) =>
+			resolveFileToken(value, "definition-selections-actor-types-mode", "text")
+		)
+		.option("definition-selections-actor-types-value", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.actor_types.value field",
+		})
+		.option("definition-selections-actors-add", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.actors.add field",
+		})
+		.option("definition-selections-actors-remove", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.actors.remove field",
+		})
+		.option("definition-selections-attributed-countries", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.attributed_countries field",
+		})
+		.option("definition-selections-countries-mode", {
+			type: "string",
+			description: "The definition.selections.countries.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-countries-mode", (value) =>
+			resolveFileToken(value, "definition-selections-countries-mode", "text")
+		)
+		.option("definition-selections-countries-value", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.countries.value field",
+		})
+		.option("definition-selections-cves", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.cves field",
+		})
+		.option("definition-selections-excluded-actors", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.excluded_actors field",
+		})
+		.option("definition-selections-key-suppliers-mode", {
+			type: "string",
+			description: "The definition.selections.key_suppliers.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-key-suppliers-mode", (value) =>
+			resolveFileToken(
+				value,
+				"definition-selections-key-suppliers-mode",
+				"text"
+			)
+		)
+		.option("definition-selections-key-suppliers-value", {
+			type: "string",
+			description:
+				'The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
+		})
+		.option("definition-selections-malware-tools", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.malware_tools field",
+		})
+		.option("definition-selections-motivations-mode", {
+			type: "string",
+			description: "The definition.selections.motivations.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-motivations-mode", (value) =>
+			resolveFileToken(value, "definition-selections-motivations-mode", "text")
+		)
+		.option("definition-selections-motivations-value", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.motivations.value field",
+		})
+		.option("definition-selections-peers-mode", {
+			type: "string",
+			description: "The definition.selections.peers.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-peers-mode", (value) =>
+			resolveFileToken(value, "definition-selections-peers-mode", "text")
+		)
+		.option("definition-selections-peers-value", {
+			type: "string",
+			description:
+				'The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
+		})
+		.option("definition-selections-sectors-mode", {
+			type: "string",
+			description: "The definition.selections.sectors.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-sectors-mode", (value) =>
+			resolveFileToken(value, "definition-selections-sectors-mode", "text")
+		)
+		.option("definition-selections-sectors-value", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.sectors.value field",
+		})
+		.option("definition-selections-targets-mode", {
+			type: "string",
+			description: "The definition.selections.targets.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-targets-mode", (value) =>
+			resolveFileToken(value, "definition-selections-targets-mode", "text")
+		)
+		.option("definition-selections-targets-value", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.targets.value field",
+		})
+		.option("definition-selections-technique-ids", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.technique_ids field",
+		})
+		.option("definition-selections-technologies-mode", {
+			type: "string",
+			description: "The definition.selections.technologies.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-selections-technologies-mode", (value) =>
+			resolveFileToken(value, "definition-selections-technologies-mode", "text")
+		)
+		.option("definition-selections-technologies-value", {
+			type: "string",
+			array: true,
+			description: "The definition.selections.technologies.value field",
+		})
+		.option("definition-title-mode", {
+			type: "string",
+			description: "The definition.title.mode field",
+			choices: ["inherit", "replace"],
+		})
+		.coerce("definition-title-mode", (value) =>
+			resolveFileToken(value, "definition-title-mode", "text")
+		)
+		.option("definition-title-value", {
+			type: "string",
+			description: "The definition.title.value field",
+		})
+		.option("definition-topic-id", {
+			type: "string",
+			description: "The definition.topic_id field",
+		})
+		.option("definition-relevance-criteria", {
+			type: "string",
+			description:
+				'The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
 		})
 		.option("digest-interval-hours", {
 			type: "number",
@@ -146,7 +360,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("requirement", {
 			type: "string",
-			description: "The requirement field",
+			description:
+				"Free-form requirement. Required unless `definition` is sent.",
 		})
 		.option("status", {
 			type: "string",
@@ -171,6 +386,85 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
+		.conflicts("definition-additional-criteria", [
+			"definition-relevance-criteria",
+		])
+		.implies("definition-additional-criteria", ["definition-topic-id"])
+		.conflicts("definition-criterion-selections-add", [
+			"definition-relevance-criteria",
+		])
+		.implies("definition-criterion-selections-add", ["definition-topic-id"])
+		.conflicts("definition-criterion-selections-remove", [
+			"definition-relevance-criteria",
+		])
+		.implies("definition-criterion-selections-remove", ["definition-topic-id"])
+		.conflicts("definition-question-mode", ["definition-relevance-criteria"])
+		.implies("definition-question-mode", ["definition-topic-id"])
+		.conflicts("definition-question-value", ["definition-relevance-criteria"])
+		.implies("definition-question-value", [
+			"definition-question-mode",
+			"definition-topic-id",
+		])
+		.implies("definition-selections-actor-types-value", [
+			"definition-selections-actor-types-mode",
+		])
+		.implies("definition-selections-countries-value", [
+			"definition-selections-countries-mode",
+		])
+		.implies("definition-selections-key-suppliers-value", [
+			"definition-selections-key-suppliers-mode",
+		])
+		.implies("definition-selections-motivations-value", [
+			"definition-selections-motivations-mode",
+		])
+		.implies("definition-selections-peers-value", [
+			"definition-selections-peers-mode",
+		])
+		.implies("definition-selections-sectors-value", [
+			"definition-selections-sectors-mode",
+		])
+		.implies("definition-selections-targets-value", [
+			"definition-selections-targets-mode",
+		])
+		.implies("definition-selections-technologies-value", [
+			"definition-selections-technologies-mode",
+		])
+		.conflicts("definition-title-mode", ["definition-relevance-criteria"])
+		.implies("definition-title-mode", ["definition-topic-id"])
+		.conflicts("definition-title-value", ["definition-relevance-criteria"])
+		.implies("definition-title-value", [
+			"definition-title-mode",
+			"definition-topic-id",
+		])
+		.conflicts("definition-topic-id", ["definition-relevance-criteria"])
+		.conflicts("definition-relevance-criteria", [
+			"definition-additional-criteria",
+			"definition-criterion-selections-add",
+			"definition-criterion-selections-remove",
+			"definition-question-mode",
+			"definition-question-value",
+			"definition-title-mode",
+			"definition-title-value",
+			"definition-topic-id",
+		])
+		.check((argv) => {
+			const groupSet = [
+				"based-on-profile-revision",
+				"based-on-topic-fingerprint",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"based-on-profile-revision",
+					"based-on-topic-fingerprint",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --based-on-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
 		.check((argv) => {
 			const groupSet = ["dataset-scope-type", "dataset-scope-dataset-ids"].some(
 				(k) => argv[k] !== undefined
@@ -182,6 +476,56 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset-scope-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"definition-additional-criteria",
+				"definition-criterion-selections-add",
+				"definition-criterion-selections-remove",
+				"definition-mode",
+				"definition-question-mode",
+				"definition-question-value",
+				"definition-schema-version",
+				"definition-selections-actor-notes",
+				"definition-selections-actor-types-mode",
+				"definition-selections-actor-types-value",
+				"definition-selections-actors-add",
+				"definition-selections-actors-remove",
+				"definition-selections-attributed-countries",
+				"definition-selections-countries-mode",
+				"definition-selections-countries-value",
+				"definition-selections-cves",
+				"definition-selections-excluded-actors",
+				"definition-selections-key-suppliers-mode",
+				"definition-selections-key-suppliers-value",
+				"definition-selections-malware-tools",
+				"definition-selections-motivations-mode",
+				"definition-selections-motivations-value",
+				"definition-selections-peers-mode",
+				"definition-selections-peers-value",
+				"definition-selections-sectors-mode",
+				"definition-selections-sectors-value",
+				"definition-selections-targets-mode",
+				"definition-selections-targets-value",
+				"definition-selections-technique-ids",
+				"definition-selections-technologies-mode",
+				"definition-selections-technologies-value",
+				"definition-title-mode",
+				"definition-title-value",
+				"definition-topic-id",
+				"definition-relevance-criteria",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["definition-mode", "definition-schema-version"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --definition-* flag is set`
 					);
 				}
 			}
@@ -294,6 +638,774 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 			},
 		],
 	},
+	{
+		path: ["definition"],
+		selector: "mode",
+		variants: [
+			{
+				values: ["managed"],
+				schema: {
+					type: "object",
+					properties: {
+						additional_criteria: {
+							type: "array",
+							items: {
+								type: "object",
+								properties: {
+									band: { enum: ["highly", "somewhat", "not"] },
+									id: { type: "string" },
+									text: { type: "string" },
+								},
+								required: ["band", "id", "text"],
+								additionalProperties: false,
+							},
+							maxItems: 20,
+						},
+						criterion_selections: {
+							type: "object",
+							properties: {
+								add: { type: "array", items: { type: "string" }, maxItems: 50 },
+								remove: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+							},
+							required: [],
+							additionalProperties: false,
+						},
+						mode: { enum: ["managed"] },
+						question: {
+							anyOf: [
+								{
+									type: "object",
+									properties: { mode: { enum: ["inherit"] } },
+									required: ["mode"],
+									additionalProperties: false,
+								},
+								{
+									type: "object",
+									properties: {
+										mode: { enum: ["replace"] },
+										value: { type: "string" },
+									},
+									required: ["mode", "value"],
+									additionalProperties: false,
+								},
+							],
+						},
+						schema_version: { enum: [1] },
+						selections: {
+							type: "object",
+							properties: {
+								actor_notes: { type: "string" },
+								actor_types: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"nation-state",
+															"crime-syndicate",
+															"criminal",
+															"activist",
+															"hacker",
+															"insider-disgruntled",
+															"insider-accidental",
+															"spy",
+															"terrorist",
+															"competitor",
+															"sensationalist",
+														],
+													},
+													maxItems: 11,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								actors: {
+									type: "object",
+									properties: {
+										add: {
+											type: "array",
+											items: { type: "string" },
+											maxItems: 50,
+										},
+										remove: {
+											type: "array",
+											items: { type: "string" },
+											maxItems: 50,
+										},
+									},
+									required: [],
+									additionalProperties: false,
+								},
+								attributed_countries: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								countries: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: { type: "string" },
+													maxItems: 50,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								cves: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								excluded_actors: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								key_suppliers: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														type: "object",
+														properties: {
+															domains: {
+																type: "array",
+																items: { type: "string" },
+																maxItems: 20,
+															},
+															name: { type: "string" },
+														},
+														required: ["name"],
+														additionalProperties: false,
+													},
+													maxItems: 20,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								malware_tools: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								motivations: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"personal-gain",
+															"organizational-gain",
+															"ideology",
+															"dominance",
+															"notoriety",
+															"coercion",
+															"revenge",
+														],
+													},
+													maxItems: 7,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								peers: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														type: "object",
+														properties: {
+															domains: {
+																type: "array",
+																items: { type: "string" },
+																maxItems: 20,
+															},
+															name: { type: "string" },
+														},
+														required: ["name"],
+														additionalProperties: false,
+													},
+													maxItems: 20,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								sectors: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"aerospace",
+															"agriculture",
+															"automotive",
+															"chemical",
+															"commercial",
+															"communications",
+															"construction",
+															"defense",
+															"education",
+															"energy",
+															"entertainment",
+															"financial-services",
+															"government-local",
+															"government-national",
+															"government-public-services",
+															"government-regional",
+															"healthcare",
+															"hospitality-leisure",
+															"infrastructure",
+															"insurance",
+															"manufacturing",
+															"mining",
+															"non-profit",
+															"pharmaceuticals",
+															"professional-services",
+															"retail",
+															"technology",
+															"telecommunications",
+															"transportation",
+															"utilities",
+														],
+													},
+													maxItems: 10,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								targets: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"organization",
+															"customers",
+															"employees",
+															"executives",
+															"partners",
+															"events",
+															"products-infrastructure",
+														],
+													},
+													maxItems: 7,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								technique_ids: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								technologies: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: { type: "string" },
+													maxItems: 50,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+							},
+							required: [],
+							additionalProperties: false,
+						},
+						title: {
+							anyOf: [
+								{
+									type: "object",
+									properties: { mode: { enum: ["inherit"] } },
+									required: ["mode"],
+									additionalProperties: false,
+								},
+								{
+									type: "object",
+									properties: {
+										mode: { enum: ["replace"] },
+										value: { type: "string" },
+									},
+									required: ["mode", "value"],
+									additionalProperties: false,
+								},
+							],
+						},
+						topic_id: { type: "string" },
+					},
+					required: ["mode", "schema_version", "topic_id"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["custom"],
+				schema: {
+					type: "object",
+					properties: {
+						mode: { enum: ["custom"] },
+						question: { type: "string" },
+						relevance_criteria: {
+							type: "array",
+							items: {
+								type: "object",
+								properties: {
+									band: { enum: ["highly", "somewhat", "not"] },
+									id: { type: "string" },
+									text: { type: "string" },
+								},
+								required: ["band", "id", "text"],
+								additionalProperties: false,
+							},
+							maxItems: 30,
+						},
+						schema_version: { enum: [1] },
+						selections: {
+							type: "object",
+							properties: {
+								actor_notes: { type: "string" },
+								actor_types: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"nation-state",
+															"crime-syndicate",
+															"criminal",
+															"activist",
+															"hacker",
+															"insider-disgruntled",
+															"insider-accidental",
+															"spy",
+															"terrorist",
+															"competitor",
+															"sensationalist",
+														],
+													},
+													maxItems: 11,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								actors: {
+									type: "object",
+									properties: {
+										add: {
+											type: "array",
+											items: { type: "string" },
+											maxItems: 50,
+										},
+										remove: {
+											type: "array",
+											items: { type: "string" },
+											maxItems: 50,
+										},
+									},
+									required: [],
+									additionalProperties: false,
+								},
+								attributed_countries: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								countries: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: { type: "string" },
+													maxItems: 50,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								cves: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								excluded_actors: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								key_suppliers: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														type: "object",
+														properties: {
+															domains: {
+																type: "array",
+																items: { type: "string" },
+																maxItems: 20,
+															},
+															name: { type: "string" },
+														},
+														required: ["name"],
+														additionalProperties: false,
+													},
+													maxItems: 20,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								malware_tools: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								motivations: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"personal-gain",
+															"organizational-gain",
+															"ideology",
+															"dominance",
+															"notoriety",
+															"coercion",
+															"revenge",
+														],
+													},
+													maxItems: 7,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								peers: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														type: "object",
+														properties: {
+															domains: {
+																type: "array",
+																items: { type: "string" },
+																maxItems: 20,
+															},
+															name: { type: "string" },
+														},
+														required: ["name"],
+														additionalProperties: false,
+													},
+													maxItems: 20,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								sectors: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"aerospace",
+															"agriculture",
+															"automotive",
+															"chemical",
+															"commercial",
+															"communications",
+															"construction",
+															"defense",
+															"education",
+															"energy",
+															"entertainment",
+															"financial-services",
+															"government-local",
+															"government-national",
+															"government-public-services",
+															"government-regional",
+															"healthcare",
+															"hospitality-leisure",
+															"infrastructure",
+															"insurance",
+															"manufacturing",
+															"mining",
+															"non-profit",
+															"pharmaceuticals",
+															"professional-services",
+															"retail",
+															"technology",
+															"telecommunications",
+															"transportation",
+															"utilities",
+														],
+													},
+													maxItems: 10,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								targets: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: {
+														enum: [
+															"organization",
+															"customers",
+															"employees",
+															"executives",
+															"partners",
+															"events",
+															"products-infrastructure",
+														],
+													},
+													maxItems: 7,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+								technique_ids: {
+									type: "array",
+									items: { type: "string" },
+									maxItems: 50,
+								},
+								technologies: {
+									anyOf: [
+										{
+											type: "object",
+											properties: { mode: { enum: ["inherit"] } },
+											required: ["mode"],
+											additionalProperties: false,
+										},
+										{
+											type: "object",
+											properties: {
+												mode: { enum: ["replace"] },
+												value: {
+													type: "array",
+													items: { type: "string" },
+													maxItems: 50,
+												},
+											},
+											required: ["mode", "value"],
+											additionalProperties: false,
+										},
+									],
+								},
+							},
+							required: [],
+							additionalProperties: false,
+						},
+						title: { type: "string" },
+					},
+					required: [
+						"mode",
+						"question",
+						"relevance_criteria",
+						"schema_version",
+						"title",
+					],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
 ];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
@@ -307,6 +1419,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: [
 						"dataset-scope-type",
+						"definition-mode",
+						"definition-question-mode",
+						"definition-selections-actor-types-mode",
+						"definition-selections-countries-mode",
+						"definition-selections-key-suppliers-mode",
+						"definition-selections-motivations-mode",
+						"definition-selections-peers-mode",
+						"definition-selections-sectors-mode",
+						"definition-selections-targets-mode",
+						"definition-selections-technologies-mode",
+						"definition-title-mode",
 						"notification-mode",
 						"query-source",
 						"status",
@@ -329,9 +1452,133 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: validateBodyUnions(
 										compactBody({
+											based_on: {
+												profile_revision: argv["based-on-profile-revision"],
+												topic_fingerprint: resolveFileToken(
+													argv["based-on-topic-fingerprint"] as
+														| string
+														| undefined,
+													"based-on-topic-fingerprint",
+													"text"
+												),
+											},
 											dataset_scope: {
 												type: argv["dataset-scope-type"],
 												dataset_ids: argv["dataset-scope-dataset-ids"],
+											},
+											definition: {
+												additional_criteria: parseObjectArray(
+													argv["definition-additional-criteria"],
+													"definition-additional-criteria"
+												),
+												criterion_selections: {
+													add: argv["definition-criterion-selections-add"],
+													remove:
+														argv["definition-criterion-selections-remove"],
+												},
+												mode: argv["definition-mode"],
+												question: {
+													mode: argv["definition-question-mode"],
+													value: resolveFileToken(
+														argv["definition-question-value"] as
+															| string
+															| undefined,
+														"definition-question-value",
+														"text"
+													),
+												},
+												schema_version: argv["definition-schema-version"],
+												selections: {
+													actor_notes: resolveFileToken(
+														argv["definition-selections-actor-notes"] as
+															| string
+															| undefined,
+														"definition-selections-actor-notes",
+														"text"
+													),
+													actor_types: {
+														mode: argv[
+															"definition-selections-actor-types-mode"
+														],
+														value:
+															argv["definition-selections-actor-types-value"],
+													},
+													actors: {
+														add: argv["definition-selections-actors-add"],
+														remove: argv["definition-selections-actors-remove"],
+													},
+													attributed_countries:
+														argv["definition-selections-attributed-countries"],
+													countries: {
+														mode: argv["definition-selections-countries-mode"],
+														value:
+															argv["definition-selections-countries-value"],
+													},
+													cves: argv["definition-selections-cves"],
+													excluded_actors:
+														argv["definition-selections-excluded-actors"],
+													key_suppliers: {
+														mode: argv[
+															"definition-selections-key-suppliers-mode"
+														],
+														value: parseObjectArray(
+															argv["definition-selections-key-suppliers-value"],
+															"definition-selections-key-suppliers-value"
+														),
+													},
+													malware_tools:
+														argv["definition-selections-malware-tools"],
+													motivations: {
+														mode: argv[
+															"definition-selections-motivations-mode"
+														],
+														value:
+															argv["definition-selections-motivations-value"],
+													},
+													peers: {
+														mode: argv["definition-selections-peers-mode"],
+														value: parseObjectArray(
+															argv["definition-selections-peers-value"],
+															"definition-selections-peers-value"
+														),
+													},
+													sectors: {
+														mode: argv["definition-selections-sectors-mode"],
+														value: argv["definition-selections-sectors-value"],
+													},
+													targets: {
+														mode: argv["definition-selections-targets-mode"],
+														value: argv["definition-selections-targets-value"],
+													},
+													technique_ids:
+														argv["definition-selections-technique-ids"],
+													technologies: {
+														mode: argv[
+															"definition-selections-technologies-mode"
+														],
+														value:
+															argv["definition-selections-technologies-value"],
+													},
+												},
+												title: {
+													mode: argv["definition-title-mode"],
+													value: resolveFileToken(
+														argv["definition-title-value"] as
+															| string
+															| undefined,
+														"definition-title-value",
+														"text"
+													),
+												},
+												topic_id: resolveFileToken(
+													argv["definition-topic-id"] as string | undefined,
+													"definition-topic-id",
+													"text"
+												),
+												relevance_criteria: parseObjectArray(
+													argv["definition-relevance-criteria"],
+													"definition-relevance-criteria"
+												),
 											},
 											digest_interval_hours: argv["digest-interval-hours"],
 											intent: {
@@ -407,18 +1654,112 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["requirement"] === undefined) {
-					argv["requirement"] = await promptForRequiredField(
-						"requirement",
-						"The requirement field"
-					);
-				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					based_on: {
+						profile_revision: argv["based-on-profile-revision"],
+						topic_fingerprint: resolveFileToken(
+							argv["based-on-topic-fingerprint"] as string | undefined,
+							"based-on-topic-fingerprint",
+							"text"
+						),
+					},
 					dataset_scope: {
 						type: argv["dataset-scope-type"],
 						dataset_ids: argv["dataset-scope-dataset-ids"],
+					},
+					definition: {
+						additional_criteria: parseObjectArray(
+							argv["definition-additional-criteria"],
+							"definition-additional-criteria"
+						),
+						criterion_selections: {
+							add: argv["definition-criterion-selections-add"],
+							remove: argv["definition-criterion-selections-remove"],
+						},
+						mode: argv["definition-mode"],
+						question: {
+							mode: argv["definition-question-mode"],
+							value: resolveFileToken(
+								argv["definition-question-value"] as string | undefined,
+								"definition-question-value",
+								"text"
+							),
+						},
+						schema_version: argv["definition-schema-version"],
+						selections: {
+							actor_notes: resolveFileToken(
+								argv["definition-selections-actor-notes"] as string | undefined,
+								"definition-selections-actor-notes",
+								"text"
+							),
+							actor_types: {
+								mode: argv["definition-selections-actor-types-mode"],
+								value: argv["definition-selections-actor-types-value"],
+							},
+							actors: {
+								add: argv["definition-selections-actors-add"],
+								remove: argv["definition-selections-actors-remove"],
+							},
+							attributed_countries:
+								argv["definition-selections-attributed-countries"],
+							countries: {
+								mode: argv["definition-selections-countries-mode"],
+								value: argv["definition-selections-countries-value"],
+							},
+							cves: argv["definition-selections-cves"],
+							excluded_actors: argv["definition-selections-excluded-actors"],
+							key_suppliers: {
+								mode: argv["definition-selections-key-suppliers-mode"],
+								value: parseObjectArray(
+									argv["definition-selections-key-suppliers-value"],
+									"definition-selections-key-suppliers-value"
+								),
+							},
+							malware_tools: argv["definition-selections-malware-tools"],
+							motivations: {
+								mode: argv["definition-selections-motivations-mode"],
+								value: argv["definition-selections-motivations-value"],
+							},
+							peers: {
+								mode: argv["definition-selections-peers-mode"],
+								value: parseObjectArray(
+									argv["definition-selections-peers-value"],
+									"definition-selections-peers-value"
+								),
+							},
+							sectors: {
+								mode: argv["definition-selections-sectors-mode"],
+								value: argv["definition-selections-sectors-value"],
+							},
+							targets: {
+								mode: argv["definition-selections-targets-mode"],
+								value: argv["definition-selections-targets-value"],
+							},
+							technique_ids: argv["definition-selections-technique-ids"],
+							technologies: {
+								mode: argv["definition-selections-technologies-mode"],
+								value: argv["definition-selections-technologies-value"],
+							},
+						},
+						title: {
+							mode: argv["definition-title-mode"],
+							value: resolveFileToken(
+								argv["definition-title-value"] as string | undefined,
+								"definition-title-value",
+								"text"
+							),
+						},
+						topic_id: resolveFileToken(
+							argv["definition-topic-id"] as string | undefined,
+							"definition-topic-id",
+							"text"
+						),
+						relevance_criteria: parseObjectArray(
+							argv["definition-relevance-criteria"],
+							"definition-relevance-criteria"
+						),
 					},
 					digest_interval_hours: argv["digest-interval-hours"],
 					intent: {

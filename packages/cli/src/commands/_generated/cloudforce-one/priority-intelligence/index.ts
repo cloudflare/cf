@@ -8,6 +8,8 @@ import $list from "./list.js";
 import $matches from "./matches/index.js";
 import $profile from "./profile/index.js";
 import $quota from "./quota/index.js";
+import $resolve from "./resolve.js";
+import $topics from "./topics/index.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -26,6 +28,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($delete)
 			.command($get)
 			.command($list)
+			.command($resolve)
 			.command($update)
 			.command($constants)
 			.command($filters)
@@ -33,6 +36,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($matches)
 			.command($profile)
 			.command($quota)
+			.command($topics)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

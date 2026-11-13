@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 observability usage-limit get\n\nWhether Workers Observability is keeping fewer of the account's events, usually because it passed its daily limit, and what that limit is. Daily limits reset at 00:00 UTC; paid accounts are brought back in stages over the following hours."
+			"$0 observability usage-limit get\n\nWhether Workers Observability is keeping fewer of the account's events, because it passed its daily limit or for another reason, and what that limit is. Daily limits reset at 00:00 UTC; paid accounts are brought back in stages over the following hours."
 		)
 		.option("dry-run", {
 			type: "boolean",

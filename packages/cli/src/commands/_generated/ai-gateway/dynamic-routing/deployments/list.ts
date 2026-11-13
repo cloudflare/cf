@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("id", { type: "string", description: "ID", demandOption: true })
+		.option("page", { type: "number", description: "Page number" })
+		.option("per-page", {
+			type: "number",
+			description: "Number of deployments per page",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -51,6 +56,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -61,6 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"gateway-id": String(argv["gateway-id"] ?? ""),
 							id: String(argv["id"] ?? ""),
 						},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -74,6 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						account_id: accountId,
 						gateway_id: argv["gateway-id"],
 						id: argv["id"],
+						...queryParams,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

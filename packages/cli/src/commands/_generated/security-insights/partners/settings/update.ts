@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 security-insights partners settings update <partner>\n\nEnables or disables the selected partner integration for the account. Enabling the integration for the first time also schedules an account scan for that partner."
+			"$0 security-insights partners settings update <partner>\n\nEnables or disables the selected partner integration for the account. Enabling the integration for the first time also schedules an account scan for that partner. Disabling the integration will purge all partner integration-related data, including partner insights, shadow zones, and shadow hosts."
 		)
 		.positional("partner", {
 			type: "string",
@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("enabled", {
 			type: "boolean",
 			description:
-				"Whether the partner integration is enabled for the account.",
+				"Whether the partner integration is enabled for the account.\nEnabling the integration for the first time also schedules an account scan for that partner.\nDisabling the integration will purge all partner integration-related data, including partner insights, shadow zones, and shadow hosts.",
 		})
 		.option("dry-run", {
 			type: "boolean",

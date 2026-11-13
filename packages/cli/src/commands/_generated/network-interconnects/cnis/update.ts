@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("bgp-mode", {
 			type: "string",
 			description:
-				"The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
+				"Controls the customer-facing route exchange behavior. Omitting this field during an update preserves the current mode. When enabling BGP on a BGP-disabled CNI, an omitted or null mode defaults to AdvertiseOnly. Otherwise, null clears the explicitly selected mode.",
 			choices: ["dynamic_route_exchange", "advertise_only"],
 		})
 		.coerce("bgp-mode", (value) => resolveFileToken(value, "bgp-mode", "text"))

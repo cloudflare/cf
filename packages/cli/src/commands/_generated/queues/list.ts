@@ -20,6 +20,15 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 queues list\n\nReturns the queues owned by an account.")
+		.option("page", {
+			type: "number",
+			description: "Page number of queues, starting at 1.",
+		})
+		.option("per-page", {
+			type: "number",
+			description:
+				"Number of queues per page. Takes precedence over the legacy perPage query parameter.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -43,6 +52,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -50,6 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/queues`,
 						pathParams: {},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -59,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId })
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

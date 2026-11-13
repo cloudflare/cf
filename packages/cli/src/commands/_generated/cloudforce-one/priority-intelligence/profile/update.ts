@@ -9,27 +9,21 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence profile update\n\nCreates or replaces the account's organization profile: who the organization is, such as its name, brands, domains, sector, regions, key systems and suppliers. All of the account's Priority Intelligence Requirements share it. An account has at most one profile, and it does not count against the PIR quota."
+			"$0 cloudforce-one priority-intelligence profile update\n\nCreates or replaces the account's organization profile: who the organization is, such as its name, brands, domains, sector, regions, key systems and suppliers. All of the account's Priority Intelligence Requirements share it. An account has at most one profile, and it does not count against the PIR quota. Send structured `organization` facts, which structured PIRs inherit and from which the profile text is generated, or free `profile` text. `revision` must match the stored profile's, or 0 when there is none; it is required with `organization`. Free `profile` text cannot replace structured facts; delete the profile first to switch back."
 		)
-		.option("organization-profile", {
-			type: "string",
-			description:
-				"Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization.",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -65,16 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/priority-intelligence/profile`,
 						pathParams: {},
 						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										profile: resolveFileToken(
-											argv["organization-profile"] as string | undefined,
-											"organization-profile",
-											"text"
-										),
-									}),
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
 				}
@@ -92,23 +77,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["organization-profile"] === undefined) {
-					argv["organization-profile"] = await promptForRequiredField(
-						"organization-profile",
-						"Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
-					);
-				}
 
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					profile: resolveFileToken(
-						argv["organization-profile"] as string | undefined,
-						"organization-profile",
-						"text"
-					),
-				});
 				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/cloudforce-one/v2/priority-intelligence/profile`
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

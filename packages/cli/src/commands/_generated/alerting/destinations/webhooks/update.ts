@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 alerting destinations webhooks update <webhook-id>\n\nUpdate a webhook destination."
+			"$0 alerting destinations webhooks update <webhook-id>\n\nUpdate a webhook destination. Only `name` can be updated. `url` and `secret` are immutable; to change them, delete the webhook and create a new one."
 		)
 		.positional("webhook-id", {
 			type: "string",
@@ -34,15 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"The name of the webhook destination. This will be included in the request body when you receive a webhook notification.",
-		})
-		.option("secret", {
-			type: "string",
-			description:
-				"Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.",
-		})
-		.option("url", {
-			type: "string",
-			description: "The POST endpoint to call when dispatching a notification.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -88,18 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										secret: resolveFileToken(
-											argv["secret"] as string | undefined,
-											"secret",
-											"text"
-										),
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
 									}),
-						sensitiveBodyPaths: [["secret"]],
 					});
 					return;
 				}
@@ -127,28 +107,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"The name of the webhook destination. This will be included in the request body when you receive a webhook notification."
 					);
 				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						"The POST endpoint to call when dispatching a notification."
-					);
-				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
-						"text"
-					),
-					secret: resolveFileToken(
-						argv["secret"] as string | undefined,
-						"secret",
-						"text"
-					),
-					url: resolveFileToken(
-						argv["url"] as string | undefined,
-						"url",
 						"text"
 					),
 				});

@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence get <priority-id>\n\nReturns a single free-form Priority Intelligence Requirement for the authenticated account."
+			"$0 cloudforce-one priority-intelligence get <priority-id>\n\nReturns a single Priority Intelligence Requirement for the authenticated account. For a structured PIR, `resolved` has its current generated requirement and event query, which follow later topic and profile changes."
 		)
 		.positional("priority-id", {
 			type: "string",

@@ -12,6 +12,7 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -22,38 +23,51 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("acknowledgments", {
 			type: "string",
 			array: true,
-			description: "The acknowledgments field",
+			description:
+				"Link(s) to a page where security researchers are recognised for their reports.",
 		})
 		.option("canonical", {
 			type: "string",
 			array: true,
-			description: "The canonical field",
+			description: "Canonical URI where the security.txt file is located.",
 		})
 		.option("contact", {
 			type: "string",
 			array: true,
-			description: "The contact field",
+			description:
+				"Methods that researchers should use for reporting vulnerabilities. Can be a URI for an email address, phone number, or URL.",
 		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
+		.option("enabled", {
+			type: "boolean",
+			description:
+				"Whether or not to serve the security.txt file in this zone. If false, security.txt requests will pass through to the origin server.",
+		})
 		.option("encryption", {
 			type: "string",
 			array: true,
-			description: "The encryption field",
+			description:
+				"URI(s) pointing to a location where an encryption key that researchers should use for encrypted communications can be retrieved. The key itself must not appear in this field.",
 		})
-		.option("expires", { type: "string", description: "The expires field" })
+		.option("expires", {
+			type: "string",
+			description:
+				"RFC3339-formatted date and time string indicating the time that, after which, the contents of the security.txt file should be considered stale. It is recommended that this value is less than a year into the future.",
+		})
 		.option("hiring", {
 			type: "string",
 			array: true,
-			description: "The hiring field",
+			description: "Link(s) to any security-related job positions.",
 		})
 		.option("policy", {
 			type: "string",
 			array: true,
-			description: "The policy field",
+			description:
+				"Link(s) to where a vulnerability disclosure policy is located.",
 		})
 		.option("preferred-languages", {
 			type: "string",
-			description: "The preferred_languages field",
+			description:
+				"Comma-separated list of natural languages that are preferred when submitting security reports. Language codes should be as defined in RFC5646.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -62,7 +76,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
+			description: "Configuration of the zone security.txt file",
 		});
 }
 
@@ -131,6 +145,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["contact"] === undefined) {
+					throw new Error(
+						"--contact is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["expires"] === undefined) {
+					argv["expires"] = await promptForRequiredField(
+						"expires",
+						"RFC3339-formatted date and time string indicating the time that, after which, the contents of the security.txt file should be considered stale. It is recommended that this value is less than a year into the future."
+					);
 				}
 
 				// Assemble request body from individual flags

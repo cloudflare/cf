@@ -5,4 +5,5 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/zones/${request.zone_id}/keyless_certificates`,
+	query: ["page", "per_page"],
 } as const;

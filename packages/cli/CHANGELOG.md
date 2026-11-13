@@ -1,5 +1,32 @@
 # cf
 
+## 1.0.0-beta.32
+
+### Minor Changes
+
+- 57baca7: Require Wrangler 4.161.0 or newer for the `cf-wrangler` delegate
+
+  cf no longer sets the `CLOUDFLARE_CF_AUTH` environment variable for its development servers. Older Wrangler versions read it to choose cf's credentials when they restarted a remote bindings session, for example after you removed the last remote binding during `cf dev`. Wrangler 4.161.0 keeps using cf's credentials without it, so cf now rejects older Wrangler delegates with an upgrade hint.
+
+- 5d73ef2: Update the generated command surface for Forge OpenAPI release
+  `e1efbc5cd81998e61b22b2bfbec150054c876e49`.
+
+### Patch Changes
+
+- a4ed6f5: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.12.0` → `0.12.1`
+  - `@cloudflare/build-output-utils`: `0.9.13` → `0.9.14`
+  - `@cloudflare/cli-shared-helpers`: `0.3.7` → `0.3.8`
+  - `@cloudflare/codemods`: `0.7.7` → `0.7.8`
+  - `@cloudflare/config`: `0.32.0` → `0.32.1`
+  - `@cloudflare/containers-shared`: `0.26.0` → `0.26.1`
+  - `@cloudflare/deploy-helpers`: `0.26.4` → `0.27.0`
+  - `@cloudflare/runtime-types`: `0.1.27` → `0.1.28`
+  - `@cloudflare/workers-auth`: `0.18.1` → `0.18.2`
+  - `@cloudflare/workers-utils`: `0.53.1` → `0.54.0`
+  - `miniflare`: `5.20261110.2-beta` → `5.20261113.0-beta`
+
 ## 1.0.0-beta.31
 
 ### Minor Changes

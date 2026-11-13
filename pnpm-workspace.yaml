@@ -7,7 +7,10 @@ patchedDependencies:
 
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (the pinned pkg.pr.new Forge build) are allowed.
-blockExoticSubdeps: true
+# TEMPORARY: disabled while workers-sdk packages are installed from the
+# pkg.pr.new builds of cloudflare/workers-sdk#16921, whose tarballs depend on
+# each other by URL. Restore `true` once those releases are on npm.
+blockExoticSubdeps: false
 
 # Allow Cloudflare release batches before pnpm's maturity cutoff. Keep these
 # exclusions independent of the current package versions so Dependabot can

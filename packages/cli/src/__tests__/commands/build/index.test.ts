@@ -54,13 +54,13 @@ describe("cf build", () => {
 		await seed({
 			"package.json": JSON.stringify({
 				devDependencies: {
-					"@cloudflare/vite-plugin": "beta",
+					"@cloudflare/vite-plugin": "^2.0.0-rc.0",
 					wrangler: "^4.0.0",
 				},
 			}),
 			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 				name: "@cloudflare/vite-plugin",
-				version: "2.0.0-beta.v.13",
+				version: "2.0.0-rc.0",
 			}),
 			"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
 				buildScript("vite-worker"),
@@ -389,13 +389,13 @@ describe("cf build", () => {
 });
 
 function buildScript(workerName: string, extra = ""): string {
-	const workerDir = ".cloudflare/output/v0/workers/default";
+	const workerDir = ".cloudflare/output/v1/workers/default";
 	return nodeScript(
 		[
 			'const fs = require("node:fs");',
 			'fs.writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");',
 			`fs.mkdirSync(${JSON.stringify(`${workerDir}/bundle`)}, { recursive: true });`,
-			`fs.writeFileSync(".cloudflare/output/v0/config.json", ${JSON.stringify(buildOutputRootConfig())});`,
+			`fs.writeFileSync(".cloudflare/output/v1/config.json", ${JSON.stringify(buildOutputRootConfig())});`,
 			`fs.writeFileSync(${JSON.stringify(`${workerDir}/worker.config.json`)}, ${JSON.stringify(workerConfig({ name: workerName }))});`,
 			`fs.writeFileSync(${JSON.stringify(`${workerDir}/bundle/index.js`)}, "export default {}");`,
 			extra,

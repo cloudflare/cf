@@ -241,12 +241,12 @@ async function seedBuildOutput({ name }: { name: string | undefined }) {
 				};
 
 	await seed({
-		".cloudflare/output/v0/config.json": JSON.stringify({
+		".cloudflare/output/v1/config.json": JSON.stringify({
 			buildContext: { isPreview: false },
 		}),
-		".cloudflare/output/v0/workers/default/worker.config.json":
+		".cloudflare/output/v1/workers/default/worker.config.json":
 			JSON.stringify(config),
-		".cloudflare/output/v0/workers/default/bundle/index.js":
+		".cloudflare/output/v1/workers/default/bundle/index.js":
 			"export default { fetch() { return new Response('ok'); } }",
 	});
 }

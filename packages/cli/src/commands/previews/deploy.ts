@@ -112,7 +112,7 @@ async function deployPreviewBuildOutput(
 	assertPreviewBuildOutputRootConfig(output.rootConfig);
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
 	validateBuildOutputAccount(
-		output.rootConfig.accountId,
+		output.rootConfig.settings?.accountId,
 		argv["temporary-account"]
 	);
 	const { worker } = applyCIWorkerNameOverride(
@@ -125,7 +125,7 @@ async function deployPreviewBuildOutput(
 
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
-		accountId: output.rootConfig.accountId,
+		accountId: output.rootConfig.settings?.accountId,
 		complianceRegion,
 		isPreview: true,
 	});

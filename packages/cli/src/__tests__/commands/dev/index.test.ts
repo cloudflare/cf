@@ -73,7 +73,7 @@ describe("cf dev", () => {
 		it("errors when two ecosystems each declare an impl", async () => {
 			await seed({
 				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
 				"pyproject.toml": [
 					"[project]",
@@ -97,7 +97,7 @@ describe("cf dev", () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: {
-						"@cloudflare/vite-plugin": "beta",
+						"@cloudflare/vite-plugin": "^2.0.0-rc.0",
 						wrangler: "^4.0.0",
 					},
 				}),
@@ -116,7 +116,7 @@ describe("cf dev", () => {
 		it("surfaces an install hint specific to the declared impl", async () => {
 			await seed({
 				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
 				// No node_modules: declared but not installed.
 			});
@@ -127,25 +127,27 @@ describe("cf dev", () => {
 				/@cloudflare\/vite-plugin .* is not installed/
 			);
 			expect(std.err).toMatch(
-				/npm install --save-dev @cloudflare\/vite-plugin@beta/
+				/npm install --save-dev "@cloudflare\/vite-plugin@\^2\.0\.0-rc\.0"/
 			);
 		});
 
 		it("surfaces the vite version requirement when the delegate is missing", async () => {
 			await seed({
 				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.v.13",
+					version: "2.0.0-rc.0",
 				}),
 			});
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
 			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
-			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
+			expect(std.err).toMatch(
+				/@cloudflare\/vite-plugin v2 \(2\.0\.0-rc\.0 or newer\)/
+			);
 			expect(unframe(std.err)).toContain("cf dev");
 			expect(unframe(std.err)).toContain("cf build");
 			expect(unframe(std.err)).toContain("cf deploy");
@@ -197,10 +199,10 @@ describe("cf dev", () => {
 	describe.each([
 		{
 			name: "@cloudflare/vite-plugin",
-			version: "2.0.0-beta.v.12",
-			minimum: "2.0.0-beta.v.13",
+			version: "2.0.0-beta.v.17",
+			minimum: "2.0.0-rc.0",
 			bin: "bin/cf-vite",
-			install: "npm install --save-dev @cloudflare/vite-plugin@beta",
+			install: 'npm install --save-dev "@cloudflare/vite-plugin@^2.0.0-rc.0"',
 		},
 		{
 			name: "wrangler",
@@ -253,7 +255,7 @@ describe("cf dev", () => {
 	describe.each([
 		{
 			name: "@cloudflare/vite-plugin",
-			version: "2.0.0-beta.v.13",
+			version: "2.0.0-rc.0",
 			bin: "bin/cf-vite",
 		},
 		{ name: "wrangler", version: "4.161.0", bin: "bin/cf-wrangler.js" },
@@ -314,7 +316,9 @@ describe("cf dev", () => {
 			const result = await runCf(["dev"]);
 
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
+			expect(std.err).toMatch(
+				/@cloudflare\/vite-plugin v2 \(2\.0\.0-rc\.0 or newer\)/
+			);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin@1\.61\.0 is installed/);
 			expect(unframe(std.err)).toContain("cf dev");
 			expect(unframe(std.err)).toContain("cf build");
@@ -391,7 +395,7 @@ describe("cf dev", () => {
 						name: "vite-project",
 						devDependencies: {
 							vite: "^7.0.0",
-							"@cloudflare/vite-plugin": "beta",
+							"@cloudflare/vite-plugin": "^2.0.0-rc.0",
 						},
 					}),
 					"package-lock.json": "{}",
@@ -824,11 +828,11 @@ describe("cf dev", () => {
 			// Lay down a fake implementation at the conventional delegate path.
 			await seed({
 				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.v.13",
+					version: "2.0.0-rc.0",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
 					nodeScript("process.exit(0);"),
@@ -861,7 +865,9 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
+			expect(std.err).toMatch(
+				/@cloudflare\/vite-plugin v2 \(2\.0\.0-rc\.0 or newer\)/
+			);
 			expect(std.err).toMatch(
 				/@cloudflare\/vite-plugin@3\.0\.0-beta\.1 is installed/
 			);
@@ -870,11 +876,11 @@ describe("cf dev", () => {
 		it("propagates a non-zero impl exit code", async () => {
 			await seed({
 				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
 				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.v.13",
+					version: "2.0.0-rc.0",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
 					nodeScript("process.exit(17);"),
@@ -891,11 +897,11 @@ describe("cf dev", () => {
 				// The delegate inherits stdout, so write argv to a file for inspection.
 				await seed({
 					"package.json": JSON.stringify({
-						devDependencies: { "@cloudflare/vite-plugin": "beta" },
+						devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 					}),
 					"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
 						name: "@cloudflare/vite-plugin",
-						version: "2.0.0-beta.v.13",
+						version: "2.0.0-rc.0",
 					}),
 					"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
 						'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'

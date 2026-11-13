@@ -41,11 +41,11 @@ describe("cf deploy — routes", () => {
 		const routes = captureRoutes();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				triggers: [{ type: "fetch", pattern: "example.com/*" }],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -63,14 +63,14 @@ describe("cf deploy — routes", () => {
 		const routes = captureRoutes();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				triggers: [
 					{ type: "fetch", pattern: "api.example.com/*" },
 					{ type: "fetch", pattern: "app.example.com/*" },
 				],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -91,11 +91,11 @@ describe("cf deploy — routes", () => {
 		const domains = captureCustomDomains();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				domains: ["custom.example.com"],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -129,15 +129,15 @@ describe("cf deploy — routes", () => {
 			mockWorkerUpload();
 			const domains = captureCustomDomains();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						domains: [
 							"example.com",
 							{ hostname: "custom.example.com", ...traffic },
 						],
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -169,11 +169,11 @@ describe("cf deploy — routes", () => {
 		const upload = mockWorkerUpload();
 		const domains = captureCustomDomains();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				domains: [domain],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -191,12 +191,12 @@ describe("cf deploy — routes", () => {
 		const domains = captureCustomDomains();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				domains: ["custom.example.com"],
 				triggers: [{ type: "fetch", pattern: "api.example.com/*" }],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -224,14 +224,14 @@ describe("cf deploy — routes", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				triggers: [
 					{ type: "fetch", pattern: "example.com/*" },
 					{ type: "scheduled", schedule: "0 * * * *" },
 				],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 

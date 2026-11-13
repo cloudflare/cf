@@ -1,5 +1,5 @@
 import { writeWorkerConfig } from "@cloudflare/build-output-utils";
-import { InputWorkerSchema } from "@cloudflare/config";
+import { WorkerConfigSchema } from "@cloudflare/config";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -64,15 +64,15 @@ describe("cf previews deploy — custom domains", () => {
 			})
 		);
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: true },
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 		await writeWorkerConfig({
 			root: process.cwd(),
-			config: InputWorkerSchema.parse({
+			config: WorkerConfigSchema.parse({
 				name: "test-worker",
 				compatibilityDate: "2025-01-01",
 				domains: [

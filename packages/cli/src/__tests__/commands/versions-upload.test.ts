@@ -65,10 +65,10 @@ describe("cf workers versions create", () => {
 		async ({ flags }) => {
 			const requests = recordRequests();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -117,7 +117,7 @@ describe("cf workers versions create", () => {
 		expect(upload.metadata?.main_module).toBeUndefined();
 		expect(Object.keys(assets.manifest ?? {})).toEqual(["/index.html"]);
 		expect(
-			JSON.parse(readFileSync(".cloudflare/output/v0/config.json", "utf8"))
+			JSON.parse(readFileSync(".cloudflare/output/v1/config.json", "utf8"))
 		).toMatchObject({ buildContext: { isPreview: false } });
 	});
 
@@ -125,8 +125,8 @@ describe("cf workers versions create", () => {
 		const upload = mockWorkerUpload();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				compatibilityFlags: ["nodejs_compat"],
 				env: {
 					MY_KV: { type: "kv", id: "kv-ns-id-123" },
@@ -134,7 +134,7 @@ describe("cf workers versions create", () => {
 					MY_SECRET: { type: "secret" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -173,12 +173,12 @@ describe("cf workers versions create", () => {
 	it("runs build and forwards --mode", async () => {
 		mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: false, mode: "staging" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -197,12 +197,12 @@ describe("cf workers versions create", () => {
 	it("validates mode when uploading prebuilt output", async () => {
 		const upload = mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: false, mode: "production" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -226,12 +226,12 @@ describe("cf workers versions create", () => {
 	it("uploads prebuilt output with a recorded mode without --mode", async () => {
 		const upload = mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: false, mode: "staging" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -250,12 +250,12 @@ describe("cf workers versions create", () => {
 	it("points Preview Build Output to a mode-aware Preview deploy", async () => {
 		const upload = mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: true, mode: "staging" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -272,10 +272,10 @@ describe("cf workers versions create", () => {
 	it("passes --preview-alias through to the version upload", async () => {
 		const upload = mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -298,13 +298,15 @@ describe("cf workers versions create", () => {
 		const requests = recordRequests();
 		mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
-				accountId: "built-account",
-				complianceRegion: "fedramp-high",
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
+				settings: {
+					accountId: "built-account",
+					complianceRegion: "fedramp-high",
+				},
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -327,10 +329,10 @@ describe("cf workers versions create", () => {
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		const requests = recordRequests();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -350,17 +352,17 @@ describe("cf workers versions create", () => {
 	it("uploads a version of the Worker selected by --worker", async () => {
 		const upload = mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
-			".cloudflare/output/v0/workers/api/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/api/worker.config.json": workerConfig({
 				name: "api",
 				mainModule: "api.js",
 				modules: { "api.js": { type: "esm" } },
 			}),
-			".cloudflare/output/v0/workers/api/bundle/api.js":
+			".cloudflare/output/v1/workers/api/bundle/api.js":
 				"export default { fetch() { return new Response('api'); } }",
 		});
 
@@ -383,11 +385,11 @@ describe("cf workers versions create", () => {
 		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
 		const upload = mockWorkerUpload();
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				name: "config-worker",
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -432,8 +434,8 @@ describe("cf workers versions create", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					SessionDO: {
 						type: "durable-object",
@@ -442,9 +444,9 @@ describe("cf workers versions create", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class SessionDO {}; export default {};",
-			".cloudflare/output/v0/containers/sessions/container.config.json":
+			".cloudflare/output/v1/containers/sessions/container.config.json":
 				JSON.stringify({
 					name: "sessions",
 					schedulingPolicy: "durable-object",
@@ -507,8 +509,8 @@ describe("cf workers versions create", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					SessionDO: {
 						type: "durable-object",
@@ -517,9 +519,9 @@ describe("cf workers versions create", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class SessionDO {}; export default {};",
-			".cloudflare/output/v0/containers/sessions/container.config.json":
+			".cloudflare/output/v1/containers/sessions/container.config.json":
 				JSON.stringify({
 					name: "sessions",
 					schedulingPolicy: "durable-object",
@@ -597,8 +599,8 @@ describe("cf workers versions create", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					SessionDO: {
 						type: "durable-object",
@@ -607,9 +609,9 @@ describe("cf workers versions create", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class SessionDO {}; export default {};",
-			".cloudflare/output/v0/containers/sessions/container.config.json":
+			".cloudflare/output/v1/containers/sessions/container.config.json":
 				JSON.stringify({
 					name: "sessions",
 					schedulingPolicy: "durable-object",
@@ -633,8 +635,8 @@ describe("cf workers versions create", () => {
 		const upload = mockWorkerUpload();
 		vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					ContainerDO: {
 						type: "durable-object",
@@ -643,9 +645,9 @@ describe("cf workers versions create", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class ContainerDO {}; export default {};",
-			".cloudflare/output/v0/containers/api/container.config.json":
+			".cloudflare/output/v1/containers/api/container.config.json":
 				JSON.stringify({
 					name: "api-container",
 					image: { localReference: "api-container:built-by-vite" },

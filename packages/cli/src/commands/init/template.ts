@@ -1,7 +1,7 @@
 import type { PackageManager } from "./workers.js";
 
 export const WORKER_TEMPLATE_DEV_DEPENDENCIES = {
-	"@cloudflare/vite-plugin": "beta",
+	"@cloudflare/vite-plugin": "^2.0.0-rc.0",
 	typescript: "^7.0.2",
 	vite: "^8.3.0",
 } as const;

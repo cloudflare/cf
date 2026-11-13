@@ -204,7 +204,7 @@ describe("cf previews deploy", () => {
 
 	it("uploads prebuilt Preview output with a recorded mode without --mode", async () => {
 		const rootConfig = {
-			accountId: "built-preview-account",
+			settings: { accountId: "built-preview-account" },
 			buildContext: { isPreview: true, mode: "staging" },
 		};
 		const worker = {

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import { createContainerDeployConfig } from "../../../commands/deploy/containers.js";
 import { BuildOutputConfigError } from "../../../lib/build-output-error.js";
 import type { BuildOutputContainers } from "@cloudflare/build-output-utils";
-import type { ParsedOutputContainerConfig } from "@cloudflare/config";
+import type { ParsedBuildOutputContainerConfig } from "@cloudflare/config";
 import type { Config, Exports } from "@cloudflare/workers-utils";
 
 const config = {
@@ -11,7 +11,7 @@ const config = {
 } as Config;
 
 function outputContainers(
-	...containers: ParsedOutputContainerConfig[]
+	...containers: ParsedBuildOutputContainerConfig[]
 ): BuildOutputContainers {
 	return containers.map((container, index) => ({
 		configPath: `/output/container-${index}/container.config.json`,
@@ -104,7 +104,7 @@ describe("Build Output Containers", () => {
 			name: "api",
 			image: { reference: "registry.example/api:latest" },
 			maxInstances: 1,
-		} satisfies ParsedOutputContainerConfig;
+		} satisfies ParsedBuildOutputContainerConfig;
 
 		expect(() =>
 			createContainerDeployConfig(

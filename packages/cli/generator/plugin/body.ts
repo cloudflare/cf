@@ -614,6 +614,19 @@ function descend(target: FlagTarget): FlagTarget {
 }
 
 /**
+ * Whether one flag sets a property inside the other's: a value in one
+ * alternative and an object in another, which no body can be at once.
+ */
+function nested(a: FlagTarget, b: FlagTarget): boolean {
+	const [outer, inner] =
+		a.path.length < b.path.length ? [a.path, b.path] : [b.path, a.path];
+	return (
+		outer.length < inner.length &&
+		outer.every((segment, i) => segment === inner[i])
+	);
+}
+
+/**
  * Whether the flag can set a variant's property. A value flag cannot set an
  * object whose own properties take flags: that object is the variant's shape
  * of a property another variant makes a value.
@@ -831,7 +844,7 @@ function oneOfConstraints(
 			if (other === param) continue;
 			const otherTarget = flagTarget(other, path);
 			if (
-				inferConflicts &&
+				(inferConflicts || nested(target, otherTarget)) &&
 				!containing.some((v) => hasProperty(v.schema, otherTarget))
 			) {
 				param.conflicts = dedup([...(param.conflicts ?? []), other.name]);

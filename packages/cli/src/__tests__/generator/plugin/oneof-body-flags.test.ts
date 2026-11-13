@@ -534,6 +534,40 @@ describe("a property that is a value in one oneOf alternative and an object in a
 	});
 });
 
+describe("a value and an object of all-optional alternatives", () => {
+	const code = generateSchema({
+		oneOf: [
+			{ type: "object", properties: { label: { type: "string" } } },
+			{
+				type: "object",
+				properties: {
+					label: {
+						type: "object",
+						properties: { text: { type: "string" } },
+					},
+				},
+			},
+		],
+	});
+
+	it.each([
+		[["--label", "plain"], { label: "plain" }],
+		[["--label-text", "nested"], { label: { text: "nested" } }],
+	])("builds either alternative: %j", async (flags, body) => {
+		const { parse, requestBody } = setup(code);
+		await parse(flags);
+		expect(requestBody).toHaveBeenCalledWith(body);
+	});
+
+	it("rejects both shapes, which no body can be at once", async () => {
+		const { parse, requestBody } = setup(code);
+		await expect(
+			parse(["--label", "plain", "--label-text", "nested"])
+		).rejects.toThrow("mutually exclusive");
+		expect(requestBody).not.toHaveBeenCalled();
+	});
+});
+
 describe("a body that is an anyOf of closed objects", () => {
 	const revision = { type: "integer" };
 	const structured = {

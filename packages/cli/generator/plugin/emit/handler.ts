@@ -805,7 +805,7 @@ export function bodyObject(ctx: Ctx, indent: string): string[] {
 			}
 			const nestedLines = emit(child, `${ind}\t`);
 			// One union variant takes a value here and another an object. Their
-			// flags conflict, so at most one side is set.
+			// flags always conflict, so at most one side is set.
 			const value = child.value === undefined ? "" : `${child.value} ?? `;
 			lines.push(`${ind}\t${key}: ${value}${nestedLines[0]}`);
 			lines.push(...nestedLines.slice(1, nestedLines.length - 1));

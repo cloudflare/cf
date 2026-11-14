@@ -75,6 +75,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filter by one or more recording status",
+			choices: [
+				"INVOKED",
+				"RECORDING",
+				"UPLOADING",
+				"UPLOADED",
+				"ERRORED",
+				"PAUSED",
+			],
 		})
 		.option("dry-run", {
 			type: "boolean",

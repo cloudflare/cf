@@ -69,6 +69,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filter finding instances by most recent remediation job status. Supports multiple comma-separated values.\nUse 'none' to filter instances with no remediation jobs or instances where the most recent job is stale.\nNote: Stale jobs (created before the instance's affliction_date) are ignored for filtering purposes, but are still included in the 'remediations' array with stale=true.",
+			choices: [
+				"none",
+				"pending",
+				"processing",
+				"validating",
+				"completed",
+				"failed",
+			],
 		})
 		.option("finding-instance-ids", {
 			type: "string",

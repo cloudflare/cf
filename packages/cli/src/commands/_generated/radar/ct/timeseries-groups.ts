@@ -71,17 +71,28 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by certificate duration.",
+			choices: [
+				"LTE_3D",
+				"GT_3D_LTE_7D",
+				"GT_7D_LTE_10D",
+				"GT_10D_LTE_47D",
+				"GT_47D_LTE_100D",
+				"GT_100D_LTE_200D",
+				"GT_200D",
+			],
 		})
 		.option("entry-type", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension.",
+			choices: ["PRECERTIFICATE", "CERTIFICATE"],
 		})
 		.option("expiration-status", {
 			type: "string",
 			array: true,
 			description: "Filters results by expiration status (expired vs. valid).",
+			choices: ["EXPIRED", "VALID"],
 		})
 		.option("has-ips", {
 			type: "string",
@@ -106,6 +117,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension.",
+			choices: ["RFC6962", "STATIC"],
 		})
 		.option("log-operator", {
 			type: "string",
@@ -117,16 +129,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by public key algorithm.",
+			choices: ["DSA", "ECDSA", "RSA"],
 		})
 		.option("signature-algorithm", {
 			type: "string",
 			array: true,
 			description: "Filters results by signature algorithm.",
+			choices: [
+				"DSA_SHA_1",
+				"DSA_SHA_256",
+				"ECDSA_SHA_1",
+				"ECDSA_SHA_256",
+				"ECDSA_SHA_384",
+				"ECDSA_SHA_512",
+				"PSS_SHA_256",
+				"PSS_SHA_384",
+				"PSS_SHA_512",
+				"RSA_MD2",
+				"RSA_MD5",
+				"RSA_SHA_1",
+				"RSA_SHA_256",
+				"RSA_SHA_384",
+				"RSA_SHA_512",
+			],
 		})
 		.option("validation-level", {
 			type: "string",
 			array: true,
 			description: "Filters results by validation level.",
+			choices: ["DOMAIN", "ORGANIZATION", "EXTENDED"],
 		})
 		.option("tld", {
 			type: "string",
@@ -145,6 +176,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
+			choices: ["true", "false"],
 		})
 		.option("format", {
 			type: "string",

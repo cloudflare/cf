@@ -30,6 +30,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Comma-separated list of fields to include in the response. When omitted,\nall fields are returned.",
+			choices: [
+				"uuid",
+				"name",
+				"created_at",
+				"version",
+				"jurisdiction",
+				"num_tables",
+				"file_size",
+				"running_in_region",
+				"read_replication",
+			],
 		})
 		.option("dry-run", {
 			type: "boolean",

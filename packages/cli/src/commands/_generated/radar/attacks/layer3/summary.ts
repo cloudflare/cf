@@ -61,11 +61,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
 		.option("protocol", {
 			type: "string",
 			array: true,
 			description: "Filters the results by layer 3/4 protocol.",
+			choices: ["UDP", "TCP", "ICMP", "GRE"],
 		})
 		.option("direction", {
 			type: "string",

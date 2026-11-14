@@ -37,6 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series.",
+			choices: ["RIPE_NCC", "ARIN", "APNIC", "LACNIC", "AFRINIC"],
 		})
 		.option("location", {
 			type: "string",

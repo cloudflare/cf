@@ -617,13 +617,25 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "Filter by submitter-facing status. This parameter can be specified multiple times."
+					"description": "Filter by submitter-facing status. This parameter can be specified multiple times.",
+					"enum": ["submitted", "accepted", "denied"]
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "Filter by report type. This parameter can be specified multiple times."
+					"description": "Filter by report type. This parameter can be specified multiple times.",
+					"enum": [
+						"PHISH",
+						"GEN",
+						"THREAT",
+						"DMCA",
+						"EMER",
+						"TM",
+						"REG_WHO",
+						"NCSEI",
+						"NETWORK"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -2528,19 +2540,29 @@
 					"name": "action-result",
 					"type": "string",
 					"required": false,
-					"description": "Filters by whether the action was successful or not."
+					"description": "Filters by whether the action was successful or not.",
+					"enum": ["success", "failure"]
 				},
 				{
 					"name": "action-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the action type."
+					"description": "Filters by the action type.",
+					"enum": ["create", "delete", "view", "update"]
 				},
 				{
 					"name": "actor-context",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key."
+					"description": "Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+					"enum": [
+						"api",
+						"api_key",
+						"api_token",
+						"dash",
+						"oauth",
+						"origin_ca_key"
+					]
 				},
 				{
 					"name": "actor-email",
@@ -2576,7 +2598,14 @@
 					"name": "actor-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the actor type."
+					"description": "Filters by the actor type.",
+					"enum": [
+						"account",
+						"cloudflare_admin",
+						"delegated_service",
+						"system",
+						"user"
+					]
 				},
 				{
 					"name": "audit-log-id",
@@ -2636,7 +2665,8 @@
 					"name": "resource-scope",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership."
+					"description": "Filters by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.",
+					"enum": ["accounts", "user", "zones", "memberships"]
 				},
 				{
 					"name": "product-category",
@@ -2666,19 +2696,29 @@
 					"name": "action-result-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by whether the action was successful or not."
+					"description": "Filters out audit logs by whether the action was successful or not.",
+					"enum": ["success", "failure"]
 				},
 				{
 					"name": "action-type-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the action type."
+					"description": "Filters out audit logs by the action type.",
+					"enum": ["create", "delete", "view", "update"]
 				},
 				{
 					"name": "actor-context-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key."
+					"description": "Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+					"enum": [
+						"api",
+						"api_key",
+						"api_token",
+						"dash",
+						"oauth",
+						"origin_ca_key"
+					]
 				},
 				{
 					"name": "actor-email-not",
@@ -2714,7 +2754,14 @@
 					"name": "actor-type-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the actor type."
+					"description": "Filters out audit logs by the actor type.",
+					"enum": [
+						"account",
+						"cloudflare_admin",
+						"delegated_service",
+						"system",
+						"user"
+					]
 				},
 				{
 					"name": "audit-log-id-not",
@@ -2774,7 +2821,8 @@
 					"name": "resource-scope-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership."
+					"description": "Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.",
+					"enum": ["accounts", "user", "zones", "memberships"]
 				},
 				{
 					"name": "zone-id-not",
@@ -16090,7 +16138,13 @@
 					"name": "feature",
 					"type": "string",
 					"required": false,
-					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning."
+					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+					"enum": [
+						"thresholds",
+						"parameter_schemas",
+						"schema_info",
+						"confidence_intervals"
+					]
 				},
 				{
 					"name": "host",
@@ -40433,7 +40487,8 @@
 					"name": "severity",
 					"type": "string",
 					"required": false,
-					"description": "Beta. Repeatable intrinsic severity band filter. An article matches any selected band, the band reported as its severity. Excludes articles without a severity. Like the severity field, severity is reported only while the account has an active Priority Intelligence Requirement; otherwise no articles match."
+					"description": "Beta. Repeatable intrinsic severity band filter. An article matches any selected band, the band reported as its severity. Excludes articles without a severity. Like the severity field, severity is reported only while the account has an active Priority Intelligence Requirement; otherwise no articles match.",
+					"enum": ["informational", "low", "medium", "high", "critical"]
 				},
 				{
 					"name": "sort",
@@ -45392,7 +45447,18 @@
 					"name": "fields",
 					"type": "string",
 					"required": false,
-					"description": "Comma-separated list of fields to include in the response. When omitted,\nall fields are returned."
+					"description": "Comma-separated list of fields to include in the response. When omitted,\nall fields are returned.",
+					"enum": [
+						"uuid",
+						"name",
+						"created_at",
+						"version",
+						"jurisdiction",
+						"num_tables",
+						"file_size",
+						"running_in_region",
+						"read_replication"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -79589,7 +79655,16 @@
 					"name": "tun-types",
 					"type": "string",
 					"required": false,
-					"description": "The types of tunnels to filter by, separated by commas."
+					"description": "The types of tunnels to filter by, separated by commas.",
+					"enum": [
+						"cfd_tunnel",
+						"warp_connector",
+						"warp",
+						"magic",
+						"ip_sec",
+						"gre",
+						"cni"
+					]
 				},
 				{
 					"name": "virtual-network-id",
@@ -84466,19 +84541,29 @@
 					"name": "action-result",
 					"type": "string",
 					"required": false,
-					"description": "Filters by whether the action was successful or not."
+					"description": "Filters by whether the action was successful or not.",
+					"enum": ["success", "failure"]
 				},
 				{
 					"name": "action-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the action type."
+					"description": "Filters by the action type.",
+					"enum": ["create", "delete", "view", "update"]
 				},
 				{
 					"name": "actor-context",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key."
+					"description": "Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+					"enum": [
+						"api",
+						"api_key",
+						"api_token",
+						"dash",
+						"oauth",
+						"origin_ca_key"
+					]
 				},
 				{
 					"name": "actor-email",
@@ -84514,7 +84599,8 @@
 					"name": "actor-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the actor type."
+					"description": "Filters by the actor type.",
+					"enum": ["cloudflare_admin", "system", "user"]
 				},
 				{
 					"name": "id",
@@ -84568,25 +84654,36 @@
 					"name": "resource-scope",
 					"type": "string",
 					"required": false,
-					"description": "Filters by the resource scope, specifying whether the resource is associated with an organization."
+					"description": "Filters by the resource scope, specifying whether the resource is associated with an organization.",
+					"enum": ["organizations"]
 				},
 				{
 					"name": "action-result-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by whether the action was successful or not."
+					"description": "Filters out audit logs by whether the action was successful or not.",
+					"enum": ["success", "failure"]
 				},
 				{
 					"name": "action-type-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the action type."
+					"description": "Filters out audit logs by the action type.",
+					"enum": ["create", "delete", "view", "update"]
 				},
 				{
 					"name": "actor-context-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key."
+					"description": "Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+					"enum": [
+						"api",
+						"api_key",
+						"api_token",
+						"dash",
+						"oauth",
+						"origin_ca_key"
+					]
 				},
 				{
 					"name": "actor-email-not",
@@ -84622,7 +84719,8 @@
 					"name": "actor-type-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the actor type."
+					"description": "Filters out audit logs by the actor type.",
+					"enum": ["cloudflare_admin", "system", "user"]
 				},
 				{
 					"name": "id-not",
@@ -84676,7 +84774,8 @@
 					"name": "resource-scope-not",
 					"type": "string",
 					"required": false,
-					"description": "Filters out audit logs by the resource scope, specifying whether the resource is associated with an organization."
+					"description": "Filters out audit logs by the resource scope, specifying whether the resource is associated with an organization.",
+					"enum": ["organizations"]
 				},
 				{
 					"name": "since",
@@ -84990,7 +85089,8 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "Filter the list of memberships by membership status. Defaults to `active`, `pending`, and `rejected`; pass `canceled` explicitly to include canceled memberships."
+					"description": "Filter the list of memberships by membership status. Defaults to `active`, `pending`, and `rejected`; pass `canceled` explicitly to include canceled memberships.",
+					"enum": ["active", "pending", "rejected", "canceled"]
 				},
 				{
 					"name": "user-email",
@@ -94026,7 +94126,25 @@
 					"name": "content-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": [
+						"HTML",
+						"IMAGES",
+						"JSON",
+						"JAVASCRIPT",
+						"CSS",
+						"PLAIN_TEXT",
+						"FONTS",
+						"XML",
+						"YAML",
+						"VIDEO",
+						"AUDIO",
+						"MARKDOWN",
+						"DOCUMENTS",
+						"BINARY",
+						"SERIALIZATION",
+						"OTHER"
+					]
 				},
 				{
 					"name": "response-status",
@@ -94038,7 +94156,14 @@
 					"name": "response-status-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP response status code category."
+					"description": "Filters results by HTTP response status code category.",
+					"enum": [
+						"INFORMATIONAL",
+						"SUCCESS",
+						"REDIRECTION",
+						"CLIENT_ERROR",
+						"SERVER_ERROR"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -94154,7 +94279,25 @@
 					"name": "content-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": [
+						"HTML",
+						"IMAGES",
+						"JSON",
+						"JAVASCRIPT",
+						"CSS",
+						"PLAIN_TEXT",
+						"FONTS",
+						"XML",
+						"YAML",
+						"VIDEO",
+						"AUDIO",
+						"MARKDOWN",
+						"DOCUMENTS",
+						"BINARY",
+						"SERIALIZATION",
+						"OTHER"
+					]
 				},
 				{
 					"name": "response-status",
@@ -94166,7 +94309,14 @@
 					"name": "response-status-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP response status code category."
+					"description": "Filters results by HTTP response status code category.",
+					"enum": [
+						"INFORMATIONAL",
+						"SUCCESS",
+						"REDIRECTION",
+						"CLIENT_ERROR",
+						"SERVER_ERROR"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -94290,7 +94440,25 @@
 					"name": "content-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": [
+						"HTML",
+						"IMAGES",
+						"JSON",
+						"JAVASCRIPT",
+						"CSS",
+						"PLAIN_TEXT",
+						"FONTS",
+						"XML",
+						"YAML",
+						"VIDEO",
+						"AUDIO",
+						"MARKDOWN",
+						"DOCUMENTS",
+						"BINARY",
+						"SERIALIZATION",
+						"OTHER"
+					]
 				},
 				{
 					"name": "response-status",
@@ -94302,7 +94470,14 @@
 					"name": "response-status-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP response status code category."
+					"description": "Filters results by HTTP response status code category.",
+					"enum": [
+						"INFORMATIONAL",
+						"SUCCESS",
+						"REDIRECTION",
+						"CLIENT_ERROR",
+						"SERVER_ERROR"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -94805,7 +94980,105 @@
 					"name": "tags",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by annotation tag. Matches annotations carrying at least one of the given tags."
+					"description": "Filters results by annotation tag. Matches annotations carrying at least one of the given tags.",
+					"enum": [
+						"ADM1",
+						"ADM2",
+						"API_TRAFFIC",
+						"ARC",
+						"AS",
+						"ASN",
+						"ATTACKS",
+						"AUTHOR",
+						"BANDWIDTH",
+						"BITRATE",
+						"BOT",
+						"BOT_CATEGORY",
+						"BOT_CLASS",
+						"BOT_KIND",
+						"BOT_OPERATOR",
+						"BROWSER",
+						"BROWSER_FAMILY",
+						"BYTES",
+						"CA",
+						"CACHE_HIT",
+						"CA_OWNER",
+						"CHECK_RESULT",
+						"CLIENT_TYPE",
+						"COMPROMISED",
+						"CONTENT_TYPE",
+						"CRAWL_PURPOSE",
+						"CRAWL_REFER_RATIO",
+						"DEVICE_TYPE",
+						"DKIM",
+						"DMARC",
+						"DNS",
+						"DNSSEC",
+						"DNSSEC_AWARE",
+						"DNSSEC_E2E",
+						"DOMAIN_CATEGORY",
+						"DURATION",
+						"EDNS",
+						"ENCRYPTED",
+						"ENTRY_TYPE",
+						"EXPIRATION_STATUS",
+						"HAS_IPS",
+						"HAS_MATCHING_ANSWER",
+						"HAS_WILDCARDS",
+						"HTTP_METHOD",
+						"HTTP_PROTOCOL",
+						"HTTP_VERSION",
+						"INDUSTRY",
+						"IP_VERSION",
+						"JITTER",
+						"KEY_AGREEMENT",
+						"LATENCY",
+						"LOCATION",
+						"LOCATION_LATENCY",
+						"LOG",
+						"LOG_API",
+						"LOG_OPERATOR",
+						"MALICIOUS",
+						"MANAGED_RULES",
+						"MITIGATION_PRODUCT",
+						"MODEL",
+						"NAMESERVER_LATENCY",
+						"ORIGIN",
+						"ORIGIN_AS",
+						"ORIGIN_LOCATION",
+						"ORIGIN_TARGET_LOCATION_PAIR",
+						"OS",
+						"PERCENTILE",
+						"POST_QUANTUM",
+						"PREFIX",
+						"PRODUCT",
+						"PROTOCOL",
+						"PROVIDER",
+						"PUBLIC_KEY_ALGORITHM",
+						"QUERY_TYPE",
+						"REFERER",
+						"REGION",
+						"RESPONSE_CODE",
+						"RESPONSE_STATUS",
+						"RESPONSE_STATUS_CATEGORY",
+						"RESPONSE_TTL",
+						"SIGNATURE_ALGORITHM",
+						"SPAM",
+						"SPF",
+						"SPOOF",
+						"SUCCESS_RATE",
+						"TARGET_LOCATION",
+						"TASK",
+						"THREAT_CATEGORY",
+						"TLD",
+						"TLD_DNS_MAGNITUDE",
+						"TLS_VERSION",
+						"UPDATE_TYPE",
+						"USER_AGENT",
+						"VALIDATION_LEVEL",
+						"VECTOR",
+						"VERTICAL"
+					]
 				},
 				{
 					"name": "query",
@@ -94991,7 +95264,105 @@
 					"name": "tags",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by annotation tag. Matches annotations carrying at least one of the given tags."
+					"description": "Filters results by annotation tag. Matches annotations carrying at least one of the given tags.",
+					"enum": [
+						"ADM1",
+						"ADM2",
+						"API_TRAFFIC",
+						"ARC",
+						"AS",
+						"ASN",
+						"ATTACKS",
+						"AUTHOR",
+						"BANDWIDTH",
+						"BITRATE",
+						"BOT",
+						"BOT_CATEGORY",
+						"BOT_CLASS",
+						"BOT_KIND",
+						"BOT_OPERATOR",
+						"BROWSER",
+						"BROWSER_FAMILY",
+						"BYTES",
+						"CA",
+						"CACHE_HIT",
+						"CA_OWNER",
+						"CHECK_RESULT",
+						"CLIENT_TYPE",
+						"COMPROMISED",
+						"CONTENT_TYPE",
+						"CRAWL_PURPOSE",
+						"CRAWL_REFER_RATIO",
+						"DEVICE_TYPE",
+						"DKIM",
+						"DMARC",
+						"DNS",
+						"DNSSEC",
+						"DNSSEC_AWARE",
+						"DNSSEC_E2E",
+						"DOMAIN_CATEGORY",
+						"DURATION",
+						"EDNS",
+						"ENCRYPTED",
+						"ENTRY_TYPE",
+						"EXPIRATION_STATUS",
+						"HAS_IPS",
+						"HAS_MATCHING_ANSWER",
+						"HAS_WILDCARDS",
+						"HTTP_METHOD",
+						"HTTP_PROTOCOL",
+						"HTTP_VERSION",
+						"INDUSTRY",
+						"IP_VERSION",
+						"JITTER",
+						"KEY_AGREEMENT",
+						"LATENCY",
+						"LOCATION",
+						"LOCATION_LATENCY",
+						"LOG",
+						"LOG_API",
+						"LOG_OPERATOR",
+						"MALICIOUS",
+						"MANAGED_RULES",
+						"MITIGATION_PRODUCT",
+						"MODEL",
+						"NAMESERVER_LATENCY",
+						"ORIGIN",
+						"ORIGIN_AS",
+						"ORIGIN_LOCATION",
+						"ORIGIN_TARGET_LOCATION_PAIR",
+						"OS",
+						"PERCENTILE",
+						"POST_QUANTUM",
+						"PREFIX",
+						"PRODUCT",
+						"PROTOCOL",
+						"PROVIDER",
+						"PUBLIC_KEY_ALGORITHM",
+						"QUERY_TYPE",
+						"REFERER",
+						"REGION",
+						"RESPONSE_CODE",
+						"RESPONSE_STATUS",
+						"RESPONSE_STATUS_CATEGORY",
+						"RESPONSE_TTL",
+						"SIGNATURE_ALGORITHM",
+						"SPAM",
+						"SPF",
+						"SPOOF",
+						"SUCCESS_RATE",
+						"TARGET_LOCATION",
+						"TASK",
+						"THREAT_CATEGORY",
+						"TLD",
+						"TLD_DNS_MAGNITUDE",
+						"TLS_VERSION",
+						"UPDATE_TYPE",
+						"USER_AGENT",
+						"VALIDATION_LEVEL",
+						"VECTOR",
+						"VERTICAL"
+					]
 				},
 				{
 					"name": "query",
@@ -95181,19 +95552,131 @@
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -95279,19 +95762,131 @@
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "format",
@@ -95379,19 +95974,131 @@
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -95794,13 +96501,15 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 3/4 protocol."
+					"description": "Filters the results by layer 3/4 protocol.",
+					"enum": ["UDP", "TCP", "ICMP", "GRE"]
 				},
 				{
 					"name": "direction",
@@ -95899,13 +96608,15 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 3/4 protocol."
+					"description": "Filters the results by layer 3/4 protocol.",
+					"enum": ["UDP", "TCP", "ICMP", "GRE"]
 				},
 				{
 					"name": "normalization",
@@ -96014,13 +96725,15 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 3/4 protocol."
+					"description": "Filters the results by layer 3/4 protocol.",
+					"enum": ["UDP", "TCP", "ICMP", "GRE"]
 				},
 				{
 					"name": "normalization",
@@ -96119,13 +96832,15 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 3/4 protocol."
+					"description": "Filters the results by layer 3/4 protocol.",
+					"enum": ["UDP", "TCP", "ICMP", "GRE"]
 				},
 				{
 					"name": "limit-direction",
@@ -96231,13 +96946,15 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 3/4 protocol."
+					"description": "Filters the results by layer 3/4 protocol.",
+					"enum": ["UDP", "TCP", "ICMP", "GRE"]
 				},
 				{
 					"name": "format",
@@ -96316,13 +97033,15 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 3/4 protocol."
+					"description": "Filters the results by layer 3/4 protocol.",
+					"enum": ["UDP", "TCP", "ICMP", "GRE"]
 				},
 				{
 					"name": "format",
@@ -96409,25 +97128,84 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "http-method",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP method."
+					"description": "Filters results by HTTP method.",
+					"enum": [
+						"GET",
+						"POST",
+						"DELETE",
+						"PUT",
+						"HEAD",
+						"PURGE",
+						"OPTIONS",
+						"PROPFIND",
+						"MKCOL",
+						"PATCH",
+						"ACL",
+						"BCOPY",
+						"BDELETE",
+						"BMOVE",
+						"BPROPFIND",
+						"BPROPPATCH",
+						"CHECKIN",
+						"CHECKOUT",
+						"CONNECT",
+						"COPY",
+						"LABEL",
+						"LOCK",
+						"MERGE",
+						"MKACTIVITY",
+						"MKWORKSPACE",
+						"MOVE",
+						"NOTIFY",
+						"ORDERPATCH",
+						"POLL",
+						"PROPPATCH",
+						"REPORT",
+						"SEARCH",
+						"SUBSCRIBE",
+						"TRACE",
+						"UNCHECKOUT",
+						"UNLOCK",
+						"UNSUBSCRIBE",
+						"UPDATE",
+						"VERSIONCONTROL",
+						"BASELINECONTROL",
+						"XMSENUMATTS",
+						"RPC_OUT_DATA",
+						"RPC_IN_DATA",
+						"JSON",
+						"COOK",
+						"TRACK"
+					]
 				},
 				{
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -96526,25 +97304,84 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "http-method",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP method."
+					"description": "Filters results by HTTP method.",
+					"enum": [
+						"GET",
+						"POST",
+						"DELETE",
+						"PUT",
+						"HEAD",
+						"PURGE",
+						"OPTIONS",
+						"PROPFIND",
+						"MKCOL",
+						"PATCH",
+						"ACL",
+						"BCOPY",
+						"BDELETE",
+						"BMOVE",
+						"BPROPFIND",
+						"BPROPPATCH",
+						"CHECKIN",
+						"CHECKOUT",
+						"CONNECT",
+						"COPY",
+						"LABEL",
+						"LOCK",
+						"MERGE",
+						"MKACTIVITY",
+						"MKWORKSPACE",
+						"MOVE",
+						"NOTIFY",
+						"ORDERPATCH",
+						"POLL",
+						"PROPPATCH",
+						"REPORT",
+						"SEARCH",
+						"SUBSCRIBE",
+						"TRACE",
+						"UNCHECKOUT",
+						"UNLOCK",
+						"UNSUBSCRIBE",
+						"UPDATE",
+						"VERSIONCONTROL",
+						"BASELINECONTROL",
+						"XMSENUMATTS",
+						"RPC_OUT_DATA",
+						"RPC_IN_DATA",
+						"JSON",
+						"COOK",
+						"TRACK"
+					]
 				},
 				{
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "format",
@@ -96638,25 +97475,84 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "http-method",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP method."
+					"description": "Filters results by HTTP method.",
+					"enum": [
+						"GET",
+						"POST",
+						"DELETE",
+						"PUT",
+						"HEAD",
+						"PURGE",
+						"OPTIONS",
+						"PROPFIND",
+						"MKCOL",
+						"PATCH",
+						"ACL",
+						"BCOPY",
+						"BDELETE",
+						"BMOVE",
+						"BPROPFIND",
+						"BPROPPATCH",
+						"CHECKIN",
+						"CHECKOUT",
+						"CONNECT",
+						"COPY",
+						"LABEL",
+						"LOCK",
+						"MERGE",
+						"MKACTIVITY",
+						"MKWORKSPACE",
+						"MOVE",
+						"NOTIFY",
+						"ORDERPATCH",
+						"POLL",
+						"PROPPATCH",
+						"REPORT",
+						"SEARCH",
+						"SUBSCRIBE",
+						"TRACE",
+						"UNCHECKOUT",
+						"UNLOCK",
+						"UNSUBSCRIBE",
+						"UPDATE",
+						"VERSIONCONTROL",
+						"BASELINECONTROL",
+						"XMSENUMATTS",
+						"RPC_OUT_DATA",
+						"RPC_IN_DATA",
+						"JSON",
+						"COOK",
+						"TRACK"
+					]
 				},
 				{
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "normalization",
@@ -96748,25 +97644,84 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "http-method",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP method."
+					"description": "Filters results by HTTP method.",
+					"enum": [
+						"GET",
+						"POST",
+						"DELETE",
+						"PUT",
+						"HEAD",
+						"PURGE",
+						"OPTIONS",
+						"PROPFIND",
+						"MKCOL",
+						"PATCH",
+						"ACL",
+						"BCOPY",
+						"BDELETE",
+						"BMOVE",
+						"BPROPFIND",
+						"BPROPPATCH",
+						"CHECKIN",
+						"CHECKOUT",
+						"CONNECT",
+						"COPY",
+						"LABEL",
+						"LOCK",
+						"MERGE",
+						"MKACTIVITY",
+						"MKWORKSPACE",
+						"MOVE",
+						"NOTIFY",
+						"ORDERPATCH",
+						"POLL",
+						"PROPPATCH",
+						"REPORT",
+						"SEARCH",
+						"SUBSCRIBE",
+						"TRACE",
+						"UNCHECKOUT",
+						"UNLOCK",
+						"UNSUBSCRIBE",
+						"UPDATE",
+						"VERSIONCONTROL",
+						"BASELINECONTROL",
+						"XMSENUMATTS",
+						"RPC_OUT_DATA",
+						"RPC_IN_DATA",
+						"JSON",
+						"COOK",
+						"TRACK"
+					]
 				},
 				{
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "format",
@@ -96851,7 +97806,16 @@
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "limit-direction",
@@ -96950,25 +97914,84 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "http-method",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP method."
+					"description": "Filters results by HTTP method.",
+					"enum": [
+						"GET",
+						"POST",
+						"DELETE",
+						"PUT",
+						"HEAD",
+						"PURGE",
+						"OPTIONS",
+						"PROPFIND",
+						"MKCOL",
+						"PATCH",
+						"ACL",
+						"BCOPY",
+						"BDELETE",
+						"BMOVE",
+						"BPROPFIND",
+						"BPROPPATCH",
+						"CHECKIN",
+						"CHECKOUT",
+						"CONNECT",
+						"COPY",
+						"LABEL",
+						"LOCK",
+						"MERGE",
+						"MKACTIVITY",
+						"MKWORKSPACE",
+						"MOVE",
+						"NOTIFY",
+						"ORDERPATCH",
+						"POLL",
+						"PROPPATCH",
+						"REPORT",
+						"SEARCH",
+						"SUBSCRIBE",
+						"TRACE",
+						"UNCHECKOUT",
+						"UNLOCK",
+						"UNSUBSCRIBE",
+						"UPDATE",
+						"VERSIONCONTROL",
+						"BASELINECONTROL",
+						"XMSENUMATTS",
+						"RPC_OUT_DATA",
+						"RPC_IN_DATA",
+						"JSON",
+						"COOK",
+						"TRACK"
+					]
 				},
 				{
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "format",
@@ -97041,7 +98064,16 @@
 					"name": "mitigation-product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by layer 7 mitigation product."
+					"description": "Filters the results by layer 7 mitigation product.",
+					"enum": [
+						"DDOS",
+						"WAF",
+						"BOT_MANAGEMENT",
+						"ACCESS_RULES",
+						"IP_REPUTATION",
+						"API_SHIELD",
+						"DATA_LOSS_PREVENTION"
+					]
 				},
 				{
 					"name": "format",
@@ -97237,7 +98269,8 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "include-delay",
@@ -97927,7 +98960,8 @@
 					"name": "rir",
 					"type": "string",
 					"required": false,
-					"description": "Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series."
+					"description": "Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series.",
+					"enum": ["RIPE_NCC", "ARIN", "APNIC", "LACNIC", "AFRINIC"]
 				},
 				{
 					"name": "location",
@@ -98082,7 +99116,8 @@
 					"name": "update-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by BGP update type."
+					"description": "Filters results by BGP update type.",
+					"enum": ["ANNOUNCEMENT", "WITHDRAWAL"]
 				},
 				{
 					"name": "asn",
@@ -98167,7 +99202,8 @@
 					"name": "update-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by BGP update type."
+					"description": "Filters results by BGP update type.",
+					"enum": ["ANNOUNCEMENT", "WITHDRAWAL"]
 				},
 				{
 					"name": "format",
@@ -98283,7 +99319,8 @@
 					"name": "update-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by BGP update type."
+					"description": "Filters results by BGP update type.",
+					"enum": ["ANNOUNCEMENT", "WITHDRAWAL"]
 				},
 				{
 					"name": "format",
@@ -98376,7 +99413,8 @@
 					"name": "client-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by agent type."
+					"description": "Filters results by agent type.",
+					"enum": ["HUMAN", "NON_AI_BOT", "AI_BOT", "MIXED_PURPOSE"]
 				},
 				{
 					"name": "response-status",
@@ -98388,7 +99426,14 @@
 					"name": "response-status-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP response status code category."
+					"description": "Filters results by HTTP response status code category.",
+					"enum": [
+						"INFORMATIONAL",
+						"SUCCESS",
+						"REDIRECTION",
+						"CLIENT_ERROR",
+						"SERVER_ERROR"
+					]
 				},
 				{
 					"name": "format",
@@ -98495,7 +99540,8 @@
 					"name": "client-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by agent type."
+					"description": "Filters results by agent type.",
+					"enum": ["HUMAN", "NON_AI_BOT", "AI_BOT", "MIXED_PURPOSE"]
 				},
 				{
 					"name": "response-status",
@@ -98507,7 +99553,14 @@
 					"name": "response-status-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP response status code category."
+					"description": "Filters results by HTTP response status code category.",
+					"enum": [
+						"INFORMATIONAL",
+						"SUCCESS",
+						"REDIRECTION",
+						"CLIENT_ERROR",
+						"SERVER_ERROR"
+					]
 				},
 				{
 					"name": "format",
@@ -98740,19 +99793,41 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category."
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
+					"enum": [
+						"ACADEMIC_RESEARCH",
+						"ADVERTISING_AND_MARKETING",
+						"AI_ASSISTANT",
+						"AI_CRAWLER",
+						"COMMERCE",
+						"FEED_FETCHER",
+						"MONITORING_AND_ANALYTICS",
+						"OTHER",
+						"PAGE_PREVIEW",
+						"SEARCH_ENGINE_CRAWLER",
+						"SEARCH_ENGINE_OPTIMIZATION",
+						"SECURITY",
+						"ACCESSIBILITY",
+						"AGGREGATOR",
+						"AI_SEARCH",
+						"ARCHIVER",
+						"SOCIAL_MEDIA_MARKETING",
+						"WEBHOOKS"
+					]
 				},
 				{
 					"name": "bot-kind",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed."
+					"description": "Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.",
+					"enum": ["AGENT", "BOT"]
 				},
 				{
 					"name": "bot-verification-status",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot verification status (Verified vs. Unverified)."
+					"description": "Filters results by bot verification status (Verified vs. Unverified).",
+					"enum": ["VERIFIED"]
 				},
 				{
 					"name": "format",
@@ -98850,19 +99925,41 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category."
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
+					"enum": [
+						"ACADEMIC_RESEARCH",
+						"ADVERTISING_AND_MARKETING",
+						"AI_ASSISTANT",
+						"AI_CRAWLER",
+						"COMMERCE",
+						"FEED_FETCHER",
+						"MONITORING_AND_ANALYTICS",
+						"OTHER",
+						"PAGE_PREVIEW",
+						"SEARCH_ENGINE_CRAWLER",
+						"SEARCH_ENGINE_OPTIMIZATION",
+						"SECURITY",
+						"ACCESSIBILITY",
+						"AGGREGATOR",
+						"AI_SEARCH",
+						"ARCHIVER",
+						"SOCIAL_MEDIA_MARKETING",
+						"WEBHOOKS"
+					]
 				},
 				{
 					"name": "bot-kind",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed."
+					"description": "Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.",
+					"enum": ["AGENT", "BOT"]
 				},
 				{
 					"name": "bot-verification-status",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot verification status (Verified vs. Unverified)."
+					"description": "Filters results by bot verification status (Verified vs. Unverified).",
+					"enum": ["VERIFIED"]
 				},
 				{
 					"name": "format",
@@ -98974,19 +100071,41 @@
 					"name": "bot-category",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category."
+					"description": "Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
+					"enum": [
+						"ACADEMIC_RESEARCH",
+						"ADVERTISING_AND_MARKETING",
+						"AI_ASSISTANT",
+						"AI_CRAWLER",
+						"COMMERCE",
+						"FEED_FETCHER",
+						"MONITORING_AND_ANALYTICS",
+						"OTHER",
+						"PAGE_PREVIEW",
+						"SEARCH_ENGINE_CRAWLER",
+						"SEARCH_ENGINE_OPTIMIZATION",
+						"SECURITY",
+						"ACCESSIBILITY",
+						"AGGREGATOR",
+						"AI_SEARCH",
+						"ARCHIVER",
+						"SOCIAL_MEDIA_MARKETING",
+						"WEBHOOKS"
+					]
 				},
 				{
 					"name": "bot-kind",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed."
+					"description": "Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.",
+					"enum": ["AGENT", "BOT"]
 				},
 				{
 					"name": "bot-verification-status",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot verification status (Verified vs. Unverified)."
+					"description": "Filters results by bot verification status (Verified vs. Unverified).",
+					"enum": ["VERIFIED"]
 				},
 				{
 					"name": "format",
@@ -99237,19 +100356,30 @@
 					"name": "duration",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate duration."
+					"description": "Filters results by certificate duration.",
+					"enum": [
+						"LTE_3D",
+						"GT_3D_LTE_7D",
+						"GT_7D_LTE_10D",
+						"GT_10D_LTE_47D",
+						"GT_47D_LTE_100D",
+						"GT_100D_LTE_200D",
+						"GT_200D"
+					]
 				},
 				{
 					"name": "entry-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension."
+					"description": "Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension.",
+					"enum": ["PRECERTIFICATE", "CERTIFICATE"]
 				},
 				{
 					"name": "expiration-status",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by expiration status (expired vs. valid)."
+					"description": "Filters results by expiration status (expired vs. valid).",
+					"enum": ["EXPIRED", "VALID"]
 				},
 				{
 					"name": "has-ips",
@@ -99273,7 +100403,8 @@
 					"name": "log-api",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension."
+					"description": "Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension.",
+					"enum": ["RFC6962", "STATIC"]
 				},
 				{
 					"name": "log-operator",
@@ -99285,13 +100416,31 @@
 					"name": "public-key-algorithm",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by public key algorithm."
+					"description": "Filters results by public key algorithm.",
+					"enum": ["DSA", "ECDSA", "RSA"]
 				},
 				{
 					"name": "signature-algorithm",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by signature algorithm."
+					"description": "Filters results by signature algorithm.",
+					"enum": [
+						"DSA_SHA_1",
+						"DSA_SHA_256",
+						"ECDSA_SHA_1",
+						"ECDSA_SHA_256",
+						"ECDSA_SHA_384",
+						"ECDSA_SHA_512",
+						"PSS_SHA_256",
+						"PSS_SHA_384",
+						"PSS_SHA_512",
+						"RSA_MD2",
+						"RSA_MD5",
+						"RSA_SHA_1",
+						"RSA_SHA_256",
+						"RSA_SHA_384",
+						"RSA_SHA_512"
+					]
 				},
 				{
 					"name": "tld",
@@ -99303,13 +100452,15 @@
 					"name": "validation-level",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by validation level."
+					"description": "Filters results by validation level.",
+					"enum": ["DOMAIN", "ORGANIZATION", "EXTENDED"]
 				},
 				{
 					"name": "unique-entries",
 					"type": "string",
 					"required": false,
-					"description": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only."
+					"description": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
+					"enum": ["true", "false"]
 				},
 				{
 					"name": "normalization",
@@ -99396,19 +100547,30 @@
 					"name": "duration",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate duration."
+					"description": "Filters results by certificate duration.",
+					"enum": [
+						"LTE_3D",
+						"GT_3D_LTE_7D",
+						"GT_7D_LTE_10D",
+						"GT_10D_LTE_47D",
+						"GT_47D_LTE_100D",
+						"GT_100D_LTE_200D",
+						"GT_200D"
+					]
 				},
 				{
 					"name": "entry-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension."
+					"description": "Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension.",
+					"enum": ["PRECERTIFICATE", "CERTIFICATE"]
 				},
 				{
 					"name": "expiration-status",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by expiration status (expired vs. valid)."
+					"description": "Filters results by expiration status (expired vs. valid).",
+					"enum": ["EXPIRED", "VALID"]
 				},
 				{
 					"name": "has-ips",
@@ -99432,7 +100594,8 @@
 					"name": "log-api",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension."
+					"description": "Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension.",
+					"enum": ["RFC6962", "STATIC"]
 				},
 				{
 					"name": "log-operator",
@@ -99444,13 +100607,31 @@
 					"name": "public-key-algorithm",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by public key algorithm."
+					"description": "Filters results by public key algorithm.",
+					"enum": ["DSA", "ECDSA", "RSA"]
 				},
 				{
 					"name": "signature-algorithm",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by signature algorithm."
+					"description": "Filters results by signature algorithm.",
+					"enum": [
+						"DSA_SHA_1",
+						"DSA_SHA_256",
+						"ECDSA_SHA_1",
+						"ECDSA_SHA_256",
+						"ECDSA_SHA_384",
+						"ECDSA_SHA_512",
+						"PSS_SHA_256",
+						"PSS_SHA_384",
+						"PSS_SHA_512",
+						"RSA_MD2",
+						"RSA_MD5",
+						"RSA_SHA_1",
+						"RSA_SHA_256",
+						"RSA_SHA_384",
+						"RSA_SHA_512"
+					]
 				},
 				{
 					"name": "tld",
@@ -99462,13 +100643,15 @@
 					"name": "validation-level",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by validation level."
+					"description": "Filters results by validation level.",
+					"enum": ["DOMAIN", "ORGANIZATION", "EXTENDED"]
 				},
 				{
 					"name": "unique-entries",
 					"type": "string",
 					"required": false,
-					"description": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only."
+					"description": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
+					"enum": ["true", "false"]
 				},
 				{
 					"name": "format",
@@ -99562,19 +100745,30 @@
 					"name": "duration",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate duration."
+					"description": "Filters results by certificate duration.",
+					"enum": [
+						"LTE_3D",
+						"GT_3D_LTE_7D",
+						"GT_7D_LTE_10D",
+						"GT_10D_LTE_47D",
+						"GT_47D_LTE_100D",
+						"GT_100D_LTE_200D",
+						"GT_200D"
+					]
 				},
 				{
 					"name": "entry-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension."
+					"description": "Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension.",
+					"enum": ["PRECERTIFICATE", "CERTIFICATE"]
 				},
 				{
 					"name": "expiration-status",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by expiration status (expired vs. valid)."
+					"description": "Filters results by expiration status (expired vs. valid).",
+					"enum": ["EXPIRED", "VALID"]
 				},
 				{
 					"name": "has-ips",
@@ -99598,7 +100792,8 @@
 					"name": "log-api",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension."
+					"description": "Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension.",
+					"enum": ["RFC6962", "STATIC"]
 				},
 				{
 					"name": "log-operator",
@@ -99610,19 +100805,38 @@
 					"name": "public-key-algorithm",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by public key algorithm."
+					"description": "Filters results by public key algorithm.",
+					"enum": ["DSA", "ECDSA", "RSA"]
 				},
 				{
 					"name": "signature-algorithm",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by signature algorithm."
+					"description": "Filters results by signature algorithm.",
+					"enum": [
+						"DSA_SHA_1",
+						"DSA_SHA_256",
+						"ECDSA_SHA_1",
+						"ECDSA_SHA_256",
+						"ECDSA_SHA_384",
+						"ECDSA_SHA_512",
+						"PSS_SHA_256",
+						"PSS_SHA_384",
+						"PSS_SHA_512",
+						"RSA_MD2",
+						"RSA_MD5",
+						"RSA_SHA_1",
+						"RSA_SHA_256",
+						"RSA_SHA_384",
+						"RSA_SHA_512"
+					]
 				},
 				{
 					"name": "validation-level",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by validation level."
+					"description": "Filters results by validation level.",
+					"enum": ["DOMAIN", "ORGANIZATION", "EXTENDED"]
 				},
 				{
 					"name": "tld",
@@ -99641,7 +100855,8 @@
 					"name": "unique-entries",
 					"type": "string",
 					"required": false,
-					"description": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only."
+					"description": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
+					"enum": ["true", "false"]
 				},
 				{
 					"name": "format",
@@ -99871,37 +101086,160 @@
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "response-ttl",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response TTL."
+					"description": "Filters results by DNS response TTL.",
+					"enum": [
+						"LTE_1M",
+						"GT_1M_LTE_5M",
+						"GT_5M_LTE_15M",
+						"GT_15M_LTE_1H",
+						"GT_1H_LTE_1D",
+						"GT_1D_LTE_1W",
+						"GT_1W"
+					]
 				},
 				{
 					"name": "dnssec",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) support."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) support.",
+					"enum": ["INVALID", "INSECURE", "SECURE", "OTHER"]
 				},
 				{
 					"name": "dnssec-aware",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
+					"enum": ["SUPPORTED", "NOT_SUPPORTED"]
 				},
 				{
 					"name": "dnssec-e2e",
@@ -99913,7 +101251,8 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "limit-per-group",
@@ -100029,37 +101368,160 @@
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "response-ttl",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response TTL."
+					"description": "Filters results by DNS response TTL.",
+					"enum": [
+						"LTE_1M",
+						"GT_1M_LTE_5M",
+						"GT_5M_LTE_15M",
+						"GT_15M_LTE_1H",
+						"GT_1H_LTE_1D",
+						"GT_1D_LTE_1W",
+						"GT_1W"
+					]
 				},
 				{
 					"name": "dnssec",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) support."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) support.",
+					"enum": ["INVALID", "INSECURE", "SECURE", "OTHER"]
 				},
 				{
 					"name": "dnssec-aware",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
+					"enum": ["SUPPORTED", "NOT_SUPPORTED"]
 				},
 				{
 					"name": "dnssec-e2e",
@@ -100071,7 +101533,8 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "matching-answer",
@@ -100189,37 +101652,160 @@
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "response-ttl",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response TTL."
+					"description": "Filters results by DNS response TTL.",
+					"enum": [
+						"LTE_1M",
+						"GT_1M_LTE_5M",
+						"GT_5M_LTE_15M",
+						"GT_15M_LTE_1H",
+						"GT_1H_LTE_1D",
+						"GT_1D_LTE_1W",
+						"GT_1W"
+					]
 				},
 				{
 					"name": "dnssec",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) support."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) support.",
+					"enum": ["INVALID", "INSECURE", "SECURE", "OTHER"]
 				},
 				{
 					"name": "dnssec-aware",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
+					"enum": ["SUPPORTED", "NOT_SUPPORTED"]
 				},
 				{
 					"name": "dnssec-e2e",
@@ -100231,7 +101817,8 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "limit-per-group",
@@ -100359,37 +101946,160 @@
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "response-ttl",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response TTL."
+					"description": "Filters results by DNS response TTL.",
+					"enum": [
+						"LTE_1M",
+						"GT_1M_LTE_5M",
+						"GT_5M_LTE_15M",
+						"GT_15M_LTE_1H",
+						"GT_1H_LTE_1D",
+						"GT_1D_LTE_1W",
+						"GT_1W"
+					]
 				},
 				{
 					"name": "dnssec",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) support."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) support.",
+					"enum": ["INVALID", "INSECURE", "SECURE", "OTHER"]
 				},
 				{
 					"name": "dnssec-aware",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
+					"enum": ["SUPPORTED", "NOT_SUPPORTED"]
 				},
 				{
 					"name": "dnssec-e2e",
@@ -100401,7 +102111,8 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "matching-answer",
@@ -100510,37 +102221,160 @@
 					"name": "protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS transport protocol."
+					"description": "Filters results by DNS transport protocol.",
+					"enum": ["UDP", "TCP", "HTTPS", "TLS"]
 				},
 				{
 					"name": "query-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS query type."
+					"description": "Filters results by DNS query type.",
+					"enum": [
+						"A",
+						"AAAA",
+						"A6",
+						"AFSDB",
+						"ANY",
+						"APL",
+						"ATMA",
+						"AXFR",
+						"CAA",
+						"CDNSKEY",
+						"CDS",
+						"CERT",
+						"CNAME",
+						"CSYNC",
+						"DHCID",
+						"DLV",
+						"DNAME",
+						"DNSKEY",
+						"DOA",
+						"DS",
+						"EID",
+						"EUI48",
+						"EUI64",
+						"GPOS",
+						"GID",
+						"HINFO",
+						"HIP",
+						"HTTPS",
+						"IPSECKEY",
+						"ISDN",
+						"IXFR",
+						"KEY",
+						"KX",
+						"L32",
+						"L64",
+						"LOC",
+						"LP",
+						"MAILA",
+						"MAILB",
+						"MB",
+						"MD",
+						"MF",
+						"MG",
+						"MINFO",
+						"MR",
+						"MX",
+						"NAPTR",
+						"NB",
+						"NBSTAT",
+						"NID",
+						"NIMLOC",
+						"NINFO",
+						"NS",
+						"NSAP",
+						"NSEC",
+						"NSEC3",
+						"NSEC3PARAM",
+						"NULL",
+						"NXT",
+						"OPENPGPKEY",
+						"OPT",
+						"PTR",
+						"PX",
+						"RKEY",
+						"RP",
+						"RRSIG",
+						"RT",
+						"SIG",
+						"SINK",
+						"SMIMEA",
+						"SOA",
+						"SPF",
+						"SRV",
+						"SSHFP",
+						"SVCB",
+						"TA",
+						"TALINK",
+						"TKEY",
+						"TLSA",
+						"TSIG",
+						"TXT",
+						"UINFO",
+						"UID",
+						"UNSPEC",
+						"URI",
+						"WKS",
+						"X25",
+						"ZONEMD"
+					]
 				},
 				{
 					"name": "response-code",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response code."
+					"description": "Filters results by DNS response code.",
+					"enum": [
+						"NOERROR",
+						"FORMERR",
+						"SERVFAIL",
+						"NXDOMAIN",
+						"NOTIMP",
+						"REFUSED",
+						"YXDOMAIN",
+						"YXRRSET",
+						"NXRRSET",
+						"NOTAUTH",
+						"NOTZONE",
+						"BADSIG",
+						"BADKEY",
+						"BADTIME",
+						"BADMODE",
+						"BADNAME",
+						"BADALG",
+						"BADTRUNC",
+						"BADCOOKIE"
+					]
 				},
 				{
 					"name": "response-ttl",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DNS response TTL."
+					"description": "Filters results by DNS response TTL.",
+					"enum": [
+						"LTE_1M",
+						"GT_1M_LTE_5M",
+						"GT_5M_LTE_15M",
+						"GT_15M_LTE_1H",
+						"GT_1H_LTE_1D",
+						"GT_1D_LTE_1W",
+						"GT_1W"
+					]
 				},
 				{
 					"name": "dnssec",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) support."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) support.",
+					"enum": ["INVALID", "INSECURE", "SECURE", "OTHER"]
 				},
 				{
 					"name": "dnssec-aware",
 					"type": "string",
 					"required": false,
-					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness."
+					"description": "Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
+					"enum": ["SUPPORTED", "NOT_SUPPORTED"]
 				},
 				{
 					"name": "dnssec-e2e",
@@ -100552,7 +102386,8 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "matching-answer",
@@ -100633,37 +102468,43 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "encrypted",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by encryption status (encrypted vs. not-encrypted)."
+					"description": "Filters results by encryption status (encrypted vs. not-encrypted).",
+					"enum": ["ENCRYPTED", "NOT_ENCRYPTED"]
 				},
 				{
 					"name": "limit-per-group",
@@ -100745,37 +102586,43 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "encrypted",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by encryption status (encrypted vs. not-encrypted)."
+					"description": "Filters results by encryption status (encrypted vs. not-encrypted).",
+					"enum": ["ENCRYPTED", "NOT_ENCRYPTED"]
 				},
 				{
 					"name": "limit-per-group",
@@ -100850,31 +102697,36 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"]
 				},
 				{
 					"name": "limit-per-group",
@@ -100956,31 +102808,36 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"]
 				},
 				{
 					"name": "limit-per-group",
@@ -101053,31 +102910,36 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"]
 				},
 				{
 					"name": "tld-category",
@@ -101167,31 +103029,36 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"]
 				},
 				{
 					"name": "tld-category",
@@ -101273,31 +103140,36 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"]
 				},
 				{
 					"name": "tld-category",
@@ -101379,31 +103251,36 @@
 					"name": "arc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by ARC (Authenticated Received Chain) validation."
+					"description": "Filters results by ARC (Authenticated Received Chain) validation.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dkim",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status."
+					"description": "Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "dmarc",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status."
+					"description": "Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "spf",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by SPF (Sender Policy Framework) validation status."
+					"description": "Filters results by SPF (Sender Policy Framework) validation status.",
+					"enum": ["PASS", "NONE", "FAIL"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"]
 				},
 				{
 					"name": "tld-category",
@@ -102044,55 +103921,89 @@
 					"name": "api-traffic",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": ["API", "NON_API"]
 				},
 				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "content-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": [
+						"HTML",
+						"IMAGES",
+						"JSON",
+						"JAVASCRIPT",
+						"CSS",
+						"PLAIN_TEXT",
+						"FONTS",
+						"XML",
+						"YAML",
+						"VIDEO",
+						"AUDIO",
+						"MARKDOWN",
+						"DOCUMENTS",
+						"BINARY",
+						"SERIALIZATION",
+						"OTHER"
+					]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "limit-per-group",
@@ -102197,61 +104108,96 @@
 					"name": "api-traffic",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": ["API", "NON_API"]
 				},
 				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "content-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": [
+						"HTML",
+						"IMAGES",
+						"JSON",
+						"JAVASCRIPT",
+						"CSS",
+						"PLAIN_TEXT",
+						"FONTS",
+						"XML",
+						"YAML",
+						"VIDEO",
+						"AUDIO",
+						"MARKDOWN",
+						"DOCUMENTS",
+						"BINARY",
+						"SERIALIZATION",
+						"OTHER"
+					]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -102351,19 +104297,39 @@
 					"name": "api-traffic",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": ["API", "NON_API"]
 				},
 				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "content-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System."
+					"description": "Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+					"enum": [
+						"HTML",
+						"IMAGES",
+						"JSON",
+						"JAVASCRIPT",
+						"CSS",
+						"PLAIN_TEXT",
+						"FONTS",
+						"XML",
+						"YAML",
+						"VIDEO",
+						"AUDIO",
+						"MARKDOWN",
+						"DOCUMENTS",
+						"BINARY",
+						"SERIALIZATION",
+						"OTHER"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -102375,19 +104341,22 @@
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "normalization",
@@ -102400,19 +104369,30 @@
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "format",
@@ -102511,43 +104491,58 @@
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -102646,43 +104641,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "format",
@@ -102781,43 +104791,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -102908,49 +104933,65 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103049,43 +105090,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103184,43 +105240,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103319,43 +105390,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103454,43 +105540,50 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103589,43 +105682,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103724,43 +105832,58 @@
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -103866,43 +105989,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "format",
@@ -104001,43 +106139,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104128,49 +106281,65 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104269,43 +106438,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104404,43 +106588,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104539,43 +106738,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104674,43 +106888,50 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "tls-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by TLS version."
+					"description": "Filters results by TLS version.",
+					"enum": ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104809,43 +107030,58 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by device type."
+					"description": "Filters results by device type.",
+					"enum": ["DESKTOP", "MOBILE", "OTHER"]
 				},
 				{
 					"name": "http-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS)."
+					"description": "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+					"enum": ["HTTP", "HTTPS"]
 				},
 				{
 					"name": "http-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by HTTP version."
+					"description": "Filters results by HTTP version.",
+					"enum": ["HTTPv1", "HTTPv2", "HTTPv3"]
 				},
 				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by IP version (Ipv4 vs. IPv6)."
+					"description": "Filters results by IP version (Ipv4 vs. IPv6).",
+					"enum": ["IPv4", "IPv6"]
 				},
 				{
 					"name": "os",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by operating system."
+					"description": "Filters results by operating system.",
+					"enum": [
+						"WINDOWS",
+						"MACOSX",
+						"IOS",
+						"ANDROID",
+						"CHROMEOS",
+						"LINUX",
+						"SMART_TV"
+					]
 				},
 				{
 					"name": "browser-family",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by browser family."
+					"description": "Filters results by browser family.",
+					"enum": ["CHROME", "EDGE", "FIREFOX", "SAFARI"]
 				},
 				{
 					"name": "format",
@@ -104932,13 +107168,15 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "compromised",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by compromised credential status (clean vs. compromised)."
+					"description": "Filters results by compromised credential status (clean vs. compromised).",
+					"enum": ["CLEAN", "COMPROMISED"]
 				},
 				{
 					"name": "limit-per-group",
@@ -105038,19 +107276,28 @@
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/)."
+					"description": "Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+					"enum": ["LIKELY_AUTOMATED", "LIKELY_HUMAN"]
 				},
 				{
 					"name": "compromised",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by compromised credential status (clean vs. compromised)."
+					"description": "Filters results by compromised credential status (clean vs. compromised).",
+					"enum": ["CLEAN", "COMPROMISED"]
 				},
 				{
 					"name": "check-result",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by leaked credential check result."
+					"description": "Filters results by leaked credential check result.",
+					"enum": [
+						"CLEAN",
+						"USERNAME_LEAKED",
+						"USERNAME_PASSWORD_SIMILAR",
+						"USERNAME_AND_PASSWORD_LEAKED",
+						"PASSWORD_LEAKED"
+					]
 				},
 				{
 					"name": "limit-per-group",
@@ -105156,7 +107403,8 @@
 					"name": "product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by network traffic product types."
+					"description": "Filters the results by network traffic product types.",
+					"enum": ["HTTP", "ALL"]
 				},
 				{
 					"name": "limit-per-group",
@@ -105230,7 +107478,8 @@
 					"name": "product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by network traffic product types."
+					"description": "Filters the results by network traffic product types.",
+					"enum": ["HTTP", "ALL"]
 				},
 				{
 					"name": "asn",
@@ -105374,7 +107623,8 @@
 					"name": "product",
 					"type": "string",
 					"required": false,
-					"description": "Filters the results by network traffic product types."
+					"description": "Filters the results by network traffic product types.",
+					"enum": ["HTTP", "ALL"]
 				},
 				{
 					"name": "format",
@@ -105701,7 +107951,8 @@
 					"name": "origin",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers."
+					"description": "Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers.",
+					"enum": ["AMAZON", "GOOGLE", "MICROSOFT", "ORACLE"]
 				},
 				{
 					"name": "metric",
@@ -105789,7 +108040,8 @@
 					"name": "origin",
 					"type": "string",
 					"required": true,
-					"description": "Filters results by origin."
+					"description": "Filters results by origin.",
+					"enum": ["AMAZON", "GOOGLE", "MICROSOFT", "ORACLE"]
 				},
 				{
 					"name": "metric",
@@ -105891,7 +108143,8 @@
 					"name": "origin",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers."
+					"description": "Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers.",
+					"enum": ["AMAZON", "GOOGLE", "MICROSOFT", "ORACLE"]
 				},
 				{
 					"name": "metric",
@@ -107136,13 +109389,43 @@
 					"name": "include",
 					"type": "string",
 					"required": false,
-					"description": "Search types included in results."
+					"description": "Search types included in results.",
+					"enum": [
+						"ADM1S",
+						"ASNS",
+						"BOTS",
+						"BOT_OPERATORS",
+						"CERTIFICATE_AUTHORITIES",
+						"CERTIFICATE_LOGS",
+						"ORIGINS",
+						"ORIGIN_REGIONS",
+						"INDUSTRIES",
+						"LOCATIONS",
+						"NOTEBOOKS",
+						"TLDS",
+						"VERTICALS"
+					]
 				},
 				{
 					"name": "exclude",
 					"type": "string",
 					"required": false,
-					"description": "Search types excluded from results."
+					"description": "Search types excluded from results.",
+					"enum": [
+						"ADM1S",
+						"ASNS",
+						"BOTS",
+						"BOT_OPERATORS",
+						"CERTIFICATE_AUTHORITIES",
+						"CERTIFICATE_LOGS",
+						"ORIGINS",
+						"ORIGIN_REGIONS",
+						"INDUSTRIES",
+						"LOCATIONS",
+						"NOTEBOOKS",
+						"TLDS",
+						"VERTICALS"
+					]
 				},
 				{
 					"name": "format",
@@ -107709,7 +109992,8 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by entity type (LOCATION, AS, or ORIGIN)."
+					"description": "Filters results by entity type (LOCATION, AS, or ORIGIN).",
+					"enum": ["LOCATION", "AS", "ORIGIN"]
 				},
 				{
 					"name": "data-source",
@@ -111939,7 +114223,15 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "Filter by one or more recording status"
+					"description": "Filter by one or more recording status",
+					"enum": [
+						"INVOKED",
+						"RECORDING",
+						"UPLOADING",
+						"UPLOADED",
+						"ERRORED",
+						"PAUSED"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -115819,7 +118111,16 @@
 					"name": "resource-types",
 					"type": "string",
 					"required": false,
-					"description": "Filter share resources by resource_types."
+					"description": "Filter share resources by resource_types.",
+					"enum": [
+						"custom-ruleset",
+						"gateway-policy",
+						"gateway-destination-ip",
+						"gateway-block-page-settings",
+						"gateway-extended-email-matching",
+						"idp-federation-grant",
+						"trust-grant"
+					]
 				},
 				{
 					"name": "order",
@@ -119043,7 +121344,15 @@
 					"name": "scopes",
 					"type": "string",
 					"required": false,
-					"description": "Only secrets with the given scopes will be returned."
+					"description": "Only secrets with the given scopes will be returned.",
+					"enum": [
+						"workers",
+						"ai_gateway",
+						"dex",
+						"access",
+						"containers",
+						"websearch"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -119394,7 +121703,15 @@
 					"name": "issue-type",
 					"type": "string",
 					"required": false,
-					"description": "Issue type"
+					"description": "Issue type",
+					"enum": [
+						"compliance_violation",
+						"email_security",
+						"exposed_infrastructure",
+						"insecure_configuration",
+						"weak_authentication",
+						"configuration_suggestion"
+					]
 				},
 				{
 					"name": "product",
@@ -119406,13 +121723,15 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "Source"
+					"description": "Source",
+					"enum": ["cloudflare", "riskrecon"]
 				},
 				{
 					"name": "severity",
 					"type": "string",
 					"required": false,
-					"description": "Severity"
+					"description": "Severity",
+					"enum": ["low", "moderate", "critical"]
 				},
 				{
 					"name": "subject",
@@ -119491,7 +121810,15 @@
 					"name": "issue-type",
 					"type": "string",
 					"required": false,
-					"description": "Issue type"
+					"description": "Issue type",
+					"enum": [
+						"compliance_violation",
+						"email_security",
+						"exposed_infrastructure",
+						"insecure_configuration",
+						"weak_authentication",
+						"configuration_suggestion"
+					]
 				},
 				{
 					"name": "product",
@@ -119503,13 +121830,15 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "Source"
+					"description": "Source",
+					"enum": ["cloudflare", "riskrecon"]
 				},
 				{
 					"name": "severity",
 					"type": "string",
 					"required": false,
-					"description": "Severity"
+					"description": "Severity",
+					"enum": ["low", "moderate", "critical"]
 				},
 				{
 					"name": "subject",
@@ -119557,7 +121886,15 @@
 					"name": "issue-type",
 					"type": "string",
 					"required": false,
-					"description": "Issue type"
+					"description": "Issue type",
+					"enum": [
+						"compliance_violation",
+						"email_security",
+						"exposed_infrastructure",
+						"insecure_configuration",
+						"weak_authentication",
+						"configuration_suggestion"
+					]
 				},
 				{
 					"name": "product",
@@ -119569,13 +121906,15 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "Source"
+					"description": "Source",
+					"enum": ["cloudflare", "riskrecon"]
 				},
 				{
 					"name": "severity",
 					"type": "string",
 					"required": false,
-					"description": "Severity"
+					"description": "Severity",
+					"enum": ["low", "moderate", "critical"]
 				},
 				{
 					"name": "subject",
@@ -119667,7 +122006,15 @@
 					"name": "issue-type",
 					"type": "string",
 					"required": false,
-					"description": "Issue type"
+					"description": "Issue type",
+					"enum": [
+						"compliance_violation",
+						"email_security",
+						"exposed_infrastructure",
+						"insecure_configuration",
+						"weak_authentication",
+						"configuration_suggestion"
+					]
 				},
 				{
 					"name": "product",
@@ -119679,13 +122026,15 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "Source"
+					"description": "Source",
+					"enum": ["cloudflare", "riskrecon"]
 				},
 				{
 					"name": "severity",
 					"type": "string",
 					"required": false,
-					"description": "Severity"
+					"description": "Severity",
+					"enum": ["low", "moderate", "critical"]
 				},
 				{
 					"name": "subject",
@@ -121306,7 +123655,8 @@
 					"name": "dimensions",
 					"type": "string",
 					"required": false,
-					"description": "Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6."
+					"description": "Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6.",
+					"enum": ["event", "appID", "coloName", "ipVersion"]
 				},
 				{
 					"name": "sort",
@@ -121324,7 +123674,16 @@
 					"name": "metrics",
 					"type": "string",
 					"required": false,
-					"description": "One or more metrics to compute. Options are:\n\nMetric                    | Name                                | Example                  | Unit\n--------------------------|-------------------------------------|--------------------------|--------------------------\ncount                     | Count of total events               | 1000                     | Count\nbytesIngress              | Sum of ingress bytes                | 1000                     | Sum\nbytesEgress               | Sum of egress bytes                 | 1000                     | Sum\ndurationAvg               | Average connection duration         | 1.0                      | Time in milliseconds\ndurationMedian            | Median connection duration          | 1.0                      | Time in milliseconds\nduration90th              | 90th percentile connection duration | 1.0                      | Time in milliseconds\nduration99th              | 99th percentile connection duration | 1.0                      | Time in milliseconds."
+					"description": "One or more metrics to compute. Options are:\n\nMetric                    | Name                                | Example                  | Unit\n--------------------------|-------------------------------------|--------------------------|--------------------------\ncount                     | Count of total events               | 1000                     | Count\nbytesIngress              | Sum of ingress bytes                | 1000                     | Sum\nbytesEgress               | Sum of egress bytes                 | 1000                     | Sum\ndurationAvg               | Average connection duration         | 1.0                      | Time in milliseconds\ndurationMedian            | Median connection duration          | 1.0                      | Time in milliseconds\nduration90th              | 90th percentile connection duration | 1.0                      | Time in milliseconds\nduration99th              | 99th percentile connection duration | 1.0                      | Time in milliseconds.",
+					"enum": [
+						"count",
+						"bytesIngress",
+						"bytesEgress",
+						"durationAvg",
+						"durationMedian",
+						"duration90th",
+						"duration99th"
+					]
 				},
 				{
 					"name": "filters",
@@ -121382,7 +123741,8 @@
 					"name": "dimensions",
 					"type": "string",
 					"required": false,
-					"description": "Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6."
+					"description": "Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6.",
+					"enum": ["event", "appID", "coloName", "ipVersion"]
 				},
 				{
 					"name": "sort",
@@ -121400,7 +123760,16 @@
 					"name": "metrics",
 					"type": "string",
 					"required": false,
-					"description": "One or more metrics to compute. Options are:\n\nMetric                    | Name                                | Example                  | Unit\n--------------------------|-------------------------------------|--------------------------|--------------------------\ncount                     | Count of total events               | 1000                     | Count\nbytesIngress              | Sum of ingress bytes                | 1000                     | Sum\nbytesEgress               | Sum of egress bytes                 | 1000                     | Sum\ndurationAvg               | Average connection duration         | 1.0                      | Time in milliseconds\ndurationMedian            | Median connection duration          | 1.0                      | Time in milliseconds\nduration90th              | 90th percentile connection duration | 1.0                      | Time in milliseconds\nduration99th              | 99th percentile connection duration | 1.0                      | Time in milliseconds."
+					"description": "One or more metrics to compute. Options are:\n\nMetric                    | Name                                | Example                  | Unit\n--------------------------|-------------------------------------|--------------------------|--------------------------\ncount                     | Count of total events               | 1000                     | Count\nbytesIngress              | Sum of ingress bytes                | 1000                     | Sum\nbytesEgress               | Sum of egress bytes                 | 1000                     | Sum\ndurationAvg               | Average connection duration         | 1.0                      | Time in milliseconds\ndurationMedian            | Median connection duration          | 1.0                      | Time in milliseconds\nduration90th              | 90th percentile connection duration | 1.0                      | Time in milliseconds\nduration99th              | 99th percentile connection duration | 1.0                      | Time in milliseconds.",
+					"enum": [
+						"count",
+						"bytesIngress",
+						"bytesEgress",
+						"durationAvg",
+						"durationMedian",
+						"duration90th",
+						"duration99th"
+					]
 				},
 				{
 					"name": "filters",
@@ -124228,7 +126597,8 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "Filters results by certificate type. Multiple types can be comma-separated."
+					"description": "Filters results by certificate type. Multiple types can be comma-separated.",
+					"enum": ["custom", "gateway_managed", "access_managed"]
 				},
 				{
 					"name": "dry-run",
@@ -127682,7 +130052,55 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "Filter by resource type. Can be repeated to filter by multiple types (OR logic). Example: ?type=zone&type=worker"
+					"description": "Filter by resource type. Can be repeated to filter by multiple types (OR logic). Example: ?type=zone&type=worker",
+					"enum": [
+						"access_application",
+						"access_application_policy",
+						"access_group",
+						"access_service_token",
+						"account",
+						"account_ruleset",
+						"ai_gateway",
+						"ai_search_instance",
+						"ai_search_namespace",
+						"alerting_policy",
+						"alerting_webhook",
+						"api_gateway_operation",
+						"cloudflared_tunnel",
+						"custom_certificate",
+						"custom_hostname",
+						"cws_deployment",
+						"cws_policy",
+						"cws_policy_set",
+						"cws_workload",
+						"d1_database",
+						"device",
+						"dns_record",
+						"durable_object_namespace",
+						"gateway_list",
+						"gateway_rule",
+						"healthcheck",
+						"image",
+						"infrastructure_target",
+						"kv_namespace",
+						"load_balancer",
+						"load_balancer_monitor",
+						"load_balancer_pool",
+						"managed_client_certificate",
+						"namespace_worker",
+						"pages_project",
+						"queue",
+						"r2_bucket",
+						"resource_share",
+						"stream_live_input",
+						"stream_video",
+						"vectorize_index",
+						"worker",
+						"worker_route",
+						"worker_version",
+						"zone",
+						"zone_ruleset"
+					]
 				},
 				{
 					"name": "name",
@@ -128745,7 +131163,16 @@
 					"name": "tun-types",
 					"type": "string",
 					"required": false,
-					"description": "The types of tunnels to filter by, separated by commas."
+					"description": "The types of tunnels to filter by, separated by commas.",
+					"enum": [
+						"cfd_tunnel",
+						"warp_connector",
+						"warp",
+						"magic",
+						"ip_sec",
+						"gre",
+						"cni"
+					]
 				},
 				{
 					"name": "status",
@@ -136341,7 +138768,13 @@
 					"name": "feature",
 					"type": "string",
 					"required": false,
-					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning."
+					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+					"enum": [
+						"thresholds",
+						"parameter_schemas",
+						"schema_info",
+						"confidence_intervals"
+					]
 				},
 				{
 					"name": "with-schemas",
@@ -136713,7 +139146,13 @@
 					"name": "feature",
 					"type": "string",
 					"required": false,
-					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning."
+					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+					"enum": [
+						"thresholds",
+						"parameter_schemas",
+						"schema_info",
+						"confidence_intervals"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -136749,13 +139188,20 @@
 					"name": "feature",
 					"type": "string",
 					"required": false,
-					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning."
+					"description": "Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+					"enum": [
+						"thresholds",
+						"parameter_schemas",
+						"schema_info",
+						"confidence_intervals"
+					]
 				},
 				{
 					"name": "include-schema-kind",
 					"type": "string",
 					"required": false,
-					"description": "Schema kinds to include in exported OpenAPI schemas."
+					"description": "Schema kinds to include in exported OpenAPI schemas.",
+					"enum": ["learned"]
 				},
 				{
 					"name": "dry-run",
@@ -142934,19 +145380,22 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "The status of the SCIM request."
+					"description": "The status of the SCIM request.",
+					"enum": ["FAILURE", "SUCCESS"]
 				},
 				{
 					"name": "resource-type",
 					"type": "string",
 					"required": false,
-					"description": "The resource type of the SCIM request."
+					"description": "The resource type of the SCIM request.",
+					"enum": ["USER", "GROUP"]
 				},
 				{
 					"name": "request-method",
 					"type": "string",
 					"required": false,
-					"description": "The request method of the SCIM request."
+					"description": "The request method of the SCIM request.",
+					"enum": ["DELETE", "PATCH", "POST", "PUT"]
 				},
 				{
 					"name": "resource-user-email",
@@ -147008,25 +149457,46 @@
 					"name": "vendors",
 					"type": "string",
 					"required": false,
-					"description": "Filter finding types by vendor. Supports multiple comma-separated values. Each value may be either the vendor enum (GOOGLE_WORKSPACE) or the friendly name returned by the read routes (Google Workspace)."
+					"description": "Filter finding types by vendor. Supports multiple comma-separated values. Each value may be either the vendor enum (GOOGLE_WORKSPACE) or the friendly name returned by the read routes (Google Workspace).",
+					"enum": [
+						"ANTHROPIC",
+						"AWS",
+						"BITBUCKET",
+						"BOX",
+						"CONFLUENCE",
+						"DROPBOX",
+						"GITHUB",
+						"GOOGLE_CLOUD_PLATFORM",
+						"GOOGLE_WORKSPACE",
+						"JIRA",
+						"MICROSOFT",
+						"OPENAI",
+						"SALESFORCE",
+						"SERVICENOW",
+						"SLACK",
+						"ZOOM"
+					]
 				},
 				{
 					"name": "types",
 					"type": "string",
 					"required": false,
-					"description": "Filter finding types by category type. Supports multiple comma-separated, case-insensitive values."
+					"description": "Filter finding types by category type. Supports multiple comma-separated, case-insensitive values.",
+					"enum": ["Content", "Posture"]
 				},
 				{
 					"name": "origins",
 					"type": "string",
 					"required": false,
-					"description": "Filter finding types by origin. Supports multiple comma-separated, case-insensitive values."
+					"description": "Filter finding types by origin. Supports multiple comma-separated, case-insensitive values.",
+					"enum": ["custom", "system"]
 				},
 				{
 					"name": "severities",
 					"type": "string",
 					"required": false,
-					"description": "Filter finding types by severity. Supports multiple comma-separated, case-insensitive values."
+					"description": "Filter finding types by severity. Supports multiple comma-separated, case-insensitive values.",
+					"enum": ["critical", "high", "medium", "low"]
 				},
 				{
 					"name": "search",
@@ -147694,7 +150164,15 @@
 					"name": "remediation-statuses",
 					"type": "string",
 					"required": false,
-					"description": "Filter finding instances by most recent remediation job status. Supports multiple comma-separated values.\nUse 'none' to filter instances with no remediation jobs or instances where the most recent job is stale.\nNote: Stale jobs (created before the instance's affliction_date) are ignored for filtering purposes, but are still included in the 'remediations' array with stale=true."
+					"description": "Filter finding instances by most recent remediation job status. Supports multiple comma-separated values.\nUse 'none' to filter instances with no remediation jobs or instances where the most recent job is stale.\nNote: Stale jobs (created before the instance's affliction_date) are ignored for filtering purposes, but are still included in the 'remediations' array with stale=true.",
+					"enum": [
+						"none",
+						"pending",
+						"processing",
+						"validating",
+						"completed",
+						"failed"
+					]
 				},
 				{
 					"name": "finding-instance-ids",
@@ -148853,7 +151331,8 @@
 					"name": "triggered-by-actor",
 					"type": "string",
 					"required": false,
-					"description": "Filter remediations by what kind of actor triggered them. Supports multiple comma-separated values."
+					"description": "Filter remediations by what kind of actor triggered them. Supports multiple comma-separated values.",
+					"enum": ["user", "account_token"]
 				},
 				{
 					"name": "integration-id",
@@ -166765,7 +169244,8 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "Zone types to filter by. Multiple types can be specified as a comma-separated list (e.g., ?type=full,partial,secondary). When this parameter is not provided, zones with type \"internal\" are excluded from the results."
+					"description": "Zone types to filter by. Multiple types can be specified as a comma-separated list (e.g., ?type=full,partial,secondary). When this parameter is not provided, zones with type \"internal\" are excluded from the results.",
+					"enum": ["full", "partial", "secondary", "internal"]
 				},
 				{
 					"name": "account-id",

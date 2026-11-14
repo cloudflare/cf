@@ -31,17 +31,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters by whether the action was successful or not.",
+			choices: ["success", "failure"],
 		})
 		.option("action-type", {
 			type: "string",
 			array: true,
 			description: "Filters by the action type.",
+			choices: ["create", "delete", "view", "update"],
 		})
 		.option("actor-context", {
 			type: "string",
 			array: true,
 			description:
 				"Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+			choices: [
+				"api",
+				"api_key",
+				"api_token",
+				"dash",
+				"oauth",
+				"origin_ca_key",
+			],
 		})
 		.option("actor-email", {
 			type: "string",
@@ -75,6 +85,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters by the actor type.",
+			choices: [
+				"account",
+				"cloudflare_admin",
+				"delegated_service",
+				"system",
+				"user",
+			],
 		})
 		.option("audit-log-id", {
 			type: "string",
@@ -128,6 +145,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.",
+			choices: ["accounts", "user", "zones", "memberships"],
 		})
 		.option("product-category", {
 			type: "string",
@@ -155,17 +173,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters out audit logs by whether the action was successful or not.",
+			choices: ["success", "failure"],
 		})
 		.option("action-type-not", {
 			type: "string",
 			array: true,
 			description: "Filters out audit logs by the action type.",
+			choices: ["create", "delete", "view", "update"],
 		})
 		.option("actor-context-not", {
 			type: "string",
 			array: true,
 			description:
 				"Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+			choices: [
+				"api",
+				"api_key",
+				"api_token",
+				"dash",
+				"oauth",
+				"origin_ca_key",
+			],
 		})
 		.option("actor-email-not", {
 			type: "string",
@@ -200,6 +228,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters out audit logs by the actor type.",
+			choices: [
+				"account",
+				"cloudflare_admin",
+				"delegated_service",
+				"system",
+				"user",
+			],
 		})
 		.option("audit-log-id-not", {
 			type: "string",
@@ -255,6 +290,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.",
+			choices: ["accounts", "user", "zones", "memberships"],
 		})
 		.option("zone-id-not", {
 			type: "string",

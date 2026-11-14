@@ -33,13 +33,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Issue type",
+			choices: [
+				"compliance_violation",
+				"email_security",
+				"exposed_infrastructure",
+				"insecure_configuration",
+				"weak_authentication",
+				"configuration_suggestion",
+			],
 		})
 		.option("product", { type: "string", array: true, description: "Product" })
-		.option("source", { type: "string", array: true, description: "Source" })
+		.option("source", {
+			type: "string",
+			array: true,
+			description: "Source",
+			choices: ["cloudflare", "riskrecon"],
+		})
 		.option("severity", {
 			type: "string",
 			array: true,
 			description: "Severity",
+			choices: ["low", "moderate", "critical"],
 		})
 		.option("subject", { type: "string", array: true, description: "Subject" })
 		.option("page", {

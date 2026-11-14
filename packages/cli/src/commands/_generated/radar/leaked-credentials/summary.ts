@@ -68,12 +68,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+			choices: ["LIKELY_AUTOMATED", "LIKELY_HUMAN"],
 		})
 		.option("compromised", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by compromised credential status (clean vs. compromised).",
+			choices: ["CLEAN", "COMPROMISED"],
 		})
 		.option("limit-per-group", {
 			type: "number",

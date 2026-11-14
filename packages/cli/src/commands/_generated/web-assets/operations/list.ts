@@ -56,6 +56,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+			choices: [
+				"thresholds",
+				"parameter_schemas",
+				"schema_info",
+				"confidence_intervals",
+			],
 		})
 		.option("dry-run", {
 			type: "boolean",

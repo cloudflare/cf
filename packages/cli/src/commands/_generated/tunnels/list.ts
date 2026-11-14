@@ -48,6 +48,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "The types of tunnels to filter by, separated by commas.",
+			choices: [
+				"cfd_tunnel",
+				"warp_connector",
+				"warp",
+				"magic",
+				"ip_sec",
+				"gre",
+				"cni",
+			],
 		})
 		.option("status", {
 			type: "string",

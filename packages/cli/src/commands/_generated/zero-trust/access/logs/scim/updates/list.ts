@@ -49,16 +49,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "The status of the SCIM request.",
+			choices: ["FAILURE", "SUCCESS"],
 		})
 		.option("resource-type", {
 			type: "string",
 			array: true,
 			description: "The resource type of the SCIM request.",
+			choices: ["USER", "GROUP"],
 		})
 		.option("request-method", {
 			type: "string",
 			array: true,
 			description: "The request method of the SCIM request.",
+			choices: ["DELETE", "PATCH", "POST", "PUT"],
 		})
 		.option("resource-user-email", {
 			type: "string",

@@ -56,35 +56,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by ARC (Authenticated Received Chain) validation.",
+			choices: ["PASS", "NONE", "FAIL"],
 		})
 		.option("dkim", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by DKIM (DomainKeys Identified Mail) validation status.",
+			choices: ["PASS", "NONE", "FAIL"],
 		})
 		.option("dmarc", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
+			choices: ["PASS", "NONE", "FAIL"],
 		})
 		.option("spf", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by SPF (Sender Policy Framework) validation status.",
+			choices: ["PASS", "NONE", "FAIL"],
 		})
 		.option("ip-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
 		.option("encrypted", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by encryption status (encrypted vs. not-encrypted).",
+			choices: ["ENCRYPTED", "NOT_ENCRYPTED"],
 		})
 		.option("limit-per-group", {
 			type: "number",

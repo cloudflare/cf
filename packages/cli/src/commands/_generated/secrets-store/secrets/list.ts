@@ -49,6 +49,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Only secrets with the given scopes will be returned.",
+			choices: [
+				"workers",
+				"ai_gateway",
+				"dex",
+				"access",
+				"containers",
+				"websearch",
+			],
 		})
 		.option("dry-run", {
 			type: "boolean",

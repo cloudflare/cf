@@ -54,6 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by BGP update type.",
+			choices: ["ANNOUNCEMENT", "WITHDRAWAL"],
 		})
 		.option("format", {
 			type: "string",

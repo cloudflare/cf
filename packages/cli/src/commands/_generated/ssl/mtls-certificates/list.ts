@@ -47,6 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by certificate type. Multiple types can be comma-separated.",
+			choices: ["custom", "gateway_managed", "access_managed"],
 		})
 		.option("dry-run", {
 			type: "boolean",

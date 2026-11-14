@@ -39,6 +39,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filter share resources by resource_types.",
+			choices: [
+				"custom-ruleset",
+				"gateway-policy",
+				"gateway-destination-ip",
+				"gateway-block-page-settings",
+				"gateway-extended-email-matching",
+				"idp-federation-grant",
+				"trust-grant",
+			],
 		})
 		.option("order", {
 			type: "string",

@@ -55,12 +55,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filter by submitter-facing status. This parameter can be specified multiple times.",
+			choices: ["submitted", "accepted", "denied"],
 		})
 		.option("type", {
 			type: "string",
 			array: true,
 			description:
 				"Filter by report type. This parameter can be specified multiple times.",
+			choices: [
+				"PHISH",
+				"GEN",
+				"THREAT",
+				"DMCA",
+				"EMER",
+				"TM",
+				"REG_WHO",
+				"NCSEI",
+				"NETWORK",
+			],
 		})
 		.option("dry-run", {
 			type: "boolean",

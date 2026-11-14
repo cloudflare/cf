@@ -32,6 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				'Zone types to filter by. Multiple types can be specified as a comma-separated list (e.g., ?type=full,partial,secondary). When this parameter is not provided, zones with type "internal" are excluded from the results.',
+			choices: ["full", "partial", "secondary", "internal"],
 		})
 		.option("account-id", {
 			type: "string",

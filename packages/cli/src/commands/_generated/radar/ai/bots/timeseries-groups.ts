@@ -94,6 +94,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+			choices: [
+				"HTML",
+				"IMAGES",
+				"JSON",
+				"JAVASCRIPT",
+				"CSS",
+				"PLAIN_TEXT",
+				"FONTS",
+				"XML",
+				"YAML",
+				"VIDEO",
+				"AUDIO",
+				"MARKDOWN",
+				"DOCUMENTS",
+				"BINARY",
+				"SERIALIZATION",
+				"OTHER",
+			],
 		})
 		.option("response-status", {
 			type: "string",
@@ -105,6 +123,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP response status code category.",
+			choices: [
+				"INFORMATIONAL",
+				"SUCCESS",
+				"REDIRECTION",
+				"CLIENT_ERROR",
+				"SERVER_ERROR",
+			],
 		})
 		.option("limit-per-group", {
 			type: "number",

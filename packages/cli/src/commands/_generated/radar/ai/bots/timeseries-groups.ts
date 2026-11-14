@@ -113,6 +113,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"OTHER",
 			],
 		})
+		.coerce("content-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-status", {
 			type: "string",
 			array: true,
@@ -131,6 +134,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SERVER_ERROR",
 			],
 		})
+		.coerce("response-status-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:

@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series.",
 			choices: ["RIPE_NCC", "ARIN", "APNIC", "LACNIC", "AFRINIC"],
 		})
+		.coerce("rir", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("location", {
 			type: "string",
 			array: true,

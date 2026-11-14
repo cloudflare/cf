@@ -29,6 +29,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter the list of memberships by membership status. Defaults to `active`, `pending`, and `rejected`; pass `canceled` explicitly to include canceled memberships.",
 			choices: ["active", "pending", "rejected", "canceled"],
 		})
+		.coerce("status", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("user-email", {
 			type: "string",
 			description: "Filter the list of memberships for a specific email.",

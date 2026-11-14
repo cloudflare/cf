@@ -52,6 +52,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by ARC (Authenticated Received Chain) validation.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("arc", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dkim", {
 			type: "string",
 			array: true,
@@ -59,6 +62,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by DKIM (DomainKeys Identified Mail) validation status.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("dkim", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dmarc", {
 			type: "string",
 			array: true,
@@ -66,6 +72,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("dmarc", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("spf", {
 			type: "string",
 			array: true,
@@ -73,12 +82,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by SPF (Sender Policy Framework) validation status.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("spf", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("tls-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by TLS version.",
 			choices: ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"],
 		})
+		.coerce("tls-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:

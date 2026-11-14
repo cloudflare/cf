@@ -148,7 +148,7 @@ describe.each(
 				?.options.find((entry) => entry.name === "indicator-ids");
 			expect(option).toMatchObject({ type: "string", required: true });
 			expect(option?.enum).toEqual(choices);
-			if (explode === false && choices !== undefined) {
+			if (choices !== undefined) {
 				expect(source).toContain('.coerce("indicator-ids"');
 			} else {
 				expect(source).not.toContain(".coerce(");
@@ -185,24 +185,22 @@ describe.each(
 			);
 		});
 
-		if (explode === false) {
-			it("retains comma-separated input for joined arrays", async () => {
-				const { argv, urls } = await run([
-					"--indicator-ids",
-					"001,a/b &c",
-					"--indicator-ids",
-					"001",
-				]);
-				expect(argv["indicator-ids"]).toEqual(
-					choices === undefined
-						? ["001,a/b &c", "001"]
-						: ["001", "a/b &c", "001"]
-				);
-				expect(urls[0]?.searchParams.getAll("indicatorIds")).toEqual([
-					"001,a/b &c,001",
-				]);
-			});
-		}
+		it("retains comma-separated input for query arrays", async () => {
+			const { argv, urls } = await run([
+				"--indicator-ids",
+				"001,a/b &c",
+				"--indicator-ids",
+				"001",
+			]);
+			const expected =
+				choices === undefined
+					? ["001,a/b &c", "001"]
+					: ["001", "a/b &c", "001"];
+			expect(argv["indicator-ids"]).toEqual(expected);
+			expect(urls[0]?.searchParams.getAll("indicatorIds")).toEqual(
+				explode === false ? [expected.join(",")] : expected
+			);
+		});
 
 		if (choices !== undefined) {
 			it.each([

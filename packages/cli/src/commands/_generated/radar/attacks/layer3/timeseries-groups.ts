@@ -69,12 +69,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
 			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("protocol", {
 			type: "string",
 			array: true,
 			description: "Filters the results by layer 3/4 protocol.",
 			choices: ["UDP", "TCP", "ICMP", "GRE"],
 		})
+		.coerce("protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("normalization", {
 			type: "string",
 			description:

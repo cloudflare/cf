@@ -152,12 +152,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ZONEMD",
 			],
 		})
+		.coerce("query-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("protocol", {
 			type: "string",
 			array: true,
 			description: "Filters results by DNS transport protocol.",
 			choices: ["UDP", "TCP", "HTTPS", "TLS"],
 		})
+		.coerce("protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-code", {
 			type: "string",
 			array: true,
@@ -184,6 +190,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"BADCOOKIE",
 			],
 		})
+		.coerce("response-code", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:

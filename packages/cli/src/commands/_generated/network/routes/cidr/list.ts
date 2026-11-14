@@ -61,6 +61,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cni",
 			],
 		})
+		.coerce("tun-types", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("virtual-network-id", {
 			type: "string",
 			description: "UUID of the virtual network.",

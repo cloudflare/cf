@@ -49,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"trust-grant",
 			],
 		})
+		.coerce("resource-types", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("order", {
 			type: "string",
 			description: "Order shares by values in the given field.",

@@ -58,6 +58,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by ARC (Authenticated Received Chain) validation.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("arc", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dkim", {
 			type: "string",
 			array: true,
@@ -65,6 +68,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by DKIM (DomainKeys Identified Mail) validation status.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("dkim", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dmarc", {
 			type: "string",
 			array: true,
@@ -72,6 +78,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("dmarc", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("spf", {
 			type: "string",
 			array: true,
@@ -79,12 +88,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by SPF (Sender Policy Framework) validation status.",
 			choices: ["PASS", "NONE", "FAIL"],
 		})
+		.coerce("spf", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
 			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("encrypted", {
 			type: "string",
 			array: true,
@@ -92,6 +107,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by encryption status (encrypted vs. not-encrypted).",
 			choices: ["ENCRYPTED", "NOT_ENCRYPTED"],
 		})
+		.coerce("encrypted", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:

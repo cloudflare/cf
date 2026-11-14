@@ -100,6 +100,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"WEBHOOKS",
 			],
 		})
+		.coerce("bot-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-kind", {
 			type: "string",
 			array: true,
@@ -107,6 +110,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.",
 			choices: ["AGENT", "BOT"],
 		})
+		.coerce("bot-kind", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-verification-status", {
 			type: "string",
 			array: true,
@@ -114,6 +120,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by bot verification status (Verified vs. Unverified).",
 			choices: ["VERIFIED"],
 		})
+		.coerce("bot-verification-status", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

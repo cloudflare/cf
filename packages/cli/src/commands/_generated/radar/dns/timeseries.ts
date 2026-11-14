@@ -81,6 +81,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filters results by DNS transport protocol.",
 			choices: ["UDP", "TCP", "HTTPS", "TLS"],
 		})
+		.coerce("protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("query-type", {
 			type: "string",
 			array: true,
@@ -176,6 +179,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ZONEMD",
 			],
 		})
+		.coerce("query-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-code", {
 			type: "string",
 			array: true,
@@ -202,6 +208,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"BADCOOKIE",
 			],
 		})
+		.coerce("response-code", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-ttl", {
 			type: "string",
 			array: true,
@@ -216,6 +225,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"GT_1W",
 			],
 		})
+		.coerce("response-ttl", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dnssec", {
 			type: "string",
 			array: true,
@@ -223,6 +235,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results based on DNSSEC (DNS Security Extensions) support.",
 			choices: ["INVALID", "INSECURE", "SECURE", "OTHER"],
 		})
+		.coerce("dnssec", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dnssec-aware", {
 			type: "string",
 			array: true,
@@ -230,6 +245,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
 			choices: ["SUPPORTED", "NOT_SUPPORTED"],
 		})
+		.coerce("dnssec-aware", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dnssec-e2e", {
 			type: "string",
 			array: true,
@@ -242,6 +260,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
 			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("matching-answer", {
 			type: "string",
 			array: true,

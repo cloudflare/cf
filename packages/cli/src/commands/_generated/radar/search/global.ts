@@ -50,6 +50,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERTICALS",
 			],
 		})
+		.coerce("include", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("exclude", {
 			type: "string",
 			array: true,
@@ -70,6 +73,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERTICALS",
 			],
 		})
+		.coerce("exclude", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

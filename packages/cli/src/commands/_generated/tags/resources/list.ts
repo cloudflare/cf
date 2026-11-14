@@ -82,6 +82,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zone_ruleset",
 			],
 		})
+		.coerce("type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("name", {
 			type: "string",
 			description:

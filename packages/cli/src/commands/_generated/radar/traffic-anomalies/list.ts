@@ -52,6 +52,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filters results by entity type (LOCATION, AS, or ORIGIN).",
 			choices: ["LOCATION", "AS", "ORIGIN"],
 		})
+		.coerce("type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("data-source", {
 			type: "string",
 			description: "Filters results by data source.",

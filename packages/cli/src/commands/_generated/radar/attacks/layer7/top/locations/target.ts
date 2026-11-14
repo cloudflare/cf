@@ -64,6 +64,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"DATA_LOSS_PREVENTION",
 			],
 		})
+		.coerce("mitigation-product", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

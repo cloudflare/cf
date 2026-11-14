@@ -34,6 +34,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"confidence_intervals",
 			],
 		})
+		.coerce("feature", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("host", {
 			type: "string",
 			array: true,

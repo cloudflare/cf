@@ -34,12 +34,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"confidence_intervals",
 			],
 		})
+		.coerce("feature", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("include-schema-kind", {
 			type: "string",
 			array: true,
 			description: "Schema kinds to include in exported OpenAPI schemas.",
 			choices: ["learned"],
 		})
+		.coerce("include-schema-kind", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

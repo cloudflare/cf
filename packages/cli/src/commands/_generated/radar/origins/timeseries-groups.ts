@@ -64,6 +64,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers.",
 			choices: ["AMAZON", "GOOGLE", "MICROSOFT", "ORACLE"],
 		})
+		.coerce("origin", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("metric", {
 			type: "string",
 			description:

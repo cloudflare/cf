@@ -24,6 +24,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6.",
 			choices: ["event", "appID", "coloName", "ipVersion"],
 		})
+		.coerce("dimensions", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("sort", {
 			type: "string",
 			array: true,
@@ -46,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"duration99th",
 			],
 		})
+		.coerce("metrics", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("filters", {
 			type: "string",
 			description:

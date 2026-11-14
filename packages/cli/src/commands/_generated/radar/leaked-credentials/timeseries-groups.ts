@@ -76,6 +76,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
 			choices: ["LIKELY_AUTOMATED", "LIKELY_HUMAN"],
 		})
+		.coerce("bot-class", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("compromised", {
 			type: "string",
 			array: true,
@@ -83,6 +86,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by compromised credential status (clean vs. compromised).",
 			choices: ["CLEAN", "COMPROMISED"],
 		})
+		.coerce("compromised", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("check-result", {
 			type: "string",
 			array: true,
@@ -95,6 +101,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"PASSWORD_LEAKED",
 			],
 		})
+		.coerce("check-result", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:

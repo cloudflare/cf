@@ -95,12 +95,7 @@ export function builderLines(ctx: Ctx): string[] {
 				["demandOption", demand ? true : undefined],
 			])
 		);
-		if (
-			scalarArray &&
-			arg.origin.in === "query" &&
-			hasChoices(arg) &&
-			op.wire.joined.includes(arg.origin.name)
-		) {
+		if (scalarArray && arg.origin.in === "query" && hasChoices(arg)) {
 			const commaChoices =
 				arg.choices?.filter((value) => value.includes(",")) ?? [];
 			const split =

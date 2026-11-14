@@ -58,6 +58,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cni",
 			],
 		})
+		.coerce("tun-types", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("status", {
 			type: "string",
 			description:

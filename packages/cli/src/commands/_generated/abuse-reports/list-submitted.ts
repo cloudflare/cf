@@ -57,6 +57,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter by submitter-facing status. This parameter can be specified multiple times.",
 			choices: ["submitted", "accepted", "denied"],
 		})
+		.coerce("status", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("type", {
 			type: "string",
 			array: true,
@@ -74,6 +77,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NETWORK",
 			],
 		})
+		.coerce("type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

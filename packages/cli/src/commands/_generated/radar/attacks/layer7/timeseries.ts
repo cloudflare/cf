@@ -76,12 +76,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
 			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP version.",
 			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
 		})
+		.coerce("http-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-method", {
 			type: "string",
 			array: true,
@@ -135,6 +141,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"TRACK",
 			],
 		})
+		.coerce("http-method", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("mitigation-product", {
 			type: "string",
 			array: true,
@@ -149,6 +158,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"DATA_LOSS_PREVENTION",
 			],
 		})
+		.coerce("mitigation-product", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

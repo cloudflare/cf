@@ -63,6 +63,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"confidence_intervals",
 			],
 		})
+		.coerce("feature", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

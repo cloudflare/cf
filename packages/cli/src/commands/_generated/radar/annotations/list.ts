@@ -215,6 +215,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERTICAL",
 			],
 		})
+		.coerce("tags", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("query", {
 			type: "string",
 			description:

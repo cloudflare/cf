@@ -53,6 +53,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["AMAZON", "GOOGLE", "MICROSOFT", "ORACLE"],
 			demandOption: true,
 		})
+		.coerce("origin", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("metric", {
 			type: "string",
 			description:

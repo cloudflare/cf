@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-target", {
 			type: "string",
 			description:
-				"The configuration target. You must set the target to `ip` when specifying an IP address in the rule.",
+				"Variant descriptions:\n- `ip`: The configuration target. You must set the target to `ip` when specifying an IP address in the rule.\n- `ip6`: The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.\n- `ip_range`: The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.\n- `asn`: The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.\n- `country`: The configuration target. You must set the target to `country` when specifying a country code in the rule.",
 			choices: ["ip", "ip6", "ip_range", "asn", "country"],
 		})
 		.coerce("configuration-target", (value) =>
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("configuration-value", {
 			type: "string",
 			description:
-				"The IP address to match. This address will be compared to the IP address of incoming requests.",
+				"Variant descriptions:\n- The IP address to match. This address will be compared to the IP address of incoming requests.\n- The IPv6 address to match.\n- The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.\n- The AS number to match.\n- The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country).",
 		})
 		.option("access-rule-mode", {
 			type: "string",

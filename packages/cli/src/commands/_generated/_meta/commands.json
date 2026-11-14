@@ -42501,7 +42501,7 @@
 					"name": "scheduling-policy",
 					"type": "string",
 					"required": true,
-					"description": "Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.",
+					"description": "Variant descriptions:\n- `default`: Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n- `durable_object`: Selects a Durable Object-managed application. Each Durable Object creates and\nmanages the lifecycle of its container instance. Configure application-wide\nobservability settings here. Deployment configuration, scaling, placement\nconstraints, versions, and rollouts do not apply.",
 					"enum": ["default", "durable_object"]
 				},
 				{
@@ -55486,7 +55486,7 @@
 					"name": "scope-type",
 					"type": "string",
 					"required": false,
-					"description": "Blocks the recipient for every sending domain of the account.",
+					"description": "Variant descriptions:\n- `account`: Blocks the recipient for every sending domain of the account.\n- `sending_domain`: Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
 					"enum": ["account", "sending_domain"]
 				},
 				{
@@ -55883,14 +55883,14 @@
 					"name": "configuration-target",
 					"type": "string",
 					"required": false,
-					"description": "The configuration target. You must set the target to `ip` when specifying an IP address in the rule.",
+					"description": "Variant descriptions:\n- `ip`: The configuration target. You must set the target to `ip` when specifying an IP address in the rule.\n- `ip6`: The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.\n- `ip_range`: The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.\n- `asn`: The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.\n- `country`: The configuration target. You must set the target to `country` when specifying a country code in the rule.",
 					"enum": ["ip", "ip6", "ip_range", "asn", "country"]
 				},
 				{
 					"name": "configuration-value",
 					"type": "string",
 					"required": false,
-					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
+					"description": "Variant descriptions:\n- The IP address to match. This address will be compared to the IP address of incoming requests.\n- The IPv6 address to match.\n- The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.\n- The AS number to match.\n- The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country)."
 				},
 				{
 					"name": "access-rule-mode",
@@ -55994,14 +55994,14 @@
 					"name": "configuration-target",
 					"type": "string",
 					"required": false,
-					"description": "The configuration target. You must set the target to `ip` when specifying an IP address in the rule.",
+					"description": "Variant descriptions:\n- `ip`: The configuration target. You must set the target to `ip` when specifying an IP address in the rule.\n- `ip6`: The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.\n- `ip_range`: The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.\n- `asn`: The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.\n- `country`: The configuration target. You must set the target to `country` when specifying a country code in the rule.",
 					"enum": ["ip", "ip6", "ip_range", "asn", "country"]
 				},
 				{
 					"name": "configuration-value",
 					"type": "string",
 					"required": false,
-					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
+					"description": "Variant descriptions:\n- The IP address to match. This address will be compared to the IP address of incoming requests.\n- The IPv6 address to match.\n- The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.\n- The AS number to match.\n- The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country)."
 				},
 				{
 					"name": "access-rule-mode",
@@ -56743,14 +56743,14 @@
 					"name": "configuration-target",
 					"type": "string",
 					"required": false,
-					"description": "The configuration target. You must set the target to `ip` when specifying an IP address in the rule.",
+					"description": "Variant descriptions:\n- `ip`: The configuration target. You must set the target to `ip` when specifying an IP address in the rule.\n- `ip6`: The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.\n- `ip_range`: The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.\n- `asn`: The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.\n- `country`: The configuration target. You must set the target to `country` when specifying a country code in the rule.",
 					"enum": ["ip", "ip6", "ip_range", "asn", "country"]
 				},
 				{
 					"name": "configuration-value",
 					"type": "string",
 					"required": false,
-					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
+					"description": "Variant descriptions:\n- The IP address to match. This address will be compared to the IP address of incoming requests.\n- The IPv6 address to match.\n- The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.\n- The AS number to match.\n- The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country)."
 				},
 				{
 					"name": "description",
@@ -58661,7 +58661,7 @@
 					"name": "origin-host",
 					"type": "string",
 					"required": false,
-					"description": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed."
+					"description": "Variant descriptions:\n- Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.\n- Defines the host (hostname or IP) of your origin database."
 				},
 				{
 					"name": "origin-port",
@@ -58936,7 +58936,7 @@
 					"name": "origin-host",
 					"type": "string",
 					"required": false,
-					"description": "Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed."
+					"description": "Variant descriptions:\n- Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.\n- Defines the host (hostname or IP) of your origin database."
 				},
 				{
 					"name": "origin-port",
@@ -88979,13 +88979,13 @@
 					"name": "sink-config-account-id",
 					"type": "string",
 					"required": false,
-					"description": "Cloudflare Account ID for the bucket"
+					"description": "Variant descriptions:\n- Cloudflare Account ID for the bucket\n- Cloudflare Account ID"
 				},
 				{
 					"name": "sink-config-bucket",
 					"type": "string",
 					"required": false,
-					"description": "R2 Bucket to write to"
+					"description": "Variant descriptions:\n- R2 Bucket to write to\n- The R2 Bucket that hosts this catalog"
 				},
 				{
 					"name": "sink-config-credentials-access-key-id",
@@ -89096,7 +89096,7 @@
 					"name": "format-compression",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the compression applied to JSON sink output.",
+					"description": "Variant descriptions:\n- `uncompressed`, `gzip`: Specifies the compression applied to JSON sink output.",
 					"enum": ["uncompressed", "gzip", "snappy", "zstd", "lz4"]
 				},
 				{
@@ -92755,7 +92755,7 @@
 					"name": "source-bucket",
 					"type": "string",
 					"required": false,
-					"description": "Name of the AWS S3 bucket."
+					"description": "Variant descriptions:\n- Name of the AWS S3 bucket.\n- Name of the GCS bucket."
 				},
 				{
 					"name": "source-provider",
@@ -121511,7 +121511,7 @@
 					"name": "edge-ips-type",
 					"type": "string",
 					"required": false,
-					"description": "The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.",
+					"description": "Variant descriptions:\n- `dynamic`: The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.\n- `static`: The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.",
 					"enum": ["dynamic", "static"]
 				},
 				{
@@ -121790,7 +121790,7 @@
 					"name": "edge-ips-type",
 					"type": "string",
 					"required": false,
-					"description": "The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.",
+					"description": "Variant descriptions:\n- `dynamic`: The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.\n- `static`: The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.",
 					"enum": ["dynamic", "static"]
 				},
 				{
@@ -127566,7 +127566,7 @@
 					"name": "resource-type",
 					"type": "string",
 					"required": true,
-					"description": "Enum for worker_version resource type.",
+					"description": "Variant descriptions:\n- `worker_version`: Enum for worker_version resource type.\n- `access_application`, `access_group`, `access_service_token`, `account`, `account_ruleset`, `ai_gateway`, `ai_search_instance`, `ai_search_namespace`, `alerting_policy`, `alerting_webhook`, `app_library_application`, `cloudflared_tunnel`, `cws_deployment`, `cws_policy`, `cws_policy_set`, `cws_workload`, `d1_database`, `device`, `durable_object_namespace`, `gateway_list`, `gateway_rule`, `image`, `infrastructure_target`, `kv_namespace`, `load_balancer_monitor`, `load_balancer_pool`, `namespace_worker`, `pages_project`, `queue`, `r2_bucket`, `resource_share`, `stream_live_input`, `stream_video`, `vectorize_index`, `worker`: Enum for base account-level resource types (those with no extra required fields).",
 					"enum": [
 						"worker_version",
 						"access_application",
@@ -130243,14 +130243,14 @@
 					"name": "configuration-target",
 					"type": "string",
 					"required": false,
-					"description": "The configuration target. You must set the target to `ip` when specifying an IP address in the rule.",
+					"description": "Variant descriptions:\n- `ip`: The configuration target. You must set the target to `ip` when specifying an IP address in the rule.\n- `ip6`: The configuration target. You must set the target to `ip6` when specifying an IPv6 address in the rule.\n- `ip_range`: The configuration target. You must set the target to `ip_range` when specifying an IP address range in the rule.\n- `asn`: The configuration target. You must set the target to `asn` when specifying an Autonomous System Number (ASN) in the rule.\n- `country`: The configuration target. You must set the target to `country` when specifying a country code in the rule.",
 					"enum": ["ip", "ip6", "ip_range", "asn", "country"]
 				},
 				{
 					"name": "configuration-value",
 					"type": "string",
 					"required": false,
-					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
+					"description": "Variant descriptions:\n- The IP address to match. This address will be compared to the IP address of incoming requests.\n- The IPv6 address to match.\n- The IP address range to match. You can only use prefix lengths `/16` and `/24` for IPv4 ranges, and prefix lengths `/32`, `/48`, and `/64` for IPv6 ranges.\n- The AS number to match.\n- The two-letter ISO-3166-1 alpha-2 code to match. For more information, refer to [IP Access rules: Parameters](https://developers.cloudflare.com/waf/tools/ip-access-rules/parameters/#country)."
 				},
 				{
 					"name": "access-rule-mode",
@@ -137454,7 +137454,7 @@
 					"name": "code-update-strategy-mode",
 					"type": "string",
 					"required": false,
-					"description": "Apply Durable Object code updates immediately.",
+					"description": "Variant descriptions:\n- `immediate`: Apply Durable Object code updates immediately.\n- `deferred`: Allow active Durable Objects to hibernate before updating their code.",
 					"enum": ["immediate", "deferred"]
 				},
 				{
@@ -153233,7 +153233,7 @@
 					"name": "integration-config-api-url",
 					"type": "string",
 					"required": false,
-					"description": "The Workspace One API URL provided in the Workspace One Admin Dashboard."
+					"description": "Variant descriptions:\n- The Workspace One API URL provided in the Workspace One Admin Dashboard.\n- The Crowdstrike API URL.\n- The Uptycs API URL.\n- The Tanium API URL.\n- The SentinelOne S2S API URL.\n- The Custom Device Posture Integration  API URL."
 				},
 				{
 					"name": "integration-config-auth-url",
@@ -153245,19 +153245,19 @@
 					"name": "integration-config-client-id",
 					"type": "string",
 					"required": false,
-					"description": "The Workspace One client ID provided in the Workspace One Admin Dashboard."
+					"description": "Variant descriptions:\n- The Workspace One client ID provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client ID.\n- The Intune client ID.\n- The Kolide client ID."
 				},
 				{
 					"name": "integration-config-client-secret",
 					"type": "string",
 					"required": false,
-					"description": "The Workspace One client secret provided in the Workspace One Admin Dashboard."
+					"description": "Variant descriptions:\n- The Workspace One client secret provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client secret.\n- The Uptycs client secret.\n- The Intune client secret.\n- The Kolide client secret.\n- The Tanium client secret.\n- The SentinelOne S2S client secret."
 				},
 				{
 					"name": "integration-config-customer-id",
 					"type": "string",
 					"required": false,
-					"description": "The Crowdstrike customer ID."
+					"description": "Variant descriptions:\n- The Crowdstrike customer ID.\n- The Uptycs customer ID.\n- The Intune customer ID."
 				},
 				{
 					"name": "integration-config-client-key",
@@ -153269,13 +153269,13 @@
 					"name": "integration-config-access-client-id",
 					"type": "string",
 					"required": false,
-					"description": "If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
+					"description": "Variant descriptions:\n- If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.\n- This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
 				},
 				{
 					"name": "integration-config-access-client-secret",
 					"type": "string",
 					"required": false,
-					"description": "If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
+					"description": "Variant descriptions:\n- If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.\n- This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
 				},
 				{
 					"name": "interval",
@@ -153455,7 +153455,7 @@
 					"name": "integration-config-api-url",
 					"type": "string",
 					"required": false,
-					"description": "The Workspace One API URL provided in the Workspace One Admin Dashboard."
+					"description": "Variant descriptions:\n- The Workspace One API URL provided in the Workspace One Admin Dashboard.\n- The Crowdstrike API URL.\n- The Uptycs API URL.\n- The Tanium API URL.\n- The SentinelOne S2S API URL.\n- The Custom Device Posture Integration  API URL."
 				},
 				{
 					"name": "integration-config-auth-url",
@@ -153467,19 +153467,19 @@
 					"name": "integration-config-client-id",
 					"type": "string",
 					"required": false,
-					"description": "The Workspace One client ID provided in the Workspace One Admin Dashboard."
+					"description": "Variant descriptions:\n- The Workspace One client ID provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client ID.\n- The Intune client ID.\n- The Kolide client ID."
 				},
 				{
 					"name": "integration-config-client-secret",
 					"type": "string",
 					"required": false,
-					"description": "The Workspace One client secret provided in the Workspace One Admin Dashboard."
+					"description": "Variant descriptions:\n- The Workspace One client secret provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client secret.\n- The Uptycs client secret.\n- The Intune client secret.\n- The Kolide client secret.\n- The Tanium client secret.\n- The SentinelOne S2S client secret."
 				},
 				{
 					"name": "integration-config-customer-id",
 					"type": "string",
 					"required": false,
-					"description": "The Crowdstrike customer ID."
+					"description": "Variant descriptions:\n- The Crowdstrike customer ID.\n- The Uptycs customer ID.\n- The Intune customer ID."
 				},
 				{
 					"name": "integration-config-client-key",
@@ -153491,13 +153491,13 @@
 					"name": "integration-config-access-client-id",
 					"type": "string",
 					"required": false,
-					"description": "If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
+					"description": "Variant descriptions:\n- If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.\n- This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
 				},
 				{
 					"name": "integration-config-access-client-secret",
 					"type": "string",
 					"required": false,
-					"description": "If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
+					"description": "Variant descriptions:\n- If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.\n- This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
 				},
 				{
 					"name": "interval",
@@ -153579,14 +153579,14 @@
 					"name": "input-operating-system",
 					"type": "string",
 					"required": false,
-					"description": "Operating system.",
+					"description": "Variant descriptions:\n- `windows`, `linux`, `mac`: Operating system.\n- `android`, `ios`, `chromeos`, `windows`, `mac`, `linux`: Operating System.",
 					"enum": ["windows", "linux", "mac", "android", "ios", "chromeos"]
 				},
 				{
 					"name": "input-path",
 					"type": "string",
 					"required": false,
-					"description": "File path."
+					"description": "Variant descriptions:\n- File path.\n- Path for the application."
 				},
 				{
 					"name": "input-sha256",
@@ -153604,7 +153604,7 @@
 					"name": "input-id",
 					"type": "string",
 					"required": false,
-					"description": "List ID."
+					"description": "Variant descriptions:\n- List ID.\n- UUID of Access List."
 				},
 				{
 					"name": "input-domain",
@@ -153616,7 +153616,7 @@
 					"name": "input-operator",
 					"type": "string",
 					"required": false,
-					"description": "Operator.",
+					"description": "Variant descriptions:\n- `<`, `<=`, `>`, `>=`, `==`: Operator.\n- `<`, `<=`, `>`, `>=`, `==`: Operator to evaluate risk_level or eid_last_seen.",
 					"enum": ["<", "<=", ">", ">=", "=="]
 				},
 				{
@@ -153641,7 +153641,7 @@
 					"name": "input-version",
 					"type": "string",
 					"required": false,
-					"description": "Version of OS."
+					"description": "Variant descriptions:\n- Version of OS.\n- Version."
 				},
 				{
 					"name": "input-enabled",
@@ -153671,7 +153671,7 @@
 					"name": "input-cn",
 					"type": "string",
 					"required": false,
-					"description": "Common Name that is protected by the certificate."
+					"description": "Variant descriptions:\n- Common Name that is protected by the certificate.\n- Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables."
 				},
 				{
 					"name": "input-check-private-key",
@@ -154065,14 +154065,14 @@
 					"name": "input-operating-system",
 					"type": "string",
 					"required": false,
-					"description": "Operating system.",
+					"description": "Variant descriptions:\n- `windows`, `linux`, `mac`: Operating system.\n- `android`, `ios`, `chromeos`, `windows`, `mac`, `linux`: Operating System.",
 					"enum": ["windows", "linux", "mac", "android", "ios", "chromeos"]
 				},
 				{
 					"name": "input-path",
 					"type": "string",
 					"required": false,
-					"description": "File path."
+					"description": "Variant descriptions:\n- File path.\n- Path for the application."
 				},
 				{
 					"name": "input-sha256",
@@ -154090,7 +154090,7 @@
 					"name": "input-id",
 					"type": "string",
 					"required": false,
-					"description": "List ID."
+					"description": "Variant descriptions:\n- List ID.\n- UUID of Access List."
 				},
 				{
 					"name": "input-domain",
@@ -154102,7 +154102,7 @@
 					"name": "input-operator",
 					"type": "string",
 					"required": false,
-					"description": "Operator.",
+					"description": "Variant descriptions:\n- `<`, `<=`, `>`, `>=`, `==`: Operator.\n- `<`, `<=`, `>`, `>=`, `==`: Operator to evaluate risk_level or eid_last_seen.",
 					"enum": ["<", "<=", ">", ">=", "=="]
 				},
 				{
@@ -154127,7 +154127,7 @@
 					"name": "input-version",
 					"type": "string",
 					"required": false,
-					"description": "Version of OS."
+					"description": "Variant descriptions:\n- Version of OS.\n- Version."
 				},
 				{
 					"name": "input-enabled",
@@ -154157,7 +154157,7 @@
 					"name": "input-cn",
 					"type": "string",
 					"required": false,
-					"description": "Common Name that is protected by the certificate."
+					"description": "Variant descriptions:\n- Common Name that is protected by the certificate.\n- Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables."
 				},
 				{
 					"name": "input-check-private-key",
@@ -167243,7 +167243,7 @@
 					"name": "value-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the feature is enabled or not."
+					"description": "Variant descriptions:\n- Whether the feature is enabled or not.\n- Indicates whether or not Automatic Platform Optimization is enabled."
 				},
 				{
 					"name": "value-pool-id",

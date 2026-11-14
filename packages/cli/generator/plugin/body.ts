@@ -76,11 +76,18 @@ interface Prop {
 	readonly schema: Schema;
 	readonly type: Type;
 	readonly description?: string;
+	/** Keep original alternatives so repeated merges can deduplicate their prose. */
+	readonly variantDescriptions?: readonly VariantDescription[];
 	readonly default?: Value;
 	readonly readOnly: boolean;
 	readonly sensitive: boolean;
 	/** The kebab-case name `x-fern-property-name` gives the property. */
 	readonly fernName?: string;
+}
+
+interface VariantDescription {
+	readonly text: string;
+	readonly values?: Schema["values"];
 }
 
 /** The view of each type, which is the same each time it is read. */
@@ -645,6 +652,46 @@ function mergeEnumSchemas(a: Prop, b: Prop): Prop | undefined {
 	};
 }
 
+function propertyDescriptions(prop: Prop): readonly VariantDescription[] {
+	if (prop.variantDescriptions !== undefined) return prop.variantDescriptions;
+	const text = prop.description;
+	return text?.trim() ? [{ text, values: resolve(prop.schema).values }] : [];
+}
+
+function mergeProperties(a: Prop, b: Prop): Prop {
+	const merged = deepMergeObjects(a, b) ?? mergeEnumSchemas(a, b) ?? a;
+	const descriptions: VariantDescription[] = [];
+	for (const part of [...propertyDescriptions(a), ...propertyDescriptions(b)]) {
+		const i = descriptions.findIndex((d) => d.text.trim() === part.text.trim());
+		const previous = descriptions[i];
+		if (previous === undefined) {
+			descriptions.push(part);
+		} else {
+			descriptions[i] = {
+				text: previous.text,
+				values:
+					previous.values !== undefined && part.values !== undefined
+						? dedup([...previous.values, ...part.values])
+						: undefined,
+			};
+		}
+	}
+	const first = descriptions[0];
+	const partialEnumDescription =
+		first?.values !== undefined &&
+		resolve(merged.schema).values?.some((v) => !first.values?.includes(v));
+	const description =
+		descriptions.length < 2 && !partialEnumDescription
+			? first?.text
+			: `Variant descriptions:\n${descriptions
+					.map(({ text, values }) => {
+						const label = values?.map((v) => `\`${v}\``).join(", ");
+						return `- ${label ? `${label}: ` : ""}${text.trim()}`;
+					})
+					.join("\n")}`;
+	return { ...merged, description, variantDescriptions: descriptions };
+}
+
 function deepMergeObjects(a: Prop, b: Prop): Prop | undefined {
 	let ra = resolve(a.schema);
 	let rb = resolve(b.schema);
@@ -664,10 +711,7 @@ function deepMergeObjects(a: Prop, b: Prop): Prop | undefined {
 			props.push(pb);
 		} else {
 			const pa = props[i] as Prop;
-			const merged = deepMergeObjects(pa, pb) ?? mergeEnumSchemas(pa, pb);
-			if (merged) {
-				props[i] = merged;
-			}
+			props[i] = mergeProperties(pa, pb);
 		}
 	}
 	const required = rb.required.filter((r) => ra.required.includes(r));
@@ -680,7 +724,6 @@ function deepMergeObjects(a: Prop, b: Prop): Prop | undefined {
 			exclusive: false,
 			discriminator: undefined,
 		},
-		description: a.description,
 		default: undefined,
 		readOnly: false,
 		sensitive: false,
@@ -724,11 +767,7 @@ function oneOfConstraints(
 				mergedProps.push(prop);
 			} else {
 				const existing = mergedProps[i] as Prop;
-				const merged =
-					deepMergeObjects(existing, prop) ?? mergeEnumSchemas(existing, prop);
-				if (merged) {
-					mergedProps[i] = merged;
-				}
+				mergedProps[i] = mergeProperties(existing, prop);
 			}
 		}
 	}

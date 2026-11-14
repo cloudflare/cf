@@ -130,7 +130,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scheduling-policy", {
 			type: "string",
 			description:
-				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.",
+				"Variant descriptions:\n- `default`: Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n- `durable_object`: Selects a Durable Object-managed application. Each Durable Object creates and\nmanages the lifecycle of its container instance. Configure application-wide\nobservability settings here. Deployment configuration, scaling, placement\nconstraints, versions, and rollouts do not apply.",
 			choices: ["default", "durable_object"],
 		})
 		.coerce("scheduling-policy", (value) =>
@@ -394,7 +394,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["scheduling-policy"] === undefined) {
 					argv["scheduling-policy"] = await promptForRequiredEnumField(
 						"scheduling-policy",
-						"Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts.",
+						"Variant descriptions: - \`default\`: Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts. - \`durable_object\`: Selects a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Configure application-wide observability settings here. Deployment configuration, scaling, placement constraints, versions, and rollouts do not apply.",
 						["default", "durable_object"] as const
 					);
 				}

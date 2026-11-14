@@ -28,11 +28,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage("$0 pipelines sinks create\n\nCreate a new Sink.")
 		.option("sink-config-account-id", {
 			type: "string",
-			description: "Cloudflare Account ID for the bucket",
+			description:
+				"Variant descriptions:\n- Cloudflare Account ID for the bucket\n- Cloudflare Account ID",
 		})
 		.option("sink-config-bucket", {
 			type: "string",
-			description: "R2 Bucket to write to",
+			description:
+				"Variant descriptions:\n- R2 Bucket to write to\n- The R2 Bucket that hosts this catalog",
 		})
 		.option("sink-config-credentials-access-key-id", {
 			type: "string",
@@ -119,7 +121,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("format-compression", {
 			type: "string",
-			description: "Specifies the compression applied to JSON sink output.",
+			description:
+				"Variant descriptions:\n- `uncompressed`, `gzip`: Specifies the compression applied to JSON sink output.",
 			choices: ["uncompressed", "gzip", "snappy", "zstd", "lz4"],
 		})
 		.coerce("format-compression", (value) =>

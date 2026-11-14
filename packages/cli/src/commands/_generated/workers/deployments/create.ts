@@ -39,7 +39,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("code-update-strategy-mode", {
 			type: "string",
-			description: "Apply Durable Object code updates immediately.",
+			description:
+				"Variant descriptions:\n- `immediate`: Apply Durable Object code updates immediately.\n- `deferred`: Allow active Durable Objects to hibernate before updating their code.",
 			choices: ["immediate", "deferred"],
 		})
 		.coerce("code-update-strategy-mode", (value) =>

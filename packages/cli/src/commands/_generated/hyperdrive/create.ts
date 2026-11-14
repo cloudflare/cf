@@ -119,7 +119,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("origin-host", {
 			type: "string",
 			description:
-				"Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
+				"Variant descriptions:\n- Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.\n- Defines the host (hostname or IP) of your origin database.",
 		})
 		.option("origin-port", {
 			type: "number",

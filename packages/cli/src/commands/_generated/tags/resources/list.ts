@@ -45,6 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"alerting_policy",
 				"alerting_webhook",
 				"api_gateway_operation",
+				"app_library_application",
 				"cloudflared_tunnel",
 				"custom_certificate",
 				"custom_hostname",

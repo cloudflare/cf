@@ -20,6 +20,7 @@ export default [
 				"assets",
 				"frontend",
 				"full-stack",
+				"secrets file",
 			],
 		},
 		arguments: [

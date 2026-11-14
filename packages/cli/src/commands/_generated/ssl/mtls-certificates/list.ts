@@ -49,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filters results by certificate type. Multiple types can be comma-separated.",
 			choices: ["custom", "gateway_managed", "access_managed"],
 		})
+		.coerce("type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

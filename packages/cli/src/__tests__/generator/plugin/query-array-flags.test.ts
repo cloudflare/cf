@@ -7,7 +7,7 @@ import { path } from "../../../api/path.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
 import type { CommandsMetadata } from "../../../lib/command-meta.js";
 
-const enumValues = ["001", "a/b &c"];
+const enumValues = ["001", "a/b &c", "literal,comma"];
 const enumSchema = { type: "string", enum: enumValues };
 
 describe.each(
@@ -15,20 +15,42 @@ describe.each(
 		{
 			explode,
 			schema: "unconstrained",
-			items: { type: "string" },
+			parameterSchema: { type: "array", items: { type: "string" } },
 			choices: undefined,
 		},
-		{ explode, schema: "inline enum", items: enumSchema, choices: enumValues },
+		{
+			explode,
+			schema: "inline enum",
+			parameterSchema: { type: "array", items: enumSchema },
+			choices: enumValues,
+		},
 		{
 			explode,
 			schema: "referenced enum",
-			items: { $ref: "#/components/schemas/IndicatorId" },
+			parameterSchema: {
+				type: "array",
+				items: { $ref: "#/components/schemas/IndicatorId" },
+			},
+			choices: enumValues,
+		},
+		{
+			explode,
+			schema: "allOf referenced array",
+			parameterSchema: {
+				allOf: [
+					{ $ref: "#/components/schemas/IndicatorIds" },
+					{
+						type: "array",
+						items: { $ref: "#/components/schemas/IndicatorId" },
+					},
+				],
+			},
 			choices: enumValues,
 		},
 	])
 )(
 	"query arrays ($schema, explode: $explode)",
-	({ explode, items, choices }) => {
+	({ explode, parameterSchema, choices }) => {
 		const files = generateFiles({
 			openapi: "3.0.3",
 			info: { title: "Query arrays", version: "1" },
@@ -44,7 +66,7 @@ describe.each(
 								in: "query",
 								required: true,
 								...(explode === undefined ? {} : { explode }),
-								schema: { type: "array", items },
+								schema: parameterSchema,
 							},
 						],
 						responses: {
@@ -56,7 +78,15 @@ describe.each(
 					},
 				},
 			},
-			components: { schemas: { IndicatorId: enumSchema } },
+			components: {
+				schemas: {
+					IndicatorId: enumSchema,
+					IndicatorIds: {
+						type: "array",
+						items: { $ref: "#/components/schemas/IndicatorId" },
+					},
+				},
+			},
 		});
 		const operationSource = stripTypeScriptTypes(
 			files.get("_operations/things/list.ts") ?? ""
@@ -118,10 +148,19 @@ describe.each(
 				?.options.find((entry) => entry.name === "indicator-ids");
 			expect(option).toMatchObject({ type: "string", required: true });
 			expect(option?.enum).toEqual(choices);
+			if (explode === false && choices !== undefined) {
+				expect(source).toContain('.coerce("indicator-ids"');
+			} else {
+				expect(source).not.toContain(".coerce(");
+			}
 		});
 
 		it.each([
 			{ flags: ["--indicator-ids", "001"], expected: ["001"] },
+			{
+				flags: ["--indicator-ids", "literal,comma"],
+				expected: ["literal,comma"],
+			},
 			{
 				flags: ["--indicator-ids", "001", "a/b &c"],
 				expected: ["001", "a/b &c"],
@@ -146,11 +185,31 @@ describe.each(
 			);
 		});
 
+		if (explode === false) {
+			it("retains comma-separated input for joined arrays", async () => {
+				const { argv, urls } = await run([
+					"--indicator-ids",
+					"001,a/b &c",
+					"--indicator-ids",
+					"001",
+				]);
+				expect(argv["indicator-ids"]).toEqual(
+					choices === undefined
+						? ["001,a/b &c", "001"]
+						: ["001", "a/b &c", "001"]
+				);
+				expect(urls[0]?.searchParams.getAll("indicatorIds")).toEqual([
+					"001,a/b &c,001",
+				]);
+			});
+		}
+
 		if (choices !== undefined) {
 			it.each([
 				{ flags: ["--indicator-ids", "invalid"] },
 				{ flags: ["--indicator-ids", "001", "invalid"] },
 				{ flags: ["--indicator-ids", "001", "--indicator-ids", "invalid"] },
+				{ flags: ["--indicator-ids", "001,invalid"] },
 			])(
 				"rejects invalid items before a request: $flags",
 				async ({ flags }) => {

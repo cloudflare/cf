@@ -822,7 +822,7 @@ function queryParams(
 		if (isEnum) {
 			a.choices = p.enumValues;
 		}
-		if (!(required || isEnum)) {
+		if (!(required || type === "enum")) {
 			a.default = dflt;
 		}
 		out.push(a);

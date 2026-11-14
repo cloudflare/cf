@@ -58,6 +58,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"websearch",
 			],
 		})
+		.coerce("scopes", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

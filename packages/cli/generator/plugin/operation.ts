@@ -548,8 +548,9 @@ function parameterEnum(type: Type): string[] | undefined {
 		const schema = parameterSchema(type);
 		resolved = schema && unwrapNull(deref(schema));
 	}
-	if (resolved?.kind === "array") {
-		return parameterEnum(resolved.elem);
+	const array = resolved?.kind === "array" ? resolved : parameterSchema(type);
+	if (array?.kind === "array") {
+		return parameterEnum(array.elem);
 	}
 	return resolved?.kind === "enum"
 		? resolved.values.map((v) => String(v))

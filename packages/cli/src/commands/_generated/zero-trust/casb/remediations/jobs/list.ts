@@ -57,6 +57,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter remediations by what kind of actor triggered them. Supports multiple comma-separated values.",
 			choices: ["user", "account_token"],
 		})
+		.coerce("triggered-by-actor", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("integration-id", {
 			type: "string",
 			description: "Filter by an integration ID",

@@ -54,6 +54,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ZOOM",
 			],
 		})
+		.coerce("vendors", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("types", {
 			type: "string",
 			array: true,
@@ -61,6 +64,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter finding types by category type. Supports multiple comma-separated, case-insensitive values.",
 			choices: ["Content", "Posture"],
 		})
+		.coerce("types", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("origins", {
 			type: "string",
 			array: true,
@@ -68,6 +74,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter finding types by origin. Supports multiple comma-separated, case-insensitive values.",
 			choices: ["custom", "system"],
 		})
+		.coerce("origins", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("severities", {
 			type: "string",
 			array: true,
@@ -75,6 +84,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Filter finding types by severity. Supports multiple comma-separated, case-insensitive values.",
 			choices: ["critical", "high", "medium", "low"],
 		})
+		.coerce("severities", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("search", {
 			type: "string",
 			description:

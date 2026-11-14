@@ -78,6 +78,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"failed",
 			],
 		})
+		.coerce("remediation-statuses", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("finding-instance-ids", {
 			type: "string",
 			array: true,

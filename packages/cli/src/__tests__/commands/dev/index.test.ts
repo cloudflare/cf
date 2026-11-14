@@ -870,12 +870,20 @@ describe("cf dev", () => {
 				"child/package.json": "{}",
 			});
 			makeExecutable("node_modules/.bin/cf-parent-only", { npmBin: true });
-			await expect(
-				runProjectCommand("cf-parent-only build", resolve("child"), {
+			const command = runProjectCommand(
+				"cf-parent-only build",
+				resolve("child"),
+				{
 					preferLocal: true,
 					output: "silent",
-				})
-			).rejects.toThrow();
+				}
+			);
+			if (process.platform === "win32") {
+				// The Windows shell reports a missing command through its exit code.
+				await expect(command).resolves.toEqual({ exitCode: 1 });
+			} else {
+				await expect(command).rejects.toThrow();
+			}
 			expect(existsSync("child/unexpected.out")).toBe(false);
 		});
 

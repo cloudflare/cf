@@ -26,6 +26,7 @@ import d1MigrationsMeta from "./d1/migrations/meta.js";
 import deployMeta from "./deploy/meta.js";
 import devMeta from "./dev/meta.js";
 import docsMeta from "./docs/meta.js";
+import durableObjectsExportMeta from "./durable-objects/export/meta.js";
 import initMeta from "./init/meta.js";
 import loginMeta from "./login/meta.js";
 import migrateMeta from "./migrate/meta.js";
@@ -79,6 +80,7 @@ export const handWrittenMeta = {
 		"containers/images/list": containersImagesListMeta,
 		"containers/images/delete": containersImagesDeleteMeta,
 		"containers/ssh": containersSshMeta,
+		"durable-objects/export": durableObjectsExportMeta,
 		"pages/deploy": pagesDeployMeta,
 		"previews/deploy": previewsDeployMeta,
 		"workers/check": workersCheckMeta,

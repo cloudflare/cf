@@ -80,7 +80,7 @@
 		"@bytecodealliance/jco": "1.41.0",
 		"@clack/core": "1.5.1",
 		"@clack/prompts": "^1.8.1",
-		"@cloudflare/autoconfig": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@6e6223620e1967986d5c3a722691d436a8401010",
+		"@cloudflare/autoconfig": "https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@a4de26646a6d8cc6146c8852e6c91c5c96986d45",
 		"@cloudflare/cli-shared-helpers": "0.3.8",
 		"@cloudflare/codemods": "0.7.8",
 		"@cloudflare/containers-shared": "0.26.1",

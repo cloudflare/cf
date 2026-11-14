@@ -876,17 +876,14 @@ function bodyParams(
 		const natural = flagName(bp.name);
 		const path = bp.apiFieldPath;
 		const single = path.length === 1;
-		const isAccountField =
-			single && (path[0] === "account_id" || path[0] === "accountId");
-		const isZoneField =
-			single && (path[0] === "zone_id" || path[0] === "zoneId");
-		if ((isAccountField || natural === "account-id") && pathHasAccount) {
-			continue;
-		}
-		if ((isZoneField || natural === "zone-id") && pathHasZone) {
-			continue;
-		}
 		const name = names.name({ in: "body", path }, natural);
+		// A distinct schema name identifies a body value independent of path scope.
+		if (
+			(name === "account-id" && pathHasAccount) ||
+			(name === "zone-id" && pathHasZone)
+		) {
+			continue;
+		}
 		if (out.some((a) => a.name === name)) {
 			continue;
 		}

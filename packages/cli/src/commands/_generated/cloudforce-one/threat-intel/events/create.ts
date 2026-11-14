@@ -30,6 +30,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one threat-intel events create\n\nCreates an event in the dataset given by `datasetId`. Omitting `datasetId` is deprecated: the event is created in the default Cloudforce One Threat Events dataset, and a future release will reject the request. To create a dataset, use `threat-intel datasets create`."
 		)
+		.option("account-id-body", {
+			type: "number",
+			description: "The accountId field",
+		})
 		.option("attacker", { type: "string", description: "The attacker field" })
 		.option("attacker-country", {
 			type: "string",
@@ -165,6 +169,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									])
 								: compactBody(
 										{
+											accountId: argv["account-id-body"],
 											attacker: resolveFileToken(
 												argv["attacker"] as string | undefined,
 												"attacker",
@@ -308,6 +313,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody(
 					{
+						accountId: argv["account-id-body"],
 						attacker: resolveFileToken(
 							argv["attacker"] as string | undefined,
 							"attacker",

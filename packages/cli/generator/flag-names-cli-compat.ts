@@ -1,7 +1,7 @@
 import type { ForgeOpenApiDocument, OpenApiOperation } from "./openapi.js";
 
 interface TemporaryFlagName {
-	readonly method: "put";
+	readonly method: "put" | "post";
 	readonly path: string;
 	readonly operationId: string;
 	/** A top-level field of the JSON request body or of one of its shapes. */
@@ -11,9 +11,9 @@ interface TemporaryFlagName {
 }
 
 /**
- * CLI names for API fields whose wire names would take a flag cf owns, until
+ * CLI names for API fields whose wire names overlap cf flags or path scope, until
  * the pinned Forge OpenAPI sets `x-forge-params.<wire>.flagName` for them
- * (cloudflare/cf#28). Remove an entry once upstream names its field.
+ * (cloudflare/cf#28, cloudflare/cf#471). Remove an entry once upstream names its field.
  *
  * Every entry is checked before any is applied, so a new pin that changes an
  * operation or field, or names it upstream, fails generation instead of
@@ -35,6 +35,14 @@ const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 		wire: "profile",
 		type: "string",
 		flagName: "organization-profile",
+	},
+	{
+		method: "post",
+		path: "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
+		operationId: "share-excluded-recipient-create",
+		wire: "account_id",
+		type: "string",
+		flagName: "excluded-account-id",
 	},
 ];
 

@@ -402,6 +402,40 @@ describe("deriveArgsFromOp path params", () => {
 });
 
 describe("deriveArgsFromOp body flags", () => {
+	it.each([
+		["account_id", false],
+		["account_id", true],
+		["zone_id", false],
+	] as const)(
+		"keeps a renamed required body %s separate from its path scope (flagName: %s)",
+		(wire, explicit) => {
+			const d = derived(
+				method(
+					explicit ? { [wire]: { flagName: "target-id" } } : undefined,
+					"create"
+				),
+				"example",
+				operation("post", `/things/{${wire}}`, {
+					bodyParams: [
+						bodyParam(explicit ? wire : "target-id", "string", [wire], {
+							required: true,
+						}),
+					],
+					hasRequestBody: true,
+					requestContentTypes: ["application/json"],
+				})
+			);
+			expect(d.hasBodyParams).toBe(true);
+			expect(d.args).toMatchObject([
+				{
+					name: "target-id",
+					required: true,
+					origin: { in: "body", path: [wire] },
+				},
+			]);
+		}
+	);
+
 	it("does not treat Worker-ID body fields as the Worker path selector", () => {
 		const d = derived(
 			method(undefined, "create"),

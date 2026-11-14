@@ -1,4 +1,8 @@
-import { readBuildOutput } from "@cloudflare/build-output-utils";
+import { assertProjectCommandsAvailable } from "@cloudflare/autoconfig";
+import {
+	BuildOutputError,
+	readBuildOutput,
+} from "@cloudflare/build-output-utils";
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import {
 	parseWorkerConfig,
@@ -42,6 +46,9 @@ export async function runBuild(
 		// configuration the build needs has not been written yet.
 		return "setup-needed";
 	}
+	if (details) {
+		assertProjectCommandsAvailable(details);
+	}
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {
 		...details?.env,
@@ -64,6 +71,7 @@ export async function runBuild(
 		result = await runProjectCommand(buildCommand, cwd, {
 			...options,
 			preferLocal: true,
+			nodeModulesPaths: details?.nodeModulesPaths,
 			env,
 			args: buildArgs,
 		});
@@ -82,7 +90,23 @@ export async function runBuild(
 		throw new CliExit(result.exitCode, { signal: result.signal });
 	}
 
-	const { workers, rootConfig } = await readBuildOutput(cwd);
+	const { workers, rootConfig } = await readBuildOutput(cwd).catch(
+		(error: unknown) => {
+			// BuildOutputError has no error code; this prefix is coupled to
+			// @cloudflare/build-output-utils' missing-root-config message.
+			if (
+				env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT === "true" &&
+				error instanceof BuildOutputError &&
+				error.message.startsWith(
+					"Build Output Specification: no root config found at "
+				)
+			) {
+				error.message +=
+					"\nCheck that your Vite config includes cloudflare() from @cloudflare/vite-plugin.";
+			}
+			throw error;
+		}
+	);
 	parseWorkerConfig(
 		selectBuildOutputWorker(workers, selectedWorker),
 		rootConfig
@@ -95,8 +119,6 @@ export async function runBuild(
 
 function formatImplName(discovered: DiscoveredImpl): string {
 	switch (discovered.impl.pkg) {
-		case "@cloudflare/vite-plugin":
-			return "Vite";
 		case "wrangler":
 			return "Wrangler";
 		case "cloudflare-py-dev-server":

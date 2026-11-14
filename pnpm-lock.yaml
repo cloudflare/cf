@@ -172,6 +172,9 @@ catalogs:
       version: 1.5.0
 
 overrides:
+  '@cloudflare/autoconfig>@cloudflare/cli-shared-helpers': 0.3.8
+  '@cloudflare/autoconfig>@cloudflare/config': 0.32.1
+  '@cloudflare/autoconfig>@cloudflare/workers-utils': 0.54.0
   vite@*: npm:@voidzero-dev/vite-plus-core@1.5.0
   vitest@*: 5.1.0
 
@@ -277,8 +280,8 @@ importers:
         specifier: ^1.8.1
         version: 1.8.1
       '@cloudflare/autoconfig':
-        specifier: 0.12.1
-        version: 0.12.1(vitest@5.1.0)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@efcb5413ca1e3cf3a4616b5482a4318961a659a2
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@efcb5413ca1e3cf3a4616b5482a4318961a659a2(vitest@5.1.0)
       '@cloudflare/cli-shared-helpers':
         specifier: 0.3.8
         version: 0.3.8(vitest@5.1.0)
@@ -695,8 +698,9 @@ packages:
     resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
 
-  '@cloudflare/autoconfig@0.12.1':
-    resolution: {integrity: sha512-BTe2KuAL/E5i4QH9UQGVZTVEuKhx/LgifqbMj8pM58WkUbnJOCXtoE6sYoipJfMgzsvEcPrMRueSRg+fmYAyMQ==}
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@efcb5413ca1e3cf3a4616b5482a4318961a659a2':
+    resolution: {integrity: sha512-R9jk1M8M+TjTlsmTL9wzmu4Fp/7uvJT33tSc6jjq9ezNzISFjiBWm/iV6YWS9yLlqRPdPNvBXgvOnerFFhUoNA==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@efcb5413ca1e3cf3a4616b5482a4318961a659a2}
+    version: 0.12.1
 
   '@cloudflare/build-output-utils@0.9.14':
     resolution: {integrity: sha512-rr28N/PxViQ/g3lKmmh4hFbSCD+e+gu5fDzo8Mve9/mO8+JCB9z2TFggTtpWn52qPRxBvyplT0rsXNdkNXPAGQ==}
@@ -4228,7 +4232,7 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@cloudflare/autoconfig@0.12.1(vitest@5.1.0)':
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@efcb5413ca1e3cf3a4616b5482a4318961a659a2(vitest@5.1.0)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.3.8(vitest@5.1.0)
       '@cloudflare/config': 0.32.1

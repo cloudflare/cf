@@ -84,7 +84,7 @@ function renderViteConfig(): string {
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-	plugins: [cloudflare()],
+	plugins: [cloudflare({ remoteBindings: false })],
 	fmt: { useTabs: true },
 	lint: {
 		options: { typeAware: true, typeCheck: true },

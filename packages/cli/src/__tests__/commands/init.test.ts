@@ -126,7 +126,7 @@ describe("cf init", () => {
 				"return new Response(`Hello ${env.WORLD}!`);"
 			);
 			expect(readFileSync("my-app/vite.config.ts", "utf8")).toContain(
-				"plugins: [cloudflare()]"
+				"plugins: [cloudflare({ remoteBindings: false })]"
 			);
 			expect(readFileSync("my-app/.gitignore", "utf8")).toContain(
 				".cloudflare/"
@@ -551,6 +551,21 @@ describe("cf init", () => {
 			expect(stderr()).toContain("Set up site for Cloudflare");
 			expect(stderr()).toContain("cd site");
 			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
+		});
+
+		it("recognizes an existing Vite-plugin project before dependencies are installed", async () => {
+			await seed({
+				"configured/cloudflare.config.ts": "export default {};",
+				"configured/package.json": JSON.stringify({
+					name: "configured",
+					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+				}),
+			});
+			const result = await runCf(["init", "configured"]);
+			expect(result.exitCode).toBe(0);
+			expect(stderr()).toContain("Found an existing Cloudflare configuration");
+			expect(configureProject).not.toHaveBeenCalled();
+			expect(runProjectCommand).not.toHaveBeenCalled();
 		});
 
 		it("leaves an already configured project unchanged", async () => {

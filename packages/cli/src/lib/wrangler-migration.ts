@@ -95,9 +95,10 @@ export async function resolveWranglerConfigPath(
 export async function detectWranglerMigrationBundler(
 	configPath: string
 ): Promise<MigrationBundler> {
-	const { discoverImpls } = await import("../commands/dev/discover.js");
-	return discoverImpls(path.dirname(configPath)).some(
-		({ impl }) => impl.pkg === "@cloudflare/vite-plugin"
+	const { readDeclaredNpmDependencies } =
+		await import("../commands/dev/discover.js");
+	return readDeclaredNpmDependencies(path.dirname(configPath)).has(
+		"@cloudflare/vite-plugin"
 	)
 		? "vite"
 		: "wrangler";

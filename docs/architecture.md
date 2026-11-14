@@ -391,6 +391,37 @@ delegated build, recording `--mode` and Preview context, before the command
 continues through the normal Build Output upload path. Without `[directory]`,
 these commands consume Build Output from a delegated build or `--prebuilt`.
 
+Autoconfig owns the dev/build command choice, including Vite versus Vite+.
+Autoconfig reports command-readiness problems as data so inspection can recognize
+configured projects before dependencies are installed. cf raises those problems
+before executing a development or build command. Autoconfig owns the minimum
+Vite plugin version for auth-profile support (`>=2.0.0-beta.v.13 <3`).
+Pages detection and migration checks take precedence over native fallbacks.
+Other unsupported frameworks can use a native fallback after the project has
+been configured for cf; their automatic setup restrictions still apply.
+Autoconfig validates plugin compatibility for eligible cf projects that declare
+the plugin. When neither framework command is detected, it returns the installed
+native executable in `devCommand` / `buildCommand`. cf executes those commands using the same
+argument forwarding, environment, signals, and exit handling as other framework
+commands. Vite evaluates its own configuration, including dynamic plugin arrays
+and custom config files. If a Vite build succeeds without Build Output, cf hints
+that the Vite config should include `cloudflare()`. On POSIX, framework commands
+run in a separate process group so
+shutdown signals also reach tools started by launchers such as `vp`. Windows
+keeps console Ctrl+C delivery and terminates the command tree for SIGTERM.
+On POSIX, a second interrupt forces termination, and terminal closure forwards
+SIGHUP. A synchronous exit hook makes a best-effort attempt to stop an active
+command tree if cf exits before shutdown completes. SIGKILL of cf itself cannot
+run cleanup; cf does not start a supervisor process.
+Bare commands prepend autoconfig's ordered `nodeModulesPaths`, from the
+application's `node_modules/.bin` through its validated workspace root, and retain
+the inherited PATH. This supports hoisted workspace toolchains without adding
+unrelated parent installations. The shared build
+path supplies `CLOUDFLARE_PREVIEW_BUILD` for Preview deployments. Delegate discovery
+is reserved for Wrangler, Python, and Rust implementations. Configure
+`cloudflare({ remoteBindings: false })` instead of using the removed internal
+Vite delegate's `--local` flag.
+
 This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
 merely because a binding field in the configured Worker is invalid. Loading
 account settings still evaluates the TypeScript module and default config

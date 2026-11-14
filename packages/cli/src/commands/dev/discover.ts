@@ -23,7 +23,7 @@ import { findKnownImpl, type KnownImpl } from "./known-impls.js";
  * `declared` is always true for entries returned from `discoverImpls`.
  * `binary` is the resolved path to the impl's executable, or null if
  * the impl is declared in the manifest but not installed (e.g.
- * `package.json` mentions `@cloudflare/vite-plugin` but
+ * `package.json` mentions `wrangler` but
  * `node_modules/` is missing).
  */
 export interface DiscoveredImpl {
@@ -67,10 +67,11 @@ interface PackageJsonShape {
 	optionalDependencies?: Record<string, unknown>;
 }
 
-function discoverNpm(cwd: string): DiscoveredImpl[] {
+/** Read declared npm dependencies independently of supported delegates. */
+export function readDeclaredNpmDependencies(cwd: string): Set<string> {
 	const manifestPath = join(cwd, "package.json");
 	if (!existsSync(manifestPath)) {
-		return [];
+		return new Set();
 	}
 
 	let parsed: PackageJsonShape;
@@ -80,10 +81,15 @@ function discoverNpm(cwd: string): DiscoveredImpl[] {
 	} catch {
 		// Unreadable / malformed package.json → caller will hit autoconfig
 		// or surface its own error. Discovery treats it as no-match.
-		return [];
+		return new Set();
 	}
 
-	const declared = collectDepNames(parsed);
+	return collectDepNames(parsed);
+}
+
+function discoverNpm(cwd: string): DiscoveredImpl[] {
+	const manifestPath = join(cwd, "package.json");
+	const declared = readDeclaredNpmDependencies(cwd);
 	const out: DiscoveredImpl[] = [];
 
 	for (const name of declared) {

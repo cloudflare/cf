@@ -5,6 +5,11 @@ import { GUIDE_WIDTH } from "../../lib/ui/log.js";
 import { discoverImpls, type DiscoveredImpl } from "./discover.js";
 import { KNOWN_IMPLS, type KnownImpl } from "./known-impls.js";
 
+type ImplCompatibility = Pick<
+	KnownImpl,
+	"pkg" | "versionConstraint" | "installCommands"
+>;
+
 export function resolveProjectImpl(cwd: string): DiscoveredImpl {
 	const discovered = discoverImpls(cwd);
 
@@ -51,7 +56,10 @@ function isVersionCompatible(
 	);
 }
 
-function incompatibleVersionError(d: DiscoveredImpl): void {
+function incompatibleVersionError(d: {
+	impl: ImplCompatibility;
+	installedVersion?: string;
+}): void {
 	printError(
 		`${d.impl.pkg}@${d.installedVersion ?? "unknown"} is installed, but it is not compatible with cf's local runtime.`,
 		requiredVersionMessage(d),
@@ -59,7 +67,7 @@ function incompatibleVersionError(d: DiscoveredImpl): void {
 	);
 }
 
-function requiredVersionMessage(d: DiscoveredImpl): string {
+function requiredVersionMessage(d: { impl: ImplCompatibility }): string {
 	const requirement =
 		d.impl.versionConstraint?.display ?? "a compatible version";
 	return `cf requires ${requirement} for cf dev, cf build, cf deploy, and cf previews deploy.`;
@@ -73,6 +81,10 @@ function noImplError(cwd: string): void {
 		)
 	);
 	console.error("\nInstall one of these:");
+	console.error(
+		`\n${theme.bold("@cloudflare/vite-plugin")}  ${theme.muted("Vite-based dev server (recommended for JavaScript/TypeScript)")}\n` +
+			`${" ".repeat(GUIDE_WIDTH)}${theme.code("npm install --save-dev @cloudflare/vite-plugin@beta vite")}`
+	);
 	for (const impl of KNOWN_IMPLS) {
 		console.error(
 			`\n${theme.bold(impl.pkg)}  ${theme.muted(impl.description)}`
@@ -113,7 +125,7 @@ function notInstalledError(d: DiscoveredImpl): void {
 function printError(
 	message: string,
 	details: string | undefined,
-	impl: KnownImpl
+	impl: Pick<KnownImpl, "installCommands">
 ): void {
 	console.error(errorBlock(message, details));
 	console.error("\nTry:");
@@ -121,7 +133,7 @@ function printError(
 }
 
 /** Each command on its own line, outside the frame, so it copies cleanly. */
-function printInstallCommands(impl: KnownImpl): void {
+function printInstallCommands(impl: Pick<KnownImpl, "installCommands">): void {
 	for (const command of impl.installCommands) {
 		console.error(`${" ".repeat(GUIDE_WIDTH)}${theme.code(command)}`);
 	}

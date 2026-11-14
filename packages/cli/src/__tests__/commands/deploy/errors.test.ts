@@ -52,10 +52,10 @@ describe("cf deploy — error handling", () => {
 		mockWorkerUpload();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -89,10 +89,10 @@ describe("cf deploy — error handling", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -101,6 +101,6 @@ describe("cf deploy — error handling", () => {
 
 	it("fails when no build output exists", async () => {
 		// Don't seed any build output
-		await expect(runCf(["deploy"])).rejects.toThrow(/No root config found/i);
+		await expect(runCf(["deploy"])).rejects.toThrow(/No Build Output found/i);
 	});
 });

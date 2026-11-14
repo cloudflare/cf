@@ -144,13 +144,13 @@ describe("cf init", () => {
 			expect(stderr()).not.toContain("npm run dev");
 		});
 
-		it("uses the Vite plugin beta dist-tag without Wrangler", async () => {
+		it("uses the Vite plugin release candidate range without Wrangler", async () => {
 			await runCf(["init", "my-app", "--no-install"]);
 
 			const packageJson = readJson("my-app/package.json");
 			expect(packageJson.devDependencies).not.toHaveProperty("wrangler");
 			expect(WORKER_TEMPLATE_DEV_DEPENDENCIES["@cloudflare/vite-plugin"]).toBe(
-				"beta"
+				"^2.0.0-rc.0"
 			);
 		});
 

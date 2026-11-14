@@ -581,11 +581,13 @@ describe("--temporary-account", () => {
 			rmSync(cachePath());
 			const requests = captureProvisioningRequests();
 			await seed({
-				".cloudflare/output/v0/config.json": JSON.stringify({
+				".cloudflare/output/v1/config.json": JSON.stringify({
 					buildContext: { isPreview },
-					complianceRegion: "fedramp-high",
+					settings: {
+						complianceRegion: "fedramp-high",
+					},
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					JSON.stringify({
 						name: "test-name",
 						compatibilityDate: "2025-01-01",
@@ -595,7 +597,7 @@ describe("--temporary-account", () => {
 							modules: { "index.js": { type: "esm" } },
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default {};",
 			});
 

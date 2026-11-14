@@ -7,7 +7,7 @@ import type {
 	BuildOutputWorker,
 	BuildOutputWorkers,
 } from "@cloudflare/build-output-utils";
-import type { ParsedOutputRootConfig } from "@cloudflare/config";
+import type { ParsedBuildOutputRootConfig } from "@cloudflare/config";
 import type { ContainerlessConfig } from "@cloudflare/deploy-helpers";
 import type { Config, RawConfig } from "@cloudflare/workers-utils";
 
@@ -159,13 +159,12 @@ export function applyCIMatchWorkerTag(): () => void {
  */
 export function parseWorkerConfig(
 	worker: BuildOutputWorker,
-	rootConfig: ParsedOutputRootConfig
+	rootConfig: ParsedBuildOutputRootConfig
 ): ParsedWorkerConfig {
 	const builtConfig = worker.config;
-	const { buildContext: _buildContext, ...settings } = rootConfig;
 	const { manifest: _manifest, ...workerConfig } = builtConfig;
 	const wranglerRawConfig = convertToWranglerConfig({
-		...settings,
+		...rootConfig.settings,
 		worker: workerConfig,
 		// Build Output Containers are converted separately for deployment because
 		// their image references are already resolved output values.
@@ -173,7 +172,7 @@ export function parseWorkerConfig(
 	});
 
 	// The output config stores the entrypoint inside manifest.mainModule, but
-	// convertToWranglerConfig reads `entrypoint` (InputWorkerSchema only), so
+	// convertToWranglerConfig reads `entrypoint` (WorkerConfigSchema only), so
 	// set `main` from the manifest against the on-disk bundle directory.
 	if (builtConfig.manifest?.mainModule && worker.bundleDir) {
 		wranglerRawConfig.main = path.join(

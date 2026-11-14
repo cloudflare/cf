@@ -10,6 +10,7 @@ import {
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { prepareStaticAssetsBuildOutput } from "../../../commands/deploy/static-assets.js";
+import { VERSION } from "../../../version.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -65,7 +66,7 @@ describe("cf deploy — assets", () => {
 				"package.json": JSON.stringify({ name: "static-site" }),
 				"public/index.html": "<html><body>direct</body></html>",
 				"public/nested/style.css": "body { color: blue; }",
-				".cloudflare/output/v0/workers/default/bundle/stale.js":
+				".cloudflare/output/v1/workers/default/bundle/stale.js":
 					"export default {};",
 			});
 
@@ -85,7 +86,7 @@ describe("cf deploy — assets", () => {
 				"/nested/style.css",
 			]);
 
-			const outputRoot = resolve(".cloudflare/output/v0");
+			const outputRoot = resolve(".cloudflare/output/v1");
 			const rootConfig = JSON.parse(
 				readFileSync(resolve(outputRoot, "config.json"), "utf8")
 			) as Record<string, unknown>;
@@ -96,6 +97,7 @@ describe("cf deploy — assets", () => {
 				)
 			) as Record<string, unknown>;
 			expect(rootConfig).toEqual({
+				producer: { name: "cf", version: VERSION },
 				buildContext: { isPreview: false, mode: "production" },
 			});
 			expect(generatedWorkerConfig).toMatchObject({ name: "static-site" });
@@ -120,7 +122,7 @@ describe("cf deploy — assets", () => {
 			await seed({
 				"index.html": "root asset",
 				".cloudflare/project-state.json": "not an asset",
-				".cloudflare/output/v0/workers/default/bundle/stale.js":
+				".cloudflare/output/v1/workers/default/bundle/stale.js":
 					"export default {};",
 			});
 
@@ -135,7 +137,7 @@ describe("cf deploy — assets", () => {
 			).toBe(false);
 			expect(
 				existsSync(
-					resolve(".cloudflare/output/v0/workers/default/assets/.cloudflare")
+					resolve(".cloudflare/output/v1/workers/default/assets/.cloudflare")
 				)
 			).toBe(false);
 		});
@@ -151,7 +153,7 @@ describe("cf deploy — assets", () => {
 			).resolves.toBe(true);
 
 			expect(
-				JSON.parse(readFileSync(".cloudflare/output/v0/config.json", "utf8"))
+				JSON.parse(readFileSync(".cloudflare/output/v1/config.json", "utf8"))
 			).toMatchObject({
 				buildContext: { isPreview: true, mode: "staging" },
 			});
@@ -197,7 +199,7 @@ describe("cf deploy — assets", () => {
 			expect(
 				JSON.parse(
 					readFileSync(
-						".cloudflare/output/v0/workers/default/worker.config.json",
+						".cloudflare/output/v1/workers/default/worker.config.json",
 						"utf8"
 					)
 				)
@@ -207,8 +209,8 @@ describe("cf deploy — assets", () => {
 				assets: { htmlHandling: "none" },
 			});
 			expect(
-				JSON.parse(readFileSync(".cloudflare/output/v0/config.json", "utf8"))
-			).toMatchObject({ accountId: ACCOUNT_ID });
+				JSON.parse(readFileSync(".cloudflare/output/v1/config.json", "utf8"))
+			).toMatchObject({ settings: { accountId: ACCOUNT_ID } });
 			expect(buildDelegateWasCalled()).toBe(false);
 		});
 
@@ -222,13 +224,13 @@ describe("cf deploy — assets", () => {
 					}]
 				};`,
 				"public/index.html": "hello",
-				".cloudflare/output/v0/config.json": "existing output",
+				".cloudflare/output/v1/config.json": "existing output",
 			});
 
 			await expect(runCf(["deploy", "public"])).rejects.toThrow(
 				"configures Containers, so this is not an assets-only project"
 			);
-			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+			expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
 				"existing output"
 			);
 			expect(buildDelegateWasCalled()).toBe(false);
@@ -245,13 +247,13 @@ describe("cf deploy — assets", () => {
 					}
 				};`,
 				"public/index.html": "hello",
-				".cloudflare/output/v0/config.json": "existing output",
+				".cloudflare/output/v1/config.json": "existing output",
 			});
 
 			await expect(runCf(["deploy", "public"])).rejects.toThrow(
 				"configures a Worker entrypoint, so this is not an assets-only project"
 			);
-			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+			expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
 				"existing output"
 			);
 			expect(buildDelegateWasCalled()).toBe(false);
@@ -259,13 +261,13 @@ describe("cf deploy — assets", () => {
 
 		it("validates the static directory before replacing Build Output", async () => {
 			await seed({
-				".cloudflare/output/v0/config.json": "existing output",
+				".cloudflare/output/v1/config.json": "existing output",
 			});
 
 			await expect(runCf(["deploy", "missing"])).rejects.toThrow(
 				"Static assets directory not found: missing"
 			);
-			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+			expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
 				"existing output"
 			);
 			expect(buildDelegateWasCalled()).toBe(false);
@@ -273,13 +275,13 @@ describe("cf deploy — assets", () => {
 
 		it("rejects an empty static directory before replacing Build Output", async () => {
 			await seed({
-				".cloudflare/output/v0/config.json": "existing output",
+				".cloudflare/output/v1/config.json": "existing output",
 			});
 
 			await expect(runCf(["deploy", ""])).rejects.toThrow(
 				"The static assets directory argument cannot be empty."
 			);
-			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+			expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
 				"existing output"
 			);
 			expect(buildDelegateWasCalled()).toBe(false);
@@ -304,13 +306,13 @@ describe("cf deploy — assets", () => {
 		it("rejects a static directory containing Build Output", async () => {
 			await seed({
 				".cloudflare/index.html": "asset",
-				".cloudflare/output/v0/config.json": "existing output",
+				".cloudflare/output/v1/config.json": "existing output",
 			});
 
 			await expect(runCf(["deploy", ".cloudflare"])).rejects.toThrow(
 				"The static assets directory cannot contain .cloudflare/output. Choose the specific directory containing the built assets."
 			);
-			expect(readFileSync(".cloudflare/output/v0/config.json", "utf8")).toBe(
+			expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
 				"existing output"
 			);
 			expect(buildDelegateWasCalled()).toBe(false);
@@ -342,16 +344,16 @@ describe("cf deploy — assets", () => {
 			const assets = mockAssetUpload();
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						mainModule: undefined,
 						modules: undefined,
 					}),
-				".cloudflare/output/v0/workers/default/bundle/placeholder": "",
-				".cloudflare/output/v0/workers/default/assets/index.html":
+				".cloudflare/output/v1/workers/default/bundle/placeholder": "",
+				".cloudflare/output/v1/workers/default/assets/index.html":
 					"<html><body>hello</body></html>",
-				".cloudflare/output/v0/workers/default/assets/style.css":
+				".cloudflare/output/v1/workers/default/assets/style.css":
 					"body { color: red; }",
 			});
 
@@ -392,15 +394,15 @@ describe("cf deploy — assets", () => {
 			const cssContent = "body {}";
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						mainModule: undefined,
 						modules: undefined,
 					}),
-				".cloudflare/output/v0/workers/default/bundle/placeholder": "",
-				".cloudflare/output/v0/workers/default/assets/page.html": htmlContent,
-				".cloudflare/output/v0/workers/default/assets/sub/style.css":
+				".cloudflare/output/v1/workers/default/bundle/placeholder": "",
+				".cloudflare/output/v1/workers/default/assets/page.html": htmlContent,
+				".cloudflare/output/v1/workers/default/assets/sub/style.css":
 					cssContent,
 			});
 
@@ -428,18 +430,18 @@ describe("cf deploy — assets", () => {
 			const headersContent = "/*\n  X-Custom: value";
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						mainModule: undefined,
 						modules: undefined,
 					}),
-				".cloudflare/output/v0/workers/default/bundle/placeholder": "",
-				".cloudflare/output/v0/workers/default/assets/index.html":
+				".cloudflare/output/v1/workers/default/bundle/placeholder": "",
+				".cloudflare/output/v1/workers/default/assets/index.html":
 					"<html></html>",
-				".cloudflare/output/v0/workers/default/assets/_redirects":
+				".cloudflare/output/v1/workers/default/assets/_redirects":
 					redirectsContent,
-				".cloudflare/output/v0/workers/default/assets/_headers": headersContent,
+				".cloudflare/output/v1/workers/default/assets/_headers": headersContent,
 			});
 
 			await runCf(["deploy"]);
@@ -487,14 +489,14 @@ describe("cf deploy — assets", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						mainModule: undefined,
 						modules: undefined,
 					}),
-				".cloudflare/output/v0/workers/default/bundle/placeholder": "",
-				".cloudflare/output/v0/workers/default/assets/file.txt":
+				".cloudflare/output/v1/workers/default/bundle/placeholder": "",
+				".cloudflare/output/v1/workers/default/assets/file.txt":
 					"Hello, world!",
 			});
 
@@ -522,14 +524,14 @@ describe("cf deploy — assets", () => {
 			const assets = mockAssetUpload();
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
-				".cloudflare/output/v0/workers/default/assets/index.html":
+				".cloudflare/output/v1/workers/default/assets/index.html":
 					"<html><body>app</body></html>",
-				".cloudflare/output/v0/workers/default/assets/app.js":
+				".cloudflare/output/v1/workers/default/assets/app.js":
 					"console.log('app');",
 			});
 
@@ -556,17 +558,17 @@ describe("cf deploy — assets", () => {
 			mockAssetUpload();
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						assets: {
 							htmlHandling: "none",
 							notFoundHandling: "404-page",
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
-				".cloudflare/output/v0/workers/default/assets/index.html":
+				".cloudflare/output/v1/workers/default/assets/index.html":
 					"<html></html>",
 			});
 

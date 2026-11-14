@@ -80,7 +80,7 @@ describe("cf workers check", () => {
 		}
 		process.stderr.write(
 			`\nWorkers check diagnostics: ${JSON.stringify({
-				buildOutputWritten: existsSync(".cloudflare/output/v0/config.json"),
+				buildOutputWritten: existsSync(".cloudflare/output/v1/config.json"),
 				profilingStarted:
 					vi.mocked(startupProfile.analyseBundle).mock.calls.length > 0,
 				profileWritten: existsSync("worker-startup.cpuprofile"),
@@ -105,19 +105,19 @@ describe("cf workers check", () => {
 		const helper = 'export const message = "ok";';
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: false, mode: "staging" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				modules: {
 					"index.js": { type: "esm" },
 					"message.js": { type: "esm" },
 					"index.js.map": { type: "sourcemap" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": entry,
-			".cloudflare/output/v0/workers/default/bundle/message.js": helper,
-			".cloudflare/output/v0/workers/default/bundle/index.js.map":
+			".cloudflare/output/v1/workers/default/bundle/index.js": entry,
+			".cloudflare/output/v1/workers/default/bundle/message.js": helper,
+			".cloudflare/output/v1/workers/default/bundle/index.js.map":
 				JSON.stringify({
 					version: 3,
 					file: "index.js",
@@ -207,17 +207,17 @@ describe("cf workers check", () => {
 
 	it("preserves a nested entrypoint path when resolving relative modules", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				mainModule: "worker/index.js",
 				modules: {
 					"worker/index.js": { type: "esm" },
 					"worker/helper.js": { type: "esm" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/worker/index.js":
+			".cloudflare/output/v1/workers/default/bundle/worker/index.js":
 				'import { message } from "./helper.js"; export default { fetch() { return new Response(message); } };',
-			".cloudflare/output/v0/workers/default/bundle/worker/helper.js":
+			".cloudflare/output/v1/workers/default/bundle/worker/helper.js":
 				'export const message = "ok";',
 		});
 
@@ -237,8 +237,8 @@ describe("cf workers check", () => {
 
 	it("makes Build Output bindings available during module evaluation", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				env: {
 					STARTUP_TEXT: { type: "text", value: "available" },
 					STARTUP_JSON: {
@@ -248,7 +248,7 @@ describe("cf workers check", () => {
 					STARTUP_KV: { type: "kv", id: "startup-kv" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": /* javascript */ `
+			".cloudflare/output/v1/workers/default/bundle/index.js": /* javascript */ `
 					import { env } from "cloudflare:workers";
 					if (env.STARTUP_TEXT !== "available") {
 						throw new Error("Expected STARTUP_TEXT during module evaluation");
@@ -306,12 +306,12 @@ describe("cf workers check", () => {
 
 	it("uses existing build output and writes a custom outfile", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: false, mode: "staging" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"console.log('startup log'); export default { fetch() { return new Response('ok'); } };",
 		});
 
@@ -340,12 +340,12 @@ describe("cf workers check", () => {
 
 	it("checks prebuilt output with a recorded mode without --mode", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: false, mode: "staging" },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } };",
 		});
 
@@ -358,17 +358,17 @@ describe("cf workers check", () => {
 
 	it("profiles the Worker selected by --worker", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } };",
-			".cloudflare/output/v0/workers/api/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/api/worker.config.json": workerConfig({
 				name: "api",
 				mainModule: "api.js",
 				modules: { "api.js": { type: "esm" } },
 			}),
-			".cloudflare/output/v0/workers/api/bundle/api.js":
+			".cloudflare/output/v1/workers/api/bundle/api.js":
 				"export default { fetch() { return new Response('api'); } };",
 		});
 
@@ -387,12 +387,12 @@ describe("cf workers check", () => {
 
 	it("rejects assets-only build output", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				mainModule: undefined,
 				modules: undefined,
 			}),
-			".cloudflare/output/v0/workers/default/assets/index.html":
+			".cloudflare/output/v1/workers/default/assets/index.html":
 				"<h1>Hello</h1>",
 		});
 
@@ -404,17 +404,17 @@ describe("cf workers check", () => {
 
 	it("rejects service-worker format build output", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				mainModule: "index.cjs",
 				modules: {
 					"index.cjs": { type: "cjs" },
 					"helper.cjs": { type: "cjs" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.cjs":
+			".cloudflare/output/v1/workers/default/bundle/index.cjs":
 				'const { message } = require("./helper.cjs"); addEventListener("fetch", (event) => event.respondWith(new Response(message)));',
-			".cloudflare/output/v0/workers/default/bundle/helper.cjs":
+			".cloudflare/output/v1/workers/default/bundle/helper.cjs":
 				'module.exports = { message: "ok" };',
 		});
 

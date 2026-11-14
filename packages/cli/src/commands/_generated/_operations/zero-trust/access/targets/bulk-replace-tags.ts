@@ -1,4 +1,4 @@
-/** @generated from zero-trust.access.targets.bulk.replace-tags */
+/** @generated from zero-trust.access.targets.bulk-replace-tags */
 import { path } from "#api";
 
 export default {

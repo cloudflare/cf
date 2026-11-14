@@ -1,7 +1,7 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/builds.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 builds workers update <worker>\n\nUpdate the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings."
+			"$0 builds workers edit <worker>\n\nUpdate the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings."
 		)
 		.positional("worker", {
 			type: "string",
@@ -138,13 +138,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <worker>",
+	command: "edit <worker>",
 	describe: "Update Worker build configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "builds workers update",
+				command: "builds workers edit",
 				classification: {
 					safeFlags: [
 						"patch-existing-previews",
@@ -163,7 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf builds workers update",
+						command: "cf builds workers edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}`,
 						pathParams: { worker: String(argv["worker"] ?? "") },

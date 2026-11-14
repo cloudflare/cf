@@ -2,7 +2,6 @@ import { constants } from "node:os";
 import { delimiter, join } from "node:path";
 import {
 	AutoConfigDetectionError,
-	assertProjectCommandsAvailable,
 	getDetailsForAutoConfig,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
@@ -116,7 +115,8 @@ export async function configureProject(
  * takes precedence over framework setup. After either route is applied, the
  * returned details describe the configured project. In a dry run,
  * `setupNeeded` means a setup route was selected but not applied, so callers
- * must skip the build.
+ * must skip the build. Callers validate command availability after setup has
+ * had a chance to install missing tools.
  */
 export async function prepareProject(
 	cwd: string,
@@ -130,11 +130,6 @@ export async function prepareProject(
 	if (details?.configured) {
 		return { details };
 	}
-	// Missing or incompatible declared dependencies need to be fixed before setup.
-	if (details?.commandError) {
-		assertProjectCommandsAvailable(details);
-	}
-
 	const context = createAutoConfigContext(options);
 	const migrationRan = await maybeMigrateWranglerProject(
 		cwd,

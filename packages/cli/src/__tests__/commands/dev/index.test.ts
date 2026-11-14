@@ -203,6 +203,7 @@ describe("cf dev", () => {
 
 		it("does not treat wrangler fallback as a second impl", async () => {
 			await seed({
+				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
 					devDependencies: {
 						"@cloudflare/vite-plugin": "beta",
@@ -222,6 +223,7 @@ describe("cf dev", () => {
 	describe("declared but not installed", () => {
 		it("surfaces an install hint specific to the declared impl", async () => {
 			await seed({
+				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
 				}),
@@ -239,6 +241,7 @@ describe("cf dev", () => {
 
 		it("surfaces a Vite install hint when the plugin is installed without Vite", async () => {
 			await seed({
+				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
 				}),

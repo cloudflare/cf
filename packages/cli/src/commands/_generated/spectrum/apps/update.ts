@@ -53,7 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("edge-ips-type", {
 			type: "string",
 			description:
-				"The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.",
+				"Variant descriptions:\n- `dynamic`: The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.\n- `static`: The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.",
 			choices: ["dynamic", "static"],
 		})
 		.coerce("edge-ips-type", (value) =>

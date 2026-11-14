@@ -48,23 +48,32 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("input-operating-system", {
 			type: "string",
-			description: "Operating system.",
+			description:
+				"Variant descriptions:\n- `windows`, `linux`, `mac`: Operating system.\n- `android`, `ios`, `chromeos`, `windows`, `mac`, `linux`: Operating System.",
 			choices: ["windows", "linux", "mac", "android", "ios", "chromeos"],
 		})
 		.coerce("input-operating-system", (value) =>
 			resolveFileToken(value, "input-operating-system", "text")
 		)
-		.option("input-path", { type: "string", description: "File path." })
+		.option("input-path", {
+			type: "string",
+			description:
+				"Variant descriptions:\n- File path.\n- Path for the application.",
+		})
 		.option("input-sha256", { type: "string", description: "SHA-256." })
 		.option("input-thumbprint", {
 			type: "string",
 			description: "Signing certificate thumbprint.",
 		})
-		.option("input-id", { type: "string", description: "List ID." })
+		.option("input-id", {
+			type: "string",
+			description: "Variant descriptions:\n- List ID.\n- UUID of Access List.",
+		})
 		.option("input-domain", { type: "string", description: "Domain." })
 		.option("input-operator", {
 			type: "string",
-			description: "Operator.",
+			description:
+				"Variant descriptions:\n- `<`, `<=`, `>`, `>=`, `==`: Operator.\n- `<`, `<=`, `>`, `>=`, `==`: Operator to evaluate risk_level or eid_last_seen.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
 		.coerce("input-operator", (value) =>
@@ -83,7 +92,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.",
 		})
-		.option("input-version", { type: "string", description: "Version of OS." })
+		.option("input-version", {
+			type: "string",
+			description: "Variant descriptions:\n- Version of OS.\n- Version.",
+		})
 		.option("input-enabled", { type: "boolean", description: "Enabled." })
 		.option("input-check-disks", {
 			type: "string",
@@ -100,7 +112,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("input-cn", {
 			type: "string",
-			description: "Common Name that is protected by the certificate.",
+			description:
+				"Variant descriptions:\n- Common Name that is protected by the certificate.\n- Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.",
 		})
 		.option("input-check-private-key", {
 			type: "boolean",

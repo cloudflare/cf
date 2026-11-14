@@ -59,7 +59,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("source-bucket", {
 			type: "string",
-			description: "Name of the AWS S3 bucket.",
+			description:
+				"Variant descriptions:\n- Name of the AWS S3 bucket.\n- Name of the GCS bucket.",
 		})
 		.option("source-provider", {
 			type: "string",

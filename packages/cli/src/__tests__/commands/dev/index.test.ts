@@ -121,11 +121,15 @@ describe("cf dev", () => {
 				[`node_modules/${tool}/package.json`]: JSON.stringify({
 					bin: { [binary]: "cli.js" },
 				}),
+				[`node_modules/.bin/${binary}`]: nodeScript(
+					`require("../${tool}/cli.js");`
+				),
 				[`node_modules/${tool}/cli.js`]: nodeScript(
 					'require("node:fs").writeFileSync("argv.json", JSON.stringify(process.argv.slice(2)));'
 				),
 			});
 			makeExecutable(`node_modules/${tool}/cli.js`);
+			makeExecutable(`node_modules/.bin/${binary}`, { npmBin: true });
 			process.chdir(resolve("apps/site"));
 			const run = runCf(["dev", "--profile", "work", "--mode", "staging"]);
 			if (version === "2.0.0-beta.v.12") {
@@ -404,7 +408,7 @@ describe("cf dev", () => {
 						version,
 					}),
 					[executable]: nodeScript(
-						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null, cfAuth: process.env.CLOUDFLARE_CF_AUTH }));'
+						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null, cfAuth: process.env.CLOUDFLARE_CF_AUTH ?? null }));'
 					),
 					...(vite
 						? {
@@ -429,7 +433,7 @@ describe("cf dev", () => {
 				expect(JSON.parse(readFileSync("profile.out", "utf8"))).toEqual({
 					argv: ["dev", "--port", "3000"],
 					profile: expected,
-					cfAuth: "true",
+					cfAuth: vite ? "true" : null,
 				});
 				expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe(inherited);
 			}
@@ -1111,11 +1115,15 @@ spawn(process.execPath, ["tool.cjs"], { stdio: "inherit" });
 					version: "1.5.0",
 					bin: { vp: "bin/vp with ' quote.js" },
 				}),
+				"node_modules/.bin/vp": nodeScript(
+					`require("../vite-plus/bin/vp with ' quote.js");`
+				),
 				"node_modules/vite-plus/bin/vp with ' quote.js": nodeScript(
 					'require("node:fs").writeFileSync("argv.out", JSON.stringify(process.argv.slice(2)));'
 				),
 			});
 			makeExecutable("node_modules/vite-plus/bin/vp with ' quote.js");
+			makeExecutable("node_modules/.bin/vp", { npmBin: true });
 
 			const result = await runCf([
 				"dev",

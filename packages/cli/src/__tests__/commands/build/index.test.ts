@@ -146,12 +146,14 @@ describe("cf build", () => {
 				version: "1.5.0",
 				bin: { vp: "bin/vp.js" },
 			}),
+			"node_modules/.bin/vp": nodeScript('require("../vite-plus/bin/vp.js");'),
 			"node_modules/vite-plus/bin/vp.js": buildScript(
 				"vite-plus-worker",
 				'fs.writeFileSync("preview.out", process.env.CLOUDFLARE_PREVIEW_BUILD ?? "");'
 			),
 		});
 		chmod("node_modules/vite-plus/bin/vp.js");
+		makeExecutable("node_modules/.bin/vp", { npmBin: true });
 
 		await runBuild("staging", {}, { isPreview: true });
 

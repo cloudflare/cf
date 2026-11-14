@@ -92,6 +92,8 @@ export async function runBuild(
 
 	const { workers, rootConfig } = await readBuildOutput(cwd).catch(
 		(error: unknown) => {
+			// BuildOutputError has no error code; this prefix is coupled to
+			// @cloudflare/build-output-utils' missing-root-config message.
 			if (
 				env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT === "true" &&
 				error instanceof BuildOutputError &&

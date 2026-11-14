@@ -1,5 +1,15 @@
 # cf
 
+## 1.0.0-beta.33
+
+### Minor Changes
+
+- 8da8d8a: Update the generated command surface for Forge OpenAPI release
+  `8b1a451819bc546d410e41cca71a86bcc2779808`.
+- cbe15ec: Initialize Workers with Vite+ checks, formatting, and Workers-runtime tests. Align Vite and Vitest across supported package managers while keeping cf responsible for development, builds, and deployment.
+
+  Use the project-local `vp` executable for Vite+ development and builds. This avoids downloading a separate Vite with npm or failing to find a `vite` executable with pnpm.
+
 ## 1.0.0-beta.32
 
 ### Minor Changes

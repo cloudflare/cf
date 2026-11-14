@@ -6,6 +6,7 @@
  * result differs.
  */
 import fs from "node:fs";
+import { splitSqlQuery } from "@cloudflare/workers-utils";
 import {
 	DEFAULT_MIGRATIONS_DIR,
 	DEFAULT_MIGRATIONS_TABLE,
@@ -80,7 +81,16 @@ export async function executeSql(
 		// Miniflare's explorer implements D1's /raw endpoint. Convert its
 		// rows-and-columns representation to /query's row-object shape so all
 		// migration bookkeeping above the transport stays identical.
-		const response = (await client.send(rawD1, request)) as
+		// Split as Wrangler does so SQLite's length limit applies per statement.
+		// One batch keeps the migration and its bookkeeping INSERT atomic.
+		const response = (await client.send(rawD1, {
+			...request,
+			body: {
+				batch: splitSqlQuery(request.body.sql).map((statement) => ({
+					sql: statement,
+				})),
+			},
+		})) as
 			| {
 					result?: (Omit<SqlResult, "results"> & {
 						results?: { columns?: string[]; rows?: unknown[][] };

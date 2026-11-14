@@ -25,6 +25,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 intel indicator-feeds providers create\n\nCreates a new indicator feed provider for an account. Only available to Intel accounts."
 		)
+		.option("account-id-body", {
+			type: "number",
+			description:
+				"The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n",
+		})
 		.option("name", { type: "string", description: "The name of the provider" })
 		.option("dry-run", {
 			type: "boolean",
@@ -65,6 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										account_id: argv["account-id-body"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -88,6 +94,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
+				if (argv["account-id-body"] === undefined) {
+					throw new Error(
+						"--account-id-body is required (or pass --body with this field set)."
+					);
+				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -97,6 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					account_id: argv["account-id-body"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

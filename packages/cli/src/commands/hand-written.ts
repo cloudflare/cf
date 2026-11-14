@@ -134,6 +134,13 @@ const registry = [
 	},
 	{
 		kind: "root",
+		dryRun: "native",
+		command: "feedback [note]",
+		describe: "Send feedback about cf to the cf team",
+		dir: "feedback",
+	},
+	{
+		kind: "root",
 		dryRun: "preview",
 		command: "init [directory]",
 		describe: "Create a new Cloudflare project or set up an existing one",

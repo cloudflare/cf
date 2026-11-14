@@ -26,6 +26,7 @@ import d1MigrationsMeta from "./d1/migrations/meta.js";
 import deployMeta from "./deploy/meta.js";
 import devMeta from "./dev/meta.js";
 import docsMeta from "./docs/meta.js";
+import feedbackMeta from "./feedback/meta.js";
 import initMeta from "./init/meta.js";
 import loginMeta from "./login/meta.js";
 import migrateMeta from "./migrate/meta.js";
@@ -62,6 +63,7 @@ export const handWrittenMeta = {
 		deploy: deployMeta,
 		dev: devMeta,
 		docs: docsMeta,
+		feedback: feedbackMeta,
 		init: initMeta,
 		migrate: migrateMeta,
 		cli: cliMeta,

@@ -168,6 +168,7 @@ describe("shouldApplyCloudflareDotEnv", () => {
 		"dev",
 		"docs",
 		"docs search",
+		"feedback",
 		"init",
 		"init workers",
 		"migrate",

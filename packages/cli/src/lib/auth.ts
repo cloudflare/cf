@@ -45,7 +45,7 @@ interface PassthroughOptions {
 export type Cloudflare = Client;
 
 interface CloudflareClientOptions {
-	apiToken: string;
+	apiToken: string | (() => Promise<string>);
 	baseURL?: string;
 	timeout?: number;
 	fetch?: typeof globalThis.fetch;
@@ -258,9 +258,13 @@ export function createCloudflareClientWithToken(
 	const baseURL = options.baseURL ?? DEFAULT_BASE_URL;
 	const clientOptions: ClientOptions = {
 		baseUrl: baseURL,
-		auth: async () => ({
-			headers: { Authorization: `Bearer ${options.apiToken}` },
-		}),
+		auth: async () => {
+			const token =
+				typeof options.apiToken === "function"
+					? await options.apiToken()
+					: options.apiToken;
+			return { headers: { Authorization: `Bearer ${token}` } };
+		},
 		headers: options.defaultHeaders,
 		timeoutInSeconds: (options.timeout ?? API_TIMEOUT_MS) / 1000,
 		maxRetries: 0,
@@ -459,8 +463,9 @@ export async function createCommandClient(
 		});
 	}
 
+	await getAuthToken();
 	return createCloudflareClientWithToken({
-		apiToken: await getAuthToken(),
+		apiToken: getAuthToken,
 		baseURL,
 		defaultHeaders: getDefaultHeaders(),
 	});

@@ -237,6 +237,13 @@ const registry = [
 	},
 	{
 		kind: "leaf",
+		dryRun: "native",
+		parent: "observability",
+		name: "tail",
+		dir: "observability/tail",
+	},
+	{
+		kind: "leaf",
 		dryRun: "preview",
 		parent: "pages",
 		name: "deploy",

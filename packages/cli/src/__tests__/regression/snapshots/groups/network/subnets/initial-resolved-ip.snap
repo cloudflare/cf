@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "network",
+    "subnets",
+    "initial-resolved-ip"
+  ],
+  "requests": []
+}

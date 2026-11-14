@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "zero-trust",
+    "identity-providers",
+    "federation-grants"
+  ],
+  "requests": []
+}

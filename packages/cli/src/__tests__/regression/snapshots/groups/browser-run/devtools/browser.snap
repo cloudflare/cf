@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "browser-run",
+    "devtools",
+    "browser"
+  ],
+  "requests": []
+}

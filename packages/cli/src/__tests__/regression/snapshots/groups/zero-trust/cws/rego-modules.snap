@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "zero-trust",
+    "cws",
+    "rego-modules"
+  ],
+  "requests": []
+}

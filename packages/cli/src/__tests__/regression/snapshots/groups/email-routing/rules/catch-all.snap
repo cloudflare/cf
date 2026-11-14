@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "email-routing",
+    "rules",
+    "catch-all"
+  ],
+  "requests": []
+}

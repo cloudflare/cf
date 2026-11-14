@@ -33,14 +33,37 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Issue type",
+			choices: [
+				"compliance_violation",
+				"email_security",
+				"exposed_infrastructure",
+				"insecure_configuration",
+				"weak_authentication",
+				"configuration_suggestion",
+			],
 		})
+		.coerce("issue-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("product", { type: "string", array: true, description: "Product" })
-		.option("source", { type: "string", array: true, description: "Source" })
+		.option("source", {
+			type: "string",
+			array: true,
+			description: "Source",
+			choices: ["cloudflare", "riskrecon"],
+		})
+		.coerce("source", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("severity", {
 			type: "string",
 			array: true,
 			description: "Severity",
+			choices: ["low", "moderate", "critical"],
 		})
+		.coerce("severity", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("subject", { type: "string", array: true, description: "Subject" })
 		.option("dry-run", {
 			type: "boolean",

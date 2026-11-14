@@ -535,7 +535,7 @@ function parameterSchema(type: Type): Type | undefined {
 	return t;
 }
 
-/** The values of the parameter's enum, as strings. */
+/** The values of the parameter's enum or item enum, as strings. */
 function parameterEnum(type: Type): string[] | undefined {
 	const t = unwrapNull(deref(type));
 	let resolved: Type | undefined;
@@ -547,6 +547,10 @@ function parameterEnum(type: Type): string[] | undefined {
 	} else {
 		const schema = parameterSchema(type);
 		resolved = schema && unwrapNull(deref(schema));
+	}
+	const array = resolved?.kind === "array" ? resolved : parameterSchema(type);
+	if (array?.kind === "array") {
+		return parameterEnum(array.elem);
 	}
 	return resolved?.kind === "enum"
 		? resolved.values.map((v) => String(v))

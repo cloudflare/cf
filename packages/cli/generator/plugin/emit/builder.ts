@@ -95,6 +95,17 @@ export function builderLines(ctx: Ctx): string[] {
 				["demandOption", demand ? true : undefined],
 			])
 		);
+		if (scalarArray && arg.origin.in === "query" && hasChoices(arg)) {
+			const commaChoices =
+				arg.choices?.filter((value) => value.includes(",")) ?? [];
+			const split =
+				commaChoices.length > 0
+					? `${stringify(commaChoices)}.includes(value) ? [value] : value.split(",")`
+					: 'value.split(",")';
+			lines.push(
+				`.coerce(${stringify(name)}, (values: string[]) => values.flatMap((value) => ${split}))`
+			);
+		}
 		if (arg.isWorkerName && arg.positional) {
 			lines.push(`.group(${stringify(name)}, theme.brand('Options'))`);
 		}

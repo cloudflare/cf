@@ -49,7 +49,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Only secrets with the given scopes will be returned.",
+			choices: [
+				"workers",
+				"ai_gateway",
+				"dex",
+				"access",
+				"containers",
+				"websearch",
+			],
 		})
+		.coerce("scopes", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

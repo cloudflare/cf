@@ -804,11 +804,12 @@ function queryParams(
 		const description =
 			o.string("description") ?? p.description ?? descriptionFromName(p.name);
 		const isEnum = p.enumValues !== undefined && p.enumValues.length > 0;
-		const type: ArgType = isEnum
-			? "enum"
-			: p.type === "number" || p.type === "boolean" || p.type === "array"
-				? p.type
-				: "string";
+		const type: ArgType =
+			isEnum && p.type !== "array"
+				? "enum"
+				: p.type === "number" || p.type === "boolean" || p.type === "array"
+					? p.type
+					: "string";
 		const a = arg(
 			name,
 			description,
@@ -821,7 +822,7 @@ function queryParams(
 		if (isEnum) {
 			a.choices = p.enumValues;
 		}
-		if (!(required || isEnum)) {
+		if (!(required || type === "enum")) {
 			a.default = dflt;
 		}
 		out.push(a);

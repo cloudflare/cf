@@ -79,54 +79,119 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System.",
+			choices: ["API", "NON_API"],
 		})
+		.coerce("api-traffic", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-class", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+			choices: ["LIKELY_AUTOMATED", "LIKELY_HUMAN"],
 		})
+		.coerce("bot-class", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("content-type", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+			choices: [
+				"HTML",
+				"IMAGES",
+				"JSON",
+				"JAVASCRIPT",
+				"CSS",
+				"PLAIN_TEXT",
+				"FONTS",
+				"XML",
+				"YAML",
+				"VIDEO",
+				"AUDIO",
+				"MARKDOWN",
+				"DOCUMENTS",
+				"BINARY",
+				"SERIALIZATION",
+				"OTHER",
+			],
 		})
+		.coerce("content-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("device-type", {
 			type: "string",
 			array: true,
 			description: "Filters results by device type.",
+			choices: ["DESKTOP", "MOBILE", "OTHER"],
 		})
+		.coerce("device-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-protocol", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+			choices: ["HTTP", "HTTPS"],
 		})
+		.coerce("http-protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP version.",
+			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
 		})
+		.coerce("http-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("os", {
 			type: "string",
 			array: true,
 			description: "Filters results by operating system.",
+			choices: [
+				"WINDOWS",
+				"MACOSX",
+				"IOS",
+				"ANDROID",
+				"CHROMEOS",
+				"LINUX",
+				"SMART_TV",
+			],
 		})
+		.coerce("os", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("tls-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by TLS version.",
+			choices: ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"],
 		})
+		.coerce("tls-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("browser-family", {
 			type: "string",
 			array: true,
 			description: "Filters results by browser family.",
+			choices: ["CHROME", "EDGE", "FIREFOX", "SAFARI"],
 		})
+		.coerce("browser-family", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

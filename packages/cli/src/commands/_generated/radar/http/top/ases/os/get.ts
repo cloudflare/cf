@@ -78,37 +78,65 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+			choices: ["LIKELY_AUTOMATED", "LIKELY_HUMAN"],
 		})
+		.coerce("bot-class", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("device-type", {
 			type: "string",
 			array: true,
 			description: "Filters results by device type.",
+			choices: ["DESKTOP", "MOBILE", "OTHER"],
 		})
+		.coerce("device-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-protocol", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+			choices: ["HTTP", "HTTPS"],
 		})
+		.coerce("http-protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP version.",
+			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
 		})
+		.coerce("http-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("tls-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by TLS version.",
+			choices: ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"],
 		})
+		.coerce("tls-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("browser-family", {
 			type: "string",
 			array: true,
 			description: "Filters results by browser family.",
+			choices: ["CHROME", "EDGE", "FIREFOX", "SAFARI"],
 		})
+		.coerce("browser-family", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

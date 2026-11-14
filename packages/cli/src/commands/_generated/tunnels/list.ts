@@ -48,7 +48,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "The types of tunnels to filter by, separated by commas.",
+			choices: [
+				"cfd_tunnel",
+				"warp_connector",
+				"warp",
+				"magic",
+				"ip_sec",
+				"gre",
+				"cni",
+			],
 		})
+		.coerce("tun-types", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("status", {
 			type: "string",
 			description:

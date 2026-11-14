@@ -26,18 +26,37 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters by whether the action was successful or not.",
+			choices: ["success", "failure"],
 		})
+		.coerce("action-result", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("action-type", {
 			type: "string",
 			array: true,
 			description: "Filters by the action type.",
+			choices: ["create", "delete", "view", "update"],
 		})
+		.coerce("action-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("actor-context", {
 			type: "string",
 			array: true,
 			description:
 				"Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+			choices: [
+				"api",
+				"api_key",
+				"api_token",
+				"dash",
+				"oauth",
+				"origin_ca_key",
+			],
 		})
+		.coerce("actor-context", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("actor-email", {
 			type: "string",
 			array: true,
@@ -69,7 +88,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters by the actor type.",
+			choices: ["cloudflare_admin", "system", "user"],
 		})
+		.coerce("actor-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("id", {
 			type: "string",
 			array: true,
@@ -117,24 +140,47 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters by the resource scope, specifying whether the resource is associated with an organization.",
+			choices: ["organizations"],
 		})
+		.coerce("resource-scope", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("action-result-not", {
 			type: "string",
 			array: true,
 			description:
 				"Filters out audit logs by whether the action was successful or not.",
+			choices: ["success", "failure"],
 		})
+		.coerce("action-result-not", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("action-type-not", {
 			type: "string",
 			array: true,
 			description: "Filters out audit logs by the action type.",
+			choices: ["create", "delete", "view", "update"],
 		})
+		.coerce("action-type-not", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("actor-context-not", {
 			type: "string",
 			array: true,
 			description:
 				"Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
+			choices: [
+				"api",
+				"api_key",
+				"api_token",
+				"dash",
+				"oauth",
+				"origin_ca_key",
+			],
 		})
+		.coerce("actor-context-not", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("actor-email-not", {
 			type: "string",
 			array: true,
@@ -167,7 +213,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters out audit logs by the actor type.",
+			choices: ["cloudflare_admin", "system", "user"],
 		})
+		.coerce("actor-type-not", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("id-not", {
 			type: "string",
 			array: true,
@@ -217,7 +267,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters out audit logs by the resource scope, specifying whether the resource is associated with an organization.",
+			choices: ["organizations"],
 		})
+		.coerce("resource-scope-not", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("since", {
 			type: "string",
 			description:

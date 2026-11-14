@@ -34,12 +34,48 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Search types included in results.",
+			choices: [
+				"ADM1S",
+				"ASNS",
+				"BOTS",
+				"BOT_OPERATORS",
+				"CERTIFICATE_AUTHORITIES",
+				"CERTIFICATE_LOGS",
+				"ORIGINS",
+				"ORIGIN_REGIONS",
+				"INDUSTRIES",
+				"LOCATIONS",
+				"NOTEBOOKS",
+				"TLDS",
+				"VERTICALS",
+			],
 		})
+		.coerce("include", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("exclude", {
 			type: "string",
 			array: true,
 			description: "Search types excluded from results.",
+			choices: [
+				"ADM1S",
+				"ASNS",
+				"BOTS",
+				"BOT_OPERATORS",
+				"CERTIFICATE_AUTHORITIES",
+				"CERTIFICATE_LOGS",
+				"ORIGINS",
+				"ORIGIN_REGIONS",
+				"INDUSTRIES",
+				"LOCATIONS",
+				"NOTEBOOKS",
+				"TLDS",
+				"VERTICALS",
+			],
 		})
+		.coerce("exclude", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

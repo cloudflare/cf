@@ -69,7 +69,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by agent type.",
+			choices: ["HUMAN", "NON_AI_BOT", "AI_BOT", "MIXED_PURPOSE"],
 		})
+		.coerce("client-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-status", {
 			type: "string",
 			array: true,
@@ -80,7 +84,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP response status code category.",
+			choices: [
+				"INFORMATIONAL",
+				"SUCCESS",
+				"REDIRECTION",
+				"CLIENT_ERROR",
+				"SERVER_ERROR",
+			],
 		})
+		.coerce("response-status-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

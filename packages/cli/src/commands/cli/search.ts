@@ -3,6 +3,7 @@ import { CliExit } from "../../lib/cli-exit.js";
 import { isCommandsMetadata, loadMeta } from "../../lib/metadata.js";
 import { formatOutput } from "../../lib/output.js";
 import { runWithTelemetry } from "../../lib/telemetry/run.js";
+import { searchKeywords } from "./search-keywords.js";
 import type { CommandMeta, CommandsMetadata } from "../../lib/metadata.js";
 import type { CommandModule } from "yargs";
 
@@ -35,7 +36,10 @@ function toSearchDocument(
 		command: command.command,
 		summary: command.summary || command.description.split("\n")[0] || "",
 		description: command.description,
-		keywords: command.search?.keywords?.join(" ") ?? "",
+		keywords: [
+			...(command.search?.keywords ?? []),
+			...(searchKeywords[command.command] ?? []),
+		].join(" "),
 		context: [
 			...parents.map((path) => descriptions[path] ?? ""),
 			...command.arguments.map((arg) => `${arg.name} ${arg.description}`),

@@ -45963,7 +45963,8 @@
 					"site",
 					"assets",
 					"frontend",
-					"full-stack"
+					"full-stack",
+					"secrets file"
 				]
 			},
 			"arguments": [
@@ -138118,6 +138119,9 @@
 			"category": "create",
 			"description": "Upload a new Worker Version without deploying it",
 			"usage": "cf workers versions create [directory] [options]",
+			"search": {
+				"keywords": ["secrets file"]
+			},
 			"arguments": [
 				{
 					"name": "directory",

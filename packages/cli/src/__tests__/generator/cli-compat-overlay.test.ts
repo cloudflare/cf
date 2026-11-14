@@ -7,6 +7,8 @@ import type { ForgeOpenApiDocument } from "../../../generator/openapi.js";
 const PRECURSOR = "/zones/{zone_id}/precursor";
 const PROFILE =
 	"/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile";
+const EXCLUDED_RECIPIENT =
+	"/accounts/{account_id}/shares/{share_id}/excluded-recipients";
 
 const SECRETS = "/accounts/{account_id}/workers/scripts/{script_name}/secrets";
 const overlayPath = fileURLToPath(
@@ -51,6 +53,23 @@ function document(): ForgeOpenApiDocument {
 								schema: {
 									type: "object",
 									properties: { profile: { type: "string" } },
+								},
+							},
+						},
+					},
+				},
+			},
+			[EXCLUDED_RECIPIENT]: {
+				post: {
+					operationId: "share-excluded-recipient-create",
+					requestBody: {
+						required: true,
+						content: {
+							"application/json": {
+								schema: {
+									type: "object",
+									required: ["account_id"],
+									properties: { account_id: { type: "string" } },
 								},
 							},
 						},
@@ -102,6 +121,9 @@ describe("CLI compatibility overlay", () => {
 		});
 		expect(overrides(overlaid, PROFILE, "put")).toEqual({
 			profile: { description: "Kept", flagName: "organization-profile" },
+		});
+		expect(overrides(overlaid, EXCLUDED_RECIPIENT, "post")).toEqual({
+			account_id: { flagName: "excluded-account-id" },
 		});
 		expect(overrides(overlaid, SECRETS, "put")).toEqual({
 			name: { positional: true, required: true },
@@ -263,6 +285,16 @@ describe("CLI compatibility overlay", () => {
 				};
 			},
 			"field type is now undefined",
+		],
+		[
+			"an upstream excluded-account flagName",
+			(doc) => {
+				const op = doc.paths?.[EXCLUDED_RECIPIENT]?.post;
+				if (op) {
+					op["x-forge-params"] = { account_id: { flagName: "excluded-id" } };
+				}
+			},
+			'upstream now sets x-forge-params["account_id"].flagName',
 		],
 		[
 			"an upstream flagName",

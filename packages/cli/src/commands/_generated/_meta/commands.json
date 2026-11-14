@@ -35259,6 +35259,12 @@
 			],
 			"options": [
 				{
+					"name": "account-id-body",
+					"type": "string",
+					"required": false,
+					"description": "The accountId field"
+				},
+				{
 					"name": "account-tag",
 					"type": "string",
 					"required": false,
@@ -36645,6 +36651,12 @@
 			"usage": "cf cloudforce-one threat-intel events create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "account-id-body",
+					"type": "number",
+					"required": false,
+					"description": "The accountId field"
+				},
 				{
 					"name": "attacker",
 					"type": "string",
@@ -62605,6 +62617,12 @@
 			"usage": "cf intel indicator-feeds providers create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "account-id-body",
+					"type": "number",
+					"required": true,
+					"description": "The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n"
+				},
 				{
 					"name": "name",
 					"type": "string",
@@ -118337,7 +118355,7 @@
 			"fullPath": ["resource-sharing", "excluded-recipients", "create"],
 			"description": "Excludes a single account from an organization-targeted share. The share continues to target the entire organization, but the excluded account is skipped during reconciliation.",
 			"summary": "Trigger an account exclusion from a share",
-			"usage": "cf resource-sharing excluded-recipients create <share-id>",
+			"usage": "cf resource-sharing excluded-recipients create <share-id> [options]",
 			"arguments": [
 				{
 					"name": "share-id",
@@ -118348,6 +118366,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "excluded-account-id",
+					"type": "string",
+					"required": true,
+					"description": "The account to exclude from the organization-targeted share."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",

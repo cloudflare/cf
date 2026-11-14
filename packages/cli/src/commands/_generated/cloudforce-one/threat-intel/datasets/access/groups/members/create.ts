@@ -29,6 +29,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Group ID",
 			demandOption: true,
 		})
+		.option("account-id-body", {
+			type: "string",
+			description: "The accountId field",
+		})
 		.option("account-tag", {
 			type: "string",
 			description: "The accountTag field",
@@ -74,6 +78,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										accountId: resolveFileToken(
+											argv["account-id-body"] as string | undefined,
+											"account-id-body",
+											"text"
+										),
 										accountTag: resolveFileToken(
 											argv["account-tag"] as string | undefined,
 											"account-tag",
@@ -104,6 +113,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					accountId: resolveFileToken(
+						argv["account-id-body"] as string | undefined,
+						"account-id-body",
+						"text"
+					),
 					accountTag: resolveFileToken(
 						argv["account-tag"] as string | undefined,
 						"account-tag",

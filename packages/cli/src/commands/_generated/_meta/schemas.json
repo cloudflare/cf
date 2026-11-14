@@ -26128,6 +26128,12 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "account-id-body",
+					"type": "string",
+					"required": false,
+					"description": "The accountId field"
+				},
+				{
 					"name": "account-tag",
 					"type": "string",
 					"required": false,
@@ -27024,6 +27030,12 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "account-id-body",
+					"type": "number",
+					"required": false,
+					"description": "The accountId field"
+				},
 				{
 					"name": "attacker",
 					"type": "string",
@@ -45455,6 +45467,12 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "account-id-body",
+					"type": "number",
+					"required": true,
+					"description": "The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n"
+				},
 				{
 					"name": "name",
 					"type": "string",
@@ -85655,7 +85673,14 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": []
+			"requestBodyFields": [
+				{
+					"name": "excluded-account-id",
+					"type": "string",
+					"required": true,
+					"description": "The account to exclude from the organization-targeted share."
+				}
+			]
 		},
 		"resource-sharing excluded-recipients delete": {
 			"operationId": "resource-sharing.excluded-recipients.delete",

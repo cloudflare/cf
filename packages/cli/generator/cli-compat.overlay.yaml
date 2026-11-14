@@ -31,3 +31,16 @@ actions:
         name:
           positional: true
           required: true
+  # Preserve the cf#471 fix while migrating the compatibility annotations to
+  # overlays: the pinned upstream schema still gives the owning path account
+  # and required excluded account the same name, leaving users without an
+  # individual body flag or prompt. Waiting for a new upstream schema pin would
+  # leave this reported bug unresolved in cf. Track the missing annotation at
+  # https://github.com/cloudflare/cf/issues/471; remove this action and its guard
+  # when the pinned schema sets x-forge-params.account_id.flagName upstream.
+  - target: $["paths"]["/accounts/{account_id}/shares/{share_id}/excluded-recipients"]["post"]
+    description: Name the excluded account independently of the share owner's path account (cloudflare/cf#471).
+    update:
+      x-forge-params:
+        account_id:
+          flagName: excluded-account-id

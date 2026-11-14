@@ -1,7 +1,7 @@
 import type { ForgeOpenApiDocument, OpenApiOperation } from "./openapi.js";
 
 interface TemporaryFlagName {
-	readonly method: "put";
+	readonly method: "put" | "post";
 	readonly path: string;
 	readonly operationId: string;
 	/** A top-level field of the JSON request body or of one of its shapes. */
@@ -11,8 +11,9 @@ interface TemporaryFlagName {
 
 /**
  * Preconditions for the temporary flag names in cli-compat.overlay.yaml
- * (cloudflare/cf#28). Overlays allow unmatched targets, so check the pinned
- * source separately and remove each guard with its action once fixed upstream.
+ * (cloudflare/cf#28, cloudflare/cf#471). Overlays allow unmatched targets, so
+ * check the pinned source separately and remove each guard with its action
+ * once fixed upstream.
  * A guard does not justify a new local fix: additions must meet the last-resort
  * policy in the root AGENTS.md and document their rationale beside the action.
  */
@@ -29,6 +30,13 @@ const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 		path: "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile",
 		operationId: "put_PirProfilePut",
 		wire: "profile",
+		type: "string",
+	},
+	{
+		method: "post",
+		path: "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
+		operationId: "share-excluded-recipient-create",
+		wire: "account_id",
 		type: "string",
 	},
 ];

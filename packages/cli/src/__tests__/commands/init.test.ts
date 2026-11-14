@@ -126,7 +126,7 @@ describe("cf init", () => {
 				"return new Response(`Hello ${env.WORLD}!`);"
 			);
 			expect(readFileSync("my-app/vite.config.ts", "utf8")).toContain(
-				"plugins: [cloudflare()]"
+				"plugins: [cloudflare({ remoteBindings: false })]"
 			);
 			expect(readFileSync("my-app/.gitignore", "utf8")).toContain(
 				".cloudflare/"

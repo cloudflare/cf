@@ -1,5 +1,7 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import * as clack from "@clack/prompts";
+import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -1212,6 +1214,65 @@ describe("cf deploy", () => {
 			expect(upload.modules).toContain("config.json");
 			expect(upload.modules).toContain("app.py");
 			expect(std.out).toContain("Deployed");
+		});
+	});
+
+	describe("source maps", () => {
+		beforeEach(async () => {
+			await seed({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig({
+						modules: {
+							"index.js": { type: "esm" },
+							"index.js.map": { type: "sourcemap" },
+						},
+					}),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default {}\n//# sourceMappingURL=index.js.map",
+				".cloudflare/output/v1/workers/default/bundle/index.js.map":
+					'{"version":3,"sources":[],"mappings":""}',
+			});
+		});
+
+		it("uploads source maps", async () => {
+			const upload = mockWorkerUpload();
+
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.modules).toEqual(["index.js", "index.js.map"]);
+		});
+
+		it("omits source maps when deploying to a temporary account", async () => {
+			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+			mkdirSync(getCfConfigPath(), { recursive: true });
+			writeFileSync(
+				join(getCfConfigPath(), "cloudflare-temporary-account.json"),
+				JSON.stringify({
+					account: {
+						id: ACCOUNT_ID,
+						name: "Temporary Account",
+						apiToken: "temporary-account-token",
+						expiresAt: "2999-01-01T00:00:00.000Z",
+					},
+					claim: {
+						url: "https://dash.cloudflare.com/claim-preview",
+						expiresAt: "2999-01-02T00:00:00.000Z",
+					},
+				})
+			);
+			const upload = mockWorkerUpload();
+
+			const { exitCode } = await runCf([
+				"deploy",
+				"--prebuilt",
+				"--temporary-account",
+			]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.modules).toEqual(["index.js"]);
 		});
 	});
 

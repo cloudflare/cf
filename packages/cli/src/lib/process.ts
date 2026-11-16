@@ -4,7 +4,7 @@ import type { ChildProcess } from "node:child_process";
 const DEFAULT_FORCE_KILL_AFTER_MS = 5_000;
 
 export interface ChildProcessControllerOptions {
-	/** Forward SIGINT and SIGTERM to the child until it exits. */
+	/** Forward SIGINT and SIGTERM until shutdown completes. */
 	forwardSignals?: boolean;
 	/** Control the whole command tree; POSIX children must use `detached: true`. */
 	processGroup?: boolean;
@@ -26,6 +26,8 @@ export interface ChildProcessController {
 	readonly terminationRequested: boolean;
 	/** Request shutdown; explicit SIGKILL also overrides a pending graceful shutdown. */
 	terminate(signal?: NodeJS.Signals): void;
+	/** Wait for requested POSIX group shutdown, including surviving descendants. */
+	waitForShutdown(): Promise<void>;
 }
 
 /**
@@ -37,6 +39,14 @@ export function createChildProcessController(
 ): ChildProcessController {
 	let terminationRequested = false;
 	let forceKillTimer: NodeJS.Timeout | undefined;
+	let groupCheckTimer: NodeJS.Timeout | undefined;
+	let shutdown: Promise<void> | undefined;
+	let resolveShutdown: (() => void) | undefined;
+	let childExited = child.exitCode !== null || child.signalCode !== null;
+	const posixGroup =
+		options.processGroup &&
+		process.platform !== "win32" &&
+		child.pid !== undefined;
 	const forceKillAfterMs =
 		options.forceKillAfterMs === undefined
 			? DEFAULT_FORCE_KILL_AFTER_MS
@@ -70,28 +80,63 @@ export function createChildProcessController(
 			}
 		}
 	};
+	const finishShutdown = (): void => {
+		clearTimeout(forceKillTimer);
+		clearTimeout(groupCheckTimer);
+		resolveShutdown?.();
+		resolveShutdown = undefined;
+		if (childExited) {
+			cleanup();
+		}
+	};
+	const checkGroup = (): void => {
+		if (child.pid === undefined) {
+			finishShutdown();
+			return;
+		}
+		try {
+			process.kill(-child.pid, 0);
+		} catch (error) {
+			if (error instanceof Error && "code" in error && error.code === "ESRCH") {
+				finishShutdown();
+				return;
+			}
+		}
+		groupCheckTimer = setTimeout(checkGroup, 50);
+	};
 
 	const terminate = (signal: NodeJS.Signals = "SIGTERM"): void => {
 		if (
-			child.exitCode !== null ||
-			child.signalCode !== null ||
+			(!posixGroup && childExited) ||
 			(terminationRequested && signal !== "SIGKILL")
 		) {
 			return;
 		}
 
 		terminationRequested = true;
-		if (signal === "SIGKILL" && forceKillTimer) {
-			clearTimeout(forceKillTimer);
-		}
 		kill(signal);
-		if (signal !== "SIGKILL" && forceKillAfterMs !== null) {
+		if (signal === "SIGKILL") {
+			finishShutdown();
+			return;
+		}
+		if (posixGroup) {
+			shutdown = new Promise<void>((resolve) => {
+				resolveShutdown = resolve;
+			});
+		}
+		if (forceKillAfterMs !== null) {
 			forceKillTimer = setTimeout(() => {
-				if (child.exitCode === null && child.signalCode === null) {
+				if (posixGroup || !childExited) {
 					kill("SIGKILL");
 				}
+				finishShutdown();
 			}, forceKillAfterMs);
-			forceKillTimer.unref();
+			if (!posixGroup) {
+				forceKillTimer.unref();
+			}
+		}
+		if (posixGroup && childExited) {
+			checkGroup();
 		}
 	};
 
@@ -103,7 +148,7 @@ export function createChildProcessController(
 			return;
 		}
 		if (terminationRequested) {
-			kill("SIGKILL");
+			terminate("SIGKILL");
 			return;
 		}
 		terminate(signal);
@@ -111,9 +156,8 @@ export function createChildProcessController(
 	const onSigInt = (): void => forwardSignal("SIGINT");
 	const onSigTerm = (): void => forwardSignal("SIGTERM");
 	const cleanup = (): void => {
-		if (forceKillTimer) {
-			clearTimeout(forceKillTimer);
-		}
+		clearTimeout(forceKillTimer);
+		clearTimeout(groupCheckTimer);
 		process.removeListener("SIGINT", onSigInt);
 		process.removeListener("SIGTERM", onSigTerm);
 		child.removeListener("error", onError);
@@ -127,15 +171,22 @@ export function createChildProcessController(
 		rejectExit = reject;
 	});
 	const onError = (error: Error): void => {
+		finishShutdown();
 		cleanup();
 		rejectExit(error);
 	};
 	const onExit = (code: number | null, signal: NodeJS.Signals | null): void => {
-		cleanup();
+		childExited = true;
+		// The launcher can exit while descendants still own the dev-server port.
+		if (resolveShutdown) {
+			checkGroup();
+		} else {
+			cleanup();
+		}
 		resolveExit({ code, signal });
 	};
 
-	if (child.exitCode !== null || child.signalCode !== null) {
+	if (childExited) {
 		resolveExit({ code: child.exitCode, signal: child.signalCode });
 	} else {
 		child.once("error", onError);
@@ -156,5 +207,6 @@ export function createChildProcessController(
 			return terminationRequested;
 		},
 		terminate,
+		waitForShutdown: () => shutdown ?? Promise.resolve(),
 	};
 }

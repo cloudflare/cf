@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
+import { createServer } from "node:net";
 import { pathToFileURL } from "node:url";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, it, vi } from "vite-plus/test";
@@ -23,10 +24,132 @@ const cases = [
 	["SIGINT", "delegated-programmatic"],
 ] as const;
 
+async function canListen(port: number): Promise<boolean> {
+	const server = createServer();
+	try {
+		await new Promise<void>((resolve, reject) => {
+			server.once("error", reject);
+			server.listen(port, "127.0.0.1", resolve);
+		});
+		return true;
+	} catch (error) {
+		if (
+			error instanceof Error &&
+			"code" in error &&
+			error.code === "EADDRINUSE"
+		) {
+			return false;
+		}
+		throw error;
+	} finally {
+		if (server.listening) {
+			await new Promise<void>((resolve) => server.close(() => resolve()));
+		}
+	}
+}
+
 describe.skipIf(process.platform === "win32")(
 	"POSIX project command shutdown",
 	() => {
 		runInTempDir();
+
+		for (const scenario of ["forced", "graceful", "repeated"] as const) {
+			it(`waits for ${scenario} descendant shutdown after the launcher exits`, async ({
+				expect,
+			}) => {
+				await seed({
+					"tool.cjs": `
+const fs = require("node:fs");
+const server = require("node:net").createServer();
+process.on("SIGTERM", () => {
+  fs.writeFileSync("tool-signaled", "true");
+  if (${JSON.stringify(scenario)} === "graceful") {
+    const timer = setInterval(() => {
+      if (!fs.existsSync("finish-cleanup")) return;
+      clearInterval(timer);
+      server.close(() => {
+        fs.writeFileSync("tool-cleaned", "true");
+        process.exit(0);
+      });
+    }, 20);
+  }
+});
+server.listen(0, "127.0.0.1", () => {
+  fs.writeFileSync("tool-port", String(server.address().port));
+  fs.writeFileSync("tool-pid", String(process.pid));
+});
+`,
+					"launcher.cjs": `
+const fs = require("node:fs");
+process.on("SIGTERM", () => process.exit(0));
+fs.writeFileSync("launcher-pid", String(process.pid));
+require("node:child_process").spawn(process.execPath, ["tool.cjs"], { stdio: "ignore" });
+`,
+					"parent.mts": `
+import { writeFileSync } from "node:fs";
+import { runProjectCommand } from ${JSON.stringify(projectSource.href)};
+const result = await runProjectCommand("node launcher.cjs", process.cwd(), { output: "silent" });
+writeFileSync("result.json", JSON.stringify(result));
+process.exit(result.exitCode);
+`,
+				});
+				const parent = spawn(
+					process.execPath,
+					["--import", loader, "parent.mts"],
+					{ cwd: process.cwd(), stdio: "ignore" }
+				);
+				const completed = new Promise<void>((resolve, reject) => {
+					parent.once("error", reject);
+					parent.once("close", () => resolve());
+				});
+				try {
+					await vi.waitFor(() => expect(existsSync("tool-pid")).toBe(true), {
+						timeout: 10_000,
+					});
+					const launcherPid = Number(readFileSync("launcher-pid", "utf8"));
+					const port = Number(readFileSync("tool-port", "utf8"));
+					expect(await canListen(port)).toBe(false);
+					expect(parent.kill("SIGTERM")).toBe(true);
+					await vi.waitFor(() => {
+						expect(existsSync("tool-signaled")).toBe(true);
+						expect(() => process.kill(launcherPid, 0)).toThrow();
+					});
+					expect(parent.exitCode).toBeNull();
+					expect(existsSync("result.json")).toBe(false);
+					expect(await canListen(port)).toBe(false);
+					if (scenario === "graceful") {
+						await seed({ "finish-cleanup": "true" });
+					} else if (scenario === "repeated") {
+						expect(parent.kill("SIGTERM")).toBe(true);
+					}
+					await vi.waitFor(() => expect(parent.exitCode).toBe(0), {
+						timeout: scenario === "forced" ? 7_000 : 2_000,
+					});
+					await completed;
+					expect(JSON.parse(readFileSync("result.json", "utf8"))).toEqual({
+						exitCode: 0,
+						signal: "SIGTERM",
+					});
+					expect(existsSync("tool-cleaned")).toBe(scenario === "graceful");
+					await vi.waitFor(async () =>
+						expect(await canListen(port)).toBe(true)
+					);
+				} finally {
+					parent.kill("SIGKILL");
+					if (existsSync("launcher-pid")) {
+						try {
+							process.kill(
+								-Number(readFileSync("launcher-pid", "utf8")),
+								"SIGKILL"
+							);
+						} catch {
+							// Successful shutdown has already removed the group.
+						}
+					}
+					await completed;
+				}
+			});
+		}
 
 		for (const [signal, scenario] of cases) {
 			const isDelegated = scenario.startsWith("delegated");

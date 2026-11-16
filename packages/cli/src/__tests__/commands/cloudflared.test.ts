@@ -20,6 +20,7 @@ function arrangeExit(code: number | null, signal: NodeJS.Signals | null): void {
 		exited: Promise.resolve({ code, signal }),
 		terminationRequested: false,
 		terminate: vi.fn(),
+		waitForShutdown: vi.fn(async () => {}),
 	});
 }
 
@@ -86,6 +87,7 @@ describe("runCloudflared", () => {
 			exited: Promise.reject(new Error("spawn failed")),
 			terminationRequested: false,
 			terminate: vi.fn(),
+			waitForShutdown: vi.fn(async () => {}),
 		});
 
 		await expect(runCloudflared([])).rejects.toThrow("spawn failed");

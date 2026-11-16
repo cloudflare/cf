@@ -1,8 +1,8 @@
-import operation from "../../_operations/email-routing/settings/apply.js";
+import operation from "../../_operations/email-routing/settings/replace.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * apply command
+ * replace command
  * @generated from apis/overlays/email-routing.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-routing settings apply\n\nApply the provided settings to your Email Routing zone. Omitted settings retain their current values, as with PATCH."
+			"$0 email-routing settings replace\n\nApply the provided settings to your Email Routing zone. Omitted settings retain their current values, as with PATCH."
 		)
 		.option("enabled", {
 			type: "boolean",
@@ -47,13 +47,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "apply",
+	command: "replace",
 	describe: "Apply Email Routing settings",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-routing settings apply",
+				command: "email-routing settings replace",
 				classification: {
 					safeFlags: [
 						"enabled",
@@ -67,7 +67,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf email-routing settings apply",
+						command: "cf email-routing settings replace",
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/routing`,
 						pathParams: {

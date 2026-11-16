@@ -24885,6 +24885,90 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one rules email approvals replace": {
+			"operationId": "cloudforce-one.rules.email.approvals.replace",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "module",
+					"flag": "module",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
+				},
+				{
+					"name": "condition-operator",
+					"type": "string",
+					"required": true,
+					"description": "The condition.operator field"
+				},
+				{
+					"name": "condition-type",
+					"type": "string",
+					"required": true,
+					"description": "The condition.type field"
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Disposition for matching email. This emits status metadata with the selected value."
+				},
+				{
+					"name": "strings",
+					"type": "string",
+					"required": false,
+					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
+				}
+			]
+		},
 		"cloudforce-one rules email approvals resubmit": {
 			"operationId": "cloudforce-one.rules.email.approvals.resubmit",
 			"httpMethod": "POST",
@@ -25222,90 +25306,6 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Disposition for matching email. This emits status metadata with the selected value."
-				},
-				{
-					"name": "strings",
-					"type": "string",
-					"required": false,
-					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
-				}
-			]
-		},
-		"cloudforce-one rules email update-pending-approval": {
-			"operationId": "cloudforce-one.rules.email.update-pending-approval",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "id",
-					"flag": "id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "module",
-					"flag": "module",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "condition-conditions",
-					"type": "string",
-					"required": true,
-					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
-				},
-				{
-					"name": "condition-operator",
-					"type": "string",
-					"required": true,
-					"description": "The condition.operator field"
-				},
-				{
-					"name": "condition-type",
-					"type": "string",
-					"required": true,
-					"description": "The condition.type field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "meta",
-					"type": "string",
-					"required": false,
-					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
 					"description": "The name field"
 				},
 				{
@@ -36184,6 +36184,35 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"email-routing addresses edit": {
+			"operationId": "email-routing.addresses.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "destination_address_identifier",
+					"flag": "destination-address-identifier",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "status",
+					"type": "string",
+					"required": true,
+					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges."
+				}
+			]
+		},
 		"email-routing addresses get": {
 			"operationId": "email-routing.addresses.get",
 			"httpMethod": "GET",
@@ -36245,35 +36274,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"email-routing addresses update": {
-			"operationId": "email-routing.addresses.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "destination_address_identifier",
-					"flag": "destination-address-identifier",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": true,
-					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges."
-				}
-			]
 		},
 		"email-routing disable": {
 			"operationId": "email-routing.disable",
@@ -36680,9 +36680,9 @@
 				}
 			]
 		},
-		"email-routing settings apply": {
-			"operationId": "email-routing.settings.apply",
-			"httpMethod": "PUT",
+		"email-routing settings edit": {
+			"operationId": "email-routing.settings.edit",
+			"httpMethod": "PATCH",
 			"path": "/zones/{zone_id}/email/routing",
 			"pathParams": [
 				{
@@ -36731,9 +36731,9 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-routing settings update": {
-			"operationId": "email-routing.settings.update",
-			"httpMethod": "PATCH",
+		"email-routing settings replace": {
+			"operationId": "email-routing.settings.replace",
+			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/email/routing",
 			"pathParams": [
 				{

@@ -242,6 +242,9 @@ importers:
       vite:
         specifier: 'catalog:'
         version: '@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
+      vite-plus:
+        specifier: 'catalog:'
+        version: 1.5.0(@types/node@26.6.6)(@vitest/ui@5.1.0)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
       wrangler:
         specifier: 4.163.0
         version: 4.163.0(@cloudflare/workers-types@5.20261116.1)(@types/node@26.6.6)

@@ -58,7 +58,12 @@ describe("cf migrate", () => {
 		expect(std.err).toContain("Migration complete.");
 	});
 
-	it.each(["dependencies", "devDependencies"])(
+	it.each([
+		"dependencies",
+		"devDependencies",
+		"peerDependencies",
+		"optionalDependencies",
+	])(
 		"selects Vite when @cloudflare/vite-plugin is declared in %s",
 		async (dependencyField) => {
 			await seed({

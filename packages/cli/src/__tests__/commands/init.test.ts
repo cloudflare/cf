@@ -553,6 +553,21 @@ describe("cf init", () => {
 			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
 		});
 
+		it("recognizes an existing Vite-plugin project before dependencies are installed", async () => {
+			await seed({
+				"configured/cloudflare.config.ts": "export default {};",
+				"configured/package.json": JSON.stringify({
+					name: "configured",
+					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+				}),
+			});
+			const result = await runCf(["init", "configured"]);
+			expect(result.exitCode).toBe(0);
+			expect(stderr()).toContain("Found an existing Cloudflare configuration");
+			expect(configureProject).not.toHaveBeenCalled();
+			expect(runProjectCommand).not.toHaveBeenCalled();
+		});
+
 		it("leaves an already configured project unchanged", async () => {
 			await seed({
 				"configured/cloudflare.config.ts": "export default {};",

@@ -73,6 +73,10 @@ function noImplError(cwd: string): void {
 		)
 	);
 	console.error("\nInstall one of these:");
+	console.error(
+		`\n${theme.bold("@cloudflare/vite-plugin")}  ${theme.muted("Vite-based dev server (recommended for JavaScript/TypeScript)")}\n` +
+			`${" ".repeat(GUIDE_WIDTH)}${theme.code("npm install --save-dev @cloudflare/vite-plugin@rc vite")}`
+	);
 	for (const impl of KNOWN_IMPLS) {
 		console.error(
 			`\n${theme.bold(impl.pkg)}  ${theme.muted(impl.description)}`

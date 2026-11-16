@@ -15,3 +15,6 @@ matching Wrangler.
 `cf dev`, `cf build`, `cf deploy` and `cf previews deploy` now require
 `@cloudflare/vite-plugin` 2.0.0-rc.0 or newer, and `cf init` scaffolds new
 projects with `@cloudflare/vite-plugin@^2.0.0-rc.0`.
+
+Use the published Workers SDK packages, including Wrangler 4.163.0 or newer
+for the Wrangler delegate to produce compatible Build Output.

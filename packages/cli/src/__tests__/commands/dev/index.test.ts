@@ -171,7 +171,7 @@ describe("cf dev", () => {
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
 			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
-			expect(std.err).toMatch(/wrangler@4\.161\.0 or newer/);
+			expect(std.err).toMatch(/wrangler@4\.163\.0 or newer/);
 			expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 		});
 
@@ -207,7 +207,7 @@ describe("cf dev", () => {
 		{
 			name: "wrangler",
 			version: "4.160.1",
-			minimum: "4.161.0",
+			minimum: "4.163.0",
 			bin: "bin/cf-wrangler.js",
 			install: "npm install --save-dev wrangler@latest",
 		},
@@ -258,7 +258,7 @@ describe("cf dev", () => {
 			version: "2.0.0-rc.0",
 			bin: "bin/cf-vite",
 		},
-		{ name: "wrangler", version: "4.161.0", bin: "bin/cf-wrangler.js" },
+		{ name: "wrangler", version: "4.163.0", bin: "bin/cf-wrangler.js" },
 	])("$name auth profiles", ({ name, version, bin }) => {
 		it.each([
 			{ profile: "work", inherited: "personal", expected: "work" },

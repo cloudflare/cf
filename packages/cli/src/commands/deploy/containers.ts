@@ -132,7 +132,7 @@ function toContainerApp(
 	return {
 		...toCommonContainerApp(config, className),
 		image: imageReference(config.image),
-		max_instances: config.maxInstances,
+		max_instances: config.maxInstances ?? DEFAULT_MAX_INSTANCES,
 		...(config.instanceType !== undefined && {
 			instance_type: config.instanceType,
 		}),

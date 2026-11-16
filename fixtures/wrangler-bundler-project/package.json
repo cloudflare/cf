@@ -5,6 +5,6 @@
 	"type": "module",
 	"dependencies": {
 		"cf": "workspace:*",
-		"wrangler": "https://pkg.pr.new/cloudflare/workers-sdk/wrangler@005a89a"
+		"wrangler": "4.163.0"
 	}
 }

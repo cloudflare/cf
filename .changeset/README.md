@@ -30,7 +30,7 @@ pnpm changeset
   out explicitly in the changeset description.
 - **major**: Breaking changes to stable features.
 
-During the 1.0 beta, breaking changes go in `minor` bumps and must be called
+During the 1.0 prereleases, breaking changes go in `minor` bumps and must be called
 out explicitly. Major bumps require strong justification.
 
 ## Changeset Message Format

@@ -993,7 +993,7 @@ pnpm i https://pkg.pr.new/cloudflare/cf/cf@<branch-name>
 ```
 
 The previous `publish-{alpha,,cf}.sh` scripts have been removed. Per-commit
-prereleases flow through pkg-pr-new. Versioned beta and stable releases use
+prereleases flow through pkg-pr-new. Versioned prereleases and stable releases use
 Changesets: `.github/workflows/changesets.yml` opens/updates the Version
 Packages PR when changesets exist and publishes to npm after that PR is merged.
 Publishing uses npm trusted publishing (OIDC), not a long-lived `NPM_TOKEN`.

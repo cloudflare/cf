@@ -2,7 +2,7 @@
 
 A unified command-line interface for Cloudflare, generated from Cloudflare's public OpenAPI surface and published as the unscoped `cf` npm package.
 
-This is a beta preview. To learn more, see the [announcement blog post](https://blog.cloudflare.com/cf-cli-local-explorer/).
+This is a release candidate for cf 1.0. To learn more, see the [announcement blog post](https://blog.cloudflare.com/cf-cli-local-explorer/).
 
 ## Install
 

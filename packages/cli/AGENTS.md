@@ -282,7 +282,7 @@ pnpm i https://pkg.pr.new/cloudflare/cf/cf@<branch-name>
 ```
 
 The old `scripts/publish-{alpha,,cf}.sh` scripts have been removed. Versioned
-beta and stable releases use Changesets: `.github/workflows/changesets.yml`
+prereleases and stable releases use Changesets: `.github/workflows/changesets.yml`
 opens or updates a Version Packages PR while changesets are pending, then
 publishes to npm after that PR is merged. npm authentication uses
 trusted-publishing OIDC rather than a long-lived token.

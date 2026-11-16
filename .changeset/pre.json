@@ -1,6 +1,6 @@
 {
   "mode": "pre",
-  "tag": "beta",
+  "tag": "rc",
   "initialVersions": {
     "cf": "0.14.0",
     "wrangler-bundler-fixture": "0.0.0",

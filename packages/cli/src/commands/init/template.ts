@@ -4,8 +4,8 @@ import type { PackageManager } from "./workers.js";
 // to avoid duplicate Vite instances and split test runner state.
 // https://viteplus.dev/guide/local-cli#manual-installation
 export const WORKER_TEMPLATE_DEV_DEPENDENCIES = {
-	"@cloudflare/vite-plugin": "beta",
-	"@cloudflare/vitest-plugin": "^1.5.0",
+	"@cloudflare/vite-plugin": "^2.0.0-rc.0",
+	"@cloudflare/vitest-plugin": "^1.8.3",
 	typescript: "^7.0.2",
 	vite: "npm:@voidzero-dev/vite-plus-core@1.4.0",
 	"vite-plus": "1.4.0",

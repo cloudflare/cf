@@ -39,10 +39,10 @@ describe("cf deploy — workers.dev subdomain", () => {
 		const subdomain = captureSubdomain();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -61,12 +61,12 @@ describe("cf deploy — workers.dev subdomain", () => {
 		const subdomain = captureSubdomain();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				workersDev: false,
 				triggers: [{ type: "fetch", pattern: "example.com/*" }],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -84,11 +84,11 @@ describe("cf deploy — workers.dev subdomain", () => {
 		const subdomain = captureSubdomain();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				triggers: [{ type: "fetch", pattern: "example.com/*" }],
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -108,10 +108,10 @@ describe("cf deploy — workers.dev subdomain", () => {
 		});
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
@@ -130,10 +130,10 @@ describe("cf deploy — workers.dev subdomain", () => {
 		captureSubdomain();
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 

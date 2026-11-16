@@ -118,22 +118,24 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 		ecosystem: "npm",
 		pkg: "@cloudflare/vite-plugin",
 		versionConstraint: {
-			range: ">=2.0.0-beta.v.13 <3.0.0-0",
-			display: "@cloudflare/vite-plugin v2 beta (2.0.0-beta.v.13 or newer)",
+			range: ">=2.0.0-rc.0 <3.0.0-0",
+			display: "@cloudflare/vite-plugin v2 (2.0.0-rc.0 or newer)",
 		},
 		description:
 			"Vite-based dev server (recommended for JavaScript/TypeScript)",
 		manifest: "package.json",
 		binary: npmBinaryResolver("cf-vite"),
-		installCommands: ["npm install --save-dev @cloudflare/vite-plugin@beta"],
+		installCommands: [
+			'npm install --save-dev "@cloudflare/vite-plugin@^2.0.0-rc.0"',
+		],
 	},
 	{
 		ecosystem: "npm",
 		pkg: "wrangler",
 		fallback: true,
 		versionConstraint: {
-			range: ">=4.161.0",
-			display: "wrangler@4.161.0 or newer",
+			range: ">=4.163.0",
+			display: "wrangler@4.163.0 or newer",
 		},
 		description: "Wrangler-based dev server (legacy Worker projects)",
 		manifest: "package.json",

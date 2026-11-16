@@ -2,7 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import { createContainerDeployConfig } from "../../../commands/deploy/containers.js";
 import { BuildOutputConfigError } from "../../../lib/build-output-error.js";
 import type { BuildOutputContainers } from "@cloudflare/build-output-utils";
-import type { ParsedOutputContainerConfig } from "@cloudflare/config";
+import type { ParsedBuildOutputContainerConfig } from "@cloudflare/config";
 import type { Config, Exports } from "@cloudflare/workers-utils";
 
 const config = {
@@ -11,7 +11,7 @@ const config = {
 } as Config;
 
 function outputContainers(
-	...containers: ParsedOutputContainerConfig[]
+	...containers: ParsedBuildOutputContainerConfig[]
 ): BuildOutputContainers {
 	return containers.map((container, index) => ({
 		configPath: `/output/container-${index}/container.config.json`,
@@ -104,7 +104,7 @@ describe("Build Output Containers", () => {
 			name: "api",
 			image: { reference: "registry.example/api:latest" },
 			maxInstances: 1,
-		} satisfies ParsedOutputContainerConfig;
+		} satisfies ParsedBuildOutputContainerConfig;
 
 		expect(() =>
 			createContainerDeployConfig(
@@ -193,7 +193,6 @@ describe("Build Output Containers", () => {
 		const containers = outputContainers({
 			name: "api",
 			image: { reference: "registry.example/api:latest" },
-			maxInstances: 20,
 		});
 		const gradual = createContainerDeployConfig(containers, config, {
 			accountId: "account-id",
@@ -204,6 +203,7 @@ describe("Build Output Containers", () => {
 		});
 
 		expect(gradual.standard.normalized[0]).toMatchObject({
+			max_instances: 20,
 			instance_type: "lite",
 			scheduling_policy: "default",
 			rollout_step_percentage: [10, 100],
@@ -211,6 +211,7 @@ describe("Build Output Containers", () => {
 			rollout_active_grace_period: 0,
 			constraints: { tiers: [1, 2] },
 		});
+		expect(gradual.source?.[0]?.max_instances).toBe(20);
 		expect(skipped.standard.normalized[0]?.rollout_kind).toBe("none");
 	});
 

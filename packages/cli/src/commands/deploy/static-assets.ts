@@ -8,9 +8,9 @@ import {
 	writeWorkerConfig,
 } from "@cloudflare/build-output-utils";
 import {
-	InputSettingsSchema,
-	InputWorkerSchema,
 	loadAndParseConfig,
+	SettingsSchema,
+	WorkerConfigSchema,
 } from "@cloudflare/config";
 import {
 	DEFAULT_COMPAT_DATE,
@@ -22,14 +22,12 @@ import {
 	formatConfigIssues,
 } from "../../lib/project-settings.js";
 import { log } from "../../lib/ui/log.js";
-import type {
-	ParsedInputSettingsConfig,
-	ParsedInputWorkerConfig,
-} from "@cloudflare/config";
+import { VERSION } from "../../version.js";
+import type { ParsedSettings, ParsedWorkerConfig } from "@cloudflare/config";
 
 interface StaticAssetsProjectConfig {
-	settings: ParsedInputSettingsConfig | undefined;
-	worker: ParsedInputWorkerConfig;
+	settings: ParsedSettings | undefined;
+	worker: ParsedWorkerConfig;
 }
 
 interface StaticAssetsCommandArgs {
@@ -102,9 +100,11 @@ export async function prepareStaticAssetsBuildOutput(
 	}
 
 	await cleanBuildOutputDir(root);
-	await writeRootConfig(root, projectConfig.settings, {
-		isPreview: context.isPreview,
-		mode: argv.mode,
+	await writeRootConfig({
+		root,
+		settings: projectConfig.settings,
+		buildContext: { isPreview: context.isPreview, mode: argv.mode },
+		producer: { name: "cf", version: VERSION },
 	});
 	await writeWorkerConfig({ root, config: projectConfig.worker });
 	await writeAssets({ root, sourceDirectory });
@@ -144,20 +144,20 @@ async function loadStaticAssetsProjectConfig(
 			`${CLOUDFLARE_CONFIG_FILENAME} configures a Worker entrypoint, so this is not an assets-only project. Omit the directory so cf can build and include its server-side code.`
 		);
 	}
-	if (containers.length > 0) {
+	if (containers !== undefined && containers.length > 0) {
 		throw new Error(
 			`${CLOUDFLARE_CONFIG_FILENAME} configures Containers, so this is not an assets-only project. Omit the directory so cf can build and include its server-side code.`
 		);
 	}
 
 	return {
-		settings: InputSettingsSchema.parse(loaded.result.data),
+		settings: SettingsSchema.parse(loaded.result.data),
 		worker: worker ?? createDefaultWorkerConfig(root),
 	};
 }
 
-function createDefaultWorkerConfig(root: string): ParsedInputWorkerConfig {
-	return InputWorkerSchema.parse({
+function createDefaultWorkerConfig(root: string): ParsedWorkerConfig {
+	return WorkerConfigSchema.parse({
 		name: getWorkerNameFromProject(root),
 		compatibilityDate: DEFAULT_COMPAT_DATE,
 	});

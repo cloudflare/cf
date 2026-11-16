@@ -102119,6 +102119,35 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
+		"workflows instances batch delete": {
+			"operationId": "workflows.instances.batch.delete",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workflows/{workflow_name}/instances/batch/delete",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "workflow_name",
+					"flag": "workflow-name",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "instances",
+					"type": "string",
+					"required": true,
+					"description": "The instances field"
+				}
+			]
+		},
 		"workflows instances create": {
 			"operationId": "workflows.instances.create",
 			"httpMethod": "POST",
@@ -102963,6 +102992,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "Automatic injection of Zaraz scripts enabled."
+				},
+				{
+					"name": "settings-bot-score-threshold",
+					"type": "number",
+					"required": false,
+					"description": "Minimum bot score required to load Zaraz."
 				},
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
@@ -121330,7 +121365,7 @@
 					"name": "value-recheck",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to recheck WordPress and plugin detection."
+					"description": "Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value."
 				},
 				{
 					"name": "value-wordpress",

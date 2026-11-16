@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zones automatic-platform-optimization edit\n\nAutomatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information."
+			"$0 zones automatic-platform-optimization edit\n\nAutomatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it."
 		)
 		.option("value-cache-by-device-type", {
 			type: "boolean",
@@ -37,7 +37,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("value-recheck", {
 			type: "boolean",
-			description: "Whether to recheck WordPress and plugin detection.",
+			description:
+				"Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value.",
 		})
 		.option("value-wordpress", {
 			type: "boolean",
@@ -55,45 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.implies("value-cache-by-device-type", [
-			"value-cf",
-			"value-enabled",
-			"value-wordpress",
-			"value-wp-plugin",
-		])
-		.implies("value-cf", [
-			"value-enabled",
-			"value-wordpress",
-			"value-wp-plugin",
-		])
-		.implies("value-enabled", [
-			"value-cf",
-			"value-wordpress",
-			"value-wp-plugin",
-		])
-		.implies("value-hostnames", [
-			"value-cf",
-			"value-enabled",
-			"value-wordpress",
-			"value-wp-plugin",
-		])
-		.implies("value-recheck", [
-			"value-cf",
-			"value-enabled",
-			"value-wordpress",
-			"value-wp-plugin",
-		])
-		.implies("value-wordpress", [
-			"value-cf",
-			"value-enabled",
-			"value-wp-plugin",
-		])
-		.implies("value-wp-plugin", [
-			"value-cf",
-			"value-enabled",
-			"value-wordpress",
-		]);
+		});
 }
 
 type Args = InferArgs<typeof builder>;

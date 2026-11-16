@@ -7,9 +7,9 @@ import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
-import { applyTemporaryFlagNames } from "./generator/flag-names-cli-compat.js";
+import { assertCliCompatSource } from "./generator/cli-compat-guards.js";
+import { applyOpenApiOverlay } from "./generator/openapi-overlay.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
-import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
@@ -209,13 +209,16 @@ if (!existsSync(pluginWasm)) {
 	);
 }
 
-const source = (
+let source = (
 	bundle ? JSON.parse(readFileSync(bundle, "utf8")) : await fetchForgeOpenApi()
 ) as ForgeOpenApiDocument;
 ignoreInvalidHiddenOperations(source);
 prepareAccountOrZoneOperations(source);
-preserveWorkersSecretUpdatePositional(source);
-applyTemporaryFlagNames(source);
+assertCliCompatSource(source);
+source = await applyOpenApiOverlay(
+	source,
+	fileURLToPath(new URL("./generator/cli-compat.overlay.yaml", import.meta.url))
+);
 const audienceExcluded = filterForCliAudience(source);
 console.log(
 	`[cf-generator] Excluded ${audienceExcluded} operation(s) not targeting the cf-cli audience`

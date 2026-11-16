@@ -65,8 +65,9 @@ cf/
 │   │   ├── index.ts            # the plugin's entry module: registry + meta.ts sidecars
 │   │   ├── cli.wasm            # gitignored; task:generate:plugin compiles index.ts
 │   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
-│   │   ├── flag-names-cli-compat.ts # temporary flag names for clashing API fields
-│   │   └── workers-secret-cli-compat.ts # temporary spec patch
+│   │   ├── cli-compat.overlay.yaml # standard OpenAPI overlay for temporary annotations
+│   │   ├── cli-compat-guards.ts # checks compatibility preconditions against the pinned spec
+│   │   └── openapi-overlay.ts  # validates and applies overlays with Redocly
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
@@ -370,6 +371,23 @@ GitHub collapses `_generated/` by default because it is marked `linguist-generat
 
 Shell-completion scripts are no longer generated — `cf complete`
 (`@bomb.sh/tab`) reads `_meta/commands.json` at runtime.
+
+### OpenAPI compatibility overlay
+
+`generate.ts` applies `generator/cli-compat.overlay.yaml` to both downloaded
+and `FORGE_OPENAPI_BUNDLE` inputs before audience filtering and Forge
+normalization. The file follows the
+[OpenAPI Overlay 1.1 specification](https://spec.openapis.org/overlay/v1.1.0.html):
+ordered JSONPath targets with standard `update` and `remove` actions. Redocly's
+`@redocly/openapi-core` validates the overlay and applies it through its public
+bundling API, preserving internal references. It is a development dependency.
+
+Put temporary annotation fixes in the overlay, with a source precondition in
+`generator/cli-compat-guards.ts` and a regression test. Overlay actions allow
+unmatched targets, so the guards check operation identities, body field types,
+and upstream annotations before applying any changes. Remove an action and its
+guard together when the pinned Forge OpenAPI supplies the fix. Keep shared API
+knowledge upstream; this file only bridges compatibility gaps in the current pin.
 
 ### Source config access is command-scoped
 
@@ -833,7 +851,7 @@ There is no single global resolution order. Zone uses positional value → `--zo
 
 Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
 
-An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
+An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/cli-compat.overlay.yaml` holds temporary annotations, with source preconditions in `generator/cli-compat-guards.ts`. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 

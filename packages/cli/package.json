@@ -88,6 +88,7 @@
 		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@5dc38559237b6db362928c61fb252a251ed0e3e5",
 		"@cloudflare/workers-auth": "0.18.4",
 		"@cloudflare/workers-utils": "0.54.2",
+		"@redocly/openapi-core": "2.79.0",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",

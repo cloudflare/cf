@@ -998,6 +998,10 @@ Changesets: `.github/workflows/changesets.yml` opens/updates the Version
 Packages PR when changesets exist and publishes to npm after that PR is merged.
 Publishing uses npm trusted publishing (OIDC), not a long-lived `NPM_TOKEN`.
 
+Use `pnpm changeset:version` to prepare releases. Before Changesets runs, it
+resets cf's prerelease counter when the channel changes: `1.0.0-beta.32`
+becomes `1.0.0-rc.0`. Later RC releases increment the counter normally.
+
 Vite+ Pack emits a minified bundle without source maps by default.
 `PACKAGE_PRERELEASE_LABEL` may be supplied to the pack `define` configuration,
 but no current source module reads it, so the binary does not self-report the

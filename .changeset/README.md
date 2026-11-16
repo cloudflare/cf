@@ -6,6 +6,10 @@ changelog — must be captured in a "changeset".
 We use [`changesets`](https://github.com/changesets/changesets/blob/main/README.md)
 to create changesets, bump versions, and update the changelog.
 
+Run `pnpm changeset:version` to prepare version updates. It resets the counter
+when the prerelease channel changes, so `1.0.0-beta.32` becomes `1.0.0-rc.0`.
+Subsequent releases on the same channel increment normally.
+
 ## Creating a Changeset
 
 ```sh

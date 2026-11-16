@@ -1,3 +1,4 @@
+import { resolveKeyProvider } from "@cloudflare/workers-auth";
 import {
 	readUserPreferences,
 	updateUserPreferences,
@@ -324,4 +325,3 @@ describe("cf auth login keyring preference", () => {
 		expect(resolveKeyProvider).not.toHaveBeenCalled();
 	});
 });
-import { resolveKeyProvider } from "@cloudflare/workers-auth";

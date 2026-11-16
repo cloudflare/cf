@@ -1,8 +1,8 @@
-/** @generated from email-routing.settings.apply */
+/** @generated from email-routing.settings.edit */
 import { path } from "#api";
 
 export default {
-	method: "PUT",
+	method: "PATCH",
 	path: (request: Record<string, unknown>) =>
 		path`/zones/${request.zone_id}/email/routing`,
 	body: "json",

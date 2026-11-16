@@ -1,8 +1,8 @@
-import operation from "../../../_operations/cloudforce-one/rules/email/update-pending-approval.js";
+import operation from "../../../../_operations/cloudforce-one/rules/email/approvals/replace.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update-pending-approval command
+ * replace command
  * @generated from apis/overlays/cloudforce-one.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -26,7 +26,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one rules email update-pending-approval <id>\n\nValidate, compile, and replace the proposed structured email rule on a pending approval. Only the original requester may update it."
+			"$0 cloudforce-one rules email approvals replace <id>\n\nValidate, compile, and replace the proposed structured email rule on a pending approval. Only the original requester may update it."
 		)
 		.positional("id", {
 			type: "string",
@@ -96,13 +96,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update-pending-approval <id>",
+	command: "replace <id>",
 	describe: "Update a pending structured email rule approval",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "cloudforce-one rules email update-pending-approval",
+				command: "cloudforce-one rules email approvals replace",
 				classification: {
 					safeFlags: [
 						"module",
@@ -122,7 +122,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf cloudforce-one rules email update-pending-approval",
+						command: "cf cloudforce-one rules email approvals replace",
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/rules/structured/approvals/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
 						pathParams: { id: String(argv["id"] ?? "") },

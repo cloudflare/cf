@@ -1,8 +1,8 @@
-import operation from "../../_operations/email-routing/settings/update.js";
+import operation from "../../_operations/email-routing/settings/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/email-routing.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-routing settings update\n\nUpdate the settings for your Email Routing zone."
+			"$0 email-routing settings edit\n\nUpdate the settings for your Email Routing zone."
 		)
 		.option("enabled", {
 			type: "boolean",
@@ -47,13 +47,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update",
+	command: "edit",
 	describe: "Update Email Routing settings",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-routing settings update",
+				command: "email-routing settings edit",
 				classification: {
 					safeFlags: [
 						"enabled",
@@ -67,7 +67,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf email-routing settings update",
+						command: "cf email-routing settings edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/routing`,
 						pathParams: {

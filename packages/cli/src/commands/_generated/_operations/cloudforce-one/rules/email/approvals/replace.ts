@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one.rules.email.update-pending-approval */
+/** @generated from cloudforce-one.rules.email.approvals.replace */
 import { path } from "#api";
 
 export default {

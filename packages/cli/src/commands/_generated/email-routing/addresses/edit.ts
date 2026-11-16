@@ -1,8 +1,8 @@
-import operation from "../../_operations/email-routing/addresses/update.js";
+import operation from "../../_operations/email-routing/addresses/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/email-routing.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-routing addresses update <destination-address-identifier>\n\nUpdates the status of a specific destination address."
+			"$0 email-routing addresses edit <destination-address-identifier>\n\nUpdates the status of a specific destination address."
 		)
 		.positional("destination-address-identifier", {
 			type: "string",
@@ -51,13 +51,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <destination-address-identifier>",
+	command: "edit <destination-address-identifier>",
 	describe: "Update destination address",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-routing addresses update",
+				command: "email-routing addresses edit",
 				classification: {
 					safeFlags: ["status", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -67,7 +67,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-routing addresses update",
+						command: "cf email-routing addresses edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email/routing/addresses/${argv["destination-address-identifier"] == null ? "<destination-address-identifier>" : encodeURIComponent(String(argv["destination-address-identifier"]))}`,
 						pathParams: {

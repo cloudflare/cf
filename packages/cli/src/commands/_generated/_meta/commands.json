@@ -33557,6 +33557,108 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one rules email approvals replace",
+			"name": "replace",
+			"fullPath": ["cloudforce-one", "rules", "email", "approvals", "replace"],
+			"description": "Validate, compile, and replace the proposed structured email rule on a pending approval. Only the original requester may update it.",
+			"summary": "Update a pending structured email rule approval",
+			"usage": "cf cloudforce-one rules email approvals replace <id> [options]",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier for the approval."
+				}
+			],
+			"options": [
+				{
+					"name": "module",
+					"type": "string",
+					"required": false,
+					"description": "Structured rule module.",
+					"enum": ["eml"]
+				},
+				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
+				},
+				{
+					"name": "condition-operator",
+					"type": "string",
+					"required": true,
+					"description": "The condition.operator field",
+					"enum": ["and", "or"]
+				},
+				{
+					"name": "condition-type",
+					"type": "string",
+					"required": true,
+					"description": "The condition.type field",
+					"enum": ["group"]
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Disposition for matching email. This emits status metadata with the selected value.",
+					"enum": ["silent", "blocking"]
+				},
+				{
+					"name": "strings",
+					"type": "string",
+					"required": false,
+					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
+			"operationId": "cloudforce-one.rules.email.approvals.replace",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one rules email approvals resubmit",
 			"name": "resubmit",
 			"fullPath": ["cloudforce-one", "rules", "email", "approvals", "resubmit"],
@@ -34024,113 +34126,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/rules/structured/{id}",
 			"operationId": "cloudforce-one.rules.email.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one rules email update-pending-approval",
-			"name": "update-pending-approval",
-			"fullPath": [
-				"cloudforce-one",
-				"rules",
-				"email",
-				"update-pending-approval"
-			],
-			"description": "Validate, compile, and replace the proposed structured email rule on a pending approval. Only the original requester may update it.",
-			"summary": "Update a pending structured email rule approval",
-			"usage": "cf cloudforce-one rules email update-pending-approval <id> [options]",
-			"arguments": [
-				{
-					"name": "id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier for the approval."
-				}
-			],
-			"options": [
-				{
-					"name": "module",
-					"type": "string",
-					"required": false,
-					"description": "Structured rule module.",
-					"enum": ["eml"]
-				},
-				{
-					"name": "condition-conditions",
-					"type": "string",
-					"required": true,
-					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
-				},
-				{
-					"name": "condition-operator",
-					"type": "string",
-					"required": true,
-					"description": "The condition.operator field",
-					"enum": ["and", "or"]
-				},
-				{
-					"name": "condition-type",
-					"type": "string",
-					"required": true,
-					"description": "The condition.type field",
-					"enum": ["group"]
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "meta",
-					"type": "string",
-					"required": false,
-					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Disposition for matching email. This emits status metadata with the selected value.",
-					"enum": ["silent", "blocking"]
-				},
-				{
-					"name": "strings",
-					"type": "string",
-					"required": false,
-					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
-			"operationId": "cloudforce-one.rules.email.update-pending-approval",
 			"hideCommand": false
 		},
 		{
@@ -49866,6 +49861,51 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf email-routing addresses edit",
+			"name": "edit",
+			"fullPath": ["email-routing", "addresses", "edit"],
+			"description": "Updates the status of a specific destination address.",
+			"summary": "Update destination address",
+			"usage": "cf email-routing addresses edit <destination-address-identifier> [options]",
+			"arguments": [
+				{
+					"name": "destination-address-identifier",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Destination address identifier."
+				}
+			],
+			"options": [
+				{
+					"name": "status",
+					"type": "string",
+					"required": true,
+					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.",
+					"enum": ["unverified", "verified"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
+			"operationId": "email-routing.addresses.edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf email-routing addresses get",
 			"name": "get",
 			"fullPath": ["email-routing", "addresses", "get"],
@@ -49945,51 +49985,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/email/routing/addresses",
 			"operationId": "email-routing.addresses.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf email-routing addresses update",
-			"name": "update",
-			"fullPath": ["email-routing", "addresses", "update"],
-			"description": "Updates the status of a specific destination address.",
-			"summary": "Update destination address",
-			"usage": "cf email-routing addresses update <destination-address-identifier> [options]",
-			"arguments": [
-				{
-					"name": "destination-address-identifier",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Destination address identifier."
-				}
-			],
-			"options": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": true,
-					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.",
-					"enum": ["unverified", "verified"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
-			"operationId": "email-routing.addresses.update",
 			"hideCommand": false
 		},
 		{
@@ -50550,84 +50545,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-routing settings apply",
-			"name": "apply",
-			"fullPath": ["email-routing", "settings", "apply"],
-			"description": "Apply the provided settings to your Email Routing zone. Omitted settings retain their current values, as with PATCH.",
-			"summary": "Apply Email Routing settings",
-			"usage": "cf email-routing settings apply [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "State of your zone Email Routing settings. No-op on this endpoint - use `POST`/`DELETE /zones/{zone_id}/email/routing/dns`."
-				},
-				{
-					"name": "skip-wizard",
-					"type": "boolean",
-					"required": false,
-					"description": "Flag to check if the user skipped the configuration wizard."
-				},
-				{
-					"name": "support-subaddress",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/zones/{zone_id}/email/routing",
-			"operationId": "email-routing.settings.apply",
-			"hideCommand": false
-		},
-		{
-			"command": "cf email-routing settings get",
-			"name": "get",
-			"fullPath": ["email-routing", "settings", "get"],
-			"description": "Get information about the settings for your Email Routing zone.",
-			"summary": "Get Email Routing settings",
-			"usage": "cf email-routing settings get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/email/routing",
-			"operationId": "email-routing.settings.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf email-routing settings update",
-			"name": "update",
-			"fullPath": ["email-routing", "settings", "update"],
+			"command": "cf email-routing settings edit",
+			"name": "edit",
+			"fullPath": ["email-routing", "settings", "edit"],
 			"description": "Update the settings for your Email Routing zone.",
 			"summary": "Update Email Routing settings",
-			"usage": "cf email-routing settings update [options]",
+			"usage": "cf email-routing settings edit [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -50666,7 +50589,79 @@
 			"hasRequestBody": true,
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/email/routing",
-			"operationId": "email-routing.settings.update",
+			"operationId": "email-routing.settings.edit",
+			"hideCommand": false
+		},
+		{
+			"command": "cf email-routing settings get",
+			"name": "get",
+			"fullPath": ["email-routing", "settings", "get"],
+			"description": "Get information about the settings for your Email Routing zone.",
+			"summary": "Get Email Routing settings",
+			"usage": "cf email-routing settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/email/routing",
+			"operationId": "email-routing.settings.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf email-routing settings replace",
+			"name": "replace",
+			"fullPath": ["email-routing", "settings", "replace"],
+			"description": "Apply the provided settings to your Email Routing zone. Omitted settings retain their current values, as with PATCH.",
+			"summary": "Apply Email Routing settings",
+			"usage": "cf email-routing settings replace [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "State of your zone Email Routing settings. No-op on this endpoint - use `POST`/`DELETE /zones/{zone_id}/email/routing/dns`."
+				},
+				{
+					"name": "skip-wizard",
+					"type": "boolean",
+					"required": false,
+					"description": "Flag to check if the user skipped the configuration wizard."
+				},
+				{
+					"name": "support-subaddress",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/zones/{zone_id}/email/routing",
+			"operationId": "email-routing.settings.replace",
 			"hideCommand": false
 		},
 		{
@@ -170674,7 +170669,7 @@
 		"cloudforce-one rules": "Rule management operations",
 		"cloudforce-one rules approvals": "Approval workflow operations",
 		"cloudforce-one rules email": "Email rule operations",
-		"cloudforce-one rules email approvals": "Operations for rules.email.approvals",
+		"cloudforce-one rules email approvals": "Pending structured email rule approvals, which the original requester can revise",
 		"cloudforce-one rules email schema": "Operations for rules.email.schema",
 		"cloudforce-one rules exemptions": "Exemption rule operations",
 		"cloudforce-one rules managed": "Managed rule operations",

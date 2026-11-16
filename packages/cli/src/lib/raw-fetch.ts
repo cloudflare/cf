@@ -78,6 +78,11 @@ export interface FetchRawOptions {
 	local?: boolean;
 	/** `--persist-to` value, forwarded to the local session. */
 	persistTo?: string;
+	/**
+	 * Abort after this many milliseconds, body included. Defaults to the API
+	 * timeout; `null` disables it for downloads that may run long.
+	 */
+	timeoutMs?: number | null;
 }
 
 /**
@@ -98,7 +103,19 @@ export async function fetchRawBytes(
 	path: string,
 	options: FetchRawOptions = {}
 ): Promise<Buffer> {
-	const { method = "GET", local = false } = options;
+	const response = await fetchRawResponse(path, options);
+	return Buffer.from(await response.arrayBuffer());
+}
+
+/**
+ * Like {@link fetchRawBytes}, but returns the response unread, so callers can
+ * stream bodies too large to buffer.
+ */
+export async function fetchRawResponse(
+	path: string,
+	options: FetchRawOptions = {}
+): Promise<Response> {
+	const { method = "GET", local = false, timeoutMs = API_TIMEOUT_MS } = options;
 	const baseURL = getCloudflareApiBaseUrl({
 		compliance_region: await getComplianceRegion(),
 	});
@@ -165,9 +182,9 @@ export async function fetchRawBytes(
 		method,
 		headers,
 		...(body !== undefined ? { body } : {}),
-		...(isUploadBody(body)
+		...(isUploadBody(body) || timeoutMs === null
 			? {}
-			: { signal: AbortSignal.timeout(API_TIMEOUT_MS) }),
+			: { signal: AbortSignal.timeout(timeoutMs) }),
 	});
 	if (!response.ok) {
 		// Try to extract an API-shaped error envelope for consistent
@@ -195,8 +212,7 @@ export async function fetchRawBytes(
 			},
 		});
 	}
-	const arrayBuffer = await response.arrayBuffer();
-	return Buffer.from(arrayBuffer);
+	return response;
 }
 
 /**

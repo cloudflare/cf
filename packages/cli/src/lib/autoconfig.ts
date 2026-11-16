@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from "node:fs";
 import { constants } from "node:os";
 import { delimiter, join } from "node:path";
 import {
@@ -5,6 +6,7 @@ import {
 	getDetailsForAutoConfig,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
+import satisfies from "semver/functions/satisfies.js";
 import { parse as parseShell } from "shell-quote";
 import { x } from "tinyexec";
 import { CliExit } from "./cli-exit.js";
@@ -80,7 +82,9 @@ export async function analyzeProject(
 			target: "cf",
 			context,
 		});
-		return maybeApplyVinextCommandOverrides(details);
+		return withBuildOutputV1Compatibility(
+			maybeApplyVinextCommandOverrides(details)
+		);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {
 			context.logger.debug("Autoconfig could not detect this project:", error);
@@ -88,6 +92,43 @@ export async function analyzeProject(
 		}
 		throw error;
 	}
+}
+
+// Autoconfig 0.13.0 accepts Vite plugin betas that emit Build Output v0.
+// cf's v1 reader needs the RC, including for canonical framework commands.
+function withBuildOutputV1Compatibility(
+	details: AutoConfigDetails
+): AutoConfigDetails {
+	if (
+		details.commandError ||
+		details.env?.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT !== "true"
+	) {
+		return details;
+	}
+	const manifest = (
+		details.nodeModulesPaths ?? [join(details.projectPath, "node_modules")]
+	)
+		.map((directory) => join(directory, "@cloudflare/vite-plugin/package.json"))
+		.find((path) => existsSync(path));
+	if (!manifest) {
+		return details;
+	}
+	const { version } = JSON.parse(readFileSync(manifest, "utf8")) as {
+		version?: unknown;
+	};
+	if (
+		typeof version !== "string" ||
+		satisfies(version, ">=2.0.0-rc.0 <3", { includePrerelease: true })
+	) {
+		return details;
+	}
+	return {
+		...details,
+		commandError: {
+			code: "vite-plugin-incompatible",
+			message: `@cloudflare/vite-plugin@${version} is installed, but cf requires @cloudflare/vite-plugin >=2.0.0-rc.0 <3 to produce Build Output v1. Update to @cloudflare/vite-plugin@rc.`,
+		},
+	};
 }
 
 /**

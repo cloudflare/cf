@@ -96,6 +96,8 @@ describe("cf dev", () => {
 		{ vitePlus: false, version: "2.0.0-rc.0" },
 		{ vitePlus: true, version: "2.0.0-rc.0" },
 		{ vitePlus: false, version: "2.0.0-beta.v.12" },
+		{ vitePlus: false, version: "2.0.0-beta.v.17" },
+		{ vitePlus: true, version: "2.0.0-beta.v.17" },
 	])(
 		"checks and runs hoisted workspace tools (Vite+: $vitePlus, plugin: $version)",
 		async ({ vitePlus, version }) => {
@@ -132,9 +134,11 @@ describe("cf dev", () => {
 			makeExecutable(`node_modules/.bin/${binary}`, { npmBin: true });
 			process.chdir(resolve("apps/site"));
 			const run = runCf(["dev", "--profile", "work", "--mode", "staging"]);
-			if (version === "2.0.0-beta.v.12") {
+			if (version !== "2.0.0-rc.0") {
 				await expect(run).rejects.toThrow(
-					"cf requires @cloudflare/vite-plugin >=2.0.0-beta.v.13 <3"
+					version === "2.0.0-beta.v.12"
+						? "cf requires @cloudflare/vite-plugin >=2.0.0-beta.v.13 <3"
+						: "cf requires @cloudflare/vite-plugin >=2.0.0-rc.0 <3"
 				);
 				expect(existsSync("argv.json")).toBe(false);
 				return;

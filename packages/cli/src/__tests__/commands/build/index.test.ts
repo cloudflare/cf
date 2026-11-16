@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
 	mockConsoleMethods,
@@ -86,6 +86,65 @@ describe("cf build", () => {
 		expect(result.exitCode).toBe(0);
 		expect(readArgv("argv.out")).toEqual(["build"]);
 	});
+
+	describe.each(["native Vite", "Vite", "Vite+"])(
+		"Build Output v0 plugin (%s)",
+		(project) => {
+			const vitePlus = project === "Vite+";
+			it.each([
+				["dev"],
+				["build"],
+				["deploy"],
+				["workers", "versions", "create"],
+				["previews", "deploy", "--preview-name", "feature"],
+			])("rejects the beta plugin before %s starts", async (...command) => {
+				const tool = vitePlus ? "vite-plus" : "vite";
+				const binary = vitePlus ? "vp" : "vite";
+				await seed({
+					"package.json": JSON.stringify({
+						devDependencies: {
+							"@cloudflare/vite-plugin": "2.0.0-beta.v.17",
+							...(vitePlus
+								? { "vite-plus": "1.5.0" }
+								: project === "Vite"
+									? { vite: "8.1.0" }
+									: {}),
+						},
+					}),
+					"cloudflare.config.ts": "export default {};",
+					"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+						name: "@cloudflare/vite-plugin",
+						version: "2.0.0-beta.v.17",
+						dependencies: { "@cloudflare/build-output-utils": "0.9.14" },
+					}),
+					[`node_modules/${tool}/package.json`]: JSON.stringify({
+						name: tool,
+						bin: { [binary]: "cli.js" },
+					}),
+					[`node_modules/.bin/${binary}`]: nodeScript(
+						`require("../${tool}/cli.js");`
+					),
+					[`node_modules/${tool}/cli.js`]: buildScript(
+						"beta-worker"
+					).replaceAll("/v1/", "/v0/"),
+				});
+				makeExecutable(`node_modules/${tool}/cli.js`);
+				makeExecutable(`node_modules/.bin/${binary}`, { npmBin: true });
+
+				await expect(runCf(command)).rejects.toThrow(
+					"cf requires @cloudflare/vite-plugin >=2.0.0-rc.0 <3"
+				);
+
+				expect(unframe(std.err)).toContain(
+					"@cloudflare/vite-plugin@2.0.0-beta.v.17 is installed"
+				);
+				expect(unframe(std.err)).toContain("Build Output v1");
+				expect(unframe(std.err)).toContain("@cloudflare/vite-plugin@rc");
+				expect(existsSync("argv.out")).toBe(false);
+				expect(existsSync(".cloudflare/output/v0")).toBe(false);
+			});
+		}
+	);
 
 	it.each([false, true])(
 		"passes mode and Preview context to native Vite (Preview: %s)",

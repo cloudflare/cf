@@ -97,7 +97,7 @@ describe("kv", () => {
 			await put("test", "value", "bulk-get-namespace-id");
 
 			await runWrangler(
-				`kv bulk get bulk-get-namespace-id --keys hello test ${local()}`
+				`kv keys bulk-get --namespace-id bulk-get-namespace-id --keys hello test ${local()}`
 			);
 			expect(JSON.parse(std.getAndClearOut())).toEqual({
 				values: {

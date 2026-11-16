@@ -1,8 +1,8 @@
-import operation from "../../_operations/kv/bulk/delete.js";
+import operation from "../../_operations/kv/keys/bulk-delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * delete command
+ * bulk-delete command
  * @generated from apis/overlays/kv.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 kv bulk delete <namespace-id>\n\nDeletes up to 10,000 key-value pairs from the specified Workers KV namespace. Send a JSON array of the key names to delete. The result reports the number of successful deletions and any keys that failed and should be retried."
+			"$0 kv keys bulk-delete\n\nDeletes up to 10,000 key-value pairs from the specified Workers KV namespace. Send a JSON array of the key names to delete. The result reports the number of successful deletions and any keys that failed and should be retried."
 		)
-		.positional("namespace-id", {
+		.option("namespace-id", {
 			type: "string",
 			description: "ID of the Workers KV namespace.",
 			demandOption: true,
@@ -49,13 +49,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <namespace-id>",
+	command: "bulk-delete",
 	describe: "Delete multiple key-value pairs",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "kv bulk delete",
+				command: "kv keys bulk-delete",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -66,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf kv bulk delete",
+						command: "cf kv keys bulk-delete",
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/storage/kv/namespaces/${argv["namespace-id"] == null ? "<namespace-id>" : encodeURIComponent(String(argv["namespace-id"]))}/bulk/delete`,
 						pathParams: { "namespace-id": String(argv["namespace-id"] ?? "") },

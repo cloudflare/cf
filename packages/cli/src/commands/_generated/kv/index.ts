@@ -1,4 +1,3 @@
-import $bulk from "./bulk/index.js";
 import $keys from "./keys/index.js";
 import $metadata from "./metadata/index.js";
 import $namespaces from "./namespaces/index.js";
@@ -15,7 +14,6 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($bulk)
 			.command($keys)
 			.command($metadata)
 			.command($namespaces)

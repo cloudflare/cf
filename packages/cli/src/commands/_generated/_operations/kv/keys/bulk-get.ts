@@ -1,4 +1,4 @@
-/** @generated from kv.bulk.get */
+/** @generated from kv.keys.bulk-get */
 import { path } from "#api";
 
 export default {

@@ -198,7 +198,9 @@ async function deployPreviewBuildOutput(
 				)
 				.map(({ config }) => config),
 			buildResult: worker.bundleDir
-				? assembleBuildResult(worker, builtConfig, output.root)
+				? assembleBuildResult(worker, builtConfig, output.root, {
+						includeSourceMaps: !argv["temporary-account"],
+					})
 				: undefined,
 			assets: worker.assetsDir ? { directory: worker.assetsDir } : undefined,
 		},

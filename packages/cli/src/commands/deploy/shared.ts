@@ -147,7 +147,8 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	const buildResult = assembleBuildResult(
 		worker,
 		parsedWorker.builtConfig,
-		root
+		root,
+		{ includeSourceMaps: !argv["temporary-account"] }
 	);
 
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);

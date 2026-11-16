@@ -124,6 +124,39 @@ describe("transforms Build Output Specification into deploy input", () => {
 		expect(result.modules).toHaveLength(0);
 	});
 
+	it("omits sourcemaps when includeSourceMaps is false", async () => {
+		await seed({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
+				name: "my-worker",
+				modules: {
+					"index.js": { type: "esm" },
+					"chunk.js": { type: "esm" },
+					"index.js.map": { type: "sourcemap" },
+					"chunk.js.map": { type: "sourcemap" },
+				},
+			}),
+			".cloudflare/output/v1/workers/default/bundle/index.js":
+				"export default {}",
+			".cloudflare/output/v1/workers/default/bundle/chunk.js":
+				"export const value = 1",
+			".cloudflare/output/v1/workers/default/bundle/index.js.map":
+				'{"version":3}',
+			// A declared map that is missing on disk is not read, so it can't fail.
+		});
+
+		const {
+			rootConfig,
+			workers: { default: worker },
+		} = await readBuildOutput(process.cwd());
+		const { builtConfig } = parseWorkerConfig(worker, rootConfig);
+		const result = assembleBuildResult(worker, builtConfig, process.cwd(), {
+			includeSourceMaps: false,
+		});
+		expect(result.sourceMaps).toBeUndefined();
+		expect(result.modules.map(({ name }) => name)).toEqual(["chunk.js"]);
+	});
+
 	describe("source map sources", () => {
 		const up = (levels: number) => "../".repeat(levels);
 

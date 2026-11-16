@@ -202,11 +202,18 @@ function resolveAssetsDir(
 	};
 }
 
+/**
+ * Uploads to a temporary account pass `includeSourceMaps: false`. Source maps
+ * often outweigh the code they map, so they push a Worker towards the upload
+ * size limit, and their stack traces are rarely read before the account is
+ * claimed. Deploying again after claiming uploads them.
+ */
 // TODO: possibly pull in shared code from workers-utils?
 export function assembleBuildResult(
 	worker: BuildOutputWorker,
 	outputConfig: ResolvedOutputWorkerConfig,
-	root: string
+	root: string,
+	{ includeSourceMaps = true }: { includeSourceMaps?: boolean } = {}
 ): WorkerBuildResult {
 	// Assets-only deploys have no manifest / bundle: deploy() creates a
 	// synthetic Worker, so there are no modules to assemble. The package
@@ -260,6 +267,9 @@ export function assembleBuildResult(
 			const filePath = join(worker.bundleDir, name);
 
 			if (meta.type === "sourcemap") {
+				if (!includeSourceMaps) {
+					continue;
+				}
 				if (!existsSync(filePath)) {
 					throw new BuildOutputConfigError(`Module not found: ${filePath}`);
 				}

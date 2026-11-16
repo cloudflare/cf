@@ -66,7 +66,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters the results by layer 7 mitigation product.",
+			choices: [
+				"DDOS",
+				"WAF",
+				"BOT_MANAGEMENT",
+				"ACCESS_RULES",
+				"IP_REPUTATION",
+				"API_SHIELD",
+				"DATA_LOSS_PREVENTION",
+			],
 		})
+		.coerce("mitigation-product", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-direction", {
 			type: "string",
 			description:

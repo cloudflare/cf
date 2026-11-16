@@ -1,3 +1,4 @@
+import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
 import yargs, { type Argv } from "yargs";
@@ -362,6 +363,29 @@ describe("variant prompts", () => {
 			"The key variant requires algorithm, which cannot be supplied as flags. Pass --body"
 		);
 		expect(lines).not.toContain("promptForRequiredField");
+	});
+});
+
+describe("optional joined query enums", () => {
+	it("leaves an omitted optional array unset", () => {
+		const ctx = context(
+			method("list", "example-list"),
+			"example",
+			operation("get", "/example", {
+				queryParams: [
+					param("selector", undefined, {
+						type: "array",
+						required: false,
+						enumValues: ["first", "second"],
+					}),
+				],
+				wire: wire({ joined: ["selector"] }),
+			})
+		);
+		const parser = new Script(
+			stripTypeScriptTypes(`yargs${builderLines(ctx).join("\n")}`)
+		).runInNewContext({ yargs: yargs([]).exitProcess(false) }) as Argv;
+		expect(parser.parseSync().selector).toBeUndefined();
 	});
 });
 

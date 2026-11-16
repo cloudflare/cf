@@ -50,8 +50,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by origin.",
+			choices: ["AMAZON", "GOOGLE", "MICROSOFT", "ORACLE"],
 			demandOption: true,
 		})
+		.coerce("origin", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("metric", {
 			type: "string",
 			description:

@@ -35,25 +35,58 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filter finding types by vendor. Supports multiple comma-separated values. Each value may be either the vendor enum (GOOGLE_WORKSPACE) or the friendly name returned by the read routes (Google Workspace).",
+			choices: [
+				"ANTHROPIC",
+				"AWS",
+				"BITBUCKET",
+				"BOX",
+				"CONFLUENCE",
+				"DROPBOX",
+				"GITHUB",
+				"GOOGLE_CLOUD_PLATFORM",
+				"GOOGLE_WORKSPACE",
+				"JIRA",
+				"MICROSOFT",
+				"OPENAI",
+				"SALESFORCE",
+				"SERVICENOW",
+				"SLACK",
+				"ZOOM",
+			],
 		})
+		.coerce("vendors", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("types", {
 			type: "string",
 			array: true,
 			description:
 				"Filter finding types by category type. Supports multiple comma-separated, case-insensitive values.",
+			choices: ["Content", "Posture"],
 		})
+		.coerce("types", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("origins", {
 			type: "string",
 			array: true,
 			description:
 				"Filter finding types by origin. Supports multiple comma-separated, case-insensitive values.",
+			choices: ["custom", "system"],
 		})
+		.coerce("origins", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("severities", {
 			type: "string",
 			array: true,
 			description:
 				"Filter finding types by severity. Supports multiple comma-separated, case-insensitive values.",
+			choices: ["critical", "high", "medium", "low"],
 		})
+		.coerce("severities", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("search", {
 			type: "string",
 			description:

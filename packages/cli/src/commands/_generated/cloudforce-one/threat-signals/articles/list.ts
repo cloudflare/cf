@@ -133,7 +133,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Beta. Repeatable intrinsic severity band filter. An article matches any selected band, the band reported as its severity. Excludes articles without a severity. Like the severity field, severity is reported only while the account has an active Priority Intelligence Requirement; otherwise no articles match.",
+			choices: ["informational", "low", "medium", "high", "critical"],
 		})
+		.coerce("severity", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("sort", {
 			type: "string",
 			description:

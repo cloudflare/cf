@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { delimiter, dirname, resolve } from "node:path";
 import * as clack from "@clack/prompts";
 import {
 	mockConsoleMethods,
@@ -39,6 +39,120 @@ describe("cf dev", () => {
 	const std = mockConsoleMethods();
 	afterEach(() => vi.restoreAllMocks());
 
+	it.each(["dev", "build"])(
+		"keeps unsupported project setup blocked before %s delegation",
+		async (command) => {
+			await seed({
+				"package.json": JSON.stringify({
+					dependencies: { hono: "4", "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
+				}),
+				"public/index.html": "<h1>Hono</h1>",
+			});
+			vi.mocked(x).mockClear();
+
+			await expect(runCf([command])).rejects.toThrow(
+				'The detected framework ("Hono") cannot be automatically configured.'
+			);
+			expect(x).not.toHaveBeenCalled();
+		}
+	);
+
+	it.each([
+		undefined,
+		"export default { plugins: [] };",
+		"export default vite.defineConfig({ plugins: [cloudflare()].filter(Boolean) });",
+	])(
+		"runs Vite with a custom config without inspecting the default: %s",
+		async (config) => {
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
+				}),
+				"cloudflare.config.ts": "export default {};",
+				...(config === undefined ? {} : { "vite.config.ts": config }),
+				"vite.custom.ts": "export { default } from './shared-config';",
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					version: "2.0.0-rc.0",
+				}),
+				"node_modules/vite/package.json": JSON.stringify({
+					bin: { vite: "cli.js" },
+				}),
+				"node_modules/vite/cli.js": nodeScript(
+					'require("node:fs").writeFileSync("argv.json", JSON.stringify(process.argv.slice(2)));'
+				),
+			});
+			makeExecutable("node_modules/vite/cli.js");
+			const result = await runCf(["dev", "--", "--config", "vite.custom.ts"]);
+			expect(result.exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("argv.json", "utf8"))).toEqual([
+				"dev",
+				"--config",
+				"vite.custom.ts",
+			]);
+		}
+	);
+
+	it.each([
+		{ vitePlus: false, version: "2.0.0-rc.0" },
+		{ vitePlus: true, version: "2.0.0-rc.0" },
+		{ vitePlus: false, version: "2.0.0-beta.v.12" },
+		{ vitePlus: false, version: "2.0.0-beta.v.17" },
+		{ vitePlus: true, version: "2.0.0-beta.v.17" },
+	])(
+		"checks and runs hoisted workspace tools (Vite+: $vitePlus, plugin: $version)",
+		async ({ vitePlus, version }) => {
+			const tool = vitePlus ? "vite-plus" : "vite";
+			const binary = vitePlus ? "vp" : "vite";
+			await seed({
+				"package.json": JSON.stringify({
+					name: "workspace",
+					workspaces: ["apps/*"],
+				}),
+				"apps/site/package.json": JSON.stringify({
+					name: "site",
+					devDependencies: {
+						"@cloudflare/vite-plugin": "^2.0.0-rc.0",
+						...(vitePlus ? { "vite-plus": "1.5.0" } : {}),
+					},
+				}),
+				"apps/site/cloudflare.config.ts": "export default {};",
+				"apps/site/vite.config.ts": `import { cloudflare } from '@cloudflare/vite-plugin'; export default { plugins: [cloudflare()] };`,
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					version,
+				}),
+				[`node_modules/${tool}/package.json`]: JSON.stringify({
+					bin: { [binary]: "cli.js" },
+				}),
+				[`node_modules/.bin/${binary}`]: nodeScript(
+					`require("../${tool}/cli.js");`
+				),
+				[`node_modules/${tool}/cli.js`]: nodeScript(
+					'require("node:fs").writeFileSync("argv.json", JSON.stringify(process.argv.slice(2)));'
+				),
+			});
+			makeExecutable(`node_modules/${tool}/cli.js`);
+			makeExecutable(`node_modules/.bin/${binary}`, { npmBin: true });
+			process.chdir(resolve("apps/site"));
+			const run = runCf(["dev", "--profile", "work", "--mode", "staging"]);
+			if (version !== "2.0.0-rc.0") {
+				await expect(run).rejects.toThrow(
+					version === "2.0.0-beta.v.12"
+						? "cf requires @cloudflare/vite-plugin >=2.0.0-beta.v.13 <3"
+						: "cf requires @cloudflare/vite-plugin >=2.0.0-rc.0 <3"
+				);
+				expect(existsSync("argv.json")).toBe(false);
+				return;
+			}
+			const result = await run;
+			expect(result.exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("argv.json", "utf8"))).toEqual([
+				"dev",
+				"--mode",
+				"staging",
+			]);
+		}
+	);
+
 	describe("no impl declared", () => {
 		it("errors with install hints and exits 1 when no manifest exists", async () => {
 			const result = await runCf(["dev"]);
@@ -52,6 +166,9 @@ describe("cf dev", () => {
 			expect(std.err).toMatch(/cloudflare-rs-dev-server/);
 			// And surface install commands.
 			expect(std.err).toMatch(/npm install --save-dev/);
+			expect(unframe(std.err)).toContain(
+				"npm install --save-dev @cloudflare/vite-plugin@rc vite"
+			);
 			expect(std.err).toMatch(/pip install/);
 			expect(std.err).toMatch(/cargo install/);
 		});
@@ -72,9 +189,7 @@ describe("cf dev", () => {
 	describe("multiple impls declared", () => {
 		it("errors when two ecosystems each declare an impl", async () => {
 			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
-				}),
+				"Cargo.toml": '[dependencies]\ncloudflare-rs-dev-server = "0.1"\n',
 				"pyproject.toml": [
 					"[project]",
 					'name = "x"',
@@ -88,13 +203,14 @@ describe("cf dev", () => {
 			expect(std.err).toMatch(
 				/Multiple Cloudflare dev-server implementations are configured/
 			);
-			expect(std.err).toMatch(/@cloudflare\/vite-plugin/);
+			expect(std.err).toMatch(/cloudflare-rs-dev-server/);
 			expect(std.err).toMatch(/cloudflare-py-dev-server/);
 			expect(std.err).toMatch(/A project can only use one dev-server/);
 		});
 
 		it("does not treat wrangler fallback as a second impl", async () => {
 			await seed({
+				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
 					devDependencies: {
 						"@cloudflare/vite-plugin": "^2.0.0-rc.0",
@@ -103,8 +219,7 @@ describe("cf dev", () => {
 				}),
 			});
 
-			const result = await runCf(["dev"]);
-			expect(result.exitCode).toBe(1);
+			await expect(runCf(["dev"])).rejects.toThrow("is not installed");
 			expect(std.err).not.toMatch(/Multiple Cloudflare dev-server/);
 			expect(unframe(std.err)).toMatch(
 				/@cloudflare\/vite-plugin .* is not installed/
@@ -115,24 +230,25 @@ describe("cf dev", () => {
 	describe("declared but not installed", () => {
 		it("surfaces an install hint specific to the declared impl", async () => {
 			await seed({
+				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
 				// No node_modules: declared but not installed.
 			});
 
-			const result = await runCf(["dev"]);
-			expect(result.exitCode).toBe(1);
+			await expect(runCf(["dev"])).rejects.toThrow("is not installed");
 			expect(unframe(std.err)).toMatch(
 				/@cloudflare\/vite-plugin .* is not installed/
 			);
-			expect(std.err).toMatch(
-				/npm install --save-dev "@cloudflare\/vite-plugin@\^2\.0\.0-rc\.0"/
+			expect(unframe(std.err)).toMatch(
+				/npm install --save-dev @cloudflare\/vite-plugin@beta/
 			);
 		});
 
-		it("surfaces the vite version requirement when the delegate is missing", async () => {
+		it("surfaces a Vite install hint when the plugin is installed without Vite", async () => {
 			await seed({
+				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
 				}),
@@ -142,11 +258,15 @@ describe("cf dev", () => {
 				}),
 			});
 
-			const result = await runCf(["dev"]);
-			expect(result.exitCode).toBe(1);
-			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
-			expect(std.err).toMatch(
-				/@cloudflare\/vite-plugin v2 \(2\.0\.0-rc\.0 or newer\)/
+			await expect(runCf(["dev"])).rejects.toThrow(
+				"executable could not be found"
+			);
+			expect(unframe(std.err)).toMatch(/vite executable could not be found/);
+			expect(unframe(std.err)).toMatch(
+				/npm install --save-dev @cloudflare\/vite-plugin@beta vite/
+			);
+			expect(unframe(std.err)).toMatch(
+				/@cloudflare\/vite-plugin >=2\.0\.0-beta\.v\.13 <3/
 			);
 			expect(unframe(std.err)).toContain("cf dev");
 			expect(unframe(std.err)).toContain("cf build");
@@ -199,30 +319,31 @@ describe("cf dev", () => {
 	describe.each([
 		{
 			name: "@cloudflare/vite-plugin",
-			version: "2.0.0-beta.v.17",
-			minimum: "2.0.0-rc.0",
-			bin: "bin/cf-vite",
-			install: 'npm install --save-dev "@cloudflare/vite-plugin@^2.0.0-rc.0"',
+			version: "2.0.0-beta.v.12",
+			minimum: "2.0.0-beta.v.13",
+			executable: "node_modules/vite/bin/vite.js",
+			vite: true,
+			install: "npm install --save-dev @cloudflare/vite-plugin@beta",
 		},
 		{
 			name: "wrangler",
 			version: "4.160.1",
 			minimum: "4.163.0",
-			bin: "bin/cf-wrangler.js",
+			executable: "node_modules/wrangler/bin/cf-wrangler.js",
+			vite: false,
 			install: "npm install --save-dev wrangler@latest",
 		},
 	])(
 		"$name profile compatibility",
-		({ name, version, minimum, bin, install }) => {
+		({ name, version, minimum, executable, vite, install }) => {
 			it.each([
 				{ command: "dev", profile: undefined },
 				{ command: "dev", profile: "work" },
 				{ command: "build", profile: undefined },
 				{ command: "build", profile: "work" },
 			])(
-				"rejects $command with profile $profile before starting an older delegate",
+				"rejects $command with profile $profile before starting an older tool",
 				async ({ command, profile }) => {
-					const executable = `node_modules/${name}/${bin}`;
 					await seed({
 						"package.json": JSON.stringify({
 							devDependencies: { [name]: version },
@@ -234,18 +355,32 @@ describe("cf dev", () => {
 						[executable]: nodeScript(
 							'require("node:fs").writeFileSync("delegate-started.out", "started");'
 						),
+						...(vite
+							? {
+									"cloudflare.config.ts": "export default {};",
+									"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+									"node_modules/vite/package.json": JSON.stringify({
+										name: "vite",
+										version: "8.1.0",
+										bin: { vite: "bin/vite.js" },
+									}),
+								}
+							: {}),
 					});
 					makeExecutable(executable);
 
-					const result = await runCf([
+					const run = runCf([
 						command,
 						...(profile ? ["--profile", profile] : []),
 					]);
-
-					expect(result.exitCode).toBe(1);
+					if (vite) {
+						await expect(run).rejects.toThrow(minimum);
+					} else {
+						expect((await run).exitCode).toBe(1);
+					}
 					expect(unframe(std.err)).toContain(`${name}@${version} is installed`);
 					expect(unframe(std.err)).toContain(minimum);
-					expect(std.err).toContain(install);
+					expect(unframe(std.err)).toContain(install);
 					expect(existsSync("delegate-started.out")).toBe(false);
 				}
 			);
@@ -256,10 +391,16 @@ describe("cf dev", () => {
 		{
 			name: "@cloudflare/vite-plugin",
 			version: "2.0.0-rc.0",
-			bin: "bin/cf-vite",
+			executable: "node_modules/vite/bin/vite.js",
+			vite: true,
 		},
-		{ name: "wrangler", version: "4.163.0", bin: "bin/cf-wrangler.js" },
-	])("$name auth profiles", ({ name, version, bin }) => {
+		{
+			name: "wrangler",
+			version: "4.163.0",
+			executable: "node_modules/wrangler/bin/cf-wrangler.js",
+			vite: false,
+		},
+	])("$name auth profiles", ({ name, version, executable, vite }) => {
 		it.each([
 			{ profile: "work", inherited: "personal", expected: "work" },
 			{ profile: "default", inherited: "work", expected: "default" },
@@ -268,7 +409,6 @@ describe("cf dev", () => {
 		])(
 			"passes profile $profile with inherited profile $inherited through the environment",
 			async ({ profile, inherited, expected }) => {
-				const executable = `node_modules/${name}/${bin}`;
 				await seed({
 					"package.json": JSON.stringify({
 						devDependencies: { [name]: version },
@@ -278,8 +418,19 @@ describe("cf dev", () => {
 						version,
 					}),
 					[executable]: nodeScript(
-						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null }));'
+						'require("node:fs").writeFileSync("profile.out", JSON.stringify({ argv: process.argv.slice(2), profile: process.env.CLOUDFLARE_AUTH_PROFILE ?? null, cfAuth: process.env.CLOUDFLARE_CF_AUTH ?? null }));'
 					),
+					...(vite
+						? {
+								"cloudflare.config.ts": "export default {};",
+								"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+								"node_modules/vite/package.json": JSON.stringify({
+									name: "vite",
+									version: "8.1.0",
+									bin: { vite: "bin/vite.js" },
+								}),
+							}
+						: {}),
 				});
 				makeExecutable(executable);
 
@@ -292,6 +443,7 @@ describe("cf dev", () => {
 				expect(JSON.parse(readFileSync("profile.out", "utf8"))).toEqual({
 					argv: ["dev", "--port", "3000"],
 					profile: expected,
+					cfAuth: vite ? "true" : null,
 				});
 				expect(process.env.CLOUDFLARE_AUTH_PROFILE).toBe(inherited);
 			}
@@ -299,7 +451,7 @@ describe("cf dev", () => {
 	});
 
 	describe("happy path", () => {
-		it("rejects an installed Vite plugin v1 delegate", async () => {
+		it("rejects an installed Vite plugin v1", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "1.61.0" },
@@ -308,16 +460,23 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "1.61.0",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(0);"),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(0);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
-			const result = await runCf(["dev"]);
+			await expect(runCf(["dev"])).rejects.toThrow(
+				"cf requires @cloudflare/vite-plugin >=2.0.0-beta.v.13 <3"
+			);
 
-			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(
-				/@cloudflare\/vite-plugin v2 \(2\.0\.0-rc\.0 or newer\)/
+			expect(unframe(std.err)).toMatch(
+				/@cloudflare\/vite-plugin >=2\.0\.0-beta\.v\.13 <3/
 			);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin@1\.61\.0 is installed/);
 			expect(unframe(std.err)).toContain("cf dev");
@@ -391,6 +550,10 @@ describe("cf dev", () => {
 			async ({ args, expected }) => {
 				await seed({
 					"cloudflare.config.ts": "export default {};",
+					"vite.config.ts": `import { cloudflare } from '@cloudflare/vite-plugin'; export default { plugins: [cloudflare()] };`,
+					"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+						version: "2.0.0-rc.0",
+					}),
 					"package.json": JSON.stringify({
 						name: "vite-project",
 						devDependencies: {
@@ -402,10 +565,12 @@ describe("cf dev", () => {
 					"node_modules/vite/package.json": JSON.stringify({
 						name: "vite",
 						version: "7.0.0",
+						bin: { vite: "cli.js" },
 					}),
-					"node_modules/.bin/vite": nodeScript(
+					"node_modules/vite/cli.js": nodeScript(
 						'require("node:fs").writeFileSync("vite-argv.json", JSON.stringify(process.argv.slice(2)));'
 					),
+					"node_modules/.bin/vite": nodeScript('require("../vite/cli.js");'),
 				});
 				makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
@@ -658,7 +823,27 @@ describe("cf dev", () => {
 			]);
 		});
 
-		it("resolves framework executables from an ancestor's node_modules", async () => {
+		it("uses explicit PATH overrides when preferring project executables", async () => {
+			const pathKey = process.platform === "win32" ? "Path" : "PATH";
+			const inheritedPath = [
+				dirname(process.execPath),
+				"explicit-path-override",
+			].join(delimiter);
+			await runProjectCommand(
+				`node -e "require('node:fs').writeFileSync('path.out', process.env.PATH)"`,
+				process.cwd(),
+				{
+					preferLocal: true,
+					env: { [pathKey]: inheritedPath },
+					output: "silent",
+				}
+			);
+			expect(readFileSync("path.out", "utf8")).toBe(
+				[resolve("node_modules/.bin"), inheritedPath].join(delimiter)
+			);
+		});
+
+		it("resolves framework executables within the supplied workspace boundary", async () => {
 			await seed({
 				"node_modules/.bin/cf-local-framework": nodeScript(
 					'require("node:fs").writeFileSync("command.out", process.argv.slice(2).join("\\n"));'
@@ -671,6 +856,10 @@ describe("cf dev", () => {
 			expect(
 				await runProjectCommand("cf-local-framework build", cwd, {
 					preferLocal: true,
+					nodeModulesPaths: [
+						resolve(cwd, "node_modules"),
+						resolve("node_modules"),
+					],
 					args: ["--mode", "staging"],
 					output: "silent",
 				})
@@ -678,6 +867,31 @@ describe("cf dev", () => {
 			expect(readFileSync(resolve(cwd, "command.out"), "utf8")).toBe(
 				"build\n--mode\nstaging"
 			);
+		});
+
+		it("excludes unrelated parent binaries when preferring local tools", async () => {
+			await seed({
+				"node_modules/.bin/cf-parent-only": nodeScript(
+					'require("node:fs").writeFileSync("unexpected.out", "started");'
+				),
+				"child/package.json": "{}",
+			});
+			makeExecutable("node_modules/.bin/cf-parent-only", { npmBin: true });
+			const command = runProjectCommand(
+				"cf-parent-only build",
+				resolve("child"),
+				{
+					preferLocal: true,
+					output: "silent",
+				}
+			);
+			if (process.platform === "win32") {
+				// The Windows shell reports a missing command through its exit code.
+				await expect(command).resolves.toEqual({ exitCode: 1 });
+			} else {
+				await expect(command).rejects.toThrow();
+			}
+			expect(existsSync("child/unexpected.out")).toBe(false);
 		});
 
 		it("propagates non-zero project command exits", async () => {
@@ -698,9 +912,54 @@ describe("cf dev", () => {
 			}
 		);
 
+		it.skipIf(process.platform === "win32")(
+			"forwards shutdown to a tool started by the command launcher",
+			async () => {
+				await seed({
+					"tool.cjs": nodeScript(`
+const fs = require("node:fs");
+process.on("SIGTERM", () => {
+  fs.writeFileSync("tool-stopped", "true");
+  process.exit(0);
+});
+setInterval(() => {}, 1000);
+fs.writeFileSync("tool-ready", "true");
+`),
+					"launcher.cjs": nodeScript(`
+const { spawn } = require("node:child_process");
+spawn(process.execPath, ["tool.cjs"], { stdio: "inherit" });
+`),
+				});
+				const before = new Set(process.listeners("SIGTERM"));
+				const execution = runProjectCommand("node launcher.cjs", process.cwd());
+				const listener = process
+					.listeners("SIGTERM")
+					.find((fn) => !before.has(fn));
+				if (!listener) {
+					throw new Error(
+						"Project command did not register its shutdown listener"
+					);
+				}
+				try {
+					await vi.waitFor(() => {
+						expect(readFileSync("tool-ready", "utf8")).toBe("true");
+					});
+				} finally {
+					listener("SIGTERM");
+				}
+
+				await expect(execution).resolves.toMatchObject({ signal: "SIGTERM" });
+				await vi.waitFor(() => {
+					expect(readFileSync("tool-stopped", "utf8")).toBe("true");
+				});
+			}
+		);
+
 		it("reports missing project commands and restores signal listeners", async () => {
 			const sigintListeners = process.listenerCount("SIGINT");
 			const sigtermListeners = process.listenerCount("SIGTERM");
+			const sighupListeners = process.listenerCount("SIGHUP");
+			const exitListeners = process.listenerCount("exit");
 			const execution = runProjectCommand(
 				"cf-missing-project-command",
 				process.cwd(),
@@ -713,6 +972,8 @@ describe("cf dev", () => {
 			}
 			expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
 			expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
+			expect(process.listenerCount("SIGHUP")).toBe(sighupListeners);
+			expect(process.listenerCount("exit")).toBe(exitListeners);
 		});
 
 		it("hides environment overrides unless DEBUG is set", async () => {
@@ -824,8 +1085,7 @@ describe("cf dev", () => {
 			]);
 		});
 
-		it("spawns the impl and propagates its exit code", async () => {
-			// Lay down a fake implementation at the conventional delegate path.
+		it("runs native Vite without a plugin delegate", async () => {
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
@@ -834,10 +1094,16 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-rc.0",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(0);"),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(0);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(0);
@@ -846,6 +1112,53 @@ describe("cf dev", () => {
 				"inherit",
 				"inherit",
 				"inherit",
+			]);
+		});
+
+		it("runs the Vite+ executable selected by autoconfig", async () => {
+			await seed({
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+				"package.json": JSON.stringify({
+					devDependencies: {
+						"@cloudflare/vite-plugin": "^2.0.0-rc.0",
+						"vite-plus": "1.5.0",
+					},
+				}),
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					version: "2.0.0-rc.0",
+				}),
+				"node_modules/vite-plus/package.json": JSON.stringify({
+					name: "vite-plus",
+					version: "1.5.0",
+					bin: { vp: "bin/vp with ' quote.js" },
+				}),
+				"node_modules/.bin/vp": nodeScript(
+					`require("../vite-plus/bin/vp with ' quote.js");`
+				),
+				"node_modules/vite-plus/bin/vp with ' quote.js": nodeScript(
+					'require("node:fs").writeFileSync("argv.out", JSON.stringify(process.argv.slice(2)));'
+				),
+			});
+			makeExecutable("node_modules/vite-plus/bin/vp with ' quote.js");
+			makeExecutable("node_modules/.bin/vp", { npmBin: true });
+
+			const result = await runCf([
+				"dev",
+				"--mode",
+				"staging",
+				"--",
+				"--port",
+				"03000",
+			]);
+
+			expect(result.exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("argv.out", "utf8"))).toEqual([
+				"dev",
+				"--mode",
+				"staging",
+				"--port",
+				"03000",
 			]);
 		});
 
@@ -858,15 +1171,22 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "3.0.0-beta.1",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(0);"),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(0);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
-			const result = await runCf(["dev"]);
-			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(
-				/@cloudflare\/vite-plugin v2 \(2\.0\.0-rc\.0 or newer\)/
+			await expect(runCf(["dev"])).rejects.toThrow(
+				"cf requires @cloudflare/vite-plugin >=2.0.0-beta.v.13 <3"
+			);
+			expect(unframe(std.err)).toMatch(
+				/@cloudflare\/vite-plugin >=2\.0\.0-beta\.v\.13 <3/
 			);
 			expect(std.err).toMatch(
 				/@cloudflare\/vite-plugin@3\.0\.0-beta\.1 is installed/
@@ -882,10 +1202,16 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-rc.0",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					nodeScript("process.exit(17);"),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
+				"node_modules/vite/bin/vite.js": nodeScript("process.exit(17);"),
 			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+			makeExecutable("node_modules/vite/bin/vite.js");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(17);
@@ -903,11 +1229,18 @@ describe("cf dev", () => {
 						name: "@cloudflare/vite-plugin",
 						version: "2.0.0-rc.0",
 					}),
-					"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
+					"cloudflare.config.ts": "export default {};",
+					"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "8.1.0",
+						bin: { vite: "bin/vite.js" },
+					}),
+					"node_modules/vite/bin/vite.js": nodeScript(
 						'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
 					),
 				});
-				makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+				makeExecutable("node_modules/vite/bin/vite.js");
 
 				const result = await runCf([
 					"dev",

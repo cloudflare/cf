@@ -267,8 +267,9 @@ function isCompletionInvocation(argv: string[]): boolean {
  * Spawn the local cf bin under the current Node executable and wait for
  * it to exit. stdio is fully inherited so the child owns the terminal;
  * an IPC channel is wired (matching wrangler) so a parent embedding cf
- * still receives the child's messages. SIGINT/SIGTERM are relayed so
- * Ctrl-C reaches the delegated process.
+ * still receives the child's messages. With inherited terminal streams,
+ * SIGINT reaches both CLIs. Without a terminal, SIGINT is relayed;
+ * SIGTERM is always relayed to the delegated process.
  */
 function runDelegated(
 	binPath: string,
@@ -294,11 +295,20 @@ function runDelegated(
 			}
 		});
 
-		const relay = (signal: NodeJS.Signals) => () => {
-			child.kill(signal);
+		const hasTerminal =
+			process.stdin.isTTY || process.stdout.isTTY || process.stderr.isTTY;
+		const onSigInt = (): void => {
+			// Terminal interrupts already reach both CLIs. Non-interactive
+			// callers signal the global PID, so their interrupt needs relaying.
+			// With a terminal attached, use SIGTERM for programmatic shutdown;
+			// SIGINT's source cannot be distinguished here.
+			if (!hasTerminal) {
+				child.kill("SIGINT");
+			}
 		};
-		const onSigInt = relay("SIGINT");
-		const onSigTerm = relay("SIGTERM");
+		const onSigTerm = (): void => {
+			child.kill("SIGTERM");
+		};
 		process.on("SIGINT", onSigInt);
 		process.on("SIGTERM", onSigTerm);
 

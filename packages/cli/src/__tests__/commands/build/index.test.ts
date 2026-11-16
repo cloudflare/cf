@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
 	mockConsoleMethods,
@@ -50,7 +50,7 @@ describe("cf build", () => {
 		expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 	});
 
-	it("uses the vite delegate when vite and wrangler are both declared", async () => {
+	it("uses the native Vite CLI when the plugin and wrangler are both declared", async () => {
 		await seed({
 			"package.json": JSON.stringify({
 				devDependencies: {
@@ -62,8 +62,14 @@ describe("cf build", () => {
 				name: "@cloudflare/vite-plugin",
 				version: "2.0.0-rc.0",
 			}),
-			"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-				buildScript("vite-worker"),
+			"cloudflare.config.ts": "export default {};",
+			"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+			"node_modules/vite/package.json": JSON.stringify({
+				name: "vite",
+				version: "8.1.0",
+				bin: { vite: "bin/vite.js" },
+			}),
+			"node_modules/vite/bin/vite.js": buildScript("vite-worker"),
 			"node_modules/wrangler/package.json": JSON.stringify({
 				name: "wrangler",
 				version: "4.163.0",
@@ -72,13 +78,187 @@ describe("cf build", () => {
 				'require("node:fs").writeFileSync("wrangler-argv.out", process.argv.slice(2).join("\\n") + "\\n"); process.exit(99);'
 			),
 		});
-		chmod("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+		chmod("node_modules/vite/bin/vite.js");
 		chmod("node_modules/wrangler/bin/cf-wrangler.js");
 
 		const result = await runCf(["build"]);
 
 		expect(result.exitCode).toBe(0);
 		expect(readArgv("argv.out")).toEqual(["build"]);
+	});
+
+	describe.each(["native Vite", "Vite", "Vite+"])(
+		"Build Output v0 plugin (%s)",
+		(project) => {
+			const vitePlus = project === "Vite+";
+			it.each([
+				["dev"],
+				["build"],
+				["deploy"],
+				["workers", "versions", "create"],
+				["previews", "deploy", "--preview-name", "feature"],
+			])("rejects the beta plugin before %s starts", async (...command) => {
+				const tool = vitePlus ? "vite-plus" : "vite";
+				const binary = vitePlus ? "vp" : "vite";
+				await seed({
+					"package.json": JSON.stringify({
+						devDependencies: {
+							"@cloudflare/vite-plugin": "2.0.0-beta.v.17",
+							...(vitePlus
+								? { "vite-plus": "1.5.0" }
+								: project === "Vite"
+									? { vite: "8.1.0" }
+									: {}),
+						},
+					}),
+					"cloudflare.config.ts": "export default {};",
+					"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+						name: "@cloudflare/vite-plugin",
+						version: "2.0.0-beta.v.17",
+						dependencies: { "@cloudflare/build-output-utils": "0.9.14" },
+					}),
+					[`node_modules/${tool}/package.json`]: JSON.stringify({
+						name: tool,
+						bin: { [binary]: "cli.js" },
+					}),
+					[`node_modules/.bin/${binary}`]: nodeScript(
+						`require("../${tool}/cli.js");`
+					),
+					[`node_modules/${tool}/cli.js`]: buildScript(
+						"beta-worker"
+					).replaceAll("/v1/", "/v0/"),
+				});
+				makeExecutable(`node_modules/${tool}/cli.js`);
+				makeExecutable(`node_modules/.bin/${binary}`, { npmBin: true });
+
+				await expect(runCf(command)).rejects.toThrow(
+					"cf requires @cloudflare/vite-plugin >=2.0.0-rc.0 <3"
+				);
+
+				expect(unframe(std.err)).toContain(
+					"@cloudflare/vite-plugin@2.0.0-beta.v.17 is installed"
+				);
+				expect(unframe(std.err)).toContain("Build Output v1");
+				expect(unframe(std.err)).toContain("@cloudflare/vite-plugin@rc");
+				expect(existsSync("argv.out")).toBe(false);
+				expect(existsSync(".cloudflare/output/v0")).toBe(false);
+			});
+		}
+	);
+
+	it.each([false, true])(
+		"passes mode and Preview context to native Vite (Preview: %s)",
+		async (isPreview) => {
+			vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
+			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
+				}),
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					name: "@cloudflare/vite-plugin",
+					version: "2.0.0-rc.0",
+				}),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
+				"node_modules/vite/bin/vite.js": buildScript(
+					"vite-worker",
+					'fs.writeFileSync("env.out", JSON.stringify([process.env.CLOUDFLARE_PREVIEW_BUILD, process.env.CLOUDFLARE_CF_AUTH, process.env.CLOUDFLARE_API_TOKEN]));'
+				),
+				".env": "CLOUDFLARE_API_TOKEN=file-token",
+			});
+			chmod("node_modules/vite/bin/vite.js");
+
+			await runBuild("staging", {}, { isPreview });
+
+			expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+			expect(JSON.parse(readFileSync("env.out", "utf8"))).toEqual([
+				isPreview ? "true" : null,
+				"true",
+				null,
+			]);
+		}
+	);
+
+	it("builds a Preview through Vite+ selected by autoconfig", async () => {
+		vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
+		await seed({
+			"cloudflare.config.ts": "export default {};",
+			"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+			"package.json": JSON.stringify({
+				devDependencies: {
+					"@cloudflare/vite-plugin": "^2.0.0-rc.0",
+					"vite-plus": "1.5.0",
+					wrangler: "^4.136.0",
+				},
+			}),
+			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+				version: "2.0.0-rc.0",
+			}),
+			"node_modules/vite-plus/package.json": JSON.stringify({
+				name: "vite-plus",
+				version: "1.5.0",
+				bin: { vp: "bin/vp.js" },
+			}),
+			"node_modules/.bin/vp": nodeScript('require("../vite-plus/bin/vp.js");'),
+			"node_modules/vite-plus/bin/vp.js": buildScript(
+				"vite-plus-worker",
+				'fs.writeFileSync("preview.out", process.env.CLOUDFLARE_PREVIEW_BUILD ?? "");'
+			),
+		});
+		chmod("node_modules/vite-plus/bin/vp.js");
+		makeExecutable("node_modules/.bin/vp", { npmBin: true });
+
+		await runBuild("staging", {}, { isPreview: true });
+
+		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+		expect(readFileSync("preview.out", "utf8")).toBe("true");
+	});
+
+	it.each([
+		["deploy"],
+		["workers", "versions", "create"],
+		["previews", "deploy", "--preview-name", "feature"],
+	])("runs the native Vite build before %s", async (...command) => {
+		vi.stubEnv("CLOUDFLARE_PREVIEW_BUILD", undefined);
+		await seed({
+			"package.json": JSON.stringify({
+				devDependencies: { "@cloudflare/vite-plugin": "^2.0.0-rc.0" },
+			}),
+			"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+				name: "@cloudflare/vite-plugin",
+				version: "2.0.0-rc.0",
+			}),
+			"cloudflare.config.ts": "export default {};",
+			"vite.config.ts": `import { cloudflare } from "@cloudflare/vite-plugin"; export default { plugins: [cloudflare()] };`,
+			"node_modules/vite/package.json": JSON.stringify({
+				name: "vite",
+				version: "8.1.0",
+				bin: { vite: "bin/vite.js" },
+			}),
+			"node_modules/vite/bin/vite.js": nodeScript(
+				[
+					'const fs = require("node:fs");',
+					'fs.writeFileSync("argv.out", process.argv.slice(2).join("\\n"));',
+					'fs.writeFileSync("env.out", process.env.CLOUDFLARE_PREVIEW_BUILD ?? "");',
+					"process.exit(17);",
+				].join("\n")
+			),
+		});
+		chmod("node_modules/vite/bin/vite.js");
+
+		const { exitCode } = await runCf([...command, "--mode", "staging"]);
+
+		expect(exitCode).toBe(17);
+		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+		expect(readFileSync("env.out", "utf8")).toBe(
+			command[0] === "previews" ? "true" : ""
+		);
 	});
 
 	it("uses wrangler as the fallback delegate", async () => {
@@ -368,6 +548,54 @@ describe("cf build", () => {
 		expect(result.exitCode).toBe(17);
 		expect(readArgv("argv.out")).toEqual(["build"]);
 	});
+
+	it.each([
+		{ output: "missing", canonical: false },
+		{ output: "missing", canonical: true },
+		{ output: "malformed", canonical: false },
+	])(
+		"explains $output Build Output after running Vite (canonical: $canonical)",
+		async ({ output, canonical }) => {
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: {
+						"@cloudflare/vite-plugin": "^2.0.0-rc.0",
+						...(canonical ? { vite: "8.1.0" } : {}),
+					},
+				}),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": "export default { plugins: [] };",
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					version: "2.0.0-rc.0",
+				}),
+				"node_modules/vite/package.json": JSON.stringify({
+					bin: { vite: "cli.js" },
+				}),
+				"node_modules/.bin/vite": nodeScript(
+					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n"));'
+				),
+				"node_modules/vite/cli.js": nodeScript(
+					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n"));'
+				),
+				...(output === "malformed"
+					? { ".cloudflare/output/v1/config.json": "{ invalid json" }
+					: {}),
+			});
+			makeExecutable("node_modules/vite/cli.js");
+			makeExecutable("node_modules/.bin/vite", { npmBin: true });
+			const build = runBuild();
+			await expect(build).rejects.toThrow(BuildOutputError);
+			if (output === "missing") {
+				await expect(build).rejects.toThrow(
+					"Check that your Vite config includes cloudflare() from @cloudflare/vite-plugin."
+				);
+			} else {
+				await expect(build).rejects.toThrow("could not parse JSON");
+				await expect(build).rejects.not.toThrow("Check that your Vite config");
+			}
+			expect(readArgv("argv.out")).toEqual(["build"]);
+		}
+	);
 
 	it("fails when a successful delegate does not emit build output", async () => {
 		await seed({

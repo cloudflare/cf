@@ -32,6 +32,7 @@ describe("cf auth profiles", () => {
 	});
 
 	beforeEach(() => {
+		vi.stubEnv("CLOUDFLARE_AUTH_USE_KEYRING", "false");
 		server.use(
 			http.post(
 				"https://dash.cloudflare.com/oauth2/revoke",

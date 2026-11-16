@@ -20,6 +20,7 @@ interface CLIState {
 	};
 	telemetry?: TelemetryState;
 	deviceId?: string;
+	keyringFallbackWarned?: boolean;
 }
 
 const storage = createJsonFileStorage<CLIState>(() =>

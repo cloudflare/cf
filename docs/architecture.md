@@ -860,6 +860,18 @@ reuses the cached OAuth catalogue only for human output; lookup failures show a
 compact explanation. Stored OAuth scopes and expiry never describe an active
 environment API token. Exit-code behavior is unchanged.
 
+`cf auth login` enables OS keyring storage when no saved storage preference or
+`CLOUDFLARE_AUTH_USE_KEYRING` override exists. It uses workers-auth's platform
+backend to write, read, and delete a random key in an isolated probe entry before
+persisting the preference; an installed executable alone is insufficient on
+headless systems. Windows uses an already installed keyring binding for automatic
+selection; `--use-keyring` retains the shared interactive installation path.
+Unavailable backends leave the preference unset so later logins can retry, and
+cf records a one-time plaintext fallback warning in `state.json`. The shared
+auth layer still owns credential migration and storage. Saved preferences and
+explicit flags retain their behavior; `--no-use-keyring` persists an opt-out,
+and `CLOUDFLARE_AUTH_USE_KEYRING=true` requires the keyring without fallback.
+
 ### Reserved names
 
 `flagOwnership` in `packages/cli/src/lib/global-options.ts` is the enforced policy, shared by the generator and the runtime-schema commands. Besides the live globals and their aliases, it reserves:

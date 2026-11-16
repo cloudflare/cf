@@ -142421,6 +142421,58 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf workflows instances batch delete",
+			"name": "delete",
+			"fullPath": ["workflows", "instances", "batch", "delete"],
+			"description": "Deletes multiple workflow instances in a single batch operation.",
+			"summary": "Batch delete instances of a workflow",
+			"usage": "cf workflows instances batch delete <workflow-name> [options]",
+			"arguments": [
+				{
+					"name": "workflow-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Workflow name"
+				}
+			],
+			"options": [
+				{
+					"name": "instances",
+					"type": "string",
+					"required": true,
+					"description": "The instances field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/workflows/{workflow_name}/instances/batch/delete",
+			"operationId": "workflows.instances.batch.delete",
+			"hideCommand": false
+		},
+		{
 			"command": "cf workflows instances create",
 			"name": "create",
 			"fullPath": ["workflows", "instances", "create"],
@@ -143511,6 +143563,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "Automatic injection of Zaraz scripts enabled."
+				},
+				{
+					"name": "settings-bot-score-threshold",
+					"type": "number",
+					"required": false,
+					"description": "Minimum bot score required to load Zaraz."
 				},
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
@@ -168404,7 +168462,7 @@
 			"command": "cf zones automatic-platform-optimization edit",
 			"name": "edit",
 			"fullPath": ["zones", "automatic-platform-optimization", "edit"],
-			"description": "Automatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information.",
+			"description": "Automatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it.",
 			"summary": "Change Automatic Platform Optimization setting",
 			"usage": "cf zones automatic-platform-optimization edit [options]",
 			"arguments": [],
@@ -168437,7 +168495,7 @@
 					"name": "value-recheck",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to recheck WordPress and plugin detection."
+					"description": "Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value."
 				},
 				{
 					"name": "value-wordpress",

@@ -78,6 +78,11 @@ export async function analyzeProject(
 			target: "cf",
 			context,
 		});
+		// Keep using the installed cf delegate when native Vite detection
+		// cannot resolve a command for the project.
+		if (details.commandError && !details.devCommand && !details.buildCommand) {
+			return;
+		}
 		return maybeApplyVinextCommandOverrides(details);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {

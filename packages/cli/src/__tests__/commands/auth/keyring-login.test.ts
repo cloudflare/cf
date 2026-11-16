@@ -121,9 +121,7 @@ describe("cf auth login keyring preference", () => {
 	it.each([true, false])(
 		"preserves the %s preference when the flag is omitted",
 		async (enabled) => {
-			if (enabled !== undefined) {
-				updateUserPreferences({ keyring_enabled: enabled });
-			}
+			updateUserPreferences({ keyring_enabled: enabled });
 			const previous = readUserPreferences();
 
 			await runCf(["auth", "login"]);

@@ -338,6 +338,8 @@ export async function runProjectCommand(
 			forwardedSignal
 		);
 	} finally {
+		// Keep signal/exit cleanup installed while descendants outlive the launcher.
+		await controller?.waitForShutdown();
 		process.off("SIGINT", onSigInt);
 		process.off("SIGTERM", onSigTerm);
 		process.off("SIGHUP", onSigHup);

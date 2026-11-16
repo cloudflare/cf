@@ -280,8 +280,8 @@ importers:
         specifier: 0.0.22
         version: 0.0.22(commander@14.0.3)
       '@bytecodealliance/jco':
-        specifier: 1.41.0
-        version: 1.41.0
+        specifier: 1.42.0
+        version: 1.42.0
       '@clack/core':
         specifier: 1.6.0
         version: 1.6.0
@@ -305,7 +305,7 @@ importers:
         version: 0.27.1(@types/node@26.6.6)(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
       '@cloudflare/forge':
         specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2
-        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2(@bytecodealliance/jco@1.41.0)
+        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2(@bytecodealliance/jco@1.42.0)
       '@cloudflare/workers-auth':
         specifier: 0.18.3
         version: 0.18.3(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
@@ -370,8 +370,8 @@ importers:
         specifier: 'catalog:'
         version: 1.6.0(@types/node@26.6.6)(@vitest/ui@5.1.0)(esbuild@0.28.2)(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
       ws:
-        specifier: 8.22.1
-        version: 8.22.1
+        specifier: 8.23.0
+        version: 8.23.0
       yargs:
         specifier: 18.2.0
         version: 18.2.0
@@ -581,26 +581,26 @@ packages:
     resolution: {integrity: sha512-yxvqQreNcOQdMsEKZomkSqThtkxrAz3f1Cmy8BsV0UHi9saa2/D1KDB14IAXPYwDq/maS6lCzS+MuMQx6QkUgA==}
     engines: {node: '>=20'}
 
-  '@bytecodealliance/jco-std@0.10.0':
-    resolution: {integrity: sha512-t0zGjGPmwvqQ6fsBG1Zy+lgChfRRhKXVAMjIKPIn8MPFYNxqSRALOSDOTurOyHemMz5jdH2b8d2FqF0mwOhxLA==}
+  '@bytecodealliance/jco-std@0.11.0':
+    resolution: {integrity: sha512-f1mWZ9Ixg47Fdy5whK+73xIFSzzQRm7xIHLOoNyumWU0cQKqc5t+SiE9sZiWiyYvKQMwmtFlN1JVQ5yNK20BjA==}
     peerDependencies:
-      '@bytecodealliance/preview2-shim': ^0.31.0
+      '@bytecodealliance/preview2-shim': ^0.31.1
     peerDependenciesMeta:
       '@bytecodealliance/preview2-shim':
         optional: true
 
-  '@bytecodealliance/jco-transpile@0.23.0':
-    resolution: {integrity: sha512-0Vd3W2EA+OMfcGxScTUClo48cHoviJ44HpcF9P0kkYm8tZMzJhT7LLQPzJPV34ynzghARyOf+jpGr83bbYyLhQ==}
+  '@bytecodealliance/jco-transpile@0.24.0':
+    resolution: {integrity: sha512-ISCXvZc+TOX07L+V9WhO7tg8zv1zj9Ll48tT0tKZTUo5O5Cxwn2tCSAMvDtA6Ni6V0baosB3XCaBVFkLNpuBSA==}
 
-  '@bytecodealliance/jco@1.41.0':
-    resolution: {integrity: sha512-hsl9PEj5kOQLMsUhMqaho6yYooQ8SqULjPCuUuUSXu0D3huVQKFwmbUH0B9JTBpLPZPuJJNfnpKnZx6rV53VOA==}
+  '@bytecodealliance/jco@1.42.0':
+    resolution: {integrity: sha512-kQZ+Y4Gcc5XIXP+sKNAya+ZvOQxO0l5QFLlpmx5KUwlpeAaNK0+81mjx24Iq5evQac5MA0U/2YxMaI+xGSDacA==}
     hasBin: true
 
-  '@bytecodealliance/preview2-shim@0.31.0':
-    resolution: {integrity: sha512-9Gv4wn/DCz1NOqTZFcPSIko9jsTwmps67QZ6PPytypmmWLSz5AQf3Xn2EjItfudWwSh5d+9EPD3BrNlvqKWNtA==}
+  '@bytecodealliance/preview2-shim@0.31.1':
+    resolution: {integrity: sha512-uDVB/IhExDW70TquqVx2l2Q5uwwpH7r5M2ltYccux+0YxXBm4TvqyNHTyYxcoLBsoAar28o7uZSj7GOKVx9uvA==}
 
-  '@bytecodealliance/preview3-shim@0.13.0':
-    resolution: {integrity: sha512-XcpvwlsjlVqzV1NeHItgdWCQMPq/imPSoCsB/6vh1eLnB/GjsbApEHXPoAH5h7mdkug2RPlmA+DWI5PEtg8cBg==}
+  '@bytecodealliance/preview3-shim@0.14.1':
+    resolution: {integrity: sha512-rUFh6kIFQEjGbe/TwbGhQPQojOZFiXwk/qr9M21fik3CC/Kk1UJsP9OHNhcdPni6W1+P8ITx/6iJnno+me7Cig==}
 
   '@bytecodealliance/weval@0.5.0':
     resolution: {integrity: sha512-lIR6+enn52gcdMQM8C3YaNoUlzm90TRkJrIgiVky/hED81ezDjhnq+6Z4w0eSFf9C6b2nmdKUFwbp6q1PhiuIQ==}
@@ -3879,18 +3879,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.22.1:
-    resolution: {integrity: sha512-oyL6OPYme/CmiFvNuGzeoxCJ4nOrZE2O1FwM9MWM1AsGri6nLXB2pg+lNA8aLeXMSav0J6eIVS1j6vUPzUtK9g==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.23.0:
     resolution: {integrity: sha512-wCkmX8QMOrKjgO8HW2WyDbTSGeqkocxgDzS9iR79rEAexty6/2qzilx3Ag8Tqf9ykop3irLKle0MtVn5qjVnoQ==}
     engines: {node: '>=10.0.0'}
@@ -3985,14 +3973,14 @@ snapshots:
 
   '@bytecodealliance/componentize-js@0.19.3':
     dependencies:
-      '@bytecodealliance/jco': 1.41.0
+      '@bytecodealliance/jco': 1.42.0
       '@bytecodealliance/wizer': 10.0.0
       es-module-lexer: 1.7.0
       oxc-parser: 0.76.0
 
   '@bytecodealliance/componentize-js@0.23.0':
     dependencies:
-      '@bytecodealliance/jco': 1.41.0
+      '@bytecodealliance/jco': 1.42.0
       '@bytecodealliance/weval': 0.5.0
       '@bytecodealliance/wizer': 10.0.0
       es-module-lexer: 1.7.0
@@ -4033,7 +4021,7 @@ snapshots:
       '@bytecodealliance/jco-node-fs-win32-arm64-msvc': 0.3.2
       '@bytecodealliance/jco-node-fs-win32-x64-msvc': 0.3.2
 
-  '@bytecodealliance/jco-std@0.10.0(@bytecodealliance/preview2-shim@0.31.0)':
+  '@bytecodealliance/jco-std@0.11.0(@bytecodealliance/preview2-shim@0.31.1)':
     dependencies:
       '@noble/hashes': 1.8.0
       acorn: 8.17.0
@@ -4045,22 +4033,22 @@ snapshots:
       web-streams-polyfill: 4.2.0
       whatwg-url: 14.2.0
     optionalDependencies:
-      '@bytecodealliance/preview2-shim': 0.31.0
+      '@bytecodealliance/preview2-shim': 0.31.1
 
-  '@bytecodealliance/jco-transpile@0.23.0':
+  '@bytecodealliance/jco-transpile@0.24.0':
     dependencies:
-      '@bytecodealliance/preview2-shim': 0.31.0
-      '@bytecodealliance/preview3-shim': 0.13.0
+      '@bytecodealliance/preview2-shim': 0.31.1
+      '@bytecodealliance/preview3-shim': 0.14.1
       binaryen: 132.0.0
       oxc-minify: 0.151.0
 
-  '@bytecodealliance/jco@1.41.0':
+  '@bytecodealliance/jco@1.42.0':
     dependencies:
       '@bytecodealliance/componentize-js': 0.23.0
       '@bytecodealliance/componentize-js-0-19-3': '@bytecodealliance/componentize-js@0.19.3'
-      '@bytecodealliance/jco-std': 0.10.0(@bytecodealliance/preview2-shim@0.31.0)
-      '@bytecodealliance/jco-transpile': 0.23.0
-      '@bytecodealliance/preview2-shim': 0.31.0
+      '@bytecodealliance/jco-std': 0.11.0(@bytecodealliance/preview2-shim@0.31.1)
+      '@bytecodealliance/jco-transpile': 0.24.0
+      '@bytecodealliance/preview2-shim': 0.31.1
       binaryen: 132.0.0
       commander: 14.0.3
       componentize-qjs: 0.5.0
@@ -4071,14 +4059,14 @@ snapshots:
       typescript-compiler-api: typescript@6.0.3
       unenv: 2.0.0-rc.24
 
-  '@bytecodealliance/preview2-shim@0.31.0':
+  '@bytecodealliance/preview2-shim@0.31.1':
     dependencies:
       '@bytecodealliance/jco-node-fs': 0.3.2
 
-  '@bytecodealliance/preview3-shim@0.13.0':
+  '@bytecodealliance/preview3-shim@0.14.1':
     dependencies:
       '@bytecodealliance/jco-node-fs': 0.3.2
-      '@bytecodealliance/preview2-shim': 0.31.0
+      '@bytecodealliance/preview2-shim': 0.31.1
 
   '@bytecodealliance/weval@0.5.0':
     dependencies:
@@ -4339,9 +4327,9 @@ snapshots:
       - utf-8-validate
       - vitest
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2(@bytecodealliance/jco@1.41.0)':
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@00ee1dcab3a0511bd91829922aef27edb0d422e2(@bytecodealliance/jco@1.42.0)':
     optionalDependencies:
-      '@bytecodealliance/jco': 1.41.0
+      '@bytecodealliance/jco': 1.42.0
 
   '@cloudflare/kv-asset-handler@0.5.0': {}
 
@@ -6956,8 +6944,6 @@ snapshots:
       strip-ansi: 7.2.0
 
   ws@8.21.0: {}
-
-  ws@8.22.1: {}
 
   ws@8.23.0: {}
 

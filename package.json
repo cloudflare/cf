@@ -12,7 +12,7 @@
 		"check:type": "vp run -r task:check:type",
 		"fix": "vp lint --fix --type-aware && vp fmt",
 		"changeset": "changeset",
-		"changeset:version": "changeset version && vp fmt packages/cli/CHANGELOG.md"
+		"changeset:version": "node scripts/prepare-prerelease.mjs && changeset version && vp fmt packages/cli/CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@changesets/cli": "2.31.0",

@@ -1,3 +1,9 @@
+# Last resort for exceptional, temporary compatibility fixes. Fix OpenAPI or
+# Forge upstream by default; existing actions are not precedent for new ones.
+# Any new action needs a strong justification here and in its PR: concrete user
+# impact, why the upstream fix cannot be consumed in time, a linked upstream
+# issue/PR, and a precise removal condition. Include source guards and regression
+# coverage. Never add an action merely to unblock generation or make tests pass.
 overlay: 1.1.0
 info:
   title: Temporary cf CLI compatibility annotations

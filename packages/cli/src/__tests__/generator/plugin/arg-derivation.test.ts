@@ -800,7 +800,7 @@ describe("cf-owned flag clashes", () => {
 				"POST /accounts/{account_id}/example (example-search): API fields need other CLI flag names:",
 				'      body field `profile` → --profile, which is a global cf option. Set x-forge-params["profile"].flagName.',
 				'      body field `json` → --json, which is reserved for a future cf option. Set x-forge-params["json"].flagName.',
-				"    A flagName renames only the CLI flag; the wire name stays. Until the API schema sets one, add an action to packages/cli/generator/cli-compat.overlay.yaml with a precondition in cli-compat-guards.ts.",
+				"    A flagName renames only the CLI flag; the wire name stays. Fix this in the upstream OpenAPI schema or Forge annotations. A local compatibility overlay requires the strong justification documented in AGENTS.md.",
 			].join("\n")
 		);
 	});

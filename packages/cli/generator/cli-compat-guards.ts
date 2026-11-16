@@ -13,6 +13,8 @@ interface TemporaryFlagName {
  * Preconditions for the temporary flag names in cli-compat.overlay.yaml
  * (cloudflare/cf#28). Overlays allow unmatched targets, so check the pinned
  * source separately and remove each guard with its action once fixed upstream.
+ * A guard does not justify a new local fix: additions must meet the last-resort
+ * policy in the root AGENTS.md and document their rationale beside the action.
  */
 const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 	{

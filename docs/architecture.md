@@ -382,12 +382,18 @@ ordered JSONPath targets with standard `update` and `remove` actions. Redocly's
 `@redocly/openapi-core` validates the overlay and applies it through its public
 bundling API, preserving internal references. It is a development dependency.
 
-Put temporary annotation fixes in the overlay, with a source precondition in
+Fix annotation issues upstream in OpenAPI or Forge by default. The local overlay
+is a last resort for exceptional, temporary compatibility fixes. Any new action
+requires a strong justification beside the action and in its PR: concrete user
+impact, why an upstream fix cannot be consumed in time, a linked upstream issue
+or PR, and a precise removal condition. Existing actions are not precedent, and
+unblocking generation or making tests pass alone does not justify another patch.
+
+Each justified action also needs a source precondition in
 `generator/cli-compat-guards.ts` and a regression test. Overlay actions allow
 unmatched targets, so the guards check operation identities, body field types,
 and upstream annotations before applying any changes. Remove an action and its
-guard together when the pinned Forge OpenAPI supplies the fix. Keep shared API
-knowledge upstream; this file only bridges compatibility gaps in the current pin.
+guard together when the pinned Forge OpenAPI supplies the fix.
 
 ### Source config access is command-scoped
 
@@ -851,7 +857,7 @@ There is no single global resolution order. Zone uses positional value → `--zo
 
 Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
 
-An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/cli-compat.overlay.yaml` holds temporary annotations, with source preconditions in `generator/cli-compat-guards.ts`. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
+An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. Fix this with a descriptive `flagName` in the upstream OpenAPI schema or Forge annotations. Local patches in `generator/cli-compat.overlay.yaml` are a last resort requiring the strong justification documented in the root `AGENTS.md`; existing patches are not precedent for new ones. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 

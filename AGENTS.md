@@ -49,6 +49,15 @@ In the rules below, `src/` means `packages/cli/src/`.
   belong in Forge overlays or OpenAPI; generic command-emission rules belong in
   `packages/cli/generator/plugin/`. Do not modify the installed Forge package;
   change the Forge source repository and consume its next build.
+- **Treat the local OpenAPI overlay as a last resort.** Fix schema and
+  annotation issues upstream in OpenAPI or Forge by default. A new action in
+  `packages/cli/generator/cli-compat.overlay.yaml` requires a strong, documented
+  justification: concrete user impact, why an upstream fix cannot be consumed
+  in time, a linked upstream issue or PR, and a precise removal condition.
+  Record this rationale beside the action and in the PR, with source guards
+  and regression coverage. Do not add actions merely to unblock generation,
+  make tests pass, or save implementation time. Existing actions are not
+  precedent for adding more.
 - **Choose the shared boundary first.** Capabilities useful to API callers
   belong at the platform/API layer; reusable CLI affordances belong in Forge
   annotations. Truly CLI-only local or multi-endpoint workflows may use a

@@ -1,5 +1,82 @@
 # cf
 
+## 1.0.0-rc.0
+
+### Minor Changes
+
+- ae6785d: Release the first cf 1.0 release candidate.
+
+  Publish 1.0.0-rc.0 and update the installation and publishing guidance
+  for the release candidate channel.
+
+- 3dc692a: Default OAuth login to OS keyring storage when available
+
+  `cf auth login` now verifies the OS keyring backend and enables encrypted
+  credential storage by default when no storage preference or environment override
+  is set. Existing plaintext credentials migrate through the shared auth layer.
+  When the backend is unavailable, login keeps plaintext storage with a one-time
+  warning and retries the keyring on a later login. Saved preferences,
+  `--use-keyring` / `--no-use-keyring`, and `CLOUDFLARE_AUTH_USE_KEYRING` retain
+  their existing behavior. This changes the default storage behavior during the
+  1.0 beta.
+
+- 572d2c5: Run the project's own Vite or Vite+ commands
+
+  `cf dev`, `cf build` and `cf deploy` now run the project's installed `vite` or `vp` (Vite+) instead of the internal `cf-vite` executable from `@cloudflare/vite-plugin` when autoconfig identifies it as a Vite project. If you were running `cf dev -- --local`, set `remoteBindings: false` in `cloudflare()` to turn off remote bindings.
+
+  Stopping cf now also stops tools that launchers such as `vp` start, and on macOS and Linux a second Ctrl+C force-stops the command.
+
+- 882171d: Skip source maps when uploading to a temporary account
+
+  `cf deploy`, `cf workers versions create`, and `cf previews deploy` no longer upload source maps with `--temporary-account`. Source maps can be larger than the code they map, so they push a Worker towards the upload size limit, and their stack traces are rarely needed before the account is claimed. Deploy again after claiming the account to upload them.
+
+- 6847d78: Update the generated command surface for Forge OpenAPI release
+  `139a85d54f1e66f0448caacc233c4a03e0e0b154`.
+- 9fddf41: Update the generated command surface for Forge OpenAPI release
+  `3680a9d2d4f075407dbcd5723d00325930c3eedd`.
+- 4a404df: Update the generated command surface for Forge OpenAPI release
+  `5a5ffd71ff49586f7852a9b0257e849d7f43f627`.
+- 8da8d8a: Update the generated command surface for Forge OpenAPI release
+  `8b1a451819bc546d410e41cca71a86bcc2779808`.
+- d66c45c: Update the generated command surface for Forge OpenAPI release
+  `8d8fce5a1edf15130a46eeaa2b967fab08c049cf`.
+- cbe15ec: Initialize Workers with Vite+ checks, formatting, and Workers-runtime tests. Align Vite and Vitest across supported package managers while keeping cf responsible for development, builds, and deployment.
+
+  Use the project-local `vp` executable for Vite+ development and builds. This avoids downloading a separate Vite with npm or failing to find a `vite` executable with pnpm.
+
+- 6df29e1: Support the Cloudflare config 1.0 release candidate and Build Output v1
+
+  cf now reads and writes Build Output under `.cloudflare/output/v1/`. The root
+  `config.json` keeps account settings under `settings` and records cf as its
+  `producer`. Output in the older v0 format is rejected, so rebuild projects
+  before deploying them with this release.
+
+  Container `max_instances` defaults to 20 when the config leaves it unset,
+  matching Wrangler.
+
+  `cf dev`, `cf build`, `cf deploy` and `cf previews deploy` now require
+  `@cloudflare/vite-plugin` 2.0.0-rc.0 or newer, and `cf init` scaffolds new
+  projects with `@cloudflare/vite-plugin@^2.0.0-rc.0`.
+
+  Use the published Workers SDK packages, including Wrangler 4.163.0 or newer
+  for the Wrangler delegate to produce compatible Build Output.
+
+### Patch Changes
+
+- 25a7a62: Finish project command shutdown after the launcher exits
+
+  Keep cf alive during graceful signal shutdown until the command's POSIX process
+  group exits or the five-second grace period expires, then force remaining
+  descendants to stop. Preserve repeated-interrupt escalation so interrupted dev
+  servers release their ports even when their launcher exits first.
+
+- a47c63f: Validate enum values in query-array flags
+
+  Preserve choices from inline and referenced array item schemas so invalid
+  values are rejected before an API request. Valid single and repeated values
+  continue to be passed as arrays, and enum arrays continue to accept
+  comma-separated input.
+
 ## 1.0.0-beta.32
 
 ### Minor Changes

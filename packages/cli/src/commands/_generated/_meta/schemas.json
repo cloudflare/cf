@@ -46197,8 +46197,8 @@
 				}
 			]
 		},
-		"kv bulk delete": {
-			"operationId": "kv.bulk.delete",
+		"kv keys bulk-delete": {
+			"operationId": "kv.keys.bulk-delete",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete",
 			"pathParams": [
@@ -46210,7 +46210,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -46219,8 +46218,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"kv bulk get": {
-			"operationId": "kv.bulk.get",
+		"kv keys bulk-get": {
+			"operationId": "kv.keys.bulk-get",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/get",
 			"pathParams": [
@@ -46232,7 +46231,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -46260,8 +46258,8 @@
 				}
 			]
 		},
-		"kv bulk put": {
-			"operationId": "kv.bulk.put",
+		"kv keys bulk-put": {
+			"operationId": "kv.keys.bulk-put",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk",
 			"pathParams": [
@@ -46273,7 +46271,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -58381,6 +58378,18 @@
 				}
 			],
 			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
 				{
 					"name": "id",
 					"flag": "id",

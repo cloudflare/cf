@@ -1,8 +1,8 @@
-import operation from "../../_operations/kv/bulk/get.js";
+import operation from "../../_operations/kv/keys/bulk-get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * get command
+ * bulk-get command
  * @generated from apis/overlays/kv.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 kv bulk get <namespace-id>\n\nRetrieves the text-based values of up to 100 keys from the specified Workers KV namespace. The result maps each requested key to its value. Set `type` to `json` to parse JSON values instead of returning strings, and set `withMetadata` to `true` to include metadata with each value. Binary values are not supported by this operation."
+			"$0 kv keys bulk-get\n\nRetrieves the text-based values of up to 100 keys from the specified Workers KV namespace. The result maps each requested key to its value. Set `type` to `json` to parse JSON values instead of returning strings, and set `withMetadata` to `true` to include metadata with each value. Binary values are not supported by this operation."
 		)
-		.positional("namespace-id", {
+		.option("namespace-id", {
 			type: "string",
 			description: "ID of the Workers KV namespace.",
 			demandOption: true,
@@ -61,13 +61,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <namespace-id>",
+	command: "bulk-get",
 	describe: "Get multiple key-value pairs",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "kv bulk get",
+				command: "kv keys bulk-get",
 				classification: {
 					safeFlags: ["type", "with-metadata", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -77,7 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf kv bulk get",
+						command: "cf kv keys bulk-get",
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/storage/kv/namespaces/${argv["namespace-id"] == null ? "<namespace-id>" : encodeURIComponent(String(argv["namespace-id"]))}/bulk/get`,
 						pathParams: { "namespace-id": String(argv["namespace-id"] ?? "") },
@@ -101,14 +101,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
+					const result = await withProgress(`Loading`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							namespace_id: argv["namespace-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Created` });
+					formatOutput(result, { successLabel: `Loaded` });
 					return;
 				}
 				if (argv["keys"] === undefined) {
@@ -123,14 +123,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					type: argv["type"],
 					withMetadata: argv["with-metadata"],
 				});
-				const result = await withProgress(`Creating`, async () =>
+				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						namespace_id: argv["namespace-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Created` });
+				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
 };

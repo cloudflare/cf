@@ -1,4 +1,4 @@
-/** @generated from kv.bulk.delete */
+/** @generated from kv.keys.bulk-delete */
 import { path } from "#api";
 
 export default {

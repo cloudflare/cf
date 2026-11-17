@@ -7,10 +7,10 @@
 		"check:type": "vp run task:check:type"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "2.0.0-rc.0",
+		"@cloudflare/vite-plugin": "2.0.0-rc.1",
 		"@cloudflare/workers-types": "5.20261117.1",
 		"cf": "workspace:*",
 		"vite": "catalog:",
-		"wrangler": "4.163.0"
+		"wrangler": "4.164.0"
 	}
 }

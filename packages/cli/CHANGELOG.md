@@ -1,5 +1,65 @@
 # cf
 
+## 1.0.0-rc.1
+
+### Minor Changes
+
+- 749a8b3: Rank the right command first for common `cf cli search` queries
+
+  Generated commands can now carry search keywords, kept next to the search command because their metadata has no sidecar. Keywords cover the phrasings agents use most for Worker secrets (including Wrangler's `secret put` wording), listing Worker scripts, reading Worker settings, listing accounts and D1 databases, creating a D1 database, reading the Zero Trust organization and querying Workers Logs. `cf deploy` and `cf workers versions create` gain a "secrets file" keyword.
+
+- 5c2f6cc: Add observability live tail
+
+  Stream live observability events with `cf observability tail`. Select `--all` for all observability events, `--worker` for a Worker, or `--zone` for zone events. Use `--filters` alone or with `--worker` or `--zone` to apply JSON filters, inline or from `@filters.json`.
+
+- 3508d43: Update the generated command surface for Forge OpenAPI release
+  `295135ad50f7498c831e9229d5a63170cccd92f7`.
+
+  Breaking change: the following commands have been renamed without compatibility
+  aliases. Update scripts to use the replacements:
+
+  - `cf email-routing addresses update` → `cf email-routing addresses edit`
+  - `cf email-routing settings update` → `cf email-routing settings edit`
+  - `cf email-routing settings apply` → `cf email-routing settings replace`
+  - `cf cloudforce-one rules email update-pending-approval` → `cf cloudforce-one rules email approvals replace`
+
+- 29e7883: Update the generated command surface for Forge OpenAPI release
+  `7c83928ea79d7acfe846a39b6f395868f8fbbd05`.
+- d8f02a9: Update the generated command surface for Forge OpenAPI release
+  `d4d9f31102dedfa2249f5a9e8ead7e41f5daa83b`.
+
+  This prerelease includes breaking command renames without aliases. Update scripts
+  from `cf workers secrets bulk` to `cf workers secrets bulk-edit` and from
+  `cf workers-for-platforms dispatch-namespaces scripts secrets bulk` to
+  `cf workers-for-platforms dispatch-namespaces scripts secrets bulk-edit`. The
+  `cf email-security` subgroups `allow-policies`, `block-senders`, `content-policies`,
+  `domains`, `trusted-domains`, and `url-ignore-patterns` rename `batch` to
+  `bulk-apply`.
+
+  Add `--multiprovider-enabled` to `cf ai-gateway gateways create` and `update`.
+  Add `--forward-client-ip-headers` to `cf google-tag-gateway config update` and
+  make `--hide-original-ip` optional and deprecated; it no longer affects traffic.
+
+### Patch Changes
+
+- 5c2f6cc: Refresh expired OAuth credentials during commands
+
+  Keep long-running commands such as `cf observability tail` authenticated when their OAuth access token expires.
+
+- aadb529: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.0` → `0.13.1`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.0` → `1.0.0-rc.1`
+  - `@cloudflare/cli-shared-helpers`: `0.3.9` → `0.3.10`
+  - `@cloudflare/codemods`: `0.8.0` → `0.8.1`
+  - `@cloudflare/config`: `1.0.0-rc.0` → `1.0.0-rc.1`
+  - `@cloudflare/containers-shared`: `0.26.2` → `0.26.3`
+  - `@cloudflare/deploy-helpers`: `0.27.1` → `0.27.2`
+  - `@cloudflare/runtime-types`: `0.1.29` → `0.1.30`
+  - `@cloudflare/workers-auth`: `0.18.3` → `0.18.4`
+  - `@cloudflare/workers-utils`: `0.54.1` → `0.54.2`
+  - `miniflare`: `5.20261116.0-beta` → `5.20261117.0-beta`
+
 ## 1.0.0-rc.0
 
 ### Minor Changes

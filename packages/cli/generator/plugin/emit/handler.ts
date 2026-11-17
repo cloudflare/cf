@@ -88,7 +88,7 @@ function prelude(ctx: Ctx): string[] {
 			? argvKey(kebab((positionals(ctx.derived)[0] as Arg).name))
 			: 'argv["worker"]';
 		lines.push(
-			`      const scriptName = getWorkerName({ scriptName: ${read} });`
+			`      const scriptName = await getWorkerName({ scriptName: ${read}, quiet: argv["quiet"] as boolean | undefined });`
 		);
 		lines.push(`      ${read} = scriptName;`);
 	}

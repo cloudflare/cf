@@ -178,13 +178,47 @@ describe("context", () => {
 	});
 
 	describe("getWorkerName", () => {
-		it("returns the scriptName when present", () => {
-			expect(getWorkerName({ scriptName: "my-worker" })).toBe("my-worker");
+		it("returns the scriptName when present", async () => {
+			await expect(getWorkerName({ scriptName: "my-worker" })).resolves.toBe(
+				"my-worker"
+			);
 		});
 
-		it("throws a helpful error when missing", () => {
-			expect(() => getWorkerName({})).toThrow(/Required Worker name missing/);
-			expect(() => getWorkerName()).toThrow(/--worker/);
+		it("prefers the flag over cloudflare.config.ts", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`export default { worker: { name: "from-config", compatibilityDate: "2025-01-01" } };`
+			);
+			await expect(getWorkerName({ scriptName: "flag" })).resolves.toBe("flag");
+		});
+
+		it("falls back to worker.name from cloudflare.config.ts and says so", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`export default { worker: { name: "from-config", compatibilityDate: "2025-01-01" } };`
+			);
+			const error = vi.spyOn(console, "error").mockImplementation(() => {});
+			await expect(getWorkerName({})).resolves.toBe("from-config");
+			expect(error).toHaveBeenCalledWith(
+				"Using Worker: from-config (from cloudflare.config.ts)"
+			);
+		});
+
+		it("stays quiet with --quiet", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`export default { worker: { name: "from-config", compatibilityDate: "2025-01-01" } };`
+			);
+			const error = vi.spyOn(console, "error").mockImplementation(() => {});
+			await expect(getWorkerName({ quiet: true })).resolves.toBe("from-config");
+			expect(error).not.toHaveBeenCalled();
+		});
+
+		it("throws a helpful error when missing", async () => {
+			await expect(getWorkerName({})).rejects.toThrow(
+				/Required Worker name missing/
+			);
+			await expect(getWorkerName()).rejects.toThrow(/--worker/);
 		});
 	});
 

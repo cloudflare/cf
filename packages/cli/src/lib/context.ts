@@ -16,8 +16,10 @@
  *   2. CLOUDFLARE_ZONE_ID environment variable
  */
 import {
+	CLOUDFLARE_CONFIG_FILENAME,
 	getLoadedProjectSettings,
 	loadProjectSettings,
+	loadProjectWorkerName,
 } from "./project-settings.js";
 import { isId } from "./resolve.js";
 import type { Cloudflare } from "./auth.js";
@@ -201,16 +203,31 @@ async function resolveZoneValue(
 /**
  * Get the Worker name. Called by generated commands under `cf workers *`.
  *
- * Yargs populates `worker` from either the positional arg or `--worker`
- * (aliased as `--script-name` / `--worker-id`), so this is just a guard against
- * missing input.
+ * Priority:
+ *   1. --worker flag (yargs also aliases `--script-name` / `--worker-id`)
+ *   2. `worker.name` from the nearest cloudflare.config.ts, evaluated with the
+ *      current `--mode`
+ *
+ * @throws Error if no Worker name is found
  */
-export function getWorkerName(argv?: { scriptName?: string }): string {
+export async function getWorkerName(argv?: {
+	scriptName?: string;
+	quiet?: boolean;
+}): Promise<string> {
 	if (argv?.scriptName) {
 		return argv.scriptName;
 	}
+	const project = await loadProjectWorkerName();
+	if (project) {
+		if (!argv?.quiet) {
+			console.error(
+				`Using Worker: ${project.name} (from ${CLOUDFLARE_CONFIG_FILENAME})`
+			);
+		}
+		return project.name;
+	}
 	throw new Error(
-		"Required Worker name missing. Please specify the Worker name with `--worker <name>`."
+		`Required Worker name missing. Please specify the Worker name with \`--worker <name>\`, or run \`cf\` inside a project whose ${CLOUDFLARE_CONFIG_FILENAME} defines \`worker.name\`.`
 	);
 }
 

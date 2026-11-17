@@ -12,7 +12,7 @@
 		"check:type": "vp run -r task:check:type",
 		"fix": "vp lint --fix --type-aware && vp fmt",
 		"changeset": "changeset",
-		"changeset:version": "changeset version && vp fmt packages/cli/CHANGELOG.md"
+		"changeset:version": "node scripts/prepare-prerelease.mjs && changeset version && vp fmt packages/cli/CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@changesets/cli": "2.31.0",
@@ -25,5 +25,5 @@
 	"engines": {
 		"node": "^22.23.0 || ^24.22.0 || ^26.12.0"
 	},
-	"packageManager": "pnpm@12.18.0"
+	"packageManager": "pnpm@12.20.0"
 }

@@ -43,6 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ai_search_namespace",
 				"alerting_policy",
 				"alerting_webhook",
+				"app_library_application",
 				"cloudflared_tunnel",
 				"cws_deployment",
 				"cws_policy",

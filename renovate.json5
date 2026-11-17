@@ -76,9 +76,9 @@
 			followTag: "beta",
 		},
 		{
-			description: "Follow the Vite plugin's beta release",
+			description: "Follow the Vite plugin's release candidate",
 			matchPackageNames: ["@cloudflare/vite-plugin"],
-			followTag: "beta",
+			followTag: "rc",
 		},
 		{
 			description: "Update pnpm",

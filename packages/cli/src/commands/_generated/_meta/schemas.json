@@ -6369,6 +6369,12 @@
 					"description": "The logpush_public_key field"
 				},
 				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
+				},
+				{
 					"name": "otel",
 					"type": "string",
 					"required": false,
@@ -7038,6 +7044,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
 				},
 				{
 					"name": "otel",
@@ -7757,6 +7769,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable vector (embedding) storage backend."
+				},
+				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
 				},
 				{
 					"name": "indexing-options-keyword-tokenizer",
@@ -9845,6 +9863,12 @@
 					"description": "Enable vector (embedding) storage backend."
 				},
 				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
+				},
+				{
 					"name": "indexing-options-keyword-tokenizer",
 					"type": "string",
 					"required": false,
@@ -10118,13 +10142,13 @@
 					"name": "summarization",
 					"type": "boolean",
 					"required": false,
-					"description": "The summarization field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "summarization-model",
 					"type": "string",
 					"required": false,
-					"description": "The summarization_model field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "sync-interval",
@@ -10142,7 +10166,7 @@
 					"name": "system-prompt-index-summarization",
 					"type": "string",
 					"required": false,
-					"description": "The system_prompt_index_summarization field"
+					"description": "Deprecated and has no effect. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "system-prompt-rewrite-query",
@@ -15763,6 +15787,12 @@
 					"description": "Restrict results by resource tags. Filters for different keys are combined with AND, while values within one filter are combined with OR. Keys must be unique and are case-sensitive. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"Key\": string, \"Values\": [string]}]."
 				},
 				{
+					"name": "granularity",
+					"type": "string",
+					"required": false,
+					"description": "Optional time bucket to sum records over. `DAILY` returns one record per day. `PERIOD` returns one record for the whole time period. When set with `Metric` `cost`, cost is summed across pricing tiers into one record per billable metric per bucket. When omitted, records are not summed: `usage` returns daily records and `cost` returns one record per rated breakdown. Available only on `POST` account usage."
+				},
+				{
 					"name": "group-by",
 					"type": "string",
 					"required": false,
@@ -20283,8 +20313,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"builds repos connections upsert": {
-			"operationId": "builds.repos.connections.upsert",
+		"builds repos connections replace": {
+			"operationId": "builds.repos.connections.replace",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/builds/repos/connections",
 			"pathParams": [
@@ -20651,81 +20681,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"builds workers get": {
-			"operationId": "builds.workers.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "worker",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds workers migrate-to-previews": {
-			"operationId": "builds.workers.migrate-to-previews",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "worker",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "deploy-command",
-					"type": "string",
-					"required": false,
-					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
-				}
-			]
-		},
-		"builds workers purge-cache": {
-			"operationId": "builds.workers.purge-cache",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "script_tag",
-					"flag": "worker",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"builds workers update": {
-			"operationId": "builds.workers.update",
+		"builds workers edit": {
+			"operationId": "builds.workers.edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/builds/workers/{script_tag}",
 			"pathParams": [
@@ -20861,6 +20818,79 @@
 					"description": "Repository directory in which build and deploy commands run."
 				}
 			]
+		},
+		"builds workers get": {
+			"operationId": "builds.workers.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"builds workers migrate-to-previews": {
+			"operationId": "builds.workers.migrate-to-previews",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "deploy-command",
+					"type": "string",
+					"required": false,
+					"description": "Deploy command for the migrated Preview settings. Omit it to have the existing 'wrangler versions upload' command rewritten to 'wrangler preview' automatically, which fails with 400 when the existing command cannot be rewritten."
+				}
+			]
+		},
+		"builds workers purge-cache": {
+			"operationId": "builds.workers.purge-cache",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/builds/workers/{script_tag}/purge_build_cache",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_tag",
+					"flag": "worker",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"cache invalidate": {
 			"operationId": "cache.invalidate",
@@ -24879,6 +24909,90 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one rules email approvals replace": {
+			"operationId": "cloudforce-one.rules.email.approvals.replace",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "module",
+					"flag": "module",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
+				},
+				{
+					"name": "condition-operator",
+					"type": "string",
+					"required": true,
+					"description": "The condition.operator field"
+				},
+				{
+					"name": "condition-type",
+					"type": "string",
+					"required": true,
+					"description": "The condition.type field"
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Disposition for matching email. This emits status metadata with the selected value."
+				},
+				{
+					"name": "strings",
+					"type": "string",
+					"required": false,
+					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
+				}
+			]
+		},
 		"cloudforce-one rules email approvals resubmit": {
 			"operationId": "cloudforce-one.rules.email.approvals.resubmit",
 			"httpMethod": "POST",
@@ -25216,90 +25330,6 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Disposition for matching email. This emits status metadata with the selected value."
-				},
-				{
-					"name": "strings",
-					"type": "string",
-					"required": false,
-					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
-				}
-			]
-		},
-		"cloudforce-one rules email update-pending-approval": {
-			"operationId": "cloudforce-one.rules.email.update-pending-approval",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "id",
-					"flag": "id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "module",
-					"flag": "module",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "condition-conditions",
-					"type": "string",
-					"required": true,
-					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
-				},
-				{
-					"name": "condition-operator",
-					"type": "string",
-					"required": true,
-					"description": "The condition.operator field"
-				},
-				{
-					"name": "condition-type",
-					"type": "string",
-					"required": true,
-					"description": "The condition.type field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "meta",
-					"type": "string",
-					"required": false,
-					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
 					"description": "The name field"
 				},
 				{
@@ -36178,6 +36208,35 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"email-routing addresses edit": {
+			"operationId": "email-routing.addresses.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "destination_address_identifier",
+					"flag": "destination-address-identifier",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "status",
+					"type": "string",
+					"required": true,
+					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges."
+				}
+			]
+		},
 		"email-routing addresses get": {
 			"operationId": "email-routing.addresses.get",
 			"httpMethod": "GET",
@@ -36239,35 +36298,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"email-routing addresses update": {
-			"operationId": "email-routing.addresses.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "destination_address_identifier",
-					"flag": "destination-address-identifier",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": true,
-					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges."
-				}
-			]
 		},
 		"email-routing disable": {
 			"operationId": "email-routing.disable",
@@ -36674,9 +36704,9 @@
 				}
 			]
 		},
-		"email-routing settings apply": {
-			"operationId": "email-routing.settings.apply",
-			"httpMethod": "PUT",
+		"email-routing settings edit": {
+			"operationId": "email-routing.settings.edit",
+			"httpMethod": "PATCH",
 			"path": "/zones/{zone_id}/email/routing",
 			"pathParams": [
 				{
@@ -36725,9 +36755,9 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-routing settings update": {
-			"operationId": "email-routing.settings.update",
-			"httpMethod": "PATCH",
+		"email-routing settings replace": {
+			"operationId": "email-routing.settings.replace",
+			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/email/routing",
 			"pathParams": [
 				{
@@ -36760,8 +36790,8 @@
 				}
 			]
 		},
-		"email-security allow-policies batch": {
-			"operationId": "email-security.allow-policies.batch",
+		"email-security allow-policies bulk-apply": {
+			"operationId": "email-security.allow-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/allow_policies/batch",
 			"pathParams": [
@@ -37225,8 +37255,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security block-senders batch": {
-			"operationId": "email-security.block-senders.batch",
+		"email-security block-senders bulk-apply": {
+			"operationId": "email-security.block-senders.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/block_senders/batch",
 			"pathParams": [
@@ -37819,8 +37849,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security content-policies batch": {
-			"operationId": "email-security.content-policies.batch",
+		"email-security content-policies bulk-apply": {
+			"operationId": "email-security.content-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/content_policies/batch",
 			"pathParams": [
@@ -38078,8 +38108,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security domains batch": {
-			"operationId": "email-security.domains.batch",
+		"email-security domains bulk-apply": {
+			"operationId": "email-security.domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/domains/batch",
 			"pathParams": [
@@ -39443,8 +39473,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security trusted-domains batch": {
-			"operationId": "email-security.trusted-domains.batch",
+		"email-security trusted-domains bulk-apply": {
+			"operationId": "email-security.trusted-domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/trusted_domains/batch",
 			"pathParams": [
@@ -39743,8 +39773,8 @@
 				}
 			]
 		},
-		"email-security url-ignore-patterns batch": {
-			"operationId": "email-security.url-ignore-patterns.batch",
+		"email-security url-ignore-patterns bulk-apply": {
+			"operationId": "email-security.url-ignore-patterns.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/url_ignore_patterns/batch",
 			"pathParams": [
@@ -41988,10 +42018,16 @@
 					"description": "Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics)."
 				},
 				{
+					"name": "forward-client-ip-headers",
+					"type": "boolean",
+					"required": false,
+					"description": "Forwards client IP-related headers when enabled. When disabled, client IP-related headers are stripped. If omitted, the previously stored value is kept; new configurations default to true."
+				},
+				{
 					"name": "hide-original-ip",
 					"type": "boolean",
-					"required": true,
-					"description": "Hides the original client IP address from Google when enabled."
+					"required": false,
+					"description": "Deprecated. This value is stored but has no effect on traffic. Use `forwardClientIpHeaders` to control whether client IP-related headers are forwarded to Google. Optional in requests: if omitted, the previously stored value is kept. Responses always include it."
 				},
 				{
 					"name": "measurement-id",
@@ -46197,8 +46233,8 @@
 				}
 			]
 		},
-		"kv bulk delete": {
-			"operationId": "kv.bulk.delete",
+		"kv keys bulk-delete": {
+			"operationId": "kv.keys.bulk-delete",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete",
 			"pathParams": [
@@ -46210,7 +46246,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -46219,8 +46254,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"kv bulk get": {
-			"operationId": "kv.bulk.get",
+		"kv keys bulk-get": {
+			"operationId": "kv.keys.bulk-get",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/get",
 			"pathParams": [
@@ -46232,7 +46267,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -46260,8 +46294,8 @@
 				}
 			]
 		},
-		"kv bulk put": {
-			"operationId": "kv.bulk.put",
+		"kv keys bulk-put": {
+			"operationId": "kv.keys.bulk-put",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk",
 			"pathParams": [
@@ -46273,7 +46307,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -58381,6 +58414,18 @@
 				}
 			],
 			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
 				{
 					"name": "id",
 					"flag": "id",
@@ -100705,8 +100750,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers secrets bulk": {
-			"operationId": "workers.secrets.bulk",
+		"workers secrets bulk-edit": {
+			"operationId": "workers.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
@@ -101256,8 +101301,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces scripts secrets bulk": {
-			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk",
+		"workers-for-platforms dispatch-namespaces scripts secrets bulk-edit": {
+			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
@@ -102119,6 +102164,35 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
+		"workflows instances batch delete": {
+			"operationId": "workflows.instances.batch.delete",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workflows/{workflow_name}/instances/batch/delete",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "workflow_name",
+					"flag": "workflow-name",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "instances",
+					"type": "string",
+					"required": true,
+					"description": "The instances field"
+				}
+			]
+		},
 		"workflows instances create": {
 			"operationId": "workflows.instances.create",
 			"httpMethod": "POST",
@@ -102963,6 +103037,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "Automatic injection of Zaraz scripts enabled."
+				},
+				{
+					"name": "settings-bot-score-threshold",
+					"type": "number",
+					"required": false,
+					"description": "Minimum bot score required to load Zaraz."
 				},
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
@@ -105674,8 +105754,23 @@
 				}
 			]
 		},
-		"zero-trust access targets bulk delete": {
-			"operationId": "zero-trust.access.targets.bulk.delete",
+		"zero-trust access targets bulk-create": {
+			"operationId": "zero-trust.access.targets.bulk-create",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/infrastructure/targets/batch",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"zero-trust access targets bulk-delete": {
+			"operationId": "zero-trust.access.targets.bulk-delete",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/infrastructure/targets/batch_delete",
 			"pathParams": [
@@ -105696,8 +105791,8 @@
 				}
 			]
 		},
-		"zero-trust access targets bulk replace-tags": {
-			"operationId": "zero-trust.access.targets.bulk.replace-tags",
+		"zero-trust access targets bulk-replace-tags": {
+			"operationId": "zero-trust.access.targets.bulk-replace-tags",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/infrastructure/targets/batch_tags",
 			"pathParams": [
@@ -105717,21 +105812,6 @@
 					"description": "The items field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"tags\": {...}, \"target_id\": string}]."
 				}
 			]
-		},
-		"zero-trust access targets bulk update": {
-			"operationId": "zero-trust.access.targets.bulk.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/infrastructure/targets/batch",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
 		},
 		"zero-trust access targets create": {
 			"operationId": "zero-trust.access.targets.create",
@@ -108333,6 +108413,18 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "integration-config-gitlab-group-ids",
+					"type": "string",
+					"required": false,
+					"description": "Selected top-level GitLab group IDs as string-encoded positive integers."
+				},
+				{
+					"name": "integration-config-gitlab-project-ids",
+					"type": "string",
+					"required": false,
+					"description": "Selected GitLab project IDs as string-encoded positive integers."
+				},
 				{
 					"name": "credentials",
 					"type": "string",
@@ -121318,7 +121410,7 @@
 					"name": "value-recheck",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to recheck WordPress and plugin detection."
+					"description": "Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value."
 				},
 				{
 					"name": "value-wordpress",

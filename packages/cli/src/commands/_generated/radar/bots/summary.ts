@@ -83,19 +83,50 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
+			choices: [
+				"ACADEMIC_RESEARCH",
+				"ADVERTISING_AND_MARKETING",
+				"AI_ASSISTANT",
+				"AI_CRAWLER",
+				"COMMERCE",
+				"FEED_FETCHER",
+				"MONITORING_AND_ANALYTICS",
+				"OTHER",
+				"PAGE_PREVIEW",
+				"SEARCH_ENGINE_CRAWLER",
+				"SEARCH_ENGINE_OPTIMIZATION",
+				"SECURITY",
+				"ACCESSIBILITY",
+				"AGGREGATOR",
+				"AI_SEARCH",
+				"ARCHIVER",
+				"SOCIAL_MEDIA_MARKETING",
+				"WEBHOOKS",
+			],
 		})
+		.coerce("bot-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-kind", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.",
+			choices: ["AGENT", "BOT"],
 		})
+		.coerce("bot-kind", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-verification-status", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by bot verification status (Verified vs. Unverified).",
+			choices: ["VERIFIED"],
 		})
+		.coerce("bot-verification-status", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

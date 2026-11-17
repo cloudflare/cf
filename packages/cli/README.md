@@ -2,7 +2,7 @@
 
 A unified command-line interface for Cloudflare, generated from Cloudflare's public OpenAPI surface and published as the unscoped `cf` npm package.
 
-This is a beta preview. To learn more, see the [announcement blog post](https://blog.cloudflare.com/cf-cli-local-explorer/).
+This is a release candidate for cf 1.0. To learn more, see the [announcement blog post](https://blog.cloudflare.com/cloudflare-cf-cli-launch/).
 
 ## Install
 
@@ -44,8 +44,9 @@ named profiles. `cf auth login` and `cf auth logout` manage the default profile.
 commands and Cloudflare dev-server implementations through
 `CLOUDFLARE_AUTH_PROFILE`, overriding any inherited value. The development
 server needs `@cloudflare/workers-auth` 0.17.0 or newer to use the selected
-credentials. Cloudflare delegates require Wrangler 4.161.0 or newer, or Vite
-plugin v2 starting at 2.0.0-beta.v.13; older delegates fail with an upgrade hint.
+credentials. Wrangler delegates require Wrangler 4.163.0 or newer. For Vite
+projects, use `@cloudflare/vite-plugin` 2.0.0-rc.0 or newer to produce compatible
+Build Output.
 
 Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
 in your OS keychain. The choice is saved across invocations and applies to all
@@ -56,7 +57,9 @@ encrypted credentials, so affected profiles must authenticate again.
 
 ## Projects
 
-`cf init [directory]` starts a project. If you leave out the directory, cf asks for one (use `cf init .` for the current directory in scripts). In a new or empty directory (only `.git` is allowed), it creates a hello-world Worker with `cloudflare.config.ts`, `vite.config.ts`, `src/index.ts`, `tsconfig.json`, `package.json`, and `.gitignore`, then installs dependencies with the package manager you choose (`--package-manager`, or `--no-install` to skip) and, once they are installed, generates Worker types in `.cloudflare/types/index.d.ts`. With `--no-install`, the types are generated later by `cf dev` or the project's `typecheck` script, which runs `cf workers types` and then `tsc`. In a directory that already contains files, it configures the existing project with autoconfig instead. Either way, it finishes with the next steps to run. `cf init workers [directory]` is the default initializer and currently does the same thing.
+`cf init [directory]` starts a project. If you leave out the directory, cf asks for one (use `cf init .` for the current directory in scripts). In a new or empty directory (only `.git` is allowed), it creates a hello-world Worker with `cloudflare.config.ts`, `vite.config.ts`, `vitest.config.ts`, `src/index.ts`, `test/index.test.ts`, `tsconfig.json`, `package.json`, and `.gitignore` (plus `pnpm-workspace.yaml` for pnpm or `.yarnrc.yml` for Yarn), then installs dependencies with the package manager you choose (`--package-manager`, or `--no-install` to skip) and, once they are installed, generates Worker types in `.cloudflare/types/index.d.ts`. With `--no-install`, the types are generated later by `cf dev` or the project's `typecheck` script, which runs `cf workers types && vp check --no-fmt --no-lint`. In a directory that already contains files, it configures the existing project with autoconfig instead. Either way, it finishes with the next steps to run. `cf init workers [directory]` is the default initializer and currently does the same thing.
+
+New Worker projects use a local Vite+ toolchain. `cf dev` and `cf build` run `vp dev` and `vp build` through autoconfig. Package-manager overrides make plugins share Vite+'s Vite core and bundled Vitest version, which avoids duplicate Vite instances and split test runner state. The test plugin loads `cloudflare.config.ts` with `cloudflareTest({ config: true })`.
 
 ```sh
 cf init my-worker

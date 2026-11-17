@@ -204,7 +204,7 @@ describe("cf previews deploy", () => {
 
 	it("uploads prebuilt Preview output with a recorded mode without --mode", async () => {
 		const rootConfig = {
-			accountId: "built-preview-account",
+			settings: { accountId: "built-preview-account" },
 			buildContext: { isPreview: true, mode: "staging" },
 		};
 		const worker = {
@@ -325,6 +325,38 @@ describe("cf previews deploy", () => {
 		);
 	});
 
+	it("omits source maps from a temporary-account Preview", async () => {
+		const worker = {
+			config: { type: "worker", name: "preview-worker" },
+			bundleDir: "/project/bundle",
+		};
+		mocks.readBuildOutput.mockResolvedValue({
+			root: "/project",
+			rootConfig: { buildContext: { isPreview: true } },
+			workers: { default: worker },
+		});
+		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
+		mocks.getAuthToken.mockResolvedValue("token");
+		mocks.getAccountId.mockResolvedValue("temporary-account");
+		mocks.createDeployContext.mockReturnValue({
+			logger: { log: vi.fn(), info: vi.fn() },
+		});
+		mocks.previewBuildOutput.mockResolvedValue(previewResult);
+
+		await runPreviewDeploy({
+			"preview-name": "feature",
+			prebuilt: true,
+			"temporary-account": true,
+		} as Parameters<typeof runPreviewDeploy>[0]);
+
+		expect(mocks.assembleBuildResult).toHaveBeenCalledWith(
+			worker,
+			worker.config,
+			"/project",
+			{ includeSourceMaps: false }
+		);
+	});
+
 	it("builds and uploads the Worker selected by --worker", async () => {
 		const rootConfig = { buildContext: { isPreview: true } };
 		const api = {
@@ -371,7 +403,8 @@ describe("cf previews deploy", () => {
 		expect(mocks.assembleBuildResult).toHaveBeenCalledWith(
 			api,
 			api.config,
-			"/project"
+			"/project",
+			{ includeSourceMaps: true }
 		);
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"account-id",

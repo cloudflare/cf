@@ -102,6 +102,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Enable vector (embedding) storage backend.",
 		})
+		.option("indexing-options-file-summary", {
+			type: "boolean",
+			description:
+				"Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false.",
+		})
 		.option("indexing-options-keyword-tokenizer", {
 			type: "string",
 			description:
@@ -350,11 +355,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("summarization", {
 			type: "boolean",
-			description: "The summarization field",
+			description:
+				"Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead.",
 		})
 		.option("summarization-model", {
 			type: "string",
-			description: "The summarization_model field",
+			description:
+				"Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead.",
 		})
 		.option("sync-interval", {
 			type: "number",
@@ -367,7 +374,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("system-prompt-index-summarization", {
 			type: "string",
-			description: "The system_prompt_index_summarization field",
+			description:
+				"Deprecated and has no effect. Use indexing_options.file_summary instead.",
 		})
 		.option("system-prompt-rewrite-query", {
 			type: "string",
@@ -437,6 +445,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"fusion-method",
 						"index-method-keyword",
 						"index-method-vector",
+						"indexing-options-file-summary",
 						"indexing-options-keyword-tokenizer",
 						"indexing-options-use-ocr",
 						"metadata-created-from-aisearch-wizard",
@@ -512,6 +521,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												vector: argv["index-method-vector"],
 											},
 											indexing_options: {
+												file_summary: argv["indexing-options-file-summary"],
 												keyword_tokenizer:
 													argv["indexing-options-keyword-tokenizer"],
 												use_ocr: argv["indexing-options-use-ocr"],
@@ -817,6 +827,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["index_method", "vector"],
 						argv["index-method-vector"]
+					);
+				if (argv["indexing-options-file-summary"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["indexing_options", "file_summary"],
+						argv["indexing-options-file-summary"]
 					);
 				if (argv["indexing-options-keyword-tokenizer"] !== undefined)
 					setNestedValue(

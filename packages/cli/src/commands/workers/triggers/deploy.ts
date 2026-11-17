@@ -88,7 +88,7 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
 	validateBuildOutputAccount(
-		rootConfig.accountId,
+		rootConfig.settings?.accountId,
 		argv["temporary-account"] === true
 	);
 	const { worker } = applyCIWorkerNameOverride(
@@ -98,7 +98,7 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
-		accountId: rootConfig.accountId,
+		accountId: rootConfig.settings?.accountId,
 		complianceRegion,
 		dryRun: argv["dry-run"],
 	});

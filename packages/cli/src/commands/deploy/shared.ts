@@ -134,7 +134,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
 	validateBuildOutputAccount(
-		rootConfig.accountId,
+		rootConfig.settings?.accountId,
 		argv["temporary-account"] === true
 	);
 	const { worker, workerNameOverridden } = applyCIWorkerNameOverride(
@@ -147,12 +147,13 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	const buildResult = assembleBuildResult(
 		worker,
 		parsedWorker.builtConfig,
-		root
+		root,
+		{ includeSourceMaps: !argv["temporary-account"] }
 	);
 
 	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
-		accountId: rootConfig.accountId,
+		accountId: rootConfig.settings?.accountId,
 		complianceRegion,
 		dryRun: argv["dry-run"],
 	});

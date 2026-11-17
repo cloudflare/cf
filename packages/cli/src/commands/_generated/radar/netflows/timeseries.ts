@@ -50,7 +50,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters the results by network traffic product types.",
+			choices: ["HTTP", "ALL"],
 		})
+		.coerce("product", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("asn", {
 			type: "string",
 			array: true,

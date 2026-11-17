@@ -166,6 +166,7 @@ commands/flags, and pre-1.0 behavior changes use `minor`. Purely internal
 refactors, tests, docs, and CI changes need none. See
 [the changeset rules](.changeset/README.md).
 
-Prereleases use pkg.pr.new; versioned beta/stable releases use Changesets.
+Per-commit prereleases use pkg.pr.new; versioned prereleases and stable releases
+use Changesets.
 Keep bug fixes independently releasable rather than batching for a release
 window. See [publishing details](docs/architecture.md#publishing).

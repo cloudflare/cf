@@ -1,5 +1,5 @@
 import $delete from "./delete.js";
-import $upsert from "./upsert.js";
+import $replace from "./replace.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * connections command group
@@ -14,7 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($delete)
-			.command($upsert)
+			.command($replace)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

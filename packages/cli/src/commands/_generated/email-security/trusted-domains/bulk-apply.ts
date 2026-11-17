@@ -1,0 +1,160 @@
+import operation from "../../_operations/email-security/trusted-domains/bulk-apply.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * bulk-apply command
+ * @generated from apis/overlays/email-security.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 email-security trusted-domains bulk-apply\n\nExecutes multiple trusted domain operations atomically: delete, partially update, replace, and create trusted domain patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+		)
+		.option("deletes", {
+			type: "string",
+			description:
+				'IDs of the trusted domain patterns to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
+		})
+		.option("patches", {
+			type: "string",
+			description:
+				'Partial updates to apply — each entry carries the pattern\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "is_recent"?: boolean, "is_regex"?: boolean, "is_similarity"?: boolean, "pattern"?: string} & {"id": string})]. ? marks optional keys.',
+		})
+		.option("posts", {
+			type: "string",
+			description:
+				'Trusted domain patterns to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"is_recent": boolean, "is_regex": boolean, "is_similarity": boolean, "pattern": string, "comments"?: (string | null)}]. ? marks optional keys.',
+		})
+		.option("puts", {
+			type: "string",
+			description:
+				'Full replacements to apply — each entry carries the pattern\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"is_recent": boolean, "is_regex": boolean, "is_similarity": boolean, "pattern": string, "comments"?: (string | null)} & {"id": string})]. ? marks optional keys.',
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
+			default: false,
+		})
+		.option("body", {
+			type: "string",
+			description: "Raw JSON request body (bypasses individual flags)",
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "bulk-apply",
+	describe: "Batch trusted domain operations",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "email-security trusted-domains bulk-apply",
+				classification: {
+					safeFlags: ["dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
+					formatDryRun({
+						command: "cf email-security trusted-domains bulk-apply",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/trusted_domains/batch`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										deletes: parseObjectArray(argv["deletes"], "deletes"),
+										patches: parseObjectArray(argv["patches"], "patches"),
+										posts: parseObjectArray(argv["posts"], "posts"),
+										puts: parseObjectArray(argv["puts"], "puts"),
+									}),
+					});
+					return;
+				}
+				const parsedBody =
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
+				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
+
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `This operation may delete the selected trusted domain patterns and restore normal recent domain and similarity checks for matching emails.`,
+					}))
+				) {
+					return;
+				}
+
+				if (argv.body !== undefined) {
+					const bodyData = parsedBody;
+					const result = await withProgress(`Processing`, async () =>
+						client.send(operation, { body: bodyData, account_id: accountId })
+					);
+					formatOutput(result, { successLabel: `Done` });
+					return;
+				}
+				if (argv["deletes"] === undefined) {
+					throw new Error(
+						"--deletes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["patches"] === undefined) {
+					throw new Error(
+						"--patches is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["posts"] === undefined) {
+					throw new Error(
+						"--posts is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["puts"] === undefined) {
+					throw new Error(
+						"--puts is required (or pass --body with this field set)."
+					);
+				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					deletes: parseObjectArray(argv["deletes"], "deletes"),
+					patches: parseObjectArray(argv["patches"], "patches"),
+					posts: parseObjectArray(argv["posts"], "posts"),
+					puts: parseObjectArray(argv["puts"], "puts"),
+				});
+				const result = await withProgress(`Processing`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Done` });
+			}
+		),
+};
+
+export default command;

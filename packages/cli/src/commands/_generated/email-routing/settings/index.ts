@@ -1,6 +1,6 @@
-import $apply from "./apply.js";
+import $edit from "./edit.js";
 import $get from "./get.js";
-import $update from "./update.js";
+import $replace from "./replace.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * settings command group
@@ -14,9 +14,9 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($apply)
+			.command($edit)
 			.command($get)
-			.command($update)
+			.command($replace)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -120,6 +120,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Automatic injection of Zaraz scripts enabled.",
 		})
+		.option("settings-bot-score-threshold", {
+			type: "number",
+			description: "Minimum bot score required to load Zaraz.",
+		})
 		.option("settings-context-enricher-escaped-worker-name", {
 			type: "string",
 			description: "The settings.contextEnricher.escapedWorkerName field",
@@ -424,6 +428,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											historyChange: argv["history-change"],
 											settings: {
 												autoInjectScript: argv["settings-auto-inject-script"],
+												botScoreThreshold: argv["settings-bot-score-threshold"],
 												contextEnricher: {
 													escapedWorkerName: resolveFileToken(
 														argv[
@@ -654,6 +659,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						historyChange: argv["history-change"],
 						settings: {
 							autoInjectScript: argv["settings-auto-inject-script"],
+							botScoreThreshold: argv["settings-bot-score-threshold"],
 							contextEnricher: {
 								escapedWorkerName: resolveFileToken(
 									argv["settings-context-enricher-escaped-worker-name"] as

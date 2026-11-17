@@ -58,18 +58,38 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by certificate duration.",
+			choices: [
+				"LTE_3D",
+				"GT_3D_LTE_7D",
+				"GT_7D_LTE_10D",
+				"GT_10D_LTE_47D",
+				"GT_47D_LTE_100D",
+				"GT_100D_LTE_200D",
+				"GT_200D",
+			],
 		})
+		.coerce("duration", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("entry-type", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension.",
+			choices: ["PRECERTIFICATE", "CERTIFICATE"],
 		})
+		.coerce("entry-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("expiration-status", {
 			type: "string",
 			array: true,
 			description: "Filters results by expiration status (expired vs. valid).",
+			choices: ["EXPIRED", "VALID"],
 		})
+		.coerce("expiration-status", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("has-ips", {
 			type: "string",
 			array: true,
@@ -93,7 +113,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension.",
+			choices: ["RFC6962", "STATIC"],
 		})
+		.coerce("log-api", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("log-operator", {
 			type: "string",
 			array: true,
@@ -104,12 +128,36 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by public key algorithm.",
+			choices: ["DSA", "ECDSA", "RSA"],
 		})
+		.coerce("public-key-algorithm", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("signature-algorithm", {
 			type: "string",
 			array: true,
 			description: "Filters results by signature algorithm.",
+			choices: [
+				"DSA_SHA_1",
+				"DSA_SHA_256",
+				"ECDSA_SHA_1",
+				"ECDSA_SHA_256",
+				"ECDSA_SHA_384",
+				"ECDSA_SHA_512",
+				"PSS_SHA_256",
+				"PSS_SHA_384",
+				"PSS_SHA_512",
+				"RSA_MD2",
+				"RSA_MD5",
+				"RSA_SHA_1",
+				"RSA_SHA_256",
+				"RSA_SHA_384",
+				"RSA_SHA_512",
+			],
 		})
+		.coerce("signature-algorithm", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("tld", {
 			type: "string",
 			array: true,
@@ -120,13 +168,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by validation level.",
+			choices: ["DOMAIN", "ORGANIZATION", "EXTENDED"],
 		})
+		.coerce("validation-level", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("unique-entries", {
 			type: "string",
 			array: true,
 			description:
 				"Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
+			choices: ["true", "false"],
 		})
+		.coerce("unique-entries", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

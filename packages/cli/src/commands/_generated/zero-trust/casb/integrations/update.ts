@@ -27,12 +27,24 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust casb integrations update <id>\n\nUpdates an integration's name, permissions, DLP profiles, use cases, or credentials."
+			"$0 zero-trust casb integrations update <id>\n\nUpdates an integration's name, permissions, DLP profiles, use cases, credentials, or GitLab resources."
 		)
 		.positional("id", {
 			type: "string",
 			description: "Integration ID.",
 			demandOption: true,
+		})
+		.option("integration-config-gitlab-group-ids", {
+			type: "string",
+			array: true,
+			description:
+				"Selected top-level GitLab group IDs as string-encoded positive integers.",
+		})
+		.option("integration-config-gitlab-project-ids", {
+			type: "string",
+			array: true,
+			description:
+				"Selected GitLab project IDs as string-encoded positive integers.",
 		})
 		.option("credentials", {
 			type: "string",
@@ -102,6 +114,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									? parseBody(argv.body)
 									: compactBody(
 											{
+												config: {
+													gitlab: {
+														group_ids:
+															argv["integration-config-gitlab-group-ids"],
+														project_ids:
+															argv["integration-config-gitlab-project-ids"],
+													},
+												},
 												credentials: parseJsonMap(
 													argv["credentials"],
 													"credentials"
@@ -163,6 +183,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
+				if (argv["integration-config-gitlab-group-ids"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["config", "gitlab", "group_ids"],
+						argv["integration-config-gitlab-group-ids"]
+					);
+				if (argv["integration-config-gitlab-project-ids"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["config", "gitlab", "project_ids"],
+						argv["integration-config-gitlab-project-ids"]
+					);
 				if (argv["credentials"] !== undefined)
 					setNestedValue(
 						bodyData,

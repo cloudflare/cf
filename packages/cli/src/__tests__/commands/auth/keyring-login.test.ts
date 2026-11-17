@@ -1,3 +1,4 @@
+import { resolveKeyProvider } from "@cloudflare/workers-auth";
 import {
 	readUserPreferences,
 	updateUserPreferences,
@@ -6,6 +7,11 @@ import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { runCf } from "../../helpers/run-cf.js";
+
+vi.mock("@cloudflare/workers-auth", async (importOriginal) => ({
+	...(await importOriginal<Record<string, unknown>>()),
+	resolveKeyProvider: vi.fn(),
+}));
 
 const sharedAuth = vi.hoisted(() => ({
 	activeProfile: "default",
@@ -50,6 +56,9 @@ describe("cf auth login keyring preference", () => {
 	const encryptedStore = { kind: "encrypted-file", path: () => "auth.enc" };
 
 	beforeEach(() => {
+		vi.mocked(resolveKeyProvider).mockReset().mockReturnValue({
+			kind: "unsupported",
+		});
 		sharedAuth.activeProfile = "default";
 		sharedAuth.getCredentialStore.mockReset().mockReturnValue(encryptedStore);
 		sharedAuth.getOAuthTokenFromLocalState
@@ -110,12 +119,10 @@ describe("cf auth login keyring preference", () => {
 		}
 	);
 
-	it.each([true, false, undefined])(
+	it.each([true, false])(
 		"preserves the %s preference when the flag is omitted",
 		async (enabled) => {
-			if (enabled !== undefined) {
-				updateUserPreferences({ keyring_enabled: enabled });
-			}
+			updateUserPreferences({ keyring_enabled: enabled });
 			const previous = readUserPreferences();
 
 			await runCf(["auth", "login"]);
@@ -123,6 +130,139 @@ describe("cf auth login keyring preference", () => {
 			expect(readUserPreferences()).toEqual(previous);
 		}
 	);
+
+	it("enables keyring storage after verifying the backend, before reading credentials", async () => {
+		let storedKey: Uint8Array | undefined;
+		const provider = {
+			setKey: vi.fn((key: Uint8Array) => {
+				storedKey = key;
+			}),
+			getKey: vi.fn(() => storedKey),
+			deleteKey: vi.fn(() => {
+				storedKey = undefined;
+			}),
+			describe: () => "test keyring",
+		};
+		vi.mocked(resolveKeyProvider).mockReturnValue({
+			kind: "available",
+			provider,
+		});
+		sharedAuth.readAuthCredentials.mockImplementation(() => {
+			expect(readUserPreferences().keyring_enabled).toBe(true);
+			return credentials;
+		});
+
+		await runCf(["auth", "login"]);
+
+		expect(provider.setKey).toHaveBeenCalledOnce();
+		expect(provider.getKey).toHaveBeenCalledOnce();
+		expect(provider.deleteKey).toHaveBeenCalledOnce();
+		expect(storedKey).toBeUndefined();
+		expect(resolveKeyProvider).toHaveBeenCalledWith(
+			"cloudflare",
+			expect.stringMatching(/^keyring-probe-/),
+			expect.any(String)
+		);
+		expect(std.out).toBe("");
+	});
+
+	it("falls back with a one-time warning, including under --quiet, and retries later", async () => {
+		await runCf(["auth", "login", "--quiet"]);
+
+		expect(readUserPreferences().keyring_enabled).toBeUndefined();
+		expect(std.out).toBe("");
+		expect(std.getAndClearErr()).toContain(
+			"OAuth credentials will be stored in a plaintext file"
+		);
+
+		await runCf(["auth", "login", "--quiet"]);
+
+		expect(resolveKeyProvider).toHaveBeenCalledTimes(2);
+		expect(std.err).toBe("");
+	});
+
+	it("does not install a missing Windows binding automatically", async () => {
+		const install = vi.fn();
+		vi.mocked(resolveKeyProvider).mockReturnValue({
+			kind: "needs-install",
+			install,
+			afterInstall: vi.fn(),
+		});
+
+		await runCf(["auth", "login"]);
+
+		expect(install).not.toHaveBeenCalled();
+		expect(readUserPreferences().keyring_enabled).toBeUndefined();
+		expect(std.err).toContain("plaintext file");
+	});
+
+	it.each(["setKey", "getKey", "deleteKey"] as const)(
+		"falls back when the backend fails to %s and attempts probe cleanup",
+		async (method) => {
+			const provider = {
+				setKey: vi.fn(),
+				getKey: vi.fn(() => new Uint8Array(32)),
+				deleteKey: vi.fn(),
+				describe: () => "unreachable keyring",
+			};
+			provider[method].mockImplementation(() => {
+				throw new Error("Backend unavailable");
+			});
+			vi.mocked(resolveKeyProvider).mockReturnValue({
+				kind: "available",
+				provider,
+			});
+
+			await runCf(["auth", "login"]);
+
+			expect(provider.deleteKey).toHaveBeenCalledOnce();
+			expect(readUserPreferences().keyring_enabled).toBeUndefined();
+			expect(std.err).toContain("plaintext file");
+		}
+	);
+
+	it.each([undefined, new Uint8Array(1), new Uint8Array(32)])(
+		"rejects a backend that does not return the stored probe key (%s)",
+		async (stored) => {
+			const deleteKey = vi.fn();
+			vi.mocked(resolveKeyProvider).mockReturnValue({
+				kind: "available",
+				provider: {
+					setKey: vi.fn(),
+					getKey: () => stored,
+					deleteKey,
+					describe: () => "broken keyring",
+				},
+			});
+
+			await runCf(["auth", "login"]);
+
+			expect(deleteKey).toHaveBeenCalledOnce();
+			expect(readUserPreferences().keyring_enabled).toBeUndefined();
+			expect(std.err).toContain("plaintext file");
+		}
+	);
+
+	it.each(["true", "false"])(
+		"does not probe or persist a default with CLOUDFLARE_AUTH_USE_KEYRING=%s",
+		async (enabled) => {
+			await runCf(["auth", "login"], {
+				CLOUDFLARE_AUTH_USE_KEYRING: enabled,
+			});
+
+			expect(resolveKeyProvider).not.toHaveBeenCalled();
+			expect(readUserPreferences().keyring_enabled).toBeUndefined();
+			expect(std.err).not.toContain("plaintext file");
+		}
+	);
+
+	it("does not probe while an API token takes precedence", async () => {
+		await runCf(["auth", "login"], { CLOUDFLARE_API_TOKEN: "env-token" });
+
+		expect(resolveKeyProvider).not.toHaveBeenCalled();
+		expect(readUserPreferences().keyring_enabled).toBeUndefined();
+		expect(sharedAuth.login).not.toHaveBeenCalled();
+	});
 
 	it("honors the environment override while persisting the requested preference", async () => {
 		await runCf(["auth", "login", "--use-keyring"], {
@@ -172,6 +312,7 @@ describe("cf auth login keyring preference", () => {
 
 			expect(readUserPreferences().keyring_enabled).toBeUndefined();
 			expect(sharedAuth.login).not.toHaveBeenCalled();
+			expect(resolveKeyProvider).not.toHaveBeenCalled();
 		}
 	);
 
@@ -181,5 +322,6 @@ describe("cf auth login keyring preference", () => {
 		).rejects.toThrow("cf auth create <name>");
 
 		expect(readUserPreferences().keyring_enabled).toBeUndefined();
+		expect(resolveKeyProvider).not.toHaveBeenCalled();
 	});
 });

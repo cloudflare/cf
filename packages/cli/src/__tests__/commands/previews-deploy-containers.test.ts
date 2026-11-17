@@ -118,10 +118,10 @@ describe("cf previews deploy Containers", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: true },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					ContainerDO: {
 						type: "durable-object",
@@ -134,21 +134,21 @@ describe("cf previews deploy Containers", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class ContainerDO {}; export default {};",
-			".cloudflare/output/v0/containers/api/container.config.json":
+			".cloudflare/output/v1/containers/api/container.config.json":
 				JSON.stringify({
 					name: "api-container",
 					image: { reference: "registry.cloudflare.com/api:latest" },
 					maxInstances: 2,
 				}),
-			".cloudflare/output/v0/containers/other/container.config.json":
+			".cloudflare/output/v1/containers/other/container.config.json":
 				JSON.stringify({
 					name: "other-worker-container",
 					image: { reference: "registry.cloudflare.com/other:latest" },
 					maxInstances: 1,
 				}),
-			".cloudflare/output/v0/containers/deleted/container.config.json":
+			".cloudflare/output/v1/containers/deleted/container.config.json":
 				JSON.stringify({
 					name: "deleted-container",
 					image: { reference: "registry.cloudflare.com/deleted:latest" },
@@ -257,10 +257,10 @@ describe("cf previews deploy Containers", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: true },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					ContainerDO: {
 						type: "durable-object",
@@ -269,9 +269,9 @@ describe("cf previews deploy Containers", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class ContainerDO {}; export default {};",
-			".cloudflare/output/v0/containers/api/container.config.json":
+			".cloudflare/output/v1/containers/api/container.config.json":
 				JSON.stringify({
 					name: "api-container",
 					image: { localReference: "api-container:built-by-wrangler" },
@@ -361,10 +361,10 @@ describe("cf previews deploy Containers", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: true },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					ContainerDO: {
 						type: "durable-object",
@@ -373,9 +373,9 @@ describe("cf previews deploy Containers", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class ContainerDO {}; export default {};",
-			".cloudflare/output/v0/containers/api/container.config.json":
+			".cloudflare/output/v1/containers/api/container.config.json":
 				JSON.stringify({
 					name: "api-container",
 					image: { reference: "registry.cloudflare.com/api:latest" },
@@ -403,10 +403,10 @@ describe("cf previews deploy Containers", () => {
 		);
 
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig({
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
 				buildContext: { isPreview: true },
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+			".cloudflare/output/v1/workers/default/worker.config.json": workerConfig({
 				exports: {
 					ContainerDO: {
 						type: "durable-object",
@@ -415,9 +415,9 @@ describe("cf previews deploy Containers", () => {
 					},
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export class ContainerDO {}; export default {};",
-			".cloudflare/output/v0/containers/api/container.config.json":
+			".cloudflare/output/v1/containers/api/container.config.json":
 				JSON.stringify({
 					name: "api-container",
 					schedulingPolicy: "durable-object",

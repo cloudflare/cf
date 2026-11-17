@@ -74,6 +74,30 @@ function pathOperation(
 const derived = (m: Method, resource: string, op: OperationInfo): Derived =>
 	derive(m, resource, op);
 
+describe("query defaults", () => {
+	it.each([false, true])(
+		"preserves optional enum-array defaults (required: %s)",
+		(required) => {
+			const d = derived(
+				method({ selector: { default: ["first"] } }, "list"),
+				"example",
+				operation("get", "/things", {
+					queryParams: [
+						param("selector", undefined, {
+							type: "array",
+							required,
+							enumValues: ["first", "second"],
+						}),
+					],
+				})
+			);
+			expect(find(d.args, "selector").default).toEqual(
+				required ? undefined : ["first"]
+			);
+		}
+	);
+});
+
 describe("account-or-zone", () => {
 	it("maps only the paired placeholders to generated locals", () => {
 		const path = "/{account_or_zone}/{account_or_zone_id}/load_balancers";

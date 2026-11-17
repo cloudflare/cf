@@ -99,7 +99,8 @@ jobs:
           # emits "loose" markdown lists (a blank line before nested
           # bullet lists) that Vite+ formatting tightens, so the raw changelog
           # fails `pnpm check`'s format check. The `changeset:version`
-          # script chains `vp fmt` after generation so the changelog is
+          # script resets the counter when the prerelease channel changes,
+          # then chains `vp fmt` after generation so the changelog is
           # formatted before the changesets action commits it. (The
           # action execs this input directly — it is NOT shell-
           # interpreted — so the `&&` must live in the script, not here.)

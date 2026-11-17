@@ -21,19 +21,19 @@ describe("build output", () => {
 
 	it("reads the default Worker from the Build Output Specification tree", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": rootConfig,
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": rootConfig,
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					compatibilityDate: "2026-04-25",
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
-			".cloudflare/output/v0/workers/additional/worker.config.json":
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/additional/worker.config.json":
 				JSON.stringify({
 					name: "additional-worker",
 					compatibilityDate: "2026-04-25",
 				}),
-			".cloudflare/output/v0/workers/additional/bundle/index.js": "",
+			".cloudflare/output/v1/workers/additional/bundle/index.js": "",
 		});
 
 		const {
@@ -47,8 +47,8 @@ describe("build output", () => {
 
 	it("converts the Worker config to wrangler config", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": rootConfig,
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": rootConfig,
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					compatibilityDate: "2026-04-25",
@@ -59,7 +59,7 @@ describe("build output", () => {
 						modules: { "index.js": { type: "esm" } },
 					},
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
 		});
 
 		const {
@@ -74,14 +74,14 @@ describe("build output", () => {
 			compatibility_flags: ["nodejs_compat"],
 		});
 		expect(wranglerConfig.main).toBe(
-			resolve(".cloudflare/output/v0/workers/default/bundle/index.js")
+			resolve(".cloudflare/output/v1/workers/default/bundle/index.js")
 		);
 	});
 
 	it("keeps Build Output Containers separate from Worker validation", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": rootConfig,
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": rootConfig,
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					compatibilityDate: "2026-04-25",
@@ -93,8 +93,8 @@ describe("build output", () => {
 						},
 					},
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
-			".cloudflare/output/v0/containers/api/container.config.json":
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/containers/api/container.config.json":
 				JSON.stringify({
 					name: "api-container",
 					image: { localReference: "api-container:built-by-wrangler" },
@@ -117,17 +117,19 @@ describe("build output", () => {
 
 	it("reads output mode without including it in converted config", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": JSON.stringify({
-				accountId: "account-1",
-				complianceRegion: "fedramp-high",
+			".cloudflare/output/v1/config.json": JSON.stringify({
 				buildContext: { isPreview: false, mode: "staging" },
+				settings: {
+					accountId: "account-1",
+					complianceRegion: "fedramp-high",
+				},
 			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					compatibilityDate: "2026-04-25",
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
 		});
 
 		const {
@@ -211,14 +213,14 @@ describe("build output", () => {
 	describe("worker selection", () => {
 		async function seedWorkers(workers: Record<string, string>) {
 			await seed({
-				".cloudflare/output/v0/config.json": rootConfig,
+				".cloudflare/output/v1/config.json": rootConfig,
 				...Object.fromEntries(
 					Object.entries(workers).flatMap(([directory, name]) => [
 						[
-							`.cloudflare/output/v0/workers/${directory}/worker.config.json`,
+							`.cloudflare/output/v1/workers/${directory}/worker.config.json`,
 							JSON.stringify({ name, compatibilityDate: "2026-04-25" }),
 						],
-						[`.cloudflare/output/v0/workers/${directory}/bundle/index.js`, ""],
+						[`.cloudflare/output/v1/workers/${directory}/bundle/index.js`, ""],
 					])
 				),
 			});
@@ -313,8 +315,8 @@ describe("build output", () => {
 
 	it("normalizes wrangler config with built and user path", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": rootConfig,
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": rootConfig,
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					compatibilityDate: "2026-04-25",
@@ -324,7 +326,7 @@ describe("build output", () => {
 						modules: { "index.js": { type: "esm" } },
 					},
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
 		});
 
 		const {
@@ -341,13 +343,13 @@ describe("build output", () => {
 
 	it("rejects a schema-invalid Worker config while reading", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": rootConfig,
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": rootConfig,
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "my-worker",
 					main: "bundle/index.js",
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
 		});
 
 		await expect(readBuildOutput(process.cwd())).rejects.toThrow(
@@ -357,8 +359,8 @@ describe("build output", () => {
 
 	it("converts normalization diagnostics errors to config errors", async () => {
 		await seed({
-			".cloudflare/output/v0/config.json": rootConfig,
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": rootConfig,
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				JSON.stringify({
 					name: "bad name!",
 					compatibilityDate: "2026-04-25",
@@ -368,7 +370,7 @@ describe("build output", () => {
 						modules: { "index.js": { type: "esm" } },
 					},
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			".cloudflare/output/v1/workers/default/bundle/index.js": "",
 		});
 
 		const {

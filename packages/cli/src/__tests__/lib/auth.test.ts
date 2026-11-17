@@ -11,7 +11,9 @@ import {
 	createCommandClient,
 	requestApi,
 } from "../../lib/auth.js";
+import * as oauth from "../../lib/oauth/index.js";
 import { ApiError, getResultInfo } from "#api";
+import listAccounts from "#operations/accounts/list.js";
 
 describe("createCommandClient", () => {
 	let originalApiToken: string | undefined;
@@ -60,6 +62,34 @@ describe("createCommandClient", () => {
 			process.env.CLOUDFLARE_API_TOKEN = "test-token";
 			const client = await createCommandClient({});
 			expect(client).toBeDefined();
+		});
+
+		it("uses refreshed OAuth credentials for subsequent requests", async () => {
+			const token = vi
+				.spyOn(oauth, "getValidToken")
+				.mockResolvedValue("initial-oauth-token");
+			const authorization: (string | null)[] = [];
+			const fetch = vi
+				.spyOn(globalThis, "fetch")
+				.mockImplementation(async (_input, init) => {
+					authorization.push(new Headers(init?.headers).get("authorization"));
+					return new Response(JSON.stringify({ success: true, result: [] }), {
+						headers: { "content-type": "application/json" },
+					});
+				});
+			try {
+				const client = await createCommandClient({});
+				await client.send(listAccounts);
+				token.mockResolvedValue("refreshed-oauth-token");
+				await client.send(listAccounts);
+				expect(authorization).toEqual([
+					"Bearer initial-oauth-token",
+					"Bearer refreshed-oauth-token",
+				]);
+			} finally {
+				fetch.mockRestore();
+				token.mockRestore();
+			}
 		});
 
 		it("throws on a success:false envelope even without API errors", async () => {

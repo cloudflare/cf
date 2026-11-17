@@ -72,7 +72,9 @@ describe("kv", () => {
 				];
 				writeFileSync("./keys.json", JSON.stringify(keyValues));
 				const requests = mockPutRequest(expect, "some-namespace-id", keyValues);
-				await runWrangler(`kv bulk put some-namespace-id --body @keys.json`);
+				await runWrangler(
+					`kv keys bulk-put --namespace-id some-namespace-id --body @keys.json`
+				);
 				expect(requests.count).toEqual(1);
 				expect(std.out).toMatchInlineSnapshot(`""`);
 				expect(std.warn).toMatchInlineSnapshot(`""`);
@@ -136,7 +138,9 @@ describe("kv", () => {
 					result: true,
 				});
 				const requests = mockDeleteRequest(expect, "some-namespace-id", keys);
-				await runWrangler(`kv bulk delete some-namespace-id --body @keys.json`);
+				await runWrangler(
+					`kv keys bulk-delete --namespace-id some-namespace-id --body @keys.json`
+				);
 				expect(requests.count).toEqual(1);
 				expect(std.out).toMatchInlineSnapshot(`""`);
 				expect(std.warn).toMatchInlineSnapshot(`""`);
@@ -175,7 +179,9 @@ describe("kv", () => {
 						{ once: true }
 					)
 				);
-				await runWrangler(`kv bulk delete some-namespace-id --body @keys.json`);
+				await runWrangler(
+					`kv keys bulk-delete --namespace-id some-namespace-id --body @keys.json`
+				);
 				expect(requests.count).toEqual(1);
 				expect(std.out).toMatchInlineSnapshot(`""`);
 				expect(std.warn).toMatchInlineSnapshot(`""`);

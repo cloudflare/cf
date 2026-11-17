@@ -1,9 +1,9 @@
 import $create from "./create.js";
 import $delete from "./delete.js";
+import $edit from "./edit.js";
 import $get from "./get.js";
 import $migratetopreviews from "./migrate-to-previews.js";
 import $purgecache from "./purge-cache.js";
-import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * workers command group
@@ -19,10 +19,10 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($create)
 			.command($delete)
+			.command($edit)
 			.command($get)
 			.command($migratetopreviews)
 			.command($purgecache)
-			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

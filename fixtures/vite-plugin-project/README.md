@@ -6,7 +6,7 @@ No automated test currently starts this fixture.
 
 ## Layout
 
-- `package.json` declares the Vite plugin, Vite, Wrangler, and Workers types, and provides the `vp dev` script.
+- `package.json` declares the Vite plugin, Vite, Vite+, Wrangler, and Workers types, and provides the `vp dev` script.
 - `vite.config.ts` registers `cloudflare()` and disables inspector-port and persisted-state behavior for the smoke session.
 - `cloudflare.config.ts`'s default export contains the Worker entrypoint, compatibility date, name, and `MY_VAR` text binding. Mode `test` produces `Test var`; other modes produce `Default var`.
 - `src/worker.ts` returns `MY_VAR` from `/var` and a JSON fixture description from Worker-handled paths.
@@ -19,7 +19,7 @@ cf supplies `CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT=true` to the detected Vite comma
 
 The fixture is included by the root `fixtures/*` workspace glob. Its committed dependencies are registry semver ranges, not environment-specific `link:` targets. A root `pnpm install` resolves them and creates the fixture-local package links expected by the tools.
 
-The workspace aliases `vite` to Vite+ core, which provides no `vite` CLI. The root `vite-plus` dependency supplies the `vp` CLI used by the fixture script.
+The workspace aliases `vite` to Vite+ core, which provides no `vite` CLI. The fixture declares `vite-plus` directly so autoconfig selects its `vp` CLI for `cf dev` as well as the fixture script.
 
 ## Running the dev script
 
@@ -32,7 +32,7 @@ cd fixtures/vite-plugin-project
 pnpm dev
 ```
 
-Pass custom Vite arguments to the script, for example `pnpm dev --mode test`. The current autoconfig route used by `cf dev` delegates to `npx vite`; it does not yet use this fixture's `vp dev` script.
+Pass custom Vite arguments to the script, for example `pnpm dev --mode test`. Alternatively, `cf dev` runs the project command selected by autoconfig and forwards the mode and server arguments, for example `cf dev --mode test`.
 
 The server prints its URL. Representative checks are:
 

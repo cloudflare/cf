@@ -7,6 +7,7 @@ import {
 	type WranglerToCfMigrationResult,
 } from "@cloudflare/codemods";
 import { CliExit } from "./cli-exit.js";
+import { CLOUDFLARE_CONFIG_FILENAME } from "./project-settings.js";
 import { success, theme, warning } from "./ui/index.js";
 
 const DEFAULT_CONFIG_FILES = [
@@ -204,6 +205,11 @@ export async function maybeMigrateWranglerProject(
 	output: MigrationOutput = "stderr",
 	dryRun = false
 ): Promise<boolean> {
+	// Migration leaves the Wrangler config in place. A cloudflare.config.ts
+	// means the project already uses cf, even while framework setup is pending.
+	if (await fileExists(path.join(projectPath, CLOUDFLARE_CONFIG_FILENAME))) {
+		return false;
+	}
 	const configPath = await findWranglerConfig(projectPath, {
 		failOnMultiple: false,
 	});

@@ -242,6 +242,21 @@ describe("cf migrate", () => {
 		);
 	});
 
+	it("does not offer migration again once cloudflare.config.ts exists", async () => {
+		await seed({
+			"cloudflare.config.ts": "export default {};",
+			"wrangler.jsonc": "{}",
+		});
+		const confirmMigration = vi.fn();
+
+		await expect(
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
+		).resolves.toBe(false);
+
+		expect(confirmMigration).not.toHaveBeenCalled();
+		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+	});
+
 	it("continues without migrating when the project workflow offer is declined", async () => {
 		await seed({ "wrangler.toml": "name = 'worker'" });
 		const confirmMigration = vi.fn().mockResolvedValue(false);

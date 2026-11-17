@@ -29,15 +29,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).",
 		})
-		.option("forward-client-ip-headers", {
-			type: "boolean",
-			description:
-				"Forwards client IP-related headers when enabled. When disabled, client IP-related headers are stripped. If omitted, the previously stored value is kept; new configurations default to true.",
-		})
 		.option("hide-original-ip", {
 			type: "boolean",
 			description:
-				"Deprecated. This value is stored but has no effect on traffic. Use `forwardClientIpHeaders` to control whether client IP-related headers are forwarded to Google. Optional in requests: if omitted, the previously stored value is kept. Responses always include it.",
+				"Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it.",
 		})
 		.option("measurement-id", {
 			type: "string",
@@ -71,13 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "google-tag-gateway config update",
 				classification: {
-					safeFlags: [
-						"enabled",
-						"forward-client-ip-headers",
-						"hide-original-ip",
-						"set-up-tag",
-						"dry-run",
-					],
+					safeFlags: ["enabled", "hide-original-ip", "set-up-tag", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -101,7 +90,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"endpoint",
 											"text"
 										),
-										forwardClientIpHeaders: argv["forward-client-ip-headers"],
 										hideOriginalIp: argv["hide-original-ip"],
 										measurementId: resolveFileToken(
 											argv["measurement-id"] as string | undefined,
@@ -155,7 +143,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"endpoint",
 						"text"
 					),
-					forwardClientIpHeaders: argv["forward-client-ip-headers"],
 					hideOriginalIp: argv["hide-original-ip"],
 					measurementId: resolveFileToken(
 						argv["measurement-id"] as string | undefined,

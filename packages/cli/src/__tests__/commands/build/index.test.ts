@@ -614,6 +614,44 @@ describe("cf build", () => {
 
 		await expect(runCf(["build"])).rejects.toThrow(BuildOutputError);
 	});
+
+	it("builds a migrated Astro + Worker project with the Wrangler bundler, not the framework build (cloudflare/cf#587)", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				scripts: { build: "astro build" },
+				devDependencies: { astro: "^7.4.10", wrangler: "^4.163.0" },
+			}),
+			"astro.config.mjs": 'export default { output: "static" };',
+			"cloudflare.config.ts":
+				'export default { worker: { name: "example-site", entrypoint: "./worker/index.ts", assets: {} } };',
+			"wrangler.config.ts": 'export default { assetsDirectory: "./dist" };',
+			"worker/index.ts": "export default {};",
+			"node_modules/astro/package.json": JSON.stringify({
+				name: "astro",
+				version: "7.4.10",
+				bin: { astro: "astro.js" },
+			}),
+			"node_modules/astro/astro.js": nodeScript(
+				'require("node:fs").writeFileSync("astro-ran.out", "1");'
+			),
+			"node_modules/.bin/astro": nodeScript('require("../astro/astro.js");'),
+			"node_modules/wrangler/package.json": JSON.stringify({
+				name: "wrangler",
+				version: "4.163.0",
+			}),
+			"node_modules/wrangler/bin/cf-wrangler.js":
+				buildScript("wrangler-worker"),
+		});
+		chmod("node_modules/astro/astro.js");
+		makeExecutable("node_modules/.bin/astro", { npmBin: true });
+		chmod("node_modules/wrangler/bin/cf-wrangler.js");
+
+		const result = await runCf(["build"]);
+
+		expect(existsSync("astro-ran.out")).toBe(false);
+		expect(readArgv("argv.out")).toEqual(["build"]);
+		expect(result.exitCode).toBe(0);
+	});
 });
 
 function buildScript(workerName: string, extra = ""): string {

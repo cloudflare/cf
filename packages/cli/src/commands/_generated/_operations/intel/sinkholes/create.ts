@@ -1,9 +1,0 @@
-/** @generated from intel.sinkholes.create */
-import { path } from "#api";
-
-export default {
-	method: "POST",
-	path: (request: Record<string, unknown>) =>
-		path`/accounts/${request.account_id}/intel/sinkholes`,
-	body: "json",
-} as const;

@@ -1,9 +1,0 @@
-/** @generated from pages.domains.list */
-import { path } from "#api";
-
-export default {
-	method: "GET",
-	path: (request: Record<string, unknown>) =>
-		path`/accounts/${request.account_id}/pages/projects/${request.project_name}/domains`,
-	query: ["page", "per_page"],
-} as const;

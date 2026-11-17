@@ -1,4 +1,4 @@
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
@@ -11,7 +11,10 @@ import {
 } from "../../lib/context.js";
 import { MissingCredentialsError } from "../../lib/errors.js";
 import { setTemporaryAccountRequested } from "../../lib/oauth/index.js";
-import { clearLoadedProjectSettings } from "../../lib/project-settings.js";
+import {
+	clearLoadedProjectSettings,
+	setProjectConfigMode,
+} from "../../lib/project-settings.js";
 import type { ParsedSettings } from "@cloudflare/config";
 
 const getOrSelectAccountIdMock = vi.hoisted(() => vi.fn());
@@ -192,6 +195,19 @@ describe("context", () => {
 			await expect(getWorkerName({ scriptName: "flag" })).resolves.toBe("flag");
 		});
 
+		it.each([
+			`throw new Error("config should not load");`,
+			`export default { worker: { name: 42 } };`,
+		])(
+			"does not load invalid config when --worker is provided: %s",
+			async (source) => {
+				writeFileSync(join(process.cwd(), "cloudflare.config.ts"), source);
+				await expect(getWorkerName({ scriptName: "flag" })).resolves.toBe(
+					"flag"
+				);
+			}
+		);
+
 		it("falls back to worker.name from cloudflare.config.ts and says so", async () => {
 			writeFileSync(
 				join(process.cwd(), "cloudflare.config.ts"),
@@ -212,6 +228,62 @@ describe("context", () => {
 			const error = vi.spyOn(console, "error").mockImplementation(() => {});
 			await expect(getWorkerName({ quiet: true })).resolves.toBe("from-config");
 			expect(error).not.toHaveBeenCalled();
+		});
+
+		it("finds the Worker from a subdirectory", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`export default { worker: { name: "from-parent", compatibilityDate: "2025-01-01" } };`
+			);
+			const nested = join(process.cwd(), "one", "two");
+			mkdirSync(nested, { recursive: true });
+			process.chdir(nested);
+
+			await expect(getWorkerName({ quiet: true })).resolves.toBe("from-parent");
+		});
+
+		it("honours --mode in function-form config and Worker definitions", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`export default ({ mode }) => ({
+	worker: ({ mode: workerMode }) => ({
+		name: mode + "-" + workerMode,
+		compatibilityDate: "2025-01-01",
+	}),
+});`
+			);
+			setProjectConfigMode("staging");
+
+			await expect(getWorkerName({ quiet: true })).resolves.toBe(
+				"staging-staging"
+			);
+		});
+
+		it("reports a missing name when config defines no Worker", async () => {
+			writeProjectSettings({ accountId: "settings-acct" });
+			await expect(getWorkerName()).rejects.toThrow(
+				/Required Worker name missing.*worker.name/
+			);
+		});
+
+		it("surfaces validation errors even when worker.name is present", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`export default { worker: { name: "from-config", compatibilityDate: 42 } };`
+			);
+			await expect(getWorkerName()).rejects.toThrow(
+				/Invalid cloudflare.config.ts:[\s\S]*worker.compatibilityDate/
+			);
+		});
+
+		it.each([
+			`throw new Error("broken config import");`,
+			`export default () => { throw new Error("broken config import"); };`,
+		])("surfaces config load errors: %s", async (source) => {
+			writeFileSync(join(process.cwd(), "cloudflare.config.ts"), source);
+			await expect(getWorkerName()).rejects.toThrow(
+				/Could not load cloudflare.config.ts.*broken config import/
+			);
 		});
 
 		it("throws a helpful error when missing", async () => {

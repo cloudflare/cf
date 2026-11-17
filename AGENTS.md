@@ -77,9 +77,14 @@ In the rules below, `src/` means `packages/cli/src/`.
   command names. Keep per-API-code error hints upstream; `errors.ts` only
   supplies status-level hints.
 - **Keep source config access scoped.** Normal startup and API commands read
-  only account/compliance settings from `cloudflare.config.ts`. Worker
-  validation belongs to `cf workers types`, the type generation reused by
-  `cf init`, and the assets-only `[directory]` artifact producer shared by
+  only account/compliance settings from `cloudflare.config.ts`, except for
+  API-backed `cf workers` commands resolving a missing `--worker` from
+  `worker.name`. That fallback uses the shared config loader with `--mode`
+  and surfaces config errors; an explicit Worker skips it. Keep the resolution
+  in `context.ts` / `project-settings.ts` and its generator wiring in the
+  existing Worker-name helper. Other source Worker validation belongs to
+  `cf workers types`, the type generation reused by `cf init`, and the
+  assets-only `[directory]` artifact producer shared by
   Worker upload workflows, which rejects server-side entrypoints and Containers.
   Other project workflows consume Build Output through
   `readBuildOutput()` from `@cloudflare/build-output-utils`; do not compose

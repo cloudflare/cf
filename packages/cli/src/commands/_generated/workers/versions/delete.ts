@@ -91,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This will permanently delete the Worker version.`,
+						message: `This will permanently delete the Worker version. Worker: ${scriptName}.`,
 					}))
 				) {
 					return;

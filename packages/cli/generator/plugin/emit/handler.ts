@@ -427,9 +427,19 @@ function auth(ctx: Ctx): string[] {
 }
 
 function deleteConfirm(ctx: Ctx): string[] {
+	const warning =
+		ctx.requireConfirmation ??
+		(ctx.needsWorkerName
+			? "This permanently deletes the resource."
+			: undefined);
+	const message =
+		warning === undefined
+			? undefined
+			: escapeTemplate(warning) +
+				(ctx.needsWorkerName ? " Worker: ${scriptName}." : "");
 	const opts =
-		ctx.requireConfirmation !== undefined
-			? `{ force: Boolean(argv.force), message: \`${escapeTemplate(ctx.requireConfirmation)}\` }`
+		message !== undefined
+			? `{ force: Boolean(argv.force), message: \`${message}\` }`
 			: "{ force: Boolean(argv.force) }";
 	return [
 		"",

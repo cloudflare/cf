@@ -336,7 +336,7 @@ describe("workers secrets", () => {
 				secretName: "the-key",
 			});
 			mockConfirm({
-				text: "This will permanently delete the Worker script secret. Continue?",
+				text: "This will permanently delete the Worker script secret. Worker: script-name. Continue?",
 				result: true,
 			});
 			await runWrangler("workers secrets delete the-key --worker script-name");
@@ -372,7 +372,7 @@ describe("workers secrets", () => {
 				)
 			);
 			mockConfirm({
-				text: "This will permanently delete the Worker script secret. Continue?",
+				text: "This will permanently delete the Worker script secret. Worker: script-name. Continue?",
 				result: true,
 			});
 			await runWrangler("workers secrets delete the/key --worker script-name");

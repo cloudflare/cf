@@ -222,6 +222,7 @@ export function generateFiles(
 				process.execPath,
 				[
 					forgeBin,
+					"generate",
 					"-",
 					"--target",
 					`wasm://${wasm}`,

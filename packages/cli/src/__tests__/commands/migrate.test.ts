@@ -191,6 +191,7 @@ describe("cf migrate", () => {
 				dryRun: false,
 				force: false,
 				installDependencies: true,
+				skipViteSetup: false,
 			}
 		);
 	});
@@ -200,12 +201,9 @@ describe("cf migrate", () => {
 		const confirmMigration = vi.fn().mockResolvedValue(true);
 
 		await expect(
-			maybeMigrateWranglerProject(
-				process.cwd(),
-				confirmMigration,
-				"stderr",
-				true
-			)
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration, {
+				dryRun: true,
+			})
 		).resolves.toBe(true);
 
 		expect(migrateWranglerToCf).toHaveBeenCalledWith(
@@ -215,6 +213,7 @@ describe("cf migrate", () => {
 				dryRun: true,
 				force: false,
 				installDependencies: true,
+				skipViteSetup: false,
 			}
 		);
 		expect(migrateWranglerToCf).toHaveBeenCalledOnce();
@@ -239,6 +238,22 @@ describe("cf migrate", () => {
 		expect(migrateWranglerToCf).toHaveBeenCalledWith(
 			path.join(process.cwd(), "config", "wrangler.jsonc"),
 			expect.objectContaining({ bundler: "vite" })
+		);
+	});
+
+	it("migrates to Vite and leaves Vite setup to autoconfig's framework setup", async () => {
+		await seed({ "wrangler.jsonc": "{}" });
+		const confirmMigration = vi.fn().mockResolvedValue(true);
+
+		await expect(
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration, {
+				frameworkSetup: true,
+			})
+		).resolves.toBe(true);
+
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "wrangler.jsonc"),
+			expect.objectContaining({ bundler: "vite", skipViteSetup: true })
 		);
 	});
 

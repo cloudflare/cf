@@ -5,12 +5,14 @@ import type { AutoConfigDetails } from "@cloudflare/autoconfig";
 const mocks = vi.hoisted(() => ({
 	getDetailsForAutoConfig: vi.fn(),
 	maybeMigrateWranglerProject: vi.fn(),
+	requiresFrameworkSetup: vi.fn(),
 	runAutoConfig: vi.fn(),
 }));
 
 vi.mock("@cloudflare/autoconfig", () => ({
 	AutoConfigDetectionError: class AutoConfigDetectionError extends Error {},
 	getDetailsForAutoConfig: mocks.getDetailsForAutoConfig,
+	requiresFrameworkSetup: mocks.requiresFrameworkSetup,
 	runAutoConfig: mocks.runAutoConfig,
 }));
 
@@ -101,6 +103,38 @@ describe("project preparation", () => {
 		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
 	});
 
+	it("sets up a supported framework after migrating its Wrangler config", async () => {
+		const legacyDetails = {
+			...unconfiguredDetails,
+			framework: { id: "astro" },
+		} as AutoConfigDetails;
+		const migratedDetails = { ...legacyDetails, workerName: "migrated" };
+		const configuredDetails = { ...migratedDetails, configured: true };
+		const configuration = { scripts: {}, outputDir: "dist" };
+		mocks.getDetailsForAutoConfig
+			.mockResolvedValueOnce(legacyDetails)
+			.mockResolvedValueOnce(migratedDetails)
+			.mockResolvedValueOnce(configuredDetails);
+		mocks.requiresFrameworkSetup.mockReturnValue(true);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(true);
+		mocks.runAutoConfig.mockResolvedValue(configuration);
+
+		await expect(prepareProject("/project")).resolves.toEqual({
+			details: configuredDetails,
+			configuration,
+		});
+		expect(mocks.requiresFrameworkSetup).toHaveBeenCalledWith("astro");
+		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
+			"/project",
+			expect.any(Function),
+			expect.objectContaining({ frameworkSetup: true })
+		);
+		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
+			migratedDetails,
+			expect.objectContaining({ runBuild: false })
+		);
+	});
+
 	it("lets framework setup install missing commands before reanalyzing", async () => {
 		const details: AutoConfigDetails = {
 			...unconfiguredDetails,
@@ -185,8 +219,7 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
 			"/project",
 			expect.any(Function),
-			"stderr",
-			true
+			expect.objectContaining({ output: "stderr", dryRun: true })
 		);
 	});
 
@@ -203,8 +236,7 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
 			"/project",
 			expect.any(Function),
-			"stderr",
-			true
+			expect.objectContaining({ output: "stderr", dryRun: true })
 		);
 		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();
 		expect(mocks.runAutoConfig).not.toHaveBeenCalled();

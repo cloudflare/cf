@@ -4,6 +4,7 @@ import { delimiter, join } from "node:path";
 import {
 	AutoConfigDetectionError,
 	getDetailsForAutoConfig,
+	requiresFrameworkSetup,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
 import satisfies from "semver/functions/satisfies.js";
@@ -153,11 +154,11 @@ export async function configureProject(
 
 /**
  * Choose project setup before a build: an accepted Wrangler config conversion
- * takes precedence over framework setup. After either route is applied, the
- * returned details describe the configured project. In a dry run,
- * `setupNeeded` means a setup route was selected but not applied, so callers
- * must skip the build. Callers validate command availability after setup has
- * had a chance to install missing tools.
+ * runs first, then framework setup when autoconfig supports the framework.
+ * After setup is applied, the returned details describe the configured
+ * project. In a dry run, `setupNeeded` means a setup route was selected but
+ * not applied, so callers must skip the build. Callers validate command
+ * availability after setup has had a chance to install missing tools.
  */
 export async function prepareProject(
 	cwd: string,
@@ -175,15 +176,21 @@ export async function prepareProject(
 	const migrationRan = await maybeMigrateWranglerProject(
 		cwd,
 		(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
-		options.output === "silent" ? "silent" : "stderr",
-		options.dryRun
+		{
+			output: options.output === "silent" ? "silent" : "stderr",
+			dryRun: options.dryRun,
+			frameworkSetup:
+				details !== undefined && requiresFrameworkSetup(details.framework.id),
+		}
 	);
 	if (migrationRan) {
 		if (options.dryRun) {
 			return { details, setupNeeded: true };
 		}
 		details = await analyzeProject(cwd, options);
-		return { details };
+		if (details?.configured) {
+			return { details };
+		}
 	}
 
 	if (!details) {

@@ -181,6 +181,7 @@ export async function runWranglerMigration(
 		dryRun,
 		force: options.force ?? false,
 		installDependencies: options.installDependencies ?? true,
+		skipViteSetup: options.skipViteSetup,
 	});
 
 	printResult(
@@ -194,6 +195,14 @@ export async function runWranglerMigration(
 	}
 }
 
+interface MaybeMigrateWranglerProjectOptions {
+	output?: MigrationOutput;
+	dryRun?: boolean;
+	// Autoconfig will set up the framework after the migration, so migrate
+	// to Vite and leave the Vite setup to it.
+	frameworkSetup?: boolean;
+}
+
 /**
  * Offer to convert a Wrangler config before framework setup. Returns true
  * only after the user accepts and the conversion command completes, including
@@ -202,8 +211,11 @@ export async function runWranglerMigration(
 export async function maybeMigrateWranglerProject(
 	projectPath: string,
 	confirmMigration: ConfirmMigration,
-	output: MigrationOutput = "stderr",
-	dryRun = false
+	{
+		output = "stderr",
+		dryRun = false,
+		frameworkSetup = false,
+	}: MaybeMigrateWranglerProjectOptions = {}
 ): Promise<boolean> {
 	// Migration leaves the Wrangler config in place. A cloudflare.config.ts
 	// means the project already uses cf, even while framework setup is pending.
@@ -230,7 +242,14 @@ export async function maybeMigrateWranglerProject(
 		return false;
 	}
 
-	const bundler = await detectWranglerMigrationBundler(configPath);
-	await runWranglerMigration(configPath, { bundler, output, dryRun });
+	const bundler = frameworkSetup
+		? "vite"
+		: await detectWranglerMigrationBundler(configPath);
+	await runWranglerMigration(configPath, {
+		bundler,
+		output,
+		dryRun,
+		skipViteSetup: frameworkSetup,
+	});
 	return true;
 }

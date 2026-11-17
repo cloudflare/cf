@@ -309,6 +309,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The logpush_public_key field",
 		})
+		.option("multiprovider-enabled", {
+			type: "boolean",
+			description:
+				"Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted.",
+		})
 		.option("otel", {
 			type: "string",
 			description:
@@ -456,6 +461,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"log-classification",
 						"log-management-strategy",
 						"logpush",
+						"multiprovider-enabled",
 						"rate-limiting-technique",
 						"retry-backoff",
 						"spend-limits-enabled",
@@ -535,6 +541,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"logpush-public-key",
 											"text"
 										),
+										multiprovider_enabled: argv["multiprovider-enabled"],
 										otel: parseObjectArray(argv["otel"], "otel"),
 										rate_limiting_interval: argv["rate-limiting-interval"],
 										rate_limiting_limit: argv["rate-limiting-limit"],
@@ -670,6 +677,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"logpush-public-key",
 						"text"
 					),
+					multiprovider_enabled: argv["multiprovider-enabled"],
 					otel: parseObjectArray(argv["otel"], "otel"),
 					rate_limiting_interval: argv["rate-limiting-interval"],
 					rate_limiting_limit: argv["rate-limiting-limit"],

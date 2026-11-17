@@ -1,8 +1,8 @@
-import operation from "../../_operations/email-security/allow-policies/batch.js";
+import operation from "../../_operations/email-security/allow-policies/bulk-apply.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * batch command
+ * bulk-apply command
  * @generated from apis/overlays/email-security.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-security allow-policies batch\n\nExecutes multiple allow policy operations atomically: delete, partially update, replace, and create allow policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+			"$0 email-security allow-policies bulk-apply\n\nExecutes multiple allow policy operations atomically: delete, partially update, replace, and create allow policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
 		)
 		.option("deletes", {
 			type: "string",
@@ -64,13 +64,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "batch",
+	command: "bulk-apply",
 	describe: "Batch allow policy operations",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-security allow-policies batch",
+				command: "email-security allow-policies bulk-apply",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -81,7 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-security allow-policies batch",
+						command: "cf email-security allow-policies bulk-apply",
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/allow_policies/batch`,
 						pathParams: {},

@@ -6369,6 +6369,12 @@
 					"description": "The logpush_public_key field"
 				},
 				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
+				},
+				{
 					"name": "otel",
 					"type": "string",
 					"required": false,
@@ -7038,6 +7044,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
 				},
 				{
 					"name": "otel",
@@ -36766,8 +36778,8 @@
 				}
 			]
 		},
-		"email-security allow-policies batch": {
-			"operationId": "email-security.allow-policies.batch",
+		"email-security allow-policies bulk-apply": {
+			"operationId": "email-security.allow-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/allow_policies/batch",
 			"pathParams": [
@@ -37231,8 +37243,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security block-senders batch": {
-			"operationId": "email-security.block-senders.batch",
+		"email-security block-senders bulk-apply": {
+			"operationId": "email-security.block-senders.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/block_senders/batch",
 			"pathParams": [
@@ -37825,8 +37837,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security content-policies batch": {
-			"operationId": "email-security.content-policies.batch",
+		"email-security content-policies bulk-apply": {
+			"operationId": "email-security.content-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/content_policies/batch",
 			"pathParams": [
@@ -38084,8 +38096,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security domains batch": {
-			"operationId": "email-security.domains.batch",
+		"email-security domains bulk-apply": {
+			"operationId": "email-security.domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/domains/batch",
 			"pathParams": [
@@ -39449,8 +39461,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security trusted-domains batch": {
-			"operationId": "email-security.trusted-domains.batch",
+		"email-security trusted-domains bulk-apply": {
+			"operationId": "email-security.trusted-domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/trusted_domains/batch",
 			"pathParams": [
@@ -39749,8 +39761,8 @@
 				}
 			]
 		},
-		"email-security url-ignore-patterns batch": {
-			"operationId": "email-security.url-ignore-patterns.batch",
+		"email-security url-ignore-patterns bulk-apply": {
+			"operationId": "email-security.url-ignore-patterns.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/url_ignore_patterns/batch",
 			"pathParams": [
@@ -41994,10 +42006,16 @@
 					"description": "Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics)."
 				},
 				{
+					"name": "forward-client-ip-headers",
+					"type": "boolean",
+					"required": false,
+					"description": "Forwards client IP-related headers when enabled. When disabled, client IP-related headers are stripped. If omitted, the previously stored value is kept; new configurations default to true."
+				},
+				{
 					"name": "hide-original-ip",
 					"type": "boolean",
-					"required": true,
-					"description": "Hides the original client IP address from Google when enabled."
+					"required": false,
+					"description": "Deprecated. This value is stored but has no effect on traffic. Use `forwardClientIpHeaders` to control whether client IP-related headers are forwarded to Google. Optional in requests: if omitted, the previously stored value is kept. Responses always include it."
 				},
 				{
 					"name": "measurement-id",
@@ -100720,8 +100738,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers secrets bulk": {
-			"operationId": "workers.secrets.bulk",
+		"workers secrets bulk-edit": {
+			"operationId": "workers.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
@@ -101271,8 +101289,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces scripts secrets bulk": {
-			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk",
+		"workers-for-platforms dispatch-namespaces scripts secrets bulk-edit": {
+			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk",
 			"pathParams": [

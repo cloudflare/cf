@@ -1,4 +1,4 @@
-/** @generated from email-security.allow-policies.batch */
+/** @generated from email-security.allow-policies.bulk-apply */
 import { path } from "#api";
 
 export default {

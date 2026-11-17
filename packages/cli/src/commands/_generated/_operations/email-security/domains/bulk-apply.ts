@@ -1,4 +1,4 @@
-/** @generated from email-security.domains.batch */
+/** @generated from email-security.domains.bulk-apply */
 import { path } from "#api";
 
 export default {

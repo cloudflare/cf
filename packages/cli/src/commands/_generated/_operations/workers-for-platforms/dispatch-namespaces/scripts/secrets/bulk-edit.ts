@@ -1,4 +1,4 @@
-/** @generated from workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk-edit */
 import { path } from "#api";
 
 export default {

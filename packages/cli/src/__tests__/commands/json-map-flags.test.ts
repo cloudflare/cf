@@ -17,7 +17,7 @@ describe("JSON map body flags", () => {
 		CLOUDFLARE_ACCOUNT_ID: "test-account",
 		CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
 	};
-	const command = ["workers", "secrets", "bulk", "--worker", "example"];
+	const command = ["workers", "secrets", "bulk-edit", "--worker", "example"];
 	const url = `${TEST_BASE_URL}/accounts/test-account/workers/scripts/example/secrets-bulk`;
 
 	for (const example of [

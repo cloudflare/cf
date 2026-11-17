@@ -112,6 +112,17 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 			const validToken = await getValidToken();
 			if (validToken) {
 				const state = readAuthCredentials();
+				if (argv.scopes && argv.scopes.length > 0) {
+					const currentScopes = new Set(state?.scopes ?? []);
+					const missingScopes = argv.scopes.filter(
+						(scope) => !currentScopes.has(scope)
+					);
+					if (missingScopes.length > 0) {
+						throw new Error(
+							`Already logged in without the requested scope(s): ${missingScopes.join(", ")}. Run \`cf auth login --force\` to re-authenticate with new scopes, or use \`--profile <name>\` to log in under a separate profile.`
+						);
+					}
+				}
 				const lines = [
 					"You are already logged in.",
 					`${theme.info("Config file:")} ${theme.muted(getConfigPath())}`,

@@ -202,10 +202,15 @@ export async function login(opts?: {
 	scopes?: string[];
 	profile?: string;
 }): Promise<boolean> {
-	if (opts?.scopes && !validateScopeKeys(opts.scopes)) {
-		throw new Error(
-			"One or more of the requested scopes are not valid cf OAuth scopes."
+	if (opts?.scopes) {
+		const invalidScopes = opts.scopes.filter(
+			(scope) => !validateScopeKeys([scope])
 		);
+		if (invalidScopes.length > 0) {
+			throw new Error(
+				`Invalid cf OAuth scope(s): ${invalidScopes.join(", ")}.`
+			);
+		}
 	}
 	return auth.login(
 		{ compliance_region: await getComplianceRegion() },

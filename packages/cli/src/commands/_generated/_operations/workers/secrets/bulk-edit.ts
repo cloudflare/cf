@@ -1,4 +1,4 @@
-/** @generated from workers.secrets.bulk */
+/** @generated from workers.secrets.bulk-edit */
 import { path } from "#api";
 
 export default {

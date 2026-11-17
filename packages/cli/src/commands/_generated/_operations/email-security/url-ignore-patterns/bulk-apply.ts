@@ -1,4 +1,4 @@
-/** @generated from email-security.url-ignore-patterns.batch */
+/** @generated from email-security.url-ignore-patterns.bulk-apply */
 import { path } from "#api";
 
 export default {

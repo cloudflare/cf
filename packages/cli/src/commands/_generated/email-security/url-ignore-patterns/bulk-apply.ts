@@ -1,8 +1,8 @@
-import operation from "../../_operations/email-security/domains/batch.js";
+import operation from "../../_operations/email-security/url-ignore-patterns/bulk-apply.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * batch command
+ * bulk-apply command
  * @generated from apis/overlays/email-security.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,27 +22,27 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-security domains batch\n\nExecutes multiple domain operations in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+			"$0 email-security url-ignore-patterns bulk-apply\n\nExecutes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
 		)
 		.option("deletes", {
 			type: "string",
 			description:
-				'IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
+				'IDs of the URL ignore patterns to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				'Partial updates to apply — each entry carries the domain\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes"?: ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions"?: ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "folder"?: ("AllItems" | "Inbox" | null), ...more} & {"id": string})]. ? marks optional keys.',
+				'Partial updates to apply — each entry carries the pattern\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "pattern"?: string} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				'Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "domain": string, "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more}].',
+				'URL ignore patterns to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"pattern": string, "comments"?: (string | null)}]. ? marks optional keys.',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				'Full replacements to apply — each entry carries the domain\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more} & {"id": string})].',
+				'Full replacements to apply — each entry carries the pattern\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"pattern": string, "comments"?: (string | null)} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -64,13 +64,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "batch",
-	describe: "Batch domain operations",
+	command: "bulk-apply",
+	describe: "Batch URL ignore pattern operations",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-security domains batch",
+				command: "email-security url-ignore-patterns bulk-apply",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -81,9 +81,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-security domains batch",
+						command: "cf email-security url-ignore-patterns bulk-apply",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/domains/batch`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/url_ignore_patterns/batch`,
 						pathParams: {},
 						bodyKind: "json",
 						body:
@@ -107,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This operation may permanently delete protection for the selected email domains. Emails for those domains will no longer be processed by Email Security.`,
+						message: `This operation may delete the selected URL rewrite ignore patterns and cause matching URLs to be rewritten again.`,
 					}))
 				) {
 					return;

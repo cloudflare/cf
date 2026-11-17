@@ -72,6 +72,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["active"] === undefined) {
+						throw new Error(
+							"--active is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["tenant-url"] === undefined) {
+						argv["tenant-url"] = await promptForRequiredField(
+							"tenant-url",
+							'The base url of the tenant, e.g. "https://tenant.okta.com".'
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -118,17 +131,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["active"] === undefined) {
-					throw new Error(
-						"--active is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["tenant-url"] === undefined) {
-					argv["tenant-url"] = await promptForRequiredField(
-						"tenant-url",
-						'The base url of the tenant, e.g. "https://tenant.okta.com".'
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -63,6 +63,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["pattern"] === undefined) {
+						argv["pattern"] = await promptForRequiredField(
+							"pattern",
+							"Regular expression identifying URLs to exempt from rewriting."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -102,12 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["pattern"] === undefined) {
-					argv["pattern"] = await promptForRequiredField(
-						"pattern",
-						"Regular expression identifying URLs to exempt from rewriting."
-					);
 				}
 
 				// Assemble request body from individual flags

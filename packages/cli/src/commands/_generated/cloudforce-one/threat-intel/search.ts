@@ -73,6 +73,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["query"] === undefined) {
+						argv["query"] = await promptForRequiredField(
+							"query",
+							"Search text, from 1 to 1000 characters after trimming."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -111,12 +119,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
-				}
-				if (argv["query"] === undefined) {
-					argv["query"] = await promptForRequiredField(
-						"query",
-						"Search text, from 1 to 1000 characters after trimming."
-					);
 				}
 
 				// Assemble request body from individual flags

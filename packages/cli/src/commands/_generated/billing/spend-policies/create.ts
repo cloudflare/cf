@@ -91,6 +91,38 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action taken when the threshold is reached. \`notification\` sends an email to \`notification_email\`. \`usage_block\` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early.",
+							["notification", "usage_block"] as const
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed."
+						);
+					}
+					if (argv["product-id"] === undefined) {
+						argv["product-id"] = await promptForRequiredEnumField(
+							"product-id",
+							"The product the policy applies to: \`workers\` or \`durable_objects\`. Each product's balance and policies are separate. Both products support \`notification\` and \`usage_block\` policies on create and update.",
+							["workers", "durable_objects"] as const
+						);
+					}
+					if (argv["threshold-cents"] === undefined) {
+						throw new Error(
+							"--threshold-cents is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -134,36 +166,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action taken when the threshold is reached. \`notification\` sends an email to \`notification_email\`. \`usage_block\` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early.",
-						["notification", "usage_block"] as const
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed."
-					);
-				}
-				if (argv["product-id"] === undefined) {
-					argv["product-id"] = await promptForRequiredEnumField(
-						"product-id",
-						"The product the policy applies to: \`workers\` or \`durable_objects\`. Each product's balance and policies are separate. Both products support \`notification\` and \`usage_block\` policies on create and update.",
-						["workers", "durable_objects"] as const
-					);
-				}
-				if (argv["threshold-cents"] === undefined) {
-					throw new Error(
-						"--threshold-cents is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

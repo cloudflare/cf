@@ -107,6 +107,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					recording: argv["recording"],
 					browser: argv["browser"],
 				};
+				if (argv.body === undefined) {
+					if (argv["code"] === undefined) {
+						argv["code"] = await promptForRequiredField(
+							"code",
+							"Function body executed against the selected library's runner."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -160,12 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						argv.text === true ? __cfRawBytes.toString("utf-8") : __cfRawBytes
 					);
 					return;
-				}
-				if (argv["code"] === undefined) {
-					argv["code"] = await promptForRequiredField(
-						"code",
-						"Function body executed against the selected library's runner."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -179,6 +179,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["meeting-id"] === undefined) {
+						argv["meeting-id"] = await promptForRequiredField(
+							"meeting-id",
+							"ID of the meeting to record."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -271,12 +279,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["meeting-id"] === undefined) {
-					argv["meeting-id"] = await promptForRequiredField(
-						"meeting-id",
-						"ID of the meeting to record."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -72,6 +72,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["image-data"] === undefined) {
+						argv["image-data"] = await promptForRequiredField(
+							"image-data",
+							"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a \`data:image/x-icon;base64,\` prefix."
+						);
+					}
+					if (argv["similarity-threshold"] === undefined) {
+						throw new Error(
+							"--similarity-threshold is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["tag"] === undefined) {
+						argv["tag"] = await promptForRequiredField(
+							"tag",
+							"Name of the logo query. Must be unique among the account's logo queries."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -113,23 +132,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["image-data"] === undefined) {
-					argv["image-data"] = await promptForRequiredField(
-						"image-data",
-						"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a \`data:image/x-icon;base64,\` prefix."
-					);
-				}
-				if (argv["similarity-threshold"] === undefined) {
-					throw new Error(
-						"--similarity-threshold is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["tag"] === undefined) {
-					argv["tag"] = await promptForRequiredField(
-						"tag",
-						"Name of the logo query. Must be unique among the account's logo queries."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -64,6 +64,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["status"] === undefined) {
+						argv["status"] = await promptForRequiredEnumField(
+							"status",
+							"The status field",
+							["accept", "reject"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf organizations invites update",
@@ -98,13 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["status"] === undefined) {
-					argv["status"] = await promptForRequiredEnumField(
-						"status",
-						"The status field",
-						["accept", "reject"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

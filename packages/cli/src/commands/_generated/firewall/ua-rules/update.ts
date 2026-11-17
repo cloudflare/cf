@@ -94,6 +94,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["access-rule-mode"] === undefined) {
+						argv["access-rule-mode"] = await promptForRequiredEnumField(
+							"access-rule-mode",
+							"The action to apply to a matched request.",
+							[
+								"block",
+								"challenge",
+								"whitelist",
+								"js_challenge",
+								"managed_challenge",
+							] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf firewall ua-rules update",
@@ -146,19 +161,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["access-rule-mode"] === undefined) {
-					argv["access-rule-mode"] = await promptForRequiredEnumField(
-						"access-rule-mode",
-						"The action to apply to a matched request.",
-						[
-							"block",
-							"challenge",
-							"whitelist",
-							"js_challenge",
-							"managed_challenge",
-						] as const
-					);
 				}
 
 				// Assemble request body from individual flags

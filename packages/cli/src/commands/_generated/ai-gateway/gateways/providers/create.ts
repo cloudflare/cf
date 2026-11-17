@@ -81,6 +81,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["alias"] === undefined) {
+						argv["alias"] = await promptForRequiredField(
+							"alias",
+							"The alias field"
+						);
+					}
+					if (argv["default-config"] === undefined) {
+						throw new Error(
+							"--default-config is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["provider-slug"] === undefined) {
+						argv["provider-slug"] = await promptForRequiredField(
+							"provider-slug",
+							"The provider_slug field"
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -138,23 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["alias"] === undefined) {
-					argv["alias"] = await promptForRequiredField(
-						"alias",
-						"The alias field"
-					);
-				}
-				if (argv["default-config"] === undefined) {
-					throw new Error(
-						"--default-config is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["provider-slug"] === undefined) {
-					argv["provider-slug"] = await promptForRequiredField(
-						"provider-slug",
-						"The provider_slug field"
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -79,6 +79,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["bucket"] === undefined) {
+						argv["bucket"] = await promptForRequiredField(
+							"bucket",
+							"The name of the storage bucket."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A human-readable name for the source."
+						);
+					}
+					if (argv["secret"] === undefined) {
+						throw new Error(
+							"--secret is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["vendor"] === undefined) {
+						argv["vendor"] = await promptForRequiredEnumField(
+							"vendor",
+							"The cloud storage vendor of the source bucket.",
+							["s3", "r2"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -130,30 +156,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["bucket"] === undefined) {
-					argv["bucket"] = await promptForRequiredField(
-						"bucket",
-						"The name of the storage bucket."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A human-readable name for the source."
-					);
-				}
-				if (argv["secret"] === undefined) {
-					throw new Error(
-						"--secret is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["vendor"] === undefined) {
-					argv["vendor"] = await promptForRequiredEnumField(
-						"vendor",
-						"The cloud storage vendor of the source bucket.",
-						["s3", "r2"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

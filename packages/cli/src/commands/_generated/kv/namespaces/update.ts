@@ -61,6 +61,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["title"] === undefined) {
+						argv["title"] = await promptForRequiredField(
+							"title",
+							"Human-readable string name for a Workers KV namespace."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -99,12 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["title"] === undefined) {
-					argv["title"] = await promptForRequiredField(
-						"title",
-						"Human-readable string name for a Workers KV namespace."
-					);
 				}
 
 				// Assemble request body from individual flags

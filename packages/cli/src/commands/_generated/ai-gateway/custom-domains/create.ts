@@ -72,6 +72,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["domain"] === undefined) {
+						argv["domain"] = await promptForRequiredField(
+							"domain",
+							"Custom hostname that you own, such as \`ai.example.com\`."
+						);
+					}
+					if (argv["zone-id"] === undefined) {
+						argv["zone-id"] = await promptForRequiredField(
+							"zone-id",
+							"ID of the Cloudflare zone that contains the custom hostname."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -116,18 +130,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["domain"] === undefined) {
-					argv["domain"] = await promptForRequiredField(
-						"domain",
-						"Custom hostname that you own, such as \`ai.example.com\`."
-					);
-				}
-				if (argv["zone-id"] === undefined) {
-					argv["zone-id"] = await promptForRequiredField(
-						"zone-id",
-						"ID of the Cloudflare zone that contains the custom hostname."
-					);
 				}
 
 				// Assemble request body from individual flags

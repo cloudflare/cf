@@ -62,8 +62,25 @@ const acceptsJson = (ctx: Ctx) =>
 /** `emitHandler`. */
 export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
-	lines.push(...dryRun(ctx));
 	lines.push(...requiredBody(ctx));
+	const prompts = bodyPrompts(ctx);
+	if (prompts.length > 0) {
+		// These inputs take an earlier upload/body branch instead of using flags.
+		const absent = [
+			...(ctx.derived.hasBody ? ["argv.body"] : []),
+			...(ctx.derived.hasFileUpload ? ["argv.file"] : []),
+			...ctx.derived.multipartFlagFields.map(({ flag }) => argvKey(flag)),
+			...ctx.derived.multipartFileFields.map(({ flag }) => argvKey(flag)),
+		].map((read) => `${read} === undefined`);
+		if (absent.length > 0) {
+			lines.push(`      if (${absent.join(" && ")}) {`);
+			lines.push(...prompts.map((line) => `  ${line}`));
+			lines.push("      }");
+		} else {
+			lines.push(...prompts);
+		}
+	}
+	lines.push(...dryRun(ctx));
 	lines.push(...preparsedBody(ctx));
 	lines.push(...auth(ctx));
 	if (ctx.isDelete) {
@@ -72,7 +89,6 @@ export function handler(ctx: Ctx): string[] {
 	lines.push(...multipart(ctx));
 	lines.push(...fileUpload(ctx));
 	lines.push(...bodyBypass(ctx));
-	lines.push(...bodyPrompts(ctx));
 	if (ctx.derived.hasBodyParams) {
 		lines.push(...bodyAssembly(ctx));
 	} else {

@@ -98,6 +98,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["dataset-id"] === undefined) {
+						argv["dataset-id"] = await promptForRequiredField(
+							"dataset-id",
+							"Dataset ID containing the event to update."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -212,12 +220,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["dataset-id"] === undefined) {
-					argv["dataset-id"] = await promptForRequiredField(
-						"dataset-id",
-						"Dataset ID containing the event to update."
-					);
 				}
 
 				// Assemble request body from individual flags

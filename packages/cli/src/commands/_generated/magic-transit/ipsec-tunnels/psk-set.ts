@@ -62,6 +62,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					validate_only: argv["validate-only"],
 				};
+				if (argv.body === undefined) {
+					if (argv["psks"] === undefined) {
+						throw new Error(
+							"--psks is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -102,11 +109,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["psks"] === undefined) {
-					throw new Error(
-						"--psks is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -68,6 +68,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["instances"] === undefined) {
+						throw new Error(
+							"--instances is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -113,11 +120,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Done` });
 					return;
-				}
-				if (argv["instances"] === undefined) {
-					throw new Error(
-						"--instances is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

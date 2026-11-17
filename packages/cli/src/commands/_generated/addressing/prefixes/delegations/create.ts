@@ -66,6 +66,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["cidr"] === undefined) {
+						argv["cidr"] = await promptForRequiredField(
+							"cidr",
+							"IP Prefix in Classless Inter-Domain Routing format."
+						);
+					}
+					if (argv["delegated-account-id"] === undefined) {
+						argv["delegated-account-id"] = await promptForRequiredField(
+							"delegated-account-id",
+							"Account identifier for the account to which prefix is being delegated."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -109,18 +123,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["cidr"] === undefined) {
-					argv["cidr"] = await promptForRequiredField(
-						"cidr",
-						"IP Prefix in Classless Inter-Domain Routing format."
-					);
-				}
-				if (argv["delegated-account-id"] === undefined) {
-					argv["delegated-account-id"] = await promptForRequiredField(
-						"delegated-account-id",
-						"Account identifier for the account to which prefix is being delegated."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -73,6 +73,38 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action to take if the expression matches",
+							["allow", "log", "add_reporting_directives"] as const
+						);
+					}
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"A description for the policy"
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["expression"] === undefined) {
+						argv["expression"] = await promptForRequiredField(
+							"expression",
+							"The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax"
+						);
+					}
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredField(
+							"value",
+							"The policy which will be applied"
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf client-side-security policies create",
@@ -122,36 +154,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action to take if the expression matches",
-						["allow", "log", "add_reporting_directives"] as const
-					);
-				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"A description for the policy"
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["expression"] === undefined) {
-					argv["expression"] = await promptForRequiredField(
-						"expression",
-						"The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax"
-					);
-				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredField(
-						"value",
-						"The policy which will be applied"
-					);
 				}
 
 				// Assemble request body from individual flags

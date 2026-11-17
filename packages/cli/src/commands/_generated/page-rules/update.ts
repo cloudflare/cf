@@ -72,6 +72,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["actions"] === undefined) {
+						throw new Error(
+							"--actions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["targets"] === undefined) {
+						throw new Error(
+							"--targets is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf page-rules update",
@@ -113,16 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["actions"] === undefined) {
-					throw new Error(
-						"--actions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["targets"] === undefined) {
-					throw new Error(
-						"--targets is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

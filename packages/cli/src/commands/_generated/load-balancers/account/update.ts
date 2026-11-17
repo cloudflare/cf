@@ -251,6 +251,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["default-pools"] === undefined) {
+						throw new Error(
+							"--default-pools is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["fallback-pool"] === undefined) {
+						argv["fallback-pool"] = await promptForRequiredField(
+							"fallback-pool",
+							"The pool ID to use when all other pools are detected as unhealthy."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -382,23 +401,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["default-pools"] === undefined) {
-					throw new Error(
-						"--default-pools is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["fallback-pool"] === undefined) {
-					argv["fallback-pool"] = await promptForRequiredField(
-						"fallback-pool",
-						"The pool ID to use when all other pools are detected as unhealthy."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -151,6 +151,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["method"] === undefined) {
+						argv["method"] = await promptForRequiredField(
+							"method",
+							"HTTP Method of tracing request"
+						);
+					}
+					if (argv["url"] === undefined) {
+						argv["url"] = await promptForRequiredField(
+							"url",
+							"URL to which perform tracing request"
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -271,18 +285,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["method"] === undefined) {
-					argv["method"] = await promptForRequiredField(
-						"method",
-						"HTTP Method of tracing request"
-					);
-				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						"URL to which perform tracing request"
-					);
 				}
 
 				// Assemble request body from individual flags

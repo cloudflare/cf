@@ -66,6 +66,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["flag-key"] === undefined) {
+						argv["flag-key"] = await promptForRequiredField(
+							"flag-key",
+							"Key of the flag to evaluate within the app."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -108,12 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["flag-key"] === undefined) {
-					argv["flag-key"] = await promptForRequiredField(
-						"flag-key",
-						"Key of the flag to evaluate within the app."
-					);
 				}
 
 				// Assemble request body from individual flags

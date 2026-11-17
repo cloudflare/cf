@@ -68,6 +68,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["credentials-keys"] === undefined) {
+						throw new Error(
+							"--credentials-keys is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"The description field"
+						);
+					}
+					if (argv["title"] === undefined) {
+						argv["title"] = await promptForRequiredField(
+							"title",
+							"The title field"
+						);
+					}
+					if (argv["token-type"] === undefined) {
+						argv["token-type"] = await promptForRequiredEnumField(
+							"token-type",
+							"The token_type field",
+							["JWT"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf api-security token-validation configurations create",
@@ -117,30 +143,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["credentials-keys"] === undefined) {
-					throw new Error(
-						"--credentials-keys is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"The description field"
-					);
-				}
-				if (argv["title"] === undefined) {
-					argv["title"] = await promptForRequiredField(
-						"title",
-						"The title field"
-					);
-				}
-				if (argv["token-type"] === undefined) {
-					argv["token-type"] = await promptForRequiredEnumField(
-						"token-type",
-						"The token_type field",
-						["JWT"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

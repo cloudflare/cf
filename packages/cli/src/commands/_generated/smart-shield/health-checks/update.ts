@@ -187,6 +187,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["errors"] === undefined) {
+						throw new Error(
+							"--errors is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["messages"] === undefined) {
+						throw new Error(
+							"--messages is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["success"] === undefined) {
+						throw new Error(
+							"--success is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf smart-shield health-checks update",
@@ -292,21 +309,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["errors"] === undefined) {
-					throw new Error(
-						"--errors is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["messages"] === undefined) {
-					throw new Error(
-						"--messages is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["success"] === undefined) {
-					throw new Error(
-						"--success is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

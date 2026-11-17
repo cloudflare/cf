@@ -63,6 +63,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["messages"] === undefined) {
+						throw new Error(
+							"--messages is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type field",
+							["reclassification", "missed_detection"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -94,18 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["messages"] === undefined) {
-					throw new Error(
-						"--messages is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["reclassification", "missed_detection"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

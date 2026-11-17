@@ -65,6 +65,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["comment"] === undefined) {
+						argv["comment"] = await promptForRequiredField(
+							"comment",
+							"An comment describing the allowlist prefix."
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["prefix"] === undefined) {
+						argv["prefix"] = await promptForRequiredField(
+							"prefix",
+							"The allowlist prefix to add in CIDR format."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -106,23 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["comment"] === undefined) {
-					argv["comment"] = await promptForRequiredField(
-						"comment",
-						"An comment describing the allowlist prefix."
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["prefix"] === undefined) {
-					argv["prefix"] = await promptForRequiredField(
-						"prefix",
-						"The allowlist prefix to add in CIDR format."
-					);
 				}
 
 				// Assemble request body from individual flags

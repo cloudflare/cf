@@ -57,6 +57,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["csr"] === undefined) {
+						argv["csr"] = await promptForRequiredField(
+							"csr",
+							"The Certificate Signing Request (CSR). Must be newline-encoded."
+						);
+					}
+					if (argv["validity-days"] === undefined) {
+						throw new Error(
+							"--validity-days is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf ssl client-certificates create",
@@ -95,17 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["csr"] === undefined) {
-					argv["csr"] = await promptForRequiredField(
-						"csr",
-						"The Certificate Signing Request (CSR). Must be newline-encoded."
-					);
-				}
-				if (argv["validity-days"] === undefined) {
-					throw new Error(
-						"--validity-days is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

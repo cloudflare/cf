@@ -181,6 +181,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["hostname"] === undefined) {
+						argv["hostname"] = await promptForRequiredField(
+							"hostname",
+							"The custom hostname that will point to your hostname via CNAME."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf custom-hostnames create",
@@ -271,12 +279,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["hostname"] === undefined) {
-					argv["hostname"] = await promptForRequiredField(
-						"hostname",
-						"The custom hostname that will point to your hostname via CNAME."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -114,6 +114,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["allowed-delivery-modes"] === undefined) {
+						throw new Error(
+							"--allowed-delivery-modes is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["drop-dispositions"] === undefined) {
+						throw new Error(
+							"--drop-dispositions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["ip-restrictions"] === undefined) {
+						throw new Error(
+							"--ip-restrictions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["regions"] === undefined) {
+						throw new Error(
+							"--regions is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -165,26 +187,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["allowed-delivery-modes"] === undefined) {
-					throw new Error(
-						"--allowed-delivery-modes is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["drop-dispositions"] === undefined) {
-					throw new Error(
-						"--drop-dispositions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["ip-restrictions"] === undefined) {
-					throw new Error(
-						"--ip-restrictions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["regions"] === undefined) {
-					throw new Error(
-						"--regions is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

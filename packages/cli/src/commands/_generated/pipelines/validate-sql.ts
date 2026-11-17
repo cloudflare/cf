@@ -56,6 +56,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["sql"] === undefined) {
+						argv["sql"] = await promptForRequiredField(
+							"sql",
+							"Specifies SQL to validate."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -90,12 +98,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["sql"] === undefined) {
-					argv["sql"] = await promptForRequiredField(
-						"sql",
-						"Specifies SQL to validate."
-					);
 				}
 
 				// Assemble request body from individual flags

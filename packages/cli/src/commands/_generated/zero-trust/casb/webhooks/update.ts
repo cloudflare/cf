@@ -101,6 +101,40 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["authentication-type"] === undefined) {
+						argv["authentication-type"] = await promptForRequiredEnumField(
+							"authentication-type",
+							"Type of authentication used for the webhook.",
+							[
+								"Basic Auth",
+								"None",
+								"Bearer Auth",
+								"Static Headers",
+								"HMAC-Signing",
+							] as const
+						);
+					}
+					if (argv["destination-url"] === undefined) {
+						argv["destination-url"] = await promptForRequiredField(
+							"destination-url",
+							"Target URL for the webhook configuration. Where resulting data will be sent."
+						);
+					}
+					if (argv["label"] === undefined) {
+						argv["label"] = await promptForRequiredField(
+							"label",
+							"Account-specified display label for the webhook configuration."
+						);
+					}
+					if (argv["status"] === undefined) {
+						argv["status"] = await promptForRequiredEnumField(
+							"status",
+							"Status of the webhook configuration.",
+							["enabled", "disabled"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -153,38 +187,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["authentication-type"] === undefined) {
-					argv["authentication-type"] = await promptForRequiredEnumField(
-						"authentication-type",
-						"Type of authentication used for the webhook.",
-						[
-							"Basic Auth",
-							"None",
-							"Bearer Auth",
-							"Static Headers",
-							"HMAC-Signing",
-						] as const
-					);
-				}
-				if (argv["destination-url"] === undefined) {
-					argv["destination-url"] = await promptForRequiredField(
-						"destination-url",
-						"Target URL for the webhook configuration. Where resulting data will be sent."
-					);
-				}
-				if (argv["label"] === undefined) {
-					argv["label"] = await promptForRequiredField(
-						"label",
-						"Account-specified display label for the webhook configuration."
-					);
-				}
-				if (argv["status"] === undefined) {
-					argv["status"] = await promptForRequiredEnumField(
-						"status",
-						"Status of the webhook configuration.",
-						["enabled", "disabled"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

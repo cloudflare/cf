@@ -75,6 +75,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["asn"] === undefined) {
+						throw new Error(
+							"--asn is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["cidr"] === undefined) {
+						argv["cidr"] = await promptForRequiredField(
+							"cidr",
+							"IP Prefix in Classless Inter-Domain Routing format."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -121,17 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["asn"] === undefined) {
-					throw new Error(
-						"--asn is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["cidr"] === undefined) {
-					argv["cidr"] = await promptForRequiredField(
-						"cidr",
-						"IP Prefix in Classless Inter-Domain Routing format."
-					);
 				}
 
 				// Assemble request body from individual flags

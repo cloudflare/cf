@@ -116,6 +116,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["domains"] === undefined) {
+						throw new Error(
+							"--domains is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["widget-mode"] === undefined) {
+						argv["widget-mode"] = await promptForRequiredEnumField(
+							"widget-mode",
+							"Widget mode",
+							["non-interactive", "invisible", "managed"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. "
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -161,24 +181,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["domains"] === undefined) {
-					throw new Error(
-						"--domains is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["widget-mode"] === undefined) {
-					argv["widget-mode"] = await promptForRequiredEnumField(
-						"widget-mode",
-						"Widget mode",
-						["non-interactive", "invisible", "managed"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. "
-					);
 				}
 
 				// Assemble request body from individual flags

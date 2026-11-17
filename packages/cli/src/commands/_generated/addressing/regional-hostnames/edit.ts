@@ -57,6 +57,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["region-key"] === undefined) {
+						argv["region-key"] = await promptForRequiredField(
+							"region-key",
+							"Identifying key for the region"
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf addressing regional-hostnames edit",
@@ -99,12 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["region-key"] === undefined) {
-					argv["region-key"] = await promptForRequiredField(
-						"region-key",
-						"Identifying key for the region"
-					);
 				}
 
 				// Assemble request body from individual flags

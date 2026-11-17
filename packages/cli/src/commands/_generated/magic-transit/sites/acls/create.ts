@@ -120,6 +120,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["lan-1-lan-id"] === undefined) {
+						argv["lan-1-lan-id"] = await promptForRequiredField(
+							"lan-1-lan-id",
+							"The identifier for the LAN you want to create an ACL policy with."
+						);
+					}
+					if (argv["lan-2-lan-id"] === undefined) {
+						argv["lan-2-lan-id"] = await promptForRequiredField(
+							"lan-2-lan-id",
+							"The identifier for the LAN you want to create an ACL policy with."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the ACL."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -194,24 +214,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["lan-1-lan-id"] === undefined) {
-					argv["lan-1-lan-id"] = await promptForRequiredField(
-						"lan-1-lan-id",
-						"The identifier for the LAN you want to create an ACL policy with."
-					);
-				}
-				if (argv["lan-2-lan-id"] === undefined) {
-					argv["lan-2-lan-id"] = await promptForRequiredField(
-						"lan-2-lan-id",
-						"The identifier for the LAN you want to create an ACL policy with."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the ACL."
-					);
 				}
 
 				// Assemble request body from individual flags

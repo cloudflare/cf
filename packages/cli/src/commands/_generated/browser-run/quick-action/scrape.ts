@@ -282,6 +282,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					cacheTTL: argv["cache-ttl"],
 					browser: argv["browser"],
 				};
+				if (argv.body === undefined) {
+					if (argv["elements"] === undefined) {
+						throw new Error(
+							"--elements is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -414,11 +421,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["elements"] === undefined) {
-					throw new Error(
-						"--elements is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

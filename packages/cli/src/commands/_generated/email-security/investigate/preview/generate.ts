@@ -57,6 +57,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["id"] === undefined) {
+						argv["id"] = await promptForRequiredField(
+							"id",
+							"Unique identifier for a message retrieved from investigation."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -91,12 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["id"] === undefined) {
-					argv["id"] = await promptForRequiredField(
-						"id",
-						"Unique identifier for a message retrieved from investigation."
-					);
 				}
 
 				// Assemble request body from individual flags

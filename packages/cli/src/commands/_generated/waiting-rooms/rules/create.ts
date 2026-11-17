@@ -76,6 +76,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action to take when the expression matches.",
+							["bypass_waiting_room"] as const
+						);
+					}
+					if (argv["expression"] === undefined) {
+						argv["expression"] = await promptForRequiredField(
+							"expression",
+							"Criteria defining when there is a match for the current rule."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf waiting-rooms rules create",
@@ -125,19 +140,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action to take when the expression matches.",
-						["bypass_waiting_room"] as const
-					);
-				}
-				if (argv["expression"] === undefined) {
-					argv["expression"] = await promptForRequiredField(
-						"expression",
-						"Criteria defining when there is a match for the current rule."
-					);
 				}
 
 				// Assemble request body from individual flags

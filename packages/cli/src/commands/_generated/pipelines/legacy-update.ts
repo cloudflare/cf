@@ -158,6 +158,39 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["destination-format"] === undefined) {
+						argv["destination-format"] = await promptForRequiredEnumField(
+							"destination-format",
+							"Specifies the format of data to deliver.",
+							["json"] as const
+						);
+					}
+					if (argv["destination-path-bucket"] === undefined) {
+						argv["destination-path-bucket"] = await promptForRequiredField(
+							"destination-path-bucket",
+							"Specifies the R2 Bucket to store files."
+						);
+					}
+					if (argv["destination-type"] === undefined) {
+						argv["destination-type"] = await promptForRequiredEnumField(
+							"destination-type",
+							"Specifies the type of destination.",
+							["r2"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Defines the name of the pipeline."
+						);
+					}
+					if (argv["source"] === undefined) {
+						throw new Error(
+							"--source is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -261,37 +294,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["destination-format"] === undefined) {
-					argv["destination-format"] = await promptForRequiredEnumField(
-						"destination-format",
-						"Specifies the format of data to deliver.",
-						["json"] as const
-					);
-				}
-				if (argv["destination-path-bucket"] === undefined) {
-					argv["destination-path-bucket"] = await promptForRequiredField(
-						"destination-path-bucket",
-						"Specifies the R2 Bucket to store files."
-					);
-				}
-				if (argv["destination-type"] === undefined) {
-					argv["destination-type"] = await promptForRequiredEnumField(
-						"destination-type",
-						"Specifies the type of destination.",
-						["r2"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Defines the name of the pipeline."
-					);
-				}
-				if (argv["source"] === undefined) {
-					throw new Error(
-						"--source is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

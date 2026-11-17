@@ -72,6 +72,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["stream-key"] === undefined) {
+						argv["stream-key"] = await promptForRequiredField(
+							"stream-key",
+							"The streamKey used to authenticate against an output's target.",
+							{ kind: "secret" }
+						);
+					}
+					if (argv["url"] === undefined) {
+						argv["url"] = await promptForRequiredField(
+							"url",
+							"The URL an output uses to restream.",
+							{ kind: "secret" }
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -121,20 +137,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["stream-key"] === undefined) {
-					argv["stream-key"] = await promptForRequiredField(
-						"stream-key",
-						"The streamKey used to authenticate against an output's target.",
-						{ kind: "secret" }
-					);
-				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						"The URL an output uses to restream.",
-						{ kind: "secret" }
-					);
 				}
 
 				// Assemble request body from individual flags

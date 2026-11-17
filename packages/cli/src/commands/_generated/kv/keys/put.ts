@@ -83,6 +83,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					expiration: argv["expiration"],
 					expiration_ttl: argv["expiration-ttl"],
 				};
+				if (
+					argv.body === undefined &&
+					argv.file === undefined &&
+					argv["metadata"] === undefined
+				) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -106,15 +115,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: argv.body,
 					});
 					return;
-				}
-				if (
-					argv.body === undefined &&
-					argv.file === undefined &&
-					argv["metadata"] === undefined
-				) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
 				}
 				const parsedBody =
 					argv["metadata"] !== undefined || argv.file !== undefined

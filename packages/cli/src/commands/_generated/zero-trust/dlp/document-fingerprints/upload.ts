@@ -59,6 +59,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined && argv.file === undefined) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -74,11 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body: { body: argv["body"], file: argv["file"] },
 					});
 					return;
-				}
-				if (argv.body === undefined && argv.file === undefined) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
 				}
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();

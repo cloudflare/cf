@@ -80,6 +80,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["next-action"] === undefined) {
+						argv["next-action"] = await promptForRequiredEnumField(
+							"next-action",
+							"The next_action field",
+							["INDEX"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -120,13 +129,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["next-action"] === undefined) {
-					argv["next-action"] = await promptForRequiredEnumField(
-						"next-action",
-						"The next_action field",
-						["INDEX"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

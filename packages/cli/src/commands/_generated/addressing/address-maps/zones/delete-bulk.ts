@@ -68,6 +68,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["zones"] === undefined) {
+						throw new Error(
+							"--zones is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -108,11 +115,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
-				}
-				if (argv["zones"] === undefined) {
-					throw new Error(
-						"--zones is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

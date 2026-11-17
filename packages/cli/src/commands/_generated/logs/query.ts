@@ -55,6 +55,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined && argv.file === undefined) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -75,11 +80,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body: argv.file !== undefined ? { file: argv.file } : argv.body,
 					});
 					return;
-				}
-				if (argv.body === undefined && argv.file === undefined) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
 				}
 				const parsedBody =
 					argv.file !== undefined

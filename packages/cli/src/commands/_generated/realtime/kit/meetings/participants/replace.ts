@@ -87,6 +87,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["custom-participant-id"] === undefined) {
+						argv["custom-participant-id"] = await promptForRequiredField(
+							"custom-participant-id",
+							"Unique participant ID accepted by the replace participant API."
+						);
+					}
+					if (argv["preset-name"] === undefined) {
+						argv["preset-name"] = await promptForRequiredField(
+							"preset-name",
+							"Name of the preset to apply to this participant."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -146,18 +160,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["custom-participant-id"] === undefined) {
-					argv["custom-participant-id"] = await promptForRequiredField(
-						"custom-participant-id",
-						"Unique participant ID accepted by the replace participant API."
-					);
-				}
-				if (argv["preset-name"] === undefined) {
-					argv["preset-name"] = await promptForRequiredField(
-						"preset-name",
-						"Name of the preset to apply to this participant."
-					);
 				}
 
 				// Assemble request body from individual flags

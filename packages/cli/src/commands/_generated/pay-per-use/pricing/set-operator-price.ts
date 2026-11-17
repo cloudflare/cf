@@ -63,6 +63,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action field",
+							["propose", "withdraw", "accept_default", "resume"] as const
+						);
+					}
+
+					if (
+						argv["action"] === "propose" &&
+						argv["price-usd-microcents"] === undefined
+					) {
+						throw new Error(
+							"--price-usd-microcents is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf pay-per-use pricing set-operator-price",
@@ -102,22 +120,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action field",
-						["propose", "withdraw", "accept_default", "resume"] as const
-					);
-				}
-
-				if (
-					argv["action"] === "propose" &&
-					argv["price-usd-microcents"] === undefined
-				) {
-					throw new Error(
-						"--price-usd-microcents is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

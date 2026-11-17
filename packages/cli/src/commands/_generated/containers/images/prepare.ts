@@ -54,6 +54,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["image"] === undefined) {
+						argv["image"] = await promptForRequiredField("image", "Image url.");
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -88,9 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["image"] === undefined) {
-					argv["image"] = await promptForRequiredField("image", "Image url.");
 				}
 
 				// Assemble request body from individual flags

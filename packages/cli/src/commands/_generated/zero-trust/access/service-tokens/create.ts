@@ -84,6 +84,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the service token."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -161,12 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the service token."
-					);
 				}
 
 				// Assemble request body from individual flags

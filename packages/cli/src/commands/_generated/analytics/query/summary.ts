@@ -85,6 +85,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["filters"] === undefined) {
+						throw new Error(
+							"--filters is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["from"] === undefined) {
+						argv["from"] = await promptForRequiredField(
+							"from",
+							"The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. \`2024-11-05T00:00:00Z\`)."
+						);
+					}
+					if (argv["group-by"] === undefined) {
+						throw new Error(
+							"--group-by is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["stats"] === undefined) {
+						throw new Error(
+							"--stats is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["to"] === undefined) {
+						argv["to"] = await promptForRequiredField(
+							"to",
+							"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -131,33 +160,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["filters"] === undefined) {
-					throw new Error(
-						"--filters is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["from"] === undefined) {
-					argv["from"] = await promptForRequiredField(
-						"from",
-						"The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. \`2024-11-05T00:00:00Z\`)."
-					);
-				}
-				if (argv["group-by"] === undefined) {
-					throw new Error(
-						"--group-by is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["stats"] === undefined) {
-					throw new Error(
-						"--stats is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["to"] === undefined) {
-					argv["to"] = await promptForRequiredField(
-						"to",
-						"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
-					);
 				}
 
 				// Assemble request body from individual flags

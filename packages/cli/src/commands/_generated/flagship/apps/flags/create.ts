@@ -104,6 +104,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["default-variation"] === undefined) {
+						argv["default-variation"] = await promptForRequiredField(
+							"default-variation",
+							"Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in \`variations\`."
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["key"] === undefined) {
+						argv["key"] = await promptForRequiredField(
+							"key",
+							"Unique identifier for the flag within an app. Used in all evaluation and SDK calls."
+						);
+					}
+					if (argv["rules"] === undefined) {
+						throw new Error(
+							"--rules is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["variations"] === undefined) {
+						throw new Error(
+							"--variations is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -170,33 +199,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["default-variation"] === undefined) {
-					argv["default-variation"] = await promptForRequiredField(
-						"default-variation",
-						"Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in \`variations\`."
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["key"] === undefined) {
-					argv["key"] = await promptForRequiredField(
-						"key",
-						"Unique identifier for the flag within an app. Used in all evaluation and SDK calls."
-					);
-				}
-				if (argv["rules"] === undefined) {
-					throw new Error(
-						"--rules is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["variations"] === undefined) {
-					throw new Error(
-						"--variations is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

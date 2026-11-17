@@ -97,6 +97,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["common-name"] === undefined) {
+						argv["common-name"] = await promptForRequiredField(
+							"common-name",
+							"The common name (domain) for the CSR. Must be at most 64 characters."
+						);
+					}
+					if (argv["country"] === undefined) {
+						argv["country"] = await promptForRequiredField(
+							"country",
+							"Two-letter ISO 3166-1 alpha-2 country code."
+						);
+					}
+					if (argv["locality"] === undefined) {
+						argv["locality"] = await promptForRequiredField(
+							"locality",
+							"City or locality name."
+						);
+					}
+					if (argv["organization"] === undefined) {
+						argv["organization"] = await promptForRequiredField(
+							"organization",
+							"Organization name."
+						);
+					}
+					if (argv["sans"] === undefined) {
+						throw new Error(
+							"--sans is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["state"] === undefined) {
+						argv["state"] = await promptForRequiredField(
+							"state",
+							"State or province name."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -193,41 +230,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["common-name"] === undefined) {
-					argv["common-name"] = await promptForRequiredField(
-						"common-name",
-						"The common name (domain) for the CSR. Must be at most 64 characters."
-					);
-				}
-				if (argv["country"] === undefined) {
-					argv["country"] = await promptForRequiredField(
-						"country",
-						"Two-letter ISO 3166-1 alpha-2 country code."
-					);
-				}
-				if (argv["locality"] === undefined) {
-					argv["locality"] = await promptForRequiredField(
-						"locality",
-						"City or locality name."
-					);
-				}
-				if (argv["organization"] === undefined) {
-					argv["organization"] = await promptForRequiredField(
-						"organization",
-						"Organization name."
-					);
-				}
-				if (argv["sans"] === undefined) {
-					throw new Error(
-						"--sans is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["state"] === undefined) {
-					argv["state"] = await promptForRequiredField(
-						"state",
-						"State or province name."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -795,6 +795,12 @@ For other required body fields, when stdin is a TTY and the field is not supplie
 Fields required only by a selected nested union branch fail body validation
 when missing, including on a TTY; they do not trigger interactive prompts.
 
+Generated dry runs resolve required inputs through the same prompts and
+sensitive-field stdin ingestion as execution, and reject missing required
+body input. Explicit flags or `--body` take precedence over implicit stdin.
+Previews redact sensitive values and return before authentication or API
+requests.
+
 This is the primary closure of wrangler's "interactive wizard" gap
 for the common case (single missing required field). Multi-step
 branching wizards (`pipelines setup`, `ai-search create`) require a bounded

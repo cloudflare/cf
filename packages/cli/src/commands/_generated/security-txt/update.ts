@@ -96,6 +96,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["contact"] === undefined) {
+						throw new Error(
+							"--contact is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["expires"] === undefined) {
+						argv["expires"] = await promptForRequiredField(
+							"expires",
+							"RFC3339-formatted date and time string indicating the time that, after which, the contents of the security.txt file should be considered stale. It is recommended that this value is less than a year into the future."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf security-txt update",
@@ -145,17 +158,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["contact"] === undefined) {
-					throw new Error(
-						"--contact is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["expires"] === undefined) {
-					argv["expires"] = await promptForRequiredField(
-						"expires",
-						"RFC3339-formatted date and time string indicating the time that, after which, the contents of the security.txt file should be considered stale. It is recommended that this value is less than a year into the future."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -66,6 +66,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["destination-namespace"] === undefined) {
+						argv["destination-namespace"] = await promptForRequiredField(
+							"destination-namespace",
+							"Namespace to move the instance into."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -108,12 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["destination-namespace"] === undefined) {
-					argv["destination-namespace"] = await promptForRequiredField(
-						"destination-namespace",
-						"Namespace to move the instance into."
-					);
 				}
 
 				// Assemble request body from individual flags

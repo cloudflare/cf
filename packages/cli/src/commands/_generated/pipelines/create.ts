@@ -58,6 +58,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Specifies the name of the Pipeline."
+						);
+					}
+					if (argv["sql"] === undefined) {
+						argv["sql"] = await promptForRequiredField(
+							"sql",
+							"Specifies SQL for the Pipeline processing flow."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -97,18 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Specifies the name of the Pipeline."
-					);
-				}
-				if (argv["sql"] === undefined) {
-					argv["sql"] = await promptForRequiredField(
-						"sql",
-						"Specifies SQL for the Pipeline processing flow."
-					);
 				}
 
 				// Assemble request body from individual flags

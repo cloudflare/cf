@@ -58,6 +58,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["algo"] === undefined) {
+						argv["algo"] = await promptForRequiredField(
+							"algo",
+							"TSIG algorithm."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"TSIG key name."
+						);
+					}
+					if (argv["secret"] === undefined) {
+						argv["secret"] = await promptForRequiredField(
+							"secret",
+							"TSIG secret.",
+							{ kind: "secret" }
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -107,22 +128,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["algo"] === undefined) {
-					argv["algo"] = await promptForRequiredField(
-						"algo",
-						"TSIG algorithm."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "TSIG key name.");
-				}
-				if (argv["secret"] === undefined) {
-					argv["secret"] = await promptForRequiredField(
-						"secret",
-						"TSIG secret.",
-						{ kind: "secret" }
-					);
 				}
 
 				// Assemble request body from individual flags

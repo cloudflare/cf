@@ -67,6 +67,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["password"] === undefined) {
+						argv["password"] = await promptForRequiredField(
+							"password",
+							"Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes.",
+							{ kind: "secret" }
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -113,13 +122,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["password"] === undefined) {
-					argv["password"] = await promptForRequiredField(
-						"password",
-						"Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes.",
-						{ kind: "secret" }
-					);
 				}
 
 				// Assemble request body from individual flags

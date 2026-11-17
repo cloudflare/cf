@@ -56,6 +56,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf zones hostnames settings tls update",
@@ -70,11 +75,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
-				}
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 				const parsedBody =
 					argv.body !== undefined ? parseBody(argv.body) : undefined;

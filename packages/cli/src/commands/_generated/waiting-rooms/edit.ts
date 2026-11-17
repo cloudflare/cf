@@ -242,6 +242,30 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["host"] === undefined) {
+						argv["host"] = await promptForRequiredField(
+							"host",
+							"The host name to which the waiting room will be applied (no wildcards). Please do not include the scheme (http:// or https://). The host and path combination must be unique."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A unique name to identify the waiting room. Only alphanumeric characters, hyphens and underscores are allowed."
+						);
+					}
+					if (argv["new-users-per-minute"] === undefined) {
+						throw new Error(
+							"--new-users-per-minute is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["total-active-users"] === undefined) {
+						throw new Error(
+							"--total-active-users is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf waiting-rooms edit",
@@ -331,28 +355,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["host"] === undefined) {
-					argv["host"] = await promptForRequiredField(
-						"host",
-						"The host name to which the waiting room will be applied (no wildcards). Please do not include the scheme (http:// or https://). The host and path combination must be unique."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A unique name to identify the waiting room. Only alphanumeric characters, hyphens and underscores are allowed."
-					);
-				}
-				if (argv["new-users-per-minute"] === undefined) {
-					throw new Error(
-						"--new-users-per-minute is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["total-active-users"] === undefined) {
-					throw new Error(
-						"--total-active-users is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

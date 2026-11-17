@@ -85,6 +85,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["authentication-type"] === undefined) {
+						argv["authentication-type"] = await promptForRequiredEnumField(
+							"authentication-type",
+							"Type of authentication to use for the test webhook request.",
+							[
+								"Basic Auth",
+								"None",
+								"Bearer Auth",
+								"Static Headers",
+								"HMAC-Signing",
+							] as const
+						);
+					}
+					if (argv["destination-url"] === undefined) {
+						argv["destination-url"] = await promptForRequiredField(
+							"destination-url",
+							"Target URL to send the test webhook event to."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -127,25 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["authentication-type"] === undefined) {
-					argv["authentication-type"] = await promptForRequiredEnumField(
-						"authentication-type",
-						"Type of authentication to use for the test webhook request.",
-						[
-							"Basic Auth",
-							"None",
-							"Bearer Auth",
-							"Static Headers",
-							"HMAC-Signing",
-						] as const
-					);
-				}
-				if (argv["destination-url"] === undefined) {
-					argv["destination-url"] = await promptForRequiredField(
-						"destination-url",
-						"Target URL to send the test webhook event to."
-					);
 				}
 
 				// Assemble request body from individual flags

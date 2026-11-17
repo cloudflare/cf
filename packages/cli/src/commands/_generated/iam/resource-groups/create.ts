@@ -61,6 +61,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the resource group"
+						);
+					}
+					if (argv["scope-objects"] === undefined) {
+						throw new Error(
+							"--scope-objects is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -101,17 +114,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the resource group"
-					);
-				}
-				if (argv["scope-objects"] === undefined) {
-					throw new Error(
-						"--scope-objects is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

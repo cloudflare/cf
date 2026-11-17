@@ -67,6 +67,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["secret"] === undefined) {
+						argv["secret"] = await promptForRequiredField(
+							"secret",
+							"Provider API key to store in the Secrets Store configured on the gateway.",
+							{ kind: "secret" }
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -110,13 +119,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["secret"] === undefined) {
-					argv["secret"] = await promptForRequiredField(
-						"secret",
-						"Provider API key to store in the Secrets Store configured on the gateway.",
-						{ kind: "secret" }
-					);
 				}
 
 				// Assemble request body from individual flags

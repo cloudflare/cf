@@ -72,6 +72,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["ca"] === undefined) {
+						throw new Error(
+							"--ca is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["certificates"] === undefined) {
+						argv["certificates"] = await promptForRequiredField(
+							"certificates",
+							"The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -118,17 +131,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["ca"] === undefined) {
-					throw new Error(
-						"--ca is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["certificates"] === undefined) {
-					argv["certificates"] = await promptForRequiredField(
-						"certificates",
-						"The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings."
-					);
 				}
 
 				// Assemble request body from individual flags

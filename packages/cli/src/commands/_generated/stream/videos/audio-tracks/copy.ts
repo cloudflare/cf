@@ -67,6 +67,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["label"] === undefined) {
+						argv["label"] = await promptForRequiredField(
+							"label",
+							"A string to uniquely identify the track amongst other audio track labels for the specified video."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -110,12 +118,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["label"] === undefined) {
-					argv["label"] = await promptForRequiredField(
-						"label",
-						"A string to uniquely identify the track amongst other audio track labels for the specified video."
-					);
 				}
 
 				// Assemble request body from individual flags

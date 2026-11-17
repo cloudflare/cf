@@ -66,6 +66,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["cidr"] === undefined) {
+						argv["cidr"] = await promptForRequiredField(
+							"cidr",
+							"IP Prefix in Classless Inter-Domain Routing format."
+						);
+					}
+					if (argv["service-id"] === undefined) {
+						argv["service-id"] = await promptForRequiredField(
+							"service-id",
+							"Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. "
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -109,18 +123,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["cidr"] === undefined) {
-					argv["cidr"] = await promptForRequiredField(
-						"cidr",
-						"IP Prefix in Classless Inter-Domain Routing format."
-					);
-				}
-				if (argv["service-id"] === undefined) {
-					argv["service-id"] = await promptForRequiredField(
-						"service-id",
-						"Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. "
-					);
 				}
 
 				// Assemble request body from individual flags

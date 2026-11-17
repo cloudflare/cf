@@ -94,6 +94,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const scriptName = getWorkerName({ scriptName: argv["worker"] });
 				argv["worker"] = scriptName;
+				if (argv.body === undefined) {
+					if (argv["duration-ms"] === undefined) {
+						throw new Error(
+							"--duration-ms is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -149,11 +156,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						argv.text === true ? __cfRawBytes.toString("utf-8") : __cfRawBytes
 					);
 					return;
-				}
-				if (argv["duration-ms"] === undefined) {
-					throw new Error(
-						"--duration-ms is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

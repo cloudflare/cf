@@ -75,6 +75,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["duration-hours"] === undefined) {
+						throw new Error(
+							"--duration-hours is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["scope"] === undefined) {
+						argv["scope"] = await promptForRequiredEnumField(
+							"scope",
+							"Whether the code applies to every device in the account or one physical device.",
+							["account", "device"] as const
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The feature that the override code applies to.",
+							["uninstall_protection"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -112,25 +133,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["duration-hours"] === undefined) {
-					throw new Error(
-						"--duration-hours is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["scope"] === undefined) {
-					argv["scope"] = await promptForRequiredEnumField(
-						"scope",
-						"Whether the code applies to every device in the account or one physical device.",
-						["account", "device"] as const
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The feature that the override code applies to.",
-						["uninstall_protection"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

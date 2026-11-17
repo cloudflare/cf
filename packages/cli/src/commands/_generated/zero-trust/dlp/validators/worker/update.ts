@@ -71,6 +71,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A name for this validator, at most 50 characters."
+						);
+					}
+					if (argv["script-tag"] === undefined) {
+						argv["script-tag"] = await promptForRequiredField(
+							"script-tag",
+							"The public script tag of the customer's Worker that scores matches."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -115,18 +129,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A name for this validator, at most 50 characters."
-					);
-				}
-				if (argv["script-tag"] === undefined) {
-					argv["script-tag"] = await promptForRequiredField(
-						"script-tag",
-						"The public script tag of the customer's Worker that scores matches."
-					);
 				}
 
 				// Assemble request body from individual flags

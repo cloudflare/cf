@@ -53,6 +53,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							"Value of the Origin Max HTTP Version Setting.",
+							["2", "1"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf zones origin-max-http-version edit",
@@ -86,13 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						"Value of the Origin Max HTTP Version Setting.",
-						["2", "1"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

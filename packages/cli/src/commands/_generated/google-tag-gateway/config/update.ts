@@ -71,6 +71,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["endpoint"] === undefined) {
+						argv["endpoint"] = await promptForRequiredField(
+							"endpoint",
+							"Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics)."
+						);
+					}
+					if (argv["measurement-id"] === undefined) {
+						argv["measurement-id"] = await promptForRequiredField(
+							"measurement-id",
+							"Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf google-tag-gateway config update",
@@ -116,23 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["endpoint"] === undefined) {
-					argv["endpoint"] = await promptForRequiredField(
-						"endpoint",
-						"Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics)."
-					);
-				}
-				if (argv["measurement-id"] === undefined) {
-					argv["measurement-id"] = await promptForRequiredField(
-						"measurement-id",
-						"Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX)."
-					);
 				}
 
 				// Assemble request body from individual flags

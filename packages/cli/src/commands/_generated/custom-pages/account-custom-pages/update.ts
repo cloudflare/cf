@@ -71,6 +71,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["state"] === undefined) {
+						argv["state"] = await promptForRequiredEnumField(
+							"state",
+							"The custom page state.",
+							["default", "customized"] as const
+						);
+					}
+					if (argv["url"] === undefined) {
+						argv["url"] = await promptForRequiredField(
+							"url",
+							"The URL associated with the custom page."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -133,19 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["state"] === undefined) {
-					argv["state"] = await promptForRequiredEnumField(
-						"state",
-						"The custom page state.",
-						["default", "customized"] as const
-					);
-				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						"The URL associated with the custom page."
-					);
 				}
 
 				// Assemble request body from individual flags

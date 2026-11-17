@@ -90,6 +90,37 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["bucket"] === undefined) {
+						argv["bucket"] = await promptForRequiredField(
+							"bucket",
+							"Name of the R2 bucket."
+						);
+					}
+					if (argv["parent-access-key-id"] === undefined) {
+						argv["parent-access-key-id"] = await promptForRequiredField(
+							"parent-access-key-id",
+							"Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions."
+						);
+					}
+					if (argv["permission"] === undefined) {
+						argv["permission"] = await promptForRequiredEnumField(
+							"permission",
+							"Permissions allowed on the credentials.",
+							[
+								"admin-read-write",
+								"admin-read-only",
+								"object-read-write",
+								"object-read-only",
+							] as const
+						);
+					}
+					if (argv["ttl-seconds"] === undefined) {
+						throw new Error(
+							"--ttl-seconds is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -133,35 +164,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["bucket"] === undefined) {
-					argv["bucket"] = await promptForRequiredField(
-						"bucket",
-						"Name of the R2 bucket."
-					);
-				}
-				if (argv["parent-access-key-id"] === undefined) {
-					argv["parent-access-key-id"] = await promptForRequiredField(
-						"parent-access-key-id",
-						"Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions."
-					);
-				}
-				if (argv["permission"] === undefined) {
-					argv["permission"] = await promptForRequiredEnumField(
-						"permission",
-						"Permissions allowed on the credentials.",
-						[
-							"admin-read-write",
-							"admin-read-only",
-							"object-read-write",
-							"object-read-only",
-						] as const
-					);
-				}
-				if (argv["ttl-seconds"] === undefined) {
-					throw new Error(
-						"--ttl-seconds is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -124,6 +124,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["email"] === undefined) {
+						argv["email"] = await promptForRequiredField(
+							"email",
+							"The email address to suppress."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -179,12 +187,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["email"] === undefined) {
-					argv["email"] = await promptForRequiredField(
-						"email",
-						"The email address to suppress."
-					);
 				}
 
 				// Assemble request body from individual flags

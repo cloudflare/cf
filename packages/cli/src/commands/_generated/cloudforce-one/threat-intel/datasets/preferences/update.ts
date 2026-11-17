@@ -65,6 +65,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["dataset-ids"] === undefined) {
+						throw new Error(
+							"--dataset-ids is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["scope"] === undefined) {
+						argv["scope"] = await promptForRequiredEnumField(
+							"scope",
+							"\`user\` sets your own default datasets. \`account\` sets the default datasets for everyone in the account who has not set their own, and requires permission to edit the account's Cloudforce One settings.",
+							["user", "account"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -97,18 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["dataset-ids"] === undefined) {
-					throw new Error(
-						"--dataset-ids is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["scope"] === undefined) {
-					argv["scope"] = await promptForRequiredEnumField(
-						"scope",
-						"\`user\` sets your own default datasets. \`account\` sets the default datasets for everyone in the account who has not set their own, and requires permission to edit the account's Cloudforce One settings.",
-						["user", "account"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

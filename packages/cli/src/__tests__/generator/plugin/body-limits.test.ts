@@ -125,13 +125,20 @@ describe.each([false, true])("array body limits (headers: %s)", (headers) => {
 			}
 		);
 
-		it("previews an omitted body without confirmation during a dry run", async () => {
-			const { run, confirmDelete, formatDryRun, send, requestApi } =
-				setup(httpMethod);
-			await run(undefined, true);
-			expect(formatDryRun).toHaveBeenCalledExactlyOnceWith(
-				expect.objectContaining({ body: undefined })
+		it("rejects an omitted body before authentication or confirmation during a dry run", async () => {
+			const {
+				run,
+				createCommandClient,
+				confirmDelete,
+				formatDryRun,
+				send,
+				requestApi,
+			} = setup(httpMethod);
+			await expect(run(undefined, true)).rejects.toThrow(
+				"--body is required for this command."
 			);
+			expect(createCommandClient).not.toHaveBeenCalled();
+			expect(formatDryRun).not.toHaveBeenCalled();
 			expect(confirmDelete).not.toHaveBeenCalled();
 			expect(send).not.toHaveBeenCalled();
 			expect(requestApi).not.toHaveBeenCalled();

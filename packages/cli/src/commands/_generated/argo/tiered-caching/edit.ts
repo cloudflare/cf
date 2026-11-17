@@ -53,6 +53,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							"Enables or disables Tiered Cache.",
+							["on", "off"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf argo tiered-caching edit",
@@ -86,13 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						"Enables or disables Tiered Cache.",
-						["on", "off"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

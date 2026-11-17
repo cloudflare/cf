@@ -82,6 +82,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["native-id"] === undefined) {
+						argv["native-id"] = await promptForRequiredField(
+							"native-id",
+							"Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
+						);
+					}
+					if (argv["node-kind"] === undefined) {
+						argv["node-kind"] = await promptForRequiredField(
+							"node-kind",
+							"Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -139,18 +153,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["native-id"] === undefined) {
-					argv["native-id"] = await promptForRequiredField(
-						"native-id",
-						"Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
-					);
-				}
-				if (argv["node-kind"] === undefined) {
-					argv["node-kind"] = await promptForRequiredField(
-						"node-kind",
-						"Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
-					);
 				}
 
 				// Assemble request body from individual flags

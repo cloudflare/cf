@@ -83,6 +83,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["applies-to-all-integrations"] === undefined) {
+						throw new Error(
+							"--applies-to-all-integrations is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -132,11 +139,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["applies-to-all-integrations"] === undefined) {
-					throw new Error(
-						"--applies-to-all-integrations is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

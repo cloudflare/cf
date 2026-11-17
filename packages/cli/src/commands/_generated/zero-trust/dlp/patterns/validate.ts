@@ -58,6 +58,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["regex"] === undefined) {
+						argv["regex"] = await promptForRequiredField(
+							"regex",
+							"The regex field"
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -93,12 +101,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Validated` });
 					return;
-				}
-				if (argv["regex"] === undefined) {
-					argv["regex"] = await promptForRequiredField(
-						"regex",
-						"The regex field"
-					);
 				}
 
 				// Assemble request body from individual flags

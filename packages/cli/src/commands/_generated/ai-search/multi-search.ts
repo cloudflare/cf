@@ -200,6 +200,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["ai-search-options-instance-ids"] === undefined) {
+						throw new Error(
+							"--ai-search-options-instance-ids is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -320,11 +327,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["ai-search-options-instance-ids"] === undefined) {
-					throw new Error(
-						"--ai-search-options-instance-ids is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

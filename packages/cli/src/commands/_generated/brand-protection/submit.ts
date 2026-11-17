@@ -82,6 +82,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					showHistoric: argv["show-historic"],
 					download: argv["download"],
 				};
+				if (argv.body === undefined) {
+					if (argv["image-data"] === undefined) {
+						argv["image-data"] = await promptForRequiredField(
+							"image-data",
+							"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -128,12 +136,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["image-data"] === undefined) {
-					argv["image-data"] = await promptForRequiredField(
-						"image-data",
-						"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string."
-					);
 				}
 
 				// Assemble request body from individual flags

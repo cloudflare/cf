@@ -64,6 +64,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["status"] === undefined) {
+						argv["status"] = await promptForRequiredEnumField(
+							"status",
+							"Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.",
+							["unverified", "verified"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -103,13 +112,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["status"] === undefined) {
-					argv["status"] = await promptForRequiredEnumField(
-						"status",
-						"Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.",
-						["unverified", "verified"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -88,6 +88,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["target-id"] === undefined) {
+						argv["target-id"] = await promptForRequiredField(
+							"target-id",
+							"UUID of the target entity."
+						);
+					}
+					if (argv["target-type"] === undefined) {
+						argv["target-type"] = await promptForRequiredEnumField(
+							"target-type",
+							'Target type. "indicator" is not allowed (indicator↔indicator relationships are not supported).',
+							["event", "tag"] as const
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredField(
+							"type",
+							"Relationship type."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -142,25 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["target-id"] === undefined) {
-					argv["target-id"] = await promptForRequiredField(
-						"target-id",
-						"UUID of the target entity."
-					);
-				}
-				if (argv["target-type"] === undefined) {
-					argv["target-type"] = await promptForRequiredEnumField(
-						"target-type",
-						'Target type. "indicator" is not allowed (indicator↔indicator relationships are not supported).',
-						["event", "tag"] as const
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredField(
-						"type",
-						"Relationship type."
-					);
 				}
 
 				// Assemble request body from individual flags

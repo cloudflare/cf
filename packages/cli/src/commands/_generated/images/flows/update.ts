@@ -56,6 +56,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["flows"] === undefined) {
+						throw new Error(
+							"--flows is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["config-version"] === undefined) {
+						throw new Error(
+							"--config-version is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf images flows update",
@@ -95,16 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["flows"] === undefined) {
-					throw new Error(
-						"--flows is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["config-version"] === undefined) {
-					throw new Error(
-						"--config-version is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

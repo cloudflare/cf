@@ -77,6 +77,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					limit: argv["limit"],
 					fields: argv["fields"],
 				};
+				if (argv.body === undefined) {
+					if (argv["lookup"] === undefined) {
+						argv["lookup"] = await promptForRequiredField(
+							"lookup",
+							"Rule sentence to search for complete application names. Leading and trailing whitespace is trimmed before the length is checked. Control characters other than tab and line breaks return \`400\`. "
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -121,12 +129,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["lookup"] === undefined) {
-					argv["lookup"] = await promptForRequiredField(
-						"lookup",
-						"Rule sentence to search for complete application names. Leading and trailing whitespace is trimmed before the length is checked. Control characters other than tab and line breaks return \`400\`. "
-					);
 				}
 
 				// Assemble request body from individual flags

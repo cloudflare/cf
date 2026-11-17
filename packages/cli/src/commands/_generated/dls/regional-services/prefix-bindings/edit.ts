@@ -61,6 +61,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["region-key"] === undefined) {
+						argv["region-key"] = await promptForRequiredField(
+							"region-key",
+							'New region key to assign (e.g., "us", "eu", "cfcanary").'
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -99,12 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["region-key"] === undefined) {
-					argv["region-key"] = await promptForRequiredField(
-						"region-key",
-						'New region key to assign (e.g., "us", "eu", "cfcanary").'
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -281,6 +281,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name for this application."
+						);
+					}
+					if (argv["scheduling-policy"] === undefined) {
+						argv["scheduling-policy"] = await promptForRequiredEnumField(
+							"scheduling-policy",
+							"Variant descriptions: - \`default\`: Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts. - \`durable_object\`: Selects a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Configure application-wide observability settings here. Deployment configuration, scaling, placement constraints, versions, and rollouts do not apply.",
+							["default", "durable_object"] as const
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -384,19 +399,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name for this application."
-					);
-				}
-				if (argv["scheduling-policy"] === undefined) {
-					argv["scheduling-policy"] = await promptForRequiredEnumField(
-						"scheduling-policy",
-						"Variant descriptions: - \`default\`: Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts. - \`durable_object\`: Selects a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Configure application-wide observability settings here. Deployment configuration, scaling, placement constraints, versions, and rollouts do not apply.",
-						["default", "durable_object"] as const
-					);
 				}
 
 				// Assemble request body from individual flags

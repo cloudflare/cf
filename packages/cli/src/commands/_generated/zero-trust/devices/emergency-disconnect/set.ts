@@ -61,6 +61,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["disconnect"] === undefined) {
+						throw new Error(
+							"--disconnect is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -96,11 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["disconnect"] === undefined) {
-					throw new Error(
-						"--disconnect is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

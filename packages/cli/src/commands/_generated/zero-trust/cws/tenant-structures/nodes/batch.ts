@@ -78,6 +78,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["creates"] === undefined) {
+						throw new Error(
+							"--creates is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["deletes"] === undefined) {
+						throw new Error(
+							"--deletes is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["updates"] === undefined) {
+						throw new Error(
+							"--updates is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -123,21 +140,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Done` });
 					return;
-				}
-				if (argv["creates"] === undefined) {
-					throw new Error(
-						"--creates is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["deletes"] === undefined) {
-					throw new Error(
-						"--deletes is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["updates"] === undefined) {
-					throw new Error(
-						"--updates is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

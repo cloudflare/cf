@@ -52,6 +52,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["origin"] === undefined) {
+						argv["origin"] = await promptForRequiredField(
+							"origin",
+							"Your origin hostname that requests to your custom hostnames will be sent to."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf custom-hostnames fallback-origin update",
@@ -89,12 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["origin"] === undefined) {
-					argv["origin"] = await promptForRequiredField(
-						"origin",
-						"Your origin hostname that requests to your custom hostnames will be sent to."
-					);
 				}
 
 				// Assemble request body from individual flags

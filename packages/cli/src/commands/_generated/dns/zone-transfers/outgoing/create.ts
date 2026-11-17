@@ -53,6 +53,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField("name", "Zone name.");
+					}
+					if (argv["peers"] === undefined) {
+						throw new Error(
+							"--peers is required (or pass --body with this field set)."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf dns zone-transfers outgoing create",
@@ -91,14 +101,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "Zone name.");
-				}
-				if (argv["peers"] === undefined) {
-					throw new Error(
-						"--peers is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -66,6 +66,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined) {
+					if (argv["network"] === undefined) {
+						argv["network"] = await promptForRequiredField(
+							"network",
+							"The private IPv4 or IPv6 range connected by the route, in CIDR notation."
+						);
+					}
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -110,12 +118,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["network"] === undefined) {
-					argv["network"] = await promptForRequiredField(
-						"network",
-						"The private IPv4 or IPv6 range connected by the route, in CIDR notation."
-					);
 				}
 
 				// Assemble request body from individual flags

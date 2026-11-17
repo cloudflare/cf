@@ -7771,6 +7771,12 @@
 					"description": "Enable vector (embedding) storage backend."
 				},
 				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
+				},
+				{
 					"name": "indexing-options-keyword-tokenizer",
 					"type": "string",
 					"required": false,
@@ -9857,6 +9863,12 @@
 					"description": "Enable vector (embedding) storage backend."
 				},
 				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
+				},
+				{
 					"name": "indexing-options-keyword-tokenizer",
 					"type": "string",
 					"required": false,
@@ -10130,13 +10142,13 @@
 					"name": "summarization",
 					"type": "boolean",
 					"required": false,
-					"description": "The summarization field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "summarization-model",
 					"type": "string",
 					"required": false,
-					"description": "The summarization_model field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "sync-interval",
@@ -10154,7 +10166,7 @@
 					"name": "system-prompt-index-summarization",
 					"type": "string",
 					"required": false,
-					"description": "The system_prompt_index_summarization field"
+					"description": "Deprecated and has no effect. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "system-prompt-rewrite-query",

@@ -1,14 +1,13 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * bulk command
- * @generated from apis/overlays/workers.ts
+ * bulk-edit command
+ * @generated from apis/overlays/workers-for-platforms.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	getWorkerName,
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
@@ -28,12 +27,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 workers secrets bulk\n\nCreate, update, or delete multiple secrets on a Worker script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged."
+			"$0 workers-for-platforms dispatch-namespaces scripts secrets bulk-edit\n\nCreate, update, or delete multiple secrets on a Workers for Platforms script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged."
 		)
-		.option("worker", {
+		.option("dispatch-namespace", {
 			type: "string",
-			alias: ["script-name", "worker-id"],
+			description: "Name of the Workers for Platforms dispatch namespace.",
+			demandOption: true,
+		})
+		.option("script-name", {
+			type: "string",
 			description: "Name of the script.",
+			demandOption: true,
 		})
 		.option("secrets", {
 			type: "string",
@@ -64,24 +68,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "bulk",
-	describe: "Patch multiple Worker script secrets",
+	command: "bulk-edit",
+	describe: "Patch multiple Workers for Platforms script secrets",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "workers secrets bulk",
+				command:
+					"workers-for-platforms dispatch-namespaces scripts secrets bulk-edit",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const scriptName = await getWorkerName({
-					scriptName: argv["worker"],
-					quiet: argv["quiet"] as boolean | undefined,
-				});
-				argv["worker"] = scriptName;
 				if (
 					argv.body === undefined &&
 					argv.file === undefined &&
@@ -95,10 +95,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf workers secrets bulk",
+						command:
+							"cf workers-for-platforms dispatch-namespaces scripts secrets bulk-edit",
 						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
-						pathParams: { worker: String(argv["worker"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/dispatch/namespaces/${argv["dispatch-namespace"] == null ? "<dispatch-namespace>" : encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/secrets-bulk`,
+						pathParams: {
+							"dispatch-namespace": String(argv["dispatch-namespace"] ?? ""),
+							"script-name": String(argv["script-name"] ?? ""),
+						},
 						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
 						body:
 							argv.file !== undefined
@@ -134,7 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"PATCH",
-							`/accounts/${accountId}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
+							`/accounts/${accountId}/workers/dispatch/namespaces/${encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${encodeURIComponent(String(argv["script-name"]))}/secrets-bulk`,
 							{
 								body: fileContent,
 								headers: { "Content-Type": "application/merge-patch+json" },
@@ -151,7 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"PATCH",
-							`/accounts/${accountId}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
+							`/accounts/${accountId}/workers/dispatch/namespaces/${encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${encodeURIComponent(String(argv["script-name"]))}/secrets-bulk`,
 							{ body: bodyData }
 						)
 					);
@@ -177,7 +181,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					requestApi<unknown>(
 						client,
 						"PATCH",
-						`/accounts/${accountId}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
+						`/accounts/${accountId}/workers/dispatch/namespaces/${encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${encodeURIComponent(String(argv["script-name"]))}/secrets-bulk`,
 						{ body: bodyData }
 					)
 				);

@@ -1,0 +1,33 @@
+# Last resort for exceptional, temporary compatibility fixes. Fix OpenAPI or
+# Forge upstream by default; existing actions are not precedent for new ones.
+# Any new action needs a strong justification here and in its PR: concrete user
+# impact, why the upstream fix cannot be consumed in time, a linked upstream
+# issue/PR, and a precise removal condition. Include source guards and regression
+# coverage. Never add an action merely to unblock generation or make tests pass.
+overlay: 1.1.0
+info:
+  title: Temporary cf CLI compatibility annotations
+  version: 1.0.0
+  description: >-
+    Remove each action and its cli-compat-guards.ts precondition when the pinned
+    Forge OpenAPI supplies the annotation upstream.
+actions:
+  - target: $["paths"]["/zones/{zone_id}/precursor"]["put"]
+    description: Keep the body field mode from taking cf's global --mode flag (cloudflare/cf#28).
+    update:
+      x-forge-params:
+        mode:
+          flagName: detection-mode
+  - target: $["paths"]["/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile"]["put"]
+    description: Keep the body field profile from taking cf's global --profile flag (cloudflare/cf#28).
+    update:
+      x-forge-params:
+        profile:
+          flagName: organization-profile
+  - target: $["paths"]["/accounts/{account_id}/workers/scripts/{script_name}/secrets"]["put"]
+    description: Preserve the released workers secrets update <name> positional argument.
+    update:
+      x-forge-params:
+        name:
+          positional: true
+          required: true

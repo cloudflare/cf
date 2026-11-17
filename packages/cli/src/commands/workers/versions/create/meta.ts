@@ -8,6 +8,7 @@ export default {
 	category: "create",
 	description: "Upload a new Worker Version without deploying it",
 	usage: "cf workers versions create [directory] [options]",
+	search: { keywords: ["secrets file"] },
 	arguments: [
 		{
 			name: "directory",

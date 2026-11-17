@@ -8862,6 +8862,12 @@
 					"description": "The logpush_public_key field"
 				},
 				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
+				},
+				{
 					"name": "otel",
 					"type": "string",
 					"required": false,
@@ -9710,6 +9716,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
 				},
 				{
 					"name": "otel",
@@ -10582,6 +10594,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable vector (embedding) storage backend."
+				},
+				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
 				},
 				{
 					"name": "indexing-options-keyword-tokenizer",
@@ -13222,6 +13240,12 @@
 					"description": "Enable vector (embedding) storage backend."
 				},
 				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
+				},
+				{
 					"name": "indexing-options-keyword-tokenizer",
 					"type": "string",
 					"required": false,
@@ -13502,13 +13526,13 @@
 					"name": "summarization",
 					"type": "boolean",
 					"required": false,
-					"description": "The summarization field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "summarization-model",
 					"type": "string",
 					"required": false,
-					"description": "The summarization_model field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "sync-interval",
@@ -13526,7 +13550,7 @@
 					"name": "system-prompt-index-summarization",
 					"type": "string",
 					"required": false,
-					"description": "The system_prompt_index_summarization field"
+					"description": "Deprecated and has no effect. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "system-prompt-rewrite-query",
@@ -46031,7 +46055,8 @@
 					"site",
 					"assets",
 					"frontend",
-					"full-stack"
+					"full-stack",
+					"secrets file"
 				]
 			},
 			"arguments": [
@@ -50665,12 +50690,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-security allow-policies batch",
-			"name": "batch",
-			"fullPath": ["email-security", "allow-policies", "batch"],
+			"command": "cf email-security allow-policies bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": ["email-security", "allow-policies", "bulk-apply"],
 			"description": "Executes multiple allow policy operations atomically: delete, partially update, replace, and create allow policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
 			"summary": "Batch allow policy operations",
-			"usage": "cf email-security allow-policies batch [options]",
+			"usage": "cf email-security allow-policies bulk-apply [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -50723,7 +50748,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email-security/settings/allow_policies/batch",
-			"operationId": "email-security.allow-policies.batch",
+			"operationId": "email-security.allow-policies.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -51247,12 +51272,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-security block-senders batch",
-			"name": "batch",
-			"fullPath": ["email-security", "block-senders", "batch"],
+			"command": "cf email-security block-senders bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": ["email-security", "block-senders", "bulk-apply"],
 			"description": "Executes multiple blocked sender operations atomically: delete, partially update, replace, and create blocked sender patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
 			"summary": "Batch blocked sender operations",
-			"usage": "cf email-security block-senders batch [options]",
+			"usage": "cf email-security block-senders bulk-apply [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -51305,7 +51330,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email-security/settings/block_senders/batch",
-			"operationId": "email-security.block-senders.batch",
+			"operationId": "email-security.block-senders.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -52080,12 +52105,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-security content-policies batch",
-			"name": "batch",
-			"fullPath": ["email-security", "content-policies", "batch"],
+			"command": "cf email-security content-policies bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": ["email-security", "content-policies", "bulk-apply"],
 			"description": "Executes multiple content policy operations atomically: delete, partially update, replace, and create content policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
 			"summary": "Batch content policy operations",
-			"usage": "cf email-security content-policies batch [options]",
+			"usage": "cf email-security content-policies bulk-apply [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -52138,7 +52163,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email-security/settings/content_policies/batch",
-			"operationId": "email-security.content-policies.batch",
+			"operationId": "email-security.content-policies.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -52428,12 +52453,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-security domains batch",
-			"name": "batch",
-			"fullPath": ["email-security", "domains", "batch"],
+			"command": "cf email-security domains bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": ["email-security", "domains", "bulk-apply"],
 			"description": "Executes multiple domain operations in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
 			"summary": "Batch domain operations",
-			"usage": "cf email-security domains batch [options]",
+			"usage": "cf email-security domains bulk-apply [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -52486,7 +52511,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email-security/settings/domains/batch",
-			"operationId": "email-security.domains.batch",
+			"operationId": "email-security.domains.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -54247,12 +54272,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-security trusted-domains batch",
-			"name": "batch",
-			"fullPath": ["email-security", "trusted-domains", "batch"],
+			"command": "cf email-security trusted-domains bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": ["email-security", "trusted-domains", "bulk-apply"],
 			"description": "Executes multiple trusted domain operations atomically: delete, partially update, replace, and create trusted domain patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
 			"summary": "Batch trusted domain operations",
-			"usage": "cf email-security trusted-domains batch [options]",
+			"usage": "cf email-security trusted-domains bulk-apply [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -54305,7 +54330,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email-security/settings/trusted_domains/batch",
-			"operationId": "email-security.trusted-domains.batch",
+			"operationId": "email-security.trusted-domains.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -54651,12 +54676,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf email-security url-ignore-patterns batch",
-			"name": "batch",
-			"fullPath": ["email-security", "url-ignore-patterns", "batch"],
+			"command": "cf email-security url-ignore-patterns bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": ["email-security", "url-ignore-patterns", "bulk-apply"],
 			"description": "Executes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
 			"summary": "Batch URL ignore pattern operations",
-			"usage": "cf email-security url-ignore-patterns batch [options]",
+			"usage": "cf email-security url-ignore-patterns bulk-apply [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -54709,7 +54734,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email-security/settings/url_ignore_patterns/batch",
-			"operationId": "email-security.url-ignore-patterns.batch",
+			"operationId": "email-security.url-ignore-patterns.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -57737,8 +57762,8 @@
 				{
 					"name": "hide-original-ip",
 					"type": "boolean",
-					"required": true,
-					"description": "Hides the original client IP address from Google when enabled."
+					"required": false,
+					"description": "Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it."
 				},
 				{
 					"name": "measurement-id",
@@ -140288,12 +140313,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf workers secrets bulk",
-			"name": "bulk",
-			"fullPath": ["workers", "secrets", "bulk"],
+			"command": "cf workers secrets bulk-edit",
+			"name": "bulk-edit",
+			"fullPath": ["workers", "secrets", "bulk-edit"],
 			"description": "Create, update, or delete multiple secrets on a Worker script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged.",
 			"summary": "Patch multiple Worker script secrets",
-			"usage": "cf workers secrets bulk [options]",
+			"usage": "cf workers secrets bulk-edit [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -140339,7 +140364,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
-			"operationId": "workers.secrets.bulk",
+			"operationId": "workers.secrets.bulk-edit",
 			"hideCommand": false
 		},
 		{
@@ -140623,6 +140648,9 @@
 			"category": "create",
 			"description": "Upload a new Worker Version without deploying it",
 			"usage": "cf workers versions create [directory] [options]",
+			"search": {
+				"keywords": ["secrets file"]
+			},
 			"arguments": [
 				{
 					"name": "directory",
@@ -141218,18 +141246,18 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf workers-for-platforms dispatch-namespaces scripts secrets bulk",
-			"name": "bulk",
+			"command": "cf workers-for-platforms dispatch-namespaces scripts secrets bulk-edit",
+			"name": "bulk-edit",
 			"fullPath": [
 				"workers-for-platforms",
 				"dispatch-namespaces",
 				"scripts",
 				"secrets",
-				"bulk"
+				"bulk-edit"
 			],
 			"description": "Create, update, or delete multiple secrets on a Workers for Platforms script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged.",
 			"summary": "Patch multiple Workers for Platforms script secrets",
-			"usage": "cf workers-for-platforms dispatch-namespaces scripts secrets bulk [options]",
+			"usage": "cf workers-for-platforms dispatch-namespaces scripts secrets bulk-edit [options]",
 			"arguments": [],
 			"options": [
 				{
@@ -141280,7 +141308,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk",
-			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk",
+			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk-edit",
 			"hideCommand": false
 		},
 		{

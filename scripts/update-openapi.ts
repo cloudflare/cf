@@ -7,11 +7,11 @@ import { x } from "tinyexec";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
-const GENERATOR_PATH = join(REPO_ROOT, "packages/cli/generate.ts");
+const CLI_PACKAGE_JSON = "packages/cli/package.json";
+const CLI_PACKAGE_JSON_PATH = join(REPO_ROOT, CLI_PACKAGE_JSON);
 const FORGE_REPOSITORY = "cloudflare/forge";
 const OPENAPI_ASSET = "openapi.forge.json";
-const OPENAPI_VERSION_PATTERN =
-	/^const FORGE_OPENAPI_VERSION = "([0-9a-f]{40})";$/m;
+const OPENAPI_VERSION_PATTERN = /^[0-9a-f]{40}$/;
 const UPDATE_COMMIT_PATTERN =
 	/^chore: update (?:Forge and )?OpenAPI to [0-9a-f]{12}$/;
 const UPDATE_COMMIT_EMAIL =
@@ -281,12 +281,46 @@ async function githubRequest<T>(
 	}
 }
 
-function extractOpenApiVersion(source: string, label: string): string {
-	const match = source.match(OPENAPI_VERSION_PATTERN);
-	if (!match?.[1]) {
-		throw new Error(`Could not read FORGE_OPENAPI_VERSION from ${label}`);
+/**
+ * Read the pinned OpenAPI revision from the cf package.json source.
+ *
+ * The revision is stored in `config.forgeOpenApiVersion`.
+ *
+ * @throws {Error} When the source is not JSON or has no valid revision.
+ */
+export function extractOpenApiVersion(source: string, label: string): string {
+	const packageJson: unknown = JSON.parse(source);
+	const version =
+		isObject(packageJson) && isObject(packageJson.config)
+			? packageJson.config.forgeOpenApiVersion
+			: undefined;
+	if (typeof version !== "string" || !OPENAPI_VERSION_PATTERN.test(version)) {
+		throw new Error(`Could not read config.forgeOpenApiVersion from ${label}`);
 	}
-	return match[1];
+	return version;
+}
+
+/**
+ * Pin a new OpenAPI revision in the cf package.json source.
+ *
+ * Only `config.forgeOpenApiVersion` changes; tab indentation and the trailing
+ * newline are kept.
+ *
+ * @throws {Error} When the source has no valid revision to replace or the new
+ * revision is not a commit SHA.
+ */
+export function setOpenApiVersion(
+	source: string,
+	version: string,
+	label: string
+): string {
+	extractOpenApiVersion(source, label);
+	if (!OPENAPI_VERSION_PATTERN.test(version)) {
+		throw new Error(`Invalid OpenAPI revision: ${version}`);
+	}
+	const packageJson = JSON.parse(source) as { config: JsonObject };
+	packageJson.config.forgeOpenApiVersion = version;
+	return `${JSON.stringify(packageJson, null, "\t")}\n`;
 }
 
 export async function getLatestOpenApiRelease(): Promise<{
@@ -315,7 +349,7 @@ export async function getLatestOpenApiRelease(): Promise<{
 			`Latest Forge release ${release.tag_name} does not have a valid OpenAPI tag`
 		);
 	}
-	// generate.ts downloads this asset, so never pin a release without it.
+	// packages/cli/generate.ts downloads this asset, so never pin a release without it.
 	const hasAsset =
 		Array.isArray(release.assets) &&
 		release.assets.some(
@@ -418,31 +452,55 @@ export async function getManagedUpdateCommit(
 	return { parentSha: commit.parents[0].sha };
 }
 
-async function getProposedOpenApiVersion(repository: string): Promise<string> {
+/**
+ * Read the OpenAPI revision proposed by the update branch.
+ *
+ * Returns `undefined` when the branch predates the package.json pin, so the
+ * managed PR is refreshed rather than the update failing.
+ *
+ * @throws {Error} When GitHub returns invalid file content.
+ */
+async function getProposedOpenApiVersion(
+	repository: string
+): Promise<string | undefined> {
 	const query = new URLSearchParams({ ref: UPDATE_BRANCH });
 	const result = await githubJson(
-		`/repos/${repository}/contents/packages/cli/generate.ts?${query}`
+		`/repos/${repository}/contents/${CLI_PACKAGE_JSON}?${query}`
 	);
 	if (
 		!isObject(result) ||
 		typeof result.content !== "string" ||
 		result.encoding !== "base64"
 	) {
-		throw new Error("Update branch returned invalid generate.ts content");
+		throw new Error(
+			`Update branch returned invalid ${CLI_PACKAGE_JSON} content`
+		);
 	}
 	const source = Buffer.from(result.content, "base64").toString("utf8");
-	return extractOpenApiVersion(source, `${UPDATE_BRANCH}:generate.ts`);
+	try {
+		return extractOpenApiVersion(
+			source,
+			`${UPDATE_BRANCH}:${CLI_PACKAGE_JSON}`
+		);
+	} catch (error) {
+		console.warn(formatError(error));
+		return undefined;
+	}
 }
 
+/**
+ * Pin a new OpenAPI revision in the local `packages/cli/package.json`.
+ *
+ * Rewrites the file in place.
+ *
+ * @throws {Error} When the file cannot be read or written, has no valid
+ * revision to replace, or `version` is not a commit SHA.
+ */
 function updateOpenApiVersion(version: string): void {
-	const source = readFileSync(GENERATOR_PATH, "utf8");
-	extractOpenApiVersion(source, GENERATOR_PATH);
+	const source = readFileSync(CLI_PACKAGE_JSON_PATH, "utf8");
 	writeFileSync(
-		GENERATOR_PATH,
-		source.replace(
-			OPENAPI_VERSION_PATTERN,
-			`const FORGE_OPENAPI_VERSION = "${version}";`
-		)
+		CLI_PACKAGE_JSON_PATH,
+		setOpenApiVersion(source, version, CLI_PACKAGE_JSON_PATH)
 	);
 }
 
@@ -593,8 +651,8 @@ async function main(): Promise<void> {
 	logStep("Checking the latest OpenAPI release");
 	const { tag, version } = await getLatestOpenApiRelease();
 	const current = extractOpenApiVersion(
-		readFileSync(GENERATOR_PATH, "utf8"),
-		GENERATOR_PATH
+		readFileSync(CLI_PACKAGE_JSON_PATH, "utf8"),
+		CLI_PACKAGE_JSON_PATH
 	);
 	console.log(`Latest: ${tag}; current: openapi@${current}.`);
 

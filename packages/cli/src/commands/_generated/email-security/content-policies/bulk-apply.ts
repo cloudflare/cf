@@ -1,8 +1,8 @@
-import operation from "../../_operations/email-security/trusted-domains/batch.js";
+import operation from "../../_operations/email-security/content-policies/bulk-apply.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * batch command
+ * bulk-apply command
  * @generated from apis/overlays/email-security.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,27 +22,27 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-security trusted-domains batch\n\nExecutes multiple trusted domain operations atomically: delete, partially update, replace, and create trusted domain patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+			"$0 email-security content-policies bulk-apply\n\nExecutes multiple content policy operations atomically: delete, partially update, replace, and create content policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
 		)
 		.option("deletes", {
 			type: "string",
 			description:
-				'IDs of the trusted domain patterns to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
+				'IDs of the content policies to delete. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				'Partial updates to apply — each entry carries the pattern\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"comments"?: (string | null), "is_recent"?: boolean, "is_regex"?: boolean, "is_similarity"?: boolean, "pattern"?: string} & {"id": string})]. ? marks optional keys.',
+				'Partial updates to apply — each entry carries the policy\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled"?: boolean, "expires_at"?: (string | null), "name"?: string, "notes"?: (string | null), "pattern"?: string, ...more} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				'Trusted domain patterns to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"is_recent": boolean, "is_regex": boolean, "is_similarity": boolean, "pattern": string, "comments"?: (string | null)}]. ? marks optional keys.',
+				'Content policies to create. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "name": string, "pattern": string, "targets": ["SUBJECT" | "BODY"], "expires_at"?: (string | null), ...more}]. ? marks optional keys.',
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				'Full replacements to apply — each entry carries the pattern\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"is_recent": boolean, "is_regex": boolean, "is_similarity": boolean, "pattern": string, "comments"?: (string | null)} & {"id": string})]. ? marks optional keys.',
+				'Full replacements to apply — each entry carries the policy\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "name": string, "pattern": string, "targets": ["SUBJECT" | "BODY"], "expires_at"?: (string | null), ...more} & {"id": string})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -64,13 +64,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "batch",
-	describe: "Batch trusted domain operations",
+	command: "bulk-apply",
+	describe: "Batch content policy operations",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "email-security trusted-domains batch",
+				command: "email-security content-policies bulk-apply",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -81,9 +81,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf email-security trusted-domains batch",
+						command: "cf email-security content-policies bulk-apply",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/trusted_domains/batch`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/content_policies/batch`,
 						pathParams: {},
 						bodyKind: "json",
 						body:
@@ -107,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This operation may delete the selected trusted domain patterns and restore normal recent domain and similarity checks for matching emails.`,
+						message: `This operation may delete the selected content policies and stop evaluating emails against their patterns.`,
 					}))
 				) {
 					return;

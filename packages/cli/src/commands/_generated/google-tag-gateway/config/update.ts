@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("hide-original-ip", {
 			type: "boolean",
 			description:
-				"Hides the original client IP address from Google when enabled.",
+				"Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it.",
 		})
 		.option("measurement-id", {
 			type: "string",
@@ -126,11 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["endpoint"] = await promptForRequiredField(
 						"endpoint",
 						"Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics)."
-					);
-				}
-				if (argv["hide-original-ip"] === undefined) {
-					throw new Error(
-						"--hide-original-ip is required (or pass --body with this field set)."
 					);
 				}
 				if (argv["measurement-id"] === undefined) {

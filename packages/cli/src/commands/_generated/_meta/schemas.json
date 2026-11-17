@@ -6369,6 +6369,12 @@
 					"description": "The logpush_public_key field"
 				},
 				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
+				},
+				{
 					"name": "otel",
 					"type": "string",
 					"required": false,
@@ -7038,6 +7044,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
 				},
 				{
 					"name": "otel",
@@ -7757,6 +7769,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable vector (embedding) storage backend."
+				},
+				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
 				},
 				{
 					"name": "indexing-options-keyword-tokenizer",
@@ -9845,6 +9863,12 @@
 					"description": "Enable vector (embedding) storage backend."
 				},
 				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
+				},
+				{
 					"name": "indexing-options-keyword-tokenizer",
 					"type": "string",
 					"required": false,
@@ -10118,13 +10142,13 @@
 					"name": "summarization",
 					"type": "boolean",
 					"required": false,
-					"description": "The summarization field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "summarization-model",
 					"type": "string",
 					"required": false,
-					"description": "The summarization_model field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "sync-interval",
@@ -10142,7 +10166,7 @@
 					"name": "system-prompt-index-summarization",
 					"type": "string",
 					"required": false,
-					"description": "The system_prompt_index_summarization field"
+					"description": "Deprecated and has no effect. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "system-prompt-rewrite-query",
@@ -36766,8 +36790,8 @@
 				}
 			]
 		},
-		"email-security allow-policies batch": {
-			"operationId": "email-security.allow-policies.batch",
+		"email-security allow-policies bulk-apply": {
+			"operationId": "email-security.allow-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/allow_policies/batch",
 			"pathParams": [
@@ -37231,8 +37255,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security block-senders batch": {
-			"operationId": "email-security.block-senders.batch",
+		"email-security block-senders bulk-apply": {
+			"operationId": "email-security.block-senders.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/block_senders/batch",
 			"pathParams": [
@@ -37825,8 +37849,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security content-policies batch": {
-			"operationId": "email-security.content-policies.batch",
+		"email-security content-policies bulk-apply": {
+			"operationId": "email-security.content-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/content_policies/batch",
 			"pathParams": [
@@ -38084,8 +38108,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security domains batch": {
-			"operationId": "email-security.domains.batch",
+		"email-security domains bulk-apply": {
+			"operationId": "email-security.domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/domains/batch",
 			"pathParams": [
@@ -39449,8 +39473,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security trusted-domains batch": {
-			"operationId": "email-security.trusted-domains.batch",
+		"email-security trusted-domains bulk-apply": {
+			"operationId": "email-security.trusted-domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/trusted_domains/batch",
 			"pathParams": [
@@ -39749,8 +39773,8 @@
 				}
 			]
 		},
-		"email-security url-ignore-patterns batch": {
-			"operationId": "email-security.url-ignore-patterns.batch",
+		"email-security url-ignore-patterns bulk-apply": {
+			"operationId": "email-security.url-ignore-patterns.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/url_ignore_patterns/batch",
 			"pathParams": [
@@ -41996,8 +42020,8 @@
 				{
 					"name": "hide-original-ip",
 					"type": "boolean",
-					"required": true,
-					"description": "Hides the original client IP address from Google when enabled."
+					"required": false,
+					"description": "Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it."
 				},
 				{
 					"name": "measurement-id",
@@ -100720,8 +100744,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers secrets bulk": {
-			"operationId": "workers.secrets.bulk",
+		"workers secrets bulk-edit": {
+			"operationId": "workers.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
@@ -101271,8 +101295,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces scripts secrets bulk": {
-			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk",
+		"workers-for-platforms dispatch-namespaces scripts secrets bulk-edit": {
+			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk",
 			"pathParams": [

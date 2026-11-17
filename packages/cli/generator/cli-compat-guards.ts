@@ -7,17 +7,14 @@ interface TemporaryFlagName {
 	/** A top-level field of the JSON request body or of one of its shapes. */
 	readonly wire: string;
 	readonly type: "string";
-	readonly flagName: string;
 }
 
 /**
- * CLI names for API fields whose wire names would take a flag cf owns, until
- * the pinned Forge OpenAPI sets `x-forge-params.<wire>.flagName` for them
- * (cloudflare/cf#28). Remove an entry once upstream names its field.
- *
- * Every entry is checked before any is applied, so a new pin that changes an
- * operation or field, or names it upstream, fails generation instead of
- * renaming something else.
+ * Preconditions for the temporary flag names in cli-compat.overlay.yaml
+ * (cloudflare/cf#28). Overlays allow unmatched targets, so check the pinned
+ * source separately and remove each guard with its action once fixed upstream.
+ * A guard does not justify a new local fix: additions must meet the last-resort
+ * policy in the root AGENTS.md and document their rationale beside the action.
  */
 const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 	{
@@ -26,7 +23,6 @@ const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 		operationId: "precursor-for-a-zone-update-config",
 		wire: "mode",
 		type: "string",
-		flagName: "detection-mode",
 	},
 	{
 		method: "put",
@@ -34,33 +30,41 @@ const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 		operationId: "put_PirProfilePut",
 		wire: "profile",
 		type: "string",
-		flagName: "organization-profile",
 	},
 ];
 
 type Overrides = Record<string, Record<string, unknown> | undefined>;
 
-export function applyTemporaryFlagNames(openapi: ForgeOpenApiDocument): void {
+export function assertCliCompatSource(openapi: ForgeOpenApiDocument): void {
 	const stale = TEMPORARY_FLAG_NAMES.flatMap((entry) => {
 		const reason = staleness(openapi, entry);
 		return reason === undefined
 			? []
 			: [
-					`Pinned Forge OpenAPI changed for ${entry.method.toUpperCase()} ${entry.path} body field \`${entry.wire}\` (${reason}); remove or revise its temporary CLI flag name in generator/flag-names-cli-compat.ts`,
+					`Pinned Forge OpenAPI changed for ${entry.method.toUpperCase()} ${entry.path} body field \`${entry.wire}\` (${reason}); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`,
 				];
 	});
 	if (stale.length > 0) {
 		throw new Error(stale.join("\n"));
 	}
-	for (const entry of TEMPORARY_FLAG_NAMES) {
-		const operation = openapi.paths?.[entry.path]?.[
-			entry.method
-		] as OpenApiOperation;
-		const overrides = (operation["x-forge-params"] ?? {}) as Overrides;
-		operation["x-forge-params"] = {
-			...overrides,
-			[entry.wire]: { ...overrides[entry.wire], flagName: entry.flagName },
-		};
+	assertWorkersSecretUpdateSource(openapi);
+}
+
+function assertWorkersSecretUpdateSource(openapi: ForgeOpenApiDocument): void {
+	const path = "/accounts/{account_id}/workers/scripts/{script_name}/secrets";
+	const operation = openapi.paths?.[path]?.put;
+	if (
+		operation?.operationId !== "worker-put-script-secret" ||
+		operation["x-forge-hidden"] !== undefined ||
+		(operation["x-fern-sdk-group-name"] !== "workers.secrets" &&
+			JSON.stringify(operation["x-fern-sdk-group-name"]) !==
+				'["workers","secrets"]') ||
+		operation["x-fern-sdk-method-name"] !== "update" ||
+		operation["x-forge-params"] !== undefined
+	) {
+		throw new Error(
+			`Pinned Forge OpenAPI changed for PUT ${path}; remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`
+		);
 	}
 }
 

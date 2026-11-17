@@ -17,8 +17,6 @@ minimumReleaseAgeExclude:
   - miniflare
   - workerd
   - wrangler
-  # Temporary exception for the pinned Redocly overlay implementation.
-  - "@redocly/openapi-core@2.79.0"
 
 # pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:

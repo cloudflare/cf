@@ -3,11 +3,21 @@ import { getAuthToken } from "../../lib/auth-token.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { MissingCredentialsError } from "../../lib/errors.js";
 
-const { getOAuthToken, isOAuthLoggedIn } = vi.hoisted(() => ({
-	getOAuthToken: vi.fn(),
-	isOAuthLoggedIn: vi.fn(),
-}));
+const { getOAuthToken, isOAuthLoggedIn, getActiveProfile, getProfileStore } =
+	vi.hoisted(() => ({
+		getOAuthToken: vi.fn(),
+		isOAuthLoggedIn: vi.fn(),
+		getActiveProfile: vi.fn(() => "default"),
+		getProfileStore: vi.fn(() => ({
+			configs: {
+				exists: vi.fn(() => false),
+				list: vi.fn(() => ["work"]),
+			},
+		})),
+	}));
 vi.mock("../../lib/oauth/index.js", () => ({
+	getActiveProfile,
+	getProfileStore,
 	getValidToken: getOAuthToken,
 	isOAuthLoggedIn,
 	isTemporaryAccountRequested: () => false,
@@ -24,6 +34,7 @@ beforeEach(() => {
 	}
 	getOAuthToken.mockReset();
 	isOAuthLoggedIn.mockReset().mockReturnValue(false);
+	getActiveProfile.mockReset().mockReturnValue("default");
 });
 
 describe("getAuthToken", () => {
@@ -52,6 +63,17 @@ describe("getAuthToken", () => {
 			MissingCredentialsError
 		);
 		await expect(getAuthToken()).rejects.toThrow("cf auth login");
+	});
+
+	it("reports that a non-default profile was not found when it does not exist", async () => {
+		getActiveProfile.mockReturnValue("staging");
+		getOAuthToken.mockResolvedValue(undefined);
+		await expect(getAuthToken()).rejects.toBeInstanceOf(
+			MissingCredentialsError
+		);
+		await expect(getAuthToken()).rejects.toThrow(
+			"Auth profile \"staging\" not found (available: work). Run 'cf auth create staging' to authenticate it."
+		);
 	});
 
 	it("does not classify a failed OAuth refresh as missing credentials", async () => {

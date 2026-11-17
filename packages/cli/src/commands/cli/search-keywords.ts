@@ -26,7 +26,13 @@ export const searchKeywords: Readonly<Record<string, readonly string[]>> = {
 	// word "list" by prefix only; an exact "list" made it outrank
 	// `client-side-security scripts list` for "list scripts".
 	"cf workers scripts search": ["listing"],
-	"cf workers secrets bulk": ["wrangler", "upload", "dotenv", "env", "json"],
+	"cf workers secrets bulk-edit": [
+		"wrangler",
+		"upload",
+		"dotenv",
+		"env",
+		"json",
+	],
 	"cf workers secrets delete": ["wrangler", "remove"],
 	"cf workers secrets list": ["wrangler", "names", "show"],
 	"cf workers secrets update": [

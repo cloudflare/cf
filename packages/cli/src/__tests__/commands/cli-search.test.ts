@@ -122,7 +122,7 @@ describe("cf cli search", () => {
 		["list secrets of a worker script", "cf workers secrets list"],
 		["list worker secret names", "cf workers secrets list"],
 		["delete worker secret", "cf workers secrets delete"],
-		["wrangler secret bulk", "cf workers secrets bulk"],
+		["wrangler secret bulk", "cf workers secrets bulk-edit"],
 		["deploy worker with secrets file", "cf deploy"],
 		["list worker scripts", "cf workers scripts search"],
 		["list workers scripts in account", "cf workers scripts search"],

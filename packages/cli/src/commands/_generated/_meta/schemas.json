@@ -23888,7 +23888,7 @@
 					"name": "revision",
 					"type": "number",
 					"required": false,
-					"description": "The `revision` the change is based on. Required for structured PIRs; a different stored revision returns 409."
+					"description": "The `revision` the change is based on. Required for structured PIRs and when sending a `definition`; a different stored revision returns 409."
 				},
 				{
 					"name": "status",
@@ -28147,7 +28147,7 @@
 					"name": "auto-create-type",
 					"type": "boolean",
 					"required": false,
-					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag."
+					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag. When false, a non-analytics dataset still accepts pre-approved types (the same list event create accepts, such as BITCOIN or ERC-20) and registers them on first use. Analytics datasets do not check registered types."
 				},
 				{
 					"name": "indicators",
@@ -28210,7 +28210,7 @@
 					"name": "auto-create-type",
 					"type": "boolean",
 					"required": false,
-					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), throw an error when the indicator type doesn't exist."
+					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), reject an indicator type the dataset has not registered, unless the type is pre-approved (the same list event create accepts, such as BITCOIN or ERC-20), in which case it is registered on first use. Direct create applies this check to analytics datasets too. Bulk create skips it for analytics datasets."
 				},
 				{
 					"name": "indicator-type",
@@ -42902,6 +42902,77 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"hyperdrive edit": {
+			"operationId": "hyperdrive.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hyperdrive_id",
+					"flag": "hyperdrive-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "caching-disabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to true to disable caching of SQL responses. Default is false."
+				},
+				{
+					"name": "caching-max-age",
+					"type": "number",
+					"required": false,
+					"description": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+				},
+				{
+					"name": "caching-stale-while-revalidate",
+					"type": "number",
+					"required": false,
+					"description": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+				},
+				{
+					"name": "mtls-ca-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "Define CA certificate ID obtained after uploading CA cert."
+				},
+				{
+					"name": "mtls-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "Define mTLS certificate ID obtained after uploading client cert."
+				},
+				{
+					"name": "mtls-sslmode",
+					"type": "string",
+					"required": false,
+					"description": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
+				},
+				{
+					"name": "origin-connection-limit",
+					"type": "number",
+					"required": false,
+					"description": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n"
+				}
+			]
+		},
 		"hyperdrive get": {
 			"operationId": "hyperdrive.get",
 			"httpMethod": "GET",
@@ -43113,77 +43184,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"hyperdrive update": {
-			"operationId": "hyperdrive.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "hyperdrive_id",
-					"flag": "hyperdrive-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "caching-disabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Set to true to disable caching of SQL responses. Default is false."
-				},
-				{
-					"name": "caching-max-age",
-					"type": "number",
-					"required": false,
-					"description": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
-				},
-				{
-					"name": "caching-stale-while-revalidate",
-					"type": "number",
-					"required": false,
-					"description": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
-				},
-				{
-					"name": "mtls-ca-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "Define CA certificate ID obtained after uploading CA cert."
-				},
-				{
-					"name": "mtls-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "Define mTLS certificate ID obtained after uploading client cert."
-				},
-				{
-					"name": "mtls-sslmode",
-					"type": "string",
-					"required": false,
-					"description": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
-				},
-				{
-					"name": "origin-connection-limit",
-					"type": "number",
-					"required": false,
-					"description": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n"
-				}
-			]
 		},
 		"iam oauth-clients create": {
 			"operationId": "iam.oauth-clients.create",
@@ -117092,6 +117092,12 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "region",
+					"type": "string",
+					"required": false,
+					"description": "Pin the generated certificate authority's key material to one of the account's selected Data Localization Suite regions. **Important**: This field is only settable during certificate creation. Certificates become immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle."
+				},
+				{
 					"name": "validity-period-days",
 					"type": "number",
 					"required": false,
@@ -117387,6 +117393,12 @@
 					"description": "Specify whether to detect protocols from the initial bytes of client traffic."
 				},
 				{
+					"name": "settings-regions",
+					"type": "string",
+					"required": false,
+					"description": "Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+				},
+				{
 					"name": "settings-sandbox-enabled",
 					"type": "boolean",
 					"required": false,
@@ -117626,6 +117638,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Specify whether to detect protocols from the initial bytes of client traffic."
+				},
+				{
+					"name": "settings-regions",
+					"type": "string",
+					"required": false,
+					"description": "Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
 				},
 				{
 					"name": "settings-sandbox-enabled",

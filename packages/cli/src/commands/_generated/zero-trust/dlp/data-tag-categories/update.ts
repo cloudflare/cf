@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tags", {
 			type: "string",
 			description:
-				'The desired final state of tags.\n- `None` (omitted): no tag changes.\n- `Some([])`: delete all tags.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"description"?: (string | null), "name"?: (string | null)} & {"id"?: (string | null)})]. ? marks optional keys.',
+				'The desired final state of tags.\n- `None` (omitted): no tag changes.\n- `Some([])`: delete all tags.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [({"description"?: (string | null), "name"?: (string | null)} & {"id"?: (string | null)})]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -88,7 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										tags: parseObjectArray(argv["tags"], "tags"),
+										tags: parseObjectArray(argv["tags"], "tags", true),
 									}),
 					});
 					return;
@@ -124,7 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					tags: parseObjectArray(argv["tags"], "tags"),
+					tags: parseObjectArray(argv["tags"], "tags", true),
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {

@@ -267,9 +267,20 @@ export function parseJsonMap(
 export function parseObjectArray(
 	input: unknown,
 	flagName: string
-): Record<string, unknown>[] | undefined {
-	return parseStructuredArray(input, flagName, "objects") as
+): Record<string, unknown>[] | undefined;
+export function parseObjectArray(
+	input: unknown,
+	flagName: string,
+	allowNull: true
+): Record<string, unknown>[] | null | undefined;
+export function parseObjectArray(
+	input: unknown,
+	flagName: string,
+	allowNull = false
+): Record<string, unknown>[] | null | undefined {
+	return parseStructuredArray(input, flagName, "objects", allowNull) as
 		| Record<string, unknown>[]
+		| null
 		| undefined;
 }
 
@@ -286,8 +297,9 @@ export function parseNestedArray(
 function parseStructuredArray(
 	input: unknown,
 	flagName: string,
-	items: "objects" | "arrays"
-): unknown[] | undefined {
+	items: "objects" | "arrays",
+	allowNull = false
+): unknown[] | null | undefined {
 	if (input === undefined) {
 		return undefined;
 	}
@@ -299,13 +311,18 @@ function parseStructuredArray(
 		);
 	}
 	const value = parseJson<unknown>(input, flagName);
+	if (allowNull && value === null) {
+		return null;
+	}
 	if (
 		!Array.isArray(value) ||
 		value.some((item) =>
 			items === "arrays" ? !Array.isArray(item) : !isJsonObject(item)
 		)
 	) {
-		throw new Error(`${flag} must be a JSON array of ${items}.`);
+		throw new Error(
+			`${flag} must be a JSON array of ${items}${allowNull ? " or null" : ""}.`
+		);
 	}
 	return value;
 }

@@ -19,6 +19,11 @@ function generate(typed: boolean) {
 		type: "object",
 		properties: {
 			name: { type: "string" },
+			overrides: {
+				type: "array",
+				nullable: true,
+				items: { $ref: "#/components/schemas/Rule" },
+			},
 			details: {
 				type: "object",
 				required: ["rules", "tags"],
@@ -230,6 +235,33 @@ describe.each([true, false])(
 				expect(formatDryRun).toHaveBeenCalledWith(
 					expect.objectContaining({ body: { name: "thing" } })
 				);
+			});
+
+			it(`${method} preserves explicit null for a nullable object-array flag`, async () => {
+				await seed({ "reset.json": "null" });
+				for (const [input, expected] of [
+					["null", null],
+					["@reset.json", null],
+					["[]", []],
+				] as const) {
+					const body = { name: "thing", overrides: expected };
+					const { parse, send, requestApi, formatDryRun } = setup();
+					await parse(["--overrides", input]);
+					if (typed) {
+						expect(send).toHaveBeenCalledWith({}, { body });
+					} else {
+						expect(requestApi).toHaveBeenCalledWith(
+							expect.anything(),
+							expect.anything(),
+							"/things",
+							expect.objectContaining({ body })
+						);
+					}
+					await parse(["--overrides", input, "--dry-run"]);
+					expect(formatDryRun).toHaveBeenCalledWith(
+						expect.objectContaining({ body })
+					);
+				}
 			});
 
 			it.each([false, true])(

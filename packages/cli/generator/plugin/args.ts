@@ -65,6 +65,7 @@ export interface Arg {
 	type: ArgType;
 	choices?: string[];
 	default?: Value;
+	nullable?: boolean;
 	required: boolean;
 	positional: boolean;
 	origin: Origin;
@@ -978,7 +979,8 @@ function bodyParams(
 		let description = base;
 		if (type === "objectArray") {
 			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
-			description = `${base.trimEnd()}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
+			const nullable = bp.nullable ? ", null," : "";
+			description = `${base.trimEnd()}${separator}Provide as a JSON array of objects${nullable} or @path/to/file.json.`;
 		}
 		if (type === "nestedArray") {
 			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
@@ -1016,6 +1018,7 @@ function bodyParams(
 		if (type === "enum") {
 			a.choices = enumValues;
 		}
+		a.nullable = type === "objectArray" && bp.nullable;
 		a.default = dflt;
 		a.fromFile = fromFile;
 		a.conflicts = bp.conflicts;

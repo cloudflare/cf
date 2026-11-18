@@ -34,6 +34,7 @@ import {
 	type BodyParamInfo,
 	deref,
 	enumType,
+	isScalar,
 	nonNullMembers,
 	referencedDescription,
 	renamed,
@@ -395,6 +396,10 @@ function arrayBodyParam(
 	};
 	if (objects) {
 		info.itemType = "object";
+		const type = deref(prop.type);
+		info.nullable =
+			type.kind === "union" &&
+			type.members.some((member) => isScalar(member, "null"));
 	} else if (nested) {
 		info.itemType = "array";
 	}

@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("members", {
 			type: "string",
 			description:
-				'Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"user": {...}}].',
+				'Omitted or null members are treated as an empty batch. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"user": {...}}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -68,7 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										members: parseObjectArray(argv["members"], "members"),
+										members: parseObjectArray(argv["members"], "members", true),
 									}),
 					});
 					return;
@@ -91,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					members: parseObjectArray(argv["members"], "members"),
+					members: parseObjectArray(argv["members"], "members", true),
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {

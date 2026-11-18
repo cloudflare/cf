@@ -322,7 +322,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("otel", {
 			type: "string",
 			description:
-				'The otel field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"headers": {...}, "url": string, "authorization"?: string, "content_type"?: "json" | "protobuf"}]. ? marks optional keys.',
+				'The otel field. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"headers": {...}, "url": string, "authorization"?: string, "content_type"?: "json" | "protobuf"}]. ? marks optional keys.',
 		})
 		.option("rate-limiting-interval", {
 			type: "number",
@@ -571,7 +571,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										multiprovider_enabled: argv["multiprovider-enabled"],
-										otel: parseObjectArray(argv["otel"], "otel"),
+										otel: parseObjectArray(argv["otel"], "otel", true),
 										rate_limiting_interval: argv["rate-limiting-interval"],
 										rate_limiting_limit: argv["rate-limiting-limit"],
 										rate_limiting_technique: argv["rate-limiting-technique"],
@@ -860,7 +860,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["otel"],
-						parseObjectArray(argv["otel"], "otel")
+						parseObjectArray(argv["otel"], "otel", true)
 					);
 				if (argv["rate-limiting-interval"] !== undefined)
 					setNestedValue(

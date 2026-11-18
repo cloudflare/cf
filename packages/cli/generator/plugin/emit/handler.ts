@@ -791,7 +791,7 @@ function bodyArgValue(arg: Arg, read: string): string {
 		return `parseScalarValue(${read}, ${quote(arg.name)})`;
 	}
 	if (arg.type === "objectArray") {
-		return `parseObjectArray(${read}, ${quote(arg.name)})`;
+		return `parseObjectArray(${read}, ${quote(arg.name)}${arg.nullable ? ", true" : ""})`;
 	}
 	if (arg.type === "nestedArray") {
 		return `parseNestedArray(${read}, ${quote(arg.name)})`;

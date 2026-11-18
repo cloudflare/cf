@@ -32,6 +32,8 @@ const TEMPORARY_FLAG_NAMES: readonly TemporaryFlagName[] = [
 		wire: "profile",
 		type: "string",
 	},
+	// Remove with its overlay action when the pinned schema includes
+	// https://github.com/cloudflare/forge/issues/125.
 	{
 		method: "post",
 		path: "/accounts/{account_id}/shares/{share_id}/excluded-recipients",

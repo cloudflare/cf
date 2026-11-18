@@ -137,6 +137,16 @@ describe("cf cli search", () => {
 		const results = JSON.parse(output.stdout()) as Record<string, string>[];
 		expect(results[0]?.command).toBe(expected);
 	});
+
+	// https://github.com/cloudflare/cf/issues/695
+	it.each([
+		["list Workers in my account", "cf workers list"],
+		["list Workers VPC connectivity services", "cf workers-vpc services list"],
+	])("ranks %j to %s (#695)", async (query, expected) => {
+		await runCf(["cli", "search", query]);
+		const results = JSON.parse(output.stdout()) as Record<string, string>[];
+		expect(results[0]?.command).toBe(expected);
+	});
 });
 
 describe("search keywords for generated commands", () => {

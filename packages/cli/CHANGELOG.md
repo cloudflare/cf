@@ -1,5 +1,70 @@
 # cf
 
+## 1.0.0-rc.2
+
+### Minor Changes
+
+- abdeb11: Update the generated command surface for Forge OpenAPI release
+  `177948ebb88abee3f73ef695ae2ddadb1d13079b`.
+- 8752121: Update the generated command surface for Forge OpenAPI release
+  `25d3d64b6ab8b024a15ea087f4f64dff266559ff`.
+- c27b49c: Update the generated command surface for Forge OpenAPI release
+  `2cd0db79834aae45e3eb23a499a20e159ae10155`.
+- 1419584: Update the generated command surface for Forge OpenAPI release
+  `3c62cf9a295ce5a87736a7bc202e3184d6fd0d29`.
+
+  **Breaking change:** `cf hyperdrive update` is now `cf hyperdrive edit`.
+  Update scripts to use `cf hyperdrive edit <hyperdrive-id>` with the same flags.
+
+- 777bb28: Update the generated command surface for Forge OpenAPI release
+  `47f30fe3d687230ce60145cea2f8a3e2284a766f`.
+
+  **Breaking:** `cf dns records batch` is now `cf dns records bulk-apply`.
+  There is no compatibility alias; update scripts to use the new command name.
+
+  `cf dns records export` now supports filters such as `--name`, `--type`,
+  and `--proxied`.
+
+- aa1d296: Use `worker.name` from `cloudflare.config.ts` when `--worker` is omitted
+
+  The API-backed `cf workers` commands (`secrets`, `versions`, `deployments`, `get` and `delete`) now fall back to the project's `worker.name`, evaluated with the current `--mode`, when `--worker` is not passed. The name's source is printed on stderr unless `--quiet` is set; destructive confirmations still name the resolved Worker. Config load and validation errors are reported when the fallback is needed. Passing `--worker` works as before.
+
+### Patch Changes
+
+- a3eb61e: Accurately report missing auth profiles
+
+  When commands resolve or are given a non-existent auth profile, report that the specified profile
+  was not found and list available profiles instead of emitting a misleading "No authentication token found" error.
+
+- a36fa5f: Apply large local D1 migrations as a batch of SQL statements
+
+  Use Wrangler's shared SQL splitter so `cf d1 migrations apply <database-id> --local` can apply migration files larger than SQLite's per-statement SQL length limit when their individual statements fit. Keep each migration and its bookkeeping insert in one atomic batch, preserving rollback on failure.
+
+- 79ecb72: Resolve required input before showing dry-run previews
+
+  Read piped secret values and prompt for missing required fields during dry runs, just as during execution. Reject missing required body input instead of showing an incomplete successful preview, while continuing to redact secrets and skip authentication and API requests.
+
+  On normal runs, authenticate before prompting for required fields or consuming their piped values.
+
+- 2eb4b0e: Preserve body account fields independently of path account context
+
+  Restore the required `--excluded-account-id` flag for `cf resource-sharing excluded-recipients create`. Keep the owning account in the URL and send the excluded account as the JSON `account_id`, including in dry-run previews. Honor schema names for body account fields independently of their path names.
+
+  Also restore `--account-id-body` on `cf cloudforce-one threat-intel datasets access groups members create`, `cf cloudforce-one threat-intel events create`, and `cf intel indicator-feeds providers create`. The Intel provider command requires this field: pass `--account-id-body` or include `account_id` in `--body`.
+
+- bdff477: Preserve every distinct variant description in generated flag help
+
+  Show alternative descriptions when object union variants share a flag, including
+  non-enum fields and nested objects. Group identical descriptions and label enum
+  alternatives with their values so variant-specific constraints remain clear in
+  help and command metadata. Normalize surrounding whitespace before comparing and
+  rendering variant descriptions.
+
+- f88b435: Bump the `@cloudflare/forge` pin to build
+  `f6720c19250f90fe5b395ef2c38d488aaba31641` (Forge 0.2.0, which moved SDK
+  generation under a `generate` subcommand) and invoke the CLI via
+  `forge generate` so `pnpm generate` keeps working.
+
 ## 1.0.0-rc.1
 
 ### Minor Changes

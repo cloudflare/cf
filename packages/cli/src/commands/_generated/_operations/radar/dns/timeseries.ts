@@ -20,6 +20,7 @@ export default {
 		"dnssec",
 		"dnssecAware",
 		"dnssecE2e",
+		"asCategory",
 		"ipVersion",
 		"matchingAnswer",
 		"tld",

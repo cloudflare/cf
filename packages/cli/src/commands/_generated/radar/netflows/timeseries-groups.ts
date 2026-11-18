@@ -87,6 +87,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range).",
 			choices: ["PERCENTAGE", "MIN0_MAX", "PERCENTAGE_CHANGE"],
 		})
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("product", {
 			type: "string",
 			array: true,
@@ -136,6 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					geoId: argv["geo-id"],
 					limitPerGroup: argv["limit-per-group"],
 					normalization: argv["normalization"],
+					asCategory: argv["as-category"],
 					product: argv["product"],
 					format: argv["format"],
 				};

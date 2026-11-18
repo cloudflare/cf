@@ -14,6 +14,7 @@ export default {
 		"geoId",
 		"normalization",
 		"apiTraffic",
+		"asCategory",
 		"botClass",
 		"contentType",
 		"deviceType",

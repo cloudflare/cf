@@ -55552,7 +55552,7 @@
 			"command": "cf email-sending suppressions create",
 			"name": "create",
 			"fullPath": ["email-sending", "suppressions", "create"],
-			"description": "Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier. If a legacy zone-linked account row already exists, it is promoted without changing its identifier.",
+			"description": "Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier.",
 			"summary": "Create account Email Sending suppression",
 			"usage": "cf email-sending suppressions create [options]",
 			"arguments": [],
@@ -55613,7 +55613,7 @@
 			"command": "cf email-sending suppressions delete",
 			"name": "delete",
 			"fullPath": ["email-sending", "suppressions", "delete"],
-			"description": "Deletes the suppression, its note, and every legacy internal zone membership, allowing future delivery attempts to the address.",
+			"description": "Deletes the suppression and its note, allowing future delivery attempts to the address.",
 			"summary": "Delete account Email Sending suppression",
 			"usage": "cf email-sending suppressions delete <suppression-id>",
 			"arguments": [
@@ -55653,7 +55653,7 @@
 			"command": "cf email-sending suppressions edit",
 			"name": "edit",
 			"fullPath": ["email-sending", "suppressions", "edit"],
-			"description": "Updates expiry or advisory note fields without changing legacy internal zone memberships. Scope cannot be changed.",
+			"description": "Updates expiry or advisory note fields. Scope cannot be changed.",
 			"summary": "Update account Email Sending suppression",
 			"usage": "cf email-sending suppressions edit <suppression-id> [options]",
 			"arguments": [
@@ -55777,7 +55777,7 @@
 			"command": "cf email-sending suppressions list",
 			"name": "list",
 			"fullPath": ["email-sending", "suppressions", "list"],
-			"description": "Lists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions (including legacy rows with internal zone memberships). Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope.",
+			"description": "Lists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions. Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope.",
 			"summary": "List account Email Sending suppressions",
 			"usage": "cf email-sending suppressions list [options]",
 			"arguments": [],
@@ -97208,6 +97208,18 @@
 					"description": "Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
@@ -97384,6 +97396,18 @@
 					"enum": ["PERCENTAGE_CHANGE", "MIN0_MAX"]
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
@@ -97553,6 +97577,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "ip-version",
@@ -97804,6 +97840,18 @@
 						"IP_REPUTATION",
 						"API_SHIELD",
 						"DATA_LOSS_PREVENTION"
+					]
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
 					]
 				},
 				{
@@ -98074,6 +98122,18 @@
 						"IP_REPUTATION",
 						"API_SHIELD",
 						"DATA_LOSS_PREVENTION"
+					]
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
 					]
 				},
 				{
@@ -101331,6 +101391,18 @@
 					"description": "Filters results based on DNSSEC-validated answers by end-to-end security status."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
@@ -101611,6 +101683,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results based on DNSSEC-validated answers by end-to-end security status."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "ip-version",
@@ -101895,6 +101979,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results based on DNSSEC-validated answers by end-to-end security status."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "ip-version",
@@ -102191,6 +102287,18 @@
 					"description": "Filters results based on DNSSEC-validated answers by end-to-end security status."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "ip-version",
 					"type": "string",
 					"required": false,
@@ -102464,6 +102572,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results based on DNSSEC-validated answers by end-to-end security status."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "ip-version",
@@ -104008,6 +104128,18 @@
 					"enum": ["API", "NON_API"]
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -104193,6 +104325,18 @@
 					"required": false,
 					"description": "Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System.",
 					"enum": ["API", "NON_API"]
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -104384,6 +104528,18 @@
 					"enum": ["API", "NON_API"]
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -104571,6 +104727,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "device-type",
 					"type": "string",
 					"required": false,
@@ -104719,6 +104887,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -104871,6 +105051,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -105011,6 +105203,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -105170,6 +105374,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -105318,6 +105534,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -105470,6 +105698,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -105620,6 +105860,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -105760,6 +106012,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -105910,6 +106174,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "device-type",
@@ -106069,6 +106345,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -106219,6 +106507,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -106359,6 +106659,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -106518,6 +106830,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -106666,6 +106990,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -106818,6 +107154,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -106968,6 +107316,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "bot-class",
 					"type": "string",
 					"required": false,
@@ -107108,6 +107468,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "bot-class",
@@ -107483,6 +107855,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "product",
 					"type": "string",
 					"required": false,
@@ -107556,6 +107940,18 @@
 					"type": "string",
 					"required": false,
 					"description": "End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "product",
@@ -107703,6 +108099,18 @@
 					"enum": ["PERCENTAGE", "MIN0_MAX", "PERCENTAGE_CHANGE"]
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "product",
 					"type": "string",
 					"required": false,
@@ -107795,6 +108203,18 @@
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
 				},
 				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
+				},
+				{
 					"name": "format",
 					"type": "string",
 					"required": false,
@@ -107878,6 +108298,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York)."
+				},
+				{
+					"name": "as-category",
+					"type": "string",
+					"required": false,
+					"description": "Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+					"enum": [
+						"ACCESS_ISP",
+						"HOSTING_CLOUD_CONTENT",
+						"ORGANIZATION",
+						"UNCLASSIFIED"
+					]
 				},
 				{
 					"name": "format",
@@ -109445,7 +109877,7 @@
 			"command": "cf radar search global",
 			"name": "global",
 			"fullPath": ["radar", "search", "global"],
-			"description": "Searches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`).",
+			"description": "Searches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`). ASN, ADM1 and ADM2 results include an `entity` with details about the matched entity.",
 			"summary": "Search for locations, ASes, reports, and more",
 			"usage": "cf radar search global [options]",
 			"arguments": [],

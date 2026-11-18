@@ -63,6 +63,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.",
 		})
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
@@ -195,6 +210,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					asn: argv["asn"],
 					location: argv["location"],
 					continent: argv["continent"],
+					asCategory: argv["as-category"],
 					ipVersion: argv["ip-version"],
 					httpVersion: argv["http-version"],
 					httpMethod: argv["http-method"],

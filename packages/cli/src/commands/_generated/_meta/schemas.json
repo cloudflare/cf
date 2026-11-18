@@ -69970,6 +69970,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -70070,6 +70076,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -70162,6 +70174,12 @@
 				{
 					"name": "continent",
 					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -70280,6 +70298,12 @@
 				{
 					"name": "mitigationProduct",
 					"flag": "mitigation-product",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -70450,6 +70474,12 @@
 				{
 					"name": "mitigationProduct",
 					"flag": "mitigation-product",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -72761,6 +72791,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -72899,6 +72935,12 @@
 				{
 					"name": "dnssecE2e",
 					"flag": "dnssec-e2e",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -73043,6 +73085,12 @@
 				{
 					"name": "dnssecE2e",
 					"flag": "dnssec-e2e",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -73201,6 +73249,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -73333,6 +73387,12 @@
 				{
 					"name": "dnssecE2e",
 					"flag": "dnssec-e2e",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -74517,6 +74577,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -74649,6 +74715,12 @@
 				{
 					"name": "apiTraffic",
 					"flag": "api-traffic",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -74791,6 +74863,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -74929,6 +75007,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "deviceType",
 					"flag": "device-type",
 					"type": "array",
@@ -75045,6 +75129,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75169,6 +75259,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75277,6 +75373,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75407,6 +75509,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75523,6 +75631,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75647,6 +75761,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75763,6 +75883,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75887,6 +76013,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76003,6 +76135,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -76127,6 +76265,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76247,6 +76391,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76355,6 +76505,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -76485,6 +76641,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76601,6 +76763,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -76725,6 +76893,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76845,6 +77019,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76961,6 +77141,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -77265,6 +77451,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "product",
 					"flag": "product",
 					"type": "array",
@@ -77319,6 +77511,12 @@
 				{
 					"name": "dateEnd",
 					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -77449,6 +77647,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "product",
 					"flag": "product",
 					"type": "array",
@@ -77525,6 +77729,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "format",
 					"flag": "format",
 					"type": "string",
@@ -77591,6 +77801,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},

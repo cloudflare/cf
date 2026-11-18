@@ -14,6 +14,7 @@ export default {
 		"location",
 		"continent",
 		"geoId",
+		"asCategory",
 		"product",
 		"limitPerGroup",
 		"format",

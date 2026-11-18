@@ -1,5 +1,6 @@
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import {
+	assertValidScopeKeys,
 	getActiveProfile,
 	getConfigPath,
 	getValidToken,
@@ -77,6 +78,10 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 			"Run `cf auth create <name>` to authenticate a named profile."
 		);
 
+		if (argv.scopes) {
+			assertValidScopeKeys(argv.scopes);
+		}
+
 		const activeProfile = getActiveProfile();
 
 		if (activeProfile !== "default") {
@@ -119,7 +124,7 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 					);
 					if (missingScopes.length > 0) {
 						throw new Error(
-							`Already logged in without the requested scope(s): ${missingScopes.join(", ")}. Run \`cf auth login --force\` to re-authenticate with new scopes, or use \`--profile <name>\` to log in under a separate profile.`
+							`Already logged in without the requested scope(s): ${missingScopes.join(", ")}. Run \`cf auth login --force\` to re-authenticate with new scopes, or run \`cf auth create <name>\` to authenticate a separate profile.`
 						);
 					}
 				}

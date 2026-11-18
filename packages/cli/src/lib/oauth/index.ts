@@ -192,6 +192,21 @@ export async function fetchAuthorizedAccounts(): Promise<
 }
 
 /**
+ * Validate that every requested scope is a valid cf OAuth scope.
+ *
+ * @throws Error naming the invalid scopes if any are unrecognized.
+ */
+export function assertValidScopeKeys(scopes?: string[]): void {
+	if (!scopes || scopes.length === 0) {
+		return;
+	}
+	const invalidScopes = scopes.filter((scope) => !validateScopeKeys([scope]));
+	if (invalidScopes.length > 0) {
+		throw new Error(`Invalid cf OAuth scope(s): ${invalidScopes.join(", ")}.`);
+	}
+}
+
+/**
  * Run the interactive OAuth login flow, persisting cf's tokens on success.
  *
  * @returns `true` on success, `false` when env credentials are present.
@@ -203,14 +218,7 @@ export async function login(opts?: {
 	profile?: string;
 }): Promise<boolean> {
 	if (opts?.scopes) {
-		const invalidScopes = opts.scopes.filter(
-			(scope) => !validateScopeKeys([scope])
-		);
-		if (invalidScopes.length > 0) {
-			throw new Error(
-				`Invalid cf OAuth scope(s): ${invalidScopes.join(", ")}.`
-			);
-		}
+		assertValidScopeKeys(opts.scopes);
 	}
 	return auth.login(
 		{ compliance_region: await getComplianceRegion() },

@@ -287,10 +287,22 @@ describe("cf auth device login", () => {
 		};
 
 		await expect(
-			runCf(["auth", "login", "--no-browser", "--scopes", "billing:read"])
+			runCf(["auth", "login", "--no-browser", "--scopes", "account:read"])
 		).rejects.toThrow(
-			"Already logged in without the requested scope(s): billing:read."
+			"Already logged in without the requested scope(s): account:read. Run `cf auth login --force` to re-authenticate with new scopes, or run `cf auth create <name>` to authenticate a separate profile."
 		);
+	});
+
+	it("rejects invalid scope names on an existing login before checking missing scopes", async () => {
+		sharedAuth.validToken = "valid-token";
+		sharedAuth.credentials = {
+			oauth_token: "valid-token",
+			scopes: ["workers:write"],
+		};
+
+		await expect(
+			runCf(["auth", "login", "--no-browser", "--scopes", "workerz:write"])
+		).rejects.toThrow("Invalid cf OAuth scope(s): workerz:write.");
 	});
 
 	it("succeeds when existing login already holds the requested scopes without --force", async () => {

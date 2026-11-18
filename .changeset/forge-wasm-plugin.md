@@ -23,7 +23,7 @@ This affects 42 commands across `accounts billing`, `accounts subscriptions`,
 `managed-defense` and `user memberships`.
 
 **Breaking:** `--notification-email` is no longer a flag on
-`cf load-balancers pools bulk-edit` or `cf user load-balancers pools edit pools pools`;
+`cf load-balancers pools bulk-edit` or `cf user load-balancers pools bulk-edit`;
 pass it with `--body`.
 
 Commands also gain body flags they previously could only receive through

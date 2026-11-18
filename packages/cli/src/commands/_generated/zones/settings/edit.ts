@@ -30,7 +30,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("value-enabled", {
 			type: "boolean",
-			description: "Whether the feature is enabled or not.",
+			description:
+				"Variant descriptions:\n- Whether the feature is enabled or not.\n- Indicates whether or not Automatic Platform Optimization is enabled.",
 		})
 		.option("value-pool-id", {
 			type: "string",

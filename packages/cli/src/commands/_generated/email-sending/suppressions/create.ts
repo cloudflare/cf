@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scope-type", {
 			type: "string",
 			description:
-				"Blocks the recipient for every sending domain of the account.",
+				"Variant descriptions:\n- `account`: Blocks the recipient for every sending domain of the account.\n- `sending_domain`: Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
 			choices: ["account", "sending_domain"],
 		})
 		.coerce("scope-type", (value) =>

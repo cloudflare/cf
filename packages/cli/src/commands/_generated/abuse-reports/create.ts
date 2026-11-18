@@ -117,12 +117,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("country", {
 			type: "string",
 			description:
-				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).\n",
+				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
 		})
 		.option("host-notification", {
 			type: "string",
 			description:
-				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
+				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
 			choices: ["send", "send-anon"],
 		})
 		.coerce("host-notification", (value) =>
@@ -131,12 +131,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("original-work", {
 			type: "string",
 			description:
-				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).\n",
+				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
 		})
 		.option("owner-notification", {
 			type: "string",
 			description:
-				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
+				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
 			choices: ["send", "send-anon", "none"],
 		})
 		.coerce("owner-notification", (value) =>
@@ -155,7 +155,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("justification", {
 			type: "string",
 			description:
-				"A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.\n",
+				"A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.",
 		})
 		.option("trademark-number", {
 			type: "string",
@@ -1125,7 +1125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["owner-notification"] === undefined) {
 					argv["owner-notification"] = await promptForRequiredEnumField(
 						"owner-notification",
-						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
 						["send", "send-anon", "none"] as const
 					);
 				}

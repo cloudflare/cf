@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("integration-config-api-url", {
 			type: "string",
 			description:
-				"The Workspace One API URL provided in the Workspace One Admin Dashboard.",
+				"Variant descriptions:\n- The Workspace One API URL provided in the Workspace One Admin Dashboard.\n- The Crowdstrike API URL.\n- The Uptycs API URL.\n- The Tanium API URL.\n- The SentinelOne S2S API URL.\n- The Custom Device Posture Integration  API URL.",
 		})
 		.option("integration-config-auth-url", {
 			type: "string",
@@ -42,16 +42,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("integration-config-client-id", {
 			type: "string",
 			description:
-				"The Workspace One client ID provided in the Workspace One Admin Dashboard.",
+				"Variant descriptions:\n- The Workspace One client ID provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client ID.\n- The Intune client ID.\n- The Kolide client ID.",
 		})
 		.option("integration-config-client-secret", {
 			type: "string",
 			description:
-				"The Workspace One client secret provided in the Workspace One Admin Dashboard.",
+				"Variant descriptions:\n- The Workspace One client secret provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client secret.\n- The Uptycs client secret.\n- The Intune client secret.\n- The Kolide client secret.\n- The Tanium client secret.\n- The SentinelOne S2S client secret.",
 		})
 		.option("integration-config-customer-id", {
 			type: "string",
-			description: "The Crowdstrike customer ID.",
+			description:
+				"Variant descriptions:\n- The Crowdstrike customer ID.\n- The Uptycs customer ID.\n- The Intune customer ID.",
 		})
 		.option("integration-config-client-key", {
 			type: "string",
@@ -60,12 +61,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("integration-config-access-client-id", {
 			type: "string",
 			description:
-				"If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.",
+				"Variant descriptions:\n- If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.\n- This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.",
 		})
 		.option("integration-config-access-client-secret", {
 			type: "string",
 			description:
-				"If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.",
+				"Variant descriptions:\n- If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.\n- This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.",
 		})
 		.option("interval", {
 			type: "string",

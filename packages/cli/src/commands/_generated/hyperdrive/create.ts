@@ -58,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("origin-connection-limit", {
 			type: "number",
 			description:
-				"The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n",
+				"The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.",
 		})
 		.option("integration-custom-database-name", {
 			type: "string",
@@ -119,7 +119,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("origin-host", {
 			type: "string",
 			description:
-				"Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
+				"Variant descriptions:\n- Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.\n- Defines the host (hostname or IP) of your origin database.",
 		})
 		.option("origin-port", {
 			type: "number",

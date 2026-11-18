@@ -472,3 +472,126 @@ describe("fetch", () => {
 		assert.equal(first(sent).init.method, "GET");
 	});
 });
+
+describe("ApiError retryAfter", () => {
+	test("returns undefined when no headers or rawResponse", () => {
+		const error = new ApiError({ statusCode: 429 });
+		assert.equal(error.retryAfter, undefined);
+	});
+
+	test("prefers explicit retryAfter from init", () => {
+		const error = new ApiError({
+			statusCode: 429,
+			retryAfter: 15,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "retry-after": "60" }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.equal(error.retryAfter, 15);
+	});
+
+	test("parses integer seconds from retry-after header", () => {
+		const error = new ApiError({
+			statusCode: 429,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "retry-after": "42" }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.equal(error.retryAfter, 42);
+	});
+
+	test("parses HTTP date from retry-after header", () => {
+		const futureDate = new Date(Date.now() + 20_000);
+		const error = new ApiError({
+			statusCode: 429,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "retry-after": futureDate.toUTCString() }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.ok(
+			error.retryAfter !== undefined &&
+				error.retryAfter > 0 &&
+				error.retryAfter <= 20
+		);
+	});
+
+	test("parses delta seconds from x-ratelimit-reset header", () => {
+		const error = new ApiError({
+			statusCode: 429,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "x-ratelimit-reset": "25" }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.equal(error.retryAfter, 25);
+	});
+
+	test("parses epoch timestamp from x-ratelimit-reset header", () => {
+		const futureEpoch = Math.floor(Date.now() / 1000) + 30;
+		const error = new ApiError({
+			statusCode: 429,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "x-ratelimit-reset": String(futureEpoch) }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.ok(
+			error.retryAfter !== undefined &&
+				error.retryAfter > 0 &&
+				error.retryAfter <= 30
+		);
+	});
+
+	test("parses ratelimit-reset header as fallback", () => {
+		const error = new ApiError({
+			statusCode: 429,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "ratelimit-reset": "18" }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.equal(error.retryAfter, 18);
+	});
+
+	test("returns undefined for invalid header values", () => {
+		const error = new ApiError({
+			statusCode: 429,
+			rawResponse: {
+				status: 429,
+				statusText: "Too Many Requests",
+				url: "https://api.test/a",
+				headers: new Headers({ "retry-after": "not-a-number-or-date" }),
+				redirected: false,
+				type: "basic",
+			},
+		});
+		assert.equal(error.retryAfter, undefined);
+	});
+});

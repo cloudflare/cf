@@ -238,6 +238,108 @@ describe("handleError", () => {
 			expect(stderr()).toContain("Check your API token permissions");
 		});
 
+		it("hints on 429 without retry headers", () => {
+			handleError(
+				new ApiError({
+					message: "Too Many Requests",
+					statusCode: 429,
+					body: { errors: [] },
+				})
+			);
+			expect(stderr()).toContain(
+				"Cloudflare API rate limit reached. Please wait before retrying."
+			);
+		});
+
+		it("hints on 429 with Retry-After header in seconds", () => {
+			handleError(
+				new ApiError({
+					message: "Too Many Requests",
+					statusCode: 429,
+					body: { errors: [] },
+					rawResponse: {
+						status: 429,
+						statusText: "Too Many Requests",
+						url: "https://api.cloudflare.com/client/v4/zones",
+						headers: new Headers({ "retry-after": "30" }),
+						redirected: false,
+						type: "basic",
+					},
+				})
+			);
+			expect(stderr()).toContain("Rate limit reached. Retry in 30 seconds.");
+		});
+
+		it("hints on 429 with singular second for Retry-After: 1", () => {
+			handleError(
+				new ApiError({
+					message: "Too Many Requests",
+					statusCode: 429,
+					body: { errors: [] },
+					rawResponse: {
+						status: 429,
+						statusText: "Too Many Requests",
+						url: "https://api.cloudflare.com/client/v4/zones",
+						headers: new Headers({ "retry-after": "1" }),
+						redirected: false,
+						type: "basic",
+					},
+				})
+			);
+			expect(stderr()).toContain("Rate limit reached. Retry in 1 second.");
+		});
+
+		it("hints on 429 with Retry-After header as HTTP-date", () => {
+			const future = new Date(Date.now() + 10_000).toUTCString();
+			handleError(
+				new ApiError({
+					message: "Too Many Requests",
+					statusCode: 429,
+					body: { errors: [] },
+					rawResponse: {
+						status: 429,
+						statusText: "Too Many Requests",
+						url: "https://api.cloudflare.com/client/v4/zones",
+						headers: new Headers({ "retry-after": future }),
+						redirected: false,
+						type: "basic",
+					},
+				})
+			);
+			expect(stderr()).toMatch(/Rate limit reached\. Retry in \d+ seconds\./);
+		});
+
+		it("hints on 429 with x-ratelimit-reset header", () => {
+			handleError(
+				new ApiError({
+					message: "Too Many Requests",
+					statusCode: 429,
+					body: { errors: [] },
+					rawResponse: {
+						status: 429,
+						statusText: "Too Many Requests",
+						url: "https://api.cloudflare.com/client/v4/zones",
+						headers: new Headers({ "x-ratelimit-reset": "45" }),
+						redirected: false,
+						type: "basic",
+					},
+				})
+			);
+			expect(stderr()).toContain("Rate limit reached. Retry in 45 seconds.");
+		});
+
+		it("hints on 429 with retryAfter in ApiErrorInit", () => {
+			handleError(
+				new ApiError({
+					message: "Too Many Requests",
+					statusCode: 429,
+					body: { errors: [] },
+					retryAfter: 12,
+				})
+			);
+			expect(stderr()).toContain("Rate limit reached. Retry in 12 seconds.");
+		});
+
 		it("does not emit an auth hint for a 404", () => {
 			handleError(
 				new ApiError({
@@ -302,6 +404,33 @@ describe("handleError", () => {
 				})
 			);
 			expect(stderr()).toContain("cf auth login");
+		});
+
+		it("hints on 429 rate limit with retryAfterMs", () => {
+			handleError(
+				new WorkersUtilsAPIError({
+					text: "rate limited",
+					notes: [],
+					status: 429,
+					retryAfterMs: 5000,
+					telemetryMessage: false,
+				})
+			);
+			expect(stderr()).toContain("Rate limit reached. Retry in 5 seconds.");
+		});
+
+		it("hints on 429 rate limit without retryAfterMs", () => {
+			handleError(
+				new WorkersUtilsAPIError({
+					text: "rate limited",
+					notes: [],
+					status: 429,
+					telemetryMessage: false,
+				})
+			);
+			expect(stderr()).toContain(
+				"Cloudflare API rate limit reached. Please wait before retrying."
+			);
 		});
 	});
 

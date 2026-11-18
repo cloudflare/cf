@@ -6,6 +6,13 @@ import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
 import { ApiError } from "#api";
 
+function formatRateLimitHint(retryAfter?: number): string {
+	if (typeof retryAfter === "number" && retryAfter > 0) {
+		return `Rate limit reached. Retry in ${retryAfter} second${retryAfter === 1 ? "" : "s"}.`;
+	}
+	return "Cloudflare API rate limit reached. Please wait before retrying.";
+}
+
 /** No API token, OAuth login, or temporary account is available. */
 export class MissingCredentialsError extends Error {}
 
@@ -191,6 +198,8 @@ export function handleError(error: unknown): unknown {
 			console.error("\n" + hint("Try running: cf auth login"));
 		} else if (status === 403) {
 			console.error("\n" + hint("Check your API token permissions"));
+		} else if (status === 429) {
+			console.error("\n" + hint(formatRateLimitHint(error.retryAfter)));
 		}
 
 		return error;
@@ -241,6 +250,12 @@ export function handleError(error: unknown): unknown {
 			console.error("\n" + hint("Try running: cf auth login"));
 		} else if (error.status === 403) {
 			console.error("\n" + hint("Check your API token permissions"));
+		} else if (error.status === 429) {
+			const retryAfter =
+				typeof error.retryAfterMs === "number" && error.retryAfterMs > 0
+					? Math.ceil(error.retryAfterMs / 1000)
+					: undefined;
+			console.error("\n" + hint(formatRateLimitHint(retryAfter)));
 		}
 
 		return error;

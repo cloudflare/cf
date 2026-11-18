@@ -57,6 +57,7 @@ export interface ApiErrorInit {
 	body?: unknown;
 	rawResponse?: RawResponse;
 	cause?: unknown;
+	retryAfter?: number;
 }
 
 function buildMessage({ message, statusCode, body }: ApiErrorInit): string {
@@ -80,6 +81,7 @@ export class ApiError extends Error {
 	readonly statusCode: number | undefined;
 	readonly body: unknown;
 	readonly rawResponse: RawResponse | undefined;
+	readonly #retryAfter: number | undefined;
 	declare readonly cause?: unknown;
 
 	constructor(init: ApiErrorInit) {
@@ -89,6 +91,7 @@ export class ApiError extends Error {
 		this.statusCode = init.statusCode;
 		this.body = init.body;
 		this.rawResponse = init.rawResponse;
+		this.#retryAfter = init.retryAfter;
 		if (init.cause !== undefined && init.cause !== null) {
 			Object.defineProperty(this, "cause", {
 				value: init.cause,
@@ -103,6 +106,44 @@ export class ApiError extends Error {
 	 */
 	get requestId(): string | undefined {
 		return this.rawResponse?.headers?.get("x-request-id") ?? undefined;
+	}
+
+	/**
+	 * How long to wait before retrying, in seconds, from the `retry-after`
+	 * or `x-ratelimit-reset` headers if present on the response, or provided
+	 * during initialization.
+	 */
+	get retryAfter(): number | undefined {
+		if (this.#retryAfter !== undefined) {
+			return this.#retryAfter;
+		}
+		const headers = this.rawResponse?.headers;
+		if (!headers) {
+			return undefined;
+		}
+		const retryAfter = headers.get("retry-after");
+		if (retryAfter) {
+			const seconds = parseInt(retryAfter, 10);
+			if (!Number.isNaN(seconds) && seconds >= 0) {
+				return seconds;
+			}
+			const date = new Date(retryAfter);
+			if (!Number.isNaN(date.getTime())) {
+				const delay = Math.ceil((date.getTime() - Date.now()) / 1000);
+				return delay > 0 ? delay : 0;
+			}
+		}
+		const reset =
+			headers.get("x-ratelimit-reset") ?? headers.get("ratelimit-reset");
+		if (reset) {
+			const time = parseInt(reset, 10);
+			if (!Number.isNaN(time)) {
+				const delay =
+					time > 1_000_000_000 ? Math.ceil(time - Date.now() / 1000) : time;
+				return delay > 0 ? delay : 0;
+			}
+		}
+		return undefined;
 	}
 }
 

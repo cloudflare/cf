@@ -86,41 +86,44 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["auth-private-credential-secret-name"] === undefined) {
+						argv["auth-private-credential-secret-name"] =
+							await promptForRequiredField(
+								"auth-private-credential-secret-name",
+								"Name of the secret within the store."
+							);
+					}
+					if (argv["auth-private-credential-store-id"] === undefined) {
+						argv["auth-private-credential-store-id"] =
+							await promptForRequiredField(
+								"auth-private-credential-store-id",
+								"Identifier of the Secrets Store containing the secret."
+							);
+					}
+					if (argv["auth-public-credential"] === undefined) {
+						argv["auth-public-credential"] = await promptForRequiredField(
+							"auth-public-credential",
+							"The non-secret part of the registry credential: an AWS access key ID for ECR, a username for Docker Hub, or a service account email for Google Artifact Registry. "
+						);
+					}
+					if (argv["domain"] === undefined) {
+						argv["domain"] = await promptForRequiredField(
+							"domain",
+							"Hostname of the private registry, without a scheme or image path. Supported hostnames are \`docker.io\`, AWS ECR hostnames, and Google Artifact Registry \`*-docker.pkg.dev\` hostnames. "
+						);
+					}
+					if (argv["kind"] === undefined) {
+						argv["kind"] = await promptForRequiredEnumField(
+							"kind",
+							"Registry provider. This must match \`domain\`: \`DockerHub\` for \`docker.io\`, \`ECR\` for AWS ECR, or \`GAR\` for Google Artifact Registry. ",
+							["ECR", "DockerHub", "GAR"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["auth-private-credential-secret-name"] === undefined) {
-							argv["auth-private-credential-secret-name"] =
-								await promptForRequiredField(
-									"auth-private-credential-secret-name",
-									"Name of the secret within the store."
-								);
-						}
-						if (argv["auth-private-credential-store-id"] === undefined) {
-							argv["auth-private-credential-store-id"] =
-								await promptForRequiredField(
-									"auth-private-credential-store-id",
-									"Identifier of the Secrets Store containing the secret."
-								);
-						}
-						if (argv["auth-public-credential"] === undefined) {
-							argv["auth-public-credential"] = await promptForRequiredField(
-								"auth-public-credential",
-								"The non-secret part of the registry credential: an AWS access key ID for ECR, a username for Docker Hub, or a service account email for Google Artifact Registry. "
-							);
-						}
-						if (argv["domain"] === undefined) {
-							argv["domain"] = await promptForRequiredField(
-								"domain",
-								"Hostname of the private registry, without a scheme or image path. Supported hostnames are \`docker.io\`, AWS ECR hostnames, and Google Artifact Registry \`*-docker.pkg.dev\` hostnames. "
-							);
-						}
-						if (argv["kind"] === undefined) {
-							argv["kind"] = await promptForRequiredEnumField(
-								"kind",
-								"Registry provider. This must match \`domain\`: \`DockerHub\` for \`docker.io\`, \`ECR\` for AWS ECR, or \`GAR\` for Google Artifact Registry. ",
-								["ECR", "DockerHub", "GAR"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -181,39 +184,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["auth-private-credential-secret-name"] === undefined) {
-					argv["auth-private-credential-secret-name"] =
-						await promptForRequiredField(
-							"auth-private-credential-secret-name",
-							"Name of the secret within the store."
-						);
-				}
-				if (argv["auth-private-credential-store-id"] === undefined) {
-					argv["auth-private-credential-store-id"] =
-						await promptForRequiredField(
-							"auth-private-credential-store-id",
-							"Identifier of the Secrets Store containing the secret."
-						);
-				}
-				if (argv["auth-public-credential"] === undefined) {
-					argv["auth-public-credential"] = await promptForRequiredField(
-						"auth-public-credential",
-						"The non-secret part of the registry credential: an AWS access key ID for ECR, a username for Docker Hub, or a service account email for Google Artifact Registry. "
-					);
-				}
-				if (argv["domain"] === undefined) {
-					argv["domain"] = await promptForRequiredField(
-						"domain",
-						"Hostname of the private registry, without a scheme or image path. Supported hostnames are \`docker.io\`, AWS ECR hostnames, and Google Artifact Registry \`*-docker.pkg.dev\` hostnames. "
-					);
-				}
-				if (argv["kind"] === undefined) {
-					argv["kind"] = await promptForRequiredEnumField(
-						"kind",
-						"Registry provider. This must match \`domain\`: \`DockerHub\` for \`docker.io\`, \`ECR\` for AWS ECR, or \`GAR\` for Google Artifact Registry. ",
-						["ECR", "DockerHub", "GAR"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

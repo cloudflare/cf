@@ -101,38 +101,41 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["data-host"] === undefined) {
+						argv["data-host"] = await promptForRequiredField(
+							"data-host",
+							"The desired endpoint to test."
+						);
+					}
+					if (argv["data-kind"] === undefined) {
+						argv["data-kind"] = await promptForRequiredEnumField(
+							"data-kind",
+							"The type of test.",
+							["http", "traceroute"] as const
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["interval"] === undefined) {
+						argv["interval"] = await promptForRequiredField(
+							"interval",
+							"How often the test will run."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the DEX test. Must be unique."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["data-host"] === undefined) {
-							argv["data-host"] = await promptForRequiredField(
-								"data-host",
-								"The desired endpoint to test."
-							);
-						}
-						if (argv["data-kind"] === undefined) {
-							argv["data-kind"] = await promptForRequiredEnumField(
-								"data-kind",
-								"The type of test.",
-								["http", "traceroute"] as const
-							);
-						}
-						if (argv["enabled"] === undefined) {
-							throw new Error(
-								"--enabled is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["interval"] === undefined) {
-							argv["interval"] = await promptForRequiredField(
-								"interval",
-								"How often the test will run."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"The name of the DEX test. Must be unique."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -193,36 +196,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["data-host"] === undefined) {
-					argv["data-host"] = await promptForRequiredField(
-						"data-host",
-						"The desired endpoint to test."
-					);
-				}
-				if (argv["data-kind"] === undefined) {
-					argv["data-kind"] = await promptForRequiredEnumField(
-						"data-kind",
-						"The type of test.",
-						["http", "traceroute"] as const
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["interval"] === undefined) {
-					argv["interval"] = await promptForRequiredField(
-						"interval",
-						"How often the test will run."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the DEX test. Must be unique."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

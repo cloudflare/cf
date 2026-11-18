@@ -74,14 +74,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["title"] === undefined) {
+						argv["title"] = await promptForRequiredField(
+							"title",
+							"Human-readable string name for a Workers KV namespace."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["title"] === undefined) {
-							argv["title"] = await promptForRequiredField(
-								"title",
-								"Human-readable string name for a Workers KV namespace."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -119,12 +122,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["title"] === undefined) {
-					argv["title"] = await promptForRequiredField(
-						"title",
-						"Human-readable string name for a Workers KV namespace."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

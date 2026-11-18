@@ -195,19 +195,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
+						);
+					}
+					if (argv["origins"] === undefined) {
+						throw new Error(
+							"--origins is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
-							);
-						}
-						if (argv["origins"] === undefined) {
-							throw new Error(
-								"--origins is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -294,17 +297,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed."
-					);
-				}
-				if (argv["origins"] === undefined) {
-					throw new Error(
-						"--origins is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

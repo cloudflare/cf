@@ -79,32 +79,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["child-ids"] === undefined) {
+						throw new Error(
+							"--child-ids is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["dataset-id"] === undefined) {
+						argv["dataset-id"] = await promptForRequiredField(
+							"dataset-id",
+							"Dataset identifier where the events are stored"
+						);
+					}
+					if (argv["parent-id"] === undefined) {
+						argv["parent-id"] = await promptForRequiredField(
+							"parent-id",
+							"UUID of the parent event that will be the source of the relationship"
+						);
+					}
+					if (argv["relationship-type"] === undefined) {
+						argv["relationship-type"] = await promptForRequiredEnumField(
+							"relationship-type",
+							"Type of relationship to create between parent and child events",
+							["related_to", "caused_by", "attributed_to"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["child-ids"] === undefined) {
-							throw new Error(
-								"--child-ids is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["dataset-id"] === undefined) {
-							argv["dataset-id"] = await promptForRequiredField(
-								"dataset-id",
-								"Dataset identifier where the events are stored"
-							);
-						}
-						if (argv["parent-id"] === undefined) {
-							argv["parent-id"] = await promptForRequiredField(
-								"parent-id",
-								"UUID of the parent event that will be the source of the relationship"
-							);
-						}
-						if (argv["relationship-type"] === undefined) {
-							argv["relationship-type"] = await promptForRequiredEnumField(
-								"relationship-type",
-								"Type of relationship to create between parent and child events",
-								["related_to", "caused_by", "attributed_to"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -148,30 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["child-ids"] === undefined) {
-					throw new Error(
-						"--child-ids is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["dataset-id"] === undefined) {
-					argv["dataset-id"] = await promptForRequiredField(
-						"dataset-id",
-						"Dataset identifier where the events are stored"
-					);
-				}
-				if (argv["parent-id"] === undefined) {
-					argv["parent-id"] = await promptForRequiredField(
-						"parent-id",
-						"UUID of the parent event that will be the source of the relationship"
-					);
-				}
-				if (argv["relationship-type"] === undefined) {
-					argv["relationship-type"] = await promptForRequiredEnumField(
-						"relationship-type",
-						"Type of relationship to create between parent and child events",
-						["related_to", "caused_by", "attributed_to"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

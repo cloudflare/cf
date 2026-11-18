@@ -90,59 +90,62 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"The description field"
+						);
+					}
+					if (argv["expression"] === undefined) {
+						argv["expression"] = await promptForRequiredField(
+							"expression",
+							"Wirefilter expression describing the traffic being reported."
+						);
+					}
+					if (argv["first-request-seen-at"] === undefined) {
+						argv["first-request-seen-at"] = await promptForRequiredField(
+							"first-request-seen-at",
+							"The first_request_seen_at field"
+						);
+					}
+					if (argv["last-request-seen-at"] === undefined) {
+						argv["last-request-seen-at"] = await promptForRequiredField(
+							"last-request-seen-at",
+							"The last_request_seen_at field"
+						);
+					}
+					if (argv["requests"] === undefined) {
+						throw new Error(
+							"--requests is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["requests-by-attribute"] === undefined) {
+						throw new Error(
+							"--requests-by-attribute is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["requests-by-score"] === undefined) {
+						throw new Error(
+							"--requests-by-score is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["requests-by-score-src"] === undefined) {
+						throw new Error(
+							"--requests-by-score-src is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"Type of feedback report.",
+							["false_positive", "false_negative"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["description"] === undefined) {
-							argv["description"] = await promptForRequiredField(
-								"description",
-								"The description field"
-							);
-						}
-						if (argv["expression"] === undefined) {
-							argv["expression"] = await promptForRequiredField(
-								"expression",
-								"Wirefilter expression describing the traffic being reported."
-							);
-						}
-						if (argv["first-request-seen-at"] === undefined) {
-							argv["first-request-seen-at"] = await promptForRequiredField(
-								"first-request-seen-at",
-								"The first_request_seen_at field"
-							);
-						}
-						if (argv["last-request-seen-at"] === undefined) {
-							argv["last-request-seen-at"] = await promptForRequiredField(
-								"last-request-seen-at",
-								"The last_request_seen_at field"
-							);
-						}
-						if (argv["requests"] === undefined) {
-							throw new Error(
-								"--requests is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["requests-by-attribute"] === undefined) {
-							throw new Error(
-								"--requests-by-attribute is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["requests-by-score"] === undefined) {
-							throw new Error(
-								"--requests-by-score is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["requests-by-score-src"] === undefined) {
-							throw new Error(
-								"--requests-by-score-src is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["type"] === undefined) {
-							argv["type"] = await promptForRequiredEnumField(
-								"type",
-								"Type of feedback report.",
-								["false_positive", "false_negative"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf bot-management feedback create",
@@ -247,57 +250,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"The description field"
-					);
-				}
-				if (argv["expression"] === undefined) {
-					argv["expression"] = await promptForRequiredField(
-						"expression",
-						"Wirefilter expression describing the traffic being reported."
-					);
-				}
-				if (argv["first-request-seen-at"] === undefined) {
-					argv["first-request-seen-at"] = await promptForRequiredField(
-						"first-request-seen-at",
-						"The first_request_seen_at field"
-					);
-				}
-				if (argv["last-request-seen-at"] === undefined) {
-					argv["last-request-seen-at"] = await promptForRequiredField(
-						"last-request-seen-at",
-						"The last_request_seen_at field"
-					);
-				}
-				if (argv["requests"] === undefined) {
-					throw new Error(
-						"--requests is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["requests-by-attribute"] === undefined) {
-					throw new Error(
-						"--requests-by-attribute is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["requests-by-score"] === undefined) {
-					throw new Error(
-						"--requests-by-score is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["requests-by-score-src"] === undefined) {
-					throw new Error(
-						"--requests-by-score-src is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"Type of feedback report.",
-						["false_positive", "false_negative"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

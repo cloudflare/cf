@@ -73,26 +73,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Custom Skill name (1–100 characters)."
+						);
+					}
+					if (argv["output-schema"] === undefined) {
+						argv["output-schema"] = await promptForRequiredField(
+							"output-schema",
+							"JSON Schema serialized as a string (max 4096 characters)."
+						);
+					}
+					if (argv["prompt"] === undefined) {
+						argv["prompt"] = await promptForRequiredField(
+							"prompt",
+							"AI prompt (1–4000 characters) defining the skill's instructions."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Custom Skill name (1–100 characters)."
-							);
-						}
-						if (argv["output-schema"] === undefined) {
-							argv["output-schema"] = await promptForRequiredField(
-								"output-schema",
-								"JSON Schema serialized as a string (max 4096 characters)."
-							);
-						}
-						if (argv["prompt"] === undefined) {
-							argv["prompt"] = await promptForRequiredField(
-								"prompt",
-								"AI prompt (1–4000 characters) defining the skill's instructions."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -139,24 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Custom Skill name (1–100 characters)."
-					);
-				}
-				if (argv["output-schema"] === undefined) {
-					argv["output-schema"] = await promptForRequiredField(
-						"output-schema",
-						"JSON Schema serialized as a string (max 4096 characters)."
-					);
-				}
-				if (argv["prompt"] === undefined) {
-					argv["prompt"] = await promptForRequiredField(
-						"prompt",
-						"AI prompt (1–4000 characters) defining the skill's instructions."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

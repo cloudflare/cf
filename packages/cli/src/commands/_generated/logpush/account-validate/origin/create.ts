@@ -58,14 +58,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["logpull-options"] === undefined) {
+						argv["logpull-options"] = await promptForRequiredField(
+							"logpull-options",
+							"This field is deprecated. Use \`output_options\` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["logpull-options"] === undefined) {
-							argv["logpull-options"] = await promptForRequiredField(
-								"logpull-options",
-								"This field is deprecated. Use \`output_options\` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -126,12 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["logpull-options"] === undefined) {
-					argv["logpull-options"] = await promptForRequiredField(
-						"logpull-options",
-						"This field is deprecated. Use \`output_options\` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

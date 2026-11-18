@@ -85,14 +85,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["code"] === undefined) {
+						argv["code"] = await promptForRequiredField(
+							"code",
+							"Function body executed against the selected library's runner."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["code"] === undefined) {
-							argv["code"] = await promptForRequiredField(
-								"code",
-								"Function body executed against the selected library's runner."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -146,12 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					return;
 				}
-				if (argv["code"] === undefined) {
-					argv["code"] = await promptForRequiredField(
-						"code",
-						"Function body executed against the selected library's runner."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

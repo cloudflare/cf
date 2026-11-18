@@ -88,44 +88,47 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["burst-sensitivity"] === undefined) {
+						argv["burst-sensitivity"] = await promptForRequiredField(
+							"burst-sensitivity",
+							"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+						);
+					}
+					if (argv["protection-mode"] === undefined) {
+						argv["protection-mode"] = await promptForRequiredField(
+							"protection-mode",
+							"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the DNS Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
+						);
+					}
+					if (argv["profile-sensitivity"] === undefined) {
+						argv["profile-sensitivity"] = await promptForRequiredField(
+							"profile-sensitivity",
+							"The profile sensitivity. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'."
+						);
+					}
+					if (argv["rate-sensitivity"] === undefined) {
+						argv["rate-sensitivity"] = await promptForRequiredField(
+							"rate-sensitivity",
+							"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
+						);
+					}
+					if (argv["scope"] === undefined) {
+						argv["scope"] = await promptForRequiredField(
+							"scope",
+							"The scope for the DNS Protection rule. Must be one of 'global', 'region', or 'datacenter'."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["burst-sensitivity"] === undefined) {
-							argv["burst-sensitivity"] = await promptForRequiredField(
-								"burst-sensitivity",
-								"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
-							);
-						}
-						if (argv["protection-mode"] === undefined) {
-							argv["protection-mode"] = await promptForRequiredField(
-								"protection-mode",
-								"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"The name of the DNS Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
-							);
-						}
-						if (argv["profile-sensitivity"] === undefined) {
-							argv["profile-sensitivity"] = await promptForRequiredField(
-								"profile-sensitivity",
-								"The profile sensitivity. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'."
-							);
-						}
-						if (argv["rate-sensitivity"] === undefined) {
-							argv["rate-sensitivity"] = await promptForRequiredField(
-								"rate-sensitivity",
-								"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
-							);
-						}
-						if (argv["scope"] === undefined) {
-							argv["scope"] = await promptForRequiredField(
-								"scope",
-								"The scope for the DNS Protection rule. Must be one of 'global', 'region', or 'datacenter'."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -188,42 +191,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["burst-sensitivity"] === undefined) {
-					argv["burst-sensitivity"] = await promptForRequiredField(
-						"burst-sensitivity",
-						"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
-					);
-				}
-				if (argv["protection-mode"] === undefined) {
-					argv["protection-mode"] = await promptForRequiredField(
-						"protection-mode",
-						"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the DNS Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
-					);
-				}
-				if (argv["profile-sensitivity"] === undefined) {
-					argv["profile-sensitivity"] = await promptForRequiredField(
-						"profile-sensitivity",
-						"The profile sensitivity. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'."
-					);
-				}
-				if (argv["rate-sensitivity"] === undefined) {
-					argv["rate-sensitivity"] = await promptForRequiredField(
-						"rate-sensitivity",
-						"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
-					);
-				}
-				if (argv["scope"] === undefined) {
-					argv["scope"] = await promptForRequiredField(
-						"scope",
-						"The scope for the DNS Protection rule. Must be one of 'global', 'region', or 'datacenter'."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

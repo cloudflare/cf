@@ -62,20 +62,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["expression"] === undefined) {
+						argv["expression"] = await promptForRequiredField(
+							"expression",
+							"The filter expression."
+						);
+					}
+					if (argv["filter-mode"] === undefined) {
+						argv["filter-mode"] = await promptForRequiredField(
+							"filter-mode",
+							"The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["expression"] === undefined) {
-							argv["expression"] = await promptForRequiredField(
-								"expression",
-								"The filter expression."
-							);
-						}
-						if (argv["filter-mode"] === undefined) {
-							argv["filter-mode"] = await promptForRequiredField(
-								"filter-mode",
-								"The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -117,18 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["expression"] === undefined) {
-					argv["expression"] = await promptForRequiredField(
-						"expression",
-						"The filter expression."
-					);
-				}
-				if (argv["filter-mode"] === undefined) {
-					argv["filter-mode"] = await promptForRequiredField(
-						"filter-mode",
-						"The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

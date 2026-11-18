@@ -68,26 +68,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["act"] === undefined) {
+						argv["act"] = await promptForRequiredField(
+							"act",
+							'The preview action type. Required for request parsing but not used in token generation. Typically set to "preview".'
+						);
+					}
+					if (argv["target"] === undefined) {
+						argv["target"] = await promptForRequiredField(
+							"target",
+							'The target custom page type to preview (e.g. "block:waf"). Encoded as the "endpoint" claim in the resulting JWT.'
+						);
+					}
+					if (argv["url"] === undefined) {
+						argv["url"] = await promptForRequiredField(
+							"url",
+							'The URL of the custom page content to preview. Encoded as the "zone" claim in the resulting JWT.'
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["act"] === undefined) {
-							argv["act"] = await promptForRequiredField(
-								"act",
-								'The preview action type. Required for request parsing but not used in token generation. Typically set to "preview".'
-							);
-						}
-						if (argv["target"] === undefined) {
-							argv["target"] = await promptForRequiredField(
-								"target",
-								'The target custom page type to preview (e.g. "block:waf"). Encoded as the "endpoint" claim in the resulting JWT.'
-							);
-						}
-						if (argv["url"] === undefined) {
-							argv["url"] = await promptForRequiredField(
-								"url",
-								'The URL of the custom page content to preview. Encoded as the "zone" claim in the resulting JWT.'
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -159,24 +162,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["act"] === undefined) {
-					argv["act"] = await promptForRequiredField(
-						"act",
-						'The preview action type. Required for request parsing but not used in token generation. Typically set to "preview".'
-					);
-				}
-				if (argv["target"] === undefined) {
-					argv["target"] = await promptForRequiredField(
-						"target",
-						'The target custom page type to preview (e.g. "block:waf"). Encoded as the "endpoint" claim in the resulting JWT.'
-					);
-				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						'The URL of the custom page content to preview. Encoded as the "zone" claim in the resulting JWT.'
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -66,19 +66,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["data"] === undefined) {
+						throw new Error(
+							"--data is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["dataset-id"] === undefined) {
+						argv["dataset-id"] = await promptForRequiredField(
+							"dataset-id",
+							"The datasetId field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["data"] === undefined) {
-							throw new Error(
-								"--data is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["dataset-id"] === undefined) {
-							argv["dataset-id"] = await promptForRequiredField(
-								"dataset-id",
-								"The datasetId field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -116,17 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["data"] === undefined) {
-					throw new Error(
-						"--data is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["dataset-id"] === undefined) {
-					argv["dataset-id"] = await promptForRequiredField(
-						"dataset-id",
-						"The datasetId field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

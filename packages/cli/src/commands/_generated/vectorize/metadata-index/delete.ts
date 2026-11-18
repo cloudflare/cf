@@ -69,14 +69,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["property-name"] === undefined) {
+						argv["property-name"] = await promptForRequiredField(
+							"property-name",
+							"Specifies the metadata property for which the index must be deleted."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["property-name"] === undefined) {
-							argv["property-name"] = await promptForRequiredField(
-								"property-name",
-								"Specifies the metadata property for which the index must be deleted."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -125,12 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
-				if (argv["property-name"] === undefined) {
-					argv["property-name"] = await promptForRequiredField(
-						"property-name",
-						"Specifies the metadata property for which the index must be deleted."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

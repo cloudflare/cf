@@ -69,32 +69,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["kind"] === undefined) {
+						argv["kind"] = await promptForRequiredEnumField(
+							"kind",
+							"The kind of the schema",
+							["openapi_v3"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A human-readable name for the schema"
+						);
+					}
+					if (argv["source"] === undefined) {
+						argv["source"] = await promptForRequiredField(
+							"source",
+							"The raw schema, e.g., the OpenAPI schema, either as JSON or YAML"
+						);
+					}
+					if (argv["validation-enabled"] === undefined) {
+						throw new Error(
+							"--validation-enabled is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["kind"] === undefined) {
-							argv["kind"] = await promptForRequiredEnumField(
-								"kind",
-								"The kind of the schema",
-								["openapi_v3"] as const
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"A human-readable name for the schema"
-							);
-						}
-						if (argv["source"] === undefined) {
-							argv["source"] = await promptForRequiredField(
-								"source",
-								"The raw schema, e.g., the OpenAPI schema, either as JSON or YAML"
-							);
-						}
-						if (argv["validation-enabled"] === undefined) {
-							throw new Error(
-								"--validation-enabled is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf api-security schema-validation schemas create",
@@ -140,30 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["kind"] === undefined) {
-					argv["kind"] = await promptForRequiredEnumField(
-						"kind",
-						"The kind of the schema",
-						["openapi_v3"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A human-readable name for the schema"
-					);
-				}
-				if (argv["source"] === undefined) {
-					argv["source"] = await promptForRequiredField(
-						"source",
-						"The raw schema, e.g., the OpenAPI schema, either as JSON or YAML"
-					);
-				}
-				if (argv["validation-enabled"] === undefined) {
-					throw new Error(
-						"--validation-enabled is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

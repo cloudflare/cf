@@ -53,15 +53,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							"Value of the Cache Reserve zone setting.",
+							["on", "off"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["value"] === undefined) {
-							argv["value"] = await promptForRequiredEnumField(
-								"value",
-								"Value of the Cache Reserve zone setting.",
-								["on", "off"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf cache settings reserve edit",
@@ -96,13 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						"Value of the Cache Reserve zone setting.",
-						["on", "off"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

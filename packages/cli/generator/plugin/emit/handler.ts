@@ -63,6 +63,14 @@ const acceptsJson = (ctx: Ctx) =>
 export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
 	lines.push(...requiredBody(ctx));
+	const prompts = bodyPrompts(ctx);
+	if (prompts.length > 0) {
+		lines.push(
+			"      const resolveRequiredFields = async (): Promise<void> => {"
+		);
+		lines.push(...prompts.map((line) => `  ${line}`));
+		lines.push("      };");
+	}
 	lines.push(...dryRun(ctx));
 	lines.push(...preparsedBody(ctx));
 	lines.push(...auth(ctx));
@@ -72,7 +80,9 @@ export function handler(ctx: Ctx): string[] {
 	lines.push(...multipart(ctx));
 	lines.push(...fileUpload(ctx));
 	lines.push(...bodyBypass(ctx));
-	lines.push(...bodyPrompts(ctx));
+	if (prompts.length > 0) {
+		lines.push("      await resolveRequiredFields();");
+	}
 	if (ctx.derived.hasBodyParams) {
 		lines.push(...bodyAssembly(ctx));
 	} else {
@@ -207,8 +217,7 @@ function preservedBodyPaths(ctx: Ctx): string {
 }
 
 function dryRunPrompts(ctx: Ctx): string[] {
-	const prompts = bodyPrompts(ctx);
-	if (prompts.length === 0) {
+	if (bodyPrompts(ctx).length === 0) {
 		return [];
 	}
 	// Explicit bodies and uploads bypass the individual-field prompts.
@@ -221,10 +230,10 @@ function dryRunPrompts(ctx: Ctx): string[] {
 	return absent.length > 0
 		? [
 				`      if (${absent.join(" && ")}) {`,
-				...prompts.map((line) => `  ${line}`),
+				"        await resolveRequiredFields();",
 				"      }",
 			]
-		: prompts;
+		: ["      await resolveRequiredFields();"];
 }
 
 export function dryRun(ctx: Ctx): string[] {

@@ -70,15 +70,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
+							["dismiss", "undismiss"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["action"] === undefined) {
-							argv["action"] = await promptForRequiredEnumField(
-								"action",
-								"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
-								["dismiss", "undismiss"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -112,13 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
-						["dismiss", "undismiss"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

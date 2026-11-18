@@ -68,13 +68,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["instances"] === undefined) {
+						throw new Error(
+							"--instances is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["instances"] === undefined) {
-							throw new Error(
-								"--instances is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -121,11 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
-				if (argv["instances"] === undefined) {
-					throw new Error(
-						"--instances is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -61,14 +61,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["sample-json"] === undefined) {
+						argv["sample-json"] = await promptForRequiredField(
+							"sample-json",
+							"The sample_json field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["sample-json"] === undefined) {
-							argv["sample-json"] = await promptForRequiredField(
-								"sample-json",
-								"The sample_json field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -108,12 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["sample-json"] === undefined) {
-					argv["sample-json"] = await promptForRequiredField(
-						"sample-json",
-						"The sample_json field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -62,14 +62,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["cidr"] === undefined) {
+						argv["cidr"] = await promptForRequiredField(
+							"cidr",
+							"The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["cidr"] === undefined) {
-							argv["cidr"] = await promptForRequiredField(
-								"cidr",
-								"The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf intel sinkholes ingresses update",
@@ -115,12 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["cidr"] === undefined) {
-					argv["cidr"] = await promptForRequiredField(
-						"cidr",
-						"The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

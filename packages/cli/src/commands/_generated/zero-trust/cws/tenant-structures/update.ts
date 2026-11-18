@@ -78,21 +78,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["application"] === undefined) {
+						argv["application"] = await promptForRequiredEnumField(
+							"application",
+							"Platform this structure models. Must match the existing value.",
+							["aws", "cloudflare"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Human-readable name; unique per account"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["application"] === undefined) {
-							argv["application"] = await promptForRequiredEnumField(
-								"application",
-								"Platform this structure models. Must match the existing value.",
-								["aws", "cloudflare"] as const
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Human-readable name; unique per account"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -138,19 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["application"] === undefined) {
-					argv["application"] = await promptForRequiredEnumField(
-						"application",
-						"Platform this structure models. Must match the existing value.",
-						["aws", "cloudflare"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Human-readable name; unique per account"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

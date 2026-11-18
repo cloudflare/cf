@@ -100,36 +100,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["datasets"] === undefined) {
+						throw new Error(
+							"--datasets is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["key"] === undefined) {
+						argv["key"] = await promptForRequiredField("key", "The key field");
+					}
+					if (argv["timeframe-from"] === undefined) {
+						throw new Error(
+							"--timeframe-from is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["timeframe-to"] === undefined) {
+						throw new Error(
+							"--timeframe-to is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type field",
+							["string", "boolean", "number"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["datasets"] === undefined) {
-							throw new Error(
-								"--datasets is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["key"] === undefined) {
-							argv["key"] = await promptForRequiredField(
-								"key",
-								"The key field"
-							);
-						}
-						if (argv["timeframe-from"] === undefined) {
-							throw new Error(
-								"--timeframe-from is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["timeframe-to"] === undefined) {
-							throw new Error(
-								"--timeframe-to is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["type"] === undefined) {
-							argv["type"] = await promptForRequiredEnumField(
-								"type",
-								"The type field",
-								["string", "boolean", "number"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -177,31 +177,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["datasets"] === undefined) {
-					throw new Error(
-						"--datasets is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["key"] === undefined) {
-					argv["key"] = await promptForRequiredField("key", "The key field");
-				}
-				if (argv["timeframe-from"] === undefined) {
-					throw new Error(
-						"--timeframe-from is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["timeframe-to"] === undefined) {
-					throw new Error(
-						"--timeframe-to is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["string", "boolean", "number"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

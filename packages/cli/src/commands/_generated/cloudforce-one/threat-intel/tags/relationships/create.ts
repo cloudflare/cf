@@ -88,33 +88,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["dataset-id"] === undefined) {
+						argv["dataset-id"] = await promptForRequiredField(
+							"dataset-id",
+							"Dataset UUID where the relationship row will be stored (locates the Indicators DO)."
+						);
+					}
+					if (argv["target-id"] === undefined) {
+						argv["target-id"] = await promptForRequiredField(
+							"target-id",
+							"UUID of the target entity."
+						);
+					}
+					if (argv["target-type"] === undefined) {
+						argv["target-type"] = await promptForRequiredEnumField(
+							"target-type",
+							'Target type. "tag" is not allowed (tag↔tag relationships are not supported).',
+							["event", "indicator"] as const
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredField(
+							"type",
+							"Relationship type."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["dataset-id"] === undefined) {
-							argv["dataset-id"] = await promptForRequiredField(
-								"dataset-id",
-								"Dataset UUID where the relationship row will be stored (locates the Indicators DO)."
-							);
-						}
-						if (argv["target-id"] === undefined) {
-							argv["target-id"] = await promptForRequiredField(
-								"target-id",
-								"UUID of the target entity."
-							);
-						}
-						if (argv["target-type"] === undefined) {
-							argv["target-type"] = await promptForRequiredEnumField(
-								"target-type",
-								'Target type. "tag" is not allowed (tag↔tag relationships are not supported).',
-								["event", "indicator"] as const
-							);
-						}
-						if (argv["type"] === undefined) {
-							argv["type"] = await promptForRequiredField(
-								"type",
-								"Relationship type."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -170,31 +173,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["dataset-id"] === undefined) {
-					argv["dataset-id"] = await promptForRequiredField(
-						"dataset-id",
-						"Dataset UUID where the relationship row will be stored (locates the Indicators DO)."
-					);
-				}
-				if (argv["target-id"] === undefined) {
-					argv["target-id"] = await promptForRequiredField(
-						"target-id",
-						"UUID of the target entity."
-					);
-				}
-				if (argv["target-type"] === undefined) {
-					argv["target-type"] = await promptForRequiredEnumField(
-						"target-type",
-						'Target type. "tag" is not allowed (tag↔tag relationships are not supported).',
-						["event", "indicator"] as const
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredField(
-						"type",
-						"Relationship type."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

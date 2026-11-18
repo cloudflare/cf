@@ -56,14 +56,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["domain"] === undefined) {
+						argv["domain"] = await promptForRequiredField(
+							"domain",
+							"Domain to monitor (e.g. my-company.com)"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["domain"] === undefined) {
-							argv["domain"] = await promptForRequiredField(
-								"domain",
-								"Domain to monitor (e.g. my-company.com)"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -99,12 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["domain"] === undefined) {
-					argv["domain"] = await promptForRequiredField(
-						"domain",
-						"Domain to monitor (e.g. my-company.com)"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

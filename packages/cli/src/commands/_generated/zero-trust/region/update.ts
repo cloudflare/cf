@@ -56,14 +56,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["region-key"] === undefined) {
+						argv["region-key"] = await promptForRequiredField(
+							"region-key",
+							"The key of a Data Localization Suite region."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["region-key"] === undefined) {
-							argv["region-key"] = await promptForRequiredField(
-								"region-key",
-								"The key of a Data Localization Suite region."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -99,12 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["region-key"] === undefined) {
-					argv["region-key"] = await promptForRequiredField(
-						"region-key",
-						"The key of a Data Localization Suite region."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -86,14 +86,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["query"] === undefined) {
+						argv["query"] = await promptForRequiredField(
+							"query",
+							"Natural-language query to match against stored memories."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["query"] === undefined) {
-							argv["query"] = await promptForRequiredField(
-								"query",
-								"Natural-language query to match against stored memories."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -144,12 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["query"] === undefined) {
-					argv["query"] = await promptForRequiredField(
-						"query",
-						"Natural-language query to match against stored memories."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

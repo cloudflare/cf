@@ -125,43 +125,46 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const scriptName = getWorkerName({ scriptName: argv["worker"] });
 				argv["worker"] = scriptName;
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The kind of resource that the binding provides.",
+							["secret_text", "secret_key"] as const
+						);
+					}
+
+					if (argv["type"] === "secret_text" && argv["text"] === undefined) {
+						argv["text"] = await promptForRequiredField(
+							"text",
+							"The secret value to use.",
+							{ kind: "secret", question: "Enter value for --text" }
+						);
+					}
+					if (
+						argv["type"] === "secret_key" &&
+						argv["algorithm"] === undefined
+					) {
+						throw new Error(
+							"--algorithm is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["type"] === "secret_key" && argv["format"] === undefined) {
+						argv["format"] = await promptForRequiredField(
+							"format",
+							"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
+							{ question: "Enter value for --format" }
+						);
+					}
+					if (argv["type"] === "secret_key" && argv["usages"] === undefined) {
+						throw new Error(
+							"--usages is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["type"] === undefined) {
-							argv["type"] = await promptForRequiredEnumField(
-								"type",
-								"The kind of resource that the binding provides.",
-								["secret_text", "secret_key"] as const
-							);
-						}
-
-						if (argv["type"] === "secret_text" && argv["text"] === undefined) {
-							argv["text"] = await promptForRequiredField(
-								"text",
-								"The secret value to use.",
-								{ kind: "secret", question: "Enter value for --text" }
-							);
-						}
-						if (
-							argv["type"] === "secret_key" &&
-							argv["algorithm"] === undefined
-						) {
-							throw new Error(
-								"--algorithm is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["type"] === "secret_key" && argv["format"] === undefined) {
-							argv["format"] = await promptForRequiredField(
-								"format",
-								"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
-								{ question: "Enter value for --format" }
-							);
-						}
-						if (argv["type"] === "secret_key" && argv["usages"] === undefined) {
-							throw new Error(
-								"--usages is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -222,38 +225,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The kind of resource that the binding provides.",
-						["secret_text", "secret_key"] as const
-					);
-				}
-
-				if (argv["type"] === "secret_text" && argv["text"] === undefined) {
-					argv["text"] = await promptForRequiredField(
-						"text",
-						"The secret value to use.",
-						{ kind: "secret", question: "Enter value for --text" }
-					);
-				}
-				if (argv["type"] === "secret_key" && argv["algorithm"] === undefined) {
-					throw new Error(
-						"--algorithm is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === "secret_key" && argv["format"] === undefined) {
-					argv["format"] = await promptForRequiredField(
-						"format",
-						"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
-						{ question: "Enter value for --format" }
-					);
-				}
-				if (argv["type"] === "secret_key" && argv["usages"] === undefined) {
-					throw new Error(
-						"--usages is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

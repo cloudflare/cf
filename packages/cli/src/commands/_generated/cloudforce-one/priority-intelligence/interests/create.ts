@@ -79,31 +79,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["dimension"] === undefined) {
+						argv["dimension"] = await promptForRequiredEnumField(
+							"dimension",
+							"The dimension field",
+							[
+								"actor",
+								"targetIndustry",
+								"category",
+								"country",
+								"attackerCountry",
+								"targetCountry",
+								"mitreAttack",
+								"killChain",
+								"mitreCapec",
+							] as const
+						);
+					}
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredField(
+							"value",
+							"The value field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["dimension"] === undefined) {
-							argv["dimension"] = await promptForRequiredEnumField(
-								"dimension",
-								"The dimension field",
-								[
-									"actor",
-									"targetIndustry",
-									"category",
-									"country",
-									"attackerCountry",
-									"targetCountry",
-									"mitreAttack",
-									"killChain",
-									"mitreCapec",
-								] as const
-							);
-						}
-						if (argv["value"] === undefined) {
-							argv["value"] = await promptForRequiredField(
-								"value",
-								"The value field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -141,29 +144,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["dimension"] === undefined) {
-					argv["dimension"] = await promptForRequiredEnumField(
-						"dimension",
-						"The dimension field",
-						[
-							"actor",
-							"targetIndustry",
-							"category",
-							"country",
-							"attackerCountry",
-							"targetCountry",
-							"mitreAttack",
-							"killChain",
-							"mitreCapec",
-						] as const
-					);
-				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredField(
-						"value",
-						"The value field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

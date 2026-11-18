@@ -91,39 +91,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["certificate-authority"] === undefined) {
+						argv["certificate-authority"] = await promptForRequiredEnumField(
+							"certificate-authority",
+							"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
+							["google", "lets_encrypt", "ssl_com"] as const
+						);
+					}
+					if (argv["hosts"] === undefined) {
+						throw new Error(
+							"--hosts is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"Type of certificate pack.",
+							["advanced"] as const
+						);
+					}
+					if (argv["validation-method"] === undefined) {
+						argv["validation-method"] = await promptForRequiredEnumField(
+							"validation-method",
+							"Validation Method selected for the order.",
+							["txt", "http", "email"] as const
+						);
+					}
+					if (argv["validity-days"] === undefined) {
+						throw new Error(
+							"--validity-days is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["certificate-authority"] === undefined) {
-							argv["certificate-authority"] = await promptForRequiredEnumField(
-								"certificate-authority",
-								"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
-								["google", "lets_encrypt", "ssl_com"] as const
-							);
-						}
-						if (argv["hosts"] === undefined) {
-							throw new Error(
-								"--hosts is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["type"] === undefined) {
-							argv["type"] = await promptForRequiredEnumField(
-								"type",
-								"Type of certificate pack.",
-								["advanced"] as const
-							);
-						}
-						if (argv["validation-method"] === undefined) {
-							argv["validation-method"] = await promptForRequiredEnumField(
-								"validation-method",
-								"Validation Method selected for the order.",
-								["txt", "http", "email"] as const
-							);
-						}
-						if (argv["validity-days"] === undefined) {
-							throw new Error(
-								"--validity-days is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf ssl certificate-packs create",
@@ -163,37 +166,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["certificate-authority"] === undefined) {
-					argv["certificate-authority"] = await promptForRequiredEnumField(
-						"certificate-authority",
-						"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
-						["google", "lets_encrypt", "ssl_com"] as const
-					);
-				}
-				if (argv["hosts"] === undefined) {
-					throw new Error(
-						"--hosts is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"Type of certificate pack.",
-						["advanced"] as const
-					);
-				}
-				if (argv["validation-method"] === undefined) {
-					argv["validation-method"] = await promptForRequiredEnumField(
-						"validation-method",
-						"Validation Method selected for the order.",
-						["txt", "http", "email"] as const
-					);
-				}
-				if (argv["validity-days"] === undefined) {
-					throw new Error(
-						"--validity-days is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

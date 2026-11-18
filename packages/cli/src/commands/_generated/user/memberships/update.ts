@@ -58,15 +58,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["status"] === undefined) {
+						argv["status"] = await promptForRequiredEnumField(
+							"status",
+							"Whether to accept or reject this account invitation.",
+							["accepted", "rejected"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["status"] === undefined) {
-							argv["status"] = await promptForRequiredEnumField(
-								"status",
-								"Whether to accept or reject this account invitation.",
-								["accepted", "rejected"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf user memberships update",
@@ -100,13 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["status"] === undefined) {
-					argv["status"] = await promptForRequiredEnumField(
-						"status",
-						"Whether to accept or reject this account invitation.",
-						["accepted", "rejected"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

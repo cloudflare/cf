@@ -78,30 +78,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Human-readable name of the policy."
+						);
+					}
+					if (argv["pattern"] === undefined) {
+						argv["pattern"] = await promptForRequiredField(
+							"pattern",
+							"Regular expression the policy matches against."
+						);
+					}
+					if (argv["targets"] === undefined) {
+						throw new Error(
+							"--targets is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["enabled"] === undefined) {
-							throw new Error(
-								"--enabled is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Human-readable name of the policy."
-							);
-						}
-						if (argv["pattern"] === undefined) {
-							argv["pattern"] = await promptForRequiredField(
-								"pattern",
-								"Regular expression the policy matches against."
-							);
-						}
-						if (argv["targets"] === undefined) {
-							throw new Error(
-								"--targets is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -154,28 +157,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Human-readable name of the policy."
-					);
-				}
-				if (argv["pattern"] === undefined) {
-					argv["pattern"] = await promptForRequiredField(
-						"pattern",
-						"Regular expression the policy matches against."
-					);
-				}
-				if (argv["targets"] === undefined) {
-					throw new Error(
-						"--targets is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -80,14 +80,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["source-id"] === undefined) {
+						argv["source-id"] = await promptForRequiredField(
+							"source-id",
+							"The identifier of the source to migrate from."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["source-id"] === undefined) {
-							argv["source-id"] = await promptForRequiredField(
-								"source-id",
-								"The identifier of the source to migrate from."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -135,12 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["source-id"] === undefined) {
-					argv["source-id"] = await promptForRequiredField(
-						"source-id",
-						"The identifier of the source to migrate from."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -55,21 +55,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["certificate"] === undefined) {
+						argv["certificate"] = await promptForRequiredField(
+							"certificate",
+							"The hostname certificate."
+						);
+					}
+					if (argv["private-key"] === undefined) {
+						argv["private-key"] = await promptForRequiredField(
+							"private-key",
+							"The hostname certificate's private key.",
+							{ kind: "secret" }
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["certificate"] === undefined) {
-							argv["certificate"] = await promptForRequiredField(
-								"certificate",
-								"The hostname certificate."
-							);
-						}
-						if (argv["private-key"] === undefined) {
-							argv["private-key"] = await promptForRequiredField(
-								"private-key",
-								"The hostname certificate's private key.",
-								{ kind: "secret" }
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command:
@@ -115,19 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["certificate"] === undefined) {
-					argv["certificate"] = await promptForRequiredField(
-						"certificate",
-						"The hostname certificate."
-					);
-				}
-				if (argv["private-key"] === undefined) {
-					argv["private-key"] = await promptForRequiredField(
-						"private-key",
-						"The hostname certificate's private key.",
-						{ kind: "secret" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

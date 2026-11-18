@@ -63,20 +63,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action field",
+							["accept", "reject"] as const
+						);
+					}
+					if (argv["price-id"] === undefined) {
+						throw new Error(
+							"--price-id is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["action"] === undefined) {
-							argv["action"] = await promptForRequiredEnumField(
-								"action",
-								"The action field",
-								["accept", "reject"] as const
-							);
-						}
-						if (argv["price-id"] === undefined) {
-							throw new Error(
-								"--price-id is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -109,18 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action field",
-						["accept", "reject"] as const
-					);
-				}
-				if (argv["price-id"] === undefined) {
-					throw new Error(
-						"--price-id is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

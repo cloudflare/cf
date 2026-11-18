@@ -72,14 +72,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["dataset"] === undefined) {
+						argv["dataset"] = await promptForRequiredField(
+							"dataset",
+							"Dataset type name to create (e.g. \`http_requests\`)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["dataset"] === undefined) {
-							argv["dataset"] = await promptForRequiredField(
-								"dataset",
-								"Dataset type name to create (e.g. \`http_requests\`)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -147,12 +150,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["dataset"] === undefined) {
-					argv["dataset"] = await promptForRequiredField(
-						"dataset",
-						"Dataset type name to create (e.g. \`http_requests\`)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

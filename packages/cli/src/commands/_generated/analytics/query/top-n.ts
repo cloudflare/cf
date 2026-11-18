@@ -94,46 +94,49 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["filters"] === undefined) {
+						throw new Error(
+							"--filters is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["from"] === undefined) {
+						argv["from"] = await promptForRequiredField(
+							"from",
+							"The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. \`2024-11-05T00:00:00Z\`)."
+						);
+					}
+					if (argv["group-by"] === undefined) {
+						throw new Error(
+							"--group-by is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["stats"] === undefined) {
+						throw new Error(
+							"--stats is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["to"] === undefined) {
+						argv["to"] = await promptForRequiredField(
+							"to",
+							"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
+						);
+					}
+					if (argv["limit"] === undefined) {
+						throw new Error(
+							"--limit is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["order-by"] === undefined) {
+						argv["order-by"] = await promptForRequiredField(
+							"order-by",
+							"Specifies the stat name for sorting results in descending order. Requires a valid stat for the target dataset."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["filters"] === undefined) {
-							throw new Error(
-								"--filters is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["from"] === undefined) {
-							argv["from"] = await promptForRequiredField(
-								"from",
-								"The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. \`2024-11-05T00:00:00Z\`)."
-							);
-						}
-						if (argv["group-by"] === undefined) {
-							throw new Error(
-								"--group-by is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["stats"] === undefined) {
-							throw new Error(
-								"--stats is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["to"] === undefined) {
-							argv["to"] = await promptForRequiredField(
-								"to",
-								"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
-							);
-						}
-						if (argv["limit"] === undefined) {
-							throw new Error(
-								"--limit is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["order-by"] === undefined) {
-							argv["order-by"] = await promptForRequiredField(
-								"order-by",
-								"Specifies the stat name for sorting results in descending order. Requires a valid stat for the target dataset."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -187,44 +190,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["filters"] === undefined) {
-					throw new Error(
-						"--filters is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["from"] === undefined) {
-					argv["from"] = await promptForRequiredField(
-						"from",
-						"The start of the query time range (inclusive). RFC3339 format with timezone is required (e.g. \`2024-11-05T00:00:00Z\`)."
-					);
-				}
-				if (argv["group-by"] === undefined) {
-					throw new Error(
-						"--group-by is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["stats"] === undefined) {
-					throw new Error(
-						"--stats is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["to"] === undefined) {
-					argv["to"] = await promptForRequiredField(
-						"to",
-						"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
-					);
-				}
-				if (argv["limit"] === undefined) {
-					throw new Error(
-						"--limit is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["order-by"] === undefined) {
-					argv["order-by"] = await promptForRequiredField(
-						"order-by",
-						"Specifies the stat name for sorting results in descending order. Requires a valid stat for the target dataset."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

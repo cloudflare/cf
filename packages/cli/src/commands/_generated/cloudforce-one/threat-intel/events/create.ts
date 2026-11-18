@@ -154,37 +154,37 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["category"] === undefined) {
+						argv["category"] = await promptForRequiredField(
+							"category",
+							"The category field"
+						);
+					}
+					if (argv["date"] === undefined) {
+						argv["date"] = await promptForRequiredField(
+							"date",
+							"The date field"
+						);
+					}
+					if (argv["event"] === undefined) {
+						argv["event"] = await promptForRequiredField(
+							"event",
+							"The event field"
+						);
+					}
+					if (argv["raw-data"] === undefined) {
+						throw new Error(
+							"--raw-data is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["tlp"] === undefined) {
+						argv["tlp"] = await promptForRequiredField("tlp", "The tlp field");
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["category"] === undefined) {
-							argv["category"] = await promptForRequiredField(
-								"category",
-								"The category field"
-							);
-						}
-						if (argv["date"] === undefined) {
-							argv["date"] = await promptForRequiredField(
-								"date",
-								"The date field"
-							);
-						}
-						if (argv["event"] === undefined) {
-							argv["event"] = await promptForRequiredField(
-								"event",
-								"The event field"
-							);
-						}
-						if (argv["raw-data"] === undefined) {
-							throw new Error(
-								"--raw-data is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["tlp"] === undefined) {
-							argv["tlp"] = await promptForRequiredField(
-								"tlp",
-								"The tlp field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -317,29 +317,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["category"] === undefined) {
-					argv["category"] = await promptForRequiredField(
-						"category",
-						"The category field"
-					);
-				}
-				if (argv["date"] === undefined) {
-					argv["date"] = await promptForRequiredField("date", "The date field");
-				}
-				if (argv["event"] === undefined) {
-					argv["event"] = await promptForRequiredField(
-						"event",
-						"The event field"
-					);
-				}
-				if (argv["raw-data"] === undefined) {
-					throw new Error(
-						"--raw-data is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["tlp"] === undefined) {
-					argv["tlp"] = await promptForRequiredField("tlp", "The tlp field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

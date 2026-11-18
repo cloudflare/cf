@@ -122,68 +122,71 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["applies-to-all-integrations"] === undefined) {
+						throw new Error(
+							"--applies-to-all-integrations is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["asset-class"] === undefined) {
+						argv["asset-class"] = await promptForRequiredField(
+							"asset-class",
+							"Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
+						);
+					}
+					if (argv["asset-vendor"] === undefined) {
+						argv["asset-vendor"] = await promptForRequiredEnumField(
+							"asset-vendor",
+							"Vendors whose assets a finding type can evaluate.",
+							[
+								"ANTHROPIC",
+								"AWS",
+								"BITBUCKET",
+								"BOX",
+								"CONFLUENCE",
+								"DROPBOX",
+								"GITHUB",
+								"GOOGLE_CLOUD_PLATFORM",
+								"GOOGLE_WORKSPACE",
+								"JIRA",
+								"MICROSOFT",
+								"OPENAI",
+								"SALESFORCE",
+								"SERVICENOW",
+								"SLACK",
+								"ZOOM",
+							] as const
+						);
+					}
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
+						);
+					}
+					if (argv["expression"] === undefined) {
+						argv["expression"] = await promptForRequiredField(
+							"expression",
+							"Rego expression body for the policy. \`package cloudflare.casb.custom\` and \`import rego.v1\` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Human-readable name for the finding type. Maximum 256 characters."
+						);
+					}
+					if (argv["severity"] === undefined) {
+						argv["severity"] = await promptForRequiredEnumField(
+							"severity",
+							"The severity level of a finding.",
+							["Critical", "High", "Medium", "Low"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["applies-to-all-integrations"] === undefined) {
-							throw new Error(
-								"--applies-to-all-integrations is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["asset-class"] === undefined) {
-							argv["asset-class"] = await promptForRequiredField(
-								"asset-class",
-								"Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
-							);
-						}
-						if (argv["asset-vendor"] === undefined) {
-							argv["asset-vendor"] = await promptForRequiredEnumField(
-								"asset-vendor",
-								"Vendors whose assets a finding type can evaluate.",
-								[
-									"ANTHROPIC",
-									"AWS",
-									"BITBUCKET",
-									"BOX",
-									"CONFLUENCE",
-									"DROPBOX",
-									"GITHUB",
-									"GOOGLE_CLOUD_PLATFORM",
-									"GOOGLE_WORKSPACE",
-									"JIRA",
-									"MICROSOFT",
-									"OPENAI",
-									"SALESFORCE",
-									"SERVICENOW",
-									"SLACK",
-									"ZOOM",
-								] as const
-							);
-						}
-						if (argv["description"] === undefined) {
-							argv["description"] = await promptForRequiredField(
-								"description",
-								"Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
-							);
-						}
-						if (argv["expression"] === undefined) {
-							argv["expression"] = await promptForRequiredField(
-								"expression",
-								"Rego expression body for the policy. \`package cloudflare.casb.custom\` and \`import rego.v1\` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Human-readable name for the finding type. Maximum 256 characters."
-							);
-						}
-						if (argv["severity"] === undefined) {
-							argv["severity"] = await promptForRequiredEnumField(
-								"severity",
-								"The severity level of a finding.",
-								["Critical", "High", "Medium", "Low"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -239,66 +242,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["applies-to-all-integrations"] === undefined) {
-					throw new Error(
-						"--applies-to-all-integrations is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["asset-class"] === undefined) {
-					argv["asset-class"] = await promptForRequiredField(
-						"asset-class",
-						"Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
-					);
-				}
-				if (argv["asset-vendor"] === undefined) {
-					argv["asset-vendor"] = await promptForRequiredEnumField(
-						"asset-vendor",
-						"Vendors whose assets a finding type can evaluate.",
-						[
-							"ANTHROPIC",
-							"AWS",
-							"BITBUCKET",
-							"BOX",
-							"CONFLUENCE",
-							"DROPBOX",
-							"GITHUB",
-							"GOOGLE_CLOUD_PLATFORM",
-							"GOOGLE_WORKSPACE",
-							"JIRA",
-							"MICROSOFT",
-							"OPENAI",
-							"SALESFORCE",
-							"SERVICENOW",
-							"SLACK",
-							"ZOOM",
-						] as const
-					);
-				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
-					);
-				}
-				if (argv["expression"] === undefined) {
-					argv["expression"] = await promptForRequiredField(
-						"expression",
-						"Rego expression body for the policy. \`package cloudflare.casb.custom\` and \`import rego.v1\` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Human-readable name for the finding type. Maximum 256 characters."
-					);
-				}
-				if (argv["severity"] === undefined) {
-					argv["severity"] = await promptForRequiredEnumField(
-						"severity",
-						"The severity level of a finding.",
-						["Critical", "High", "Medium", "Low"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

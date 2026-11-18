@@ -96,25 +96,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["email"] === undefined) {
+						argv["email"] = await promptForRequiredField(
+							"email",
+							"Email address (or pattern) of the protected identity."
+						);
+					}
+					if (argv["is-email-regex"] === undefined) {
+						throw new Error(
+							"--is-email-regex is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Display name of the protected identity."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["email"] === undefined) {
-							argv["email"] = await promptForRequiredField(
-								"email",
-								"Email address (or pattern) of the protected identity."
-							);
-						}
-						if (argv["is-email-regex"] === undefined) {
-							throw new Error(
-								"--is-email-regex is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Display name of the protected identity."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -169,23 +172,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["email"] === undefined) {
-					argv["email"] = await promptForRequiredField(
-						"email",
-						"Email address (or pattern) of the protected identity."
-					);
-				}
-				if (argv["is-email-regex"] === undefined) {
-					throw new Error(
-						"--is-email-regex is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Display name of the protected identity."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

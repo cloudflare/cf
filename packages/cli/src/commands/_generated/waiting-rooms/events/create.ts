@@ -149,26 +149,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["event-end-time"] === undefined) {
+						argv["event-end-time"] = await promptForRequiredField(
+							"event-end-time",
+							"An ISO 8601 timestamp that marks the end of the event."
+						);
+					}
+					if (argv["event-start-time"] === undefined) {
+						argv["event-start-time"] = await promptForRequiredField(
+							"event-start-time",
+							"An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before \`event_end_time\`."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["event-end-time"] === undefined) {
-							argv["event-end-time"] = await promptForRequiredField(
-								"event-end-time",
-								"An ISO 8601 timestamp that marks the end of the event."
-							);
-						}
-						if (argv["event-start-time"] === undefined) {
-							argv["event-start-time"] = await promptForRequiredField(
-								"event-start-time",
-								"An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before \`event_end_time\`."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf waiting-rooms events create",
@@ -250,24 +253,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["event-end-time"] === undefined) {
-					argv["event-end-time"] = await promptForRequiredField(
-						"event-end-time",
-						"An ISO 8601 timestamp that marks the end of the event."
-					);
-				}
-				if (argv["event-start-time"] === undefined) {
-					argv["event-start-time"] = await promptForRequiredField(
-						"event-start-time",
-						"An ISO 8601 timestamp that marks the start of the event. At this time, queued users will be processed with the event's configuration. The start time must be at least one minute before \`event_end_time\`."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A unique name to identify the event. Only alphanumeric characters, hyphens and underscores are allowed."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -83,31 +83,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action-action"] === undefined) {
+						argv["action-action"] = await promptForRequiredEnumField(
+							"action-action",
+							"The action.action field",
+							["Block"] as const
+						);
+					}
+					if (argv["conditions"] === undefined) {
+						throw new Error(
+							"--conditions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["action-action"] === undefined) {
-							argv["action-action"] = await promptForRequiredEnumField(
-								"action-action",
-								"The action.action field",
-								["Block"] as const
-							);
-						}
-						if (argv["conditions"] === undefined) {
-							throw new Error(
-								"--conditions is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["enabled"] === undefined) {
-							throw new Error(
-								"--enabled is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"The name field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -165,26 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["action-action"] === undefined) {
-					argv["action-action"] = await promptForRequiredEnumField(
-						"action-action",
-						"The action.action field",
-						["Block"] as const
-					);
-				}
-				if (argv["conditions"] === undefined) {
-					throw new Error(
-						"--conditions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -179,14 +179,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["meeting-id"] === undefined) {
+						argv["meeting-id"] = await promptForRequiredField(
+							"meeting-id",
+							"ID of the meeting to record."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["meeting-id"] === undefined) {
-							argv["meeting-id"] = await promptForRequiredField(
-								"meeting-id",
-								"ID of the meeting to record."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -280,12 +283,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["meeting-id"] === undefined) {
-					argv["meeting-id"] = await promptForRequiredField(
-						"meeting-id",
-						"ID of the meeting to record."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

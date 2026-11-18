@@ -433,20 +433,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
+						);
+					}
+					if (argv["production-branch"] === undefined) {
+						argv["production-branch"] = await promptForRequiredField(
+							"production-branch",
+							"Production branch of the project. Used to identify production deployments."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
-							);
-						}
-						if (argv["production-branch"] === undefined) {
-							argv["production-branch"] = await promptForRequiredField(
-								"production-branch",
-								"Production branch of the project. Used to identify production deployments."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -850,18 +853,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
-					);
-				}
-				if (argv["production-branch"] === undefined) {
-					argv["production-branch"] = await promptForRequiredField(
-						"production-branch",
-						"Production branch of the project. Used to identify production deployments."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

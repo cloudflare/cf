@@ -76,21 +76,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["check-type"] === undefined) {
+						argv["check-type"] = await promptForRequiredEnumField(
+							"check-type",
+							"type of check to perform",
+							["icmp"] as const
+						);
+					}
+					if (argv["endpoint"] === undefined) {
+						argv["endpoint"] = await promptForRequiredField(
+							"endpoint",
+							"the IP address of the host to perform checks against"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["check-type"] === undefined) {
-							argv["check-type"] = await promptForRequiredEnumField(
-								"check-type",
-								"type of check to perform",
-								["icmp"] as const
-							);
-						}
-						if (argv["endpoint"] === undefined) {
-							argv["endpoint"] = await promptForRequiredField(
-								"endpoint",
-								"the IP address of the host to perform checks against"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -136,19 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["check-type"] === undefined) {
-					argv["check-type"] = await promptForRequiredEnumField(
-						"check-type",
-						"type of check to perform",
-						["icmp"] as const
-					);
-				}
-				if (argv["endpoint"] === undefined) {
-					argv["endpoint"] = await promptForRequiredField(
-						"endpoint",
-						"the IP address of the host to perform checks against"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

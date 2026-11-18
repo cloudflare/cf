@@ -115,33 +115,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["condition-conditions"] === undefined) {
+						throw new Error(
+							"--condition-conditions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["condition-operator"] === undefined) {
+						argv["condition-operator"] = await promptForRequiredEnumField(
+							"condition-operator",
+							"The condition.operator field",
+							["and", "or"] as const
+						);
+					}
+					if (argv["condition-type"] === undefined) {
+						argv["condition-type"] = await promptForRequiredEnumField(
+							"condition-type",
+							"The condition.type field",
+							["group"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["condition-conditions"] === undefined) {
-							throw new Error(
-								"--condition-conditions is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["condition-operator"] === undefined) {
-							argv["condition-operator"] = await promptForRequiredEnumField(
-								"condition-operator",
-								"The condition.operator field",
-								["and", "or"] as const
-							);
-						}
-						if (argv["condition-type"] === undefined) {
-							argv["condition-type"] = await promptForRequiredEnumField(
-								"condition-type",
-								"The condition.type field",
-								["group"] as const
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"The name field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -199,28 +202,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Validated` });
 					return;
 				}
-				if (argv["condition-conditions"] === undefined) {
-					throw new Error(
-						"--condition-conditions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["condition-operator"] === undefined) {
-					argv["condition-operator"] = await promptForRequiredEnumField(
-						"condition-operator",
-						"The condition.operator field",
-						["and", "or"] as const
-					);
-				}
-				if (argv["condition-type"] === undefined) {
-					argv["condition-type"] = await promptForRequiredEnumField(
-						"condition-type",
-						"The condition.type field",
-						["group"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

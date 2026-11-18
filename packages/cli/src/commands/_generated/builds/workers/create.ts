@@ -244,95 +244,98 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["git-repository-branch"] === undefined) {
+						argv["git-repository-branch"] = await promptForRequiredField(
+							"git-repository-branch",
+							"Git branch to watch for builds"
+						);
+					}
+					if (argv["git-repository-provider-account-id"] === undefined) {
+						argv["git-repository-provider-account-id"] =
+							await promptForRequiredField(
+								"git-repository-provider-account-id",
+								"Provider-specific identifier of the account or namespace that owns the repository."
+							);
+					}
+					if (argv["git-repository-provider-account-name"] === undefined) {
+						argv["git-repository-provider-account-name"] =
+							await promptForRequiredField(
+								"git-repository-provider-account-name",
+								"Human-readable name of the account or namespace that owns the repository."
+							);
+					}
+					if (argv["git-repository-provider-type"] === undefined) {
+						argv["git-repository-provider-type"] =
+							await promptForRequiredEnumField(
+								"git-repository-provider-type",
+								"The git_repository.provider_type field",
+								["github", "gitlab", "gitlab_internal", "origin"] as const
+							);
+					}
+					if (argv["git-repository-repo-id"] === undefined) {
+						argv["git-repository-repo-id"] = await promptForRequiredField(
+							"git-repository-repo-id",
+							"Provider-specific repository identifier."
+						);
+					}
+					if (argv["git-repository-repo-name"] === undefined) {
+						argv["git-repository-repo-name"] = await promptForRequiredField(
+							"git-repository-repo-name",
+							"Human-readable repository name."
+						);
+					}
+					if (argv["previews-base-config-build-command"] === undefined) {
+						argv["previews-base-config-build-command"] =
+							await promptForRequiredField(
+								"previews-base-config-build-command",
+								"Command to build the Worker."
+							);
+					}
+					if (argv["previews-base-config-build-token-uuid"] === undefined) {
+						argv["previews-base-config-build-token-uuid"] =
+							await promptForRequiredField(
+								"previews-base-config-build-token-uuid",
+								"UUID of the build token used when deploying the Worker."
+							);
+					}
+					if (argv["previews-base-config-deploy-command"] === undefined) {
+						argv["previews-base-config-deploy-command"] =
+							await promptForRequiredField(
+								"previews-base-config-deploy-command",
+								"Command to deploy the Worker."
+							);
+					}
+					if (argv["previews-enabled"] === undefined) {
+						throw new Error(
+							"--previews-enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["production-settings-build-command"] === undefined) {
+						argv["production-settings-build-command"] =
+							await promptForRequiredField(
+								"production-settings-build-command",
+								"Command to build the Worker."
+							);
+					}
+					if (argv["production-settings-build-token-uuid"] === undefined) {
+						argv["production-settings-build-token-uuid"] =
+							await promptForRequiredField(
+								"production-settings-build-token-uuid",
+								"UUID of the build token used when deploying the Worker."
+							);
+					}
+					if (argv["production-settings-deploy-command"] === undefined) {
+						argv["production-settings-deploy-command"] =
+							await promptForRequiredField(
+								"production-settings-deploy-command",
+								"Command to deploy the Worker."
+							);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["git-repository-branch"] === undefined) {
-							argv["git-repository-branch"] = await promptForRequiredField(
-								"git-repository-branch",
-								"Git branch to watch for builds"
-							);
-						}
-						if (argv["git-repository-provider-account-id"] === undefined) {
-							argv["git-repository-provider-account-id"] =
-								await promptForRequiredField(
-									"git-repository-provider-account-id",
-									"Provider-specific identifier of the account or namespace that owns the repository."
-								);
-						}
-						if (argv["git-repository-provider-account-name"] === undefined) {
-							argv["git-repository-provider-account-name"] =
-								await promptForRequiredField(
-									"git-repository-provider-account-name",
-									"Human-readable name of the account or namespace that owns the repository."
-								);
-						}
-						if (argv["git-repository-provider-type"] === undefined) {
-							argv["git-repository-provider-type"] =
-								await promptForRequiredEnumField(
-									"git-repository-provider-type",
-									"The git_repository.provider_type field",
-									["github", "gitlab", "gitlab_internal", "origin"] as const
-								);
-						}
-						if (argv["git-repository-repo-id"] === undefined) {
-							argv["git-repository-repo-id"] = await promptForRequiredField(
-								"git-repository-repo-id",
-								"Provider-specific repository identifier."
-							);
-						}
-						if (argv["git-repository-repo-name"] === undefined) {
-							argv["git-repository-repo-name"] = await promptForRequiredField(
-								"git-repository-repo-name",
-								"Human-readable repository name."
-							);
-						}
-						if (argv["previews-base-config-build-command"] === undefined) {
-							argv["previews-base-config-build-command"] =
-								await promptForRequiredField(
-									"previews-base-config-build-command",
-									"Command to build the Worker."
-								);
-						}
-						if (argv["previews-base-config-build-token-uuid"] === undefined) {
-							argv["previews-base-config-build-token-uuid"] =
-								await promptForRequiredField(
-									"previews-base-config-build-token-uuid",
-									"UUID of the build token used when deploying the Worker."
-								);
-						}
-						if (argv["previews-base-config-deploy-command"] === undefined) {
-							argv["previews-base-config-deploy-command"] =
-								await promptForRequiredField(
-									"previews-base-config-deploy-command",
-									"Command to deploy the Worker."
-								);
-						}
-						if (argv["previews-enabled"] === undefined) {
-							throw new Error(
-								"--previews-enabled is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["production-settings-build-command"] === undefined) {
-							argv["production-settings-build-command"] =
-								await promptForRequiredField(
-									"production-settings-build-command",
-									"Command to build the Worker."
-								);
-						}
-						if (argv["production-settings-build-token-uuid"] === undefined) {
-							argv["production-settings-build-token-uuid"] =
-								await promptForRequiredField(
-									"production-settings-build-token-uuid",
-									"UUID of the build token used when deploying the Worker."
-								);
-						}
-						if (argv["production-settings-deploy-command"] === undefined) {
-							argv["production-settings-deploy-command"] =
-								await promptForRequiredField(
-									"production-settings-deploy-command",
-									"Command to deploy the Worker."
-								);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -511,93 +514,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["git-repository-branch"] === undefined) {
-					argv["git-repository-branch"] = await promptForRequiredField(
-						"git-repository-branch",
-						"Git branch to watch for builds"
-					);
-				}
-				if (argv["git-repository-provider-account-id"] === undefined) {
-					argv["git-repository-provider-account-id"] =
-						await promptForRequiredField(
-							"git-repository-provider-account-id",
-							"Provider-specific identifier of the account or namespace that owns the repository."
-						);
-				}
-				if (argv["git-repository-provider-account-name"] === undefined) {
-					argv["git-repository-provider-account-name"] =
-						await promptForRequiredField(
-							"git-repository-provider-account-name",
-							"Human-readable name of the account or namespace that owns the repository."
-						);
-				}
-				if (argv["git-repository-provider-type"] === undefined) {
-					argv["git-repository-provider-type"] =
-						await promptForRequiredEnumField(
-							"git-repository-provider-type",
-							"The git_repository.provider_type field",
-							["github", "gitlab", "gitlab_internal", "origin"] as const
-						);
-				}
-				if (argv["git-repository-repo-id"] === undefined) {
-					argv["git-repository-repo-id"] = await promptForRequiredField(
-						"git-repository-repo-id",
-						"Provider-specific repository identifier."
-					);
-				}
-				if (argv["git-repository-repo-name"] === undefined) {
-					argv["git-repository-repo-name"] = await promptForRequiredField(
-						"git-repository-repo-name",
-						"Human-readable repository name."
-					);
-				}
-				if (argv["previews-base-config-build-command"] === undefined) {
-					argv["previews-base-config-build-command"] =
-						await promptForRequiredField(
-							"previews-base-config-build-command",
-							"Command to build the Worker."
-						);
-				}
-				if (argv["previews-base-config-build-token-uuid"] === undefined) {
-					argv["previews-base-config-build-token-uuid"] =
-						await promptForRequiredField(
-							"previews-base-config-build-token-uuid",
-							"UUID of the build token used when deploying the Worker."
-						);
-				}
-				if (argv["previews-base-config-deploy-command"] === undefined) {
-					argv["previews-base-config-deploy-command"] =
-						await promptForRequiredField(
-							"previews-base-config-deploy-command",
-							"Command to deploy the Worker."
-						);
-				}
-				if (argv["previews-enabled"] === undefined) {
-					throw new Error(
-						"--previews-enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["production-settings-build-command"] === undefined) {
-					argv["production-settings-build-command"] =
-						await promptForRequiredField(
-							"production-settings-build-command",
-							"Command to build the Worker."
-						);
-				}
-				if (argv["production-settings-build-token-uuid"] === undefined) {
-					argv["production-settings-build-token-uuid"] =
-						await promptForRequiredField(
-							"production-settings-build-token-uuid",
-							"UUID of the build token used when deploying the Worker."
-						);
-				}
-				if (argv["production-settings-deploy-command"] === undefined) {
-					argv["production-settings-deploy-command"] =
-						await promptForRequiredField(
-							"production-settings-deploy-command",
-							"Command to deploy the Worker."
-						);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

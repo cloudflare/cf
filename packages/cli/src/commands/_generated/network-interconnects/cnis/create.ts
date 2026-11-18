@@ -99,37 +99,40 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["account"] === undefined) {
+						argv["account"] = await promptForRequiredField(
+							"account",
+							"Customer account tag"
+						);
+					}
+					if (argv["interconnect"] === undefined) {
+						argv["interconnect"] = await promptForRequiredField(
+							"interconnect",
+							"The interconnect field"
+						);
+					}
+					if (argv["magic-conduit-name"] === undefined) {
+						argv["magic-conduit-name"] = await promptForRequiredField(
+							"magic-conduit-name",
+							"The magic.conduit_name field"
+						);
+					}
+					if (argv["magic-description"] === undefined) {
+						argv["magic-description"] = await promptForRequiredField(
+							"magic-description",
+							"The magic.description field"
+						);
+					}
+					if (argv["magic-mtu"] === undefined) {
+						throw new Error(
+							"--magic-mtu is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["account"] === undefined) {
-							argv["account"] = await promptForRequiredField(
-								"account",
-								"Customer account tag"
-							);
-						}
-						if (argv["interconnect"] === undefined) {
-							argv["interconnect"] = await promptForRequiredField(
-								"interconnect",
-								"The interconnect field"
-							);
-						}
-						if (argv["magic-conduit-name"] === undefined) {
-							argv["magic-conduit-name"] = await promptForRequiredField(
-								"magic-conduit-name",
-								"The magic.conduit_name field"
-							);
-						}
-						if (argv["magic-description"] === undefined) {
-							argv["magic-description"] = await promptForRequiredField(
-								"magic-description",
-								"The magic.description field"
-							);
-						}
-						if (argv["magic-mtu"] === undefined) {
-							throw new Error(
-								"--magic-mtu is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -192,35 +195,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["account"] === undefined) {
-					argv["account"] = await promptForRequiredField(
-						"account",
-						"Customer account tag"
-					);
-				}
-				if (argv["interconnect"] === undefined) {
-					argv["interconnect"] = await promptForRequiredField(
-						"interconnect",
-						"The interconnect field"
-					);
-				}
-				if (argv["magic-conduit-name"] === undefined) {
-					argv["magic-conduit-name"] = await promptForRequiredField(
-						"magic-conduit-name",
-						"The magic.conduit_name field"
-					);
-				}
-				if (argv["magic-description"] === undefined) {
-					argv["magic-description"] = await promptForRequiredField(
-						"magic-description",
-						"The magic.description field"
-					);
-				}
-				if (argv["magic-mtu"] === undefined) {
-					throw new Error(
-						"--magic-mtu is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

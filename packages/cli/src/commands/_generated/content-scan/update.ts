@@ -60,15 +60,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							"The status value for Content Scanning.",
+							["enabled", "disabled"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["value"] === undefined) {
-							argv["value"] = await promptForRequiredEnumField(
-								"value",
-								"The status value for Content Scanning.",
-								["enabled", "disabled"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf content-scan update",
@@ -112,13 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						"The status value for Content Scanning.",
-						["enabled", "disabled"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

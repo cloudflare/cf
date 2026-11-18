@@ -248,15 +248,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["destination-conf"] === undefined) {
+						argv["destination-conf"] = await promptForRequiredField(
+							"destination-conf",
+							"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
+							{ kind: "secret" }
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["destination-conf"] === undefined) {
-							argv["destination-conf"] = await promptForRequiredField(
-								"destination-conf",
-								"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
-								{ kind: "secret" }
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
@@ -405,13 +408,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["destination-conf"] === undefined) {
-					argv["destination-conf"] = await promptForRequiredField(
-						"destination-conf",
-						"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
-						{ kind: "secret" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

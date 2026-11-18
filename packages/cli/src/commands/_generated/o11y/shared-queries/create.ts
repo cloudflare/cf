@@ -246,24 +246,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["query-id"] === undefined) {
+						argv["query-id"] = await promptForRequiredField(
+							"query-id",
+							"Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
+						);
+					}
+					if (argv["timeframe-from"] === undefined) {
+						throw new Error(
+							"--timeframe-from is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["timeframe-to"] === undefined) {
+						throw new Error(
+							"--timeframe-to is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["query-id"] === undefined) {
-							argv["query-id"] = await promptForRequiredField(
-								"query-id",
-								"Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
-							);
-						}
-						if (argv["timeframe-from"] === undefined) {
-							throw new Error(
-								"--timeframe-from is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["timeframe-to"] === undefined) {
-							throw new Error(
-								"--timeframe-to is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -358,22 +361,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["query-id"] === undefined) {
-					argv["query-id"] = await promptForRequiredField(
-						"query-id",
-						"Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
-					);
-				}
-				if (argv["timeframe-from"] === undefined) {
-					throw new Error(
-						"--timeframe-from is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["timeframe-to"] === undefined) {
-					throw new Error(
-						"--timeframe-to is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

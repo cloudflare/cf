@@ -72,29 +72,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["is-recent"] === undefined) {
+						throw new Error(
+							"--is-recent is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["is-regex"] === undefined) {
+						throw new Error(
+							"--is-regex is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["is-similarity"] === undefined) {
+						throw new Error(
+							"--is-similarity is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["pattern"] === undefined) {
+						argv["pattern"] = await promptForRequiredField(
+							"pattern",
+							"The domain pattern to trust, e.g. \`example.com\`."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["is-recent"] === undefined) {
-							throw new Error(
-								"--is-recent is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["is-regex"] === undefined) {
-							throw new Error(
-								"--is-regex is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["is-similarity"] === undefined) {
-							throw new Error(
-								"--is-similarity is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["pattern"] === undefined) {
-							argv["pattern"] = await promptForRequiredField(
-								"pattern",
-								"The domain pattern to trust, e.g. \`example.com\`."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -138,27 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["is-recent"] === undefined) {
-					throw new Error(
-						"--is-recent is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["is-regex"] === undefined) {
-					throw new Error(
-						"--is-regex is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["is-similarity"] === undefined) {
-					throw new Error(
-						"--is-similarity is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["pattern"] === undefined) {
-					argv["pattern"] = await promptForRequiredField(
-						"pattern",
-						"The domain pattern to trust, e.g. \`example.com\`."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

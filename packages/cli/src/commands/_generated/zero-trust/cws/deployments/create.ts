@@ -107,31 +107,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["basic-auth-credential-ids"] === undefined) {
+						throw new Error(
+							"--basic-auth-credential-ids is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["default-mode"] === undefined) {
+						argv["default-mode"] = await promptForRequiredEnumField(
+							"default-mode",
+							"Default traffic mode: ALLOW or BLOCK",
+							["ALLOW", "BLOCK"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the deployment"
+						);
+					}
+					if (argv["policy-set-ids"] === undefined) {
+						throw new Error(
+							"--policy-set-ids is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["basic-auth-credential-ids"] === undefined) {
-							throw new Error(
-								"--basic-auth-credential-ids is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["default-mode"] === undefined) {
-							argv["default-mode"] = await promptForRequiredEnumField(
-								"default-mode",
-								"Default traffic mode: ALLOW or BLOCK",
-								["ALLOW", "BLOCK"] as const
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Name of the deployment"
-							);
-						}
-						if (argv["policy-set-ids"] === undefined) {
-							throw new Error(
-								"--policy-set-ids is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -187,29 +190,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["basic-auth-credential-ids"] === undefined) {
-					throw new Error(
-						"--basic-auth-credential-ids is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["default-mode"] === undefined) {
-					argv["default-mode"] = await promptForRequiredEnumField(
-						"default-mode",
-						"Default traffic mode: ALLOW or BLOCK",
-						["ALLOW", "BLOCK"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the deployment"
-					);
-				}
-				if (argv["policy-set-ids"] === undefined) {
-					throw new Error(
-						"--policy-set-ids is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

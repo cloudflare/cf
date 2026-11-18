@@ -54,15 +54,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							'Controls Binary AST behavior: - "off": Feature disabled. - "on": Binary AST enabled. - "latest": Binary AST enabled using the latest version. ',
+							["off", "on", "latest"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["value"] === undefined) {
-							argv["value"] = await promptForRequiredEnumField(
-								"value",
-								'Controls Binary AST behavior: - "off": Feature disabled. - "on": Binary AST enabled. - "latest": Binary AST enabled using the latest version. ',
-								["off", "on", "latest"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf zones binary-ast edit",
@@ -97,13 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						'Controls Binary AST behavior: - "off": Feature disabled. - "on": Binary AST enabled. - "latest": Binary AST enabled using the latest version. ',
-						["off", "on", "latest"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -76,26 +76,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["base-url"] === undefined) {
+						argv["base-url"] = await promptForRequiredField(
+							"base-url",
+							"The base_url field"
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name field"
+						);
+					}
+					if (argv["slug"] === undefined) {
+						argv["slug"] = await promptForRequiredField(
+							"slug",
+							"The slug field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["base-url"] === undefined) {
-							argv["base-url"] = await promptForRequiredField(
-								"base-url",
-								"The base_url field"
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"The name field"
-							);
-						}
-						if (argv["slug"] === undefined) {
-							argv["slug"] = await promptForRequiredField(
-								"slug",
-								"The slug field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -170,18 +173,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["base-url"] === undefined) {
-					argv["base-url"] = await promptForRequiredField(
-						"base-url",
-						"The base_url field"
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
-				if (argv["slug"] === undefined) {
-					argv["slug"] = await promptForRequiredField("slug", "The slug field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

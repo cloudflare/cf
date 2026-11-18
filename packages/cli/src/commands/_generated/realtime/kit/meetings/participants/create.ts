@@ -92,20 +92,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["custom-participant-id"] === undefined) {
+						argv["custom-participant-id"] = await promptForRequiredField(
+							"custom-participant-id",
+							"A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on. "
+						);
+					}
+					if (argv["preset-name"] === undefined) {
+						argv["preset-name"] = await promptForRequiredField(
+							"preset-name",
+							"Name of the preset to apply to this participant."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["custom-participant-id"] === undefined) {
-							argv["custom-participant-id"] = await promptForRequiredField(
-								"custom-participant-id",
-								"A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on. "
-							);
-						}
-						if (argv["preset-name"] === undefined) {
-							argv["preset-name"] = await promptForRequiredField(
-								"preset-name",
-								"Name of the preset to apply to this participant."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -176,18 +179,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["custom-participant-id"] === undefined) {
-					argv["custom-participant-id"] = await promptForRequiredField(
-						"custom-participant-id",
-						"A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on. "
-					);
-				}
-				if (argv["preset-name"] === undefined) {
-					argv["preset-name"] = await promptForRequiredField(
-						"preset-name",
-						"Name of the preset to apply to this participant."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

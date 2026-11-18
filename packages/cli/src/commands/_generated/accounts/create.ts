@@ -72,14 +72,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["idempotency-key"] !== undefined)
 					headers["Idempotency-Key"] = String(argv["idempotency-key"]);
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Account name, limited to 65 UTF-8 bytes."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Account name, limited to 65 UTF-8 bytes."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf accounts create",
@@ -124,12 +127,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Account name, limited to 65 UTF-8 bytes."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

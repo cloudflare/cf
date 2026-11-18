@@ -116,48 +116,51 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["application"] === undefined) {
+						argv["application"] = await promptForRequiredEnumField(
+							"application",
+							"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK * \`ZOOM\` - ZOOM",
+							[
+								"ANTHROPIC",
+								"AWS",
+								"BITBUCKET",
+								"BOX",
+								"CONFLUENCE",
+								"DROPBOX",
+								"GITHUB",
+								"GOOGLE_CLOUD_PLATFORM",
+								"GOOGLE_WORKSPACE",
+								"JIRA",
+								"MICROSOFT_INTERNAL",
+								"OPENAI",
+								"SALESFORCE",
+								"SERVICENOW",
+								"SLACK",
+								"ZOOM",
+							] as const
+						);
+					}
+					if (argv["credentials"] === undefined) {
+						throw new Error(
+							"--credentials is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the integration."
+						);
+					}
+					if (argv["use-cases"] === undefined) {
+						throw new Error(
+							"--use-cases is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined && argv.file === undefined) {
-						if (argv["application"] === undefined) {
-							argv["application"] = await promptForRequiredEnumField(
-								"application",
-								"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK * \`ZOOM\` - ZOOM",
-								[
-									"ANTHROPIC",
-									"AWS",
-									"BITBUCKET",
-									"BOX",
-									"CONFLUENCE",
-									"DROPBOX",
-									"GITHUB",
-									"GOOGLE_CLOUD_PLATFORM",
-									"GOOGLE_WORKSPACE",
-									"JIRA",
-									"MICROSOFT_INTERNAL",
-									"OPENAI",
-									"SALESFORCE",
-									"SERVICENOW",
-									"SLACK",
-									"ZOOM",
-								] as const
-							);
-						}
-						if (argv["credentials"] === undefined) {
-							throw new Error(
-								"--credentials is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Name of the integration."
-							);
-						}
-						if (argv["use-cases"] === undefined) {
-							throw new Error(
-								"--use-cases is required (or pass --body with this field set)."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -242,46 +245,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["application"] === undefined) {
-					argv["application"] = await promptForRequiredEnumField(
-						"application",
-						"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK * \`ZOOM\` - ZOOM",
-						[
-							"ANTHROPIC",
-							"AWS",
-							"BITBUCKET",
-							"BOX",
-							"CONFLUENCE",
-							"DROPBOX",
-							"GITHUB",
-							"GOOGLE_CLOUD_PLATFORM",
-							"GOOGLE_WORKSPACE",
-							"JIRA",
-							"MICROSOFT_INTERNAL",
-							"OPENAI",
-							"SALESFORCE",
-							"SERVICENOW",
-							"SLACK",
-							"ZOOM",
-						] as const
-					);
-				}
-				if (argv["credentials"] === undefined) {
-					throw new Error(
-						"--credentials is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the integration."
-					);
-				}
-				if (argv["use-cases"] === undefined) {
-					throw new Error(
-						"--use-cases is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

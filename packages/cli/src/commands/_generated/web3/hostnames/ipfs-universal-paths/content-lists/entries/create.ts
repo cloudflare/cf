@@ -70,21 +70,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["content"] === undefined) {
+						argv["content"] = await promptForRequiredField(
+							"content",
+							"Specify the CID or content path of content to block."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"Specify the type of content list entry to block.",
+							["cid", "content_path"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["content"] === undefined) {
-							argv["content"] = await promptForRequiredField(
-								"content",
-								"Specify the CID or content path of content to block."
-							);
-						}
-						if (argv["type"] === undefined) {
-							argv["type"] = await promptForRequiredEnumField(
-								"type",
-								"Specify the type of content list entry to block.",
-								["cid", "content_path"] as const
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command:
@@ -135,19 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["content"] === undefined) {
-					argv["content"] = await promptForRequiredField(
-						"content",
-						"Specify the CID or content path of content to block."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"Specify the type of content list entry to block.",
-						["cid", "content_path"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

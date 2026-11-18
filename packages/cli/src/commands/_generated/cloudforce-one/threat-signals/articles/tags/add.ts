@@ -62,14 +62,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["tag-id"] === undefined) {
+						argv["tag-id"] = await promptForRequiredField(
+							"tag-id",
+							"UUID of a tag from the account's catalog to apply to the article."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["tag-id"] === undefined) {
-							argv["tag-id"] = await promptForRequiredField(
-								"tag-id",
-								"UUID of a tag from the account's catalog to apply to the article."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -109,12 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["tag-id"] === undefined) {
-					argv["tag-id"] = await promptForRequiredField(
-						"tag-id",
-						"UUID of a tag from the account's catalog to apply to the article."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

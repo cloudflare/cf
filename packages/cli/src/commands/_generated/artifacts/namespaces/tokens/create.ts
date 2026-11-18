@@ -65,14 +65,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["repo"] === undefined) {
+						argv["repo"] = await promptForRequiredField(
+							"repo",
+							"The repo field"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["repo"] === undefined) {
-							argv["repo"] = await promptForRequiredField(
-								"repo",
-								"The repo field"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -114,9 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["repo"] === undefined) {
-					argv["repo"] = await promptForRequiredField("repo", "The repo field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

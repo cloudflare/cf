@@ -58,14 +58,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["payload"] === undefined) {
+						argv["payload"] = await promptForRequiredField(
+							"payload",
+							"Defines the custom content extraction expression used to reach content objects in the request."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["payload"] === undefined) {
-							argv["payload"] = await promptForRequiredField(
-								"payload",
-								"Defines the custom content extraction expression used to reach content objects in the request."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf content-scan expressions update",
@@ -109,12 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["payload"] === undefined) {
-					argv["payload"] = await promptForRequiredField(
-						"payload",
-						"Defines the custom content extraction expression used to reach content objects in the request."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

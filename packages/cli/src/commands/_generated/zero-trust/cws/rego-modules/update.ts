@@ -66,20 +66,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the Rego module (unique per account)"
+						);
+					}
+					if (argv["rego-source"] === undefined) {
+						argv["rego-source"] = await promptForRequiredField(
+							"rego-source",
+							'Library Rego source with a package beginning with "lib." Maximum 16384 UTF-8 bytes.'
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Name of the Rego module (unique per account)"
-							);
-						}
-						if (argv["rego-source"] === undefined) {
-							argv["rego-source"] = await promptForRequiredField(
-								"rego-source",
-								'Library Rego source with a package beginning with "lib." Maximum 16384 UTF-8 bytes.'
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -126,18 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the Rego module (unique per account)"
-					);
-				}
-				if (argv["rego-source"] === undefined) {
-					argv["rego-source"] = await promptForRequiredField(
-						"rego-source",
-						'Library Rego source with a package beginning with "lib." Maximum 16384 UTF-8 bytes.'
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

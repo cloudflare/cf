@@ -68,14 +68,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["connector-id"] === undefined) {
+						argv["connector-id"] = await promptForRequiredField(
+							"connector-id",
+							"UUID of the Cloudflare Tunnel connector."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["connector-id"] === undefined) {
-							argv["connector-id"] = await promptForRequiredField(
-								"connector-id",
-								"UUID of the Cloudflare Tunnel connector."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -125,12 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["connector-id"] === undefined) {
-					argv["connector-id"] = await promptForRequiredField(
-						"connector-id",
-						"UUID of the Cloudflare Tunnel connector."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

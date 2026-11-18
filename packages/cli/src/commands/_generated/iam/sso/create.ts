@@ -67,14 +67,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["email-domain"] === undefined) {
+						argv["email-domain"] = await promptForRequiredField(
+							"email-domain",
+							"Email domain of the new SSO connector"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["email-domain"] === undefined) {
-							argv["email-domain"] = await promptForRequiredField(
-								"email-domain",
-								"Email domain of the new SSO connector"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -112,12 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["email-domain"] === undefined) {
-					argv["email-domain"] = await promptForRequiredField(
-						"email-domain",
-						"Email domain of the new SSO connector"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -74,26 +74,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["default-action"] === undefined) {
+						argv["default-action"] = await promptForRequiredEnumField(
+							"default-action",
+							"Default action when no entry matches",
+							["ALLOW", "BLOCK"] as const
+						);
+					}
+					if (argv["entries"] === undefined) {
+						throw new Error(
+							"--entries is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the domain ACL"
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["default-action"] === undefined) {
-							argv["default-action"] = await promptForRequiredEnumField(
-								"default-action",
-								"Default action when no entry matches",
-								["ALLOW", "BLOCK"] as const
-							);
-						}
-						if (argv["entries"] === undefined) {
-							throw new Error(
-								"--entries is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Name of the domain ACL"
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -137,24 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["default-action"] === undefined) {
-					argv["default-action"] = await promptForRequiredEnumField(
-						"default-action",
-						"Default action when no entry matches",
-						["ALLOW", "BLOCK"] as const
-					);
-				}
-				if (argv["entries"] === undefined) {
-					throw new Error(
-						"--entries is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the domain ACL"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -569,39 +569,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to \`true\`.",
+							[
+								"on",
+								"off",
+								"allow",
+								"block",
+								"scan",
+								"noscan",
+								"safesearch",
+								"ytrestricted",
+								"isolate",
+								"noisolate",
+								"override",
+								"l4_override",
+								"egress",
+								"resolve",
+								"quarantine",
+								"redirect",
+								"forward",
+							] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Specify the rule name."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["action"] === undefined) {
-							argv["action"] = await promptForRequiredEnumField(
-								"action",
-								"Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to \`true\`.",
-								[
-									"on",
-									"off",
-									"allow",
-									"block",
-									"scan",
-									"noscan",
-									"safesearch",
-									"ytrestricted",
-									"isolate",
-									"noisolate",
-									"override",
-									"l4_override",
-									"egress",
-									"resolve",
-									"quarantine",
-									"redirect",
-									"forward",
-								] as const
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"Specify the rule name."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -923,37 +926,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to \`true\`.",
-						[
-							"on",
-							"off",
-							"allow",
-							"block",
-							"scan",
-							"noscan",
-							"safesearch",
-							"ytrestricted",
-							"isolate",
-							"noisolate",
-							"override",
-							"l4_override",
-							"egress",
-							"resolve",
-							"quarantine",
-							"redirect",
-							"forward",
-						] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Specify the rule name."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

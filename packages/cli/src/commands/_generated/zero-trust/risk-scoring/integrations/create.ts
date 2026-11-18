@@ -73,21 +73,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["integration-type"] === undefined) {
+						argv["integration-type"] = await promptForRequiredEnumField(
+							"integration-type",
+							"The integration_type field",
+							["Okta"] as const
+						);
+					}
+					if (argv["tenant-url"] === undefined) {
+						argv["tenant-url"] = await promptForRequiredField(
+							"tenant-url",
+							'The base url of the tenant, e.g. "https://tenant.okta.com".'
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["integration-type"] === undefined) {
-							argv["integration-type"] = await promptForRequiredEnumField(
-								"integration-type",
-								"The integration_type field",
-								["Okta"] as const
-							);
-						}
-						if (argv["tenant-url"] === undefined) {
-							argv["tenant-url"] = await promptForRequiredField(
-								"tenant-url",
-								'The base url of the tenant, e.g. "https://tenant.okta.com".'
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -129,19 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["integration-type"] === undefined) {
-					argv["integration-type"] = await promptForRequiredEnumField(
-						"integration-type",
-						"The integration_type field",
-						["Okta"] as const
-					);
-				}
-				if (argv["tenant-url"] === undefined) {
-					argv["tenant-url"] = await promptForRequiredField(
-						"tenant-url",
-						'The base url of the tenant, e.g. "https://tenant.okta.com".'
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

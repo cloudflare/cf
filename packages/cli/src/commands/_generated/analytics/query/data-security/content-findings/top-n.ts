@@ -69,30 +69,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["filters"] === undefined) {
+						throw new Error(
+							"--filters is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["from"] === undefined) {
+						argv["from"] = await promptForRequiredField(
+							"from",
+							"Start of the query time range (inclusive). RFC3339."
+						);
+					}
+					if (argv["limit"] === undefined) {
+						throw new Error(
+							"--limit is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["to"] === undefined) {
+						argv["to"] = await promptForRequiredField(
+							"to",
+							"End of the query time range (exclusive). RFC3339."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["filters"] === undefined) {
-							throw new Error(
-								"--filters is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["from"] === undefined) {
-							argv["from"] = await promptForRequiredField(
-								"from",
-								"Start of the query time range (inclusive). RFC3339."
-							);
-						}
-						if (argv["limit"] === undefined) {
-							throw new Error(
-								"--limit is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["to"] === undefined) {
-							argv["to"] = await promptForRequiredField(
-								"to",
-								"End of the query time range (exclusive). RFC3339."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -135,28 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["filters"] === undefined) {
-					throw new Error(
-						"--filters is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["from"] === undefined) {
-					argv["from"] = await promptForRequiredField(
-						"from",
-						"Start of the query time range (inclusive). RFC3339."
-					);
-				}
-				if (argv["limit"] === undefined) {
-					throw new Error(
-						"--limit is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["to"] === undefined) {
-					argv["to"] = await promptForRequiredField(
-						"to",
-						"End of the query time range (exclusive). RFC3339."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -77,20 +77,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["native-id"] === undefined) {
+						argv["native-id"] = await promptForRequiredField(
+							"native-id",
+							"Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
+						);
+					}
+					if (argv["node-kind"] === undefined) {
+						argv["node-kind"] = await promptForRequiredField(
+							"node-kind",
+							"Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["native-id"] === undefined) {
-							argv["native-id"] = await promptForRequiredField(
-								"native-id",
-								"Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
-							);
-						}
-						if (argv["node-kind"] === undefined) {
-							argv["node-kind"] = await promptForRequiredField(
-								"node-kind",
-								"Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -145,18 +148,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["native-id"] === undefined) {
-					argv["native-id"] = await promptForRequiredField(
-						"native-id",
-						"Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
-					);
-				}
-				if (argv["node-kind"] === undefined) {
-					argv["node-kind"] = await promptForRequiredField(
-						"node-kind",
-						"Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

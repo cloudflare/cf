@@ -85,38 +85,41 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"Action to take on requests that match operations included in \`selector\` and fail \`expression\`.",
+							["log", "block"] as const
+						);
+					}
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"A human-readable description that gives more details than \`title\`."
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["expression"] === undefined) {
+						argv["expression"] = await promptForRequiredField(
+							"expression",
+							"Rule expression. Requests that fail to match this expression will be subject to \`action\`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). "
+						);
+					}
+					if (argv["title"] === undefined) {
+						argv["title"] = await promptForRequiredField(
+							"title",
+							"A human-readable name for the rule."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["action"] === undefined) {
-							argv["action"] = await promptForRequiredEnumField(
-								"action",
-								"Action to take on requests that match operations included in \`selector\` and fail \`expression\`.",
-								["log", "block"] as const
-							);
-						}
-						if (argv["description"] === undefined) {
-							argv["description"] = await promptForRequiredField(
-								"description",
-								"A human-readable description that gives more details than \`title\`."
-							);
-						}
-						if (argv["enabled"] === undefined) {
-							throw new Error(
-								"--enabled is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["expression"] === undefined) {
-							argv["expression"] = await promptForRequiredField(
-								"expression",
-								"Rule expression. Requests that fail to match this expression will be subject to \`action\`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). "
-							);
-						}
-						if (argv["title"] === undefined) {
-							argv["title"] = await promptForRequiredField(
-								"title",
-								"A human-readable name for the rule."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					formatDryRun({
 						command: "cf api-security token-validation rules create",
@@ -177,36 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"Action to take on requests that match operations included in \`selector\` and fail \`expression\`.",
-						["log", "block"] as const
-					);
-				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"A human-readable description that gives more details than \`title\`."
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["expression"] === undefined) {
-					argv["expression"] = await promptForRequiredField(
-						"expression",
-						"Rule expression. Requests that fail to match this expression will be subject to \`action\`.  For details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). "
-					);
-				}
-				if (argv["title"] === undefined) {
-					argv["title"] = await promptForRequiredField(
-						"title",
-						"A human-readable name for the rule."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

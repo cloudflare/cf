@@ -81,39 +81,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["provider-account-id"] === undefined) {
+						argv["provider-account-id"] = await promptForRequiredField(
+							"provider-account-id",
+							"Provider-specific identifier of the account or namespace that owns the repository."
+						);
+					}
+					if (argv["provider-account-name"] === undefined) {
+						argv["provider-account-name"] = await promptForRequiredField(
+							"provider-account-name",
+							"Human-readable name of the account or namespace that owns the repository."
+						);
+					}
+					if (argv["provider-type"] === undefined) {
+						argv["provider-type"] = await promptForRequiredEnumField(
+							"provider-type",
+							"Source control provider.",
+							["github", "gitlab", "gitlab_internal", "origin"] as const
+						);
+					}
+					if (argv["repo-id"] === undefined) {
+						argv["repo-id"] = await promptForRequiredField(
+							"repo-id",
+							"Provider-specific repository identifier."
+						);
+					}
+					if (argv["repo-name"] === undefined) {
+						argv["repo-name"] = await promptForRequiredField(
+							"repo-name",
+							"Human-readable repository name."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["provider-account-id"] === undefined) {
-							argv["provider-account-id"] = await promptForRequiredField(
-								"provider-account-id",
-								"Provider-specific identifier of the account or namespace that owns the repository."
-							);
-						}
-						if (argv["provider-account-name"] === undefined) {
-							argv["provider-account-name"] = await promptForRequiredField(
-								"provider-account-name",
-								"Human-readable name of the account or namespace that owns the repository."
-							);
-						}
-						if (argv["provider-type"] === undefined) {
-							argv["provider-type"] = await promptForRequiredEnumField(
-								"provider-type",
-								"Source control provider.",
-								["github", "gitlab", "gitlab_internal", "origin"] as const
-							);
-						}
-						if (argv["repo-id"] === undefined) {
-							argv["repo-id"] = await promptForRequiredField(
-								"repo-id",
-								"Provider-specific repository identifier."
-							);
-						}
-						if (argv["repo-name"] === undefined) {
-							argv["repo-name"] = await promptForRequiredField(
-								"repo-name",
-								"Human-readable repository name."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -165,37 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["provider-account-id"] === undefined) {
-					argv["provider-account-id"] = await promptForRequiredField(
-						"provider-account-id",
-						"Provider-specific identifier of the account or namespace that owns the repository."
-					);
-				}
-				if (argv["provider-account-name"] === undefined) {
-					argv["provider-account-name"] = await promptForRequiredField(
-						"provider-account-name",
-						"Human-readable name of the account or namespace that owns the repository."
-					);
-				}
-				if (argv["provider-type"] === undefined) {
-					argv["provider-type"] = await promptForRequiredEnumField(
-						"provider-type",
-						"Source control provider.",
-						["github", "gitlab", "gitlab_internal", "origin"] as const
-					);
-				}
-				if (argv["repo-id"] === undefined) {
-					argv["repo-id"] = await promptForRequiredField(
-						"repo-id",
-						"Provider-specific repository identifier."
-					);
-				}
-				if (argv["repo-name"] === undefined) {
-					argv["repo-name"] = await promptForRequiredField(
-						"repo-name",
-						"Human-readable repository name."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

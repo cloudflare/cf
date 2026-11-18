@@ -80,31 +80,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["match"] === undefined) {
+						argv["match"] = await promptForRequiredField(
+							"match",
+							'The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".'
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A user-friendly name for the Device IP profile."
+						);
+					}
+					if (argv["precedence"] === undefined) {
+						throw new Error(
+							"--precedence is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["subnet-id"] === undefined) {
+						argv["subnet-id"] = await promptForRequiredField(
+							"subnet-id",
+							"The ID of the Subnet."
+						);
+					}
+				};
 				if (argv.dryRun) {
 					if (argv.body === undefined) {
-						if (argv["match"] === undefined) {
-							argv["match"] = await promptForRequiredField(
-								"match",
-								'The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".'
-							);
-						}
-						if (argv["name"] === undefined) {
-							argv["name"] = await promptForRequiredField(
-								"name",
-								"A user-friendly name for the Device IP profile."
-							);
-						}
-						if (argv["precedence"] === undefined) {
-							throw new Error(
-								"--precedence is required (or pass --body with this field set)."
-							);
-						}
-						if (argv["subnet-id"] === undefined) {
-							argv["subnet-id"] = await promptForRequiredField(
-								"subnet-id",
-								"The ID of the Subnet."
-							);
-						}
+						await resolveRequiredFields();
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -157,29 +160,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["match"] === undefined) {
-					argv["match"] = await promptForRequiredField(
-						"match",
-						'The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".'
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A user-friendly name for the Device IP profile."
-					);
-				}
-				if (argv["precedence"] === undefined) {
-					throw new Error(
-						"--precedence is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["subnet-id"] === undefined) {
-					argv["subnet-id"] = await promptForRequiredField(
-						"subnet-id",
-						"The ID of the Subnet."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

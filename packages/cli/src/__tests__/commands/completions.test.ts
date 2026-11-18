@@ -67,3 +67,53 @@ describe("metadata-backed completions", () => {
 		);
 	});
 });
+
+const DNS_RECORDS_LIST_META = {
+	command: "cf dns records list",
+	name: "list",
+	fullPath: ["dns", "records", "list"],
+	description: "List DNS records",
+	usage: "cf dns records list [options]",
+	arguments: [],
+	options: [
+		{
+			name: "name",
+			type: "string",
+			required: false,
+			description: "Filter by record name",
+		},
+	],
+} satisfies CommandMeta;
+
+describe("global flag completions (#691)", () => {
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
+	it("suggests --zone at the root", () => {
+		const root = new RootCommand();
+		registerCompletions(root, [DNS_RECORDS_LIST_META]);
+
+		expect(parseCompletions(root, ["--zo"])).toEqual(
+			expect.arrayContaining(["--zone\tZone ID or domain name"])
+		);
+	});
+
+	it("still suggests leaf options after a subcommand", () => {
+		const root = new RootCommand();
+		registerCompletions(root, [DNS_RECORDS_LIST_META]);
+
+		expect(
+			parseCompletions(root, ["dns", "records", "list", "--na"])
+		).toEqual(expect.arrayContaining(["--name\tFilter by record name"]));
+	});
+
+	it("suggests the global --zone flag after a subcommand", () => {
+		const root = new RootCommand();
+		registerCompletions(root, [DNS_RECORDS_LIST_META]);
+
+		expect(
+			parseCompletions(root, ["dns", "records", "list", "--zo"])
+		).toEqual(expect.arrayContaining(["--zone\tZone ID or domain name"]));
+	});
+});

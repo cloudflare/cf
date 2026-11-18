@@ -1,10 +1,16 @@
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
+import { getComplianceRegion } from "../../lib/context.js";
 import { getDefaultHeaders } from "../../lib/request-headers.js";
 import { VERSION } from "../../version.js";
 import type { Submission } from "./payload.js";
 
-/** The demo feedback Worker. CF_FEEDBACK_URL overrides it, for example to point at `cf dev`. */
-export const DEFAULT_FEEDBACK_URL =
-	"https://cf-cli-feedback-staging.tk.workers.dev/v1/feedback";
+/**
+ * The feedback route under the Cloudflare API base URL. It is anonymous, so
+ * the request is sent here rather than through the API client, which always
+ * adds the user's token: logged-out users can send feedback, and no
+ * submission is tied to an account.
+ */
+const FEEDBACK_PATH = "/feedback/send";
 
 /** The Worker refuses larger bodies with 413. */
 export const MAX_BODY_BYTES = 262_144;
@@ -40,13 +46,21 @@ function isReceipt(value: unknown): value is FeedbackReceipt {
 	);
 }
 
-/** CF_FEEDBACK_URL must be https, or http on a loopback host for local testing. */
-export function feedbackUrl(
+/**
+ * The API route, following the compliance region and CLOUDFLARE_API_BASE_URL
+ * like every other API call. CF_FEEDBACK_URL replaces the whole URL, for
+ * example to post straight to a local feedback Worker; it must be https, or
+ * http on a loopback host.
+ */
+export async function feedbackUrl(
 	environment: NodeJS.ProcessEnv = process.env
-): string {
+): Promise<string> {
 	const configured = environment.CF_FEEDBACK_URL?.trim();
 	if (!configured) {
-		return DEFAULT_FEEDBACK_URL;
+		const base = getCloudflareApiBaseUrl({
+			compliance_region: await getComplianceRegion(),
+		});
+		return `${base.replace(/\/+$/, "")}${FEEDBACK_PATH}`;
 	}
 	let url: URL;
 	try {

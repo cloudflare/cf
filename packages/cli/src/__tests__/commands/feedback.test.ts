@@ -12,7 +12,7 @@ import {
 } from "vite-plus/test";
 import { buildCli } from "../../index.js";
 import { captureOutput } from "../helpers/capture-output.js";
-import { server, setupMsw } from "../helpers/msw.js";
+import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 
 const agent = vi.hoisted(() => ({
@@ -30,8 +30,7 @@ vi.mock("../../lib/agent-context.js", () => ({
 	}),
 }));
 
-const FEEDBACK_URL =
-	"https://cf-cli-feedback-staging.tk.workers.dev/v1/feedback";
+const FEEDBACK_URL = "https://api.cloudflare.com/client/v4/feedback/send";
 
 type Sent = { body: Record<string, unknown>; headers: Headers };
 
@@ -87,6 +86,9 @@ describe("cf feedback", () => {
 		vi.stubEnv("CI", "true");
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
 		vi.stubEnv("CF_FEEDBACK_URL", undefined);
+		vi.stubEnv("CLOUDFLARE_API_BASE_URL", undefined);
+		vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", undefined);
+		vi.stubEnv("WRANGLER_API_ENVIRONMENT", undefined);
 		vi.stubEnv("CF_SEND_TELEMETRY", "true");
 		vi.stubEnv("DO_NOT_TRACK", undefined);
 	});
@@ -247,6 +249,28 @@ describe("cf feedback", () => {
 			dryRun: true,
 			url: FEEDBACK_URL,
 			payload: { schema_version: 1, message: "hi" },
+		});
+	});
+
+	it("follows CLOUDFLARE_API_BASE_URL like other API calls", async () => {
+		const routed = `${TEST_BASE_URL}/feedback/send`;
+		let hit = false;
+		server.use(
+			http.post(routed, () => {
+				hit = true;
+				return accepted()();
+			})
+		);
+		await runCf(["feedback", "hi"], { CLOUDFLARE_API_BASE_URL: TEST_BASE_URL });
+		expect(hit).toBe(true);
+	});
+
+	it("sends to the FedRAMP API in the FedRAMP compliance region", async () => {
+		await runCf(["feedback", "hi", "--dry-run"], {
+			CLOUDFLARE_COMPLIANCE_REGION: "fedramp_high",
+		});
+		expect(JSON.parse(output.stdout())).toMatchObject({
+			url: "https://api.fed.cloudflare.com/client/v4/feedback/send",
 		});
 	});
 

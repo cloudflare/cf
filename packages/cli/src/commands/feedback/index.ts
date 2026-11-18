@@ -143,7 +143,7 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 			log.warn(`--field replaced ${path} from --input-json.`);
 		}
 
-		const url = feedbackUrl();
+		const url = await feedbackUrl();
 		if (argv["dry-run"]) {
 			formatOutput({ dryRun: true, url, payload: submission });
 			return;

@@ -22,8 +22,6 @@ This affects 42 commands across `accounts billing`, `accounts subscriptions`,
 `cloudforce-one`, `csam-scanner`, `dls regional-services`, `field-extractors`,
 `managed-defense` and `user memberships`.
 
-`--notification-email` remains available on `cf load-balancers pools bulk-edit`
-and `cf user load-balancers pools bulk-edit`.
 
 Commands also gain body flags they previously could only receive through
 `--body`, for example `--allow-resource-types` and `--reject-resource-types` on

@@ -174,7 +174,40 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["interval"] === undefined) {
+						argv["interval"] = await promptForRequiredField(
+							"interval",
+							"The interval between each posture check with the third-party API. Use \`m\` for minutes (e.g. \`5m\`) and \`h\` for hours (e.g. \`12h\`)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the device posture integration."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type of device posture integration.",
+							[
+								"workspace_one",
+								"crowdstrike_s2s",
+								"uptycs",
+								"intune",
+								"kolide",
+								"tanium_s2s",
+								"sentinelone_s2s",
+								"custom_s2s",
+							] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust devices posture integrations create",
@@ -278,34 +311,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["interval"] === undefined) {
-					argv["interval"] = await promptForRequiredField(
-						"interval",
-						"The interval between each posture check with the third-party API. Use \`m\` for minutes (e.g. \`5m\`) and \`h\` for hours (e.g. \`12h\`)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the device posture integration."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type of device posture integration.",
-						[
-							"workspace_one",
-							"crowdstrike_s2s",
-							"uptycs",
-							"intune",
-							"kolide",
-							"tanium_s2s",
-							"sentinelone_s2s",
-							"custom_s2s",
-						] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

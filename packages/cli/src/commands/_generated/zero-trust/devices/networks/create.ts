@@ -76,7 +76,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["network-config-tls-sockaddr"] === undefined) {
+						argv["network-config-tls-sockaddr"] = await promptForRequiredField(
+							"network-config-tls-sockaddr",
+							'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.'
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the device managed network. This name must be unique."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type of device managed network.",
+							["tls"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust devices networks create",
@@ -126,25 +150,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["network-config-tls-sockaddr"] === undefined) {
-					argv["network-config-tls-sockaddr"] = await promptForRequiredField(
-						"network-config-tls-sockaddr",
-						'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.'
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the device managed network. This name must be unique."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type of device managed network.",
-						["tls"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

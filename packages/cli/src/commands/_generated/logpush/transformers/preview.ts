@@ -62,7 +62,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["input"] === undefined) {
+						throw new Error(
+							"--input is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["sql"] === undefined) {
+						argv["sql"] = await promptForRequiredField(
+							"sql",
+							"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf logpush transformers preview",
@@ -103,17 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
 				}
-				if (argv["input"] === undefined) {
-					throw new Error(
-						"--input is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["sql"] === undefined) {
-					argv["sql"] = await promptForRequiredField(
-						"sql",
-						"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

@@ -76,7 +76,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["include"] === undefined) {
+						throw new Error(
+							"--include is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the Access group."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -140,17 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["include"] === undefined) {
-					throw new Error(
-						"--include is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the Access group."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

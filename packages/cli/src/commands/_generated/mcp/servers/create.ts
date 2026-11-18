@@ -117,7 +117,37 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["auth-type"] === undefined) {
+						argv["auth-type"] = await promptForRequiredEnumField(
+							"auth-type",
+							"Authentication method used to connect to the upstream MCP server.",
+							["oauth", "bearer", "unauthenticated"] as const
+						);
+					}
+					if (argv["hostname"] === undefined) {
+						argv["hostname"] = await promptForRequiredField(
+							"hostname",
+							"URL of the upstream MCP endpoint."
+						);
+					}
+					if (argv["id"] === undefined) {
+						argv["id"] = await promptForRequiredField(
+							"id",
+							"Unique identifier for the MCP server."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Display name for the MCP server."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf mcp servers create",
@@ -190,31 +220,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["auth-type"] === undefined) {
-					argv["auth-type"] = await promptForRequiredEnumField(
-						"auth-type",
-						"Authentication method used to connect to the upstream MCP server.",
-						["oauth", "bearer", "unauthenticated"] as const
-					);
-				}
-				if (argv["hostname"] === undefined) {
-					argv["hostname"] = await promptForRequiredField(
-						"hostname",
-						"URL of the upstream MCP endpoint."
-					);
-				}
-				if (argv["id"] === undefined) {
-					argv["id"] = await promptForRequiredField(
-						"id",
-						"Unique identifier for the MCP server."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Display name for the MCP server."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

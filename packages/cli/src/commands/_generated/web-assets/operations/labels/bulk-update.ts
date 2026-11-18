@@ -57,7 +57,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["managed-labels"] === undefined) {
+						throw new Error(
+							"--managed-labels is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["user-labels"] === undefined) {
+						throw new Error(
+							"--user-labels is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf web-assets operations labels bulk-update",
 						method: "PUT",
@@ -96,16 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["managed-labels"] === undefined) {
-					throw new Error(
-						"--managed-labels is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["user-labels"] === undefined) {
-					throw new Error(
-						"--user-labels is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

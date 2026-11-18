@@ -90,7 +90,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["applies-to-all-integrations"] === undefined) {
+						throw new Error(
+							"--applies-to-all-integrations is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["display-name"] === undefined) {
+						argv["display-name"] = await promptForRequiredField(
+							"display-name",
+							"Display name for the policy configuration."
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["finding-type-id"] === undefined) {
+						argv["finding-type-id"] = await promptForRequiredField(
+							"finding-type-id",
+							"The finding type this policy is associated with. All remediation actions must match this finding type."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust casb policies create",
@@ -149,28 +176,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["applies-to-all-integrations"] === undefined) {
-					throw new Error(
-						"--applies-to-all-integrations is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["display-name"] === undefined) {
-					argv["display-name"] = await promptForRequiredField(
-						"display-name",
-						"Display name for the policy configuration."
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["finding-type-id"] === undefined) {
-					argv["finding-type-id"] = await promptForRequiredField(
-						"finding-type-id",
-						"The finding type this policy is associated with. All remediation actions must match this finding type."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

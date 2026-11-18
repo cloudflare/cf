@@ -62,7 +62,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["hostname"] === undefined) {
+						argv["hostname"] = await promptForRequiredField(
+							"hostname",
+							"DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g \`*.example.com\`"
+						);
+					}
+					if (argv["region-key"] === undefined) {
+						argv["region-key"] = await promptForRequiredField(
+							"region-key",
+							"Identifying key for the region"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf addressing regional-hostnames create",
 						method: "POST",
@@ -110,18 +127,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["hostname"] === undefined) {
-					argv["hostname"] = await promptForRequiredField(
-						"hostname",
-						"DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g \`*.example.com\`"
-					);
-				}
-				if (argv["region-key"] === undefined) {
-					argv["region-key"] = await promptForRequiredField(
-						"region-key",
-						"Identifying key for the region"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

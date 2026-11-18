@@ -74,7 +74,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["api-token-id"] === undefined) {
+						argv["api-token-id"] = await promptForRequiredField(
+							"api-token-id",
+							"Cloudflare API token ID."
+						);
+					}
+					if (argv["api-token"] === undefined) {
+						argv["api-token"] = await promptForRequiredField(
+							"api-token",
+							"Cloudflare API token value.",
+							{ kind: "secret" }
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai-search tokens create",
@@ -123,19 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["api-token-id"] === undefined) {
-					argv["api-token-id"] = await promptForRequiredField(
-						"api-token-id",
-						"Cloudflare API token ID."
-					);
-				}
-				if (argv["api-token"] === undefined) {
-					argv["api-token"] = await promptForRequiredField(
-						"api-token",
-						"Cloudflare API token value.",
-						{ kind: "secret" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

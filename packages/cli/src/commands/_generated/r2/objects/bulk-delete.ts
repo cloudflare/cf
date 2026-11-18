@@ -90,6 +90,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					headers["cf-r2-data-catalog-check"] = String(
 						argv["cf-r2-data-catalog-check"]
 					);
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -105,11 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: undefined,
 					});
 					return;
-				}
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 				const parsedBody =
 					argv.body !== undefined ? parseBody(argv.body, [], 1000) : undefined;

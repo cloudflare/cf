@@ -53,7 +53,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							"Controls enablement of Automatic SSL/TLS.",
+							["auto", "custom"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf ssl automatic-upgrader patch",
 						method: "PATCH",
@@ -87,13 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						"Controls enablement of Automatic SSL/TLS.",
-						["auto", "custom"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

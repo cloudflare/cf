@@ -81,6 +81,12 @@ describe("generated dry-run redaction", () => {
 		{
 			input: "flags",
 			args: [
+				"--name",
+				"example",
+				"--origin-database",
+				"example",
+				"--origin-scheme",
+				"postgres",
 				"--origin-password",
 				"hyperdrive-secret",
 				"--origin-user",

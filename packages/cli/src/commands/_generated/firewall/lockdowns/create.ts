@@ -69,7 +69,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["configurations"] === undefined) {
+						throw new Error(
+							"--configurations is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["urls"] === undefined) {
+						throw new Error(
+							"--urls is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf firewall lockdowns create",
 						method: "POST",
@@ -114,16 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["configurations"] === undefined) {
-					throw new Error(
-						"--configurations is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["urls"] === undefined) {
-					throw new Error(
-						"--urls is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

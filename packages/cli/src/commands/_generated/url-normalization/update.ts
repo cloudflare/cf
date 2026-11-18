@@ -59,7 +59,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["scope"] === undefined) {
+						argv["scope"] = await promptForRequiredEnumField(
+							"scope",
+							"The scope of the URL normalization.",
+							["incoming", "both", "none"] as const
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type of URL normalization performed by Cloudflare.",
+							["cloudflare", "rfc3986"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf url-normalization update",
 						method: "PUT",
@@ -94,20 +113,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["scope"] === undefined) {
-					argv["scope"] = await promptForRequiredEnumField(
-						"scope",
-						"The scope of the URL normalization.",
-						["incoming", "both", "none"] as const
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type of URL normalization performed by Cloudflare.",
-						["cloudflare", "rfc3986"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

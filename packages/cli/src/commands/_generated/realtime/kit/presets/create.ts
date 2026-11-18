@@ -440,7 +440,350 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["preset-config-max-screenshare-count"] === undefined) {
+						throw new Error(
+							"--preset-config-max-screenshare-count is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["preset-config-max-video-streams-desktop"] === undefined) {
+						throw new Error(
+							"--preset-config-max-video-streams-desktop is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["preset-config-max-video-streams-mobile"] === undefined) {
+						throw new Error(
+							"--preset-config-max-video-streams-mobile is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv["preset-config-media-screenshare-frame-rate"] === undefined
+					) {
+						throw new Error(
+							"--preset-config-media-screenshare-frame-rate is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["preset-config-media-screenshare-quality"] === undefined) {
+						argv["preset-config-media-screenshare-quality"] =
+							await promptForRequiredEnumField(
+								"preset-config-media-screenshare-quality",
+								"Quality of screen share ",
+								["hd", "vga", "qvga", "fhd", "uhd"] as const
+							);
+					}
+					if (argv["preset-config-media-video-frame-rate"] === undefined) {
+						throw new Error(
+							"--preset-config-media-video-frame-rate is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["preset-config-media-video-quality"] === undefined) {
+						argv["preset-config-media-video-quality"] =
+							await promptForRequiredEnumField(
+								"preset-config-media-video-quality",
+								"Video quality of participants",
+								["hd", "vga", "qvga", "fhd", "uhd"] as const
+							);
+					}
+					if (argv["preset-config-view-type"] === undefined) {
+						argv["preset-config-view-type"] = await promptForRequiredEnumField(
+							"preset-config-view-type",
+							"Type of the meeting",
+							["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the preset"
+						);
+					}
+					if (argv["permissions-accept-waiting-requests"] === undefined) {
+						throw new Error(
+							"--permissions-accept-waiting-requests is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv["permissions-can-accept-production-requests"] === undefined
+					) {
+						throw new Error(
+							"--permissions-can-accept-production-requests is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv["permissions-can-change-participant-permissions"] === undefined
+					) {
+						throw new Error(
+							"--permissions-can-change-participant-permissions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-can-edit-display-name"] === undefined) {
+						throw new Error(
+							"--permissions-can-edit-display-name is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-can-livestream"] === undefined) {
+						throw new Error(
+							"--permissions-can-livestream is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-can-record"] === undefined) {
+						throw new Error(
+							"--permissions-can-record is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-can-spotlight"] === undefined) {
+						throw new Error(
+							"--permissions-can-spotlight is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-private-can-receive"] === undefined) {
+						throw new Error(
+							"--permissions-chat-private-can-receive is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-private-can-send"] === undefined) {
+						throw new Error(
+							"--permissions-chat-private-can-send is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-private-files"] === undefined) {
+						throw new Error(
+							"--permissions-chat-private-files is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-private-text"] === undefined) {
+						throw new Error(
+							"--permissions-chat-private-text is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-public-can-send"] === undefined) {
+						throw new Error(
+							"--permissions-chat-public-can-send is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-public-files"] === undefined) {
+						throw new Error(
+							"--permissions-chat-public-files is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-chat-public-text"] === undefined) {
+						throw new Error(
+							"--permissions-chat-public-text is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv[
+							"permissions-connected-meetings-can-alter-connected-meetings"
+						] === undefined
+					) {
+						throw new Error(
+							"--permissions-connected-meetings-can-alter-connected-meetings is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv[
+							"permissions-connected-meetings-can-switch-connected-meetings"
+						] === undefined
+					) {
+						throw new Error(
+							"--permissions-connected-meetings-can-switch-connected-meetings is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv[
+							"permissions-connected-meetings-can-switch-to-parent-meeting"
+						] === undefined
+					) {
+						throw new Error(
+							"--permissions-connected-meetings-can-switch-to-parent-meeting is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-disable-participant-audio"] === undefined) {
+						throw new Error(
+							"--permissions-disable-participant-audio is required (or pass --body with this field set)."
+						);
+					}
+					if (
+						argv["permissions-disable-participant-screensharing"] === undefined
+					) {
+						throw new Error(
+							"--permissions-disable-participant-screensharing is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-disable-participant-video"] === undefined) {
+						throw new Error(
+							"--permissions-disable-participant-video is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-hidden-participant"] === undefined) {
+						throw new Error(
+							"--permissions-hidden-participant is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-kick-participant"] === undefined) {
+						throw new Error(
+							"--permissions-kick-participant is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-media-audio-can-produce"] === undefined) {
+						argv["permissions-media-audio-can-produce"] =
+							await promptForRequiredEnumField(
+								"permissions-media-audio-can-produce",
+								"Can produce audio",
+								["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"] as const
+							);
+					}
+					if (argv["permissions-media-screenshare-can-produce"] === undefined) {
+						argv["permissions-media-screenshare-can-produce"] =
+							await promptForRequiredEnumField(
+								"permissions-media-screenshare-can-produce",
+								"Can produce screen share video",
+								["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"] as const
+							);
+					}
+					if (argv["permissions-media-video-can-produce"] === undefined) {
+						argv["permissions-media-video-can-produce"] =
+							await promptForRequiredEnumField(
+								"permissions-media-video-can-produce",
+								"Can produce video",
+								["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"] as const
+							);
+					}
+					if (argv["permissions-pin-participant"] === undefined) {
+						throw new Error(
+							"--permissions-pin-participant is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-plugins-can-close"] === undefined) {
+						throw new Error(
+							"--permissions-plugins-can-close is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-plugins-can-edit-config"] === undefined) {
+						throw new Error(
+							"--permissions-plugins-can-edit-config is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-plugins-can-start"] === undefined) {
+						throw new Error(
+							"--permissions-plugins-can-start is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-plugins-config"] === undefined) {
+						throw new Error(
+							"--permissions-plugins-config is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-polls-can-create"] === undefined) {
+						throw new Error(
+							"--permissions-polls-can-create is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-polls-can-view"] === undefined) {
+						throw new Error(
+							"--permissions-polls-can-view is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-polls-can-vote"] === undefined) {
+						throw new Error(
+							"--permissions-polls-can-vote is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-recorder-type"] === undefined) {
+						argv["permissions-recorder-type"] =
+							await promptForRequiredEnumField(
+								"permissions-recorder-type",
+								"Type of the recording peer",
+								["RECORDER", "LIVESTREAMER", "NONE"] as const
+							);
+					}
+					if (argv["permissions-show-participant-list"] === undefined) {
+						throw new Error(
+							"--permissions-show-participant-list is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["permissions-waiting-room-type"] === undefined) {
+						argv["permissions-waiting-room-type"] =
+							await promptForRequiredEnumField(
+								"permissions-waiting-room-type",
+								"Waiting room type",
+								["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"] as const
+							);
+					}
+					if (argv["ui-design-tokens-border-radius"] === undefined) {
+						argv["ui-design-tokens-border-radius"] =
+							await promptForRequiredEnumField(
+								"ui-design-tokens-border-radius",
+								"The ui.design_tokens.border_radius field",
+								["sharp", "rounded", "extra-rounded", "circular"] as const
+							);
+					}
+					if (argv["ui-design-tokens-border-width"] === undefined) {
+						argv["ui-design-tokens-border-width"] =
+							await promptForRequiredEnumField(
+								"ui-design-tokens-border-width",
+								"The ui.design_tokens.border_width field",
+								["none", "thin", "fat"] as const
+							);
+					}
+					if (argv["ui-design-tokens-colors-danger"] === undefined) {
+						argv["ui-design-tokens-colors-danger"] =
+							await promptForRequiredField(
+								"ui-design-tokens-colors-danger",
+								"The ui.design_tokens.colors.danger field"
+							);
+					}
+					if (argv["ui-design-tokens-colors-success"] === undefined) {
+						argv["ui-design-tokens-colors-success"] =
+							await promptForRequiredField(
+								"ui-design-tokens-colors-success",
+								"The ui.design_tokens.colors.success field"
+							);
+					}
+					if (argv["ui-design-tokens-colors-text"] === undefined) {
+						argv["ui-design-tokens-colors-text"] = await promptForRequiredField(
+							"ui-design-tokens-colors-text",
+							"The ui.design_tokens.colors.text field"
+						);
+					}
+					if (argv["ui-design-tokens-colors-text-on-brand"] === undefined) {
+						argv["ui-design-tokens-colors-text-on-brand"] =
+							await promptForRequiredField(
+								"ui-design-tokens-colors-text-on-brand",
+								"The ui.design_tokens.colors.text_on_brand field"
+							);
+					}
+					if (argv["ui-design-tokens-colors-video-bg"] === undefined) {
+						argv["ui-design-tokens-colors-video-bg"] =
+							await promptForRequiredField(
+								"ui-design-tokens-colors-video-bg",
+								"The ui.design_tokens.colors.video_bg field"
+							);
+					}
+					if (argv["ui-design-tokens-colors-warning"] === undefined) {
+						argv["ui-design-tokens-colors-warning"] =
+							await promptForRequiredField(
+								"ui-design-tokens-colors-warning",
+								"The ui.design_tokens.colors.warning field"
+							);
+					}
+					if (argv["ui-design-tokens-spacing-base"] === undefined) {
+						throw new Error(
+							"--ui-design-tokens-spacing-base is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["ui-design-tokens-theme"] === undefined) {
+						argv["ui-design-tokens-theme"] = await promptForRequiredEnumField(
+							"ui-design-tokens-theme",
+							"The ui.design_tokens.theme field",
+							["darkest", "dark", "light"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf realtime kit presets create",
@@ -700,338 +1043,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["preset-config-max-screenshare-count"] === undefined) {
-					throw new Error(
-						"--preset-config-max-screenshare-count is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["preset-config-max-video-streams-desktop"] === undefined) {
-					throw new Error(
-						"--preset-config-max-video-streams-desktop is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["preset-config-max-video-streams-mobile"] === undefined) {
-					throw new Error(
-						"--preset-config-max-video-streams-mobile is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["preset-config-media-screenshare-frame-rate"] === undefined) {
-					throw new Error(
-						"--preset-config-media-screenshare-frame-rate is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["preset-config-media-screenshare-quality"] === undefined) {
-					argv["preset-config-media-screenshare-quality"] =
-						await promptForRequiredEnumField(
-							"preset-config-media-screenshare-quality",
-							"Quality of screen share ",
-							["hd", "vga", "qvga", "fhd", "uhd"] as const
-						);
-				}
-				if (argv["preset-config-media-video-frame-rate"] === undefined) {
-					throw new Error(
-						"--preset-config-media-video-frame-rate is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["preset-config-media-video-quality"] === undefined) {
-					argv["preset-config-media-video-quality"] =
-						await promptForRequiredEnumField(
-							"preset-config-media-video-quality",
-							"Video quality of participants",
-							["hd", "vga", "qvga", "fhd", "uhd"] as const
-						);
-				}
-				if (argv["preset-config-view-type"] === undefined) {
-					argv["preset-config-view-type"] = await promptForRequiredEnumField(
-						"preset-config-view-type",
-						"Type of the meeting",
-						["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the preset"
-					);
-				}
-				if (argv["permissions-accept-waiting-requests"] === undefined) {
-					throw new Error(
-						"--permissions-accept-waiting-requests is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-can-accept-production-requests"] === undefined) {
-					throw new Error(
-						"--permissions-can-accept-production-requests is required (or pass --body with this field set)."
-					);
-				}
-				if (
-					argv["permissions-can-change-participant-permissions"] === undefined
-				) {
-					throw new Error(
-						"--permissions-can-change-participant-permissions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-can-edit-display-name"] === undefined) {
-					throw new Error(
-						"--permissions-can-edit-display-name is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-can-livestream"] === undefined) {
-					throw new Error(
-						"--permissions-can-livestream is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-can-record"] === undefined) {
-					throw new Error(
-						"--permissions-can-record is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-can-spotlight"] === undefined) {
-					throw new Error(
-						"--permissions-can-spotlight is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-private-can-receive"] === undefined) {
-					throw new Error(
-						"--permissions-chat-private-can-receive is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-private-can-send"] === undefined) {
-					throw new Error(
-						"--permissions-chat-private-can-send is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-private-files"] === undefined) {
-					throw new Error(
-						"--permissions-chat-private-files is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-private-text"] === undefined) {
-					throw new Error(
-						"--permissions-chat-private-text is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-public-can-send"] === undefined) {
-					throw new Error(
-						"--permissions-chat-public-can-send is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-public-files"] === undefined) {
-					throw new Error(
-						"--permissions-chat-public-files is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-chat-public-text"] === undefined) {
-					throw new Error(
-						"--permissions-chat-public-text is required (or pass --body with this field set)."
-					);
-				}
-				if (
-					argv[
-						"permissions-connected-meetings-can-alter-connected-meetings"
-					] === undefined
-				) {
-					throw new Error(
-						"--permissions-connected-meetings-can-alter-connected-meetings is required (or pass --body with this field set)."
-					);
-				}
-				if (
-					argv[
-						"permissions-connected-meetings-can-switch-connected-meetings"
-					] === undefined
-				) {
-					throw new Error(
-						"--permissions-connected-meetings-can-switch-connected-meetings is required (or pass --body with this field set)."
-					);
-				}
-				if (
-					argv[
-						"permissions-connected-meetings-can-switch-to-parent-meeting"
-					] === undefined
-				) {
-					throw new Error(
-						"--permissions-connected-meetings-can-switch-to-parent-meeting is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-disable-participant-audio"] === undefined) {
-					throw new Error(
-						"--permissions-disable-participant-audio is required (or pass --body with this field set)."
-					);
-				}
-				if (
-					argv["permissions-disable-participant-screensharing"] === undefined
-				) {
-					throw new Error(
-						"--permissions-disable-participant-screensharing is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-disable-participant-video"] === undefined) {
-					throw new Error(
-						"--permissions-disable-participant-video is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-hidden-participant"] === undefined) {
-					throw new Error(
-						"--permissions-hidden-participant is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-kick-participant"] === undefined) {
-					throw new Error(
-						"--permissions-kick-participant is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-media-audio-can-produce"] === undefined) {
-					argv["permissions-media-audio-can-produce"] =
-						await promptForRequiredEnumField(
-							"permissions-media-audio-can-produce",
-							"Can produce audio",
-							["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"] as const
-						);
-				}
-				if (argv["permissions-media-screenshare-can-produce"] === undefined) {
-					argv["permissions-media-screenshare-can-produce"] =
-						await promptForRequiredEnumField(
-							"permissions-media-screenshare-can-produce",
-							"Can produce screen share video",
-							["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"] as const
-						);
-				}
-				if (argv["permissions-media-video-can-produce"] === undefined) {
-					argv["permissions-media-video-can-produce"] =
-						await promptForRequiredEnumField(
-							"permissions-media-video-can-produce",
-							"Can produce video",
-							["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"] as const
-						);
-				}
-				if (argv["permissions-pin-participant"] === undefined) {
-					throw new Error(
-						"--permissions-pin-participant is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-plugins-can-close"] === undefined) {
-					throw new Error(
-						"--permissions-plugins-can-close is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-plugins-can-edit-config"] === undefined) {
-					throw new Error(
-						"--permissions-plugins-can-edit-config is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-plugins-can-start"] === undefined) {
-					throw new Error(
-						"--permissions-plugins-can-start is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-plugins-config"] === undefined) {
-					throw new Error(
-						"--permissions-plugins-config is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-polls-can-create"] === undefined) {
-					throw new Error(
-						"--permissions-polls-can-create is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-polls-can-view"] === undefined) {
-					throw new Error(
-						"--permissions-polls-can-view is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-polls-can-vote"] === undefined) {
-					throw new Error(
-						"--permissions-polls-can-vote is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-recorder-type"] === undefined) {
-					argv["permissions-recorder-type"] = await promptForRequiredEnumField(
-						"permissions-recorder-type",
-						"Type of the recording peer",
-						["RECORDER", "LIVESTREAMER", "NONE"] as const
-					);
-				}
-				if (argv["permissions-show-participant-list"] === undefined) {
-					throw new Error(
-						"--permissions-show-participant-list is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["permissions-waiting-room-type"] === undefined) {
-					argv["permissions-waiting-room-type"] =
-						await promptForRequiredEnumField(
-							"permissions-waiting-room-type",
-							"Waiting room type",
-							["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"] as const
-						);
-				}
-				if (argv["ui-design-tokens-border-radius"] === undefined) {
-					argv["ui-design-tokens-border-radius"] =
-						await promptForRequiredEnumField(
-							"ui-design-tokens-border-radius",
-							"The ui.design_tokens.border_radius field",
-							["sharp", "rounded", "extra-rounded", "circular"] as const
-						);
-				}
-				if (argv["ui-design-tokens-border-width"] === undefined) {
-					argv["ui-design-tokens-border-width"] =
-						await promptForRequiredEnumField(
-							"ui-design-tokens-border-width",
-							"The ui.design_tokens.border_width field",
-							["none", "thin", "fat"] as const
-						);
-				}
-				if (argv["ui-design-tokens-colors-danger"] === undefined) {
-					argv["ui-design-tokens-colors-danger"] = await promptForRequiredField(
-						"ui-design-tokens-colors-danger",
-						"The ui.design_tokens.colors.danger field"
-					);
-				}
-				if (argv["ui-design-tokens-colors-success"] === undefined) {
-					argv["ui-design-tokens-colors-success"] =
-						await promptForRequiredField(
-							"ui-design-tokens-colors-success",
-							"The ui.design_tokens.colors.success field"
-						);
-				}
-				if (argv["ui-design-tokens-colors-text"] === undefined) {
-					argv["ui-design-tokens-colors-text"] = await promptForRequiredField(
-						"ui-design-tokens-colors-text",
-						"The ui.design_tokens.colors.text field"
-					);
-				}
-				if (argv["ui-design-tokens-colors-text-on-brand"] === undefined) {
-					argv["ui-design-tokens-colors-text-on-brand"] =
-						await promptForRequiredField(
-							"ui-design-tokens-colors-text-on-brand",
-							"The ui.design_tokens.colors.text_on_brand field"
-						);
-				}
-				if (argv["ui-design-tokens-colors-video-bg"] === undefined) {
-					argv["ui-design-tokens-colors-video-bg"] =
-						await promptForRequiredField(
-							"ui-design-tokens-colors-video-bg",
-							"The ui.design_tokens.colors.video_bg field"
-						);
-				}
-				if (argv["ui-design-tokens-colors-warning"] === undefined) {
-					argv["ui-design-tokens-colors-warning"] =
-						await promptForRequiredField(
-							"ui-design-tokens-colors-warning",
-							"The ui.design_tokens.colors.warning field"
-						);
-				}
-				if (argv["ui-design-tokens-spacing-base"] === undefined) {
-					throw new Error(
-						"--ui-design-tokens-spacing-base is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["ui-design-tokens-theme"] === undefined) {
-					argv["ui-design-tokens-theme"] = await promptForRequiredEnumField(
-						"ui-design-tokens-theme",
-						"The ui.design_tokens.theme field",
-						["darkest", "dark", "light"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

@@ -107,7 +107,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					recording: argv["recording"],
 					browser: argv["browser"],
 				};
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["code"] === undefined) {
+						argv["code"] = await promptForRequiredField(
+							"code",
+							"Function body executed against the selected library's runner."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf browser-run script create",
@@ -161,12 +172,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					return;
 				}
-				if (argv["code"] === undefined) {
-					argv["code"] = await promptForRequiredField(
-						"code",
-						"Function body executed against the selected library's runner."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

@@ -66,7 +66,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["flag-key"] === undefined) {
+						argv["flag-key"] = await promptForRequiredField(
+							"flag-key",
+							"Key of the flag to evaluate within the app."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf flagship apps flags evaluate",
@@ -109,12 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["flag-key"] === undefined) {
-					argv["flag-key"] = await promptForRequiredField(
-						"flag-key",
-						"Key of the flag to evaluate within the app."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

@@ -106,7 +106,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["certificate"] === undefined) {
+						argv["certificate"] = await promptForRequiredField(
+							"certificate",
+							"The zone's SSL certificate or certificate and the intermediate(s)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf ssl custom-certificates create",
 						method: "POST",
@@ -166,12 +177,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["certificate"] === undefined) {
-					argv["certificate"] = await promptForRequiredField(
-						"certificate",
-						"The zone's SSL certificate or certificate and the intermediate(s)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

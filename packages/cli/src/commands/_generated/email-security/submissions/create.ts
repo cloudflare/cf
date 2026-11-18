@@ -63,7 +63,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["messages"] === undefined) {
+						throw new Error(
+							"--messages is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type field",
+							["reclassification", "missed_detection"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-security submissions create",
@@ -95,18 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["messages"] === undefined) {
-					throw new Error(
-						"--messages is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["reclassification", "missed_detection"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

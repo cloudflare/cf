@@ -120,7 +120,30 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["lan-1-lan-id"] === undefined) {
+						argv["lan-1-lan-id"] = await promptForRequiredField(
+							"lan-1-lan-id",
+							"The identifier for the LAN you want to create an ACL policy with."
+						);
+					}
+					if (argv["lan-2-lan-id"] === undefined) {
+						argv["lan-2-lan-id"] = await promptForRequiredField(
+							"lan-2-lan-id",
+							"The identifier for the LAN you want to create an ACL policy with."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the ACL."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit sites acls create",
@@ -195,24 +218,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["lan-1-lan-id"] === undefined) {
-					argv["lan-1-lan-id"] = await promptForRequiredField(
-						"lan-1-lan-id",
-						"The identifier for the LAN you want to create an ACL policy with."
-					);
-				}
-				if (argv["lan-2-lan-id"] === undefined) {
-					argv["lan-2-lan-id"] = await promptForRequiredField(
-						"lan-2-lan-id",
-						"The identifier for the LAN you want to create an ACL policy with."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the ACL."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

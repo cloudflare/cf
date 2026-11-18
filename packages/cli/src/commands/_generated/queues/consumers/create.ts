@@ -109,7 +109,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type field",
+							["worker", "http_pull"] as const
+						);
+					}
+
+					if (argv["type"] === "worker" && argv["script-name"] === undefined) {
+						argv["script-name"] = await promptForRequiredField(
+							"script-name",
+							"Name of a Worker",
+							{ question: "Enter value for --script-name" }
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf queues consumers create",
@@ -163,21 +183,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["worker", "http_pull"] as const
-					);
-				}
-
-				if (argv["type"] === "worker" && argv["script-name"] === undefined) {
-					argv["script-name"] = await promptForRequiredField(
-						"script-name",
-						"Name of a Worker",
-						{ question: "Enter value for --script-name" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

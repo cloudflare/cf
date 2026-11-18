@@ -90,7 +90,41 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["bucket"] === undefined) {
+						argv["bucket"] = await promptForRequiredField(
+							"bucket",
+							"Name of the R2 bucket."
+						);
+					}
+					if (argv["parent-access-key-id"] === undefined) {
+						argv["parent-access-key-id"] = await promptForRequiredField(
+							"parent-access-key-id",
+							"Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions."
+						);
+					}
+					if (argv["permission"] === undefined) {
+						argv["permission"] = await promptForRequiredEnumField(
+							"permission",
+							"Permissions allowed on the credentials.",
+							[
+								"admin-read-write",
+								"admin-read-only",
+								"object-read-write",
+								"object-read-only",
+							] as const
+						);
+					}
+					if (argv["ttl-seconds"] === undefined) {
+						throw new Error(
+							"--ttl-seconds is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf r2 temporary-credentials create",
@@ -134,35 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["bucket"] === undefined) {
-					argv["bucket"] = await promptForRequiredField(
-						"bucket",
-						"Name of the R2 bucket."
-					);
-				}
-				if (argv["parent-access-key-id"] === undefined) {
-					argv["parent-access-key-id"] = await promptForRequiredField(
-						"parent-access-key-id",
-						"Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions."
-					);
-				}
-				if (argv["permission"] === undefined) {
-					argv["permission"] = await promptForRequiredEnumField(
-						"permission",
-						"Permissions allowed on the credentials.",
-						[
-							"admin-read-write",
-							"admin-read-only",
-							"object-read-write",
-							"object-read-only",
-						] as const
-					);
-				}
-				if (argv["ttl-seconds"] === undefined) {
-					throw new Error(
-						"--ttl-seconds is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

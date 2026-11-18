@@ -62,8 +62,16 @@ const acceptsJson = (ctx: Ctx) =>
 /** `emitHandler`. */
 export function handler(ctx: Ctx): string[] {
 	const lines = prelude(ctx);
-	lines.push(...dryRun(ctx));
 	lines.push(...requiredBody(ctx));
+	const prompts = bodyPrompts(ctx);
+	if (prompts.length > 0) {
+		lines.push(
+			"      const resolveRequiredFields = async (): Promise<void> => {"
+		);
+		lines.push(...prompts.map((line) => `  ${line}`));
+		lines.push("      };");
+	}
+	lines.push(...dryRun(ctx));
 	lines.push(...preparsedBody(ctx));
 	lines.push(...auth(ctx));
 	if (ctx.isDelete) {
@@ -72,7 +80,9 @@ export function handler(ctx: Ctx): string[] {
 	lines.push(...multipart(ctx));
 	lines.push(...fileUpload(ctx));
 	lines.push(...bodyBypass(ctx));
-	lines.push(...bodyPrompts(ctx));
+	if (prompts.length > 0) {
+		lines.push("      await resolveRequiredFields();");
+	}
 	if (ctx.derived.hasBodyParams) {
 		lines.push(...bodyAssembly(ctx));
 	} else {
@@ -206,6 +216,26 @@ function preservedBodyPaths(ctx: Ctx): string {
 	return paths.length > 0 ? `, ${stringify(paths)}` : "";
 }
 
+function dryRunPrompts(ctx: Ctx): string[] {
+	if (bodyPrompts(ctx).length === 0) {
+		return [];
+	}
+	// Explicit bodies and uploads bypass the individual-field prompts.
+	const absent = [
+		...(ctx.derived.hasBody ? ["argv.body"] : []),
+		...(ctx.derived.hasFileUpload ? ["argv.file"] : []),
+		...ctx.derived.multipartFlagFields.map(({ flag }) => argvKey(flag)),
+		...ctx.derived.multipartFileFields.map(({ flag }) => argvKey(flag)),
+	].map((read) => `${read} === undefined`);
+	return absent.length > 0
+		? [
+				`      if (${absent.join(" && ")}) {`,
+				"        await resolveRequiredFields();",
+				"      }",
+			]
+		: ["      await resolveRequiredFields();"];
+}
+
 export function dryRun(ctx: Ctx): string[] {
 	const d = ctx.derived;
 	const op = ctx.op;
@@ -303,6 +333,7 @@ export function dryRun(ctx: Ctx): string[] {
 		bodyKind = "'none'";
 	}
 	const lines = ["      if (argv.dryRun) {"];
+	lines.push(...dryRunPrompts(ctx).map((line) => `  ${line}`));
 	if (ctx.needsAccountId) {
 		lines.push(
 			ctx.hasAccountOrZoneScope

@@ -222,7 +222,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action the job performs on every message matching the search parameters.",
+							["MOVE", "RELEASE"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-security bulk-actions create",
@@ -333,13 +345,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action the job performs on every message matching the search parameters.",
-						["MOVE", "RELEASE"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

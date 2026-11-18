@@ -59,7 +59,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							'Enables Unique Transformations billing for the account. Note: once enabled, this setting cannot be set back to "off". ',
+							["on"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf accounts ut-billing edit",
@@ -90,13 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						'Enables Unique Transformations billing for the account. Note: once enabled, this setting cannot be set back to "off". ',
-						["on"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

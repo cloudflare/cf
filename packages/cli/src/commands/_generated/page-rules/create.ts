@@ -67,7 +67,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["actions"] === undefined) {
+						throw new Error(
+							"--actions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["targets"] === undefined) {
+						throw new Error(
+							"--targets is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf page-rules create",
 						method: "POST",
@@ -104,16 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["actions"] === undefined) {
-					throw new Error(
-						"--actions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["targets"] === undefined) {
-					throw new Error(
-						"--targets is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -81,7 +81,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					devices: argv["devices"],
 				};
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["email"] === undefined) {
+						argv["email"] = await promptForRequiredField(
+							"email",
+							"The email of the user to revoke."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -163,12 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
-				if (argv["email"] === undefined) {
-					argv["email"] = await promptForRequiredField(
-						"email",
-						"The email of the user to revoke."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

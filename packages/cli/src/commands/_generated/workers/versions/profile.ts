@@ -97,7 +97,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					quiet: argv["quiet"] as boolean | undefined,
 				});
 				argv["worker"] = scriptName;
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["duration-ms"] === undefined) {
+						throw new Error(
+							"--duration-ms is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workers versions profile",
@@ -153,11 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					return;
 				}
-				if (argv["duration-ms"] === undefined) {
-					throw new Error(
-						"--duration-ms is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

@@ -81,7 +81,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["access-rule-mode"] === undefined) {
+						argv["access-rule-mode"] = await promptForRequiredEnumField(
+							"access-rule-mode",
+							"The action to apply to a matched request.",
+							[
+								"block",
+								"challenge",
+								"whitelist",
+								"js_challenge",
+								"managed_challenge",
+							] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf user firewall access-rules create",
 						method: "POST",
@@ -122,19 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["access-rule-mode"] === undefined) {
-					argv["access-rule-mode"] = await promptForRequiredEnumField(
-						"access-rule-mode",
-						"The action to apply to a matched request.",
-						[
-							"block",
-							"challenge",
-							"whitelist",
-							"js_challenge",
-							"managed_challenge",
-						] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

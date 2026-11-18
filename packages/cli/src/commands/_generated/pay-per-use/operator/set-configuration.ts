@@ -59,7 +59,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["default-price-usd-microcents"] === undefined) {
+						throw new Error(
+							"--default-price-usd-microcents is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf pay-per-use operator set-configuration",
@@ -97,19 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["default-price-usd-microcents"] === undefined) {
-					throw new Error(
-						"--default-price-usd-microcents is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

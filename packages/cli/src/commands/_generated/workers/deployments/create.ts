@@ -150,7 +150,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					force: argv["bypass-deployment-checks"],
 				};
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["strategy"] === undefined) {
+						argv["strategy"] = await promptForRequiredEnumField(
+							"strategy",
+							"Strategy for routing traffic across the listed versions. \`percentage\` splits traffic according to each version's \`percentage\`.",
+							["percentage"] as const
+						);
+					}
+					if (argv["versions"] === undefined) {
+						throw new Error(
+							"--versions is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workers deployments create",
@@ -200,18 +217,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["strategy"] === undefined) {
-					argv["strategy"] = await promptForRequiredEnumField(
-						"strategy",
-						"Strategy for routing traffic across the listed versions. \`percentage\` splits traffic according to each version's \`percentage\`.",
-						["percentage"] as const
-					);
-				}
-				if (argv["versions"] === undefined) {
-					throw new Error(
-						"--versions is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

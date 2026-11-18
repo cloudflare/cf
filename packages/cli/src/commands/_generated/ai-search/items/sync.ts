@@ -80,7 +80,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["next-action"] === undefined) {
+						argv["next-action"] = await promptForRequiredEnumField(
+							"next-action",
+							"The next_action field",
+							["INDEX"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai-search items sync",
@@ -121,13 +133,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["next-action"] === undefined) {
-					argv["next-action"] = await promptForRequiredEnumField(
-						"next-action",
-						"The next_action field",
-						["INDEX"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

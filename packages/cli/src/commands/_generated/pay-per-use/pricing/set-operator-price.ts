@@ -63,7 +63,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action field",
+							["propose", "withdraw", "accept_default", "resume"] as const
+						);
+					}
+
+					if (
+						argv["action"] === "propose" &&
+						argv["price-usd-microcents"] === undefined
+					) {
+						throw new Error(
+							"--price-usd-microcents is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf pay-per-use pricing set-operator-price",
 						method: "POST",
@@ -103,22 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action field",
-						["propose", "withdraw", "accept_default", "resume"] as const
-					);
-				}
-
-				if (
-					argv["action"] === "propose" &&
-					argv["price-usd-microcents"] === undefined
-				) {
-					throw new Error(
-						"--price-usd-microcents is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

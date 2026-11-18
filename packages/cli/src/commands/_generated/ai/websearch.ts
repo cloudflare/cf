@@ -63,7 +63,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["options-gateway-id"] === undefined) {
+						argv["options-gateway-id"] = await promptForRequiredField(
+							"options-gateway-id",
+							"The options.gateway.id field"
+						);
+					}
+					if (argv["query"] === undefined) {
+						argv["query"] = await promptForRequiredField(
+							"query",
+							"The query field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai websearch",
@@ -118,18 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["options-gateway-id"] === undefined) {
-					argv["options-gateway-id"] = await promptForRequiredField(
-						"options-gateway-id",
-						"The options.gateway.id field"
-					);
-				}
-				if (argv["query"] === undefined) {
-					argv["query"] = await promptForRequiredField(
-						"query",
-						"The query field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

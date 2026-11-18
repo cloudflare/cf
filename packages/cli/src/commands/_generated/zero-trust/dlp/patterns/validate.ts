@@ -58,7 +58,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["regex"] === undefined) {
+						argv["regex"] = await promptForRequiredField(
+							"regex",
+							"The regex field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp patterns validate",
@@ -94,12 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Validated` });
 					return;
 				}
-				if (argv["regex"] === undefined) {
-					argv["regex"] = await promptForRequiredField(
-						"regex",
-						"The regex field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

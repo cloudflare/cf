@@ -66,7 +66,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A name for this validator, at most 50 characters."
+						);
+					}
+					if (argv["script-tag"] === undefined) {
+						argv["script-tag"] = await promptForRequiredField(
+							"script-tag",
+							"The public script tag of the customer's Worker that scores matches."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp validators worker create",
@@ -107,18 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A name for this validator, at most 50 characters."
-					);
-				}
-				if (argv["script-tag"] === undefined) {
-					argv["script-tag"] = await promptForRequiredField(
-						"script-tag",
-						"The public script tag of the customer's Worker that scores matches."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

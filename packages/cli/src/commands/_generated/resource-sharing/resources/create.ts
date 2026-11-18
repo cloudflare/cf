@@ -91,7 +91,44 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["meta"] === undefined) {
+						throw new Error(
+							"--meta is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["resource-account-id"] === undefined) {
+						argv["resource-account-id"] = await promptForRequiredField(
+							"resource-account-id",
+							"The account that owns the resource. Must match the \`account_id\` in the path."
+						);
+					}
+					if (argv["resource-id"] === undefined) {
+						argv["resource-id"] = await promptForRequiredField(
+							"resource-id",
+							"Identifier assigned by the service that owns the shared resource."
+						);
+					}
+					if (argv["resource-type"] === undefined) {
+						argv["resource-type"] = await promptForRequiredEnumField(
+							"resource-type",
+							"Resource Type.",
+							[
+								"custom-ruleset",
+								"gateway-policy",
+								"gateway-destination-ip",
+								"gateway-block-page-settings",
+								"gateway-extended-email-matching",
+								"idp-federation-grant",
+								"trust-grant",
+							] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing resources create",
@@ -142,38 +179,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["meta"] === undefined) {
-					throw new Error(
-						"--meta is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["resource-account-id"] === undefined) {
-					argv["resource-account-id"] = await promptForRequiredField(
-						"resource-account-id",
-						"The account that owns the resource. Must match the \`account_id\` in the path."
-					);
-				}
-				if (argv["resource-id"] === undefined) {
-					argv["resource-id"] = await promptForRequiredField(
-						"resource-id",
-						"Identifier assigned by the service that owns the shared resource."
-					);
-				}
-				if (argv["resource-type"] === undefined) {
-					argv["resource-type"] = await promptForRequiredEnumField(
-						"resource-type",
-						"Resource Type.",
-						[
-							"custom-ruleset",
-							"gateway-policy",
-							"gateway-destination-ip",
-							"gateway-block-page-settings",
-							"gateway-extended-email-matching",
-							"idp-federation-grant",
-							"trust-grant",
-						] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

@@ -137,7 +137,64 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["destination-credentials-access-key-id"] === undefined) {
+						argv["destination-credentials-access-key-id"] =
+							await promptForRequiredField(
+								"destination-credentials-access-key-id",
+								"Specifies the R2 Bucket Access Key Id."
+							);
+					}
+					if (argv["destination-credentials-endpoint"] === undefined) {
+						argv["destination-credentials-endpoint"] =
+							await promptForRequiredField(
+								"destination-credentials-endpoint",
+								"Specifies the R2 Endpoint."
+							);
+					}
+					if (argv["destination-credentials-secret-access-key"] === undefined) {
+						argv["destination-credentials-secret-access-key"] =
+							await promptForRequiredField(
+								"destination-credentials-secret-access-key",
+								"Specifies the R2 Bucket Secret Access Key."
+							);
+					}
+					if (argv["destination-format"] === undefined) {
+						argv["destination-format"] = await promptForRequiredEnumField(
+							"destination-format",
+							"Specifies the format of data to deliver.",
+							["json"] as const
+						);
+					}
+					if (argv["destination-path-bucket"] === undefined) {
+						argv["destination-path-bucket"] = await promptForRequiredField(
+							"destination-path-bucket",
+							"Specifies the R2 Bucket to store files."
+						);
+					}
+					if (argv["destination-type"] === undefined) {
+						argv["destination-type"] = await promptForRequiredEnumField(
+							"destination-type",
+							"Specifies the type of destination.",
+							["r2"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Defines the name of the pipeline."
+						);
+					}
+					if (argv["source"] === undefined) {
+						throw new Error(
+							"--source is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf pipelines legacy-create",
@@ -235,58 +292,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["destination-credentials-access-key-id"] === undefined) {
-					argv["destination-credentials-access-key-id"] =
-						await promptForRequiredField(
-							"destination-credentials-access-key-id",
-							"Specifies the R2 Bucket Access Key Id."
-						);
-				}
-				if (argv["destination-credentials-endpoint"] === undefined) {
-					argv["destination-credentials-endpoint"] =
-						await promptForRequiredField(
-							"destination-credentials-endpoint",
-							"Specifies the R2 Endpoint."
-						);
-				}
-				if (argv["destination-credentials-secret-access-key"] === undefined) {
-					argv["destination-credentials-secret-access-key"] =
-						await promptForRequiredField(
-							"destination-credentials-secret-access-key",
-							"Specifies the R2 Bucket Secret Access Key."
-						);
-				}
-				if (argv["destination-format"] === undefined) {
-					argv["destination-format"] = await promptForRequiredEnumField(
-						"destination-format",
-						"Specifies the format of data to deliver.",
-						["json"] as const
-					);
-				}
-				if (argv["destination-path-bucket"] === undefined) {
-					argv["destination-path-bucket"] = await promptForRequiredField(
-						"destination-path-bucket",
-						"Specifies the R2 Bucket to store files."
-					);
-				}
-				if (argv["destination-type"] === undefined) {
-					argv["destination-type"] = await promptForRequiredEnumField(
-						"destination-type",
-						"Specifies the type of destination.",
-						["r2"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Defines the name of the pipeline."
-					);
-				}
-				if (argv["source"] === undefined) {
-					throw new Error(
-						"--source is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

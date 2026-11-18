@@ -96,7 +96,53 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["configuration-headers"] === undefined) {
+						throw new Error(
+							"--configuration-headers is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["configuration-logpush-dataset"] === undefined) {
+						argv["configuration-logpush-dataset"] =
+							await promptForRequiredEnumField(
+								"configuration-logpush-dataset",
+								"The configuration.logpushDataset field",
+								[
+									"opentelemetry-traces",
+									"opentelemetry-logs",
+									"opentelemetry-metrics",
+								] as const
+							);
+					}
+					if (argv["configuration-type"] === undefined) {
+						argv["configuration-type"] = await promptForRequiredEnumField(
+							"configuration-type",
+							"The configuration.type field",
+							["logpush"] as const
+						);
+					}
+					if (argv["configuration-url"] === undefined) {
+						argv["configuration-url"] = await promptForRequiredField(
+							"configuration-url",
+							"The configuration.url field"
+						);
+					}
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf o11y destinations create",
@@ -162,44 +208,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["configuration-headers"] === undefined) {
-					throw new Error(
-						"--configuration-headers is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["configuration-logpush-dataset"] === undefined) {
-					argv["configuration-logpush-dataset"] =
-						await promptForRequiredEnumField(
-							"configuration-logpush-dataset",
-							"The configuration.logpushDataset field",
-							[
-								"opentelemetry-traces",
-								"opentelemetry-logs",
-								"opentelemetry-metrics",
-							] as const
-						);
-				}
-				if (argv["configuration-type"] === undefined) {
-					argv["configuration-type"] = await promptForRequiredEnumField(
-						"configuration-type",
-						"The configuration.type field",
-						["logpush"] as const
-					);
-				}
-				if (argv["configuration-url"] === undefined) {
-					argv["configuration-url"] = await promptForRequiredField(
-						"configuration-url",
-						"The configuration.url field"
-					);
-				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

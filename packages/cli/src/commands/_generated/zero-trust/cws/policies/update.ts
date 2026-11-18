@@ -82,7 +82,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["entrypoint"] === undefined) {
+						argv["entrypoint"] = await promptForRequiredField(
+							"entrypoint",
+							"Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
+						);
+					}
+					if (argv["filter"] === undefined) {
+						argv["filter"] = await promptForRequiredField(
+							"filter",
+							"Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Name of the policy"
+						);
+					}
+					if (argv["rego-source"] === undefined) {
+						argv["rego-source"] = await promptForRequiredField(
+							"rego-source",
+							'Inline Rego source with a package beginning with "policy." Maximum 16384 UTF-8 bytes.'
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust cws policies update",
@@ -145,30 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["entrypoint"] === undefined) {
-					argv["entrypoint"] = await promptForRequiredField(
-						"entrypoint",
-						"Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
-					);
-				}
-				if (argv["filter"] === undefined) {
-					argv["filter"] = await promptForRequiredField(
-						"filter",
-						"Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Name of the policy"
-					);
-				}
-				if (argv["rego-source"] === undefined) {
-					argv["rego-source"] = await promptForRequiredField(
-						"rego-source",
-						'Inline Rego source with a package beginning with "policy." Maximum 16384 UTF-8 bytes.'
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

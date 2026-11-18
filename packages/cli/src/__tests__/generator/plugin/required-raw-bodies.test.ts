@@ -167,13 +167,13 @@ describe.each(["text/plain", "application/octet-stream"])(
 			expect(send).not.toHaveBeenCalled();
 		});
 
-		it("allows a dry run without input or authentication", async () => {
+		it("rejects a dry run without required input before authentication", async () => {
 			const { run, createCommandClient, requestApi, send, formatDryRun } =
 				setup(files);
-			await run(["--dry-run"]);
-			expect(formatDryRun).toHaveBeenCalledExactlyOnceWith(
-				expect.objectContaining({ body: undefined })
+			await expect(run(["--dry-run"])).rejects.toThrow(
+				"--body or --file is required"
 			);
+			expect(formatDryRun).not.toHaveBeenCalled();
 			expect(createCommandClient).not.toHaveBeenCalled();
 			expect(requestApi).not.toHaveBeenCalled();
 			expect(send).not.toHaveBeenCalled();

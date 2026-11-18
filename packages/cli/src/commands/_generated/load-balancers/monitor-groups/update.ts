@@ -66,7 +66,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"A short description of the monitor group"
+						);
+					}
+					if (argv["members"] === undefined) {
+						throw new Error(
+							"--members is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf load-balancers monitor-groups update",
@@ -108,17 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"A short description of the monitor group"
-					);
-				}
-				if (argv["members"] === undefined) {
-					throw new Error(
-						"--members is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

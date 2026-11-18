@@ -126,7 +126,50 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["is-acceptable-sender"] === undefined) {
+						throw new Error(
+							"--is-acceptable-sender is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["is-exempt-recipient"] === undefined) {
+						throw new Error(
+							"--is-exempt-recipient is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["is-regex"] === undefined) {
+						throw new Error(
+							"--is-regex is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["is-trusted-sender"] === undefined) {
+						throw new Error(
+							"--is-trusted-sender is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["pattern"] === undefined) {
+						argv["pattern"] = await promptForRequiredField(
+							"pattern",
+							"The pattern value to match. The format depends on \`pattern_type\`: a valid email address for EMAIL (e.g. \`user@example.com\`), a valid domain name for DOMAIN (e.g. \`example.com\`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. \`1.2.3.4\`, \`1.2.3.0/24\`, \`2606:4700:4700::1111\`, or \`2606:4700:4700::/48\`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
+						);
+					}
+					if (argv["pattern-type"] === undefined) {
+						argv["pattern-type"] = await promptForRequiredEnumField(
+							"pattern-type",
+							"Type of pattern matching. - EMAIL: matches a full email address (e.g. \`user@example.com\`) - DOMAIN: matches a domain name (e.g. \`example.com\`) - IP: matches a plain IPv4 or IPv6 address (e.g. \`1.2.3.4\` or \`2606:4700:4700::1111\`) or CIDR block (e.g. \`1.2.3.0/24\` or \`2606:4700:4700::/48\`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. - UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries. ",
+							["EMAIL", "DOMAIN", "IP", "UNKNOWN"] as const
+						);
+					}
+					if (argv["verify-sender"] === undefined) {
+						throw new Error(
+							"--verify-sender is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-security allow-policies update",
@@ -184,44 +227,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["is-acceptable-sender"] === undefined) {
-					throw new Error(
-						"--is-acceptable-sender is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["is-exempt-recipient"] === undefined) {
-					throw new Error(
-						"--is-exempt-recipient is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["is-regex"] === undefined) {
-					throw new Error(
-						"--is-regex is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["is-trusted-sender"] === undefined) {
-					throw new Error(
-						"--is-trusted-sender is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["pattern"] === undefined) {
-					argv["pattern"] = await promptForRequiredField(
-						"pattern",
-						"The pattern value to match. The format depends on \`pattern_type\`: a valid email address for EMAIL (e.g. \`user@example.com\`), a valid domain name for DOMAIN (e.g. \`example.com\`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. \`1.2.3.4\`, \`1.2.3.0/24\`, \`2606:4700:4700::1111\`, or \`2606:4700:4700::/48\`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
-					);
-				}
-				if (argv["pattern-type"] === undefined) {
-					argv["pattern-type"] = await promptForRequiredEnumField(
-						"pattern-type",
-						"Type of pattern matching. - EMAIL: matches a full email address (e.g. \`user@example.com\`) - DOMAIN: matches a domain name (e.g. \`example.com\`) - IP: matches a plain IPv4 or IPv6 address (e.g. \`1.2.3.4\` or \`2606:4700:4700::1111\`) or CIDR block (e.g. \`1.2.3.0/24\` or \`2606:4700:4700::/48\`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. - UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries. ",
-						["EMAIL", "DOMAIN", "IP", "UNKNOWN"] as const
-					);
-				}
-				if (argv["verify-sender"] === undefined) {
-					throw new Error(
-						"--verify-sender is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

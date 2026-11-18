@@ -52,7 +52,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredField(
+							"value",
+							'Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). '
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf zones transformations-allowed-origins edit",
 						method: "PATCH",
@@ -90,12 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredField(
-						"value",
-						'Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). '
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

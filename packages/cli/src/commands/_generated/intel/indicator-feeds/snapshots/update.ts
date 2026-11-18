@@ -72,6 +72,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["cf-async-upload"] !== undefined)
 					headers["Cf-Async-Upload"] = String(argv["cf-async-upload"]);
+				if (
+					argv.body === undefined &&
+					argv.file === undefined &&
+					argv["source"] === undefined
+				) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -87,15 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					});
 					return;
-				}
-				if (
-					argv.body === undefined &&
-					argv.file === undefined &&
-					argv["source"] === undefined
-				) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
 				}
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();

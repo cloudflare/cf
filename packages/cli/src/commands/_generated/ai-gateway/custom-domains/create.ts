@@ -72,7 +72,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["domain"] === undefined) {
+						argv["domain"] = await promptForRequiredField(
+							"domain",
+							"Custom hostname that you own, such as \`ai.example.com\`."
+						);
+					}
+					if (argv["zone-id"] === undefined) {
+						argv["zone-id"] = await promptForRequiredField(
+							"zone-id",
+							"ID of the Cloudflare zone that contains the custom hostname."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai-gateway custom-domains create",
@@ -117,18 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["domain"] === undefined) {
-					argv["domain"] = await promptForRequiredField(
-						"domain",
-						"Custom hostname that you own, such as \`ai.example.com\`."
-					);
-				}
-				if (argv["zone-id"] === undefined) {
-					argv["zone-id"] = await promptForRequiredField(
-						"zone-id",
-						"ID of the Cloudflare zone that contains the custom hostname."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

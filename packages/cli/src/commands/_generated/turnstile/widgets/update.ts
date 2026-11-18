@@ -116,7 +116,30 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["domains"] === undefined) {
+						throw new Error(
+							"--domains is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["widget-mode"] === undefined) {
+						argv["widget-mode"] = await promptForRequiredEnumField(
+							"widget-mode",
+							"Widget mode",
+							["non-interactive", "invisible", "managed"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. "
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf turnstile widgets update",
@@ -162,24 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["domains"] === undefined) {
-					throw new Error(
-						"--domains is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["widget-mode"] === undefined) {
-					argv["widget-mode"] = await promptForRequiredEnumField(
-						"widget-mode",
-						"Widget mode",
-						["non-interactive", "invisible", "managed"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Human readable widget name. Not unique. Cloudflare suggests that you set this to a meaningful string to make it easier to identify your widget, and where it is used. "
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

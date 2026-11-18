@@ -54,7 +54,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["value"] === undefined) {
+						argv["value"] = await promptForRequiredEnumField(
+							"value",
+							'Controls HTTP/2 Prioritization behavior: - "off": Use browser default prioritization. - "on": Use Cloudflare\'s optimized prioritization. - "custom": Use custom prioritization rules. ',
+							["off", "on", "custom"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf zones h2-prioritization edit",
 						method: "PATCH",
@@ -88,13 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["value"] === undefined) {
-					argv["value"] = await promptForRequiredEnumField(
-						"value",
-						'Controls HTTP/2 Prioritization behavior: - "off": Use browser default prioritization. - "on": Use Cloudflare\'s optimized prioritization. - "custom": Use custom prioritization rules. ',
-						["off", "on", "custom"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

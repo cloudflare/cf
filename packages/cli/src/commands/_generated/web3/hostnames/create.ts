@@ -67,7 +67,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Specify the hostname that points to the target gateway via CNAME."
+						);
+					}
+					if (argv["target"] === undefined) {
+						argv["target"] = await promptForRequiredEnumField(
+							"target",
+							"Specify the target gateway of the hostname.",
+							["ethereum", "ipfs", "ipfs_universal_path"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf web3 hostnames create",
 						method: "POST",
@@ -116,19 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Specify the hostname that points to the target gateway via CNAME."
-					);
-				}
-				if (argv["target"] === undefined) {
-					argv["target"] = await promptForRequiredEnumField(
-						"target",
-						"Specify the target gateway of the hostname.",
-						["ethereum", "ipfs", "ipfs_universal_path"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

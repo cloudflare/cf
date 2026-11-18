@@ -168,7 +168,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["address"] === undefined) {
+						argv["address"] = await promptForRequiredField(
+							"address",
+							"The hostname or IP address of the origin server to run health checks on."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf healthchecks edit",
 						method: "PATCH",
@@ -263,18 +280,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["address"] === undefined) {
-					argv["address"] = await promptForRequiredField(
-						"address",
-						"The hostname or IP address of the origin server to run health checks on."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

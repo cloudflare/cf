@@ -61,7 +61,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["region-key"] === undefined) {
+						argv["region-key"] = await promptForRequiredField(
+							"region-key",
+							'New region key to assign (e.g., "us", "eu", "cfcanary").'
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf dls regional-services prefix-bindings edit",
@@ -100,12 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["region-key"] === undefined) {
-					argv["region-key"] = await promptForRequiredField(
-						"region-key",
-						'New region key to assign (e.g., "us", "eu", "cfcanary").'
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

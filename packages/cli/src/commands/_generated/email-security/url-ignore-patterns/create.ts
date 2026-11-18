@@ -63,7 +63,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["pattern"] === undefined) {
+						argv["pattern"] = await promptForRequiredField(
+							"pattern",
+							"Regular expression identifying URLs to exempt from rewriting."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-security url-ignore-patterns create",
@@ -103,12 +114,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["pattern"] === undefined) {
-					argv["pattern"] = await promptForRequiredField(
-						"pattern",
-						"Regular expression identifying URLs to exempt from rewriting."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -64,7 +64,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["status"] === undefined) {
+						argv["status"] = await promptForRequiredEnumField(
+							"status",
+							"The status field",
+							["accept", "reject"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf organizations invites update",
 						method: "PUT",
@@ -99,13 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["status"] === undefined) {
-					argv["status"] = await promptForRequiredEnumField(
-						"status",
-						"The status field",
-						["accept", "reject"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

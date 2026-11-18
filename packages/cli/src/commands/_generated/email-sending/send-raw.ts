@@ -63,7 +63,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["from"] === undefined) {
+						argv["from"] = await promptForRequiredField(
+							"from",
+							"Sender email address."
+						);
+					}
+					if (argv["mime-message"] === undefined) {
+						argv["mime-message"] = await promptForRequiredField(
+							"mime-message",
+							"The full MIME-encoded email message. Should include standard RFC 5322 headers such as From, To, Subject, and Content-Type. The from and recipients fields in the request body control SMTP envelope routing; the From and To headers in the MIME message control what the recipient's email client displays."
+						);
+					}
+					if (argv["recipients"] === undefined) {
+						throw new Error(
+							"--recipients is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-sending send-raw",
@@ -104,23 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["from"] === undefined) {
-					argv["from"] = await promptForRequiredField(
-						"from",
-						"Sender email address."
-					);
-				}
-				if (argv["mime-message"] === undefined) {
-					argv["mime-message"] = await promptForRequiredField(
-						"mime-message",
-						"The full MIME-encoded email message. Should include standard RFC 5322 headers such as From, To, Subject, and Content-Type. The from and recipients fields in the request body control SMTP envelope routing; the From and To headers in the MIME message control what the recipient's email client displays."
-					);
-				}
-				if (argv["recipients"] === undefined) {
-					throw new Error(
-						"--recipients is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

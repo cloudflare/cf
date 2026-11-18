@@ -56,7 +56,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["member-user-email"] === undefined) {
+						argv["member-user-email"] = await promptForRequiredField(
+							"member-user-email",
+							"The member.user.email field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf organizations members create",
 						method: "POST",
@@ -97,12 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["member-user-email"] === undefined) {
-					argv["member-user-email"] = await promptForRequiredField(
-						"member-user-email",
-						"The member.user.email field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

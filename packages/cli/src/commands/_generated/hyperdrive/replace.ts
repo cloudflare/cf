@@ -188,7 +188,44 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API."
+						);
+					}
+					if (argv["origin-database"] === undefined) {
+						argv["origin-database"] = await promptForRequiredField(
+							"origin-database",
+							"Set the name of your origin database."
+						);
+					}
+					if (argv["origin-password"] === undefined) {
+						argv["origin-password"] = await promptForRequiredField(
+							"origin-password",
+							"Set the password needed to access your origin database. The API never returns this write-only value.",
+							{ kind: "secret" }
+						);
+					}
+					if (argv["origin-scheme"] === undefined) {
+						argv["origin-scheme"] = await promptForRequiredEnumField(
+							"origin-scheme",
+							"Specifies the URL scheme used to connect to your origin database.",
+							["postgres", "postgresql", "mysql"] as const
+						);
+					}
+					if (argv["origin-user"] === undefined) {
+						argv["origin-user"] = await promptForRequiredField(
+							"origin-user",
+							"Set the user of your origin database."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf hyperdrive replace",
@@ -294,38 +331,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API."
-					);
-				}
-				if (argv["origin-database"] === undefined) {
-					argv["origin-database"] = await promptForRequiredField(
-						"origin-database",
-						"Set the name of your origin database."
-					);
-				}
-				if (argv["origin-password"] === undefined) {
-					argv["origin-password"] = await promptForRequiredField(
-						"origin-password",
-						"Set the password needed to access your origin database. The API never returns this write-only value.",
-						{ kind: "secret" }
-					);
-				}
-				if (argv["origin-scheme"] === undefined) {
-					argv["origin-scheme"] = await promptForRequiredEnumField(
-						"origin-scheme",
-						"Specifies the URL scheme used to connect to your origin database.",
-						["postgres", "postgresql", "mysql"] as const
-					);
-				}
-				if (argv["origin-user"] === undefined) {
-					argv["origin-user"] = await promptForRequiredField(
-						"origin-user",
-						"Set the user of your origin database."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

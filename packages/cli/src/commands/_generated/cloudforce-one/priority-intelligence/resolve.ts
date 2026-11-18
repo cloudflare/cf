@@ -1104,7 +1104,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["definition-mode"] === undefined) {
+						argv["definition-mode"] = await promptForRequiredEnumField(
+							"definition-mode",
+							"The definition.mode field",
+							["managed", "custom"] as const
+						);
+					}
+					if (argv["definition-schema-version"] === undefined) {
+						throw new Error(
+							"--definition-schema-version is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one priority-intelligence resolve",
@@ -1251,18 +1268,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["definition-mode"] === undefined) {
-					argv["definition-mode"] = await promptForRequiredEnumField(
-						"definition-mode",
-						"The definition.mode field",
-						["managed", "custom"] as const
-					);
-				}
-				if (argv["definition-schema-version"] === undefined) {
-					throw new Error(
-						"--definition-schema-version is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -66,7 +66,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["cidr"] === undefined) {
+						argv["cidr"] = await promptForRequiredField(
+							"cidr",
+							"IP Prefix in Classless Inter-Domain Routing format."
+						);
+					}
+					if (argv["service-id"] === undefined) {
+						argv["service-id"] = await promptForRequiredField(
+							"service-id",
+							"Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. "
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf addressing prefixes service-bindings create",
@@ -110,18 +127,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["cidr"] === undefined) {
-					argv["cidr"] = await promptForRequiredField(
-						"cidr",
-						"IP Prefix in Classless Inter-Domain Routing format."
-					);
-				}
-				if (argv["service-id"] === undefined) {
-					argv["service-id"] = await promptForRequiredField(
-						"service-id",
-						"Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. "
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

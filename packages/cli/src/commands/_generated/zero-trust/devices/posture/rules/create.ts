@@ -2142,7 +2142,49 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name of the device posture rule."
+						);
+					}
+					if (argv["type"] === undefined) {
+						argv["type"] = await promptForRequiredEnumField(
+							"type",
+							"The type of device posture rule.",
+							[
+								"file",
+								"application",
+								"tanium",
+								"gateway",
+								"warp",
+								"disk_encryption",
+								"serial_number",
+								"sentinelone",
+								"carbonblack",
+								"firewall",
+								"os_version",
+								"domain_joined",
+								"client_certificate",
+								"client_certificate_v2",
+								"antivirus",
+								"unique_client_id",
+								"kolide",
+								"tanium_s2s",
+								"crowdstrike_s2s",
+								"intune",
+								"workspace_one",
+								"sentinelone_s2s",
+								"custom_s2s",
+							] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust devices posture rules create",
@@ -2315,43 +2357,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of the device posture rule."
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type of device posture rule.",
-						[
-							"file",
-							"application",
-							"tanium",
-							"gateway",
-							"warp",
-							"disk_encryption",
-							"serial_number",
-							"sentinelone",
-							"carbonblack",
-							"firewall",
-							"os_version",
-							"domain_joined",
-							"client_certificate",
-							"client_certificate_v2",
-							"antivirus",
-							"unique_client_id",
-							"kolide",
-							"tanium_s2s",
-							"crowdstrike_s2s",
-							"intune",
-							"workspace_one",
-							"sentinelone_s2s",
-							"custom_s2s",
-						] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

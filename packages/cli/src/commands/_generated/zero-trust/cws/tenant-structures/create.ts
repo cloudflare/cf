@@ -72,7 +72,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["application"] === undefined) {
+						argv["application"] = await promptForRequiredEnumField(
+							"application",
+							"Platform this structure models. Immutable after creation.",
+							["aws", "cloudflare"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Human-readable name; unique per account"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust cws tenant-structures create",
@@ -113,19 +131,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["application"] === undefined) {
-					argv["application"] = await promptForRequiredEnumField(
-						"application",
-						"Platform this structure models. Immutable after creation.",
-						["aws", "cloudflare"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Human-readable name; unique per account"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

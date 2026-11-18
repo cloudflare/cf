@@ -72,7 +72,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["stream-key"] === undefined) {
+						argv["stream-key"] = await promptForRequiredField(
+							"stream-key",
+							"The streamKey used to authenticate against an output's target.",
+							{ kind: "secret" }
+						);
+					}
+					if (argv["url"] === undefined) {
+						argv["url"] = await promptForRequiredField(
+							"url",
+							"The URL an output uses to restream.",
+							{ kind: "secret" }
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf stream live-inputs outputs create",
@@ -122,20 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["stream-key"] === undefined) {
-					argv["stream-key"] = await promptForRequiredField(
-						"stream-key",
-						"The streamKey used to authenticate against an output's target.",
-						{ kind: "secret" }
-					);
-				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						"The URL an output uses to restream.",
-						{ kind: "secret" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

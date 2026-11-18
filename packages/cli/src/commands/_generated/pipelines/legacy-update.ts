@@ -158,7 +158,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["destination-format"] === undefined) {
+						argv["destination-format"] = await promptForRequiredEnumField(
+							"destination-format",
+							"Specifies the format of data to deliver.",
+							["json"] as const
+						);
+					}
+					if (argv["destination-path-bucket"] === undefined) {
+						argv["destination-path-bucket"] = await promptForRequiredField(
+							"destination-path-bucket",
+							"Specifies the R2 Bucket to store files."
+						);
+					}
+					if (argv["destination-type"] === undefined) {
+						argv["destination-type"] = await promptForRequiredEnumField(
+							"destination-type",
+							"Specifies the type of destination.",
+							["r2"] as const
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"Defines the name of the pipeline."
+						);
+					}
+					if (argv["source"] === undefined) {
+						throw new Error(
+							"--source is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf pipelines legacy-update",
@@ -262,37 +298,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["destination-format"] === undefined) {
-					argv["destination-format"] = await promptForRequiredEnumField(
-						"destination-format",
-						"Specifies the format of data to deliver.",
-						["json"] as const
-					);
-				}
-				if (argv["destination-path-bucket"] === undefined) {
-					argv["destination-path-bucket"] = await promptForRequiredField(
-						"destination-path-bucket",
-						"Specifies the R2 Bucket to store files."
-					);
-				}
-				if (argv["destination-type"] === undefined) {
-					argv["destination-type"] = await promptForRequiredEnumField(
-						"destination-type",
-						"Specifies the type of destination.",
-						["r2"] as const
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"Defines the name of the pipeline."
-					);
-				}
-				if (argv["source"] === undefined) {
-					throw new Error(
-						"--source is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

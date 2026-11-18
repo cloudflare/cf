@@ -123,7 +123,46 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["client-name"] === undefined) {
+						argv["client-name"] = await promptForRequiredField(
+							"client-name",
+							"Human-readable name of the OAuth client."
+						);
+					}
+					if (argv["grant-types"] === undefined) {
+						throw new Error(
+							"--grant-types is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["redirect-uris"] === undefined) {
+						throw new Error(
+							"--redirect-uris is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["response-types"] === undefined) {
+						throw new Error(
+							"--response-types is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["scopes"] === undefined) {
+						throw new Error(
+							"--scopes is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["token-endpoint-auth-method"] === undefined) {
+						argv["token-endpoint-auth-method"] =
+							await promptForRequiredEnumField(
+								"token-endpoint-auth-method",
+								"The authentication method the client uses at the token endpoint.",
+								["none", "client_secret_basic", "client_secret_post"] as const
+							);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf iam oauth-clients create",
@@ -188,39 +227,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["client-name"] === undefined) {
-					argv["client-name"] = await promptForRequiredField(
-						"client-name",
-						"Human-readable name of the OAuth client."
-					);
-				}
-				if (argv["grant-types"] === undefined) {
-					throw new Error(
-						"--grant-types is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["redirect-uris"] === undefined) {
-					throw new Error(
-						"--redirect-uris is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["response-types"] === undefined) {
-					throw new Error(
-						"--response-types is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["scopes"] === undefined) {
-					throw new Error(
-						"--scopes is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["token-endpoint-auth-method"] === undefined) {
-					argv["token-endpoint-auth-method"] = await promptForRequiredEnumField(
-						"token-endpoint-auth-method",
-						"The authentication method the client uses at the token endpoint.",
-						["none", "client_secret_basic", "client_secret_post"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

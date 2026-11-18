@@ -61,7 +61,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["destination-conf"] === undefined) {
+						argv["destination-conf"] = await promptForRequiredField(
+							"destination-conf",
+							"The full URI for the bucket. This field only applies to \`full\` packet captures."
+						);
+					}
+					if (argv["ownership-challenge"] === undefined) {
+						argv["ownership-challenge"] = await promptForRequiredField(
+							"ownership-challenge",
+							"The ownership challenge filename stored in the bucket."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit pcaps ownership validate",
@@ -101,18 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Validated` });
 					return;
 				}
-				if (argv["destination-conf"] === undefined) {
-					argv["destination-conf"] = await promptForRequiredField(
-						"destination-conf",
-						"The full URI for the bucket. This field only applies to \`full\` packet captures."
-					);
-				}
-				if (argv["ownership-challenge"] === undefined) {
-					argv["ownership-challenge"] = await promptForRequiredField(
-						"ownership-challenge",
-						"The ownership challenge filename stored in the bucket."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

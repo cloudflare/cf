@@ -148,7 +148,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["bucket"] === undefined) {
+						argv["bucket"] = await promptForRequiredField(
+							"bucket",
+							"The bucket field"
+						);
+					}
+					if (argv["vendor"] === undefined) {
+						argv["vendor"] = await promptForRequiredEnumField(
+							"vendor",
+							"The vendor field",
+							["s3", "gcs", "r2"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf r2 super-slurper connectivity-precheck source",
@@ -227,19 +245,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["bucket"] === undefined) {
-					argv["bucket"] = await promptForRequiredField(
-						"bucket",
-						"The bucket field"
-					);
-				}
-				if (argv["vendor"] === undefined) {
-					argv["vendor"] = await promptForRequiredEnumField(
-						"vendor",
-						"The vendor field",
-						["s3", "gcs", "r2"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

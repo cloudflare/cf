@@ -79,7 +79,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["actions"] === undefined) {
+						throw new Error(
+							"--actions is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["matchers"] === undefined) {
+						throw new Error(
+							"--matchers is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf email-routing rules update",
 						method: "PUT",
@@ -132,16 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["actions"] === undefined) {
-					throw new Error(
-						"--actions is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["matchers"] === undefined) {
-					throw new Error(
-						"--matchers is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

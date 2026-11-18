@@ -119,7 +119,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["dataset-id"] === undefined) {
+						argv["dataset-id"] = await promptForRequiredField(
+							"dataset-id",
+							"Dataset ID containing the events to update. Required to prevent cross-account modifications."
+						);
+					}
+					if (argv["event-ids"] === undefined) {
+						throw new Error(
+							"--event-ids is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel events bulk-update",
@@ -233,17 +249,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["dataset-id"] === undefined) {
-					argv["dataset-id"] = await promptForRequiredField(
-						"dataset-id",
-						"Dataset ID containing the events to update. Required to prevent cross-account modifications."
-					);
-				}
-				if (argv["event-ids"] === undefined) {
-					throw new Error(
-						"--event-ids is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody(

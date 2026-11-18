@@ -60,7 +60,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["validation-method"] === undefined) {
+						argv["validation-method"] = await promptForRequiredEnumField(
+							"validation-method",
+							"Desired validation method.",
+							["http", "cname", "txt", "email"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf ssl verification edit",
 						method: "PATCH",
@@ -99,13 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["validation-method"] === undefined) {
-					argv["validation-method"] = await promptForRequiredEnumField(
-						"validation-method",
-						"Desired validation method.",
-						["http", "cname", "txt", "email"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

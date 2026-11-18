@@ -80,7 +80,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["action"] === undefined) {
+						argv["action"] = await promptForRequiredEnumField(
+							"action",
+							"The action field",
+							["cancel"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai-search jobs cancel",
@@ -129,13 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["action"] === undefined) {
-					argv["action"] = await promptForRequiredEnumField(
-						"action",
-						"The action field",
-						["cancel"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

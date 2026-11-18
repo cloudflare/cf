@@ -78,7 +78,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["enabled"] === undefined) {
+						throw new Error(
+							"--enabled is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField(
+							"name",
+							"The name field"
+						);
+					}
+					if (argv["pattern-regex"] === undefined) {
+						argv["pattern-regex"] = await promptForRequiredField(
+							"pattern-regex",
+							"The pattern.regex field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp entries create",
@@ -133,20 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["enabled"] === undefined) {
-					throw new Error(
-						"--enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
-				}
-				if (argv["pattern-regex"] === undefined) {
-					argv["pattern-regex"] = await promptForRequiredField(
-						"pattern-regex",
-						"The pattern.regex field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

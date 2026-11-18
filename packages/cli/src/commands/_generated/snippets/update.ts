@@ -57,6 +57,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (
+					argv.body === undefined &&
+					argv.file === undefined &&
+					argv["metadata"] === undefined
+				) {
+					throw new Error(
+						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+					);
+				}
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf snippets update",
@@ -74,15 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					});
 					return;
-				}
-				if (
-					argv.body === undefined &&
-					argv.file === undefined &&
-					argv["metadata"] === undefined
-				) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
 				}
 				const client = await createCommandClient(argv);
 				const zoneId = await getZoneId({ zone: argv.zone }, client, {

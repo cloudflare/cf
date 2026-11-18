@@ -57,7 +57,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["status"] === undefined) {
+						argv["status"] = await promptForRequiredEnumField(
+							"status",
+							"Status of your response to the invitation (rejected or accepted).",
+							["accepted", "rejected"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf user invites respond",
 						method: "PATCH",
@@ -88,13 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["status"] === undefined) {
-					argv["status"] = await promptForRequiredEnumField(
-						"status",
-						"Status of your response to the invitation (rejected or accepted).",
-						["accepted", "rejected"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

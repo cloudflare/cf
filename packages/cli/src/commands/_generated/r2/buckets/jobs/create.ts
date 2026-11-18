@@ -121,7 +121,30 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					headers["cf-r2-data-catalog-check"] = String(
 						argv["cf-r2-data-catalog-check"]
 					);
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["job-type"] === undefined) {
+						argv["job-type"] = await promptForRequiredEnumField(
+							"job-type",
+							"The jobType field",
+							["prefixDelete", "storageClassMigration"] as const
+						);
+					}
+
+					if (
+						argv["job-type"] === "prefixDelete" &&
+						argv["prefix"] === undefined
+					) {
+						argv["prefix"] = await promptForRequiredField(
+							"prefix",
+							"Prefix matched against object keys. A non-empty value must end in \`/\`. An empty string empties the entire bucket. ",
+							{ question: "Enter value for --prefix" }
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf r2 buckets jobs create",
@@ -176,24 +199,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Done` });
 					return;
 				}
-				if (argv["job-type"] === undefined) {
-					argv["job-type"] = await promptForRequiredEnumField(
-						"job-type",
-						"The jobType field",
-						["prefixDelete", "storageClassMigration"] as const
-					);
-				}
-
-				if (
-					argv["job-type"] === "prefixDelete" &&
-					argv["prefix"] === undefined
-				) {
-					argv["prefix"] = await promptForRequiredField(
-						"prefix",
-						"Prefix matched against object keys. A non-empty value must end in \`/\`. An empty string empties the entire bucket. ",
-						{ question: "Enter value for --prefix" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

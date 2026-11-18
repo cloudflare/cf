@@ -86,7 +86,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["ha-mode"] === undefined) {
+						argv["ha-mode"] = await promptForRequiredEnumField(
+							"ha-mode",
+							"High-availability mode for the Mesh node. \`none\` means HA is enabled but no provider is configured yet (newly created nodes default to this). \`disabled\` means HA is explicitly turned off. \`aws\` uses AWS ENI move for failover. \`local\` uses virtual IPs (VIPs) on the local interface.",
+							["none", "disabled", "aws", "local"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf mesh nodes configurations update",
@@ -136,13 +148,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["ha-mode"] === undefined) {
-					argv["ha-mode"] = await promptForRequiredEnumField(
-						"ha-mode",
-						"High-availability mode for the Mesh node. \`none\` means HA is enabled but no provider is configured yet (newly created nodes default to this). \`disabled\` means HA is explicitly turned off. \`aws\` uses AWS ENI move for failover. \`local\` uses virtual IPs (VIPs) on the local interface.",
-						["none", "disabled", "aws", "local"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -58,7 +58,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["auto-refresh-seconds"] === undefined) {
+						throw new Error(
+							"--auto-refresh-seconds is required (or pass --body with this field set)."
+						);
+					}
+					if (argv["name"] === undefined) {
+						argv["name"] = await promptForRequiredField("name", "Zone name.");
+					}
+					if (argv["peers"] === undefined) {
+						throw new Error(
+							"--peers is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					formatDryRun({
 						command: "cf dns zone-transfers incoming update",
 						method: "PUT",
@@ -98,19 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["auto-refresh-seconds"] === undefined) {
-					throw new Error(
-						"--auto-refresh-seconds is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "Zone name.");
-				}
-				if (argv["peers"] === undefined) {
-					throw new Error(
-						"--peers is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

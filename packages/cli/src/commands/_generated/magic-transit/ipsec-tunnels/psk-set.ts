@@ -62,7 +62,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					validate_only: argv["validate-only"],
 				};
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["psks"] === undefined) {
+						throw new Error(
+							"--psks is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit ipsec-tunnels psk-set",
@@ -103,11 +113,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["psks"] === undefined) {
-					throw new Error(
-						"--psks is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

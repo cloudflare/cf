@@ -80,7 +80,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["token"] === undefined) {
+						argv["token"] = await promptForRequiredField(
+							"token",
+							"The participant authentication token to revoke.",
+							{ kind: "secret" }
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf realtime kit meetings participants tokens revoke",
@@ -130,13 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
 				}
-				if (argv["token"] === undefined) {
-					argv["token"] = await promptForRequiredField(
-						"token",
-						"The participant authentication token to revoke.",
-						{ kind: "secret" }
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

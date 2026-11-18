@@ -67,7 +67,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"A short description of the custom asset."
+						);
+					}
+					if (argv["url"] === undefined) {
+						argv["url"] = await promptForRequiredField(
+							"url",
+							"The URL where the asset content is fetched from."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -134,18 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"A short description of the custom asset."
-					);
-				}
-				if (argv["url"] === undefined) {
-					argv["url"] = await promptForRequiredField(
-						"url",
-						"The URL where the asset content is fetched from."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -93,7 +93,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["idempotency-key"] !== undefined)
 					headers["Idempotency-Key"] = String(argv["idempotency-key"]);
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["content"] === undefined) {
+						argv["content"] = await promptForRequiredField(
+							"content",
+							"The content field"
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one requests messages create",
@@ -152,12 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["content"] === undefined) {
-					argv["content"] = await promptForRequiredField(
-						"content",
-						"The content field"
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

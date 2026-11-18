@@ -149,7 +149,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["description"] === undefined) {
+						argv["description"] = await promptForRequiredField(
+							"description",
+							"Description of the rollout process."
+						);
+					}
+					if (argv["strategy"] === undefined) {
+						argv["strategy"] = await promptForRequiredEnumField(
+							"strategy",
+							'Strategy used for the rollout. - "rolling": Step-based rollout with health gates. Actively replaces instances to reach each step\'s target percentage. - "new_instances": Percentage control over version distribution. Version sync actively replaces instances to match the configured percentage. The "full_auto" kind advances through fixed percentage targets after target-version health is observed. ',
+							["rolling", "new_instances"] as const
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf containers applications rollouts create",
@@ -223,19 +241,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["description"] === undefined) {
-					argv["description"] = await promptForRequiredField(
-						"description",
-						"Description of the rollout process."
-					);
-				}
-				if (argv["strategy"] === undefined) {
-					argv["strategy"] = await promptForRequiredEnumField(
-						"strategy",
-						'Strategy used for the rollout. - "rolling": Step-based rollout with health gates. Actively replaces instances to reach each step\'s target percentage. - "new_instances": Percentage control over version distribution. Version sync actively replaces instances to match the configured percentage. The "full_auto" kind advances through fixed percentage targets after target-version health is observed. ',
-						["rolling", "new_instances"] as const
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

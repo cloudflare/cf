@@ -73,7 +73,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["query"] === undefined) {
+						argv["query"] = await promptForRequiredField(
+							"query",
+							"Search text, from 1 to 1000 characters after trimming."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel search",
@@ -112,12 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
 				}
-				if (argv["query"] === undefined) {
-					argv["query"] = await promptForRequiredField(
-						"query",
-						"Search text, from 1 to 1000 characters after trimming."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

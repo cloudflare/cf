@@ -83,7 +83,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["nexthop"] === undefined) {
+						argv["nexthop"] = await promptForRequiredField(
+							"nexthop",
+							"The next-hop IP Address for the static route."
+						);
+					}
+					if (argv["prefix"] === undefined) {
+						argv["prefix"] = await promptForRequiredField(
+							"prefix",
+							"IP Prefix in Classless Inter-Domain Routing format."
+						);
+					}
+					if (argv["priority"] === undefined) {
+						throw new Error(
+							"--priority is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit routes create",
@@ -134,23 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["nexthop"] === undefined) {
-					argv["nexthop"] = await promptForRequiredField(
-						"nexthop",
-						"The next-hop IP Address for the static route."
-					);
-				}
-				if (argv["prefix"] === undefined) {
-					argv["prefix"] = await promptForRequiredField(
-						"prefix",
-						"IP Prefix in Classless Inter-Domain Routing format."
-					);
-				}
-				if (argv["priority"] === undefined) {
-					throw new Error(
-						"--priority is required (or pass --body with this field set)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

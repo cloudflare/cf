@@ -67,7 +67,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["branch"] === undefined) {
+						argv["branch"] = await promptForRequiredField(
+							"branch",
+							"Git branch name."
+						);
+					}
+					if (argv["deploy-hook-name"] === undefined) {
+						argv["deploy-hook-name"] = await promptForRequiredField(
+							"deploy-hook-name",
+							"Deploy hook name (1-58 characters)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf builds deploy-hooks update",
@@ -115,18 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["branch"] === undefined) {
-					argv["branch"] = await promptForRequiredField(
-						"branch",
-						"Git branch name."
-					);
-				}
-				if (argv["deploy-hook-name"] === undefined) {
-					argv["deploy-hook-name"] = await promptForRequiredField(
-						"deploy-hook-name",
-						"Deploy hook name (1-58 characters)."
-					);
-				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};

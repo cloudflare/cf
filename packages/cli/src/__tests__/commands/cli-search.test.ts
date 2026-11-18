@@ -137,6 +137,18 @@ describe("cf cli search", () => {
 		const results = JSON.parse(output.stdout()) as Record<string, string>[];
 		expect(results[0]?.command).toBe(expected);
 	});
+
+	// Read and lookup wordings for reading the Zero Trust organization
+	// (cloudflare/cf#692). Write commands must not outrank the read.
+	it.each([
+		["look up the Zero Trust organization", "cf zero-trust organization get"],
+		["read Zero Trust organization", "cf zero-trust organization get"],
+		["get Zero Trust organization", "cf zero-trust organization get"],
+	])("ranks %j to %s", async (query, expected) => {
+		await runCf(["cli", "search", query]);
+		const results = JSON.parse(output.stdout()) as Record<string, string>[];
+		expect(results[0]?.command).toBe(expected);
+	});
 });
 
 describe("search keywords for generated commands", () => {

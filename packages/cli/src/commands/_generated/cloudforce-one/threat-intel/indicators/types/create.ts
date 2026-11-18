@@ -66,15 +66,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["indicator-type"] === undefined) {
-						argv["indicator-type"] = await promptForRequiredField(
-							"indicator-type",
-							"The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["indicator-type"] === undefined) {
+							argv["indicator-type"] = await promptForRequiredField(
+								"indicator-type",
+								"The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel indicators types create",
@@ -117,6 +117,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["indicator-type"] === undefined) {
+					argv["indicator-type"] = await promptForRequiredField(
+						"indicator-type",
+						"The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
+					);
 				}
 
 				// Assemble request body from individual flags

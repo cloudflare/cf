@@ -58,15 +58,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["public-key"] === undefined) {
-						argv["public-key"] = await promptForRequiredField(
-							"public-key",
-							"Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["public-key"] === undefined) {
+							argv["public-key"] = await promptForRequiredField(
+								"public-key",
+								"Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads."
+							);
+						}
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -125,6 +125,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["public-key"] === undefined) {
+					argv["public-key"] = await promptForRequiredField(
+						"public-key",
+						"Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads."
+					);
 				}
 
 				// Assemble request body from individual flags

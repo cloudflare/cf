@@ -62,15 +62,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["queue-name"] === undefined) {
-						argv["queue-name"] = await promptForRequiredField(
-							"queue-name",
-							"The queue_name field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["queue-name"] === undefined) {
+							argv["queue-name"] = await promptForRequiredField(
+								"queue-name",
+								"The queue_name field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf queues create",
@@ -105,6 +105,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["queue-name"] === undefined) {
+					argv["queue-name"] = await promptForRequiredField(
+						"queue-name",
+						"The queue_name field"
+					);
 				}
 
 				// Assemble request body from individual flags

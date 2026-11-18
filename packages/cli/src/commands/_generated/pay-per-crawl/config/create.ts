@@ -57,24 +57,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["bot-overrides"] === undefined) {
-						throw new Error(
-							"--bot-overrides is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["enabled"] === undefined) {
-						throw new Error(
-							"--enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["price-usd-microcents"] === undefined) {
-						throw new Error(
-							"--price-usd-microcents is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["bot-overrides"] === undefined) {
+							throw new Error(
+								"--bot-overrides is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["enabled"] === undefined) {
+							throw new Error(
+								"--enabled is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["price-usd-microcents"] === undefined) {
+							throw new Error(
+								"--price-usd-microcents is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf pay-per-crawl config create",
 						method: "POST",
@@ -122,6 +122,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["bot-overrides"] === undefined) {
+					throw new Error(
+						"--bot-overrides is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["enabled"] === undefined) {
+					throw new Error(
+						"--enabled is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["price-usd-microcents"] === undefined) {
+					throw new Error(
+						"--price-usd-microcents is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

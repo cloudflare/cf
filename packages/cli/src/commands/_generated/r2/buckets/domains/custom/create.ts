@@ -91,26 +91,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["cf-r2-jurisdiction"] !== undefined)
 					headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
-				if (argv.body === undefined) {
-					if (argv["domain"] === undefined) {
-						argv["domain"] = await promptForRequiredField(
-							"domain",
-							"Name of the custom domain to be added."
-						);
-					}
-					if (argv["enabled"] === undefined) {
-						throw new Error(
-							"--enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["zone-id"] === undefined) {
-						argv["zone-id"] = await promptForRequiredField(
-							"zone-id",
-							"Zone ID of the custom domain."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["domain"] === undefined) {
+							argv["domain"] = await promptForRequiredField(
+								"domain",
+								"Name of the custom domain to be added."
+							);
+						}
+						if (argv["enabled"] === undefined) {
+							throw new Error(
+								"--enabled is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["zone-id"] === undefined) {
+							argv["zone-id"] = await promptForRequiredField(
+								"zone-id",
+								"Zone ID of the custom domain."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf r2 buckets domains custom create",
@@ -160,6 +160,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["domain"] === undefined) {
+					argv["domain"] = await promptForRequiredField(
+						"domain",
+						"Name of the custom domain to be added."
+					);
+				}
+				if (argv["enabled"] === undefined) {
+					throw new Error(
+						"--enabled is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["zone-id"] === undefined) {
+					argv["zone-id"] = await promptForRequiredField(
+						"zone-id",
+						"Zone ID of the custom domain."
+					);
 				}
 
 				// Assemble request body from individual flags

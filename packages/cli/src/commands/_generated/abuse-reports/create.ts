@@ -892,56 +892,56 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["act"] === undefined) {
-						argv["act"] = await promptForRequiredEnumField(
-							"act",
-							"The act field",
-							[
-								"abuse_dmca",
-								"abuse_trademark",
-								"abuse_general",
-								"abuse_phishing",
-								"abuse_children",
-								"abuse_threat",
-								"abuse_registrar_whois",
-								"abuse_ncsei",
-							] as const
-						);
-					}
-					if (argv["email"] === undefined) {
-						argv["email"] = await promptForRequiredField(
-							"email",
-							"A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
-						);
-					}
-					if (argv["email2"] === undefined) {
-						argv["email2"] = await promptForRequiredField(
-							"email2",
-							"Should match the value provided in \`email\`"
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
-						);
-					}
-					if (argv["urls"] === undefined) {
-						argv["urls"] = await promptForRequiredField(
-							"urls",
-							"A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
-						);
-					}
-					if (argv["owner-notification"] === undefined) {
-						argv["owner-notification"] = await promptForRequiredEnumField(
-							"owner-notification",
-							"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
-							["send", "send-anon", "none"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["act"] === undefined) {
+							argv["act"] = await promptForRequiredEnumField(
+								"act",
+								"The act field",
+								[
+									"abuse_dmca",
+									"abuse_trademark",
+									"abuse_general",
+									"abuse_phishing",
+									"abuse_children",
+									"abuse_threat",
+									"abuse_registrar_whois",
+									"abuse_ncsei",
+								] as const
+							);
+						}
+						if (argv["email"] === undefined) {
+							argv["email"] = await promptForRequiredField(
+								"email",
+								"A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
+							);
+						}
+						if (argv["email2"] === undefined) {
+							argv["email2"] = await promptForRequiredField(
+								"email2",
+								"Should match the value provided in \`email\`"
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
+							);
+						}
+						if (argv["urls"] === undefined) {
+							argv["urls"] = await promptForRequiredField(
+								"urls",
+								"A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
+							);
+						}
+						if (argv["owner-notification"] === undefined) {
+							argv["owner-notification"] = await promptForRequiredEnumField(
+								"owner-notification",
+								"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
+								["send", "send-anon", "none"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf abuse-reports create",
@@ -1130,6 +1130,53 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["act"] === undefined) {
+					argv["act"] = await promptForRequiredEnumField(
+						"act",
+						"The act field",
+						[
+							"abuse_dmca",
+							"abuse_trademark",
+							"abuse_general",
+							"abuse_phishing",
+							"abuse_children",
+							"abuse_threat",
+							"abuse_registrar_whois",
+							"abuse_ncsei",
+						] as const
+					);
+				}
+				if (argv["email"] === undefined) {
+					argv["email"] = await promptForRequiredField(
+						"email",
+						"A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
+					);
+				}
+				if (argv["email2"] === undefined) {
+					argv["email2"] = await promptForRequiredField(
+						"email2",
+						"Should match the value provided in \`email\`"
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
+					);
+				}
+				if (argv["urls"] === undefined) {
+					argv["urls"] = await promptForRequiredField(
+						"urls",
+						"A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/)."
+					);
+				}
+				if (argv["owner-notification"] === undefined) {
+					argv["owner-notification"] = await promptForRequiredEnumField(
+						"owner-notification",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
+						["send", "send-anon", "none"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -57,14 +57,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["keys"] === undefined) {
-						throw new Error(
-							"--keys is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["keys"] === undefined) {
+							throw new Error(
+								"--keys is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command:
 							"cf api-security token-validation configurations credentials edit",
@@ -103,6 +103,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["keys"] === undefined) {
+					throw new Error(
+						"--keys is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

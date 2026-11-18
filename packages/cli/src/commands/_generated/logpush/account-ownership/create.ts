@@ -58,16 +58,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["destination-conf"] === undefined) {
-						argv["destination-conf"] = await promptForRequiredField(
-							"destination-conf",
-							"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
-							{ kind: "secret" }
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["destination-conf"] === undefined) {
+							argv["destination-conf"] = await promptForRequiredField(
+								"destination-conf",
+								"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
+								{ kind: "secret" }
+							);
+						}
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -127,6 +127,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["destination-conf"] === undefined) {
+					argv["destination-conf"] = await promptForRequiredField(
+						"destination-conf",
+						"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
+						{ kind: "secret" }
+					);
 				}
 
 				// Assemble request body from individual flags

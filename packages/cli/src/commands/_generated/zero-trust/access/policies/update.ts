@@ -155,27 +155,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["decision"] === undefined) {
-						argv["decision"] = await promptForRequiredEnumField(
-							"decision",
-							"The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.",
-							["allow", "deny", "non_identity", "bypass"] as const
-						);
-					}
-					if (argv["include"] === undefined) {
-						throw new Error(
-							"--include is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the Access policy."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["decision"] === undefined) {
+							argv["decision"] = await promptForRequiredEnumField(
+								"decision",
+								"The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.",
+								["allow", "deny", "non_identity", "bypass"] as const
+							);
+						}
+						if (argv["include"] === undefined) {
+							throw new Error(
+								"--include is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name of the Access policy."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust access policies update",
@@ -268,6 +268,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["decision"] === undefined) {
+					argv["decision"] = await promptForRequiredEnumField(
+						"decision",
+						"The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.",
+						["allow", "deny", "non_identity", "bypass"] as const
+					);
+				}
+				if (argv["include"] === undefined) {
+					throw new Error(
+						"--include is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The name of the Access policy."
+					);
 				}
 
 				// Assemble request body from individual flags

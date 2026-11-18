@@ -50,6 +50,7 @@ describe.each([false, true])("Worker secret input (dry run: %s)", (dryRun) => {
 		log = vi.spyOn(console, "log").mockImplementation(() => {});
 		stderr = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
 		send.mockClear();
+		vi.mocked(clack.password).mockClear();
 		server.use(
 			http.put(
 				`${TEST_BASE_URL}/accounts/test-account/workers/scripts/example/secrets`,
@@ -108,6 +109,22 @@ describe.each([false, true])("Worker secret input (dry run: %s)", (dryRun) => {
 		expect(read).toHaveBeenCalledOnce();
 		expectValue("piped-secret");
 	});
+
+	if (!dryRun) {
+		it("does not consume stdin when authentication fails", async () => {
+			const read = stdin(["unread-secret\n"]);
+			await expect(
+				runCf(args, {
+					...env,
+					CLOUDFLARE_API_TOKEN: undefined,
+					CF_API_TOKEN: undefined,
+				})
+			).rejects.toThrow("No authentication token found.");
+			expect(read).not.toHaveBeenCalled();
+			expect(clack.password).not.toHaveBeenCalled();
+			expect(send).not.toHaveBeenCalled();
+		});
+	}
 
 	it("uses --text without consuming stdin", async () => {
 		const read = stdin(["ignored-secret"]);

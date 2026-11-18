@@ -70,16 +70,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["action"] === undefined) {
-						argv["action"] = await promptForRequiredEnumField(
-							"action",
-							"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
-							["dismiss", "undismiss"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["action"] === undefined) {
+							argv["action"] = await promptForRequiredEnumField(
+								"action",
+								"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
+								["dismiss", "undismiss"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf brand-protection matches bulk-dismiss",
@@ -111,6 +111,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["action"] === undefined) {
+					argv["action"] = await promptForRequiredEnumField(
+						"action",
+						"\`dismiss\` to dismiss the matches, or \`undismiss\` to restore them.",
+						["dismiss", "undismiss"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

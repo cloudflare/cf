@@ -68,22 +68,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["region"] === undefined) {
-						argv["region"] = await promptForRequiredField(
-							"region",
-							"Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint."
-						);
-					}
-					if (argv["vendor"] === undefined) {
-						argv["vendor"] = await promptForRequiredEnumField(
-							"vendor",
-							"Cloud vendor hosting the origin. Must be one of the supported vendors.",
-							["aws", "azure", "gcp", "oci"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["region"] === undefined) {
+							argv["region"] = await promptForRequiredField(
+								"region",
+								"Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint."
+							);
+						}
+						if (argv["vendor"] === undefined) {
+							argv["vendor"] = await promptForRequiredEnumField(
+								"vendor",
+								"Cloud vendor hosting the origin. Must be one of the supported vendors.",
+								["aws", "azure", "gcp", "oci"] as const
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf cache origin-cloud-regions update",
 						method: "PUT",
@@ -126,6 +126,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["region"] === undefined) {
+					argv["region"] = await promptForRequiredField(
+						"region",
+						"Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint."
+					);
+				}
+				if (argv["vendor"] === undefined) {
+					argv["vendor"] = await promptForRequiredEnumField(
+						"vendor",
+						"Cloud vendor hosting the origin. Must be one of the supported vendors.",
+						["aws", "azure", "gcp", "oci"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

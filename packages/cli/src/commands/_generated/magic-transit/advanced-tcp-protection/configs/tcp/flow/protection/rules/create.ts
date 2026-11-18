@@ -77,39 +77,39 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["burst-sensitivity"] === undefined) {
-						argv["burst-sensitivity"] = await promptForRequiredField(
-							"burst-sensitivity",
-							"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
-						);
-					}
-					if (argv["protection-mode"] === undefined) {
-						argv["protection-mode"] = await promptForRequiredField(
-							"protection-mode",
-							"The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
-						);
-					}
-					if (argv["rate-sensitivity"] === undefined) {
-						argv["rate-sensitivity"] = await promptForRequiredField(
-							"rate-sensitivity",
-							"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
-						);
-					}
-					if (argv["scope"] === undefined) {
-						argv["scope"] = await promptForRequiredField(
-							"scope",
-							"The scope for the TCP Flow Protection rule."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["burst-sensitivity"] === undefined) {
+							argv["burst-sensitivity"] = await promptForRequiredField(
+								"burst-sensitivity",
+								"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+							);
+						}
+						if (argv["protection-mode"] === undefined) {
+							argv["protection-mode"] = await promptForRequiredField(
+								"protection-mode",
+								"The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
+							);
+						}
+						if (argv["rate-sensitivity"] === undefined) {
+							argv["rate-sensitivity"] = await promptForRequiredField(
+								"rate-sensitivity",
+								"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
+							);
+						}
+						if (argv["scope"] === undefined) {
+							argv["scope"] = await promptForRequiredField(
+								"scope",
+								"The scope for the TCP Flow Protection rule."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command:
@@ -164,6 +164,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["burst-sensitivity"] === undefined) {
+					argv["burst-sensitivity"] = await promptForRequiredField(
+						"burst-sensitivity",
+						"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+					);
+				}
+				if (argv["protection-mode"] === undefined) {
+					argv["protection-mode"] = await promptForRequiredField(
+						"protection-mode",
+						"The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The name of the TCP Flow Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
+					);
+				}
+				if (argv["rate-sensitivity"] === undefined) {
+					argv["rate-sensitivity"] = await promptForRequiredField(
+						"rate-sensitivity",
+						"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
+					);
+				}
+				if (argv["scope"] === undefined) {
+					argv["scope"] = await promptForRequiredField(
+						"scope",
+						"The scope for the TCP Flow Protection rule."
+					);
 				}
 
 				// Assemble request body from individual flags

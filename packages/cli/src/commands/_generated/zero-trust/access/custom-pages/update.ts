@@ -86,28 +86,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["custom-html"] === undefined) {
-						argv["custom-html"] = await promptForRequiredField(
-							"custom-html",
-							"Custom page HTML."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Custom page name."
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"Custom page type.",
-							["identity_denied", "forbidden", "login", "interstitial"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["custom-html"] === undefined) {
+							argv["custom-html"] = await promptForRequiredField(
+								"custom-html",
+								"Custom page HTML."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Custom page name."
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"Custom page type.",
+								[
+									"identity_denied",
+									"forbidden",
+									"login",
+									"interstitial",
+								] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust access custom-pages update",
@@ -170,6 +175,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["custom-html"] === undefined) {
+					argv["custom-html"] = await promptForRequiredField(
+						"custom-html",
+						"Custom page HTML."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Custom page name."
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"Custom page type.",
+						["identity_denied", "forbidden", "login", "interstitial"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -56,14 +56,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["accepted-terms-of-service"] === undefined) {
-						throw new Error(
-							"--accepted-terms-of-service is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["accepted-terms-of-service"] === undefined) {
+							throw new Error(
+								"--accepted-terms-of-service is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -118,6 +118,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["accepted-terms-of-service"] === undefined) {
+					throw new Error(
+						"--accepted-terms-of-service is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

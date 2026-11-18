@@ -78,29 +78,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["deletes"] === undefined) {
-						throw new Error(
-							"--deletes is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["patches"] === undefined) {
-						throw new Error(
-							"--patches is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["posts"] === undefined) {
-						throw new Error(
-							"--posts is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["puts"] === undefined) {
-						throw new Error(
-							"--puts is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["deletes"] === undefined) {
+							throw new Error(
+								"--deletes is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["patches"] === undefined) {
+							throw new Error(
+								"--patches is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["posts"] === undefined) {
+							throw new Error(
+								"--posts is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["puts"] === undefined) {
+							throw new Error(
+								"--puts is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-security allow-policies bulk-apply",
@@ -142,6 +142,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Done` });
 					return;
+				}
+				if (argv["deletes"] === undefined) {
+					throw new Error(
+						"--deletes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["patches"] === undefined) {
+					throw new Error(
+						"--patches is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["posts"] === undefined) {
+					throw new Error(
+						"--posts is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["puts"] === undefined) {
+					throw new Error(
+						"--puts is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

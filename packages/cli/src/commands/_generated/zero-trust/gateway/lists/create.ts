@@ -81,32 +81,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Specify the list name."
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"Specify the list type.",
-							[
-								"SERIAL",
-								"URL",
-								"DOMAIN",
-								"EMAIL",
-								"IP",
-								"CATEGORY",
-								"LOCATION",
-								"DEVICE",
-								"AAGUID",
-							] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Specify the list name."
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"Specify the list type.",
+								[
+									"SERIAL",
+									"URL",
+									"DOMAIN",
+									"EMAIL",
+									"IP",
+									"CATEGORY",
+									"LOCATION",
+									"DEVICE",
+									"AAGUID",
+								] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust gateway lists create",
@@ -147,6 +147,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Specify the list name."
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"Specify the list type.",
+						[
+							"SERIAL",
+							"URL",
+							"DOMAIN",
+							"EMAIL",
+							"IP",
+							"CATEGORY",
+							"LOCATION",
+							"DEVICE",
+							"AAGUID",
+						] as const
+					);
 				}
 
 				// Assemble request body from individual flags

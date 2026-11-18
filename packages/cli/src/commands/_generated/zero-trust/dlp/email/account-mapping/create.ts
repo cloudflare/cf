@@ -99,16 +99,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["auth-requirements-type"] === undefined) {
-						argv["auth-requirements-type"] = await promptForRequiredEnumField(
-							"auth-requirements-type",
-							"The auth_requirements.type field",
-							["Org", "NoAuth"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["auth-requirements-type"] === undefined) {
+							argv["auth-requirements-type"] = await promptForRequiredEnumField(
+								"auth-requirements-type",
+								"The auth_requirements.type field",
+								["Org", "NoAuth"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp email account-mapping create",
@@ -147,6 +147,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["auth-requirements-type"] === undefined) {
+					argv["auth-requirements-type"] = await promptForRequiredEnumField(
+						"auth-requirements-type",
+						"The auth_requirements.type field",
+						["Org", "NoAuth"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

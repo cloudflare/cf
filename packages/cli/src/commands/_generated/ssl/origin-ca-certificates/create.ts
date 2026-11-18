@@ -81,27 +81,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["csr"] === undefined) {
-						argv["csr"] = await promptForRequiredField(
-							"csr",
-							"The Certificate Signing Request (CSR). Must be newline-encoded."
-						);
-					}
-					if (argv["hostnames"] === undefined) {
-						throw new Error(
-							"--hostnames is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["request-type"] === undefined) {
-						argv["request-type"] = await promptForRequiredEnumField(
-							"request-type",
-							'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
-							["origin-rsa", "origin-ecc", "keyless-certificate"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["csr"] === undefined) {
+							argv["csr"] = await promptForRequiredField(
+								"csr",
+								"The Certificate Signing Request (CSR). Must be newline-encoded."
+							);
+						}
+						if (argv["hostnames"] === undefined) {
+							throw new Error(
+								"--hostnames is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["request-type"] === undefined) {
+							argv["request-type"] = await promptForRequiredEnumField(
+								"request-type",
+								'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
+								["origin-rsa", "origin-ecc", "keyless-certificate"] as const
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf ssl origin-ca-certificates create",
 						method: "POST",
@@ -140,6 +140,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["csr"] === undefined) {
+					argv["csr"] = await promptForRequiredField(
+						"csr",
+						"The Certificate Signing Request (CSR). Must be newline-encoded."
+					);
+				}
+				if (argv["hostnames"] === undefined) {
+					throw new Error(
+						"--hostnames is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["request-type"] === undefined) {
+					argv["request-type"] = await promptForRequiredEnumField(
+						"request-type",
+						'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
+						["origin-rsa", "origin-ecc", "keyless-certificate"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

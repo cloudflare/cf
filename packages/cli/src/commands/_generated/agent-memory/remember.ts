@@ -70,15 +70,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["content"] === undefined) {
-						argv["content"] = await promptForRequiredField(
-							"content",
-							"Raw memory content to store."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["content"] === undefined) {
+							argv["content"] = await promptForRequiredField(
+								"content",
+								"Raw memory content to store."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf agent-memory remember",
@@ -125,6 +125,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["content"] === undefined) {
+					argv["content"] = await promptForRequiredField(
+						"content",
+						"Raw memory content to store."
+					);
 				}
 
 				// Assemble request body from individual flags

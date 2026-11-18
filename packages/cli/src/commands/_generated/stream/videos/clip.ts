@@ -109,25 +109,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["clipped-from-video-uid"] === undefined) {
-						argv["clipped-from-video-uid"] = await promptForRequiredField(
-							"clipped-from-video-uid",
-							"The unique video identifier (UID)."
-						);
-					}
-					if (argv["end-time-seconds"] === undefined) {
-						throw new Error(
-							"--end-time-seconds is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["start-time-seconds"] === undefined) {
-						throw new Error(
-							"--start-time-seconds is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["clipped-from-video-uid"] === undefined) {
+							argv["clipped-from-video-uid"] = await promptForRequiredField(
+								"clipped-from-video-uid",
+								"The unique video identifier (UID)."
+							);
+						}
+						if (argv["end-time-seconds"] === undefined) {
+							throw new Error(
+								"--end-time-seconds is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["start-time-seconds"] === undefined) {
+							throw new Error(
+								"--start-time-seconds is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf stream videos clip",
@@ -202,6 +202,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["clipped-from-video-uid"] === undefined) {
+					argv["clipped-from-video-uid"] = await promptForRequiredField(
+						"clipped-from-video-uid",
+						"The unique video identifier (UID)."
+					);
+				}
+				if (argv["end-time-seconds"] === undefined) {
+					throw new Error(
+						"--end-time-seconds is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["start-time-seconds"] === undefined) {
+					throw new Error(
+						"--start-time-seconds is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -65,15 +65,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["repo"] === undefined) {
-						argv["repo"] = await promptForRequiredField(
-							"repo",
-							"The repo field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["repo"] === undefined) {
+							argv["repo"] = await promptForRequiredField(
+								"repo",
+								"The repo field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf artifacts namespaces tokens create",
@@ -113,6 +113,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["repo"] === undefined) {
+					argv["repo"] = await promptForRequiredField("repo", "The repo field");
 				}
 
 				// Assemble request body from individual flags

@@ -66,27 +66,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["contents"] === undefined) {
-						argv["contents"] = await promptForRequiredField(
-							"contents",
-							"Actual contents of the PAC file"
-						);
-					}
-					if (argv["description"] === undefined) {
-						argv["description"] = await promptForRequiredField(
-							"description",
-							"Detailed description of the PAC file."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Name of the PAC file."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["contents"] === undefined) {
+							argv["contents"] = await promptForRequiredField(
+								"contents",
+								"Actual contents of the PAC file"
+							);
+						}
+						if (argv["description"] === undefined) {
+							argv["description"] = await promptForRequiredField(
+								"description",
+								"Detailed description of the PAC file."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Name of the PAC file."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust gateway pacfiles update",
@@ -134,6 +134,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["contents"] === undefined) {
+					argv["contents"] = await promptForRequiredField(
+						"contents",
+						"Actual contents of the PAC file"
+					);
+				}
+				if (argv["description"] === undefined) {
+					argv["description"] = await promptForRequiredField(
+						"description",
+						"Detailed description of the PAC file."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Name of the PAC file."
+					);
 				}
 
 				// Assemble request body from individual flags

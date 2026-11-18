@@ -62,15 +62,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["excluded-account-id"] === undefined) {
-						argv["excluded-account-id"] = await promptForRequiredField(
-							"excluded-account-id",
-							"The account to exclude from the organization-targeted share."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["excluded-account-id"] === undefined) {
+							argv["excluded-account-id"] = await promptForRequiredField(
+								"excluded-account-id",
+								"The account to exclude from the organization-targeted share."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing excluded-recipients create",
@@ -108,6 +108,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["excluded-account-id"] === undefined) {
+					argv["excluded-account-id"] = await promptForRequiredField(
+						"excluded-account-id",
+						"The account to exclude from the organization-targeted share."
+					);
 				}
 
 				// Assemble request body from individual flags

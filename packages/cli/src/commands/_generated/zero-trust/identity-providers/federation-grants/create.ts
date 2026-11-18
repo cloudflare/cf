@@ -57,15 +57,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["idp-id"] === undefined) {
-						argv["idp-id"] = await promptForRequiredField(
-							"idp-id",
-							"UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["idp-id"] === undefined) {
+							argv["idp-id"] = await promptForRequiredField(
+								"idp-id",
+								"UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command:
@@ -100,6 +100,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["idp-id"] === undefined) {
+					argv["idp-id"] = await promptForRequiredField(
+						"idp-id",
+						"UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated."
+					);
 				}
 
 				// Assemble request body from individual flags

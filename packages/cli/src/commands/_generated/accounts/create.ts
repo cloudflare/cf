@@ -72,15 +72,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["idempotency-key"] !== undefined)
 					headers["Idempotency-Key"] = String(argv["idempotency-key"]);
-				if (argv.body === undefined) {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Account name, limited to 65 UTF-8 bytes."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Account name, limited to 65 UTF-8 bytes."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf accounts create",
 						method: "POST",
@@ -123,6 +123,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Account name, limited to 65 UTF-8 bytes."
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -56,15 +56,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["requirement"] === undefined) {
-						argv["requirement"] = await promptForRequiredField(
-							"requirement",
-							"Natural-language Priority Intelligence Requirement."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["requirement"] === undefined) {
+							argv["requirement"] = await promptForRequiredField(
+								"requirement",
+								"Natural-language Priority Intelligence Requirement."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one priority-intelligence filters generate",
@@ -98,6 +98,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["requirement"] === undefined) {
+					argv["requirement"] = await promptForRequiredField(
+						"requirement",
+						"Natural-language Priority Intelligence Requirement."
+					);
 				}
 
 				// Assemble request body from individual flags

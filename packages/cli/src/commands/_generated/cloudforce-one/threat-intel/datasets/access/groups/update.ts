@@ -62,21 +62,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["description"] === undefined) {
-						argv["description"] = await promptForRequiredField(
-							"description",
-							"The description field"
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["description"] === undefined) {
+							argv["description"] = await promptForRequiredField(
+								"description",
+								"The description field"
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command:
@@ -120,6 +120,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["description"] === undefined) {
+					argv["description"] = await promptForRequiredField(
+						"description",
+						"The description field"
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField("name", "The name field");
 				}
 
 				// Assemble request body from individual flags

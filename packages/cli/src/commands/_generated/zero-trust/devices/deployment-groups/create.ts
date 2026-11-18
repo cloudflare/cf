@@ -67,20 +67,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"A user-friendly name for the deployment group."
-						);
-					}
-					if (argv["version-config"] === undefined) {
-						throw new Error(
-							"--version-config is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"A user-friendly name for the deployment group."
+							);
+						}
+						if (argv["version-config"] === undefined) {
+							throw new Error(
+								"--version-config is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust devices deployment-groups create",
@@ -119,6 +119,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"A user-friendly name for the deployment group."
+					);
+				}
+				if (argv["version-config"] === undefined) {
+					throw new Error(
+						"--version-config is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

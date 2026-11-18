@@ -202,27 +202,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					headers["x-magic-new-hc-target"] = String(
 						argv["x-magic-new-hc-target"]
 					);
-				if (argv.body === undefined) {
-					if (argv["cloudflare-endpoint"] === undefined) {
-						argv["cloudflare-endpoint"] = await promptForRequiredField(
-							"cloudflare-endpoint",
-							"The IP address assigned to the Cloudflare side of the IPsec tunnel."
-						);
-					}
-					if (argv["interface-address"] === undefined) {
-						argv["interface-address"] = await promptForRequiredField(
-							"interface-address",
-							"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the IPsec tunnel. The name cannot share a name with other tunnels."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["cloudflare-endpoint"] === undefined) {
+							argv["cloudflare-endpoint"] = await promptForRequiredField(
+								"cloudflare-endpoint",
+								"The IP address assigned to the Cloudflare side of the IPsec tunnel."
+							);
+						}
+						if (argv["interface-address"] === undefined) {
+							argv["interface-address"] = await promptForRequiredField(
+								"interface-address",
+								"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name of the IPsec tunnel. The name cannot share a name with other tunnels."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit ipsec-tunnels create",
@@ -340,6 +340,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["cloudflare-endpoint"] === undefined) {
+					argv["cloudflare-endpoint"] = await promptForRequiredField(
+						"cloudflare-endpoint",
+						"The IP address assigned to the Cloudflare side of the IPsec tunnel."
+					);
+				}
+				if (argv["interface-address"] === undefined) {
+					argv["interface-address"] = await promptForRequiredField(
+						"interface-address",
+						"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The name of the IPsec tunnel. The name cannot share a name with other tunnels."
+					);
 				}
 
 				// Assemble request body from individual flags

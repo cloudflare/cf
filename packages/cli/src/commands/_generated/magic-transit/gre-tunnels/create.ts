@@ -196,33 +196,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					headers["x-magic-new-hc-target"] = String(
 						argv["x-magic-new-hc-target"]
 					);
-				if (argv.body === undefined) {
-					if (argv["cloudflare-gre-endpoint"] === undefined) {
-						argv["cloudflare-gre-endpoint"] = await promptForRequiredField(
-							"cloudflare-gre-endpoint",
-							"The IP address assigned to the Cloudflare side of the GRE tunnel."
-						);
-					}
-					if (argv["customer-gre-endpoint"] === undefined) {
-						argv["customer-gre-endpoint"] = await promptForRequiredField(
-							"customer-gre-endpoint",
-							"The IP address assigned to the customer side of the GRE tunnel."
-						);
-					}
-					if (argv["interface-address"] === undefined) {
-						argv["interface-address"] = await promptForRequiredField(
-							"interface-address",
-							"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["cloudflare-gre-endpoint"] === undefined) {
+							argv["cloudflare-gre-endpoint"] = await promptForRequiredField(
+								"cloudflare-gre-endpoint",
+								"The IP address assigned to the Cloudflare side of the GRE tunnel."
+							);
+						}
+						if (argv["customer-gre-endpoint"] === undefined) {
+							argv["customer-gre-endpoint"] = await promptForRequiredField(
+								"customer-gre-endpoint",
+								"The IP address assigned to the customer side of the GRE tunnel."
+							);
+						}
+						if (argv["interface-address"] === undefined) {
+							argv["interface-address"] = await promptForRequiredField(
+								"interface-address",
+								"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit gre-tunnels create",
@@ -326,6 +326,30 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["cloudflare-gre-endpoint"] === undefined) {
+					argv["cloudflare-gre-endpoint"] = await promptForRequiredField(
+						"cloudflare-gre-endpoint",
+						"The IP address assigned to the Cloudflare side of the GRE tunnel."
+					);
+				}
+				if (argv["customer-gre-endpoint"] === undefined) {
+					argv["customer-gre-endpoint"] = await promptForRequiredField(
+						"customer-gre-endpoint",
+						"The IP address assigned to the customer side of the GRE tunnel."
+					);
+				}
+				if (argv["interface-address"] === undefined) {
+					argv["interface-address"] = await promptForRequiredField(
+						"interface-address",
+						"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel."
+					);
 				}
 
 				// Assemble request body from individual flags

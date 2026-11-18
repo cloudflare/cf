@@ -54,12 +54,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["image"] === undefined) {
-						argv["image"] = await promptForRequiredField("image", "Image url.");
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["image"] === undefined) {
+							argv["image"] = await promptForRequiredField(
+								"image",
+								"Image url."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf containers images prepare",
@@ -93,6 +96,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["image"] === undefined) {
+					argv["image"] = await promptForRequiredField("image", "Image url.");
 				}
 
 				// Assemble request body from individual flags

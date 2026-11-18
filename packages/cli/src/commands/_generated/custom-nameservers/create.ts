@@ -62,15 +62,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["ns-name"] === undefined) {
-						argv["ns-name"] = await promptForRequiredField(
-							"ns-name",
-							"The FQDN of the name server."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["ns-name"] === undefined) {
+							argv["ns-name"] = await promptForRequiredField(
+								"ns-name",
+								"The FQDN of the name server."
+							);
+						}
+					}
 					const __cfDryRunAccountId =
 						argv.zone === undefined
 							? await resolveAccountIdSilent()
@@ -130,6 +130,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["ns-name"] === undefined) {
+					argv["ns-name"] = await promptForRequiredField(
+						"ns-name",
+						"The FQDN of the name server."
+					);
 				}
 
 				// Assemble request body from individual flags

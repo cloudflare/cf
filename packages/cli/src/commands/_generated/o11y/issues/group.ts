@@ -58,20 +58,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["issue-ids"] === undefined) {
-						throw new Error(
-							"--issue-ids is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["title"] === undefined) {
-						argv["title"] = await promptForRequiredField(
-							"title",
-							"The title field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["issue-ids"] === undefined) {
+							throw new Error(
+								"--issue-ids is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["title"] === undefined) {
+							argv["title"] = await promptForRequiredField(
+								"title",
+								"The title field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf o11y issues group",
@@ -106,6 +106,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["issue-ids"] === undefined) {
+					throw new Error(
+						"--issue-ids is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["title"] === undefined) {
+					argv["title"] = await promptForRequiredField(
+						"title",
+						"The title field"
+					);
 				}
 
 				// Assemble request body from individual flags

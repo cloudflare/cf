@@ -124,34 +124,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					module: argv["module"],
 				};
-				if (argv.body === undefined) {
-					if (argv["condition-conditions"] === undefined) {
-						throw new Error(
-							"--condition-conditions is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["condition-operator"] === undefined) {
-						argv["condition-operator"] = await promptForRequiredEnumField(
-							"condition-operator",
-							"The condition.operator field",
-							["and", "or"] as const
-						);
-					}
-					if (argv["condition-type"] === undefined) {
-						argv["condition-type"] = await promptForRequiredEnumField(
-							"condition-type",
-							"The condition.type field",
-							["group"] as const
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["condition-conditions"] === undefined) {
+							throw new Error(
+								"--condition-conditions is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["condition-operator"] === undefined) {
+							argv["condition-operator"] = await promptForRequiredEnumField(
+								"condition-operator",
+								"The condition.operator field",
+								["and", "or"] as const
+							);
+						}
+						if (argv["condition-type"] === undefined) {
+							argv["condition-type"] = await promptForRequiredEnumField(
+								"condition-type",
+								"The condition.type field",
+								["group"] as const
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one rules email approvals resubmit",
@@ -213,6 +213,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["condition-conditions"] === undefined) {
+					throw new Error(
+						"--condition-conditions is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["condition-operator"] === undefined) {
+					argv["condition-operator"] = await promptForRequiredEnumField(
+						"condition-operator",
+						"The condition.operator field",
+						["and", "or"] as const
+					);
+				}
+				if (argv["condition-type"] === undefined) {
+					argv["condition-type"] = await promptForRequiredEnumField(
+						"condition-type",
+						"The condition.type field",
+						["group"] as const
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField("name", "The name field");
 				}
 
 				// Assemble request body from individual flags

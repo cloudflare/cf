@@ -68,14 +68,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["refs"] === undefined) {
-						throw new Error(
-							"--refs is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["refs"] === undefined) {
+							throw new Error(
+								"--refs is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf queues messages purge",
@@ -118,6 +118,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Done` });
 					return;
+				}
+				if (argv["refs"] === undefined) {
+					throw new Error(
+						"--refs is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

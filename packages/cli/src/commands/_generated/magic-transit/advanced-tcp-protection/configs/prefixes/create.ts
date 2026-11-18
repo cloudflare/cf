@@ -65,26 +65,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["comment"] === undefined) {
-						argv["comment"] = await promptForRequiredField(
-							"comment",
-							"A comment describing the prefix."
-						);
-					}
-					if (argv["excluded"] === undefined) {
-						throw new Error(
-							"--excluded is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["prefix"] === undefined) {
-						argv["prefix"] = await promptForRequiredField(
-							"prefix",
-							"The prefix to add in CIDR format."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["comment"] === undefined) {
+							argv["comment"] = await promptForRequiredField(
+								"comment",
+								"A comment describing the prefix."
+							);
+						}
+						if (argv["excluded"] === undefined) {
+							throw new Error(
+								"--excluded is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["prefix"] === undefined) {
+							argv["prefix"] = await promptForRequiredField(
+								"prefix",
+								"The prefix to add in CIDR format."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command:
@@ -125,6 +125,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["comment"] === undefined) {
+					argv["comment"] = await promptForRequiredField(
+						"comment",
+						"A comment describing the prefix."
+					);
+				}
+				if (argv["excluded"] === undefined) {
+					throw new Error(
+						"--excluded is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["prefix"] === undefined) {
+					argv["prefix"] = await promptForRequiredField(
+						"prefix",
+						"The prefix to add in CIDR format."
+					);
 				}
 
 				// Assemble request body from individual flags

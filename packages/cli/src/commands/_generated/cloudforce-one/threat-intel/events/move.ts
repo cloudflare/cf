@@ -74,20 +74,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					keepRawData: argv["keep-raw-data"],
 				};
-				if (argv.body === undefined) {
-					if (argv["dest-dataset-id"] === undefined) {
-						argv["dest-dataset-id"] = await promptForRequiredField(
-							"dest-dataset-id",
-							"The destDatasetId field"
-						);
-					}
-					if (argv["event-ids"] === undefined) {
-						throw new Error(
-							"--event-ids is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["dest-dataset-id"] === undefined) {
+							argv["dest-dataset-id"] = await promptForRequiredField(
+								"dest-dataset-id",
+								"The destDatasetId field"
+							);
+						}
+						if (argv["event-ids"] === undefined) {
+							throw new Error(
+								"--event-ids is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel events move",
@@ -133,6 +133,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["dest-dataset-id"] === undefined) {
+					argv["dest-dataset-id"] = await promptForRequiredField(
+						"dest-dataset-id",
+						"The destDatasetId field"
+					);
+				}
+				if (argv["event-ids"] === undefined) {
+					throw new Error(
+						"--event-ids is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

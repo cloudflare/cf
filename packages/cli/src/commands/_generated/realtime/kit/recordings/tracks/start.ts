@@ -73,15 +73,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["meeting-id"] === undefined) {
-						argv["meeting-id"] = await promptForRequiredField(
-							"meeting-id",
-							"ID of the meeting to record."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["meeting-id"] === undefined) {
+							argv["meeting-id"] = await promptForRequiredField(
+								"meeting-id",
+								"ID of the meeting to record."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf realtime kit recordings tracks start",
@@ -124,6 +124,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["meeting-id"] === undefined) {
+					argv["meeting-id"] = await promptForRequiredField(
+						"meeting-id",
+						"ID of the meeting to record."
+					);
 				}
 
 				// Assemble request body from individual flags

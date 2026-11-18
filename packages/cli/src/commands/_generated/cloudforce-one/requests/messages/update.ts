@@ -91,34 +91,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["idempotency-key"] !== undefined)
 					headers["Idempotency-Key"] = String(argv["idempotency-key"]);
-				if (argv.body === undefined) {
-					if (argv["content"] === undefined) {
-						argv["content"] = await promptForRequiredField(
-							"content",
-							"The content field"
-						);
-					}
-					if (argv["publish"] === undefined) {
-						throw new Error(
-							"--publish is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["tlp"] === undefined) {
-						argv["tlp"] = await promptForRequiredEnumField(
-							"tlp",
-							"The tlp field",
-							[
-								"clear",
-								"green",
-								"amber",
-								"amber-strict",
-								"red",
-								"white",
-							] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["content"] === undefined) {
+							argv["content"] = await promptForRequiredField(
+								"content",
+								"The content field"
+							);
+						}
+						if (argv["publish"] === undefined) {
+							throw new Error(
+								"--publish is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["tlp"] === undefined) {
+							argv["tlp"] = await promptForRequiredEnumField(
+								"tlp",
+								"The tlp field",
+								[
+									"clear",
+									"green",
+									"amber",
+									"amber-strict",
+									"red",
+									"white",
+								] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one requests messages update",
@@ -167,6 +167,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["content"] === undefined) {
+					argv["content"] = await promptForRequiredField(
+						"content",
+						"The content field"
+					);
+				}
+				if (argv["publish"] === undefined) {
+					throw new Error(
+						"--publish is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["tlp"] === undefined) {
+					argv["tlp"] = await promptForRequiredEnumField(
+						"tlp",
+						"The tlp field",
+						["clear", "green", "amber", "amber-strict", "red", "white"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

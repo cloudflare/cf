@@ -49,14 +49,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["value"] === undefined) {
-						throw new Error(
-							"--value is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["value"] === undefined) {
+							throw new Error(
+								"--value is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf zones origin-h2-max-streams edit",
 						method: "PATCH",
@@ -89,6 +89,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["value"] === undefined) {
+					throw new Error(
+						"--value is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

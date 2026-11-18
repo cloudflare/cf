@@ -55,14 +55,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["items"] === undefined) {
-						throw new Error(
-							"--items is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["items"] === undefined) {
+							throw new Error(
+								"--items is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-sending suppressions import",
@@ -92,6 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["items"] === undefined) {
+					throw new Error(
+						"--items is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

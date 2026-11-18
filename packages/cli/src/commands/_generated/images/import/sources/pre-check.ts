@@ -79,27 +79,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["bucket"] === undefined) {
-						argv["bucket"] = await promptForRequiredField(
-							"bucket",
-							"The name of the storage bucket."
-						);
-					}
-					if (argv["secret"] === undefined) {
-						throw new Error(
-							"--secret is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["vendor"] === undefined) {
-						argv["vendor"] = await promptForRequiredEnumField(
-							"vendor",
-							"The cloud storage vendor of the source bucket.",
-							["s3", "r2"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["bucket"] === undefined) {
+							argv["bucket"] = await promptForRequiredField(
+								"bucket",
+								"The name of the storage bucket."
+							);
+						}
+						if (argv["secret"] === undefined) {
+							throw new Error(
+								"--secret is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["vendor"] === undefined) {
+							argv["vendor"] = await promptForRequiredEnumField(
+								"vendor",
+								"The cloud storage vendor of the source bucket.",
+								["s3", "r2"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf images import sources pre-check",
@@ -150,6 +150,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["bucket"] === undefined) {
+					argv["bucket"] = await promptForRequiredField(
+						"bucket",
+						"The name of the storage bucket."
+					);
+				}
+				if (argv["secret"] === undefined) {
+					throw new Error(
+						"--secret is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["vendor"] === undefined) {
+					argv["vendor"] = await promptForRequiredEnumField(
+						"vendor",
+						"The cloud storage vendor of the source bucket.",
+						["s3", "r2"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

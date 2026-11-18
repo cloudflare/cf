@@ -62,20 +62,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["limit"] === undefined) {
-						throw new Error(
-							"--limit is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Unique (per account) name of the concurrency key. Referenced by workflow steps via step config."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["limit"] === undefined) {
+							throw new Error(
+								"--limit is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Unique (per account) name of the concurrency key. Referenced by workflow steps via step config."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf workflows concurrency create",
@@ -110,6 +110,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["limit"] === undefined) {
+					throw new Error(
+						"--limit is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Unique (per account) name of the concurrency key. Referenced by workflow steps via step config."
+					);
 				}
 
 				// Assemble request body from individual flags

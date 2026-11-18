@@ -110,14 +110,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["upload-creator"] !== undefined)
 					headers["Upload-Creator"] = String(argv["upload-creator"]);
-				if (argv.body === undefined) {
-					if (argv["max-duration-seconds"] === undefined) {
-						throw new Error(
-							"--max-duration-seconds is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["max-duration-seconds"] === undefined) {
+							throw new Error(
+								"--max-duration-seconds is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf stream videos direct-upload create",
@@ -184,6 +184,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["max-duration-seconds"] === undefined) {
+					throw new Error(
+						"--max-duration-seconds is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

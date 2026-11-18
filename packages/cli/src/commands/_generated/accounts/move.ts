@@ -57,15 +57,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["destination-organization-id"] === undefined) {
-						argv["destination-organization-id"] = await promptForRequiredField(
-							"destination-organization-id",
-							"The ID of the organization to move the account into."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["destination-organization-id"] === undefined) {
+							argv["destination-organization-id"] =
+								await promptForRequiredField(
+									"destination-organization-id",
+									"The ID of the organization to move the account into."
+								);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf accounts move",
@@ -99,6 +100,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["destination-organization-id"] === undefined) {
+					argv["destination-organization-id"] = await promptForRequiredField(
+						"destination-organization-id",
+						"The ID of the organization to move the account into."
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -69,17 +69,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["validation-default-mitigation-action"] === undefined) {
-						argv["validation-default-mitigation-action"] =
-							await promptForRequiredEnumField(
-								"validation-default-mitigation-action",
-								'The default mitigation action used Mitigation actions are as follows:    - \`"log"\` - log request when request does not conform to schema   - \`"block"\` - deny access to the site when request does not conform to schema   - \`"none"\` - skip running schema validation ',
-								["none", "log", "block"] as const
-							);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["validation-default-mitigation-action"] === undefined) {
+							argv["validation-default-mitigation-action"] =
+								await promptForRequiredEnumField(
+									"validation-default-mitigation-action",
+									'The default mitigation action used Mitigation actions are as follows:    - \`"log"\` - log request when request does not conform to schema   - \`"block"\` - deny access to the site when request does not conform to schema   - \`"none"\` - skip running schema validation ',
+									["none", "log", "block"] as const
+								);
+						}
+					}
 					formatDryRun({
 						command: "cf api-security schema-validation settings update",
 						method: "PUT",
@@ -115,6 +115,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["validation-default-mitigation-action"] === undefined) {
+					argv["validation-default-mitigation-action"] =
+						await promptForRequiredEnumField(
+							"validation-default-mitigation-action",
+							'The default mitigation action used Mitigation actions are as follows:    - \`"log"\` - log request when request does not conform to schema   - \`"block"\` - deny access to the site when request does not conform to schema   - \`"none"\` - skip running schema validation ',
+							["none", "log", "block"] as const
+						);
 				}
 
 				// Assemble request body from individual flags

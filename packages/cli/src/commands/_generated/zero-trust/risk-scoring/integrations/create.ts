@@ -73,22 +73,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["integration-type"] === undefined) {
-						argv["integration-type"] = await promptForRequiredEnumField(
-							"integration-type",
-							"The integration_type field",
-							["Okta"] as const
-						);
-					}
-					if (argv["tenant-url"] === undefined) {
-						argv["tenant-url"] = await promptForRequiredField(
-							"tenant-url",
-							'The base url of the tenant, e.g. "https://tenant.okta.com".'
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["integration-type"] === undefined) {
+							argv["integration-type"] = await promptForRequiredEnumField(
+								"integration-type",
+								"The integration_type field",
+								["Okta"] as const
+							);
+						}
+						if (argv["tenant-url"] === undefined) {
+							argv["tenant-url"] = await promptForRequiredField(
+								"tenant-url",
+								'The base url of the tenant, e.g. "https://tenant.okta.com".'
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust risk-scoring integrations create",
@@ -128,6 +128,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["integration-type"] === undefined) {
+					argv["integration-type"] = await promptForRequiredEnumField(
+						"integration-type",
+						"The integration_type field",
+						["Okta"] as const
+					);
+				}
+				if (argv["tenant-url"] === undefined) {
+					argv["tenant-url"] = await promptForRequiredField(
+						"tenant-url",
+						'The base url of the tenant, e.g. "https://tenant.okta.com".'
+					);
 				}
 
 				// Assemble request body from individual flags

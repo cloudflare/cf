@@ -55,14 +55,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["new-priorities"] === undefined) {
-						throw new Error(
-							"--new-priorities is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["new-priorities"] === undefined) {
+							throw new Error(
+								"--new-priorities is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp email rules bulk-edit",
@@ -105,6 +105,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["new-priorities"] === undefined) {
+					throw new Error(
+						"--new-priorities is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

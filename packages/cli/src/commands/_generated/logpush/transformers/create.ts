@@ -65,21 +65,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["code"] === undefined) {
-						argv["code"] = await promptForRequiredField(
-							"code",
-							"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Customer-provided name for identification."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["code"] === undefined) {
+							argv["code"] = await promptForRequiredField(
+								"code",
+								"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Customer-provided name for identification."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf logpush transformers create",
@@ -123,6 +123,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["code"] === undefined) {
+					argv["code"] = await promptForRequiredField(
+						"code",
+						"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Customer-provided name for identification."
+					);
 				}
 
 				// Assemble request body from individual flags

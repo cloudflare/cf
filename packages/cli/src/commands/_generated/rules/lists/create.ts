@@ -69,22 +69,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["kind"] === undefined) {
-						argv["kind"] = await promptForRequiredEnumField(
-							"kind",
-							"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
-							["ip", "redirect", "hostname", "asn"] as const
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"An informative name for the list. Use this name in filter and rule expressions."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["kind"] === undefined) {
+							argv["kind"] = await promptForRequiredEnumField(
+								"kind",
+								"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
+								["ip", "redirect", "hostname", "asn"] as const
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"An informative name for the list. Use this name in filter and rule expressions."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf rules lists create",
@@ -124,6 +124,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["kind"] === undefined) {
+					argv["kind"] = await promptForRequiredEnumField(
+						"kind",
+						"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
+						["ip", "redirect", "hostname", "asn"] as const
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"An informative name for the list. Use this name in filter and rule expressions."
+					);
 				}
 
 				// Assemble request body from individual flags

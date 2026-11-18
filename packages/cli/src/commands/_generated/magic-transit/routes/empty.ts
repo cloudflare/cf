@@ -63,14 +63,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["routes"] === undefined) {
-						throw new Error(
-							"--routes is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["routes"] === undefined) {
+							throw new Error(
+								"--routes is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit routes empty",
@@ -104,6 +104,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
+				}
+				if (argv["routes"] === undefined) {
+					throw new Error(
+						"--routes is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

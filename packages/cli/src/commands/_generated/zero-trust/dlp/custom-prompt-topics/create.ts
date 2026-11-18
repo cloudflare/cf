@@ -63,26 +63,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["enabled"] === undefined) {
-						throw new Error(
-							"--enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name field"
-						);
-					}
-					if (argv["topic"] === undefined) {
-						argv["topic"] = await promptForRequiredField(
-							"topic",
-							"The topic field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["enabled"] === undefined) {
+							throw new Error(
+								"--enabled is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name field"
+							);
+						}
+						if (argv["topic"] === undefined) {
+							argv["topic"] = await promptForRequiredField(
+								"topic",
+								"The topic field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp custom-prompt-topics create",
@@ -132,6 +132,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["enabled"] === undefined) {
+					throw new Error(
+						"--enabled is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField("name", "The name field");
+				}
+				if (argv["topic"] === undefined) {
+					argv["topic"] = await promptForRequiredField(
+						"topic",
+						"The topic field"
+					);
 				}
 
 				// Assemble request body from individual flags

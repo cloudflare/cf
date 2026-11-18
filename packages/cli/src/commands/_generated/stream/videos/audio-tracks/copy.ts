@@ -67,15 +67,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["label"] === undefined) {
-						argv["label"] = await promptForRequiredField(
-							"label",
-							"A string to uniquely identify the track amongst other audio track labels for the specified video."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["label"] === undefined) {
+							argv["label"] = await promptForRequiredField(
+								"label",
+								"A string to uniquely identify the track amongst other audio track labels for the specified video."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf stream videos audio-tracks copy",
@@ -118,6 +118,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["label"] === undefined) {
+					argv["label"] = await promptForRequiredField(
+						"label",
+						"A string to uniquely identify the track amongst other audio track labels for the specified video."
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -89,21 +89,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["account"] === undefined) {
-						argv["account"] = await promptForRequiredField(
-							"account",
-							"The account field"
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredField(
-							"type",
-							"The type field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["account"] === undefined) {
+							argv["account"] = await promptForRequiredField(
+								"account",
+								"The account field"
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredField(
+								"type",
+								"The type field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf network-interconnects interconnects create",
@@ -158,6 +158,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["account"] === undefined) {
+					argv["account"] = await promptForRequiredField(
+						"account",
+						"The account field"
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredField("type", "The type field");
 				}
 
 				// Assemble request body from individual flags

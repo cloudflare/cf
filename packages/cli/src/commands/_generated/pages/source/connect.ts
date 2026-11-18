@@ -146,92 +146,94 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["source-config-deployments-enabled"] === undefined) {
-						throw new Error(
-							"--source-config-deployments-enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-owner"] === undefined) {
-						argv["source-config-owner"] = await promptForRequiredField(
-							"source-config-owner",
-							"The owner of the repository."
-						);
-					}
-					if (argv["source-config-owner-id"] === undefined) {
-						argv["source-config-owner-id"] = await promptForRequiredField(
-							"source-config-owner-id",
-							"The owner ID of the repository."
-						);
-					}
-					if (argv["source-config-path-excludes"] === undefined) {
-						throw new Error(
-							"--source-config-path-excludes is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-path-includes"] === undefined) {
-						throw new Error(
-							"--source-config-path-includes is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-pr-comments-enabled"] === undefined) {
-						throw new Error(
-							"--source-config-pr-comments-enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-preview-branch-excludes"] === undefined) {
-						throw new Error(
-							"--source-config-preview-branch-excludes is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-preview-branch-includes"] === undefined) {
-						throw new Error(
-							"--source-config-preview-branch-includes is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-preview-deployment-setting"] === undefined) {
-						argv["source-config-preview-deployment-setting"] =
-							await promptForRequiredEnumField(
-								"source-config-preview-deployment-setting",
-								"Controls whether commits to preview branches trigger a preview deployment.",
-								["all", "none", "custom"] as const
-							);
-					}
-					if (argv["source-config-production-branch"] === undefined) {
-						argv["source-config-production-branch"] =
-							await promptForRequiredField(
-								"source-config-production-branch",
-								"The production branch of the repository."
-							);
-					}
-					if (
-						argv["source-config-production-deployments-enabled"] === undefined
-					) {
-						throw new Error(
-							"--source-config-production-deployments-enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["source-config-repo-id"] === undefined) {
-						argv["source-config-repo-id"] = await promptForRequiredField(
-							"source-config-repo-id",
-							"The ID of the repository."
-						);
-					}
-					if (argv["source-config-repo-name"] === undefined) {
-						argv["source-config-repo-name"] = await promptForRequiredField(
-							"source-config-repo-name",
-							"The name of the repository."
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"The source control management provider.",
-							["github", "gitlab"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["source-config-deployments-enabled"] === undefined) {
+							throw new Error(
+								"--source-config-deployments-enabled is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["source-config-owner"] === undefined) {
+							argv["source-config-owner"] = await promptForRequiredField(
+								"source-config-owner",
+								"The owner of the repository."
+							);
+						}
+						if (argv["source-config-owner-id"] === undefined) {
+							argv["source-config-owner-id"] = await promptForRequiredField(
+								"source-config-owner-id",
+								"The owner ID of the repository."
+							);
+						}
+						if (argv["source-config-path-excludes"] === undefined) {
+							throw new Error(
+								"--source-config-path-excludes is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["source-config-path-includes"] === undefined) {
+							throw new Error(
+								"--source-config-path-includes is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["source-config-pr-comments-enabled"] === undefined) {
+							throw new Error(
+								"--source-config-pr-comments-enabled is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["source-config-preview-branch-excludes"] === undefined) {
+							throw new Error(
+								"--source-config-preview-branch-excludes is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["source-config-preview-branch-includes"] === undefined) {
+							throw new Error(
+								"--source-config-preview-branch-includes is required (or pass --body with this field set)."
+							);
+						}
+						if (
+							argv["source-config-preview-deployment-setting"] === undefined
+						) {
+							argv["source-config-preview-deployment-setting"] =
+								await promptForRequiredEnumField(
+									"source-config-preview-deployment-setting",
+									"Controls whether commits to preview branches trigger a preview deployment.",
+									["all", "none", "custom"] as const
+								);
+						}
+						if (argv["source-config-production-branch"] === undefined) {
+							argv["source-config-production-branch"] =
+								await promptForRequiredField(
+									"source-config-production-branch",
+									"The production branch of the repository."
+								);
+						}
+						if (
+							argv["source-config-production-deployments-enabled"] === undefined
+						) {
+							throw new Error(
+								"--source-config-production-deployments-enabled is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["source-config-repo-id"] === undefined) {
+							argv["source-config-repo-id"] = await promptForRequiredField(
+								"source-config-repo-id",
+								"The ID of the repository."
+							);
+						}
+						if (argv["source-config-repo-name"] === undefined) {
+							argv["source-config-repo-name"] = await promptForRequiredField(
+								"source-config-repo-name",
+								"The name of the repository."
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"The source control management provider.",
+								["github", "gitlab"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf pages source connect",
@@ -308,6 +310,89 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["source-config-deployments-enabled"] === undefined) {
+					throw new Error(
+						"--source-config-deployments-enabled is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-owner"] === undefined) {
+					argv["source-config-owner"] = await promptForRequiredField(
+						"source-config-owner",
+						"The owner of the repository."
+					);
+				}
+				if (argv["source-config-owner-id"] === undefined) {
+					argv["source-config-owner-id"] = await promptForRequiredField(
+						"source-config-owner-id",
+						"The owner ID of the repository."
+					);
+				}
+				if (argv["source-config-path-excludes"] === undefined) {
+					throw new Error(
+						"--source-config-path-excludes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-path-includes"] === undefined) {
+					throw new Error(
+						"--source-config-path-includes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-pr-comments-enabled"] === undefined) {
+					throw new Error(
+						"--source-config-pr-comments-enabled is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-preview-branch-excludes"] === undefined) {
+					throw new Error(
+						"--source-config-preview-branch-excludes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-preview-branch-includes"] === undefined) {
+					throw new Error(
+						"--source-config-preview-branch-includes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-preview-deployment-setting"] === undefined) {
+					argv["source-config-preview-deployment-setting"] =
+						await promptForRequiredEnumField(
+							"source-config-preview-deployment-setting",
+							"Controls whether commits to preview branches trigger a preview deployment.",
+							["all", "none", "custom"] as const
+						);
+				}
+				if (argv["source-config-production-branch"] === undefined) {
+					argv["source-config-production-branch"] =
+						await promptForRequiredField(
+							"source-config-production-branch",
+							"The production branch of the repository."
+						);
+				}
+				if (
+					argv["source-config-production-deployments-enabled"] === undefined
+				) {
+					throw new Error(
+						"--source-config-production-deployments-enabled is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["source-config-repo-id"] === undefined) {
+					argv["source-config-repo-id"] = await promptForRequiredField(
+						"source-config-repo-id",
+						"The ID of the repository."
+					);
+				}
+				if (argv["source-config-repo-name"] === undefined) {
+					argv["source-config-repo-name"] = await promptForRequiredField(
+						"source-config-repo-name",
+						"The name of the repository."
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"The source control management provider.",
+						["github", "gitlab"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

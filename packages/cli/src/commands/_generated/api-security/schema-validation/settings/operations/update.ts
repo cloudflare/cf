@@ -61,16 +61,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["mitigation-action"] === undefined) {
-						argv["mitigation-action"] = await promptForRequiredEnumField(
-							"mitigation-action",
-							'When set, this applies a mitigation action to this operation    - \`"log"\` - log request when request does not conform to schema for this operation   - \`"block"\` - deny access to the site when request does not conform to schema for this operation   - \`"none"\` - will skip mitigation for this operation   - \`null\` - clears any mitigation action ',
-							["log", "block", "none"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["mitigation-action"] === undefined) {
+							argv["mitigation-action"] = await promptForRequiredEnumField(
+								"mitigation-action",
+								'When set, this applies a mitigation action to this operation    - \`"log"\` - log request when request does not conform to schema for this operation   - \`"block"\` - deny access to the site when request does not conform to schema for this operation   - \`"none"\` - will skip mitigation for this operation   - \`null\` - clears any mitigation action ',
+								["log", "block", "none"] as const
+							);
+						}
+					}
 					formatDryRun({
 						command:
 							"cf api-security schema-validation settings operations update",
@@ -109,6 +109,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["mitigation-action"] === undefined) {
+					argv["mitigation-action"] = await promptForRequiredEnumField(
+						"mitigation-action",
+						'When set, this applies a mitigation action to this operation    - \`"log"\` - log request when request does not conform to schema for this operation   - \`"block"\` - deny access to the site when request does not conform to schema for this operation   - \`"none"\` - will skip mitigation for this operation   - \`null\` - clears any mitigation action ',
+						["log", "block", "none"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

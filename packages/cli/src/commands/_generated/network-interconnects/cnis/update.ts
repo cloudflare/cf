@@ -121,53 +121,53 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["account"] === undefined) {
-						argv["account"] = await promptForRequiredField(
-							"account",
-							"Customer account tag"
-						);
-					}
-					if (argv["cust-ip"] === undefined) {
-						argv["cust-ip"] = await promptForRequiredField(
-							"cust-ip",
-							"Customer end of the point-to-point link  This should always be inside the same prefix as \`p2p_ip\`."
-						);
-					}
-					if (argv["id"] === undefined) {
-						argv["id"] = await promptForRequiredField("id", "The id field");
-					}
-					if (argv["interconnect"] === undefined) {
-						argv["interconnect"] = await promptForRequiredField(
-							"interconnect",
-							"Interconnect identifier hosting this CNI"
-						);
-					}
-					if (argv["magic-conduit-name"] === undefined) {
-						argv["magic-conduit-name"] = await promptForRequiredField(
-							"magic-conduit-name",
-							"The magic.conduit_name field"
-						);
-					}
-					if (argv["magic-description"] === undefined) {
-						argv["magic-description"] = await promptForRequiredField(
-							"magic-description",
-							"The magic.description field"
-						);
-					}
-					if (argv["magic-mtu"] === undefined) {
-						throw new Error(
-							"--magic-mtu is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["p2p-ip"] === undefined) {
-						argv["p2p-ip"] = await promptForRequiredField(
-							"p2p-ip",
-							"Cloudflare end of the point-to-point link"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["account"] === undefined) {
+							argv["account"] = await promptForRequiredField(
+								"account",
+								"Customer account tag"
+							);
+						}
+						if (argv["cust-ip"] === undefined) {
+							argv["cust-ip"] = await promptForRequiredField(
+								"cust-ip",
+								"Customer end of the point-to-point link  This should always be inside the same prefix as \`p2p_ip\`."
+							);
+						}
+						if (argv["id"] === undefined) {
+							argv["id"] = await promptForRequiredField("id", "The id field");
+						}
+						if (argv["interconnect"] === undefined) {
+							argv["interconnect"] = await promptForRequiredField(
+								"interconnect",
+								"Interconnect identifier hosting this CNI"
+							);
+						}
+						if (argv["magic-conduit-name"] === undefined) {
+							argv["magic-conduit-name"] = await promptForRequiredField(
+								"magic-conduit-name",
+								"The magic.conduit_name field"
+							);
+						}
+						if (argv["magic-description"] === undefined) {
+							argv["magic-description"] = await promptForRequiredField(
+								"magic-description",
+								"The magic.description field"
+							);
+						}
+						if (argv["magic-mtu"] === undefined) {
+							throw new Error(
+								"--magic-mtu is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["p2p-ip"] === undefined) {
+							argv["p2p-ip"] = await promptForRequiredField(
+								"p2p-ip",
+								"Cloudflare end of the point-to-point link"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf network-interconnects cnis update",
@@ -248,6 +248,50 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["account"] === undefined) {
+					argv["account"] = await promptForRequiredField(
+						"account",
+						"Customer account tag"
+					);
+				}
+				if (argv["cust-ip"] === undefined) {
+					argv["cust-ip"] = await promptForRequiredField(
+						"cust-ip",
+						"Customer end of the point-to-point link  This should always be inside the same prefix as \`p2p_ip\`."
+					);
+				}
+				if (argv["id"] === undefined) {
+					argv["id"] = await promptForRequiredField("id", "The id field");
+				}
+				if (argv["interconnect"] === undefined) {
+					argv["interconnect"] = await promptForRequiredField(
+						"interconnect",
+						"Interconnect identifier hosting this CNI"
+					);
+				}
+				if (argv["magic-conduit-name"] === undefined) {
+					argv["magic-conduit-name"] = await promptForRequiredField(
+						"magic-conduit-name",
+						"The magic.conduit_name field"
+					);
+				}
+				if (argv["magic-description"] === undefined) {
+					argv["magic-description"] = await promptForRequiredField(
+						"magic-description",
+						"The magic.description field"
+					);
+				}
+				if (argv["magic-mtu"] === undefined) {
+					throw new Error(
+						"--magic-mtu is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["p2p-ip"] === undefined) {
+					argv["p2p-ip"] = await promptForRequiredField(
+						"p2p-ip",
+						"Cloudflare end of the point-to-point link"
+					);
 				}
 
 				// Assemble request body from individual flags

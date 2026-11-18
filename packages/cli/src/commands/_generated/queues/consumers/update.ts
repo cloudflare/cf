@@ -114,24 +114,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"The type field",
-							["worker", "http_pull"] as const
-						);
-					}
-
-					if (argv["type"] === "worker" && argv["script-name"] === undefined) {
-						argv["script-name"] = await promptForRequiredField(
-							"script-name",
-							"Name of a Worker",
-							{ question: "Enter value for --script-name" }
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"The type field",
+								["worker", "http_pull"] as const
+							);
+						}
+
+						if (
+							argv["type"] === "worker" &&
+							argv["script-name"] === undefined
+						) {
+							argv["script-name"] = await promptForRequiredField(
+								"script-name",
+								"Name of a Worker",
+								{ question: "Enter value for --script-name" }
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf queues consumers update",
@@ -188,6 +191,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"The type field",
+						["worker", "http_pull"] as const
+					);
+				}
+
+				if (argv["type"] === "worker" && argv["script-name"] === undefined) {
+					argv["script-name"] = await promptForRequiredField(
+						"script-name",
+						"Name of a Worker",
+						{ question: "Enter value for --script-name" }
+					);
 				}
 
 				// Assemble request body from individual flags

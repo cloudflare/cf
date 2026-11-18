@@ -70,22 +70,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["content"] === undefined) {
-						argv["content"] = await promptForRequiredField(
-							"content",
-							"Specify the CID or content path of content to block."
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"Specify the type of content list entry to block.",
-							["cid", "content_path"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["content"] === undefined) {
+							argv["content"] = await promptForRequiredField(
+								"content",
+								"Specify the CID or content path of content to block."
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"Specify the type of content list entry to block.",
+								["cid", "content_path"] as const
+							);
+						}
+					}
 					formatDryRun({
 						command:
 							"cf web3 hostnames ipfs-universal-paths content-lists entries create",
@@ -134,6 +134,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["content"] === undefined) {
+					argv["content"] = await promptForRequiredField(
+						"content",
+						"Specify the CID or content path of content to block."
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"Specify the type of content list entry to block.",
+						["cid", "content_path"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

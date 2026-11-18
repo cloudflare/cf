@@ -98,27 +98,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["hostname"] === undefined) {
-						argv["hostname"] = await promptForRequiredField(
-							"hostname",
-							"Hostname where the MCP portal is available."
-						);
-					}
-					if (argv["id"] === undefined) {
-						argv["id"] = await promptForRequiredField(
-							"id",
-							"Unique identifier for the MCP portal."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Display name for the MCP portal."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["hostname"] === undefined) {
+							argv["hostname"] = await promptForRequiredField(
+								"hostname",
+								"Hostname where the MCP portal is available."
+							);
+						}
+						if (argv["id"] === undefined) {
+							argv["id"] = await promptForRequiredField(
+								"id",
+								"Unique identifier for the MCP portal."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Display name for the MCP portal."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf mcp portals create",
@@ -171,6 +171,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["hostname"] === undefined) {
+					argv["hostname"] = await promptForRequiredField(
+						"hostname",
+						"Hostname where the MCP portal is available."
+					);
+				}
+				if (argv["id"] === undefined) {
+					argv["id"] = await promptForRequiredField(
+						"id",
+						"Unique identifier for the MCP portal."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Display name for the MCP portal."
+					);
 				}
 
 				// Assemble request body from individual flags

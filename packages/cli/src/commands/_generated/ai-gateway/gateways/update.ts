@@ -477,34 +477,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["cache-invalidate-on-update"] === undefined) {
-						throw new Error(
-							"--cache-invalidate-on-update is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["cache-ttl"] === undefined) {
-						throw new Error(
-							"--cache-ttl is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["collect-logs"] === undefined) {
-						throw new Error(
-							"--collect-logs is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["rate-limiting-interval"] === undefined) {
-						throw new Error(
-							"--rate-limiting-interval is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["rate-limiting-limit"] === undefined) {
-						throw new Error(
-							"--rate-limiting-limit is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["cache-invalidate-on-update"] === undefined) {
+							throw new Error(
+								"--cache-invalidate-on-update is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["cache-ttl"] === undefined) {
+							throw new Error(
+								"--cache-ttl is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["collect-logs"] === undefined) {
+							throw new Error(
+								"--collect-logs is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["rate-limiting-interval"] === undefined) {
+							throw new Error(
+								"--rate-limiting-interval is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["rate-limiting-limit"] === undefined) {
+							throw new Error(
+								"--rate-limiting-limit is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai-gateway gateways update",
@@ -622,6 +622,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["cache-invalidate-on-update"] === undefined) {
+					throw new Error(
+						"--cache-invalidate-on-update is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["cache-ttl"] === undefined) {
+					throw new Error(
+						"--cache-ttl is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["collect-logs"] === undefined) {
+					throw new Error(
+						"--collect-logs is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["rate-limiting-interval"] === undefined) {
+					throw new Error(
+						"--rate-limiting-interval is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["rate-limiting-limit"] === undefined) {
+					throw new Error(
+						"--rate-limiting-limit is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

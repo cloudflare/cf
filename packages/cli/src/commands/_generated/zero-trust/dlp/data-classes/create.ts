@@ -71,31 +71,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["data-tags"] === undefined) {
-						throw new Error(
-							"--data-tags is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["expression"] === undefined) {
-						argv["expression"] = await promptForRequiredField(
-							"expression",
-							"The expression field"
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name field"
-						);
-					}
-					if (argv["sensitivity-levels"] === undefined) {
-						throw new Error(
-							"--sensitivity-levels is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["data-tags"] === undefined) {
+							throw new Error(
+								"--data-tags is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["expression"] === undefined) {
+							argv["expression"] = await promptForRequiredField(
+								"expression",
+								"The expression field"
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name field"
+							);
+						}
+						if (argv["sensitivity-levels"] === undefined) {
+							throw new Error(
+								"--sensitivity-levels is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp data-classes create",
@@ -144,6 +144,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["data-tags"] === undefined) {
+					throw new Error(
+						"--data-tags is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["expression"] === undefined) {
+					argv["expression"] = await promptForRequiredField(
+						"expression",
+						"The expression field"
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField("name", "The name field");
+				}
+				if (argv["sensitivity-levels"] === undefined) {
+					throw new Error(
+						"--sensitivity-levels is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

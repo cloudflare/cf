@@ -80,15 +80,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["source-id"] === undefined) {
-						argv["source-id"] = await promptForRequiredField(
-							"source-id",
-							"The identifier of the source to migrate from."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["source-id"] === undefined) {
+							argv["source-id"] = await promptForRequiredField(
+								"source-id",
+								"The identifier of the source to migrate from."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf images import create",
@@ -134,6 +134,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["source-id"] === undefined) {
+					argv["source-id"] = await promptForRequiredField(
+						"source-id",
+						"The identifier of the source to migrate from."
+					);
 				}
 
 				// Assemble request body from individual flags

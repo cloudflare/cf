@@ -130,15 +130,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["value"] === undefined) {
-						argv["value"] = await promptForRequiredField(
-							"value",
-							"The value field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["value"] === undefined) {
+							argv["value"] = await promptForRequiredField(
+								"value",
+								"The value field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel tags create",
@@ -219,6 +219,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["value"] === undefined) {
+					argv["value"] = await promptForRequiredField(
+						"value",
+						"The value field"
+					);
 				}
 
 				// Assemble request body from individual flags

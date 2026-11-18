@@ -189,15 +189,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["protocol"] === undefined) {
-						argv["protocol"] = await promptForRequiredField(
-							"protocol",
-							'The port configuration at Cloudflare\'s edge. May specify a single port, for example \`"tcp/1000"\`, or a range of ports, for example \`"tcp/1000-2000"\`.'
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["protocol"] === undefined) {
+							argv["protocol"] = await promptForRequiredField(
+								"protocol",
+								'The port configuration at Cloudflare\'s edge. May specify a single port, for example \`"tcp/1000"\`, or a range of ports, for example \`"tcp/1000-2000"\`.'
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf spectrum apps create",
 						method: "POST",
@@ -276,6 +276,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["protocol"] === undefined) {
+					argv["protocol"] = await promptForRequiredField(
+						"protocol",
+						'The port configuration at Cloudflare\'s edge. May specify a single port, for example \`"tcp/1000"\`, or a range of ports, for example \`"tcp/1000-2000"\`.'
+					);
 				}
 
 				// Assemble request body from individual flags

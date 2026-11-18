@@ -60,14 +60,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["level-ids"] === undefined) {
-						throw new Error(
-							"--level-ids is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["level-ids"] === undefined) {
+							throw new Error(
+								"--level-ids is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust dlp sensitivity-groups update-level-order",
@@ -105,6 +105,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["level-ids"] === undefined) {
+					throw new Error(
+						"--level-ids is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

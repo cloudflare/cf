@@ -76,20 +76,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["options"] === undefined) {
-						throw new Error(
-							"--options is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["question"] === undefined) {
-						argv["question"] = await promptForRequiredField(
-							"question",
-							"Question of the poll"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["options"] === undefined) {
+							throw new Error(
+								"--options is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["question"] === undefined) {
+							argv["question"] = await promptForRequiredField(
+								"question",
+								"Question of the poll"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf realtime kit meetings active polls create",
@@ -134,6 +134,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["options"] === undefined) {
+					throw new Error(
+						"--options is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["question"] === undefined) {
+					argv["question"] = await promptForRequiredField(
+						"question",
+						"Question of the poll"
+					);
 				}
 
 				// Assemble request body from individual flags

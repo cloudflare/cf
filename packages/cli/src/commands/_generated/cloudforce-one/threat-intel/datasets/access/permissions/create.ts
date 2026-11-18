@@ -79,29 +79,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["role"] === undefined) {
-						argv["role"] = await promptForRequiredEnumField(
-							"role",
-							"The role field",
-							["read", "write"] as const
-						);
-					}
-					if (argv["subject-id"] === undefined) {
-						argv["subject-id"] = await promptForRequiredField(
-							"subject-id",
-							"The subjectId field"
-						);
-					}
-					if (argv["subject-type"] === undefined) {
-						argv["subject-type"] = await promptForRequiredEnumField(
-							"subject-type",
-							"The subjectType field",
-							["account", "group"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["role"] === undefined) {
+							argv["role"] = await promptForRequiredEnumField(
+								"role",
+								"The role field",
+								["read", "write"] as const
+							);
+						}
+						if (argv["subject-id"] === undefined) {
+							argv["subject-id"] = await promptForRequiredField(
+								"subject-id",
+								"The subjectId field"
+							);
+						}
+						if (argv["subject-type"] === undefined) {
+							argv["subject-type"] = await promptForRequiredEnumField(
+								"subject-type",
+								"The subjectType field",
+								["account", "group"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command:
@@ -142,6 +142,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["role"] === undefined) {
+					argv["role"] = await promptForRequiredEnumField(
+						"role",
+						"The role field",
+						["read", "write"] as const
+					);
+				}
+				if (argv["subject-id"] === undefined) {
+					argv["subject-id"] = await promptForRequiredField(
+						"subject-id",
+						"The subjectId field"
+					);
+				}
+				if (argv["subject-type"] === undefined) {
+					argv["subject-type"] = await promptForRequiredEnumField(
+						"subject-type",
+						"The subjectType field",
+						["account", "group"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

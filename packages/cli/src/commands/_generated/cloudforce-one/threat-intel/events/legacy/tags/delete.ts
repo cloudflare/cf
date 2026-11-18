@@ -68,14 +68,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["tags"] === undefined) {
-						throw new Error(
-							"--tags is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["tags"] === undefined) {
+							throw new Error(
+								"--tags is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel events legacy tags delete",
@@ -113,6 +113,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
+				}
+				if (argv["tags"] === undefined) {
+					throw new Error(
+						"--tags is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

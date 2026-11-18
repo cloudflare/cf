@@ -72,21 +72,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"A user-friendly name for the subnet."
-						);
-					}
-					if (argv["network"] === undefined) {
-						argv["network"] = await promptForRequiredField(
-							"network",
-							"The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"A user-friendly name for the subnet."
+							);
+						}
+						if (argv["network"] === undefined) {
+							argv["network"] = await promptForRequiredField(
+								"network",
+								"The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf network subnets warp create",
@@ -131,6 +131,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"A user-friendly name for the subnet."
+					);
+				}
+				if (argv["network"] === undefined) {
+					argv["network"] = await promptForRequiredField(
+						"network",
+						"The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -78,35 +78,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["bucket"] === undefined) {
-						argv["bucket"] = await promptForRequiredField(
-							"bucket",
-							"The bucket field"
-						);
-					}
-					if (argv["secret-access-key-id"] === undefined) {
-						argv["secret-access-key-id"] = await promptForRequiredField(
-							"secret-access-key-id",
-							"The secret.accessKeyId field"
-						);
-					}
-					if (argv["secret-secret-access-key"] === undefined) {
-						argv["secret-secret-access-key"] = await promptForRequiredField(
-							"secret-secret-access-key",
-							"The secret.secretAccessKey field",
-							{ kind: "secret" }
-						);
-					}
-					if (argv["vendor"] === undefined) {
-						argv["vendor"] = await promptForRequiredEnumField(
-							"vendor",
-							"The vendor field",
-							["r2"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["bucket"] === undefined) {
+							argv["bucket"] = await promptForRequiredField(
+								"bucket",
+								"The bucket field"
+							);
+						}
+						if (argv["secret-access-key-id"] === undefined) {
+							argv["secret-access-key-id"] = await promptForRequiredField(
+								"secret-access-key-id",
+								"The secret.accessKeyId field"
+							);
+						}
+						if (argv["secret-secret-access-key"] === undefined) {
+							argv["secret-secret-access-key"] = await promptForRequiredField(
+								"secret-secret-access-key",
+								"The secret.secretAccessKey field",
+								{ kind: "secret" }
+							);
+						}
+						if (argv["vendor"] === undefined) {
+							argv["vendor"] = await promptForRequiredEnumField(
+								"vendor",
+								"The vendor field",
+								["r2"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf r2 super-slurper connectivity-precheck target",
@@ -155,6 +155,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["bucket"] === undefined) {
+					argv["bucket"] = await promptForRequiredField(
+						"bucket",
+						"The bucket field"
+					);
+				}
+				if (argv["secret-access-key-id"] === undefined) {
+					argv["secret-access-key-id"] = await promptForRequiredField(
+						"secret-access-key-id",
+						"The secret.accessKeyId field"
+					);
+				}
+				if (argv["secret-secret-access-key"] === undefined) {
+					argv["secret-secret-access-key"] = await promptForRequiredField(
+						"secret-secret-access-key",
+						"The secret.secretAccessKey field",
+						{ kind: "secret" }
+					);
+				}
+				if (argv["vendor"] === undefined) {
+					argv["vendor"] = await promptForRequiredEnumField(
+						"vendor",
+						"The vendor field",
+						["r2"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

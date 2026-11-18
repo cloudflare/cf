@@ -57,15 +57,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["destination-conf"] === undefined) {
-						argv["destination-conf"] = await promptForRequiredField(
-							"destination-conf",
-							"The full URI for the bucket. This field only applies to \`full\` packet captures."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["destination-conf"] === undefined) {
+							argv["destination-conf"] = await promptForRequiredField(
+								"destination-conf",
+								"The full URI for the bucket. This field only applies to \`full\` packet captures."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit pcaps ownership create",
@@ -99,6 +99,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["destination-conf"] === undefined) {
+					argv["destination-conf"] = await promptForRequiredField(
+						"destination-conf",
+						"The full URI for the bucket. This field only applies to \`full\` packet captures."
+					);
 				}
 
 				// Assemble request body from individual flags

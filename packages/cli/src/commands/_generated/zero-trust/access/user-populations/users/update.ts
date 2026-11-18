@@ -80,14 +80,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined && argv.file === undefined) {
-					if (argv["operations"] === undefined) {
-						throw new Error(
-							"--operations is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined && argv.file === undefined) {
+						if (argv["operations"] === undefined) {
+							throw new Error(
+								"--operations is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust access user-populations users update",
@@ -152,6 +152,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["operations"] === undefined) {
+					throw new Error(
+						"--operations is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

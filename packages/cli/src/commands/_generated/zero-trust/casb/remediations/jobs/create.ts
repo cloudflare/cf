@@ -61,20 +61,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["finding-instance-ids"] === undefined) {
-						throw new Error(
-							"--finding-instance-ids is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["remediation-type-id"] === undefined) {
-						argv["remediation-type-id"] = await promptForRequiredField(
-							"remediation-type-id",
-							"A UUID identifying this Remediation Type."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["finding-instance-ids"] === undefined) {
+							throw new Error(
+								"--finding-instance-ids is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["remediation-type-id"] === undefined) {
+							argv["remediation-type-id"] = await promptForRequiredField(
+								"remediation-type-id",
+								"A UUID identifying this Remediation Type."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust casb remediations jobs create",
@@ -109,6 +109,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["finding-instance-ids"] === undefined) {
+					throw new Error(
+						"--finding-instance-ids is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["remediation-type-id"] === undefined) {
+					argv["remediation-type-id"] = await promptForRequiredField(
+						"remediation-type-id",
+						"A UUID identifying this Remediation Type."
+					);
 				}
 
 				// Assemble request body from individual flags

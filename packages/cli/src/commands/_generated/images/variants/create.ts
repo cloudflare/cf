@@ -92,36 +92,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["id"] === undefined) {
-						argv["id"] = await promptForRequiredField("id", "The id field");
-					}
-					if (argv["options-fit"] === undefined) {
-						argv["options-fit"] = await promptForRequiredEnumField(
-							"options-fit",
-							"The fit property describes how the width and height dimensions should be interpreted.",
-							["scale-down", "contain", "cover", "crop", "pad"] as const
-						);
-					}
-					if (argv["options-height"] === undefined) {
-						throw new Error(
-							"--options-height is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["options-metadata"] === undefined) {
-						argv["options-metadata"] = await promptForRequiredEnumField(
-							"options-metadata",
-							"What EXIF data should be preserved in the output image.",
-							["keep", "copyright", "none"] as const
-						);
-					}
-					if (argv["options-width"] === undefined) {
-						throw new Error(
-							"--options-width is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["id"] === undefined) {
+							argv["id"] = await promptForRequiredField("id", "The id field");
+						}
+						if (argv["options-fit"] === undefined) {
+							argv["options-fit"] = await promptForRequiredEnumField(
+								"options-fit",
+								"The fit property describes how the width and height dimensions should be interpreted.",
+								["scale-down", "contain", "cover", "crop", "pad"] as const
+							);
+						}
+						if (argv["options-height"] === undefined) {
+							throw new Error(
+								"--options-height is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["options-metadata"] === undefined) {
+							argv["options-metadata"] = await promptForRequiredEnumField(
+								"options-metadata",
+								"What EXIF data should be preserved in the output image.",
+								["keep", "copyright", "none"] as const
+							);
+						}
+						if (argv["options-width"] === undefined) {
+							throw new Error(
+								"--options-width is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf images variants create",
@@ -162,6 +162,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["id"] === undefined) {
+					argv["id"] = await promptForRequiredField("id", "The id field");
+				}
+				if (argv["options-fit"] === undefined) {
+					argv["options-fit"] = await promptForRequiredEnumField(
+						"options-fit",
+						"The fit property describes how the width and height dimensions should be interpreted.",
+						["scale-down", "contain", "cover", "crop", "pad"] as const
+					);
+				}
+				if (argv["options-height"] === undefined) {
+					throw new Error(
+						"--options-height is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["options-metadata"] === undefined) {
+					argv["options-metadata"] = await promptForRequiredEnumField(
+						"options-metadata",
+						"What EXIF data should be preserved in the output image.",
+						["keep", "copyright", "none"] as const
+					);
+				}
+				if (argv["options-width"] === undefined) {
+					throw new Error(
+						"--options-width is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

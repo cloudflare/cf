@@ -69,15 +69,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["property-name"] === undefined) {
-						argv["property-name"] = await promptForRequiredField(
-							"property-name",
-							"Specifies the metadata property for which the index must be deleted."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["property-name"] === undefined) {
+							argv["property-name"] = await promptForRequiredField(
+								"property-name",
+								"Specifies the metadata property for which the index must be deleted."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf vectorize metadata-index delete",
@@ -124,6 +124,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Done` });
 					return;
+				}
+				if (argv["property-name"] === undefined) {
+					argv["property-name"] = await promptForRequiredField(
+						"property-name",
+						"Specifies the metadata property for which the index must be deleted."
+					);
 				}
 
 				// Assemble request body from individual flags

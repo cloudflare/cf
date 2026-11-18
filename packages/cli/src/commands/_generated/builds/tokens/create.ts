@@ -62,27 +62,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["build-token-name"] === undefined) {
-						argv["build-token-name"] = await promptForRequiredField(
-							"build-token-name",
-							"The build_token_name field"
-						);
-					}
-					if (argv["build-token-secret"] === undefined) {
-						argv["build-token-secret"] = await promptForRequiredField(
-							"build-token-secret",
-							"The build_token_secret field"
-						);
-					}
-					if (argv["cloudflare-token-id"] === undefined) {
-						argv["cloudflare-token-id"] = await promptForRequiredField(
-							"cloudflare-token-id",
-							"The cloudflare_token_id field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["build-token-name"] === undefined) {
+							argv["build-token-name"] = await promptForRequiredField(
+								"build-token-name",
+								"The build_token_name field"
+							);
+						}
+						if (argv["build-token-secret"] === undefined) {
+							argv["build-token-secret"] = await promptForRequiredField(
+								"build-token-secret",
+								"The build_token_secret field"
+							);
+						}
+						if (argv["cloudflare-token-id"] === undefined) {
+							argv["cloudflare-token-id"] = await promptForRequiredField(
+								"cloudflare-token-id",
+								"The cloudflare_token_id field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf builds tokens create",
@@ -126,6 +126,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["build-token-name"] === undefined) {
+					argv["build-token-name"] = await promptForRequiredField(
+						"build-token-name",
+						"The build_token_name field"
+					);
+				}
+				if (argv["build-token-secret"] === undefined) {
+					argv["build-token-secret"] = await promptForRequiredField(
+						"build-token-secret",
+						"The build_token_secret field"
+					);
+				}
+				if (argv["cloudflare-token-id"] === undefined) {
+					argv["cloudflare-token-id"] = await promptForRequiredField(
+						"cloudflare-token-id",
+						"The cloudflare_token_id field"
+					);
 				}
 
 				// Assemble request body from individual flags

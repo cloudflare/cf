@@ -63,21 +63,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["action"] === undefined) {
-						argv["action"] = await promptForRequiredEnumField(
-							"action",
-							"Behavior of the content list.",
-							["block"] as const
-						);
-					}
-					if (argv["entries"] === undefined) {
-						throw new Error(
-							"--entries is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["action"] === undefined) {
+							argv["action"] = await promptForRequiredEnumField(
+								"action",
+								"Behavior of the content list.",
+								["block"] as const
+							);
+						}
+						if (argv["entries"] === undefined) {
+							throw new Error(
+								"--entries is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command:
 							"cf web3 hostnames ipfs-universal-paths content-lists update",
@@ -117,6 +117,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["action"] === undefined) {
+					argv["action"] = await promptForRequiredEnumField(
+						"action",
+						"Behavior of the content list.",
+						["block"] as const
+					);
+				}
+				if (argv["entries"] === undefined) {
+					throw new Error(
+						"--entries is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

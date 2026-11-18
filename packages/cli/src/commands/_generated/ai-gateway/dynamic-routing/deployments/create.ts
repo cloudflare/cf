@@ -66,15 +66,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["version-id"] === undefined) {
-						argv["version-id"] = await promptForRequiredField(
-							"version-id",
-							"The version_id field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["version-id"] === undefined) {
+							argv["version-id"] = await promptForRequiredField(
+								"version-id",
+								"The version_id field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf ai-gateway dynamic-routing deployments create",
@@ -116,6 +116,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["version-id"] === undefined) {
+					argv["version-id"] = await promptForRequiredField(
+						"version-id",
+						"The version_id field"
+					);
 				}
 
 				// Assemble request body from individual flags

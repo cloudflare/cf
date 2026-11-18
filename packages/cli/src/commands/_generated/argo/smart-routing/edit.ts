@@ -53,16 +53,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["value"] === undefined) {
-						argv["value"] = await promptForRequiredEnumField(
-							"value",
-							"Specifies the enablement value of Argo Smart Routing.",
-							["on", "off"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["value"] === undefined) {
+							argv["value"] = await promptForRequiredEnumField(
+								"value",
+								"Specifies the enablement value of Argo Smart Routing.",
+								["on", "off"] as const
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf argo smart-routing edit",
 						method: "PATCH",
@@ -95,6 +95,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["value"] === undefined) {
+					argv["value"] = await promptForRequiredEnumField(
+						"value",
+						"Specifies the enablement value of Argo Smart Routing.",
+						["on", "off"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

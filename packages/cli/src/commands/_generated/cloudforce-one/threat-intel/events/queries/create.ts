@@ -88,21 +88,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Unique name for the saved query"
-						);
-					}
-					if (argv["query-json"] === undefined) {
-						argv["query-json"] = await promptForRequiredField(
-							"query-json",
-							"JSON string containing the query parameters"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Unique name for the saved query"
+							);
+						}
+						if (argv["query-json"] === undefined) {
+							argv["query-json"] = await promptForRequiredField(
+								"query-json",
+								"JSON string containing the query parameters"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel events queries create",
@@ -149,6 +149,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Unique name for the saved query"
+					);
+				}
+				if (argv["query-json"] === undefined) {
+					argv["query-json"] = await promptForRequiredField(
+						"query-json",
+						"JSON string containing the query parameters"
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -799,7 +799,8 @@ Generated dry runs resolve required inputs through the same prompts and
 sensitive-field stdin ingestion as execution, and reject missing required
 body input. Explicit flags or `--body` take precedence over implicit stdin.
 Previews redact sensitive values and return before authentication or API
-requests.
+requests. Normal executions authenticate and resolve their account/zone
+before prompting for required fields or consuming their stdin values.
 
 This is the primary closure of wrangler's "interactive wizard" gap
 for the common case (single missing required field). Multi-step

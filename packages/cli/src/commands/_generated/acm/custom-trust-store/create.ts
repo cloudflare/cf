@@ -52,15 +52,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["certificate"] === undefined) {
-						argv["certificate"] = await promptForRequiredField(
-							"certificate",
-							"The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["certificate"] === undefined) {
+							argv["certificate"] = await promptForRequiredField(
+								"certificate",
+								"The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf acm custom-trust-store create",
 						method: "POST",
@@ -97,6 +97,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["certificate"] === undefined) {
+					argv["certificate"] = await promptForRequiredField(
+						"certificate",
+						"The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported."
+					);
 				}
 
 				// Assemble request body from individual flags

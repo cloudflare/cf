@@ -61,14 +61,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["rules"] === undefined) {
-						throw new Error(
-							"--rules is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["rules"] === undefined) {
+							throw new Error(
+								"--rules is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf field-extractors update",
@@ -102,6 +102,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["rules"] === undefined) {
+					throw new Error(
+						"--rules is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

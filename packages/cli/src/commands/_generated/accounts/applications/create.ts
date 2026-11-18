@@ -84,26 +84,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["category-id"] === undefined) {
-						throw new Error(
-							"--category-id is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["human-id"] === undefined) {
-						argv["human-id"] = await promptForRequiredField(
-							"human-id",
-							"Human-readable identifier for the application."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Application name."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["category-id"] === undefined) {
+							throw new Error(
+								"--category-id is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["human-id"] === undefined) {
+							argv["human-id"] = await promptForRequiredField(
+								"human-id",
+								"Human-readable identifier for the application."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Application name."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf accounts applications create",
@@ -147,6 +147,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["category-id"] === undefined) {
+					throw new Error(
+						"--category-id is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["human-id"] === undefined) {
+					argv["human-id"] = await promptForRequiredField(
+						"human-id",
+						"Human-readable identifier for the application."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Application name."
+					);
 				}
 
 				// Assemble request body from individual flags

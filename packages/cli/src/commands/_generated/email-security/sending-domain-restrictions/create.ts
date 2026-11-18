@@ -62,20 +62,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["domain"] === undefined) {
-						argv["domain"] = await promptForRequiredField(
-							"domain",
-							"Domain that requires TLS enforcement."
-						);
-					}
-					if (argv["exclude"] === undefined) {
-						throw new Error(
-							"--exclude is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["domain"] === undefined) {
+							argv["domain"] = await promptForRequiredField(
+								"domain",
+								"Domain that requires TLS enforcement."
+							);
+						}
+						if (argv["exclude"] === undefined) {
+							throw new Error(
+								"--exclude is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-security sending-domain-restrictions create",
@@ -115,6 +115,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["domain"] === undefined) {
+					argv["domain"] = await promptForRequiredField(
+						"domain",
+						"Domain that requires TLS enforcement."
+					);
+				}
+				if (argv["exclude"] === undefined) {
+					throw new Error(
+						"--exclude is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

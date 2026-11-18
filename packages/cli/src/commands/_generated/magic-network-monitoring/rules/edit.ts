@@ -131,32 +131,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["automatic-advertisement"] === undefined) {
-						throw new Error(
-							"--automatic-advertisement is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters."
-						);
-					}
-					if (argv["prefixes"] === undefined) {
-						throw new Error(
-							"--prefixes is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"MNM rule type.",
-							["threshold", "zscore", "advanced_ddos"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["automatic-advertisement"] === undefined) {
+							throw new Error(
+								"--automatic-advertisement is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters."
+							);
+						}
+						if (argv["prefixes"] === undefined) {
+							throw new Error(
+								"--prefixes is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"MNM rule type.",
+								["threshold", "zscore", "advanced_ddos"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-network-monitoring rules edit",
@@ -203,6 +203,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["automatic-advertisement"] === undefined) {
+					throw new Error(
+						"--automatic-advertisement is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters."
+					);
+				}
+				if (argv["prefixes"] === undefined) {
+					throw new Error(
+						"--prefixes is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"MNM rule type.",
+						["threshold", "zscore", "advanced_ddos"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

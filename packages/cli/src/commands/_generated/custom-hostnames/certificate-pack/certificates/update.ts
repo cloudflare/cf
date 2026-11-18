@@ -70,22 +70,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["custom-certificate"] === undefined) {
-						argv["custom-certificate"] = await promptForRequiredField(
-							"custom-certificate",
-							"If a custom uploaded certificate is used."
-						);
-					}
-					if (argv["custom-key"] === undefined) {
-						argv["custom-key"] = await promptForRequiredField(
-							"custom-key",
-							"The key for a custom uploaded certificate.",
-							{ kind: "secret" }
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["custom-certificate"] === undefined) {
+							argv["custom-certificate"] = await promptForRequiredField(
+								"custom-certificate",
+								"If a custom uploaded certificate is used."
+							);
+						}
+						if (argv["custom-key"] === undefined) {
+							argv["custom-key"] = await promptForRequiredField(
+								"custom-key",
+								"The key for a custom uploaded certificate.",
+								{ kind: "secret" }
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf custom-hostnames certificate-pack certificates update",
 						method: "PUT",
@@ -137,6 +137,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["custom-certificate"] === undefined) {
+					argv["custom-certificate"] = await promptForRequiredField(
+						"custom-certificate",
+						"If a custom uploaded certificate is used."
+					);
+				}
+				if (argv["custom-key"] === undefined) {
+					argv["custom-key"] = await promptForRequiredField(
+						"custom-key",
+						"The key for a custom uploaded certificate.",
+						{ kind: "secret" }
+					);
 				}
 
 				// Assemble request body from individual flags

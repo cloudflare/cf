@@ -58,14 +58,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					normalize: argv["normalize"],
 				};
-				if (argv.body === undefined) {
-					if (argv["auth-id-characteristics"] === undefined) {
-						throw new Error(
-							"--auth-id-characteristics is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["auth-id-characteristics"] === undefined) {
+							throw new Error(
+								"--auth-id-characteristics is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf api-security session-identifiers update",
 						method: "PUT",
@@ -111,6 +111,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["auth-id-characteristics"] === undefined) {
+					throw new Error(
+						"--auth-id-characteristics is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

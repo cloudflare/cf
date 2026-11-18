@@ -67,18 +67,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["id"] === undefined) {
-						argv["id"] = await promptForRequiredField("id", "Identifier");
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["id"] === undefined) {
+							argv["id"] = await promptForRequiredField("id", "Identifier");
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf accounts update",
@@ -127,6 +127,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["id"] === undefined) {
+					argv["id"] = await promptForRequiredField("id", "Identifier");
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes."
+					);
 				}
 
 				// Assemble request body from individual flags

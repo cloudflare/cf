@@ -72,22 +72,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["index-type"] === undefined) {
-						argv["index-type"] = await promptForRequiredEnumField(
-							"index-type",
-							"Specifies the type of metadata property to index.",
-							["string", "number", "boolean"] as const
-						);
-					}
-					if (argv["property-name"] === undefined) {
-						argv["property-name"] = await promptForRequiredField(
-							"property-name",
-							"Specifies the metadata property to index."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["index-type"] === undefined) {
+							argv["index-type"] = await promptForRequiredEnumField(
+								"index-type",
+								"Specifies the type of metadata property to index.",
+								["string", "number", "boolean"] as const
+							);
+						}
+						if (argv["property-name"] === undefined) {
+							argv["property-name"] = await promptForRequiredField(
+								"property-name",
+								"Specifies the metadata property to index."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf vectorize metadata-index create",
@@ -126,6 +126,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["index-type"] === undefined) {
+					argv["index-type"] = await promptForRequiredEnumField(
+						"index-type",
+						"Specifies the type of metadata property to index.",
+						["string", "number", "boolean"] as const
+					);
+				}
+				if (argv["property-name"] === undefined) {
+					argv["property-name"] = await promptForRequiredField(
+						"property-name",
+						"Specifies the metadata property to index."
+					);
 				}
 
 				// Assemble request body from individual flags

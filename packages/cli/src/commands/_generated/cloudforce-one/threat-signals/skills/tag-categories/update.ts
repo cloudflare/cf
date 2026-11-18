@@ -62,14 +62,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["category-uuids"] === undefined) {
-						throw new Error(
-							"--category-uuids is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["category-uuids"] === undefined) {
+							throw new Error(
+								"--category-uuids is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command:
@@ -104,6 +104,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["category-uuids"] === undefined) {
+					throw new Error(
+						"--category-uuids is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

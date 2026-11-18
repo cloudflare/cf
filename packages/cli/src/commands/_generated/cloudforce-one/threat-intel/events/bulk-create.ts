@@ -66,20 +66,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["data"] === undefined) {
-						throw new Error(
-							"--data is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["dataset-id"] === undefined) {
-						argv["dataset-id"] = await promptForRequiredField(
-							"dataset-id",
-							"The datasetId field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["data"] === undefined) {
+							throw new Error(
+								"--data is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["dataset-id"] === undefined) {
+							argv["dataset-id"] = await promptForRequiredField(
+								"dataset-id",
+								"The datasetId field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-intel events bulk-create",
@@ -115,6 +115,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["data"] === undefined) {
+					throw new Error(
+						"--data is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["dataset-id"] === undefined) {
+					argv["dataset-id"] = await promptForRequiredField(
+						"dataset-id",
+						"The datasetId field"
+					);
 				}
 
 				// Assemble request body from individual flags

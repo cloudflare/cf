@@ -61,15 +61,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["description"] === undefined) {
-						argv["description"] = await promptForRequiredField(
-							"description",
-							"Description of the prefix."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["description"] === undefined) {
+							argv["description"] = await promptForRequiredField(
+								"description",
+								"Description of the prefix."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf addressing prefixes edit",
@@ -107,6 +107,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["description"] === undefined) {
+					argv["description"] = await promptForRequiredField(
+						"description",
+						"Description of the prefix."
+					);
 				}
 
 				// Assemble request body from individual flags

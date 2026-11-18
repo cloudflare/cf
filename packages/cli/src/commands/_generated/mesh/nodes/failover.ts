@@ -68,15 +68,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["connector-id"] === undefined) {
-						argv["connector-id"] = await promptForRequiredField(
-							"connector-id",
-							"UUID of the Cloudflare Tunnel connector."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["connector-id"] === undefined) {
+							argv["connector-id"] = await promptForRequiredField(
+								"connector-id",
+								"UUID of the Cloudflare Tunnel connector."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf mesh nodes failover",
@@ -124,6 +124,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["connector-id"] === undefined) {
+					argv["connector-id"] = await promptForRequiredField(
+						"connector-id",
+						"UUID of the Cloudflare Tunnel connector."
+					);
 				}
 
 				// Assemble request body from individual flags

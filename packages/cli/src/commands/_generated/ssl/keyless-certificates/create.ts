@@ -94,26 +94,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["certificate"] === undefined) {
-						argv["certificate"] = await promptForRequiredField(
-							"certificate",
-							"The zone's SSL certificate or SSL certificate and intermediate(s)."
-						);
-					}
-					if (argv["host"] === undefined) {
-						argv["host"] = await promptForRequiredField(
-							"host",
-							"The keyless SSL name."
-						);
-					}
-					if (argv["port"] === undefined) {
-						throw new Error(
-							"--port is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["certificate"] === undefined) {
+							argv["certificate"] = await promptForRequiredField(
+								"certificate",
+								"The zone's SSL certificate or SSL certificate and intermediate(s)."
+							);
+						}
+						if (argv["host"] === undefined) {
+							argv["host"] = await promptForRequiredField(
+								"host",
+								"The keyless SSL name."
+							);
+						}
+						if (argv["port"] === undefined) {
+							throw new Error(
+								"--port is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf ssl keyless-certificates create",
 						method: "POST",
@@ -174,6 +174,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["certificate"] === undefined) {
+					argv["certificate"] = await promptForRequiredField(
+						"certificate",
+						"The zone's SSL certificate or SSL certificate and intermediate(s)."
+					);
+				}
+				if (argv["host"] === undefined) {
+					argv["host"] = await promptForRequiredField(
+						"host",
+						"The keyless SSL name."
+					);
+				}
+				if (argv["port"] === undefined) {
+					throw new Error(
+						"--port is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

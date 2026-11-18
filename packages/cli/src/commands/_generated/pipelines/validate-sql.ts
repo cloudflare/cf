@@ -56,15 +56,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["sql"] === undefined) {
-						argv["sql"] = await promptForRequiredField(
-							"sql",
-							"Specifies SQL to validate."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["sql"] === undefined) {
+							argv["sql"] = await promptForRequiredField(
+								"sql",
+								"Specifies SQL to validate."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf pipelines validate-sql",
@@ -98,6 +98,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["sql"] === undefined) {
+					argv["sql"] = await promptForRequiredField(
+						"sql",
+						"Specifies SQL to validate."
+					);
 				}
 
 				// Assemble request body from individual flags

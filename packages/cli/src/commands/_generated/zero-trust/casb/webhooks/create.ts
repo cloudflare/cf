@@ -97,34 +97,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["authentication-type"] === undefined) {
-						argv["authentication-type"] = await promptForRequiredEnumField(
-							"authentication-type",
-							"Type of authentication used for the webhook.",
-							[
-								"Basic Auth",
-								"None",
-								"Bearer Auth",
-								"Static Headers",
-								"HMAC-Signing",
-							] as const
-						);
-					}
-					if (argv["destination-url"] === undefined) {
-						argv["destination-url"] = await promptForRequiredField(
-							"destination-url",
-							"Target URL for the webhook configuration. Where resulting data will be sent."
-						);
-					}
-					if (argv["label"] === undefined) {
-						argv["label"] = await promptForRequiredField(
-							"label",
-							"Account-specified display label for the webhook configuration."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["authentication-type"] === undefined) {
+							argv["authentication-type"] = await promptForRequiredEnumField(
+								"authentication-type",
+								"Type of authentication used for the webhook.",
+								[
+									"Basic Auth",
+									"None",
+									"Bearer Auth",
+									"Static Headers",
+									"HMAC-Signing",
+								] as const
+							);
+						}
+						if (argv["destination-url"] === undefined) {
+							argv["destination-url"] = await promptForRequiredField(
+								"destination-url",
+								"Target URL for the webhook configuration. Where resulting data will be sent."
+							);
+						}
+						if (argv["label"] === undefined) {
+							argv["label"] = await promptForRequiredField(
+								"label",
+								"Account-specified display label for the webhook configuration."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust casb webhooks create",
@@ -172,6 +172,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["authentication-type"] === undefined) {
+					argv["authentication-type"] = await promptForRequiredEnumField(
+						"authentication-type",
+						"Type of authentication used for the webhook.",
+						[
+							"Basic Auth",
+							"None",
+							"Bearer Auth",
+							"Static Headers",
+							"HMAC-Signing",
+						] as const
+					);
+				}
+				if (argv["destination-url"] === undefined) {
+					argv["destination-url"] = await promptForRequiredField(
+						"destination-url",
+						"Target URL for the webhook configuration. Where resulting data will be sent."
+					);
+				}
+				if (argv["label"] === undefined) {
+					argv["label"] = await promptForRequiredField(
+						"label",
+						"Account-specified display label for the webhook configuration."
+					);
 				}
 
 				// Assemble request body from individual flags

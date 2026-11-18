@@ -67,15 +67,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["owner-worker-tag"] === undefined) {
-						argv["owner-worker-tag"] = await promptForRequiredField(
-							"owner-worker-tag",
-							"Public tag (script_tag) of the Worker that owns this rule. Required when \`source\` is \`wrangler\`. "
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["owner-worker-tag"] === undefined) {
+							argv["owner-worker-tag"] = await promptForRequiredField(
+								"owner-worker-tag",
+								"Public tag (script_tag) of the Worker that owns this rule. Required when \`source\` is \`wrangler\`. "
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf email-routing rules plan",
@@ -114,6 +114,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["owner-worker-tag"] === undefined) {
+					argv["owner-worker-tag"] = await promptForRequiredField(
+						"owner-worker-tag",
+						"Public tag (script_tag) of the Worker that owns this rule. Required when \`source\` is \`wrangler\`. "
+					);
 				}
 
 				// Assemble request body from individual flags

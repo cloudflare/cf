@@ -69,22 +69,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["template"] === undefined) {
-						argv["template"] = await promptForRequiredField(
-							"template",
-							"The Liquid template to validate."
-						);
-					}
-					if (argv["type"] === undefined) {
-						argv["type"] = await promptForRequiredEnumField(
-							"type",
-							"Custom page type.",
-							["identity_denied", "forbidden", "login", "interstitial"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["template"] === undefined) {
+							argv["template"] = await promptForRequiredField(
+								"template",
+								"The Liquid template to validate."
+							);
+						}
+						if (argv["type"] === undefined) {
+							argv["type"] = await promptForRequiredEnumField(
+								"type",
+								"Custom page type.",
+								[
+									"identity_denied",
+									"forbidden",
+									"login",
+									"interstitial",
+								] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust access custom-pages validate",
@@ -120,6 +125,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Validated` });
 					return;
+				}
+				if (argv["template"] === undefined) {
+					argv["template"] = await promptForRequiredField(
+						"template",
+						"The Liquid template to validate."
+					);
+				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"Custom page type.",
+						["identity_denied", "forbidden", "login", "interstitial"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -70,21 +70,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["filter"] === undefined) {
-						argv["filter"] = await promptForRequiredField(
-							"filter",
-							"Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Human-readable handle; unique per account."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["filter"] === undefined) {
+							argv["filter"] = await promptForRequiredField(
+								"filter",
+								"Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Human-readable handle; unique per account."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust cws workloads create",
@@ -132,6 +132,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["filter"] === undefined) {
+					argv["filter"] = await promptForRequiredField(
+						"filter",
+						"Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Human-readable handle; unique per account."
+					);
 				}
 
 				// Assemble request body from individual flags

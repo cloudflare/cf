@@ -57,14 +57,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					format: argv["format"],
 				};
-				if (argv.body === undefined) {
-					if (argv["dataset-id"] === undefined) {
-						throw new Error(
-							"--dataset-id is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["dataset-id"] === undefined) {
+							throw new Error(
+								"--dataset-id is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf radar datasets download",
 						method: "POST",
@@ -97,6 +97,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["dataset-id"] === undefined) {
+					throw new Error(
+						"--dataset-id is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

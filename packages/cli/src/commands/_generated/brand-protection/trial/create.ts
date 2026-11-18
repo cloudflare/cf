@@ -53,15 +53,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["brand"] === undefined) {
-						argv["brand"] = await promptForRequiredField(
-							"brand",
-							"The brand field"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["brand"] === undefined) {
+							argv["brand"] = await promptForRequiredField(
+								"brand",
+								"The brand field"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf brand-protection trial create",
@@ -95,6 +95,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["brand"] === undefined) {
+					argv["brand"] = await promptForRequiredField(
+						"brand",
+						"The brand field"
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -61,16 +61,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["token"] === undefined) {
-						argv["token"] = await promptForRequiredField(
-							"token",
-							"Provides the Cloudflare API token for accessing R2.",
-							{ kind: "secret" }
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["token"] === undefined) {
+							argv["token"] = await promptForRequiredField(
+								"token",
+								"Provides the Cloudflare API token for accessing R2.",
+								{ kind: "secret" }
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf basin-catalog credentials create",
@@ -109,6 +109,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["token"] === undefined) {
+					argv["token"] = await promptForRequiredField(
+						"token",
+						"Provides the Cloudflare API token for accessing R2.",
+						{ kind: "secret" }
+					);
 				}
 
 				// Assemble request body from individual flags

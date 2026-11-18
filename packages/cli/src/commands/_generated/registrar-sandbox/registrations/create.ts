@@ -289,15 +289,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["prefer"] !== undefined)
 					headers["Prefer"] = String(argv["prefer"]);
-				if (argv.body === undefined) {
-					if (argv["domain-name"] === undefined) {
-						argv["domain-name"] = await promptForRequiredField(
-							"domain-name",
-							"Provides a fully qualified domain name (FQDN), including the extension (e.g., \`example.com\`, \`mybrand.app\`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. "
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["domain-name"] === undefined) {
+							argv["domain-name"] = await promptForRequiredField(
+								"domain-name",
+								"Provides a fully qualified domain name (FQDN), including the extension (e.g., \`example.com\`, \`mybrand.app\`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. "
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf registrar-sandbox registrations create",
@@ -509,6 +509,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["domain-name"] === undefined) {
+					argv["domain-name"] = await promptForRequiredField(
+						"domain-name",
+						"Provides a fully qualified domain name (FQDN), including the extension (e.g., \`example.com\`, \`mybrand.app\`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. "
+					);
 				}
 
 				// Assemble request body from individual flags

@@ -138,18 +138,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["description"] === undefined) {
-						argv["description"] = await promptForRequiredField(
-							"description",
-							"The description field"
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField("name", "Query name");
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["description"] === undefined) {
+							argv["description"] = await promptForRequiredField(
+								"description",
+								"The description field"
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField("name", "Query name");
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf o11y queries create",
@@ -223,6 +223,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["description"] === undefined) {
+					argv["description"] = await promptForRequiredField(
+						"description",
+						"The description field"
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField("name", "Query name");
 				}
 
 				// Assemble request body from individual flags

@@ -54,16 +54,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["value"] === undefined) {
-						argv["value"] = await promptForRequiredEnumField(
-							"value",
-							'Controls Image Resizing behavior: - "off": Feature disabled. - "on": Resizing is enabled for same-zone images only. - "open": Resizing is enabled for images from any origin. - "latest": Resizing is enabled for same-zone images using the latest version. ',
-							["off", "on", "open", "latest"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["value"] === undefined) {
+							argv["value"] = await promptForRequiredEnumField(
+								"value",
+								'Controls Image Resizing behavior: - "off": Feature disabled. - "on": Resizing is enabled for same-zone images only. - "open": Resizing is enabled for images from any origin. - "latest": Resizing is enabled for same-zone images using the latest version. ',
+								["off", "on", "open", "latest"] as const
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf zones image-resizing edit",
 						method: "PATCH",
@@ -96,6 +96,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["value"] === undefined) {
+					argv["value"] = await promptForRequiredEnumField(
+						"value",
+						'Controls Image Resizing behavior: - "off": Feature disabled. - "on": Resizing is enabled for same-zone images only. - "open": Resizing is enabled for images from any origin. - "latest": Resizing is enabled for same-zone images using the latest version. ',
+						["off", "on", "open", "latest"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

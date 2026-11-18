@@ -79,27 +79,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["match-action"] === undefined) {
-						argv["match-action"] = await promptForRequiredEnumField(
-							"match-action",
-							"Action to take when a route matches one of the targets in this profile",
-							["allow", "deny"] as const
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Friendly name for the filter profile"
-						);
-					}
-					if (argv["targets"] === undefined) {
-						throw new Error(
-							"--targets is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["match-action"] === undefined) {
+							argv["match-action"] = await promptForRequiredEnumField(
+								"match-action",
+								"Action to take when a route matches one of the targets in this profile",
+								["allow", "deny"] as const
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Friendly name for the filter profile"
+							);
+						}
+						if (argv["targets"] === undefined) {
+							throw new Error(
+								"--targets is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf magic-transit bgp-filter-profiles create",
@@ -140,6 +140,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["match-action"] === undefined) {
+					argv["match-action"] = await promptForRequiredEnumField(
+						"match-action",
+						"Action to take when a route matches one of the targets in this profile",
+						["allow", "deny"] as const
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Friendly name for the filter profile"
+					);
+				}
+				if (argv["targets"] === undefined) {
+					throw new Error(
+						"--targets is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

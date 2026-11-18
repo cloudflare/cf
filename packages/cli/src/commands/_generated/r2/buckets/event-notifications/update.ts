@@ -79,14 +79,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const headers: Record<string, string> = {};
 				if (argv["cf-r2-jurisdiction"] !== undefined)
 					headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
-				if (argv.body === undefined) {
-					if (argv["rules"] === undefined) {
-						throw new Error(
-							"--rules is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["rules"] === undefined) {
+							throw new Error(
+								"--rules is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf r2 buckets event-notifications update",
@@ -127,6 +127,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["rules"] === undefined) {
+					throw new Error(
+						"--rules is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

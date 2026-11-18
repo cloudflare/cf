@@ -64,27 +64,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["cidr"] === undefined) {
-						argv["cidr"] = await promptForRequiredField(
-							"cidr",
-							"IP prefix in CIDR notation to bind."
-						);
-					}
-					if (argv["prefix-id"] === undefined) {
-						argv["prefix-id"] = await promptForRequiredField(
-							"prefix-id",
-							"The ID of the parent IP prefix that contains the CIDR."
-						);
-					}
-					if (argv["region-key"] === undefined) {
-						argv["region-key"] = await promptForRequiredField(
-							"region-key",
-							'Region key from managed regions (e.g., "us", "eu").'
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["cidr"] === undefined) {
+							argv["cidr"] = await promptForRequiredField(
+								"cidr",
+								"IP prefix in CIDR notation to bind."
+							);
+						}
+						if (argv["prefix-id"] === undefined) {
+							argv["prefix-id"] = await promptForRequiredField(
+								"prefix-id",
+								"The ID of the parent IP prefix that contains the CIDR."
+							);
+						}
+						if (argv["region-key"] === undefined) {
+							argv["region-key"] = await promptForRequiredField(
+								"region-key",
+								'Region key from managed regions (e.g., "us", "eu").'
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf dls regional-services prefix-bindings create",
@@ -128,6 +128,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["cidr"] === undefined) {
+					argv["cidr"] = await promptForRequiredField(
+						"cidr",
+						"IP prefix in CIDR notation to bind."
+					);
+				}
+				if (argv["prefix-id"] === undefined) {
+					argv["prefix-id"] = await promptForRequiredField(
+						"prefix-id",
+						"The ID of the parent IP prefix that contains the CIDR."
+					);
+				}
+				if (argv["region-key"] === undefined) {
+					argv["region-key"] = await promptForRequiredField(
+						"region-key",
+						'Region key from managed regions (e.g., "us", "eu").'
+					);
 				}
 
 				// Assemble request body from individual flags

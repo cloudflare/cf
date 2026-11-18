@@ -313,40 +313,40 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["data-layer"] === undefined) {
-						throw new Error(
-							"--data-layer is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["debug-key"] === undefined) {
-						argv["debug-key"] = await promptForRequiredField(
-							"debug-key",
-							"The key for Zaraz debug mode."
-						);
-					}
-					if (argv["settings-auto-inject-script"] === undefined) {
-						throw new Error(
-							"--settings-auto-inject-script is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["triggers"] === undefined) {
-						throw new Error(
-							"--triggers is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["variables"] === undefined) {
-						throw new Error(
-							"--variables is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["zaraz-version"] === undefined) {
-						throw new Error(
-							"--zaraz-version is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["data-layer"] === undefined) {
+							throw new Error(
+								"--data-layer is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["debug-key"] === undefined) {
+							argv["debug-key"] = await promptForRequiredField(
+								"debug-key",
+								"The key for Zaraz debug mode."
+							);
+						}
+						if (argv["settings-auto-inject-script"] === undefined) {
+							throw new Error(
+								"--settings-auto-inject-script is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["triggers"] === undefined) {
+							throw new Error(
+								"--triggers is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["variables"] === undefined) {
+							throw new Error(
+								"--variables is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["zaraz-version"] === undefined) {
+							throw new Error(
+								"--zaraz-version is required (or pass --body with this field set)."
+							);
+						}
+					}
 					formatDryRun({
 						command: "cf zaraz config update",
 						method: "PUT",
@@ -570,6 +570,37 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["data-layer"] === undefined) {
+					throw new Error(
+						"--data-layer is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["debug-key"] === undefined) {
+					argv["debug-key"] = await promptForRequiredField(
+						"debug-key",
+						"The key for Zaraz debug mode."
+					);
+				}
+				if (argv["settings-auto-inject-script"] === undefined) {
+					throw new Error(
+						"--settings-auto-inject-script is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["triggers"] === undefined) {
+					throw new Error(
+						"--triggers is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["variables"] === undefined) {
+					throw new Error(
+						"--variables is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["zaraz-version"] === undefined) {
+					throw new Error(
+						"--zaraz-version is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

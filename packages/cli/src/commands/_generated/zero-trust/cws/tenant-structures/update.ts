@@ -78,22 +78,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["application"] === undefined) {
-						argv["application"] = await promptForRequiredEnumField(
-							"application",
-							"Platform this structure models. Must match the existing value.",
-							["aws", "cloudflare"] as const
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Human-readable name; unique per account"
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["application"] === undefined) {
+							argv["application"] = await promptForRequiredEnumField(
+								"application",
+								"Platform this structure models. Must match the existing value.",
+								["aws", "cloudflare"] as const
+							);
+						}
+						if (argv["name"] === undefined) {
+							argv["name"] = await promptForRequiredField(
+								"name",
+								"Human-readable name; unique per account"
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf zero-trust cws tenant-structures update",
@@ -137,6 +137,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["application"] === undefined) {
+					argv["application"] = await promptForRequiredEnumField(
+						"application",
+						"Platform this structure models. Must match the existing value.",
+						["aws", "cloudflare"] as const
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Human-readable name; unique per account"
+					);
 				}
 
 				// Assemble request body from individual flags

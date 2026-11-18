@@ -70,21 +70,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["matches"] === undefined) {
-						throw new Error(
-							"--matches is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["triage-state"] === undefined) {
-						argv["triage-state"] = await promptForRequiredEnumField(
-							"triage-state",
-							"The triage_state field",
-							["new", "relevant", "not_relevant"] as const
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["matches"] === undefined) {
+							throw new Error(
+								"--matches is required (or pass --body with this field set)."
+							);
+						}
+						if (argv["triage-state"] === undefined) {
+							argv["triage-state"] = await promptForRequiredEnumField(
+								"triage-state",
+								"The triage_state field",
+								["new", "relevant", "not_relevant"] as const
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one priority-intelligence matches update",
@@ -119,6 +119,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
+				}
+				if (argv["matches"] === undefined) {
+					throw new Error(
+						"--matches is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["triage-state"] === undefined) {
+					argv["triage-state"] = await promptForRequiredEnumField(
+						"triage-state",
+						"The triage_state field",
+						["new", "relevant", "not_relevant"] as const
+					);
 				}
 
 				// Assemble request body from individual flags

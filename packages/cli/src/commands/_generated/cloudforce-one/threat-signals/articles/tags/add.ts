@@ -62,15 +62,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["tag-id"] === undefined) {
-						argv["tag-id"] = await promptForRequiredField(
-							"tag-id",
-							"UUID of a tag from the account's catalog to apply to the article."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["tag-id"] === undefined) {
+							argv["tag-id"] = await promptForRequiredField(
+								"tag-id",
+								"UUID of a tag from the account's catalog to apply to the article."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf cloudforce-one threat-signals articles tags add",
@@ -108,6 +108,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["tag-id"] === undefined) {
+					argv["tag-id"] = await promptForRequiredField(
+						"tag-id",
+						"UUID of a tag from the account's catalog to apply to the article."
+					);
 				}
 
 				// Assemble request body from individual flags

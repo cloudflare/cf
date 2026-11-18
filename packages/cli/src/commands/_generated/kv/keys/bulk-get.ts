@@ -74,14 +74,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					if (argv["keys"] === undefined) {
-						throw new Error(
-							"--keys is required (or pass --body with this field set)."
-						);
-					}
-				}
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						if (argv["keys"] === undefined) {
+							throw new Error(
+								"--keys is required (or pass --body with this field set)."
+							);
+						}
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf kv keys bulk-get",
@@ -117,6 +117,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
+				}
+				if (argv["keys"] === undefined) {
+					throw new Error(
+						"--keys is required (or pass --body with this field set)."
+					);
 				}
 
 				// Assemble request body from individual flags

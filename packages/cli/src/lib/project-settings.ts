@@ -92,6 +92,37 @@ export async function loadProjectSettings(
 	return result;
 }
 
+/**
+ * Load `worker.name` from the nearest cloudflare.config.ts, evaluated with the
+ * current `--mode`. Returns `undefined` when there is no project config or it
+ * defines no Worker. Config load and validation errors are surfaced to the caller.
+ */
+export async function loadProjectWorkerName(
+	startDir = process.cwd()
+): Promise<{ name: string; path: string } | undefined> {
+	const configPath = findCloudflareConfig(resolve(startDir));
+	if (!configPath) {
+		return undefined;
+	}
+	const { loadAndParseConfig } = await import("@cloudflare/config");
+	const loaded = await loadAndParseConfig(configPath, {
+		isPreview: false,
+		mode: projectConfigMode,
+	}).catch((cause: unknown) => {
+		throw new Error(
+			`Could not load ${CLOUDFLARE_CONFIG_FILENAME} (${configPath}): ${cause instanceof Error ? cause.message : String(cause)}`,
+			{ cause }
+		);
+	});
+	if (!loaded.result.success) {
+		throw new Error(
+			`Invalid ${CLOUDFLARE_CONFIG_FILENAME}:\n${formatConfigIssues(loaded.result.error.issues)}`
+		);
+	}
+	const name = loaded.result.data.worker?.name;
+	return name ? { name, path: configPath } : undefined;
+}
+
 export function getLoadedProjectSettings(
 	startDir = process.cwd(),
 	options: { isPreview?: boolean } = {}

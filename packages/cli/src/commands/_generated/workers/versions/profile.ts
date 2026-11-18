@@ -92,7 +92,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				const scriptName = await getWorkerName({
+					scriptName: argv["worker"],
+					quiet: argv["quiet"] as boolean | undefined,
+				});
 				argv["worker"] = scriptName;
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

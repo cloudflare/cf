@@ -161,7 +161,7 @@ describe("workers secrets", () => {
 						"workers secrets update the-key --type secret_text --text the-secret"
 					)
 				).rejects.toThrowErrorMatchingInlineSnapshot(
-					`[Error: Required Worker name missing. Please specify the Worker name with \`--worker <name>\`.]`
+					`[Error: Required Worker name missing. Please specify the Worker name with \`--worker <name>\`, or run \`cf\` inside a project whose cloudflare.config.ts defines \`worker.name\`.]`
 				);
 			});
 
@@ -336,7 +336,7 @@ describe("workers secrets", () => {
 				secretName: "the-key",
 			});
 			mockConfirm({
-				text: "This will permanently delete the Worker script secret. Continue?",
+				text: "This will permanently delete the Worker script secret. Worker: script-name. Continue?",
 				result: true,
 			});
 			await runWrangler("workers secrets delete the-key --worker script-name");
@@ -372,7 +372,7 @@ describe("workers secrets", () => {
 				)
 			);
 			mockConfirm({
-				text: "This will permanently delete the Worker script secret. Continue?",
+				text: "This will permanently delete the Worker script secret. Worker: script-name. Continue?",
 				result: true,
 			});
 			await runWrangler("workers secrets delete the/key --worker script-name");
@@ -389,7 +389,7 @@ describe("workers secrets", () => {
 			await expect(
 				runWrangler("workers secrets delete the-key")
 			).rejects.toThrowErrorMatchingInlineSnapshot(
-				`[Error: Required Worker name missing. Please specify the Worker name with \`--worker <name>\`.]`
+				`[Error: Required Worker name missing. Please specify the Worker name with \`--worker <name>\`, or run \`cf\` inside a project whose cloudflare.config.ts defines \`worker.name\`.]`
 			);
 		});
 
@@ -453,7 +453,7 @@ describe("workers secrets", () => {
 			await expect(
 				runWrangler("workers secrets list")
 			).rejects.toThrowErrorMatchingInlineSnapshot(
-				`[Error: Required Worker name missing. Please specify the Worker name with \`--worker <name>\`.]`
+				`[Error: Required Worker name missing. Please specify the Worker name with \`--worker <name>\`, or run \`cf\` inside a project whose cloudflare.config.ts defines \`worker.name\`.]`
 			);
 		});
 

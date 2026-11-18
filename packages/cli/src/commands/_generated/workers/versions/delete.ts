@@ -65,7 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				const scriptName = await getWorkerName({
+					scriptName: argv["worker"],
+					quiet: argv["quiet"] as boolean | undefined,
+				});
 				argv["worker"] = scriptName;
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
@@ -88,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This will permanently delete the Worker version.`,
+						message: `This will permanently delete the Worker version. Worker: ${scriptName}.`,
 					}))
 				) {
 					return;

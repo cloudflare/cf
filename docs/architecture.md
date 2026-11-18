@@ -398,11 +398,24 @@ guard together when the pinned Forge OpenAPI supplies the fix.
 ### Source config access is command-scoped
 
 Normal cf startup and generated API commands read only `accountId` and
-`complianceRegion` from the default export in `cloudflare.config.ts`; they do
-not inspect or validate the `worker` or `containers` fields. Project resource
-config is otherwise the dev-server impl's domain. Source Worker validation is
-limited to type generation and assets-only directory uploads. `cf workers types`
-loads and validates the Worker definition to generate declarations; `cf init`
+`complianceRegion` from the default export in `cloudflare.config.ts`, with one
+bounded API exception: when a target Worker is omitted, API-backed `cf workers`
+commands use `worker.name` from the nearest config, evaluated with `--mode`.
+`context.ts` / `project-settings.ts` implement this fallback through the existing
+generator Worker-name helper. The shared loader validates the config on this
+path and surfaces load or validation failures. An explicit positional Worker or
+`--worker` (including its aliases) skips this lookup. Unrelated API commands
+keep Worker and Container validation lazy.
+
+The fallback announces its source on stderr unless `--quiet` is set. Destructive
+confirmations include the resolved Worker name even under `--quiet`; only
+`--force` bypasses confirmation. Missing config or a config without a Worker
+produces a missing-name error mentioning both `--worker` and `worker.name`.
+
+Project resource config is otherwise the dev-server impl's domain. Other source
+Worker validation is limited to type generation and assets-only directory
+uploads. `cf workers types` loads and validates the Worker definition to
+generate declarations; `cf init`
 reuses that generator for a project it has just created and installed.
 
 Supplying `[directory]` to `cf deploy`, `cf previews deploy`, or
@@ -461,13 +474,18 @@ What cf DOES read:
 
 - **Account settings from `cloudflare.config.ts`'s default export** for project
   account and compliance-region defaults.
+- **`worker.name` from `cloudflare.config.ts`** for API-backed `cf workers`
+  commands when the target Worker is omitted. This lookup uses the shared
+  config loader and validates the config, including Worker and Container
+  definitions, with the current `--mode`.
 - **The Worker definition from `cloudflare.config.ts`** when running
   `cf workers types`, including its compatibility date and flags for runtime
   type generation; when `cf init` generates types for the project it just
   created; or when an assets-only directory workflow produces Build Output for
   `cf deploy`, `cf previews deploy`, or `cf workers versions create`.
-- **The `containers` field from `cloudflare.config.ts`** only when an assets-only
-  directory workflow validates that no Containers are configured.
+- **The `containers` field from `cloudflare.config.ts`** when the Worker-name
+  fallback validates the config, or when an assets-only directory workflow
+  validates that no Containers are configured.
 - **`~/.config/cloudflare/state.json`** records the shell-completion tip and
   telemetry preferences. Owned by `lib/state.ts`.
 - **`.cloudflare/state/v3/` next to the nearest `cloudflare.config.ts`** stores
@@ -478,18 +496,22 @@ What cf DOES read:
 
 What cf does NOT read:
 
-- The `worker` field outside type generation and assets-only directory
-  workflows, or the `containers` field outside assets-only directory workflows.
-- Other source resource config in any form for generated API commands.
+- The `worker` field outside the Worker-name fallback, type generation, and
+  assets-only directory workflows, or the `containers` field outside the name
+  fallback and assets-only directory workflows.
+- Source resource config for generated API commands outside the Worker-name
+  fallback.
 - `package.json` worker config (none exists today; reserved for
   the future).
-- Source binding manifests, durable-object class lists, and trigger lists
-  outside the assets-only directory workflows. Other project workflows consume
-  their built equivalents from Build Output.
+- Source binding manifests, durable-object class lists, and trigger lists for
+  API requests. The name fallback validates the config but consumes only the
+  Worker name. The assets-only directory workflows can consume the source
+  Worker definition; other project workflows consume Build Output.
 
-Outside the explicit type-generation and assets-only artifact-production
-workflows, if a feature seems to require cf to parse the source config, that's
-a signal to push it elsewhere — usually to the local-explorer API or to a forge
+Outside the explicit Worker-name fallback, type-generation, and assets-only
+artifact-production workflows, if a feature seems to require cf to parse the
+source config, that's a signal to push it elsewhere — usually to the
+local-explorer API or to a forge
 annotation. Local mode is the worked example: `--local`
 derives resource identity from the request URL and sends the request to a
 cf-spawned Miniflare local-explorer instance over shared persisted state. It

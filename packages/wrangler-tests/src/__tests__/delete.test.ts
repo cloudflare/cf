@@ -21,7 +21,7 @@ describe("delete", () => {
 
 	it("should delete an entire service by name", async ({ expect }) => {
 		mockConfirm({
-			text: `This will permanently delete the Worker and its associated versions and deployments. Continue?`,
+			text: `This will permanently delete the Worker and its associated versions and deployments. Worker: my-script. Continue?`,
 			result: true,
 		});
 		mockDeleteWorkerRequest(expect, { name: "my-script" });
@@ -35,7 +35,7 @@ describe("delete", () => {
 		expect,
 	}) => {
 		mockConfirm({
-			text: `This will permanently delete the Worker and its associated versions and deployments. Continue?`,
+			text: `This will permanently delete the Worker and its associated versions and deployments. Worker: positional-script. Continue?`,
 			result: true,
 		});
 		mockDeleteWorkerRequest(expect, { name: "positional-script" });
@@ -78,7 +78,7 @@ describe("delete", () => {
 
 	it('shouldn\'t delete when the user says "no"', async ({ expect }) => {
 		mockConfirm({
-			text: `This will permanently delete the Worker and its associated versions and deployments. Continue?`,
+			text: `This will permanently delete the Worker and its associated versions and deployments. Worker: xyz. Continue?`,
 			result: false,
 		});
 

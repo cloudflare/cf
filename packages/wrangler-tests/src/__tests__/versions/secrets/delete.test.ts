@@ -20,7 +20,7 @@ describe("versions secret delete", () => {
 		setIsTTY(true);
 		const request = mockDeleteRequest();
 		mockConfirm({
-			text: "This will permanently delete the Worker script secret. Continue?",
+			text: "This will permanently delete the Worker script secret. Worker: script-name. Continue?",
 			result: true,
 		});
 		await runWrangler("workers secrets delete SECRET --worker script-name");

@@ -69,7 +69,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				const scriptName = await getWorkerName({
+					scriptName: argv["worker"],
+					quiet: argv["quiet"] as boolean | undefined,
+				});
 				argv["worker"] = scriptName;
 
 				const queryParams: Record<string, unknown> = {
@@ -97,7 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This will permanently delete the Worker script secret.`,
+						message: `This will permanently delete the Worker script secret. Worker: ${scriptName}.`,
 					}))
 				) {
 					return;

@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-sending suppressions edit <suppression-id>\n\nUpdates expiry or advisory note fields without changing legacy internal zone memberships. Scope cannot be changed."
+			"$0 email-sending suppressions edit <suppression-id>\n\nUpdates expiry or advisory note fields. Scope cannot be changed."
 		)
 		.positional("suppression-id", {
 			type: "string",

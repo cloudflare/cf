@@ -12,6 +12,7 @@ export default {
 		"location",
 		"continent",
 		"geoId",
+		"asCategory",
 		"format",
 	],
 	errors: {

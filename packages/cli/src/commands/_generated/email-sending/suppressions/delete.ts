@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-sending suppressions delete <suppression-id>\n\nDeletes the suppression, its note, and every legacy internal zone membership, allowing future delivery attempts to the address."
+			"$0 email-sending suppressions delete <suppression-id>\n\nDeletes the suppression and its note, allowing future delivery attempts to the address."
 		)
 		.positional("suppression-id", {
 			type: "string",

@@ -8,6 +8,7 @@ export default {
 		"dateRange",
 		"dateStart",
 		"dateEnd",
+		"asCategory",
 		"product",
 		"asn",
 		"location",

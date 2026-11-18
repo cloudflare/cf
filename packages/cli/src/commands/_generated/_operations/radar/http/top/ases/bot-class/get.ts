@@ -15,6 +15,7 @@ export default {
 		"location",
 		"continent",
 		"geoId",
+		"asCategory",
 		"deviceType",
 		"httpProtocol",
 		"httpVersion",

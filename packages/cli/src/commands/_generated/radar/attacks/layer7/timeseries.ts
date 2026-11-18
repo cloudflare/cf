@@ -70,6 +70,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range).",
 			choices: ["PERCENTAGE_CHANGE", "MIN0_MAX"],
 		})
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
@@ -199,6 +214,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					location: argv["location"],
 					continent: argv["continent"],
 					normalization: argv["normalization"],
+					asCategory: argv["as-category"],
 					ipVersion: argv["ip-version"],
 					httpVersion: argv["http-version"],
 					httpMethod: argv["http-method"],

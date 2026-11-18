@@ -15,6 +15,7 @@ export default {
 		"continent",
 		"geoId",
 		"apiTraffic",
+		"asCategory",
 		"botClass",
 		"contentType",
 		"deviceType",

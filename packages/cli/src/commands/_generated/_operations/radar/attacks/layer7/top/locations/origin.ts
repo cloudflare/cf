@@ -14,6 +14,7 @@ export default {
 		"httpVersion",
 		"httpMethod",
 		"mitigationProduct",
+		"asCategory",
 		"format",
 	],
 	errors: {

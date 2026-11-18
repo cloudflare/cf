@@ -31767,7 +31767,7 @@
 			"command": "cf cloudforce-one priority-intelligence update",
 			"name": "update",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "update"],
-			"description": "Updates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one. Updates to a structured PIR must send its `revision` and change its answers through `definition`; its requirement, title and query are generated.",
+			"description": "Updates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one. Updates to a structured PIR must send its `revision` and change its answers through `definition`; its requirement, title and query are generated. Sending a `definition` and `revision` for a free-form PIR converts it in place: it keeps its ID, status, labels, priority, TLP and match history, and its query, dataset scope and notifications are removed, since structured PIRs are not matched by the PIR matcher and send no notifications. A conversion must not send a `dataset_scope`.",
 			"summary": "Update a priority intelligence requirement",
 			"usage": "cf cloudforce-one priority-intelligence update <priority-id> [options]",
 			"arguments": [
@@ -32158,7 +32158,7 @@
 					"name": "revision",
 					"type": "number",
 					"required": false,
-					"description": "The `revision` the change is based on. Required for structured PIRs; a different stored revision returns 409."
+					"description": "The `revision` the change is based on. Required for structured PIRs and when sending a `definition`; a different stored revision returns 409."
 				},
 				{
 					"name": "status",
@@ -33106,7 +33106,7 @@
 			"command": "cf cloudforce-one requests quota get",
 			"name": "get",
 			"fullPath": ["cloudforce-one", "requests", "quota", "get"],
-			"description": "Returns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries.",
+			"description": "Returns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries. Also returns the annual allocation, usage, and remaining tokens for the current anniversary year; quarterly remaining controls usage.",
 			"summary": "Get request token quota",
 			"usage": "cf cloudforce-one requests quota get <project-type>",
 			"arguments": [
@@ -38224,7 +38224,7 @@
 					"name": "auto-create-type",
 					"type": "boolean",
 					"required": false,
-					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag."
+					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag. When false, a non-analytics dataset still accepts pre-approved types (the same list event create accepts, such as BITCOIN or ERC-20) and registers them on first use. Analytics datasets do not check registered types."
 				},
 				{
 					"name": "indicators",
@@ -38323,7 +38323,7 @@
 					"name": "auto-create-type",
 					"type": "boolean",
 					"required": false,
-					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), throw an error when the indicator type doesn't exist."
+					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), reject an indicator type the dataset has not registered, unless the type is pre-approved (the same list event create accepts, such as BITCOIN or ERC-20), in which case it is registered on first use. Direct create applies this check to analytics datasets too. Bulk create skips it for analytics datasets."
 				},
 				{
 					"name": "indicator-type",
@@ -58842,6 +58842,100 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf hyperdrive edit",
+			"name": "edit",
+			"fullPath": ["hyperdrive", "edit"],
+			"description": "Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field.",
+			"summary": "Update Hyperdrive",
+			"usage": "cf hyperdrive edit <hyperdrive-id> [options]",
+			"arguments": [
+				{
+					"name": "hyperdrive-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier of the Hyperdrive configuration."
+				}
+			],
+			"options": [
+				{
+					"name": "caching-disabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to true to disable caching of SQL responses. Default is false."
+				},
+				{
+					"name": "caching-max-age",
+					"type": "number",
+					"required": false,
+					"description": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+				},
+				{
+					"name": "caching-stale-while-revalidate",
+					"type": "number",
+					"required": false,
+					"description": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+				},
+				{
+					"name": "mtls-ca-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "Define CA certificate ID obtained after uploading CA cert."
+				},
+				{
+					"name": "mtls-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "Define mTLS certificate ID obtained after uploading client cert."
+				},
+				{
+					"name": "mtls-sslmode",
+					"type": "string",
+					"required": false,
+					"description": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate.",
+					"enum": [
+						"require",
+						"verify-ca",
+						"verify-full",
+						"REQUIRED",
+						"VERIFY_CA",
+						"VERIFY_IDENTITY"
+					]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
+				},
+				{
+					"name": "origin-connection-limit",
+					"type": "number",
+					"required": false,
+					"description": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
+			"operationId": "hyperdrive.edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf hyperdrive get",
 			"name": "get",
 			"fullPath": ["hyperdrive", "get"],
@@ -59112,100 +59206,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}/restart",
 			"operationId": "hyperdrive.restart",
-			"hideCommand": false
-		},
-		{
-			"command": "cf hyperdrive update",
-			"name": "update",
-			"fullPath": ["hyperdrive", "update"],
-			"description": "Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field.",
-			"summary": "Update Hyperdrive",
-			"usage": "cf hyperdrive update <hyperdrive-id> [options]",
-			"arguments": [
-				{
-					"name": "hyperdrive-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier of the Hyperdrive configuration."
-				}
-			],
-			"options": [
-				{
-					"name": "caching-disabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Set to true to disable caching of SQL responses. Default is false."
-				},
-				{
-					"name": "caching-max-age",
-					"type": "number",
-					"required": false,
-					"description": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
-				},
-				{
-					"name": "caching-stale-while-revalidate",
-					"type": "number",
-					"required": false,
-					"description": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
-				},
-				{
-					"name": "mtls-ca-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "Define CA certificate ID obtained after uploading CA cert."
-				},
-				{
-					"name": "mtls-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "Define mTLS certificate ID obtained after uploading client cert."
-				},
-				{
-					"name": "mtls-sslmode",
-					"type": "string",
-					"required": false,
-					"description": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate.",
-					"enum": [
-						"require",
-						"verify-ca",
-						"verify-full",
-						"REQUIRED",
-						"VERIFY_CA",
-						"VERIFY_IDENTITY"
-					]
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
-				},
-				{
-					"name": "origin-connection-limit",
-					"type": "number",
-					"required": false,
-					"description": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
-			"operationId": "hyperdrive.update",
 			"hideCommand": false
 		},
 		{
@@ -77864,7 +77864,7 @@
 			"command": "cf mcp portals create",
 			"name": "create",
 			"fullPath": ["mcp", "portals", "create"],
-			"description": "Creates a new MCP portal for managing AI tool access through Cloudflare Access.",
+			"description": "Creates a new MCP portal. Each account supports up to 50 portals, including disabled portals.",
 			"summary": "Create a new MCP Portal",
 			"usage": "cf mcp portals create [options]",
 			"arguments": [],
@@ -163035,6 +163035,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "region",
+					"type": "string",
+					"required": false,
+					"description": "Pin the generated certificate authority's key material to one of the account's selected Data Localization Suite regions. **Important**: This field is only settable during certificate creation. Certificates become immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle."
+				},
+				{
 					"name": "validity-period-days",
 					"type": "number",
 					"required": false,
@@ -163394,6 +163400,12 @@
 					"description": "Specify whether to detect protocols from the initial bytes of client traffic."
 				},
 				{
+					"name": "settings-regions",
+					"type": "string",
+					"required": false,
+					"description": "Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+				},
+				{
 					"name": "settings-sandbox-enabled",
 					"type": "boolean",
 					"required": false,
@@ -163660,6 +163672,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Specify whether to detect protocols from the initial bytes of client traffic."
+				},
+				{
+					"name": "settings-regions",
+					"type": "string",
+					"required": false,
+					"description": "Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
 				},
 				{
 					"name": "settings-sandbox-enabled",

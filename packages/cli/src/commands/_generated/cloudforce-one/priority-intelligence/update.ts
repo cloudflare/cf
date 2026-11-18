@@ -28,7 +28,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence update <priority-id>\n\nUpdates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one. Updates to a structured PIR must send its `revision` and change its answers through `definition`; its requirement, title and query are generated."
+			"$0 cloudforce-one priority-intelligence update <priority-id>\n\nUpdates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one. Updates to a structured PIR must send its `revision` and change its answers through `definition`; its requirement, title and query are generated. Sending a `definition` and `revision` for a free-form PIR converts it in place: it keeps its ID, status, labels, priority, TLP and match history, and its query, dataset scope and notifications are removed, since structured PIRs are not matched by the PIR matcher and send no notifications. A conversion must not send a `dataset_scope`."
 		)
 		.positional("priority-id", {
 			type: "string",
@@ -369,7 +369,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("revision", {
 			type: "number",
 			description:
-				"The `revision` the change is based on. Required for structured PIRs; a different stored revision returns 409.",
+				"The `revision` the change is based on. Required for structured PIRs and when sending a `definition`; a different stored revision returns 409.",
 		})
 		.option("status", {
 			type: "string",

@@ -1,4 +1,4 @@
-/** @generated from hyperdrive.update */
+/** @generated from hyperdrive.edit */
 import { path } from "#api";
 
 export default {

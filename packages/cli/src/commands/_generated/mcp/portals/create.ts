@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mcp portals create\n\nCreates a new MCP portal for managing AI tool access through Cloudflare Access."
+			"$0 mcp portals create\n\nCreates a new MCP portal. Each account supports up to 50 portals, including disabled portals."
 		)
 		.option("allow-code-mode", {
 			type: "boolean",

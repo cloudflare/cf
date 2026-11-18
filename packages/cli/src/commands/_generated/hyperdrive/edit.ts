@@ -1,8 +1,8 @@
-import operation from "../_operations/hyperdrive/update.js";
+import operation from "../_operations/hyperdrive/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/hyperdrive.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 hyperdrive update <hyperdrive-id>\n\nUpdates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field."
+			"$0 hyperdrive edit <hyperdrive-id>\n\nUpdates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field."
 		)
 		.positional("hyperdrive-id", {
 			type: "string",
@@ -93,13 +93,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <hyperdrive-id>",
+	command: "edit <hyperdrive-id>",
 	describe: "Update Hyperdrive",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "hyperdrive update",
+				command: "hyperdrive edit",
 				classification: {
 					safeFlags: ["caching-disabled", "mtls-sslmode", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -109,7 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf hyperdrive update",
+						command: "cf hyperdrive edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/hyperdrive/configs/${argv["hyperdrive-id"] == null ? "<hyperdrive-id>" : encodeURIComponent(String(argv["hyperdrive-id"]))}`,
 						pathParams: {

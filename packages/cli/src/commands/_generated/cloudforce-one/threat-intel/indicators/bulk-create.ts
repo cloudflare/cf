@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("auto-create-type", {
 			type: "boolean",
 			description:
-				"Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag.",
+				"Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag. When false, a non-analytics dataset still accepts pre-approved types (the same list event create accepts, such as BITCOIN or ERC-20) and registers them on first use. Analytics datasets do not check registered types.",
 		})
 		.option("indicators", {
 			type: "string",

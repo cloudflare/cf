@@ -101,7 +101,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("origin-worker-id", {
 			type: "string",
 			description:
-				'Optional Worker script tag (worker ID) to use as the application\'s origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible".',
+				'Optional Worker script tag (worker ID) to use as the application\'s origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off".',
 		})
 		.option("protocol", {
 			type: "string",
@@ -127,7 +127,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("traffic-type", {
 			type: "string",
 			description:
-				'Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application\'s type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare\'s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`.',
+				'Variant descriptions:\n- `direct`, `http`, `https`, `worker`: Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application\'s type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare\'s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`.\n- Determines how traffic is sent to the origin. If absent or empty, defaults to "direct". Direct mode uses origin_direct. Worker mode requires origin_worker_id, TCP or UDP with a single port, and CNAME DNS; origin_worker_id and origin_direct are mutually exclusive. A PAYG zone may have at most one Worker application per transport (one TCP and one UDP); creating another for the same transport, or converting another application to Worker while that quota is full, is rejected with error code 11034 and HTTP status 400.',
 			choices: ["direct", "http", "https", "worker"],
 		})
 		.coerce("traffic-type", (value) =>
@@ -156,7 +156,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.implies("origin-dns-ttl", ["traffic-type"])
 		.implies("origin-dns-type", ["traffic-type"])
 		.implies("origin-port", ["traffic-type"])
-		.implies("origin-worker-id", ["traffic-type"])
 		.implies("proxy-protocol", ["traffic-type"])
 		.implies("tls", ["traffic-type"])
 		.implies("virtual-network-id", ["traffic-type"]);

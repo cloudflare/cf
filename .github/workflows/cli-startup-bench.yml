@@ -39,7 +39,7 @@ jobs:
 
       - name: Filter changed paths
         id: changes
-        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v3
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         with:
           working-directory: head
           filters: |
@@ -132,7 +132,7 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
         # Commenting is best-effort; permissions can still be restricted.
         continue-on-error: true
-        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v2
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
         with:
           header: cf-startup-bench
           path: report.md

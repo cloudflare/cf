@@ -13,6 +13,7 @@ import {
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -23,6 +24,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 zero-trust gateway certificates create\n\nCreate a new Zero Trust certificate."
 		)
+		.option("region", {
+			type: "string",
+			description:
+				"Pin the generated certificate authority's key material to one of the account's selected Data Localization Suite regions. **Important**: This field is only settable during certificate creation. Certificates become immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle.",
+		})
 		.option("validity-period-days", {
 			type: "number",
 			description:
@@ -67,6 +73,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										region: resolveFileToken(
+											argv["region"] as string | undefined,
+											"region",
+											"text"
+										),
 										validity_period_days: argv["validity-period-days"],
 									}),
 					});
@@ -89,6 +100,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					region: resolveFileToken(
+						argv["region"] as string | undefined,
+						"region",
+						"text"
+					),
 					validity_period_days: argv["validity-period-days"],
 				});
 				const result = await withProgress(`Creating`, async () =>

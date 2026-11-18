@@ -12,7 +12,7 @@ import {
 import { MissingCredentialsError } from "../../lib/errors.js";
 import { setTemporaryAccountRequested } from "../../lib/oauth/index.js";
 import { clearLoadedProjectSettings } from "../../lib/project-settings.js";
-import type { ParsedInputSettingsConfig } from "@cloudflare/config";
+import type { ParsedSettings } from "@cloudflare/config";
 
 const getOrSelectAccountIdMock = vi.hoisted(() => vi.fn());
 const requireAuthMock = vi.hoisted(() => vi.fn());
@@ -34,7 +34,7 @@ vi.mock("@cloudflare/workers-auth/cf", () => ({
 	validateScopeKeys: vi.fn(),
 }));
 
-function writeProjectSettings(settings: ParsedInputSettingsConfig): void {
+function writeProjectSettings(settings: ParsedSettings): void {
 	writeFileSync(
 		join(process.cwd(), "cloudflare.config.ts"),
 		`export default ${JSON.stringify(settings)};`

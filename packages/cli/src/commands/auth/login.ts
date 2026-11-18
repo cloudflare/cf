@@ -9,6 +9,7 @@ import {
 	setKeyringPreference,
 	setProfile,
 } from "../../lib/oauth/index.js";
+import { enableKeyringByDefault } from "../../lib/oauth/keyring-default.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
@@ -65,7 +66,7 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 			.option("use-keyring", {
 				type: "boolean",
 				description:
-					"Encrypt OAuth credentials using the OS keychain (persisted across invocations; use --no-use-keyring to disable)",
+					"Encrypt OAuth credentials using the OS keychain (default when available; persisted across invocations; use --no-use-keyring to disable)",
 			}) as Argv<LoginArgs>;
 	},
 
@@ -100,6 +101,10 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 				`${theme.code("CLOUDFLARE_API_TOKEN")} is set and takes precedence. Unset it to log in via OAuth.`
 			);
 			return;
+		}
+
+		if (argv.useKeyring === undefined) {
+			enableKeyringByDefault();
 		}
 
 		if (!argv.force && isOAuthLoggedIn()) {

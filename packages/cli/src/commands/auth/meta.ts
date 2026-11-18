@@ -44,7 +44,7 @@ export default [
 				type: "boolean",
 				required: false,
 				description:
-					"Encrypt OAuth credentials using the OS keychain (persisted across invocations; use --no-use-keyring to disable)",
+					"Encrypt OAuth credentials using the OS keychain (default when available; persisted across invocations; use --no-use-keyring to disable)",
 			},
 			{
 				name: "dry-run",

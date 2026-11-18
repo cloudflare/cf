@@ -1,7 +1,10 @@
+import * as childProcess from "node:child_process";
 import { EventEmitter } from "node:events";
 import { afterEach, describe, it, vi } from "vite-plus/test";
 import { createChildProcessController } from "../../lib/process.js";
 import type { ChildProcess } from "node:child_process";
+
+vi.mock("node:child_process", { spy: true });
 
 function createMockProcess(): {
 	child: ChildProcess;
@@ -113,6 +116,68 @@ describe("createChildProcessController", () => {
 		await controller.exited;
 	});
 
+	it("signals a POSIX command group, including the forced-shutdown fallback", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child, kill } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+			forceKillAfterMs: 100,
+		});
+
+		controller.terminate();
+		await vi.advanceTimersByTimeAsync(100);
+
+		expect(signalGroup).toHaveBeenNthCalledWith(1, -12345, "SIGTERM");
+		expect(signalGroup).toHaveBeenNthCalledWith(2, -12345, "SIGKILL");
+		expect(kill).not.toHaveBeenCalled();
+		exit(child, null, "SIGKILL");
+		await controller.exited;
+	});
+
+	it("ignores a POSIX group that already exited", async ({ expect }) => {
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		vi.spyOn(process, "kill").mockImplementation(() => {
+			throw Object.assign(new Error("No such process"), { code: "ESRCH" });
+		});
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		expect(() => controller.terminate()).not.toThrow();
+		exit(child, 0, null);
+		await controller.exited;
+	});
+
+	it("terminates a Windows command tree without a shell", async ({
+		expect,
+	}) => {
+		vi.spyOn(process, "platform", "get").mockReturnValue("win32");
+		const taskkill = vi.spyOn(childProcess, "execFileSync").mockReturnValue("");
+		const { child, kill } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		controller.terminate();
+
+		expect(taskkill).toHaveBeenCalledWith(
+			"taskkill.exe",
+			["/PID", "12345", "/T", "/F"],
+			{ stdio: "ignore", windowsHide: true, timeout: 5_000 }
+		);
+		expect(kill).not.toHaveBeenCalled();
+		exit(child, null, "SIGTERM");
+		await controller.exited;
+	});
+
 	it("terminates idempotently and force kills after the deadline", async ({
 		expect,
 	}) => {
@@ -131,6 +196,150 @@ describe("createChildProcessController", () => {
 		expect(kill).toHaveBeenNthCalledWith(2, "SIGKILL");
 		exit(child, null, "SIGKILL");
 		await controller.exited;
+	});
+
+	it("allows an explicit force kill during graceful group shutdown", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		controller.terminate("SIGINT");
+		controller.terminate("SIGKILL");
+
+		expect(signalGroup).toHaveBeenNthCalledWith(1, -12345, "SIGINT");
+		expect(signalGroup).toHaveBeenNthCalledWith(2, -12345, "SIGKILL");
+		expect(vi.getTimerCount()).toBe(0);
+		exit(child, null, "SIGKILL");
+		await controller.exited;
+	});
+
+	it("keeps the group shutdown deadline after its launcher exits", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+			forceKillAfterMs: 100,
+		});
+
+		controller.terminate();
+		await vi.advanceTimersByTimeAsync(75);
+		exit(child, 0, null);
+		await expect(controller.exited).resolves.toEqual({ code: 0, signal: null });
+		const finished = vi.fn();
+		const shutdown = controller.waitForShutdown().then(finished);
+		await vi.advanceTimersByTimeAsync(24);
+
+		expect(finished).not.toHaveBeenCalled();
+		expect(signalGroup).not.toHaveBeenCalledWith(-12345, "SIGKILL");
+		await vi.advanceTimersByTimeAsync(1);
+		await shutdown;
+		expect(signalGroup).toHaveBeenCalledWith(-12345, "SIGKILL");
+		expect(vi.getTimerCount()).toBe(0);
+	});
+
+	it("finishes group shutdown when descendants complete graceful cleanup", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		controller.terminate("SIGHUP");
+		exit(child, 0, null);
+		const finished = vi.fn();
+		const shutdown = controller.waitForShutdown().then(finished);
+		await vi.advanceTimersByTimeAsync(100);
+		expect(finished).not.toHaveBeenCalled();
+		signalGroup.mockImplementation(() => {
+			throw Object.assign(new Error("No such process"), { code: "ESRCH" });
+		});
+		await vi.advanceTimersByTimeAsync(100);
+		await shutdown;
+
+		expect(signalGroup).toHaveBeenCalledWith(-12345, 0);
+		expect(signalGroup).not.toHaveBeenCalledWith(-12345, "SIGKILL");
+		expect(vi.getTimerCount()).toBe(0);
+	});
+
+	it("retains repeated-interrupt escalation after the group launcher exits", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const sigintListeners = new Set<NodeJS.SignalsListener>(
+			process.listeners("SIGINT") as NodeJS.SignalsListener[]
+		);
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+			forwardSignals: true,
+		});
+		const onSigInt = addedSignalListener("SIGINT", sigintListeners);
+
+		onSigInt("SIGINT");
+		exit(child, 0, null);
+		expect(process.listeners("SIGINT")).toContain(onSigInt);
+		onSigInt("SIGINT");
+		await controller.waitForShutdown();
+
+		expect(signalGroup).toHaveBeenCalledWith(-12345, "SIGKILL");
+		expect(process.listeners("SIGINT")).not.toContain(onSigInt);
+		expect(vi.getTimerCount()).toBe(0);
+	});
+
+	it("can signal a POSIX group after its launcher has already exited", async ({
+		expect,
+	}) => {
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345, exitCode: 0 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		controller.terminate("SIGKILL");
+		await controller.waitForShutdown();
+
+		expect(signalGroup).toHaveBeenCalledWith(-12345, "SIGKILL");
+	});
+
+	it("does not wait for the group after an ordinary successful command", async ({
+		expect,
+	}) => {
+		vi.useFakeTimers();
+		vi.spyOn(process, "platform", "get").mockReturnValue("linux");
+		const signalGroup = vi.spyOn(process, "kill").mockReturnValue(true);
+		const { child } = createMockProcess();
+		Object.assign(child, { pid: 12345 });
+		const controller = createChildProcessController(child, {
+			processGroup: true,
+		});
+
+		exit(child, 0, null);
+		await controller.waitForShutdown();
+
+		expect(signalGroup).not.toHaveBeenCalled();
+		expect(vi.getTimerCount()).toBe(0);
 	});
 
 	it("can leave graceful shutdown timing to the child", async ({ expect }) => {

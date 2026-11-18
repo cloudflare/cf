@@ -1,9 +1,12 @@
+import { existsSync, readFileSync } from "node:fs";
 import { constants } from "node:os";
+import { delimiter, join } from "node:path";
 import {
 	AutoConfigDetectionError,
 	getDetailsForAutoConfig,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
+import satisfies from "semver/functions/satisfies.js";
 import { parse as parseShell } from "shell-quote";
 import { x } from "tinyexec";
 import { CliExit } from "./cli-exit.js";
@@ -38,6 +41,7 @@ export interface RunProjectCommandOptions extends CommandOutputOptions {
 	env?: Readonly<Record<string, string>>;
 	args?: readonly string[];
 	preferLocal?: boolean;
+	nodeModulesPaths?: readonly string[];
 }
 
 export interface ProjectCommandResult {
@@ -78,7 +82,9 @@ export async function analyzeProject(
 			target: "cf",
 			context,
 		});
-		return maybeApplyVinextCommandOverrides(details);
+		return withBuildOutputV1Compatibility(
+			maybeApplyVinextCommandOverrides(details)
+		);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {
 			context.logger.debug("Autoconfig could not detect this project:", error);
@@ -86,6 +92,43 @@ export async function analyzeProject(
 		}
 		throw error;
 	}
+}
+
+// Autoconfig 0.13.0 accepts Vite plugin betas that emit Build Output v0.
+// cf's v1 reader needs the RC, including for canonical framework commands.
+function withBuildOutputV1Compatibility(
+	details: AutoConfigDetails
+): AutoConfigDetails {
+	if (
+		details.commandError ||
+		details.env?.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT !== "true"
+	) {
+		return details;
+	}
+	const manifest = (
+		details.nodeModulesPaths ?? [join(details.projectPath, "node_modules")]
+	)
+		.map((directory) => join(directory, "@cloudflare/vite-plugin/package.json"))
+		.find((path) => existsSync(path));
+	if (!manifest) {
+		return details;
+	}
+	const { version } = JSON.parse(readFileSync(manifest, "utf8")) as {
+		version?: unknown;
+	};
+	if (
+		typeof version !== "string" ||
+		satisfies(version, ">=2.0.0-rc.0 <3", { includePrerelease: true })
+	) {
+		return details;
+	}
+	return {
+		...details,
+		commandError: {
+			code: "vite-plugin-incompatible",
+			message: `@cloudflare/vite-plugin@${version} is installed, but cf requires @cloudflare/vite-plugin >=2.0.0-rc.0 <3 to produce Build Output v1. Update to @cloudflare/vite-plugin@rc.`,
+		},
+	};
 }
 
 /**
@@ -98,7 +141,11 @@ export async function configureProject(
 ): Promise<AutoConfigSummary> {
 	return runAutoConfig(details, {
 		target: "cf",
-		context: createAutoConfigContext(options),
+		context: createAutoConfigContext({
+			...options,
+			env: details.env,
+			nodeModulesPaths: details.nodeModulesPaths,
+		}),
 		dryRun: options.dryRun,
 		runBuild: false,
 	});
@@ -109,7 +156,8 @@ export async function configureProject(
  * takes precedence over framework setup. After either route is applied, the
  * returned details describe the configured project. In a dry run,
  * `setupNeeded` means a setup route was selected but not applied, so callers
- * must skip the build.
+ * must skip the build. Callers validate command availability after setup has
+ * had a chance to install missing tools.
  */
 export async function prepareProject(
 	cwd: string,
@@ -123,7 +171,6 @@ export async function prepareProject(
 	if (details?.configured) {
 		return { details };
 	}
-
 	const context = createAutoConfigContext(options);
 	const migrationRan = await maybeMigrateWranglerProject(
 		cwd,
@@ -156,6 +203,41 @@ export async function prepareProject(
 	};
 }
 
+function projectCommandEnvironment(
+	cwd: string,
+	options: RunProjectCommandOptions
+): NodeJS.ProcessEnv {
+	const env: NodeJS.ProcessEnv = {
+		...process.env,
+		...options.env,
+		CLOUDFLARE_CF_AUTH: "true",
+	};
+	if (options.preferLocal) {
+		const pathKey =
+			process.platform === "win32"
+				? (Object.keys(env).findLast((key) => key.toUpperCase() === "PATH") ??
+					"PATH")
+				: "PATH";
+		const inheritedPath = env[pathKey];
+		const localBins = (
+			options.nodeModulesPaths ?? [join(cwd, "node_modules")]
+		).map((directory) => join(directory, ".bin"));
+		env[pathKey] = [
+			...localBins,
+			...(inheritedPath ? [inheritedPath] : []),
+		].join(delimiter);
+		if (process.platform === "win32") {
+			// tinyexec merges process.env again; keep every PATH spelling in sync.
+			for (const key of Object.keys(env)) {
+				if (key.toUpperCase() === "PATH") {
+					env[key] = env[pathKey];
+				}
+			}
+		}
+	}
+	return env;
+}
+
 export async function runProjectCommand(
 	command: string,
 	cwd: string,
@@ -180,17 +262,21 @@ export async function runProjectCommand(
 			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
+	const env = projectCommandEnvironment(cwd, options);
 	// Match the environment tinyexec gives the child so both resolve the same npm.
 	const [file, ...commandArgs] = resolveNpmLauncher(
 		parseProjectCommand(command),
 		cwd,
-		{ ...process.env, ...options.env }
+		env
 	);
 	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
-		nodePath: options.preferLocal ?? false,
+		nodePath: false,
 		nodeOptions: {
 			cwd,
-			env: options.env,
+			env,
+			// Launchers can start another tool process (for example, vp starts
+			// Vite). Give the command a group so signals reach that tool too.
+			detached: process.platform !== "win32",
 			// Inherited stdin/stderr preserve console Ctrl+C on Windows even
 			// with tinyexec's windowsHide default.
 			stdio: [
@@ -204,28 +290,45 @@ export async function runProjectCommand(
 			],
 		},
 	});
-	// Retain the five-second SIGTERM fallback for framework commands.
+	// Retain the five-second forced-shutdown fallback for framework commands.
 	const controller = subprocess.process
-		? createChildProcessController(subprocess.process)
+		? createChildProcessController(subprocess.process, { processGroup: true })
 		: undefined;
 	let forwardedSignal: NodeJS.Signals | undefined;
 	const relay = (signal: NodeJS.Signals) => () => {
+		const repeated = forwardedSignal !== undefined;
 		forwardedSignal ??= signal;
 		// Windows broadcasts Ctrl+C to every process sharing the console.
 		// Resending SIGINT would forcefully terminate the framework command
 		// before its own Ctrl+C handler can finish graceful shutdown.
 		if (shouldRelayProjectCommandSignal(signal)) {
-			if (signal === "SIGTERM" && controller) {
-				controller.terminate(signal);
+			const childSignal = repeated ? "SIGKILL" : signal;
+			if (controller) {
+				controller.terminate(childSignal);
 			} else {
-				subprocess.kill(signal);
+				subprocess.kill(childSignal);
 			}
 		}
 	};
 	const onSigInt = relay("SIGINT");
 	const onSigTerm = relay("SIGTERM");
+	const onSigHup = relay("SIGHUP");
+	const onExit = () => {
+		// Parent exit cannot wait for the graceful-shutdown timer.
+		try {
+			if (controller) {
+				controller.terminate("SIGKILL");
+			} else {
+				subprocess.kill("SIGKILL");
+			}
+		} catch {
+			// Cleanup is best effort once the parent is already exiting.
+		}
+	};
 	process.on("SIGINT", onSigInt);
 	process.on("SIGTERM", onSigTerm);
+	process.on("SIGHUP", onSigHup);
+	process.on("exit", onExit);
 
 	try {
 		const result = await subprocess;
@@ -235,8 +338,12 @@ export async function runProjectCommand(
 			forwardedSignal
 		);
 	} finally {
+		// Keep signal/exit cleanup installed while descendants outlive the launcher.
+		await controller?.waitForShutdown();
 		process.off("SIGINT", onSigInt);
 		process.off("SIGTERM", onSigTerm);
+		process.off("SIGHUP", onSigHup);
+		process.off("exit", onExit);
 	}
 }
 
@@ -260,7 +367,7 @@ function parseProjectCommand(command: string): [string, ...string[]] {
 }
 
 function createAutoConfigContext(
-	commandOptions: CommandOutputOptions = {}
+	commandOptions: RunProjectCommandOptions = {}
 ): AutoConfigContext {
 	const output = commandOptions.output ?? "stderr";
 	const info = output === "silent" ? () => {} : console.error;

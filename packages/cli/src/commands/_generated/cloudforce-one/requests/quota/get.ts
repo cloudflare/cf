@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one requests quota get <project-type>\n\nReturns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries."
+			"$0 cloudforce-one requests quota get <project-type>\n\nReturns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries. Also returns the annual allocation, usage, and remaining tokens for the current anniversary year; quarterly remaining controls usage."
 		)
 		.positional("project-type", {
 			type: "string",

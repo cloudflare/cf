@@ -1,4 +1,5 @@
 import $create from "./create.js";
+import $delete from "./delete.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * batch command group
@@ -13,6 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($create)
+			.command($delete)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

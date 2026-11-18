@@ -652,21 +652,16 @@ describe("hyperdrive commands", () => {
 		expect(std.err).toMatchInlineSnapshot(`""`);
 	});
 
-	// wrangler's `update` was a PATCH with selective body (only changed
-	// fields). cf's `hyperdrive update` is a full PUT (all fields required).
-	// The PATCH equivalent is `cf hyperdrive update <id>`. All update tests
-	// below are rewritten to drive `cf hyperdrive update` against the same
-	// mocked PATCH endpoint.
 	it("should handle updating a hyperdrive config's origin", async ({
 		expect,
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
-		// `cf hyperdrive update` does NOT have --origin-host / --origin-port
+		// `cf hyperdrive edit` does NOT have --origin-host / --origin-port
 		// flags (forge schema only includes caching / mtls / name /
 		// origin-connection-limit on the patch operation). Origin updates
 		// must go through --body.
 		await runWrangler(
-			`hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"host":"example.com","port":1234}}'`
+			`hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"host":"example.com","port":1234}}'`
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{
@@ -683,7 +678,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			`hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"user":"newuser","password":"passw0rd!"}}'`
+			`hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"user":"newuser","password":"passw0rd!"}}'`
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{
@@ -712,7 +707,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --caching-max-age=30 --caching-stale-while-revalidate=15"
+			"hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --caching-max-age=30 --caching-stale-while-revalidate=15"
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{
@@ -729,7 +724,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --caching-disabled=true"
+			"hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --caching-disabled=true"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -746,7 +741,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --origin-connection-limit=100"
+			"hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --origin-connection-limit=100"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -761,7 +756,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --name=new-name"
+			"hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --name=new-name"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -776,7 +771,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			`hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"host":"example.com","database":"mydb","user":"newuser","password":"passw0rd!","access_client_id":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.access","access_client_secret":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}}'`
+			`hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"host":"example.com","database":"mydb","user":"newuser","password":"passw0rd!","access_client_id":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.access","access_client_secret":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}}'`
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -798,7 +793,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			`hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"service_id":"yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"}}'`
+			`hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"service_id":"yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"}}'`
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -815,7 +810,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			`hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"service_id":"yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy","database":"newdb","user":"newuser","password":"passw0rd!"}}'`
+			`hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --body='{"origin":{"service_id":"yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy","database":"newdb","user":"newuser","password":"passw0rd!"}}'`
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -843,7 +838,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-ca-certificate-id=2345 --mtls-certificate-id=234 --mtls-sslmode=verify-full"
+			"hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-ca-certificate-id=2345 --mtls-certificate-id=234 --mtls-sslmode=verify-full"
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{
@@ -861,7 +856,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-sslmode=verify-ca --mtls-ca-certificate-id=abc123"
+			"hyperdrive edit xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-sslmode=verify-ca --mtls-ca-certificate-id=abc123"
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{

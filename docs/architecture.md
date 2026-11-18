@@ -48,6 +48,7 @@ cf/
 │   │   │   ├── init/           # hand-written: `cf init` / `cf init workers`
 │   │   │   │                   # (hello-world scaffold or autoconfig setup)
 │   │   │   ├── containers/     # hand-written: local image build/push leaves
+│   │   │   ├── observability/tail/ # hand-written: live tail streaming
 │   │   │   ├── tunnels/        # hand-written cloudflared-backed leaves
 │   │   │   ├── workers/check/          # hand-written local startup profiling leaf
 │   │   │   ├── workers/triggers/       # hand-written `cf workers triggers` subgroup
@@ -64,12 +65,13 @@ cf/
 │   │   ├── index.ts            # the plugin's entry module: registry + meta.ts sidecars
 │   │   ├── cli.wasm            # gitignored; task:generate:plugin compiles index.ts
 │   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
-│   │   ├── flag-names-cli-compat.ts # temporary flag names for clashing API fields
-│   │   └── workers-secret-cli-compat.ts # temporary spec patch
+│   │   ├── cli-compat.overlay.yaml # standard OpenAPI overlay for temporary annotations
+│   │   ├── cli-compat-guards.ts # checks compatibility preconditions against the pinned spec
+│   │   └── openapi-overlay.ts  # validates and applies overlays with Redocly
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
-│   ├── generate.ts             # OpenAPI fetch + preparation → forge --target wasm://<plugin>
+│   ├── generate.ts             # OpenAPI fetch + preparation → forge generate --target wasm://<plugin>
 │   ├── vite.config.ts          # test and production ESM bundle config
 │   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
 ├── packages/wrangler-tests/    # imported wrangler test corpus, using
@@ -142,7 +144,7 @@ pnpm build
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
                  ├─ rm -rf _generated/
                  ├─ forge normalize --leave-old-extensions -
-                 │    └─ pipe normalized JSON into forge - --target wasm://generator/cli.wasm --out _generated
+                 │    └─ pipe normalized JSON into forge generate - --target wasm://generator/cli.wasm --out _generated
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
@@ -204,32 +206,32 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 
 ## Where to Edit
 
-| Task                            | Location                                                                                                                                                                                                                                                          |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                        |
-| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                  |
-| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
-| Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
-| Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                              |
-| `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                      |
-| `cf dev` discovery / spawn      | `packages/cli/src/commands/dev/{discover,known-impls,spawn}.ts`                                                                                                                                                                                                   |
-| `cf deploy` pipeline            | `packages/cli/src/commands/deploy/index.ts` + `lib/{build-output,deploy-context,deploy-input}.ts`                                                                                                                                                                 |
-| Container image build / push    | `packages/cli/src/commands/containers/{build,push}/`                                                                                                                                                                                                              |
-| Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                     |
-| `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                        |
-| Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                         |
-| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                      |
-| `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                   |
-| Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                |
-| Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                              |
-| Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                           |
-| Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
-| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                              |
-| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
-| Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
-| Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
-| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                |
-| Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
+| Task                            | Location                                                                                                                                                                                                                                                                        |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                                      |
+| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                                |
+| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                   |
+| Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,observability,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
+| Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                                            |
+| `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                                    |
+| `cf dev` discovery / spawn      | `packages/cli/src/commands/dev/{discover,known-impls,spawn}.ts`                                                                                                                                                                                                                 |
+| `cf deploy` pipeline            | `packages/cli/src/commands/deploy/index.ts` + `lib/{build-output,deploy-context,deploy-input}.ts`                                                                                                                                                                               |
+| Container image build / push    | `packages/cli/src/commands/containers/{build,push}/`                                                                                                                                                                                                                            |
+| Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                                   |
+| `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                                      |
+| Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                                       |
+| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                                    |
+| `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                                 |
+| Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                              |
+| Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                                            |
+| Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                                         |
+| Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                                             |
+| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                                            |
+| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                                        |
+| Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                              |
+| Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                                |
+| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                              |
+| Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                              |
 
 ## Library Map (`packages/cli/src/lib/`)
 
@@ -256,7 +258,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `local.ts`            | Dependency-free `--local` lazy runtime loading                                                                                                                                                                                                                                                                                                                                                         |
 | `local-runtime.ts`    | Local request rewriting, runtime lifecycle, and explorer dispatch; dynamically imported                                                                                                                                                                                                                                                                                                                |
 | `delegate.ts`         | local-install delegation (Wrangler-2 style): global cf re-execs a project-pinned local cf. `CF_DELEGATION` sentinel + `CF_DELEGATION_PID` (global cf's process ID; telemetry counts a run as delegated only when it matches the direct parent, or is absent from an older global cf) + `CF_DELEGATING_CLI_VERSION` (global version, read by telemetry) + realpath self-check + ephemeral-npx/dlx guard |
-| `build-output.ts`     | combines `readBuildOutput()`'s root config and `workers.default` from `.cloudflare/output/v0/workers/default/worker.config.json` and converts them into the deploy-helpers/Wrangler config shape (`convertToWranglerConfig` + `normalizeAndValidateConfig`) before deployment; owns `BuildOutputConfigError`, re-exports the package's `BuildOutputError`                                              |
+| `build-output.ts`     | combines `readBuildOutput()`'s root config and `workers.default` from `.cloudflare/output/v1/workers/default/worker.config.json` and converts them into the deploy-helpers/Wrangler config shape (`convertToWranglerConfig` + `normalizeAndValidateConfig`) before deployment; owns `BuildOutputConfigError`, re-exports the package's `BuildOutputError`                                              |
 | `deploy-context.ts`   | builds the `DeployHelpersContext` (fetch/logger/confirm/prompt closures) bridging cf auth/UX to deploy-helpers' module globals                                                                                                                                                                                                                                                                         |
 | `deploy-input.ts`     | assembles `DeployProps` / `WorkerBuildResult` from build output (module-type mapping, routes, assets)                                                                                                                                                                                                                                                                                                  |
 | `dialog.ts`           | cf prompt/dialog adapter shared by hand-written orchestration                                                                                                                                                                                                                                                                                                                                          |
@@ -370,6 +372,29 @@ GitHub collapses `_generated/` by default because it is marked `linguist-generat
 Shell-completion scripts are no longer generated — `cf complete`
 (`@bomb.sh/tab`) reads `_meta/commands.json` at runtime.
 
+### OpenAPI compatibility overlay
+
+`generate.ts` applies `generator/cli-compat.overlay.yaml` to both downloaded
+and `FORGE_OPENAPI_BUNDLE` inputs before audience filtering and Forge
+normalization. The file follows the
+[OpenAPI Overlay 1.1 specification](https://spec.openapis.org/overlay/v1.1.0.html):
+ordered JSONPath targets with standard `update` and `remove` actions. Redocly's
+`@redocly/openapi-core` validates the overlay and applies it through its public
+bundling API, preserving internal references. It is a development dependency.
+
+Fix annotation issues upstream in OpenAPI or Forge by default. The local overlay
+is a last resort for exceptional, temporary compatibility fixes. Any new action
+requires a strong justification beside the action and in its PR: concrete user
+impact, why an upstream fix cannot be consumed in time, a linked upstream issue
+or PR, and a precise removal condition. Existing actions are not precedent, and
+unblocking generation or making tests pass alone does not justify another patch.
+
+Each justified action also needs a source precondition in
+`generator/cli-compat-guards.ts` and a regression test. Overlay actions allow
+unmatched targets, so the guards check operation identities, body field types,
+and upstream annotations before applying any changes. Remove an action and its
+guard together when the pinned Forge OpenAPI supplies the fix.
+
 ### Source config access is command-scoped
 
 Normal cf startup and generated API commands read only `accountId` and
@@ -390,6 +415,41 @@ compatibility date. The helper writes assets-only Build Output without a
 delegated build, recording `--mode` and Preview context, before the command
 continues through the normal Build Output upload path. Without `[directory]`,
 these commands consume Build Output from a delegated build or `--prebuilt`.
+
+Autoconfig owns the dev/build command choice, including Vite versus Vite+.
+Autoconfig reports command-readiness problems as data so inspection can recognize
+configured projects before dependencies are installed. cf raises those problems
+before executing a development or build command. Autoconfig owns the minimum
+Vite plugin version for auth-profile support (`>=2.0.0-beta.v.13 <3`).
+Pages detection and migration checks take precedence over native fallbacks.
+Other unsupported frameworks can use a native fallback after the project has
+been configured for cf; their automatic setup restrictions still apply.
+Autoconfig validates plugin compatibility for eligible cf projects that declare
+the plugin. When neither framework command is detected, it returns the installed
+native executable in `devCommand` / `buildCommand`. cf executes those commands using the same
+argument forwarding, environment, signals, and exit handling as other framework
+commands. Vite evaluates its own configuration, including dynamic plugin arrays
+and custom config files. If a Vite build succeeds without Build Output, cf hints
+that the Vite config should include `cloudflare()`. On POSIX, framework commands
+run in a separate process group so
+shutdown signals also reach tools started by launchers such as `vp`. Windows
+keeps console Ctrl+C delivery and terminates the command tree for SIGTERM.
+On POSIX, a second interrupt forces termination, and terminal closure forwards
+SIGHUP. With inherited terminal streams, global-to-local cf delegation relies
+on the terminal's SIGINT delivery to both CLIs, so one Ctrl+C does not trigger
+escalation. Non-interactive delegation relays SIGINT, and SIGTERM is always relayed.
+A synchronous exit hook makes a best-effort attempt to stop an active
+command tree if cf exits before shutdown completes. SIGKILL of cf itself cannot
+run cleanup; cf does not start a supervisor process.
+Bare commands prepend autoconfig's ordered `nodeModulesPaths`, from the
+application's `node_modules/.bin` through its validated workspace root, and retain
+the inherited PATH. This supports hoisted workspace toolchains without adding
+unrelated parent installations. The shared build
+path supplies `CLOUDFLARE_PREVIEW_BUILD` for Preview deployments. Delegate discovery
+is reserved for Wrangler, Python, and Rust implementations. Binding defaults
+remain unchanged. To explicitly disable remote bindings, configure
+`cloudflare({ remoteBindings: false })` in the Vite configuration; the internal
+Vite delegate's `--local` flag is no longer available.
 
 This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
 merely because a binding field in the configured Worker is invalid. Loading
@@ -414,7 +474,7 @@ What cf DOES read:
   the project's Miniflare resources for `--local`, matching the Cloudflare Vite
   plugin's default for `cf dev`. `--persist-to` overrides it and is required
   outside a project.
-- **Build Output under `.cloudflare/output/v0/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries account settings and `buildContext`; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand. When `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME` is set, `cf deploy`, `cf previews deploy`, `cf workers versions create`, and `cf workers triggers deploy` deploy the selected Worker under that name and warn if it differs from the configured one. Workers Builds sets it to the connected Worker, as `WRANGLER_CI_OVERRIDE_NAME` does for Wrangler. Only the deployed name changes; bindings that name the configured Worker keep their targets. `cf deploy` and `cf workers versions create` also check the deployed Worker's tag against `CLOUDFLARE_CI_MATCH_WORKER_TAG`, the equivalent of `WRANGLER_CI_MATCH_TAG`.
+- **Build Output under `.cloudflare/output/v1/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries `buildContext`, optional account `settings` (`accountId`, `complianceRegion`), and an optional `producer` (cf records its own name and version); readers reject output in the older v0 format; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand. When `CLOUDFLARE_CI_OVERRIDE_WORKER_NAME` is set, `cf deploy`, `cf previews deploy`, `cf workers versions create`, and `cf workers triggers deploy` deploy the selected Worker under that name and warn if it differs from the configured one. Workers Builds sets it to the connected Worker, as `WRANGLER_CI_OVERRIDE_NAME` does for Wrangler. Only the deployed name changes; bindings that name the configured Worker keep their targets. `cf deploy` and `cf workers versions create` also check the deployed Worker's tag against `CLOUDFLARE_CI_MATCH_WORKER_TAG`, the equivalent of `WRANGLER_CI_MATCH_TAG`.
 
 What cf does NOT read:
 
@@ -587,13 +647,13 @@ have bodies whose real schema sits behind a sibling endpoint; the third replaces
 a request-body-driven upload with the Build Output workflow shared by deploy.
 Each overridden leaf needs a spec drift guard in `src/__tests__/`.
 
-**Leaf command** (`kind: "leaf"`) — there is **no** spec operation, but a
-single executable leaf is added directly to a generated product. Its
-`meta.ts` carries one complete `CommandMeta`. Current entries are
+**Leaf command** (`kind: "leaf"`) — adds an executable workflow directly to a
+generated product. Use it for local work or orchestration that spans API calls.
+Its `meta.ts` carries one complete `CommandMeta`. Examples include
 `workers/check`, which profiles a local Build Output Worker;
-`workers/types`, which generates types from source config; and
+`workers/types`, which generates types from source config;
 `tunnels/quick-start` plus `tunnels/run`, which run cloudflared; and the
-process-backed Access leaves. None has an API endpoint.
+process-backed Access leaves.
 
 **Generated-parent override** (`kind: "parentOverride"`) — changes only the
 description and visibility of an existing generated product root. It does not
@@ -615,7 +675,7 @@ merely because a spec happens to be thin.
 
 Generalising the runtime-schema pattern into a forge annotation is deliberately deferred until there are four or more such examples. That threshold does not combine unrelated Build Output or migration workflows.
 
-`cf init [directory]` is the single explicit setup entry point; there is no separate `cf setup` or `cf workers setup`. It currently behaves exactly like `cf init workers [directory]`, the first product initializer, which `cf init --help` lists as `[default]`; other products can later add `cf init <product>` subcommands, and bare `cf init` is expected to become a selection menu of what to create. When the directory is omitted, cf asks for it (defaulting to the current directory); non-interactive runs must pass one, such as `.`. cf shows the absolute target directory (hidden by `--quiet`) before the package-manager choice or autoconfig, and every successful run ends with a `Next steps` list led by `cf dev` (`npx cf dev` when cf itself ran through `npx` or `pnpm dlx`). A missing directory, an empty directory, or one containing only `.git` receives the hello-world Worker scaffold (`cloudflare.config.ts` with a `WORLD` text binding, `vite.config.ts`, `vitest.config.ts`, `src/index.ts`, `test/index.test.ts`, `tsconfig.json`, `package.json`, `.gitignore`, plus `pnpm-workspace.yaml` for pnpm or `.yarnrc.yml` for Yarn) built on the `@cloudflare/vite-plugin` v2 beta without Wrangler; dependencies are installed by default with a prompted or `--package-manager` choice. After a successful install, cf generates `.cloudflare/types/index.d.ts` through `commands/workers/types/generate.ts`, the generator behind `cf workers types`; a failure there is a warning, not an error. The template's `typecheck` script runs `cf workers types && vp check --no-fmt --no-lint`, and its `tsconfig.json` includes `.cloudflare/types`. Any other non-empty directory is handed to autoconfig after cf changes into it, because autoconfig's package installs use the process working directory. `cf dev` and `cf build` still run autoconfig implicitly. Tunnel log streaming is the process-backed `cf tunnels tail` command; the generated tail-create API command only creates a tail descriptor.
+`cf init [directory]` is the single explicit setup entry point; there is no separate `cf setup` or `cf workers setup`. It currently behaves exactly like `cf init workers [directory]`, the first product initializer, which `cf init --help` lists as `[default]`; other products can later add `cf init <product>` subcommands, and bare `cf init` is expected to become a selection menu of what to create. When the directory is omitted, cf asks for it (defaulting to the current directory); non-interactive runs must pass one, such as `.`. cf shows the absolute target directory (hidden by `--quiet`) before the package-manager choice or autoconfig, and every successful run ends with a `Next steps` list led by `cf dev` (`npx cf dev` when cf itself ran through `npx` or `pnpm dlx`). A missing directory, an empty directory, or one containing only `.git` receives the hello-world Worker scaffold (`cloudflare.config.ts` with a `WORLD` text binding, `vite.config.ts`, `vitest.config.ts`, `src/index.ts`, `test/index.test.ts`, `tsconfig.json`, `package.json`, `.gitignore`, plus `pnpm-workspace.yaml` for pnpm or `.yarnrc.yml` for Yarn) built on the `@cloudflare/vite-plugin` v2 release candidate (`^2.0.0-rc.0`) without Wrangler; dependencies are installed by default with a prompted or `--package-manager` choice. After a successful install, cf generates `.cloudflare/types/index.d.ts` through `commands/workers/types/generate.ts`, the generator behind `cf workers types`; a failure there is a warning, not an error. The template's `typecheck` script runs `cf workers types && vp check --no-fmt --no-lint`, and its `tsconfig.json` includes `.cloudflare/types`. Any other non-empty directory is handed to autoconfig after cf changes into it, because autoconfig's package installs use the process working directory. `cf dev` and `cf build` still run autoconfig implicitly. Tunnel log streaming is the process-backed `cf tunnels tail` command; the generated tail-create API command only creates a tail descriptor.
 
 Hand-written commands with no generated parent (`auth/`, `build/`, `cli/`,
 `completions/`, `dev/`, `deploy/`, `init/`, `previews/`, plus top-level
@@ -797,7 +857,7 @@ There is no single global resolution order. Zone uses positional value → `--zo
 
 Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
 
-An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
+An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. Fix this with a descriptive `flagName` in the upstream OpenAPI schema or Forge annotations. Local patches in `generator/cli-compat.overlay.yaml` are a last resort requiring the strong justification documented in the root `AGENTS.md`; existing patches are not precedent for new ones. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 
@@ -824,6 +884,18 @@ separately; they do not describe effective per-account permissions. Scope groupi
 reuses the cached OAuth catalogue only for human output; lookup failures show a
 compact explanation. Stored OAuth scopes and expiry never describe an active
 environment API token. Exit-code behavior is unchanged.
+
+`cf auth login` enables OS keyring storage when no saved storage preference or
+`CLOUDFLARE_AUTH_USE_KEYRING` override exists. It uses workers-auth's platform
+backend to write, read, and delete a random key in an isolated probe entry before
+persisting the preference; an installed executable alone is insufficient on
+headless systems. Windows uses an already installed keyring binding for automatic
+selection; `--use-keyring` retains the shared interactive installation path.
+Unavailable backends leave the preference unset so later logins can retry, and
+cf records a one-time plaintext fallback warning in `state.json`. The shared
+auth layer still owns credential migration and storage. Saved preferences and
+explicit flags retain their behavior; `--no-use-keyring` persists an opt-out,
+and `CLOUDFLARE_AUTH_USE_KEYRING=true` requires the keyring without fallback.
 
 ### Reserved names
 
@@ -864,7 +936,8 @@ The two Forge inputs are updated separately:
   OpenAPI pin, and write a `patch` changeset with
   `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
   must match `allowedCommands` in `.github/renovate-global.json`.
-- **`FORGE_OPENAPI_VERSION`** in `packages/cli/generate.ts` — the `Update OpenAPI`
+- **`config.forgeOpenApiVersion`** in `packages/cli/package.json`, read by
+  `packages/cli/generate.ts` — the `Update OpenAPI`
   workflow (`.github/workflows/update-openapi.yml`) runs `scripts/update-openapi.ts`
   hourly and on a `forge-release-published` `repository_dispatch`. It pins the
   latest `openapi@<sha>` Forge release, regenerates with the pinned forge
@@ -958,10 +1031,14 @@ pnpm i https://pkg.pr.new/cloudflare/cf/cf@<branch-name>
 ```
 
 The previous `publish-{alpha,,cf}.sh` scripts have been removed. Per-commit
-prereleases flow through pkg-pr-new. Versioned beta and stable releases use
+prereleases flow through pkg-pr-new. Versioned prereleases and stable releases use
 Changesets: `.github/workflows/changesets.yml` opens/updates the Version
 Packages PR when changesets exist and publishes to npm after that PR is merged.
 Publishing uses npm trusted publishing (OIDC), not a long-lived `NPM_TOKEN`.
+
+Use `pnpm changeset:version` to prepare releases. Before Changesets runs, it
+resets cf's prerelease counter when the channel changes: `1.0.0-beta.32`
+becomes `1.0.0-rc.0`. Later RC releases increment the counter normally.
 
 Vite+ Pack emits a minified bundle without source maps by default.
 `PACKAGE_PRERELEASE_LABEL` may be supplied to the pack `define` configuration,

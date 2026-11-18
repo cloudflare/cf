@@ -85,45 +85,205 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by DNS transport protocol.",
+			choices: ["UDP", "TCP", "HTTPS", "TLS"],
 		})
+		.coerce("protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("query-type", {
 			type: "string",
 			array: true,
 			description: "Filters results by DNS query type.",
+			choices: [
+				"A",
+				"AAAA",
+				"A6",
+				"AFSDB",
+				"ANY",
+				"APL",
+				"ATMA",
+				"AXFR",
+				"CAA",
+				"CDNSKEY",
+				"CDS",
+				"CERT",
+				"CNAME",
+				"CSYNC",
+				"DHCID",
+				"DLV",
+				"DNAME",
+				"DNSKEY",
+				"DOA",
+				"DS",
+				"EID",
+				"EUI48",
+				"EUI64",
+				"GPOS",
+				"GID",
+				"HINFO",
+				"HIP",
+				"HTTPS",
+				"IPSECKEY",
+				"ISDN",
+				"IXFR",
+				"KEY",
+				"KX",
+				"L32",
+				"L64",
+				"LOC",
+				"LP",
+				"MAILA",
+				"MAILB",
+				"MB",
+				"MD",
+				"MF",
+				"MG",
+				"MINFO",
+				"MR",
+				"MX",
+				"NAPTR",
+				"NB",
+				"NBSTAT",
+				"NID",
+				"NIMLOC",
+				"NINFO",
+				"NS",
+				"NSAP",
+				"NSEC",
+				"NSEC3",
+				"NSEC3PARAM",
+				"NULL",
+				"NXT",
+				"OPENPGPKEY",
+				"OPT",
+				"PTR",
+				"PX",
+				"RKEY",
+				"RP",
+				"RRSIG",
+				"RT",
+				"SIG",
+				"SINK",
+				"SMIMEA",
+				"SOA",
+				"SPF",
+				"SRV",
+				"SSHFP",
+				"SVCB",
+				"TA",
+				"TALINK",
+				"TKEY",
+				"TLSA",
+				"TSIG",
+				"TXT",
+				"UINFO",
+				"UID",
+				"UNSPEC",
+				"URI",
+				"WKS",
+				"X25",
+				"ZONEMD",
+			],
 		})
+		.coerce("query-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-code", {
 			type: "string",
 			array: true,
 			description: "Filters results by DNS response code.",
+			choices: [
+				"NOERROR",
+				"FORMERR",
+				"SERVFAIL",
+				"NXDOMAIN",
+				"NOTIMP",
+				"REFUSED",
+				"YXDOMAIN",
+				"YXRRSET",
+				"NXRRSET",
+				"NOTAUTH",
+				"NOTZONE",
+				"BADSIG",
+				"BADKEY",
+				"BADTIME",
+				"BADMODE",
+				"BADNAME",
+				"BADALG",
+				"BADTRUNC",
+				"BADCOOKIE",
+			],
 		})
+		.coerce("response-code", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("response-ttl", {
 			type: "string",
 			array: true,
 			description: "Filters results by DNS response TTL.",
+			choices: [
+				"LTE_1M",
+				"GT_1M_LTE_5M",
+				"GT_5M_LTE_15M",
+				"GT_15M_LTE_1H",
+				"GT_1H_LTE_1D",
+				"GT_1D_LTE_1W",
+				"GT_1W",
+			],
 		})
+		.coerce("response-ttl", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dnssec", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results based on DNSSEC (DNS Security Extensions) support.",
+			choices: ["INVALID", "INSECURE", "SECURE", "OTHER"],
 		})
+		.coerce("dnssec", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dnssec-aware", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results based on DNSSEC (DNS Security Extensions) client awareness.",
+			choices: ["SUPPORTED", "NOT_SUPPORTED"],
 		})
+		.coerce("dnssec-aware", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dnssec-e2e", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results based on DNSSEC-validated answers by end-to-end security status.",
 		})
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:
@@ -193,6 +353,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					dnssec: argv["dnssec"],
 					dnssecAware: argv["dnssec-aware"],
 					dnssecE2e: argv["dnssec-e2e"],
+					asCategory: argv["as-category"],
 					ipVersion: argv["ip-version"],
 					limitPerGroup: argv["limit-per-group"],
 					matchingAnswer: argv["matching-answer"],

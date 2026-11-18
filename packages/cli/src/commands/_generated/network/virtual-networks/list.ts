@@ -22,6 +22,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 network virtual-networks list\n\nLists and filters virtual networks in an account."
 		)
+		.option("page", {
+			type: "number",
+			description:
+				"Page number of paginated results, starting at 1. Defaults to 1.",
+		})
+		.option("per-page", {
+			type: "number",
+			description:
+				"Number of virtual networks per page, up to 1000. Defaults to 1000.",
+		})
 		.option("id", {
 			type: "string",
 			description: "UUID of the virtual network.",
@@ -74,6 +84,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
+					page: argv["page"],
+					per_page: argv["per-page"],
 					id: argv["id"],
 					name: argv["name"],
 					is_default: argv["is-default"],

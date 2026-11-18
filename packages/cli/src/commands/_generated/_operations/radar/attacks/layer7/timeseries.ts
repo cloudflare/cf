@@ -12,6 +12,7 @@ export default {
 		"location",
 		"continent",
 		"normalization",
+		"asCategory",
 		"ipVersion",
 		"httpVersion",
 		"httpMethod",

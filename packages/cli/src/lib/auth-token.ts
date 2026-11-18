@@ -1,6 +1,8 @@
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import { MissingCredentialsError } from "./errors.js";
 import {
+	getActiveProfile,
+	getProfileStore,
 	getValidToken as getOAuthToken,
 	isOAuthLoggedIn,
 	isTemporaryAccountRequested,
@@ -41,6 +43,19 @@ export async function getAuthToken(
 		throw new Error(
 			"Could not refresh your stored OAuth token. Check your connection and retry, or run 'cf auth login' to authenticate again."
 		);
+	}
+
+	const activeProfile = getActiveProfile();
+	if (activeProfile !== "default") {
+		const store = getProfileStore();
+		if (!store.configs.exists(activeProfile)) {
+			const available = store.configs.list();
+			const availableMsg =
+				available.length > 0 ? ` (available: ${available.join(", ")})` : "";
+			throw new MissingCredentialsError(
+				`Auth profile "${activeProfile}" not found${availableMsg}. Run 'cf auth create ${activeProfile}' to authenticate it.`
+			);
+		}
 	}
 
 	throw new MissingCredentialsError(`No authentication token found.

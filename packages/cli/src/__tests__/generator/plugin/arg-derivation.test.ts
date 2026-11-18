@@ -74,6 +74,30 @@ function pathOperation(
 const derived = (m: Method, resource: string, op: OperationInfo): Derived =>
 	derive(m, resource, op);
 
+describe("query defaults", () => {
+	it.each([false, true])(
+		"preserves optional enum-array defaults (required: %s)",
+		(required) => {
+			const d = derived(
+				method({ selector: { default: ["first"] } }, "list"),
+				"example",
+				operation("get", "/things", {
+					queryParams: [
+						param("selector", undefined, {
+							type: "array",
+							required,
+							enumValues: ["first", "second"],
+						}),
+					],
+				})
+			);
+			expect(find(d.args, "selector").default).toEqual(
+				required ? undefined : ["first"]
+			);
+		}
+	);
+});
+
 describe("account-or-zone", () => {
 	it("maps only the paired placeholders to generated locals", () => {
 		const path = "/{account_or_zone}/{account_or_zone_id}/load_balancers";
@@ -776,7 +800,7 @@ describe("cf-owned flag clashes", () => {
 				"POST /accounts/{account_id}/example (example-search): API fields need other CLI flag names:",
 				'      body field `profile` → --profile, which is a global cf option. Set x-forge-params["profile"].flagName.',
 				'      body field `json` → --json, which is reserved for a future cf option. Set x-forge-params["json"].flagName.',
-				"    A flagName renames only the CLI flag; the wire name stays. Until the API schema sets one, add a guarded entry to packages/cli/generator/flag-names-cli-compat.ts.",
+				"    A flagName renames only the CLI flag; the wire name stays. Fix this in the upstream OpenAPI schema or Forge annotations. A local compatibility overlay requires the strong justification documented in AGENTS.md.",
 			].join("\n")
 		);
 	});

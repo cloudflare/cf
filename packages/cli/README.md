@@ -2,7 +2,7 @@
 
 A unified command-line interface for Cloudflare, generated from Cloudflare's public OpenAPI surface and published as the unscoped `cf` npm package.
 
-This is a beta preview. To learn more, see the [announcement blog post](https://blog.cloudflare.com/cf-cli-local-explorer/).
+This is a release candidate for cf 1.0. To learn more, see the [announcement blog post](https://blog.cloudflare.com/cloudflare-cf-cli-launch/).
 
 ## Install
 
@@ -44,8 +44,9 @@ named profiles. `cf auth login` and `cf auth logout` manage the default profile.
 commands and Cloudflare dev-server implementations through
 `CLOUDFLARE_AUTH_PROFILE`, overriding any inherited value. The development
 server needs `@cloudflare/workers-auth` 0.17.0 or newer to use the selected
-credentials. Cloudflare delegates require Wrangler 4.161.0 or newer, or Vite
-plugin v2 starting at 2.0.0-beta.v.13; older delegates fail with an upgrade hint.
+credentials. Wrangler delegates require Wrangler 4.163.0 or newer. For Vite
+projects, use `@cloudflare/vite-plugin` 2.0.0-rc.0 or newer to produce compatible
+Build Output.
 
 Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
 in your OS keychain. The choice is saved across invocations and applies to all

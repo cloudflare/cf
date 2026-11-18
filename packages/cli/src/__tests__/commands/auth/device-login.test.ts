@@ -51,6 +51,7 @@ describe("cf auth device login", () => {
 		sharedAuth.login.mockReset().mockResolvedValue(true);
 		telemetryEvents.length = 0;
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		vi.stubEnv("CLOUDFLARE_AUTH_USE_KEYRING", "false");
 	});
 
 	it("uses the device authorization flow by default", async () => {

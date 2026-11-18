@@ -6,10 +6,11 @@
 		"dev": "vp dev"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "2.0.0-beta.v.17",
-		"@cloudflare/workers-types": "5.20261113.1",
+		"@cloudflare/vite-plugin": "2.0.0-rc.1",
+		"@cloudflare/workers-types": "5.20261118.1",
 		"cf": "workspace:*",
 		"vite": "catalog:",
-		"wrangler": "4.162.0"
+		"vite-plus": "catalog:",
+		"wrangler": "4.164.0"
 	}
 }

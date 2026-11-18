@@ -80,7 +80,35 @@ describe("project preparation", () => {
 		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
 	});
 
-	it("runs framework setup when Wrangler config conversion did not run", async () => {
+	it("offers Wrangler migration before validating missing project commands", async () => {
+		const details: AutoConfigDetails = {
+			...unconfiguredDetails,
+			commandError: {
+				code: "vite-tool-not-installed",
+				message: "vite executable could not be found",
+			},
+		};
+		const configuredDetails = { ...unconfiguredDetails, configured: true };
+		mocks.getDetailsForAutoConfig
+			.mockResolvedValueOnce(details)
+			.mockResolvedValueOnce(configuredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(true);
+
+		await expect(prepareProject("/project")).resolves.toEqual({
+			details: configuredDetails,
+		});
+		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledOnce();
+		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
+	});
+
+	it("lets framework setup install missing commands before reanalyzing", async () => {
+		const details: AutoConfigDetails = {
+			...unconfiguredDetails,
+			commandError: {
+				code: "vite-plugin-not-installed",
+				message: "@cloudflare/vite-plugin is not installed",
+			},
+		};
 		const configuration = {
 			scripts: {},
 			outputDir: "dist",
@@ -93,7 +121,7 @@ describe("project preparation", () => {
 			env: { CONFIGURED: "true" },
 		};
 		mocks.getDetailsForAutoConfig
-			.mockResolvedValueOnce(unconfiguredDetails)
+			.mockResolvedValueOnce(details)
 			.mockResolvedValueOnce(configuredDetails);
 		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
 		mocks.runAutoConfig.mockResolvedValue(configuration);
@@ -103,7 +131,7 @@ describe("project preparation", () => {
 			configuration,
 		});
 		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
-			unconfiguredDetails,
+			details,
 			expect.objectContaining({ runBuild: false })
 		);
 		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledTimes(2);
@@ -132,18 +160,25 @@ describe("project preparation", () => {
 	});
 
 	it("dry-runs framework setup when Wrangler config conversion did not run", async () => {
-		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		const details: AutoConfigDetails = {
+			...unconfiguredDetails,
+			commandError: {
+				code: "vite-plugin-incompatible",
+				message: "@cloudflare/vite-plugin needs to be upgraded",
+			},
+		};
+		mocks.getDetailsForAutoConfig.mockResolvedValue(details);
 		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
 		mocks.runAutoConfig.mockResolvedValue({ buildCommand: "npm run build" });
 
 		await expect(
 			prepareProject("/project", { dryRun: true })
 		).resolves.toMatchObject({
-			details: unconfiguredDetails,
+			details,
 			setupNeeded: true,
 		});
 		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
-			unconfiguredDetails,
+			details,
 			expect.objectContaining({ dryRun: true, runBuild: false })
 		);
 		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();

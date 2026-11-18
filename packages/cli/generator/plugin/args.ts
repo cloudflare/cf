@@ -487,7 +487,7 @@ class FlagNames {
 			return;
 		}
 		throw new GenerateError(
-			`${this.where}: API fields need other CLI flag names:\n${this.clashes.map((c) => `      ${c}`).join("\n")}\n    A flagName renames only the CLI flag; the wire name stays. Until the API schema sets one, add a guarded entry to packages/cli/generator/flag-names-cli-compat.ts.`
+			`${this.where}: API fields need other CLI flag names:\n${this.clashes.map((c) => `      ${c}`).join("\n")}\n    A flagName renames only the CLI flag; the wire name stays. Fix this in the upstream OpenAPI schema or Forge annotations. A local compatibility overlay requires the strong justification documented in AGENTS.md.`
 		);
 	}
 }
@@ -804,11 +804,12 @@ function queryParams(
 		const description =
 			o.string("description") ?? p.description ?? descriptionFromName(p.name);
 		const isEnum = p.enumValues !== undefined && p.enumValues.length > 0;
-		const type: ArgType = isEnum
-			? "enum"
-			: p.type === "number" || p.type === "boolean" || p.type === "array"
-				? p.type
-				: "string";
+		const type: ArgType =
+			isEnum && p.type !== "array"
+				? "enum"
+				: p.type === "number" || p.type === "boolean" || p.type === "array"
+					? p.type
+					: "string";
 		const a = arg(
 			name,
 			description,
@@ -821,7 +822,7 @@ function queryParams(
 		if (isEnum) {
 			a.choices = p.enumValues;
 		}
-		if (!(required || isEnum)) {
+		if (!(required || type === "enum")) {
 			a.default = dflt;
 		}
 		out.push(a);

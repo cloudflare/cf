@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 radar search global\n\nSearches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`)."
+			"$0 radar search global\n\nSearches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`). ASN, ADM1 and ADM2 results include an `entity` with details about the matched entity."
 		)
 		.option("limit", {
 			type: "number",
@@ -34,12 +34,48 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Search types included in results.",
+			choices: [
+				"ADM1S",
+				"ASNS",
+				"BOTS",
+				"BOT_OPERATORS",
+				"CERTIFICATE_AUTHORITIES",
+				"CERTIFICATE_LOGS",
+				"ORIGINS",
+				"ORIGIN_REGIONS",
+				"INDUSTRIES",
+				"LOCATIONS",
+				"NOTEBOOKS",
+				"TLDS",
+				"VERTICALS",
+			],
 		})
+		.coerce("include", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("exclude", {
 			type: "string",
 			array: true,
 			description: "Search types excluded from results.",
+			choices: [
+				"ADM1S",
+				"ASNS",
+				"BOTS",
+				"BOT_OPERATORS",
+				"CERTIFICATE_AUTHORITIES",
+				"CERTIFICATE_LOGS",
+				"ORIGINS",
+				"ORIGIN_REGIONS",
+				"INDUSTRIES",
+				"LOCATIONS",
+				"NOTEBOOKS",
+				"TLDS",
+				"VERTICALS",
+			],
 		})
+		.coerce("exclude", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",

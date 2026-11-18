@@ -1,6 +1,6 @@
 import { statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import type { ParsedInputSettingsConfig } from "@cloudflare/config";
+import type { ParsedSettings } from "@cloudflare/config";
 
 export const CLOUDFLARE_CONFIG_FILENAME = "cloudflare.config.ts";
 
@@ -20,7 +20,7 @@ export function formatConfigIssues(
 
 export interface LoadedProjectSettings {
 	path: string;
-	settings: ParsedInputSettingsConfig | undefined;
+	settings: ParsedSettings | undefined;
 }
 
 let loadedSettings:

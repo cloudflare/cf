@@ -13,6 +13,7 @@ export default {
 		"asn",
 		"location",
 		"continent",
+		"asCategory",
 		"ipVersion",
 		"httpVersion",
 		"httpMethod",

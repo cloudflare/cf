@@ -196,13 +196,13 @@ describe("cf init", () => {
 			}
 		);
 
-		it("uses the Vite plugin beta dist-tag without Wrangler", async () => {
+		it("uses the Vite plugin release candidate range without Wrangler", async () => {
 			await runCf(["init", "my-app", "--no-install"]);
 
 			const packageJson = readJson("my-app/package.json");
 			expect(packageJson.devDependencies).not.toHaveProperty("wrangler");
 			expect(WORKER_TEMPLATE_DEV_DEPENDENCIES["@cloudflare/vite-plugin"]).toBe(
-				"beta"
+				"^2.0.0-rc.0"
 			);
 		});
 
@@ -551,6 +551,21 @@ describe("cf init", () => {
 			expect(stderr()).toContain("Set up site for Cloudflare");
 			expect(stderr()).toContain("cd site");
 			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
+		});
+
+		it("recognizes an existing Vite-plugin project before dependencies are installed", async () => {
+			await seed({
+				"configured/cloudflare.config.ts": "export default {};",
+				"configured/package.json": JSON.stringify({
+					name: "configured",
+					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+				}),
+			});
+			const result = await runCf(["init", "configured"]);
+			expect(result.exitCode).toBe(0);
+			expect(stderr()).toContain("Found an existing Cloudflare configuration");
+			expect(configureProject).not.toHaveBeenCalled();
+			expect(runProjectCommand).not.toHaveBeenCalled();
 		});
 
 		it("leaves an already configured project unchanged", async () => {

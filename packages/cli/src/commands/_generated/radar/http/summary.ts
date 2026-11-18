@@ -75,49 +75,125 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System.",
+			choices: ["API", "NON_API"],
 		})
+		.coerce("api-traffic", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-class", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+			choices: ["LIKELY_AUTOMATED", "LIKELY_HUMAN"],
 		})
+		.coerce("bot-class", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("content-type", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System.",
+			choices: [
+				"HTML",
+				"IMAGES",
+				"JSON",
+				"JAVASCRIPT",
+				"CSS",
+				"PLAIN_TEXT",
+				"FONTS",
+				"XML",
+				"YAML",
+				"VIDEO",
+				"AUDIO",
+				"MARKDOWN",
+				"DOCUMENTS",
+				"BINARY",
+				"SERIALIZATION",
+				"OTHER",
+			],
 		})
+		.coerce("content-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("device-type", {
 			type: "string",
 			array: true,
 			description: "Filters results by device type.",
+			choices: ["DESKTOP", "MOBILE", "OTHER"],
 		})
+		.coerce("device-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-protocol", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+			choices: ["HTTP", "HTTPS"],
 		})
+		.coerce("http-protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP version.",
+			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
 		})
+		.coerce("http-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("ip-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("os", {
 			type: "string",
 			array: true,
 			description: "Filters results by operating system.",
+			choices: [
+				"WINDOWS",
+				"MACOSX",
+				"IOS",
+				"ANDROID",
+				"CHROMEOS",
+				"LINUX",
+				"SMART_TV",
+			],
 		})
+		.coerce("os", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("tls-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by TLS version.",
+			choices: ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"],
 		})
+		.coerce("tls-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("limit-per-group", {
 			type: "number",
 			description:
@@ -161,6 +237,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					continent: argv["continent"],
 					geoId: argv["geo-id"],
 					apiTraffic: argv["api-traffic"],
+					asCategory: argv["as-category"],
 					botClass: argv["bot-class"],
 					contentType: argv["content-type"],
 					deviceType: argv["device-type"],

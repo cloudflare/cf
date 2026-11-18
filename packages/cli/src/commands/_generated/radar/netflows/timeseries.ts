@@ -46,11 +46,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.",
 		})
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("product", {
 			type: "string",
 			array: true,
 			description: "Filters the results by network traffic product types.",
+			choices: ["HTTP", "ALL"],
 		})
+		.coerce("product", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("asn", {
 			type: "string",
 			array: true,
@@ -115,6 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					dateRange: argv["date-range"],
 					dateStart: argv["date-start"],
 					dateEnd: argv["date-end"],
+					asCategory: argv["as-category"],
 					product: argv["product"],
 					asn: argv["asn"],
 					location: argv["location"],

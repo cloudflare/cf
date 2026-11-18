@@ -6369,6 +6369,12 @@
 					"description": "The logpush_public_key field"
 				},
 				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
+				},
+				{
 					"name": "otel",
 					"type": "string",
 					"required": false,
@@ -7038,6 +7044,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "multiprovider-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted."
 				},
 				{
 					"name": "otel",
@@ -7757,6 +7769,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable vector (embedding) storage backend."
+				},
+				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
 				},
 				{
 					"name": "indexing-options-keyword-tokenizer",
@@ -9845,6 +9863,12 @@
 					"description": "Enable vector (embedding) storage backend."
 				},
 				{
+					"name": "indexing-options-file-summary",
+					"type": "boolean",
+					"required": false,
+					"description": "Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false."
+				},
+				{
 					"name": "indexing-options-keyword-tokenizer",
 					"type": "string",
 					"required": false,
@@ -10118,13 +10142,13 @@
 					"name": "summarization",
 					"type": "boolean",
 					"required": false,
-					"description": "The summarization field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "summarization-model",
 					"type": "string",
 					"required": false,
-					"description": "The summarization_model field"
+					"description": "Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "sync-interval",
@@ -10142,7 +10166,7 @@
 					"name": "system-prompt-index-summarization",
 					"type": "string",
 					"required": false,
-					"description": "The system_prompt_index_summarization field"
+					"description": "Deprecated and has no effect. Use indexing_options.file_summary instead."
 				},
 				{
 					"name": "system-prompt-rewrite-query",
@@ -15761,6 +15785,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Restrict results by resource tags. Filters for different keys are combined with AND, while values within one filter are combined with OR. Keys must be unique and are case-sensitive. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"Key\": string, \"Values\": [string]}]."
+				},
+				{
+					"name": "granularity",
+					"type": "string",
+					"required": false,
+					"description": "Optional time bucket to sum records over. `DAILY` returns one record per day. `PERIOD` returns one record for the whole time period. When set with `Metric` `cost`, cost is summed across pricing tiers into one record per billable metric per bucket. When omitted, records are not summed: `usage` returns daily records and `cost` returns one record per rated breakdown. Available only on `POST` account usage."
 				},
 				{
 					"name": "group-by",
@@ -23858,7 +23888,7 @@
 					"name": "revision",
 					"type": "number",
 					"required": false,
-					"description": "The `revision` the change is based on. Required for structured PIRs; a different stored revision returns 409."
+					"description": "The `revision` the change is based on. Required for structured PIRs and when sending a `definition`; a different stored revision returns 409."
 				},
 				{
 					"name": "status",
@@ -24879,6 +24909,90 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one rules email approvals replace": {
+			"operationId": "cloudforce-one.rules.email.approvals.replace",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "module",
+					"flag": "module",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
+				},
+				{
+					"name": "condition-operator",
+					"type": "string",
+					"required": true,
+					"description": "The condition.operator field"
+				},
+				{
+					"name": "condition-type",
+					"type": "string",
+					"required": true,
+					"description": "The condition.type field"
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Disposition for matching email. This emits status metadata with the selected value."
+				},
+				{
+					"name": "strings",
+					"type": "string",
+					"required": false,
+					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
+				}
+			]
+		},
 		"cloudforce-one rules email approvals resubmit": {
 			"operationId": "cloudforce-one.rules.email.approvals.resubmit",
 			"httpMethod": "POST",
@@ -25216,90 +25330,6 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Disposition for matching email. This emits status metadata with the selected value."
-				},
-				{
-					"name": "strings",
-					"type": "string",
-					"required": false,
-					"description": "The strings field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"identifier\": string, \"type\": \"string_match\", \"value\": string, \"match_type\"?: \"text\" | \"hex\" | \"regex\", \"modifiers\"?: [\"nocase\" | \"wide\" | \"ascii\" | ...more]}]. ? marks optional keys."
-				}
-			]
-		},
-		"cloudforce-one rules email update-pending-approval": {
-			"operationId": "cloudforce-one.rules.email.update-pending-approval",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/rules/structured/approvals/{id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "id",
-					"flag": "id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "module",
-					"flag": "module",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "condition-conditions",
-					"type": "string",
-					"required": true,
-					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": string, \"operator\": \"==\" | \"!=\" | \">\" | ...more, \"type\": \"scalar\", \"value\": (string | number | boolean)} | {\"conditions\": [{...}], \"field\": string, \"type\": \"array\", \"quantifier\"?: \"any\" | \"all\"} | ...more)]. ? marks optional keys."
-				},
-				{
-					"name": "condition-operator",
-					"type": "string",
-					"required": true,
-					"description": "The condition.operator field"
-				},
-				{
-					"name": "condition-type",
-					"type": "string",
-					"required": true,
-					"description": "The condition.type field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "meta",
-					"type": "string",
-					"required": false,
-					"description": "The meta field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"key\": string, \"value\": (string | number | boolean)}]."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
 					"description": "The name field"
 				},
 				{
@@ -28117,7 +28147,7 @@
 					"name": "auto-create-type",
 					"type": "boolean",
 					"required": false,
-					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag."
+					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag. When false, a non-analytics dataset still accepts pre-approved types (the same list event create accepts, such as BITCOIN or ERC-20) and registers them on first use. Analytics datasets do not check registered types."
 				},
 				{
 					"name": "indicators",
@@ -28180,7 +28210,7 @@
 					"name": "auto-create-type",
 					"type": "boolean",
 					"required": false,
-					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), throw an error when the indicator type doesn't exist."
+					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), reject an indicator type the dataset has not registered, unless the type is pre-approved (the same list event create accepts, such as BITCOIN or ERC-20), in which case it is registered on first use. Direct create applies this check to analytics datasets too. Bulk create skips it for analytics datasets."
 				},
 				{
 					"name": "indicator-type",
@@ -36178,6 +36208,35 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"email-routing addresses edit": {
+			"operationId": "email-routing.addresses.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "destination_address_identifier",
+					"flag": "destination-address-identifier",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "status",
+					"type": "string",
+					"required": true,
+					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges."
+				}
+			]
+		},
 		"email-routing addresses get": {
 			"operationId": "email-routing.addresses.get",
 			"httpMethod": "GET",
@@ -36239,35 +36298,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"email-routing addresses update": {
-			"operationId": "email-routing.addresses.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/email/routing/addresses/{destination_address_identifier}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "destination_address_identifier",
-					"flag": "destination-address-identifier",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": true,
-					"description": "Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges."
-				}
-			]
 		},
 		"email-routing disable": {
 			"operationId": "email-routing.disable",
@@ -36674,9 +36704,9 @@
 				}
 			]
 		},
-		"email-routing settings apply": {
-			"operationId": "email-routing.settings.apply",
-			"httpMethod": "PUT",
+		"email-routing settings edit": {
+			"operationId": "email-routing.settings.edit",
+			"httpMethod": "PATCH",
 			"path": "/zones/{zone_id}/email/routing",
 			"pathParams": [
 				{
@@ -36725,9 +36755,9 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-routing settings update": {
-			"operationId": "email-routing.settings.update",
-			"httpMethod": "PATCH",
+		"email-routing settings replace": {
+			"operationId": "email-routing.settings.replace",
+			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/email/routing",
 			"pathParams": [
 				{
@@ -36760,8 +36790,8 @@
 				}
 			]
 		},
-		"email-security allow-policies batch": {
-			"operationId": "email-security.allow-policies.batch",
+		"email-security allow-policies bulk-apply": {
+			"operationId": "email-security.allow-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/allow_policies/batch",
 			"pathParams": [
@@ -37225,8 +37255,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security block-senders batch": {
-			"operationId": "email-security.block-senders.batch",
+		"email-security block-senders bulk-apply": {
+			"operationId": "email-security.block-senders.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/block_senders/batch",
 			"pathParams": [
@@ -37819,8 +37849,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security content-policies batch": {
-			"operationId": "email-security.content-policies.batch",
+		"email-security content-policies bulk-apply": {
+			"operationId": "email-security.content-policies.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/content_policies/batch",
 			"pathParams": [
@@ -38078,8 +38108,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security domains batch": {
-			"operationId": "email-security.domains.batch",
+		"email-security domains bulk-apply": {
+			"operationId": "email-security.domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/domains/batch",
 			"pathParams": [
@@ -39443,8 +39473,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"email-security trusted-domains batch": {
-			"operationId": "email-security.trusted-domains.batch",
+		"email-security trusted-domains bulk-apply": {
+			"operationId": "email-security.trusted-domains.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/trusted_domains/batch",
 			"pathParams": [
@@ -39743,8 +39773,8 @@
 				}
 			]
 		},
-		"email-security url-ignore-patterns batch": {
-			"operationId": "email-security.url-ignore-patterns.batch",
+		"email-security url-ignore-patterns bulk-apply": {
+			"operationId": "email-security.url-ignore-patterns.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/email-security/settings/url_ignore_patterns/batch",
 			"pathParams": [
@@ -41990,8 +42020,8 @@
 				{
 					"name": "hide-original-ip",
 					"type": "boolean",
-					"required": true,
-					"description": "Hides the original client IP address from Google when enabled."
+					"required": false,
+					"description": "Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it."
 				},
 				{
 					"name": "measurement-id",
@@ -42872,6 +42902,77 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"hyperdrive edit": {
+			"operationId": "hyperdrive.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hyperdrive_id",
+					"flag": "hyperdrive-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "caching-disabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to true to disable caching of SQL responses. Default is false."
+				},
+				{
+					"name": "caching-max-age",
+					"type": "number",
+					"required": false,
+					"description": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
+				},
+				{
+					"name": "caching-stale-while-revalidate",
+					"type": "number",
+					"required": false,
+					"description": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
+				},
+				{
+					"name": "mtls-ca-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "Define CA certificate ID obtained after uploading CA cert."
+				},
+				{
+					"name": "mtls-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "Define mTLS certificate ID obtained after uploading client cert."
+				},
+				{
+					"name": "mtls-sslmode",
+					"type": "string",
+					"required": false,
+					"description": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
+				},
+				{
+					"name": "origin-connection-limit",
+					"type": "number",
+					"required": false,
+					"description": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n"
+				}
+			]
+		},
 		"hyperdrive get": {
 			"operationId": "hyperdrive.get",
 			"httpMethod": "GET",
@@ -43083,77 +43184,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"hyperdrive update": {
-			"operationId": "hyperdrive.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "hyperdrive_id",
-					"flag": "hyperdrive-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "caching-disabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Set to true to disable caching of SQL responses. Default is false."
-				},
-				{
-					"name": "caching-max-age",
-					"type": "number",
-					"required": false,
-					"description": "Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified."
-				},
-				{
-					"name": "caching-stale-while-revalidate",
-					"type": "number",
-					"required": false,
-					"description": "Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified."
-				},
-				{
-					"name": "mtls-ca-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "Define CA certificate ID obtained after uploading CA cert."
-				},
-				{
-					"name": "mtls-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "Define mTLS certificate ID obtained after uploading client cert."
-				},
-				{
-					"name": "mtls-sslmode",
-					"type": "string",
-					"required": false,
-					"description": "PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged."
-				},
-				{
-					"name": "origin-connection-limit",
-					"type": "number",
-					"required": false,
-					"description": "The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.\n"
-				}
-			]
 		},
 		"iam oauth-clients create": {
 			"operationId": "iam.oauth-clients.create",
@@ -46197,8 +46227,8 @@
 				}
 			]
 		},
-		"kv bulk delete": {
-			"operationId": "kv.bulk.delete",
+		"kv keys bulk-delete": {
+			"operationId": "kv.keys.bulk-delete",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete",
 			"pathParams": [
@@ -46210,7 +46240,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -46219,8 +46248,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"kv bulk get": {
-			"operationId": "kv.bulk.get",
+		"kv keys bulk-get": {
+			"operationId": "kv.keys.bulk-get",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/get",
 			"pathParams": [
@@ -46232,7 +46261,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -46260,8 +46288,8 @@
 				}
 			]
 		},
-		"kv bulk put": {
-			"operationId": "kv.bulk.put",
+		"kv keys bulk-put": {
+			"operationId": "kv.keys.bulk-put",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk",
 			"pathParams": [
@@ -46273,7 +46301,6 @@
 				{
 					"name": "namespace_id",
 					"flag": "namespace-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -58382,6 +58409,18 @@
 			],
 			"queryParams": [
 				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
 					"name": "id",
 					"flag": "id",
 					"type": "string",
@@ -69931,6 +69970,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -70031,6 +70076,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -70123,6 +70174,12 @@
 				{
 					"name": "continent",
 					"flag": "continent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -70241,6 +70298,12 @@
 				{
 					"name": "mitigationProduct",
 					"flag": "mitigation-product",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -70411,6 +70474,12 @@
 				{
 					"name": "mitigationProduct",
 					"flag": "mitigation-product",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -72722,6 +72791,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -72860,6 +72935,12 @@
 				{
 					"name": "dnssecE2e",
 					"flag": "dnssec-e2e",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -73004,6 +73085,12 @@
 				{
 					"name": "dnssecE2e",
 					"flag": "dnssec-e2e",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -73162,6 +73249,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "ipVersion",
 					"flag": "ip-version",
 					"type": "array",
@@ -73294,6 +73387,12 @@
 				{
 					"name": "dnssecE2e",
 					"flag": "dnssec-e2e",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -74478,6 +74577,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -74610,6 +74715,12 @@
 				{
 					"name": "apiTraffic",
 					"flag": "api-traffic",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -74752,6 +74863,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -74890,6 +75007,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "deviceType",
 					"flag": "device-type",
 					"type": "array",
@@ -75006,6 +75129,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75130,6 +75259,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75238,6 +75373,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75368,6 +75509,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75484,6 +75631,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75608,6 +75761,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75724,6 +75883,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -75848,6 +76013,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -75964,6 +76135,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -76088,6 +76265,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76208,6 +76391,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76316,6 +76505,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -76446,6 +76641,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76562,6 +76763,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -76686,6 +76893,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76806,6 +77019,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "botClass",
 					"flag": "bot-class",
 					"type": "array",
@@ -76922,6 +77141,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -77226,6 +77451,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "product",
 					"flag": "product",
 					"type": "array",
@@ -77280,6 +77511,12 @@
 				{
 					"name": "dateEnd",
 					"flag": "date-end",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -77410,6 +77647,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "product",
 					"flag": "product",
 					"type": "array",
@@ -77486,6 +77729,12 @@
 					"required": false
 				},
 				{
+					"name": "asCategory",
+					"flag": "as-category",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "format",
 					"flag": "format",
 					"type": "string",
@@ -77552,6 +77801,12 @@
 				{
 					"name": "geoId",
 					"flag": "geo-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "asCategory",
+					"flag": "as-category",
 					"type": "array",
 					"required": false
 				},
@@ -100705,8 +100960,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers secrets bulk": {
-			"operationId": "workers.secrets.bulk",
+		"workers secrets bulk-edit": {
+			"operationId": "workers.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
@@ -101256,8 +101511,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces scripts secrets bulk": {
-			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk",
+		"workers-for-platforms dispatch-namespaces scripts secrets bulk-edit": {
+			"operationId": "workers-for-platforms.dispatch-namespaces.scripts.secrets.bulk-edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
@@ -102119,6 +102374,35 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
+		"workflows instances batch delete": {
+			"operationId": "workflows.instances.batch.delete",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workflows/{workflow_name}/instances/batch/delete",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "workflow_name",
+					"flag": "workflow-name",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "instances",
+					"type": "string",
+					"required": true,
+					"description": "The instances field"
+				}
+			]
+		},
 		"workflows instances create": {
 			"operationId": "workflows.instances.create",
 			"httpMethod": "POST",
@@ -102963,6 +103247,12 @@
 					"type": "boolean",
 					"required": true,
 					"description": "Automatic injection of Zaraz scripts enabled."
+				},
+				{
+					"name": "settings-bot-score-threshold",
+					"type": "number",
+					"required": false,
+					"description": "Minimum bot score required to load Zaraz."
 				},
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
@@ -117018,6 +117308,12 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "region",
+					"type": "string",
+					"required": false,
+					"description": "Pin the generated certificate authority's key material to one of the account's selected Data Localization Suite regions. **Important**: This field is only settable during certificate creation. Certificates become immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle."
+				},
+				{
 					"name": "validity-period-days",
 					"type": "number",
 					"required": false,
@@ -117313,6 +117609,12 @@
 					"description": "Specify whether to detect protocols from the initial bytes of client traffic."
 				},
 				{
+					"name": "settings-regions",
+					"type": "string",
+					"required": false,
+					"description": "Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+				},
+				{
 					"name": "settings-sandbox-enabled",
 					"type": "boolean",
 					"required": false,
@@ -117552,6 +117854,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Specify whether to detect protocols from the initial bytes of client traffic."
+				},
+				{
+					"name": "settings-regions",
+					"type": "string",
+					"required": false,
+					"description": "Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
 				},
 				{
 					"name": "settings-sandbox-enabled",
@@ -121330,7 +121638,7 @@
 					"name": "value-recheck",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to recheck WordPress and plugin detection."
+					"description": "Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value."
 				},
 				{
 					"name": "value-wordpress",

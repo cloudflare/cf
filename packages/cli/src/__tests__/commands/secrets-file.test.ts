@@ -39,10 +39,10 @@ describe.each([
 		mockDefaultHandlers();
 		mockExistingWorker({ lastDeployedFrom: "cf_cli" });
 		await seed({
-			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-			".cloudflare/output/v0/workers/default/worker.config.json":
+			".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v1/workers/default/worker.config.json":
 				workerConfig(),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
+			".cloudflare/output/v1/workers/default/bundle/index.js":
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 	});

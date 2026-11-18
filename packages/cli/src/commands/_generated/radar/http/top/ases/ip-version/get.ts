@@ -73,42 +73,93 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York).",
 		})
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("bot-class", {
 			type: "string",
 			array: true,
 			description:
 				"Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/).",
+			choices: ["LIKELY_AUTOMATED", "LIKELY_HUMAN"],
 		})
+		.coerce("bot-class", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("device-type", {
 			type: "string",
 			array: true,
 			description: "Filters results by device type.",
+			choices: ["DESKTOP", "MOBILE", "OTHER"],
 		})
+		.coerce("device-type", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-protocol", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP protocol (HTTP vs. HTTPS).",
+			choices: ["HTTP", "HTTPS"],
 		})
+		.coerce("http-protocol", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP version.",
+			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
 		})
+		.coerce("http-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("os", {
 			type: "string",
 			array: true,
 			description: "Filters results by operating system.",
+			choices: [
+				"WINDOWS",
+				"MACOSX",
+				"IOS",
+				"ANDROID",
+				"CHROMEOS",
+				"LINUX",
+				"SMART_TV",
+			],
 		})
+		.coerce("os", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("tls-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by TLS version.",
+			choices: ["TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC"],
 		})
+		.coerce("tls-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("browser-family", {
 			type: "string",
 			array: true,
 			description: "Filters results by browser family.",
+			choices: ["CHROME", "EDGE", "FIREFOX", "SAFARI"],
 		})
+		.coerce("browser-family", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",
@@ -147,6 +198,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					location: argv["location"],
 					continent: argv["continent"],
 					geoId: argv["geo-id"],
+					asCategory: argv["as-category"],
 					botClass: argv["bot-class"],
 					deviceType: argv["device-type"],
 					httpProtocol: argv["http-protocol"],

@@ -1,5 +1,7 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import * as clack from "@clack/prompts";
+import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -14,6 +16,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
+import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -64,6 +67,51 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it("builds and deploys through native Vite without a framework command", async () => {
+			const upload = mockWorkerUpload();
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: {
+						"@cloudflare/vite-plugin": "^2.0.0-rc.0",
+						wrangler: "^4.136.0",
+					},
+				}),
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					name: "@cloudflare/vite-plugin",
+					version: "2.0.0-rc.0",
+				}),
+				"cloudflare.config.ts": "export default {};",
+				"vite.config.ts": `import { cloudflare } from '@cloudflare/vite-plugin'; export default { plugins: [cloudflare()] };`,
+				"node_modules/vite/package.json": JSON.stringify({
+					name: "vite",
+					version: "8.1.0",
+					bin: { vite: "bin/vite.js" },
+				}),
+				"node_modules/vite/bin/vite.js": nodeScript(
+					'require("node:fs").writeFileSync("vite-argv.out", JSON.stringify(process.argv.slice(2)));'
+				),
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					buildContext: { isPreview: false, mode: "staging" },
+				}),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+			makeExecutable("node_modules/vite/bin/vite.js");
+
+			const { exitCode } = await runCf(["deploy", "--mode", "staging"]);
+
+			expect(exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("vite-argv.out", "utf8"))).toEqual([
+				"build",
+				"--mode",
+				"staging",
+			]);
+			expect(buildDelegateWasCalled()).toBe(false);
+			expect(upload.metadata?.main_module).toBe("index.js");
+		});
+
 		it.each([
 			["D1", { type: "d1", name: "my-database" }, "database_id"],
 			["R2", { type: "r2" }, "bucket_name"],
@@ -73,10 +121,10 @@ describe("cf deploy", () => {
 				const requests = recordRequests();
 				const upload = mockWorkerUpload();
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig({ env: { MY_BINDING: binding } }),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export default {}",
 				});
 
@@ -96,14 +144,14 @@ describe("cf deploy", () => {
 			const requests = recordRequests();
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						env: {
 							MY_DB: { type: "d1", name: "my-db", id: "d1-db-id-123" },
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default {}",
 			});
 
@@ -144,10 +192,10 @@ describe("cf deploy", () => {
 					"CLOUDFLARE_API_TOKEN=file-token",
 					`CLOUDFLARE_ACCOUNT_ID=${ACCOUNT_ID}`,
 				].join("\n"),
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -163,10 +211,10 @@ describe("cf deploy", () => {
 		it("deploys a single ESM module", async () => {
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -185,10 +233,10 @@ describe("cf deploy", () => {
 			async (initialExitCode) => {
 				const upload = mockWorkerUpload({}, { deploymentId: null });
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig(),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export default { fetch() { return new Response('ok'); } }",
 				});
 
@@ -255,8 +303,8 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: {
 							ContainerDO: {
@@ -266,9 +314,9 @@ describe("cf deploy", () => {
 							},
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { reference: "registry.cloudflare.com/api:latest" },
@@ -342,10 +390,12 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig({
-					complianceRegion: "fedramp-high",
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					settings: {
+						complianceRegion: "fedramp-high",
+					},
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: {
 							ContainerDO: {
@@ -355,9 +405,9 @@ describe("cf deploy", () => {
 							},
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { localReference: "api-container:built-by-wrangler" },
@@ -440,8 +490,8 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: {
 							ContainerDO: {
@@ -451,9 +501,9 @@ describe("cf deploy", () => {
 							},
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { localReference: "api-container:built-by-vite" },
@@ -532,8 +582,8 @@ describe("cf deploy", () => {
 				);
 
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig({
 							exports: {
 								ContainerDO: {
@@ -543,9 +593,9 @@ describe("cf deploy", () => {
 								},
 							},
 						}),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export class ContainerDO {}; export default {};",
-					".cloudflare/output/v0/containers/api/container.config.json":
+					".cloudflare/output/v1/containers/api/container.config.json":
 						JSON.stringify({
 							name: "api-container",
 							image: { localReference: "api-container:built-by-vite" },
@@ -585,8 +635,8 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: {
 							ContainerDO: {
@@ -596,9 +646,9 @@ describe("cf deploy", () => {
 							},
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { localReference: "api-container:built-by-vite" },
@@ -624,8 +674,8 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: {
 							ContainerDO: {
@@ -635,9 +685,9 @@ describe("cf deploy", () => {
 							},
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { localReference: "api-container:built-by-vite" },
@@ -662,12 +712,12 @@ describe("cf deploy", () => {
 		it("runs build before deploying and forwards mode", async () => {
 			mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
 					buildContext: { isPreview: false, mode: "staging" },
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -686,12 +736,12 @@ describe("cf deploy", () => {
 				})
 			);
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
 					buildContext: { isPreview: false, mode: "production" },
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -708,13 +758,15 @@ describe("cf deploy", () => {
 			mockWorkerUpload();
 			await seed({
 				"cloudflare.config.ts": `export default () => { throw new Error("Project config should not be reevaluated"); };`,
-				".cloudflare/output/v0/config.json": buildOutputRootConfig({
-					accountId: "built-account",
-					complianceRegion: "fedramp-high",
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					settings: {
+						accountId: "built-account",
+						complianceRegion: "fedramp-high",
+					},
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -733,13 +785,15 @@ describe("cf deploy", () => {
 			const upload = mockWorkerUpload();
 			await seed({
 				"cloudflare.config.ts": `export default () => { throw new Error("Project config should not be reevaluated"); };`,
-				".cloudflare/output/v0/config.json": buildOutputRootConfig({
-					complianceRegion: "fedramp-high",
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
 					buildContext: { isPreview: false, mode: "staging" },
+					settings: {
+						complianceRegion: "fedramp-high",
+					},
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -755,12 +809,12 @@ describe("cf deploy", () => {
 
 		it("rejects Preview Build Output", async () => {
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
 					buildContext: { isPreview: true, mode: "staging" },
 				}),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -772,17 +826,17 @@ describe("cf deploy", () => {
 		it("deploys the Worker selected by --worker", async () => {
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
-				".cloudflare/output/v0/workers/api/worker.config.json": workerConfig({
+				".cloudflare/output/v1/workers/api/worker.config.json": workerConfig({
 					name: "api",
 					mainModule: "api.js",
 					modules: { "api.js": { type: "esm" } },
 				}),
-				".cloudflare/output/v0/workers/api/bundle/api.js":
+				".cloudflare/output/v1/workers/api/bundle/api.js":
 					"export default { fetch() { return new Response('api'); } }",
 			});
 
@@ -804,10 +858,10 @@ describe("cf deploy", () => {
 				const warn = vi.spyOn(clack.log, "warn");
 				const upload = mockWorkerUpload();
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig({ name: "config-worker" }),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export default { fetch() { return new Response('ok'); } }",
 				});
 
@@ -840,10 +894,10 @@ describe("cf deploy", () => {
 				mockExistingWorker();
 				const upload = mockWorkerUpload();
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig({ name: "config-worker" }),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export default { fetch() { return new Response('ok'); } }",
 				});
 
@@ -869,10 +923,10 @@ describe("cf deploy", () => {
 			const upload = mockWorkerUpload();
 			mockExistingWorker();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -888,10 +942,10 @@ describe("cf deploy", () => {
 			const warn = vi.spyOn(clack.log, "warn");
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -915,17 +969,17 @@ describe("cf deploy", () => {
 			vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-api");
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
-				".cloudflare/output/v0/workers/api/worker.config.json": workerConfig({
+				".cloudflare/output/v1/workers/api/worker.config.json": workerConfig({
 					name: "api",
 					mainModule: "api.js",
 					modules: { "api.js": { type: "esm" } },
 				}),
-				".cloudflare/output/v0/workers/api/bundle/api.js":
+				".cloudflare/output/v1/workers/api/bundle/api.js":
 					"export default { fetch() { return new Response('api'); } }",
 			});
 
@@ -989,25 +1043,25 @@ describe("cf deploy", () => {
 				container,
 			});
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: { WebContainer: containerExport("web-container") },
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class WebContainer {}; export default {};",
-				".cloudflare/output/v0/workers/api/worker.config.json": workerConfig({
+				".cloudflare/output/v1/workers/api/worker.config.json": workerConfig({
 					name: "api",
 					exports: { ApiContainer: containerExport("api-container") },
 				}),
-				".cloudflare/output/v0/workers/api/bundle/index.js":
+				".cloudflare/output/v1/workers/api/bundle/index.js":
 					"export class ApiContainer {}; export default {};",
-				".cloudflare/output/v0/containers/web/container.config.json":
+				".cloudflare/output/v1/containers/web/container.config.json":
 					JSON.stringify({
 						name: "web-container",
 						image: { reference: "registry.cloudflare.com/web:latest" },
 					}),
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { reference: "registry.cloudflare.com/api:latest" },
@@ -1049,10 +1103,10 @@ describe("cf deploy", () => {
 				})
 			);
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1067,10 +1121,10 @@ describe("cf deploy", () => {
 		it("deploys to a dispatch namespace", async () => {
 			const upload = mockWorkerUpload({}, { dispatchNamespace: "test-ns" });
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1088,10 +1142,10 @@ describe("cf deploy", () => {
 		it("uploads secrets from a secrets file", async () => {
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 				"secrets.json": JSON.stringify({ API_TOKEN: "secret-value" }),
 			});
@@ -1131,22 +1185,22 @@ describe("cf deploy", () => {
 			};
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						modules,
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default {}",
-				".cloudflare/output/v0/workers/default/bundle/lib.cjs":
+				".cloudflare/output/v1/workers/default/bundle/lib.cjs":
 					"module.exports = {}",
-				".cloudflare/output/v0/workers/default/bundle/data.bin": "\x00\x01\x02",
-				".cloudflare/output/v0/workers/default/bundle/text.txt": "hello",
-				".cloudflare/output/v0/workers/default/bundle/helper.wasm":
+				".cloudflare/output/v1/workers/default/bundle/data.bin": "\x00\x01\x02",
+				".cloudflare/output/v1/workers/default/bundle/text.txt": "hello",
+				".cloudflare/output/v1/workers/default/bundle/helper.wasm":
 					"wasm-bytes",
-				".cloudflare/output/v0/workers/default/bundle/config.json":
+				".cloudflare/output/v1/workers/default/bundle/config.json":
 					'{"key":"value"}',
-				".cloudflare/output/v0/workers/default/bundle/app.py": "pass",
+				".cloudflare/output/v1/workers/default/bundle/app.py": "pass",
 			});
 
 			const { exitCode } = await runCf(["deploy"]);
@@ -1160,6 +1214,65 @@ describe("cf deploy", () => {
 			expect(upload.modules).toContain("config.json");
 			expect(upload.modules).toContain("app.py");
 			expect(std.out).toContain("Deployed");
+		});
+	});
+
+	describe("source maps", () => {
+		beforeEach(async () => {
+			await seed({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig({
+						modules: {
+							"index.js": { type: "esm" },
+							"index.js.map": { type: "sourcemap" },
+						},
+					}),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default {}\n//# sourceMappingURL=index.js.map",
+				".cloudflare/output/v1/workers/default/bundle/index.js.map":
+					'{"version":3,"sources":[],"mappings":""}',
+			});
+		});
+
+		it("uploads source maps", async () => {
+			const upload = mockWorkerUpload();
+
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.modules).toEqual(["index.js", "index.js.map"]);
+		});
+
+		it("omits source maps when deploying to a temporary account", async () => {
+			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+			mkdirSync(getCfConfigPath(), { recursive: true });
+			writeFileSync(
+				join(getCfConfigPath(), "cloudflare-temporary-account.json"),
+				JSON.stringify({
+					account: {
+						id: ACCOUNT_ID,
+						name: "Temporary Account",
+						apiToken: "temporary-account-token",
+						expiresAt: "2999-01-01T00:00:00.000Z",
+					},
+					claim: {
+						url: "https://dash.cloudflare.com/claim-preview",
+						expiresAt: "2999-01-02T00:00:00.000Z",
+					},
+				})
+			);
+			const upload = mockWorkerUpload();
+
+			const { exitCode } = await runCf([
+				"deploy",
+				"--prebuilt",
+				"--temporary-account",
+			]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.modules).toEqual(["index.js"]);
 		});
 	});
 
@@ -1249,8 +1362,8 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						compatibilityFlags: ["nodejs_compat"],
 						env: {
@@ -1298,7 +1411,7 @@ describe("cf deploy", () => {
 						placement: { mode: "smart" },
 						limits: { cpuMs: 50 },
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1352,10 +1465,10 @@ describe("cf deploy", () => {
 					const upload = mockWorkerUpload();
 					mockExistingWorker({ lastDeployedFrom: "api" });
 					await seed({
-						".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-						".cloudflare/output/v0/workers/default/worker.config.json":
+						".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+						".cloudflare/output/v1/workers/default/worker.config.json":
 							workerConfig(),
-						".cloudflare/output/v0/workers/default/bundle/index.js":
+						".cloudflare/output/v1/workers/default/bundle/index.js":
 							"export default { fetch() { return new Response('ok'); } }",
 					});
 
@@ -1409,8 +1522,8 @@ describe("cf deploy", () => {
 				);
 
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig({
 							exports: {
 								ContainerDO: {
@@ -1420,9 +1533,9 @@ describe("cf deploy", () => {
 								},
 							},
 						}),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export class ContainerDO {}; export default {};",
-					".cloudflare/output/v0/containers/api/container.config.json":
+					".cloudflare/output/v1/containers/api/container.config.json":
 						JSON.stringify({
 							name: "api-container",
 							image: { localReference: "api-container:built-by-vite" },
@@ -1505,10 +1618,10 @@ describe("cf deploy", () => {
 			try {
 				const upload = mockWorkerUpload();
 				await seed({
-					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-					".cloudflare/output/v0/workers/default/worker.config.json":
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
 						workerConfig(),
-					".cloudflare/output/v0/workers/default/bundle/index.js":
+					".cloudflare/output/v1/workers/default/bundle/index.js":
 						"export default { fetch() { return new Response('ok'); } }",
 				});
 
@@ -1529,10 +1642,10 @@ describe("cf deploy", () => {
 			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 			const requests = recordRequests();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1546,8 +1659,8 @@ describe("cf deploy", () => {
 		it("does not remove local Container images", async () => {
 			vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						exports: {
 							ContainerDO: {
@@ -1557,9 +1670,9 @@ describe("cf deploy", () => {
 							},
 						},
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export class ContainerDO {}; export default {};",
-				".cloudflare/output/v0/containers/api/container.config.json":
+				".cloudflare/output/v1/containers/api/container.config.json":
 					JSON.stringify({
 						name: "api-container",
 						image: { localReference: "api-container:built-by-vite" },
@@ -1575,10 +1688,10 @@ describe("cf deploy", () => {
 
 		it("still runs the build step", async () => {
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1590,10 +1703,10 @@ describe("cf deploy", () => {
 
 		it("skips build with --prebuilt --dry-run", async () => {
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1619,12 +1732,12 @@ describe("cf deploy", () => {
 			);
 
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig({
 						triggers: [{ type: "scheduled", schedule: "*/5 * * * *" }],
 					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1641,10 +1754,10 @@ describe("cf deploy", () => {
 		it("sends tag and message annotations in the version upload", async () => {
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1669,10 +1782,10 @@ describe("cf deploy", () => {
 			mockWorkerUpload();
 			const deployment = captureDeployment();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1693,10 +1806,10 @@ describe("cf deploy", () => {
 		it("does not set annotations when neither flag is provided", async () => {
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 
@@ -1710,10 +1823,10 @@ describe("cf deploy", () => {
 			mockExistingWorker({ lastDeployedFrom: "cf_cli" });
 			const upload = mockWorkerUpload();
 			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
 					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
+				".cloudflare/output/v1/workers/default/bundle/index.js":
 					"export default { fetch() { return new Response('ok'); } }",
 			});
 

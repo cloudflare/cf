@@ -60,22 +60,108 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			choices: ["IPv4", "IPv6"],
 		})
+		.coerce("ip-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-version", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP version.",
+			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
 		})
+		.coerce("http-version", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("http-method", {
 			type: "string",
 			array: true,
 			description: "Filters results by HTTP method.",
+			choices: [
+				"GET",
+				"POST",
+				"DELETE",
+				"PUT",
+				"HEAD",
+				"PURGE",
+				"OPTIONS",
+				"PROPFIND",
+				"MKCOL",
+				"PATCH",
+				"ACL",
+				"BCOPY",
+				"BDELETE",
+				"BMOVE",
+				"BPROPFIND",
+				"BPROPPATCH",
+				"CHECKIN",
+				"CHECKOUT",
+				"CONNECT",
+				"COPY",
+				"LABEL",
+				"LOCK",
+				"MERGE",
+				"MKACTIVITY",
+				"MKWORKSPACE",
+				"MOVE",
+				"NOTIFY",
+				"ORDERPATCH",
+				"POLL",
+				"PROPPATCH",
+				"REPORT",
+				"SEARCH",
+				"SUBSCRIBE",
+				"TRACE",
+				"UNCHECKOUT",
+				"UNLOCK",
+				"UNSUBSCRIBE",
+				"UPDATE",
+				"VERSIONCONTROL",
+				"BASELINECONTROL",
+				"XMSENUMATTS",
+				"RPC_OUT_DATA",
+				"RPC_IN_DATA",
+				"JSON",
+				"COOK",
+				"TRACK",
+			],
 		})
+		.coerce("http-method", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("mitigation-product", {
 			type: "string",
 			array: true,
 			description: "Filters the results by layer 7 mitigation product.",
+			choices: [
+				"DDOS",
+				"WAF",
+				"BOT_MANAGEMENT",
+				"ACCESS_RULES",
+				"IP_REPUTATION",
+				"API_SHIELD",
+				"DATA_LOSS_PREVENTION",
+			],
 		})
+		.coerce("mitigation-product", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
+		.option("as-category", {
+			type: "string",
+			array: true,
+			description:
+				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			choices: [
+				"ACCESS_ISP",
+				"HOSTING_CLOUD_CONTENT",
+				"ORGANIZATION",
+				"UNCLASSIFIED",
+			],
+		})
+		.coerce("as-category", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",
@@ -116,6 +202,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					httpVersion: argv["http-version"],
 					httpMethod: argv["http-method"],
 					mitigationProduct: argv["mitigation-product"],
+					asCategory: argv["as-category"],
 					format: argv["format"],
 				};
 				if (argv.dryRun) {

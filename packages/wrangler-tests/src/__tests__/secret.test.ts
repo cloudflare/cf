@@ -520,7 +520,7 @@ describe("workers secrets", () => {
 			expect,
 		}) => {
 			await expect(
-				runWrangler("workers secrets bulk --worker script-name")
+				runWrangler("workers secrets bulk-edit --worker script-name")
 			).rejects.toThrow(/--body is required/i);
 		});
 
@@ -542,7 +542,7 @@ describe("workers secrets", () => {
 			writeFileSync("secret.json", JSON.stringify(body));
 			const request = mockBulkRequest(expect);
 			await runWrangler(
-				"workers secrets bulk --worker script-name --file secret.json"
+				"workers secrets bulk-edit --worker script-name --file secret.json"
 			);
 			expect(await request).toEqual(body);
 		});
@@ -551,7 +551,7 @@ describe("workers secrets", () => {
 			writeFileSync("secret.json", "bad file content");
 			await expect(
 				runWrangler(
-					"workers secrets bulk --worker script-name --body @secret.json"
+					"workers secrets bulk-edit --worker script-name --body @secret.json"
 				)
 			).rejects.toThrow(/Invalid JSON in --body/);
 		});
@@ -570,7 +570,7 @@ describe("workers secrets", () => {
 			};
 			const request = mockBulkRequest(expect);
 			await runWrangler(
-				`workers secrets bulk --worker script-name --body '${JSON.stringify(body)}'`
+				`workers secrets bulk-edit --worker script-name --body '${JSON.stringify(body)}'`
 			);
 			expect(await request).toEqual(body);
 		});
@@ -590,7 +590,7 @@ describe("workers secrets", () => {
 			};
 			const request = mockBulkRequest(expect);
 			await runWrangler(
-				`workers secrets bulk --worker script-name --body '${JSON.stringify(body)}'`
+				`workers secrets bulk-edit --worker script-name --body '${JSON.stringify(body)}'`
 			);
 			expect(await request).toEqual(body);
 		});
@@ -605,7 +605,7 @@ describe("workers secrets", () => {
 			);
 			await expect(
 				runWrangler(
-					"workers secrets bulk --worker script-name --body '{\"secrets\":{}}'"
+					"workers secrets bulk-edit --worker script-name --body '{\"secrets\":{}}'"
 				)
 			).rejects.toThrow(/fetch/i);
 		});
@@ -626,7 +626,7 @@ describe("workers secrets", () => {
 			);
 			await expect(
 				runWrangler(
-					"workers secrets bulk --worker script-name --body '{\"secrets\":{}}'"
+					"workers secrets bulk-edit --worker script-name --body '{\"secrets\":{}}'"
 				)
 			).rejects.toThrow(/This is a helpful error/);
 		});
@@ -657,7 +657,7 @@ describe("workers secrets", () => {
 			);
 			await expect(
 				runWrangler(
-					`workers secrets bulk --worker non-existent-worker --body '{"secrets":{"secret-to-delete":null}}'`
+					`workers secrets bulk-edit --worker non-existent-worker --body '{"secrets":{"secret-to-delete":null}}'`
 				)
 			).rejects.toThrow(/workers\.api\.error\.script_not_found/);
 			expect(workerCreateCount).toBe(0);

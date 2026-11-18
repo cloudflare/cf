@@ -17,6 +17,7 @@ export default {
 		"geoId",
 		"limitPerGroup",
 		"normalization",
+		"asCategory",
 		"product",
 		"format",
 	],

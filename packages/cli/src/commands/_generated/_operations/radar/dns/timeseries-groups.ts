@@ -23,6 +23,7 @@ export default {
 		"dnssec",
 		"dnssecAware",
 		"dnssecE2e",
+		"asCategory",
 		"ipVersion",
 		"limitPerGroup",
 		"matchingAnswer",

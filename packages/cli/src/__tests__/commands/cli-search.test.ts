@@ -137,6 +137,16 @@ describe("cf cli search", () => {
 		const results = JSON.parse(output.stdout()) as Record<string, string>[];
 		expect(results[0]?.command).toBe(expected);
 	});
+
+	// https://github.com/cloudflare/cf/issues/693
+	it.each(["delete a Worker script", "delete a Worker"])(
+		"ranks cf workers delete first for %j",
+		async (query) => {
+			await runCf(["cli", "search", query]);
+			const results = JSON.parse(output.stdout()) as Record<string, string>[];
+			expect(results[0]?.command).toBe("cf workers delete");
+		}
+	);
 });
 
 describe("search keywords for generated commands", () => {

@@ -113,9 +113,9 @@ describe("merged variant descriptions", () => {
 	it("deduplicates descriptions and groups their enum values in source order", () => {
 		const generated = generate({
 			oneOf: [
-				["first", "First description."],
+				["first", " First description.\n"],
 				["second", "Second description."],
-				["third", " First description. "],
+				["third", "\tFirst description. "],
 				["fourth", ""],
 			].map(([value, description]) => ({
 				type: "object",
@@ -201,27 +201,30 @@ describe("merged variant descriptions", () => {
 		}
 	);
 
-	it("retains referenced descriptions and leaves identical prose unchanged", () => {
+	it("retains referenced descriptions and normalizes surrounding whitespace", () => {
 		const generated = generate(
 			{
 				oneOf: ["First", "Second", "First"].map((name) => ({
 					type: "object",
 					properties: {
 						value: { $ref: `#/components/schemas/${name}` },
-						shared: { type: "string", description: "Shared description.\n" },
+						shared: {
+							type: "string",
+							description: "\n\tShared description.\nSecond line.\n ",
+						},
 					},
 				})),
 			},
 			{
-				First: { type: "string", description: "First description." },
-				Second: { type: "string", description: "Second description." },
+				First: { type: "string", description: " \nFirst description.\t " },
+				Second: { type: "string", description: "\tSecond description.\n" },
 			}
 		);
 		expect(option(generated, "value").builder["description"]).toBe(
 			"Variant descriptions:\n- First description.\n- Second description."
 		);
 		expect(option(generated, "shared").builder["description"]).toBe(
-			"Shared description.\n"
+			"Shared description.\nSecond line."
 		);
 	});
 

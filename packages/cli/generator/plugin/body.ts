@@ -654,15 +654,15 @@ function mergeEnumSchemas(a: Prop, b: Prop): Prop | undefined {
 
 function propertyDescriptions(prop: Prop): readonly VariantDescription[] {
 	if (prop.variantDescriptions !== undefined) return prop.variantDescriptions;
-	const text = prop.description;
-	return text?.trim() ? [{ text, values: resolve(prop.schema).values }] : [];
+	const text = prop.description?.trim();
+	return text ? [{ text, values: resolve(prop.schema).values }] : [];
 }
 
 function mergeProperties(a: Prop, b: Prop): Prop {
 	const merged = deepMergeObjects(a, b) ?? mergeEnumSchemas(a, b) ?? a;
 	const descriptions: VariantDescription[] = [];
 	for (const part of [...propertyDescriptions(a), ...propertyDescriptions(b)]) {
-		const i = descriptions.findIndex((d) => d.text.trim() === part.text.trim());
+		const i = descriptions.findIndex((d) => d.text === part.text);
 		const previous = descriptions[i];
 		if (previous === undefined) {
 			descriptions.push(part);
@@ -686,7 +686,7 @@ function mergeProperties(a: Prop, b: Prop): Prop {
 			: `Variant descriptions:\n${descriptions
 					.map(({ text, values }) => {
 						const label = values?.map((v) => `\`${v}\``).join(", ");
-						return `- ${label ? `${label}: ` : ""}${text.trim()}`;
+						return `- ${label ? `${label}: ` : ""}${text}`;
 					})
 					.join("\n")}`;
 	return { ...merged, description, variantDescriptions: descriptions };

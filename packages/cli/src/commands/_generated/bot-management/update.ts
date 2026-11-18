@@ -197,7 +197,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sbfm-static-resource-protection", {
 			type: "boolean",
 			description:
-				"Super Bot Fight Mode (SBFM) to enable static resource protection.\nEnable if static resources on your application need bot protection.\nNote: Static resource protection can also result in legitimate traffic being blocked.\n",
+				"Super Bot Fight Mode (SBFM) to enable static resource protection.\nEnable if static resources on your application need bot protection.\nNote: Static resource protection can also result in legitimate traffic being blocked.",
 		})
 		.option("sbfm-verified-bots", {
 			type: "string",

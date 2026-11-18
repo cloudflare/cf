@@ -137,6 +137,17 @@ describe("cf cli search", () => {
 		const results = JSON.parse(output.stdout()) as Record<string, string>[];
 		expect(results[0]?.command).toBe(expected);
 	});
+
+	// https://github.com/cloudflare/cf/issues/694
+	it.each([
+		"send a message to a queue",
+		"publish a message to a queue",
+		"push message to a queue",
+	])("ranks cf queues messages push first for %j", async (query) => {
+		await runCf(["cli", "search", query]);
+		const results = JSON.parse(output.stdout()) as Record<string, string>[];
+		expect(results[0]?.command).toBe("cf queues messages push");
+	});
 });
 
 describe("search keywords for generated commands", () => {

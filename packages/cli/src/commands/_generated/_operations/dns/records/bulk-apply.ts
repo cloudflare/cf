@@ -1,4 +1,4 @@
-/** @generated from dns.records.batch */
+/** @generated from dns.records.bulk-apply */
 import { path } from "#api";
 
 export default {

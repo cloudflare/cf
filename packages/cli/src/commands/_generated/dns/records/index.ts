@@ -1,4 +1,4 @@
-import $batch from "./batch.js";
+import $bulkapply from "./bulk-apply.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
@@ -24,7 +24,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($batch)
+			.command($bulkapply)
 			.command($create)
 			.command($delete)
 			.command($edit)

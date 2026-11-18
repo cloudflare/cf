@@ -34059,8 +34059,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"dns records batch": {
-			"operationId": "dns.records.batch",
+		"dns records bulk-apply": {
+			"operationId": "dns.records.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/zones/{zone_id}/dns_records/batch",
 			"pathParams": [
@@ -34195,7 +34195,206 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "include_generated_records",
+					"flag": "include-generated-records",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "name",
+					"flag": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.exact",
+					"flag": "name-exact",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.contains",
+					"flag": "name-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.startswith",
+					"flag": "name-startswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name.endswith",
+					"flag": "name-endswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "type",
+					"flag": "type",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "content",
+					"flag": "content",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "content.exact",
+					"flag": "content-exact",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "content.contains",
+					"flag": "content-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "content.startswith",
+					"flag": "content-startswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "content.endswith",
+					"flag": "content-endswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "proxied",
+					"flag": "proxied",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "match",
+					"flag": "match",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment",
+					"flag": "comment",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment.present",
+					"flag": "comment-present",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment.absent",
+					"flag": "comment-absent",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment.exact",
+					"flag": "comment-exact",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment.contains",
+					"flag": "comment-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment.startswith",
+					"flag": "comment-startswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "comment.endswith",
+					"flag": "comment-endswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag",
+					"flag": "tag",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag.present",
+					"flag": "tag-present",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag.absent",
+					"flag": "tag-absent",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag.exact",
+					"flag": "tag-exact",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag.contains",
+					"flag": "tag-contains",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag.startswith",
+					"flag": "tag-startswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag.endswith",
+					"flag": "tag-endswith",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "search",
+					"flag": "search",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "tag_match",
+					"flag": "tag-match",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "include_shadow_metadata",
+					"flag": "include-shadow-metadata",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "shadowed_by_name",
+					"flag": "shadowed-by-name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "shadowing_name",
+					"flag": "shadowing-name",
+					"type": "string",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},

@@ -1,8 +1,8 @@
-import operation from "../../_operations/dns/records/batch.js";
+import operation from "../../_operations/dns/records/bulk-apply.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * batch command
+ * bulk-apply command
  * @generated from apis/overlays/dns.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			'$0 dns records batch\n\nSend a Batch of DNS Record API calls to be executed together. Notes: - Although Cloudflare will execute the batched operations in a single database transaction, Cloudflare\'s distributed KV store must treat each record change as a single key-value pair. This means that the propagation of changes is not atomic. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/batch-record-changes/ "Batch DNS records") for more information. - The operations you specify within the /batch request body are always executed in the following order: - Deletes - Patches - Puts - Posts'
+			'$0 dns records bulk-apply\n\nSend a Batch of DNS Record API calls to be executed together. Notes: - Although Cloudflare will execute the batched operations in a single database transaction, Cloudflare\'s distributed KV store must treat each record change as a single key-value pair. This means that the propagation of changes is not atomic. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/batch-record-changes/ "Batch DNS records") for more information. - The operations you specify within the /batch request body are always executed in the following order: - Deletes - Patches - Puts - Posts'
 		)
 		.option("include-shadow-metadata", {
 			type: "boolean",
@@ -57,13 +57,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "batch",
+	command: "bulk-apply",
 	describe: "Batch DNS Records",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "dns records batch",
+				command: "dns records bulk-apply",
 				classification: {
 					safeFlags: ["include-shadow-metadata", "dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -75,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				};
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf dns records batch",
+						command: "cf dns records bulk-apply",
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/dns_records/batch`,
 						pathParams: {

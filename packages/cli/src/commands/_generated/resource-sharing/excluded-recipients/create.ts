@@ -11,11 +11,13 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -27,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Share identifier tag.",
 			demandOption: true,
+		})
+		.option("excluded-account-id", {
+			type: "string",
+			description:
+				"The account to exclude from the organization-targeted share.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -63,14 +70,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/excluded-recipients`,
 						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										account_id: resolveFileToken(
+											argv["excluded-account-id"] as string | undefined,
+											"excluded-account-id",
+											"text"
+										),
+									}),
 					});
 					return;
-				}
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
 				}
 				const parsedBody =
 					argv.body !== undefined ? parseBody(argv.body) : undefined;
@@ -90,6 +101,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
+				if (argv["excluded-account-id"] === undefined) {
+					argv["excluded-account-id"] = await promptForRequiredField(
+						"excluded-account-id",
+						"The account to exclude from the organization-targeted share."
+					);
+				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					account_id: resolveFileToken(
+						argv["excluded-account-id"] as string | undefined,
+						"excluded-account-id",
+						"text"
+					),
+				});
+				const result = await withProgress(`Creating`, async () =>
+					client.send(operation, {
+						body: bodyData,
+						account_id: accountId,
+						share_id: argv["share-id"],
+					})
+				);
+				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

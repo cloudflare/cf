@@ -1,8 +1,8 @@
-import operation from "../../../../../_operations/user/load-balancers/pools/edit/pools/pool.js";
+import operation from "../../../_operations/user/load-balancers/pools/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * pool command
+ * edit command
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -17,7 +17,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 user load-balancers pools edit pools pool <pool-id>\n\nApply changes to an existing pool, overwriting the supplied properties."
+			"$0 user load-balancers pools edit <pool-id>\n\nApply changes to an existing pool, overwriting the supplied properties."
 		)
 		.positional("pool-id", {
 			type: "string",
@@ -166,13 +166,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "pool <pool-id>",
+	command: "edit <pool-id>",
 	describe: "Patch Pool",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "user load-balancers pools edit pools pool",
+				command: "user load-balancers pools edit",
 				classification: {
 					safeFlags: [
 						"enabled",
@@ -191,7 +191,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf user load-balancers pools edit pools pool",
+						command: "cf user load-balancers pools edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/user/load_balancers/pools/${argv["pool-id"] == null ? "<pool-id>" : encodeURIComponent(String(argv["pool-id"]))}`,
 						pathParams: { "pool-id": String(argv["pool-id"] ?? "") },

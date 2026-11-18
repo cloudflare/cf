@@ -78808,13 +78808,13 @@
 					"name": "updated-prompts",
 					"type": "string",
 					"required": false,
-					"description": "Server-wide prompt capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
+					"description": "Prompt overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
 				},
 				{
 					"name": "updated-tools",
 					"type": "string",
 					"required": false,
-					"description": "Server-wide tool capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
+					"description": "Tool overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
 				},
 				{
 					"name": "dry-run",
@@ -134505,6 +134505,42 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf user load-balancers pools bulk-edit",
+			"name": "bulk-edit",
+			"fullPath": ["user", "load-balancers", "pools", "bulk-edit"],
+			"description": "Apply changes to a number of existing pools, overwriting the supplied properties. Pools are ordered by ascending `name`. Returns the list of affected pools. Supports the standard pagination query parameters, either `limit`/`offset` or `per_page`/`page`.",
+			"summary": "Patch Pools",
+			"usage": "cf user load-balancers pools bulk-edit [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `\"\"` is accepted."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/user/load_balancers/pools",
+			"operationId": "user.load-balancers.pools.bulk-edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf user load-balancers pools create",
 			"name": "create",
 			"fullPath": ["user", "load-balancers", "pools", "create"],
@@ -134719,12 +134755,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf user load-balancers pools edit pools pool",
-			"name": "pool",
-			"fullPath": ["user", "load-balancers", "pools", "edit", "pools", "pool"],
+			"command": "cf user load-balancers pools edit",
+			"name": "edit",
+			"fullPath": ["user", "load-balancers", "pools", "edit"],
 			"description": "Apply changes to an existing pool, overwriting the supplied properties.",
 			"summary": "Patch Pool",
-			"usage": "cf user load-balancers pools edit pools pool <pool-id> [options]",
+			"usage": "cf user load-balancers pools edit <pool-id> [options]",
 			"arguments": [
 				{
 					"name": "pool-id",
@@ -134889,47 +134925,11 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "action",
+			"category": "update",
 			"hasRequestBody": true,
 			"httpMethod": "PATCH",
 			"apiPath": "/user/load_balancers/pools/{pool_id}",
-			"operationId": "user.load-balancers.pools.edit.pools.pool",
-			"hideCommand": false
-		},
-		{
-			"command": "cf user load-balancers pools edit pools pools",
-			"name": "pools",
-			"fullPath": ["user", "load-balancers", "pools", "edit", "pools", "pools"],
-			"description": "Apply changes to a number of existing pools, overwriting the supplied properties. Pools are ordered by ascending `name`. Returns the list of affected pools. Supports the standard pagination query parameters, either `limit`/`offset` or `per_page`/`page`.",
-			"summary": "Patch Pools",
-			"usage": "cf user load-balancers pools edit pools pools [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "notification-email",
-					"type": "string",
-					"required": false,
-					"description": "The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `\"\"` is accepted."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/user/load_balancers/pools",
-			"operationId": "user.load-balancers.pools.edit.pools.pools",
+			"operationId": "user.load-balancers.pools.edit",
 			"hideCommand": false
 		},
 		{
@@ -169245,7 +169245,7 @@
 			"command": "cf zones automatic-platform-optimization edit",
 			"name": "edit",
 			"fullPath": ["zones", "automatic-platform-optimization", "edit"],
-			"description": "Automatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it.",
+			"description": "Automatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it. Setting `value` to `\"off\"` disables APO but keeps the detected zone/site/plugin facts. On the first write for a zone (no existing configuration) an object `value` must include `enabled`, `cf`, `wordpress` and `wp_plugin`; otherwise the request fails with error 1023. `\"off\"` is a no-op when no configuration exists.",
 			"summary": "Change Automatic Platform Optimization setting",
 			"usage": "cf zones automatic-platform-optimization edit [options]",
 			"arguments": [],
@@ -172090,8 +172090,6 @@
 		"user load-balancers monitors preview": "Preview how a monitor configuration evaluates pool health before applying it",
 		"user load-balancers monitors references": "List load balancing resources that use a monitor",
 		"user load-balancers pools": "Origin server pools with health thresholds, steering preferences, and failover behavior",
-		"user load-balancers pools edit": "Operations for load-balancers.pools.edit",
-		"user load-balancers pools edit pools": "Update one or multiple origin pools",
 		"user load-balancers pools health": "View the current health of an origin pool",
 		"user load-balancers pools preview": "Preview pool health with a monitor configuration before applying it",
 		"user load-balancers pools references": "List load balancing resources that use an origin pool",

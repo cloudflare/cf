@@ -4,7 +4,7 @@ Cloudflare CLI. Yargs-based, TypeScript, ESM, Node ≥ 22.
 
 This package IS the CLI. It also owns the generator that produces its
 per-API command surface: the forge plugin in `generator/plugin/`, which
-forge runs (`--target wasm://...`) to write `src/commands/_generated/`.
+forge runs (`forge generate --target wasm://...`) to write `src/commands/_generated/`.
 
 ## Critical Invariant: Contain API Knowledge
 
@@ -72,7 +72,7 @@ starts the source entry without generation or bundling. Task caching is disabled
 
 `pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset
 (or reads a local bundle override), prepares it, and runs the forge
-binary with the generator plugin (`forge --target wasm://generator/cli.wasm`)
+binary with the generator plugin (`forge generate --target wasm://generator/cli.wasm`)
 into a cleared `src/commands/_generated/`; a post-step formats the emitted
 TypeScript. See "Generator plugin" below.
 
@@ -187,7 +187,7 @@ The output is tracked in git, owned by `pnpm generate`, and must not be hand-edi
 `task:generate:plugin` Vite+ task, which `task:generate` depends on, runs
 `forge-plugin build` (from `@cloudflare/forge`, with jco) to compile the
 entry to `generator/cli.wasm`, gitignored build output. `generate.ts` then
-runs that component with `forge --target wasm://...`. It runs in
+runs that component with `forge generate --target wasm://...`. It runs in
 a sandboxed JavaScript engine (QuickJS), so it may only use the language: no
 Node APIs, `Intl`, or I/O. `generator/plugin/tsconfig.json` type-checks it,
 entry module included, that way, as part of `check:type`.

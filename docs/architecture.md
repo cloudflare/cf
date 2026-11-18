@@ -71,7 +71,7 @@ cf/
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
-│   ├── generate.ts             # OpenAPI fetch + preparation → forge --target wasm://<plugin>
+│   ├── generate.ts             # OpenAPI fetch + preparation → forge generate --target wasm://<plugin>
 │   ├── vite.config.ts          # test and production ESM bundle config
 │   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
 ├── packages/wrangler-tests/    # imported wrangler test corpus, using
@@ -144,7 +144,7 @@ pnpm build
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
                  ├─ rm -rf _generated/
                  ├─ forge normalize --leave-old-extensions -
-                 │    └─ pipe normalized JSON into forge - --target wasm://generator/cli.wasm --out _generated
+                 │    └─ pipe normalized JSON into forge generate - --target wasm://generator/cli.wasm --out _generated
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 

@@ -4,7 +4,7 @@
 
 export const SCHEMA_VERSION = 1;
 
-/** Tier (b): attached by the CLI, gated by the telemetry setting. */
+/** Diagnostic context attached by the CLI. */
 export interface ClientContext {
 	cli_version?: string;
 	cli_mode?: "ci" | "interactive" | "non-interactive";
@@ -16,7 +16,6 @@ export interface ClientContext {
 	node_major?: number;
 	is_ci?: boolean;
 	is_interactive?: boolean;
-	telemetry_enabled?: boolean;
 	agent_detected?: string;
 	agent_model_detected?: string;
 }

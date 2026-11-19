@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import {
-	buildClientContext,
-	shouldAttachContext,
-} from "../../commands/feedback/context.js";
+import { buildClientContext } from "../../commands/feedback/context.js";
 import {
 	buildSubmission,
 	parseFieldArgs,
@@ -144,22 +141,6 @@ describe("buildSubmission", () => {
 	});
 });
 
-describe("shouldAttachContext", () => {
-	const on = { enabled: true, source: "default" } as const;
-	const off = { enabled: false, source: "config" } as const;
-	const dnt = { enabled: false, source: "do-not-track" } as const;
-
-	it.each([
-		["follows telemetry when on", undefined, on, true],
-		["follows telemetry when off", undefined, off, false],
-		["--context overrides telemetry off", true, off, true],
-		["--no-context always wins", false, on, false],
-		["DO_NOT_TRACK beats --context", true, dnt, false],
-	] as const)("%s", (_, flag, telemetry, expected) => {
-		expect(shouldAttachContext(flag, telemetry)).toBe(expected);
-	});
-});
-
 describe("buildClientContext", () => {
 	it("reports the detected harness and model but never session identifiers", () => {
 		const client = buildClientContext({
@@ -170,9 +151,9 @@ describe("buildClientContext", () => {
 		expect(client).toMatchObject({
 			agent_detected: "qwen-code",
 			agent_model_detected: "qwen3-coder",
-			telemetry_enabled: expect.any(Boolean),
 			node_major: expect.any(Number),
 		});
+		expect(client).not.toHaveProperty("telemetry_enabled");
 		expect(JSON.stringify(client)).not.toMatch(
 			/session-secret|invocation-secret/
 		);

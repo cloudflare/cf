@@ -163,7 +163,6 @@ describe("cf feedback", () => {
 				cli_version: expect.any(String),
 				os: expect.any(String),
 				node_major: expect.any(Number),
-				telemetry_enabled: true,
 			},
 		});
 		expect(headers.get("user-agent")).toMatch(/^cf-cli\//);
@@ -174,30 +173,23 @@ describe("cf feedback", () => {
 		});
 	});
 
-	it("leaves out CLI context when telemetry is off", async () => {
+	it.each([
+		["telemetry is off", { CF_SEND_TELEMETRY: "false" }],
+		["DO_NOT_TRACK is on", { DO_NOT_TRACK: "1" }],
+	])("attaches diagnostic context by default when %s", async (_, env) => {
 		const sent = respondWith(accepted());
-		await runCf(["feedback", "hi"], { CF_SEND_TELEMETRY: "false" });
-		expect(bodyOf(sent)).not.toHaveProperty("client");
-	});
-
-	it("attaches context with --context even when telemetry is off", async () => {
-		const sent = respondWith(accepted());
-		await runCf(["feedback", "hi", "--context"], {
-			CF_SEND_TELEMETRY: "false",
+		await runCf(["feedback", "hi"], env);
+		expect(bodyOf(sent).client).toMatchObject({
+			cli_version: expect.any(String),
 		});
-		expect(bodyOf(sent).client).toMatchObject({ telemetry_enabled: false });
 	});
 
-	it("never attaches context under DO_NOT_TRACK", async () => {
-		const sent = respondWith(accepted());
-		await runCf(["feedback", "hi", "--context"], { DO_NOT_TRACK: "1" });
-		expect(bodyOf(sent)).not.toHaveProperty("client");
-	});
-
-	it("never attaches context with --no-context", async () => {
+	it("omits report context with --no-context", async () => {
+		agent.harness = { id: "claude-code", name: "Claude Code" };
 		const sent = respondWith(accepted());
 		await runCf(["feedback", "hi", "--no-context"]);
 		expect(bodyOf(sent)).not.toHaveProperty("client");
+		expect(sent[0]?.headers.get("x-cf-cli-agent")).toBe("claude-code");
 	});
 
 	it("reports the detected agent harness but not its session ID", async () => {
@@ -413,6 +405,9 @@ describe("cf feedback", () => {
 		const { cli } = buildCli(["feedback", "--help"]);
 		const help = await cli.getHelp();
 		expect(help).toContain("Sign in with cf auth login");
+		expect(help.replace(/\s+/g, " ")).toContain(
+			"Include the CLI version, OS, and detected agent and model in the report for diagnostics."
+		);
 		for (const field of [
 			"type",
 			"product",
@@ -434,14 +429,16 @@ describe("cf feedback", () => {
 		expect(help).not.toContain("DO_NOT_TRACK is enabled");
 	});
 
-	it("warns in --help that feedback sends request headers under DO_NOT_TRACK", async () => {
+	it("warns in --help that feedback includes diagnostics under DO_NOT_TRACK", async () => {
 		vi.stubEnv("DO_NOT_TRACK", "1");
 		const { cli } = buildCli(["feedback", "--help"]);
 		const help = (await cli.getHelp()).replace(/\s+/g, " ");
 		expect(help).toContain("DO_NOT_TRACK is enabled");
 		expect(help).toContain(
-			"cf version, execution mode and detected agent harness"
+			"cf version, execution mode, and detected agent harness"
 		);
-		expect(help).toContain("The report omits optional CLI context.");
+		expect(help).toContain(
+			"Sending feedback still includes diagnostic context in the report by default."
+		);
 	});
 });

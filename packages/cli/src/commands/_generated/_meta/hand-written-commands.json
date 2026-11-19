@@ -1326,7 +1326,8 @@
 					"name": "context",
 					"type": "boolean",
 					"required": false,
-					"description": "Attach CLI context: version, OS and detected agent. Follows the telemetry setting; --no-context never attaches it"
+					"description": "Include the CLI version, OS, and detected agent and model in the report for diagnostics. Use --no-context to omit this context",
+					"default": true
 				},
 				{
 					"name": "dry-run",

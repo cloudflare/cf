@@ -4,9 +4,8 @@ import { getAuthToken } from "../../lib/auth-token.js";
 import { MissingCredentialsError } from "../../lib/errors.js";
 import { readFileForFlag } from "../../lib/input-validation.js";
 import { formatOutput, printSuccess } from "../../lib/output.js";
-import { resolveTelemetry } from "../../lib/telemetry/config.js";
 import { log } from "../../lib/ui/log.js";
-import { buildClientContext, shouldAttachContext } from "./context.js";
+import { buildClientContext } from "./context.js";
 import { buildSubmission } from "./payload.js";
 import { feedbackUrl, MAX_BODY_BYTES, sendFeedback } from "./send.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -33,8 +32,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("context", {
 			type: "boolean",
+			default: true,
 			description:
-				"Attach CLI context: version, OS and detected agent. Follows the telemetry setting; --no-context never attaches it",
+				"Include the CLI version, OS, and detected agent and model in the report for diagnostics. Use --no-context to omit this context",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -54,11 +54,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			[
 				...(isDoNotTrackEnabled()
 					? [
-							"DO_NOT_TRACK is enabled. Running cf feedback still sends your report and request headers with the cf version, execution mode and detected agent harness, if available. The report omits optional CLI context.",
+							"DO_NOT_TRACK is enabled. Sending feedback still includes diagnostic context in the report by default.",
 						]
 					: []),
 				"Sends bugs, friction and feature requests to the cf team. A note on its own is enough.",
 				"Sign in with cf auth login or set CLOUDFLARE_API_TOKEN before running this command.",
+				"Feedback request headers include the cf version, execution mode, and detected agent harness, if available.",
 				"Fields (all optional): type (bug, friction, feature, docs, praise, other), product, command, task, attempted, expected, actual, impact (blocked, worked_around, friction, none), suggestion, rating (1–5), sentiment, model. Other keys are kept as free-form fields.",
 				"Agents can send a JSON report with the same fields plus an agent object (name, model, commands, errors, repro_steps, docs_urls). --field values win over the report.",
 				"Do not include secrets, personal data or account identifiers. Known secrets are removed before storage. Do not resend after seeing ignored fields.",
@@ -156,13 +157,12 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 				: argv.note;
 		const inputJson =
 			inputSource === undefined ? undefined : await readInputJson(inputSource);
-		const attach = shouldAttachContext(argv.context, resolveTelemetry());
 
 		const { submission, overridden } = buildSubmission({
 			note: note?.trim() ? note : undefined,
 			fieldArgs: (argv.field ?? []).map(String),
 			inputJson,
-			client: attach ? buildClientContext() : undefined,
+			client: argv.context ? buildClientContext() : undefined,
 			submissionId: randomUUID(),
 			sentAt: new Date().toISOString(),
 		});

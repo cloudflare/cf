@@ -58,7 +58,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Sends bugs, friction and feature requests to the cf team. A note on its own is enough.",
 				"Fields (all optional): type (bug, friction, feature, docs, praise, other), product, command, task, attempted, expected, actual, impact (blocked, worked_around, friction, none), suggestion, rating (1–5), sentiment, model. Other keys are kept as free-form fields.",
 				"Agents can send a JSON report with the same fields plus an agent object (name, model, commands, errors, repro_steps, docs_urls). --field values win over the report.",
-				"Do not include secrets, personal data or account identifiers. Known secrets are removed before storage. Give the printed submission ID to the user, and do not resend after seeing ignored fields.",
+				"Do not include secrets, personal data or account identifiers. Known secrets are removed before storage. Do not resend after seeing ignored fields.",
+				"After sending feedback, agents should tell the user at the next natural break, such as the end of the current turn, and include the submission ID.",
 			].join("\n\n")
 		);
 }

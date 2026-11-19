@@ -382,6 +382,9 @@ describe("cf feedback", () => {
 		}
 		expect(help).toContain("--input-json -");
 		expect(help).toContain("Do not include secrets");
+		expect(help.replace(/\s+/g, " ")).toContain(
+			"tell the user at the next natural break, such as the end of the current turn, and include the submission ID"
+		);
 		expect(help).not.toContain("DO_NOT_TRACK is enabled");
 	});
 

@@ -1,6 +1,5 @@
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
-	cleanupBuiltImages,
 	configureOpenAPIForContainerPull,
 	initContainersSharedContext,
 } from "@cloudflare/containers-shared";
@@ -12,7 +11,6 @@ import {
 import {
 	getCloudflareApiBaseUrl,
 	getCloudflareComplianceRegion,
-	getDockerPath,
 } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import {
@@ -259,22 +257,6 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	}
 	if (uploadAborted) {
 		throw new CliExit(1);
-	}
-
-	if (
-		versionId !== null &&
-		!argv["dry-run"] &&
-		(ctx.command !== "Deploy" || argv["containers-rollout"] !== "none")
-	) {
-		await cleanupBuiltImages(
-			[
-				...(ctx.command === "Deploy"
-					? containerDeployConfig.standard.builtImages
-					: []),
-				...containerDeployConfig.durableObjects.builtImages,
-			],
-			getDockerPath()
-		);
 	}
 
 	if (!argv["dry-run"]) {

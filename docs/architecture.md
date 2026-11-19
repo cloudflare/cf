@@ -989,8 +989,11 @@ The Changesets patch is registered in `pnpm-workspace.yaml#patchedDependencies`
 as `patches/@changesets__cli@2.31.0.patch`. It permits publishing prerelease
 state under `latest` and suppresses the non-latest-tag warning for that tag.
 
-The released containers-shared and deploy-helpers packages defer local image
-cleanup until the complete upload succeeds, so later failures remain retryable.
+Build Output uploads retain local Container image tags after success so the
+same output remains reusable with `--prebuilt`. The shared image-push helpers
+preserve source tags; the Build Output producer owns cleanup when replacing
+output or discarding a failed build. Cleanup of temporary images outside that
+lifecycle remains in the shared Container helpers.
 
 ## Common Forge-side Annotations cf Reads
 

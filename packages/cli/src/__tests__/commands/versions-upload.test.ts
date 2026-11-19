@@ -547,7 +547,9 @@ describe("cf workers versions create", () => {
 		expect(dockerCommands).toContain(
 			`push registry.cloudflare.com/${ACCOUNT_ID}/sessions-tools:built-by-vite`
 		);
-		expect(dockerCommands).toContain("image rm sessions-tools:built-by-vite");
+		expect(dockerCommands).not.toContain(
+			"image rm sessions-tools:built-by-vite"
+		);
 		expect(imagePreparations).toEqual([{ image: pushedImage }]);
 		expect(upload.metadata?.containers).toEqual([
 			{

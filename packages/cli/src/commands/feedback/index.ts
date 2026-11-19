@@ -1,5 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { isDoNotTrackEnabled } from "@cloudflare/workers-utils";
+import { getAuthToken } from "../../lib/auth-token.js";
+import { MissingCredentialsError } from "../../lib/errors.js";
 import { readFileForFlag } from "../../lib/input-validation.js";
 import { formatOutput, printSuccess } from "../../lib/output.js";
 import { resolveTelemetry } from "../../lib/telemetry/config.js";
@@ -56,6 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 						]
 					: []),
 				"Sends bugs, friction and feature requests to the cf team. A note on its own is enough.",
+				"Sign in with cf auth login or set CLOUDFLARE_API_TOKEN before running this command.",
 				"Fields (all optional): type (bug, friction, feature, docs, praise, other), product, command, task, attempted, expected, actual, impact (blocked, worked_around, friction, none), suggestion, rating (1–5), sentiment, model. Other keys are kept as free-form fields.",
 				"Agents can send a JSON report with the same fields plus an agent object (name, model, commands, errors, repro_steps, docs_urls). --field values win over the report.",
 				"Do not include secrets, personal data or account identifiers. Known secrets are removed before storage. Do not resend after seeing ignored fields.",
@@ -120,6 +123,23 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 	describe: "Send feedback about cf to the cf team",
 	builder,
 	handler: async (argv) => {
+		if (argv["temporary-account"]) {
+			throw new Error(
+				"Temporary accounts cannot submit feedback. Run 'cf auth login' first."
+			);
+		}
+		try {
+			await getAuthToken();
+		} catch (error) {
+			if (error instanceof MissingCredentialsError) {
+				throw new Error(
+					`Authentication is required to submit feedback.\n\n${error.message}`,
+					{ cause: error }
+				);
+			}
+			throw error;
+		}
+
 		const inputSource = argv["input-json"];
 		// `--input-json -` leaves its "-" behind as the note, which arrives as "".
 		const displacedDash = inputSource === "" && argv.note === "";

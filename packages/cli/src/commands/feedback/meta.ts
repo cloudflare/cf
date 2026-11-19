@@ -8,7 +8,7 @@ export default [
 		category: "action",
 		description: "Send feedback about cf to the cf team",
 		summary:
-			"Send a note, structured fields or an agent's JSON report about cf. Every field is optional.",
+			"Send a note, structured fields or an agent's JSON report about cf. Requires authentication. Every field is optional.",
 		usage: "cf feedback [note] [options]",
 		arguments: [
 			{

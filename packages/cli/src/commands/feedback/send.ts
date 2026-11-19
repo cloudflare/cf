@@ -5,10 +5,9 @@ import { VERSION } from "../../version.js";
 import type { Submission } from "./payload.js";
 
 /**
- * The feedback route under the Cloudflare API base URL. It is anonymous, so
- * the request is sent here rather than through the API client, which always
- * adds the user's token: logged-out users can send feedback, and no
- * submission is tied to an account.
+ * The feedback route under the Cloudflare API base URL. The command checks
+ * for CLI credentials before sending, and the endpoint receives the report
+ * without the user's token.
  */
 const FEEDBACK_PATH = "/feedback/send";
 

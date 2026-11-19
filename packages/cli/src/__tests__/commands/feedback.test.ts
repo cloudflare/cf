@@ -1,5 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { Readable } from "node:stream";
+import { writeAuthConfigFile } from "@cloudflare/workers-auth/cf";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import {
@@ -84,7 +85,9 @@ describe("cf feedback", () => {
 		output = captureOutput();
 		agent.harness = null;
 		vi.stubEnv("CI", "true");
-		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-feedback-token");
+		vi.stubEnv("CF_API_TOKEN", undefined);
+		vi.stubEnv("CLOUDFLARE_AUTH_PROFILE", undefined);
 		vi.stubEnv("CF_FEEDBACK_URL", undefined);
 		vi.stubEnv("CLOUDFLARE_API_BASE_URL", undefined);
 		vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", undefined);
@@ -95,6 +98,47 @@ describe("cf feedback", () => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+	});
+
+	it.each([
+		["submission", []],
+		["dry run", ["--dry-run"]],
+	])("requires authentication before a %s", async (_, flags) => {
+		const sent = respondWith(accepted());
+		const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+
+		await expect(runCf(["feedback", "hi", ...flags])).rejects.toThrow(
+			"Authentication is required to submit feedback."
+		);
+		const stderr = errors.mock.calls.flat().join("\n");
+		expect(stderr).toContain("cf auth login");
+		expect(stderr).not.toContain("--temporary-account");
+		expect(output.stdout()).toBe("");
+		expect(sent).toHaveLength(0);
+	});
+
+	it("does not create a temporary account to submit feedback", async () => {
+		const sent = respondWith(accepted());
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+
+		await expect(
+			runCf(["feedback", "hi", "--temporary-account"])
+		).rejects.toThrow("Run 'cf auth login' first");
+		expect(sent).toHaveLength(0);
+	});
+
+	it("allows a stored OAuth login without sending its token", async () => {
+		const sent = respondWith(accepted());
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		writeAuthConfigFile({
+			oauth_token: "test-feedback-oauth-token",
+			expiration_time: "2999-01-01T00:00:00.000Z",
+		});
+
+		expect(await runCf(["feedback", "hi"])).toEqual({ exitCode: 0 });
+		expect(sent).toHaveLength(1);
+		expect(sent[0]?.headers.get("authorization")).toBeNull();
 	});
 
 	it("posts a note with CLI context and prints the server's reply", async () => {
@@ -364,9 +408,11 @@ describe("cf feedback", () => {
 		);
 	});
 
-	it("documents the fields and an agent example in --help", async () => {
+	it("documents authentication, the fields and an agent example in --help", async () => {
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
 		const { cli } = buildCli(["feedback", "--help"]);
 		const help = await cli.getHelp();
+		expect(help).toContain("Sign in with cf auth login");
 		for (const field of [
 			"type",
 			"product",

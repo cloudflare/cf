@@ -101,8 +101,9 @@ page as Markdown.
 
 ## Feedback
 
-Send bugs, friction and feature requests to the cf team. A note on its own is
-enough; every field is optional:
+Send bugs, friction and feature requests to the cf team. Sign in with
+`cf auth login` or set `CLOUDFLARE_API_TOKEN` before submitting feedback. A note
+on its own is enough. Every field is optional.
 
 ```sh
 cf feedback "the deploy output does not say which account it used"

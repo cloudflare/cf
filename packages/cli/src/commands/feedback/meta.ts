@@ -35,14 +35,6 @@ export default [
 					"A JSON report from a file, or - for stdin (put it last, or write --input-json=-); meant for agents",
 			},
 			{
-				name: "context",
-				type: "boolean",
-				required: false,
-				description:
-					"Include the CLI version, OS, and detected agent and model in the report for diagnostics. Use --no-context to omit this context",
-				default: true,
-			},
-			{
 				name: "dry-run",
 				type: "boolean",
 				required: false,

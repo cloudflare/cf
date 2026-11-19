@@ -11,9 +11,6 @@ import type { Submission } from "./payload.js";
  */
 const FEEDBACK_PATH = "/feedback/send";
 
-/** The Worker refuses larger bodies with 413. */
-export const MAX_BODY_BYTES = 262_144;
-
 const ATTEMPTS = 3;
 const ATTEMPT_TIMEOUT_MS = 10_000;
 const BASE_DELAY_MS = 250;

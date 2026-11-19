@@ -7,10 +7,11 @@ import { formatOutput, printSuccess } from "../../lib/output.js";
 import { log } from "../../lib/ui/log.js";
 import { buildClientContext } from "./context.js";
 import { buildSubmission } from "./payload.js";
-import { feedbackUrl, MAX_BODY_BYTES, sendFeedback } from "./send.js";
+import { feedbackUrl, sendFeedback } from "./send.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
+const MAX_REPORT_KIB = 16;
 const AGENT_EXAMPLE = `echo '{"task":"Deploy a Worker","expected":"Deploy succeeds","actual":"Error 10000","impact":"blocked","agent":{"name":"claude-code","model":"claude-opus-5-5","errors":[{"message":"Authentication error","code":10000}]}}' | cf feedback --input-json -`;
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -30,12 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"A JSON report from a file, or - for stdin (put it last, or write --input-json=-); meant for agents",
 		})
-		.option("context", {
-			type: "boolean",
-			default: true,
-			description:
-				"Include the CLI version, OS, and detected agent and model in the report for diagnostics. Use --no-context to omit this context",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			default: false,
@@ -54,11 +49,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			[
 				...(isDoNotTrackEnabled()
 					? [
-							"DO_NOT_TRACK is enabled. Sending feedback still includes diagnostic context in the report by default.",
+							"DO_NOT_TRACK is enabled. Sending feedback includes diagnostic context in the report.",
 						]
 					: []),
 				"Sends bugs, friction and feature requests to the cf team. A note on its own is enough.",
 				"Sign in with cf auth login or set CLOUDFLARE_API_TOKEN before running this command.",
+				"Feedback reports include the CLI version, OS, and detected agent and model for diagnostics.",
+				`The complete JSON report, including diagnostic context, is limited to ${MAX_REPORT_KIB} KiB.`,
 				"Feedback request headers include the cf version, execution mode, and detected agent harness, if available.",
 				"Fields (all optional): type (bug, friction, feature, docs, praise, other), product, command, task, attempted, expected, actual, impact (blocked, worked_around, friction, none), suggestion, rating (1–5), sentiment, model. Other keys are kept as free-form fields.",
 				"Agents can send a JSON report with the same fields plus an agent object (name, model, commands, errors, repro_steps, docs_urls). --field values win over the report.",
@@ -162,7 +159,7 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 			note: note?.trim() ? note : undefined,
 			fieldArgs: (argv.field ?? []).map(String),
 			inputJson,
-			client: argv.context ? buildClientContext() : undefined,
+			client: buildClientContext(),
 			submissionId: randomUUID(),
 			sentAt: new Date().toISOString(),
 		});
@@ -170,15 +167,16 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 			log.warn(`--field replaced ${path} from --input-json.`);
 		}
 
+		if (Buffer.byteLength(JSON.stringify(submission)) > MAX_REPORT_KIB * 1024) {
+			throw new Error(
+				`Feedback is larger than ${MAX_REPORT_KIB} KiB. Shorten the note or the report.`
+			);
+		}
+
 		const url = await feedbackUrl();
 		if (argv["dry-run"]) {
 			formatOutput({ dryRun: true, url, payload: submission });
 			return;
-		}
-		if (Buffer.byteLength(JSON.stringify(submission)) > MAX_BODY_BYTES) {
-			throw new Error(
-				"Feedback is larger than 256 KiB. Shorten the note or the report."
-			);
 		}
 
 		const receipt = await sendFeedback(url, submission);

@@ -112,5 +112,5 @@ cf feedback --field type=bug --field expected="a deploy" --field actual="error 1
 
 Agents can pipe a JSON report with the same fields plus an `agent` object to
 `cf feedback --input-json -`. `cf feedback --help` lists the fields. Reports
-include the CLI version, OS, and detected agent and model for diagnostics by
-default. Use `--no-context` to omit this context from the report.
+include the CLI version, OS, and detected agent and model for diagnostics.
+The complete report is limited to 16 KiB.

@@ -176,7 +176,7 @@ describe("cf feedback", () => {
 	it.each([
 		["telemetry is off", { CF_SEND_TELEMETRY: "false" }],
 		["DO_NOT_TRACK is on", { DO_NOT_TRACK: "1" }],
-	])("attaches diagnostic context by default when %s", async (_, env) => {
+	])("attaches diagnostic context when %s", async (_, env) => {
 		const sent = respondWith(accepted());
 		await runCf(["feedback", "hi"], env);
 		expect(bodyOf(sent).client).toMatchObject({
@@ -184,13 +184,14 @@ describe("cf feedback", () => {
 		});
 	});
 
-	it("omits report context with --no-context", async () => {
-		agent.harness = { id: "claude-code", name: "Claude Code" };
-		const sent = respondWith(accepted());
-		await runCf(["feedback", "hi", "--no-context"]);
-		expect(bodyOf(sent)).not.toHaveProperty("client");
-		expect(sent[0]?.headers.get("x-cf-cli-agent")).toBe("claude-code");
-	});
+	it.each(["--context", "--no-context"])(
+		"rejects the removed %s flag",
+		async (flag) => {
+			await expect(runCf(["feedback", "hi", flag])).rejects.toThrow(
+				/Unknown argument/i
+			);
+		}
+	);
 
 	it("reports the detected agent harness but not its session ID", async () => {
 		agent.harness = { id: "claude-code", name: "Claude Code" };
@@ -286,6 +287,31 @@ describe("cf feedback", () => {
 			url: FEEDBACK_URL,
 			payload: { schema_version: 1, message: "hi" },
 		});
+	});
+
+	it("accepts a complete report of exactly 16 KiB", async () => {
+		const sent = respondWith(accepted());
+		await runCf(["feedback", "x", "--dry-run"]);
+		const { payload } = JSON.parse(output.stdout());
+		const overhead = Buffer.byteLength(JSON.stringify(payload)) - 1;
+
+		const note = "x".repeat(16 * 1024 - overhead);
+		expect(await runCf(["feedback", note])).toEqual({ exitCode: 0 });
+		expect(Buffer.byteLength(JSON.stringify(bodyOf(sent)))).toBe(16 * 1024);
+	});
+
+	it.each([
+		["submission", []],
+		["dry run", ["--dry-run"]],
+	])("rejects a %s that exceeds the limit in UTF-8 bytes", async (_, flags) => {
+		const sent = respondWith(accepted());
+		const note = "é".repeat(8 * 1024);
+
+		await expect(runCf(["feedback", note, ...flags])).rejects.toThrow(
+			"Feedback is larger than 16 KiB. Shorten the note or the report."
+		);
+		expect(output.stdout()).toBe("");
+		expect(sent).toHaveLength(0);
 	});
 
 	it("follows CLOUDFLARE_API_BASE_URL like other API calls", async () => {
@@ -406,7 +432,7 @@ describe("cf feedback", () => {
 		const help = await cli.getHelp();
 		expect(help).toContain("Sign in with cf auth login");
 		expect(help.replace(/\s+/g, " ")).toContain(
-			"Include the CLI version, OS, and detected agent and model in the report for diagnostics."
+			"Feedback reports include the CLI version, OS, and detected agent and model for diagnostics."
 		);
 		for (const field of [
 			"type",
@@ -421,6 +447,7 @@ describe("cf feedback", () => {
 		]) {
 			expect(help).toContain(field);
 		}
+		expect(help).toContain("16 KiB");
 		expect(help).toContain("--input-json -");
 		expect(help).toContain("Do not include secrets");
 		expect(help.replace(/\s+/g, " ")).toContain(
@@ -438,7 +465,7 @@ describe("cf feedback", () => {
 			"cf version, execution mode, and detected agent harness"
 		);
 		expect(help).toContain(
-			"Sending feedback still includes diagnostic context in the report by default."
+			"Sending feedback includes diagnostic context in the report."
 		);
 	});
 });

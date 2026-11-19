@@ -88,7 +88,6 @@ describe("cf feedback", () => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-feedback-token");
 		vi.stubEnv("CF_API_TOKEN", undefined);
 		vi.stubEnv("CLOUDFLARE_AUTH_PROFILE", undefined);
-		vi.stubEnv("CF_FEEDBACK_URL", undefined);
 		vi.stubEnv("CLOUDFLARE_API_BASE_URL", undefined);
 		vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", undefined);
 		vi.stubEnv("WRANGLER_API_ENVIRONMENT", undefined);
@@ -128,7 +127,7 @@ describe("cf feedback", () => {
 		expect(sent).toHaveLength(0);
 	});
 
-	it("allows a stored OAuth login without sending its token", async () => {
+	it("authenticates with a stored OAuth token", async () => {
 		const sent = respondWith(accepted());
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
 		writeAuthConfigFile({
@@ -138,7 +137,26 @@ describe("cf feedback", () => {
 
 		expect(await runCf(["feedback", "hi"])).toEqual({ exitCode: 0 });
 		expect(sent).toHaveLength(1);
-		expect(sent[0]?.headers.get("authorization")).toBeNull();
+		expect(sent[0]?.headers.get("authorization")).toBe(
+			"Bearer test-feedback-oauth-token"
+		);
+	});
+
+	it("suggests logging in when the API rejects the user's credentials", async () => {
+		const sent = respondWith(() =>
+			HttpResponse.json(
+				{
+					success: false,
+					errors: [{ code: 10000, message: "Authentication error" }],
+				},
+				{ status: 401 }
+			)
+		);
+		const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+
+		await expect(runCf(["feedback", "hi"])).rejects.toThrow();
+		expect(errors.mock.calls.flat().join("\n")).toContain("cf auth login");
+		expect(sent).toHaveLength(1);
 	});
 
 	it("posts a note with CLI context and prints the server's reply", async () => {
@@ -166,11 +184,20 @@ describe("cf feedback", () => {
 			},
 		});
 		expect(headers.get("user-agent")).toMatch(/^cf-cli\//);
-		expect(headers.get("authorization")).toBeNull();
+		expect(headers.get("authorization")).toBe("Bearer test-feedback-token");
 		expect(JSON.parse(output.stdout())).toEqual({
 			status: "accepted",
 			submission_id: "id-from-server",
 		});
+	});
+
+	it("prints a receipt wrapped in the Cloudflare API response envelope", async () => {
+		const receipt = { status: "accepted", submission_id: "id-from-server" };
+		respondWith(() =>
+			HttpResponse.json({ success: true, result: receipt }, { status: 202 })
+		);
+		await runCf(["feedback", "hi"]);
+		expect(JSON.parse(output.stdout())).toEqual(receipt);
 	});
 
 	it.each([
@@ -316,15 +343,15 @@ describe("cf feedback", () => {
 
 	it("follows CLOUDFLARE_API_BASE_URL like other API calls", async () => {
 		const routed = `${TEST_BASE_URL}/feedback/send`;
-		let hit = false;
+		let authorization: string | null = null;
 		server.use(
-			http.post(routed, () => {
-				hit = true;
+			http.post(routed, ({ request }) => {
+				authorization = request.headers.get("authorization");
 				return accepted()();
 			})
 		);
 		await runCf(["feedback", "hi"], { CLOUDFLARE_API_BASE_URL: TEST_BASE_URL });
-		expect(hit).toBe(true);
+		expect(authorization).toBe("Bearer test-feedback-token");
 	});
 
 	it("sends to the FedRAMP API in the FedRAMP compliance region", async () => {
@@ -336,17 +363,16 @@ describe("cf feedback", () => {
 		});
 	});
 
-	it("posts to CF_FEEDBACK_URL when it is set", async () => {
+	it("does not send authentication to a legacy feedback URL override", async () => {
 		const local = "http://localhost:5173/v1/feedback";
-		let hit = false;
-		server.use(
-			http.post(local, () => {
-				hit = true;
-				return accepted()();
-			})
-		);
+		const sent = respondWith(accepted());
+		const overridden = vi.fn(() => accepted()());
+		server.use(http.post(local, overridden));
 		await runCf(["feedback", "hi"], { CF_FEEDBACK_URL: local });
-		expect(hit).toBe(true);
+		expect(overridden).not.toHaveBeenCalled();
+		expect(sent[0]?.headers.get("authorization")).toBe(
+			"Bearer test-feedback-token"
+		);
 	});
 
 	it("warns about ignored fields and redacted credentials", async () => {
@@ -362,26 +388,37 @@ describe("cf feedback", () => {
 		expect(err).toContain("type (moved)");
 	});
 
+	it("rejects a malformed receipt", async () => {
+		respondWith(accepted({ ignored: [null] }));
+		await expect(runCf(["feedback", "hi"])).rejects.toThrow(
+			"The feedback service returned an unexpected response."
+		);
+		expect(output.stdout()).toBe("");
+	});
+
 	it("retries 503 with the same submission ID", async () => {
 		const sent = respondWith(
 			() =>
 				new HttpResponse(null, {
 					status: 503,
-					headers: { "Retry-After": "30" },
+					headers: { "Retry-After": "1" },
 				}),
 			accepted()
 		);
 		expect(await runCf(["feedback", "hi"])).toEqual({ exitCode: 0 });
 		expect(sent).toHaveLength(2);
 		expect(bodyOf(sent, 1).submission_id).toBe(bodyOf(sent).submission_id);
+		expect(sent[1]?.headers.get("authorization")).toBe(
+			"Bearer test-feedback-token"
+		);
 	});
 
-	it("gives up after three attempts and says it may have been sent", async () => {
+	it("reports an unconfirmed submission when the connection fails", async () => {
 		const sent = respondWith(() => HttpResponse.error());
 		await expect(runCf(["feedback", "hi"])).rejects.toThrow(
-			"Unable to reach the feedback service"
+			"Unable to confirm that feedback was received."
 		);
-		expect(sent).toHaveLength(3);
+		expect(sent).toHaveLength(1);
 	});
 
 	it("does not retry a rejected submission and shows why", async () => {

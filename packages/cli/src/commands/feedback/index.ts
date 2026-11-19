@@ -1,13 +1,14 @@
 import { randomUUID } from "node:crypto";
 import { isDoNotTrackEnabled } from "@cloudflare/workers-utils";
-import { getAuthToken } from "../../lib/auth-token.js";
+import { submitFeedback } from "../../lib/api-operations.js";
+import { createCommandClient } from "../../lib/auth.js";
 import { MissingCredentialsError } from "../../lib/errors.js";
 import { readFileForFlag } from "../../lib/input-validation.js";
 import { formatOutput, printSuccess } from "../../lib/output.js";
 import { log } from "../../lib/ui/log.js";
 import { buildClientContext } from "./context.js";
 import { buildSubmission } from "./payload.js";
-import { feedbackUrl, sendFeedback } from "./send.js";
+import { sendFeedback } from "./send.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
@@ -126,9 +127,7 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 				"Temporary accounts cannot submit feedback. Run 'cf auth login' first."
 			);
 		}
-		try {
-			await getAuthToken();
-		} catch (error) {
+		const client = await createCommandClient(argv).catch((error: unknown) => {
 			if (error instanceof MissingCredentialsError) {
 				throw new Error(
 					`Authentication is required to submit feedback.\n\n${error.message}`,
@@ -136,7 +135,7 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 				);
 			}
 			throw error;
-		}
+		});
 
 		const inputSource = argv["input-json"];
 		// `--input-json -` leaves its "-" behind as the note, which arrives as "".
@@ -173,13 +172,13 @@ const feedbackCommand: CommandModule<CommonYargsOptions, FeedbackArgs> = {
 			);
 		}
 
-		const url = await feedbackUrl();
 		if (argv["dry-run"]) {
+			const url = `${client.baseUrl.replace(/\/+$/, "")}${submitFeedback.path()}`;
 			formatOutput({ dryRun: true, url, payload: submission });
 			return;
 		}
 
-		const receipt = await sendFeedback(url, submission);
+		const receipt = await sendFeedback(client, submission);
 		formatOutput(receipt);
 		reportReceiptNotes(receipt);
 		printSuccess(`Feedback sent (${receipt.submission_id}). Thank you.`);

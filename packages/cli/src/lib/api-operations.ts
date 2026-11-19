@@ -49,3 +49,9 @@ export const sendLiveTailHeartbeat = {
 		500: "InternalServerError",
 	},
 } as const satisfies Operation;
+
+export const submitFeedback = {
+	method: "POST",
+	path: () => "/feedback/send",
+	body: "json",
+} as const satisfies Operation;

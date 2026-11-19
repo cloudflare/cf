@@ -1,20 +1,8 @@
-import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
-import { getComplianceRegion } from "../../lib/context.js";
-import { getDefaultHeaders } from "../../lib/request-headers.js";
+import { submitFeedback } from "../../lib/api-operations.js";
 import { VERSION } from "../../version.js";
+import type { Client } from "#api";
 import type { Submission } from "./payload.js";
-
-/**
- * The feedback route under the Cloudflare API base URL. The command checks
- * for CLI credentials before sending, and the endpoint receives the report
- * without the user's token.
- */
-const FEEDBACK_PATH = "/feedback/send";
-
-const ATTEMPTS = 3;
-const ATTEMPT_TIMEOUT_MS = 10_000;
-const BASE_DELAY_MS = 250;
-const MAX_DELAY_MS = 2_000;
+import { ApiError } from "#api";
 
 export interface Ignored {
 	path: string;
@@ -37,40 +25,18 @@ function isReceipt(value: unknown): value is FeedbackReceipt {
 		isRecord(value) &&
 		value.status === "accepted" &&
 		typeof value.submission_id === "string" &&
-		(value.notices === undefined || Array.isArray(value.notices)) &&
-		(value.ignored === undefined || Array.isArray(value.ignored))
+		(value.notices === undefined ||
+			(Array.isArray(value.notices) &&
+				value.notices.every((notice) => typeof notice === "string"))) &&
+		(value.ignored === undefined ||
+			(Array.isArray(value.ignored) &&
+				value.ignored.every(
+					(item) =>
+						isRecord(item) &&
+						typeof item.path === "string" &&
+						typeof item.reason === "string"
+				)))
 	);
-}
-
-/**
- * The API route, following the compliance region and CLOUDFLARE_API_BASE_URL
- * like every other API call. CF_FEEDBACK_URL replaces the whole URL, for
- * example to post straight to a local feedback Worker; it must be https, or
- * http on a loopback host.
- */
-export async function feedbackUrl(
-	environment: NodeJS.ProcessEnv = process.env
-): Promise<string> {
-	const configured = environment.CF_FEEDBACK_URL?.trim();
-	if (!configured) {
-		const base = getCloudflareApiBaseUrl({
-			compliance_region: await getComplianceRegion(),
-		});
-		return `${base.replace(/\/+$/, "")}${FEEDBACK_PATH}`;
-	}
-	let url: URL;
-	try {
-		url = new URL(configured);
-	} catch {
-		throw new Error("CF_FEEDBACK_URL must be a valid URL.");
-	}
-	const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
-	if (url.protocol !== "https:" && !(url.protocol === "http:" && loopback)) {
-		throw new Error(
-			"CF_FEEDBACK_URL must use https (http is allowed for localhost)."
-		);
-	}
-	return url.href;
 }
 
 /** The Worker refuses CLI versions it has blocked, for example after a bad release. */
@@ -102,78 +68,46 @@ function rejectionDetail(body: unknown): string {
 	return ` (${body.error}${paths.length > 0 ? `: ${paths.join(", ")}` : ""})`;
 }
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-function retryDelay(attempt: number, retryAfter: string | null): number {
-	const seconds = Number(retryAfter);
-	const requested =
-		Number.isFinite(seconds) && seconds > 0 ? seconds * 1000 : 0;
-	return Math.min(
-		Math.max(requested, BASE_DELAY_MS * 2 ** attempt),
-		MAX_DELAY_MS
-	);
-}
-
-/**
- * Sends the submission, retrying 429, 503 and network failures with the same
- * submission ID so the server can remove duplicates.
- */
 export async function sendFeedback(
-	url: string,
+	client: Client,
 	submission: Submission
 ): Promise<FeedbackReceipt> {
-	const body = JSON.stringify(submission);
-	let lastFailure = "";
-	let delay = 0;
-	for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
-		if (delay > 0) {
-			await sleep(delay);
-		}
-		const signal = AbortSignal.timeout(ATTEMPT_TIMEOUT_MS);
-		let response: Response;
-		try {
-			response = await fetch(url, {
-				method: "POST",
-				headers: {
-					...getDefaultHeaders(),
-					"Content-Type": "application/json",
-					Accept: "application/json",
-				},
-				body,
-				signal,
-			});
-		} catch {
-			lastFailure = signal.aborted
-				? "The feedback service timed out."
-				: "Unable to reach the feedback service.";
-			delay = retryDelay(attempt, null);
-			continue;
-		}
-
-		if (response.status === 429 || response.status === 503) {
-			lastFailure = `The feedback service is busy (HTTP ${response.status}).`;
-			delay = retryDelay(attempt, response.headers.get("retry-after"));
-			continue;
-		}
-
-		let data: unknown;
-		try {
-			data = await response.json();
-		} catch {
-			data = undefined;
-		}
-		if (!response.ok) {
-			throw new Error(
-				versionRefusal(data) ??
-					`The feedback service rejected the submission${rejectionDetail(data)}.`
-			);
-		}
-		if (!isReceipt(data)) {
-			throw new Error("The feedback service returned an unexpected response.");
-		}
-		return data;
+	const receipt = await client
+		.send(
+			submitFeedback,
+			{ body: submission },
+			{
+				headers: { Accept: "application/json" },
+				timeoutInSeconds: 10,
+				maxRetries: 2,
+			}
+		)
+		.catch((error: unknown) => {
+			if (error instanceof ApiError) {
+				const refusal =
+					error.statusCode === 403 ? versionRefusal(error.body) : undefined;
+				if (refusal) {
+					throw new Error(refusal, { cause: error });
+				}
+				const detail =
+					error.statusCode === 422 ? rejectionDetail(error.body) : "";
+				if (detail) {
+					throw new Error(
+						`The feedback service rejected the submission${detail}.`,
+						{ cause: error }
+					);
+				}
+				if (error.rawResponse?.status === 0) {
+					throw new Error(
+						"Unable to confirm that feedback was received. Try again later with the same note.",
+						{ cause: error }
+					);
+				}
+			}
+			throw error;
+		});
+	if (!isReceipt(receipt)) {
+		throw new Error("The feedback service returned an unexpected response.");
 	}
-	throw new Error(
-		`${lastFailure} It may have been received; try again later with the same note.`
-	);
+	return receipt;
 }

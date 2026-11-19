@@ -420,7 +420,13 @@ reuses that generator for a project it has just created and installed.
 
 Supplying `[directory]` to `cf deploy`, `cf previews deploy`, or
 `cf workers versions create` invokes the shared
-`src/commands/deploy/static-assets.ts` helper. It loads and validates the nearest
+`src/commands/deploy/static-assets.ts` helper. Without an existing source config,
+it runs project setup with the chosen directory as autoconfig's static assets
+output, without running a build.
+For unconfigured projects deploying their root, autoconfig creates or updates
+`.assetsignore` to exclude environment files, dependencies, and Git metadata.
+Setup dry runs stop before writing config, replacing Build Output, or uploading.
+The helper then loads and validates the nearest
 `cloudflare.config.ts` when present, reuses its account settings and Worker
 definition, and rejects configured Worker entrypoints or Containers. If no Worker
 is configured, it derives a Worker name from the project and uses the default

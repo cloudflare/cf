@@ -33,7 +33,11 @@ export interface CommandOutputOptions {
 	output?: CommandOutput;
 }
 
-interface ProjectPreparationOptions extends CommandOutputOptions {
+interface ProjectAnalysisOptions extends CommandOutputOptions {
+	outputDir?: string;
+}
+
+interface ProjectPreparationOptions extends ProjectAnalysisOptions {
 	dryRun?: boolean;
 }
 
@@ -73,13 +77,14 @@ export function normalizeProjectCommandExit(
 
 export async function analyzeProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: ProjectAnalysisOptions = {}
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
 		const details = await getDetailsForAutoConfig({
 			projectPath: cwd,
 			target: "cf",
+			outputDir: options.outputDir,
 			context,
 		});
 		return withBuildOutputV1Compatibility(

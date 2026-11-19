@@ -135,7 +135,7 @@ describe("cf previews deploy", () => {
 			standard: { normalized: [], builtImages: [] },
 			durableObjects: { builtImages: [] },
 		});
-		mocks.prepareStaticAssetsBuildOutput.mockResolvedValue(false);
+		mocks.prepareStaticAssetsBuildOutput.mockResolvedValue("no-directory");
 	});
 
 	it("builds and uploads Preview Build Output", async () => {
@@ -766,7 +766,7 @@ describe("cf previews deploy", () => {
 			config: { type: "worker", name: "preview-worker" },
 			assetsDir: "/project/assets",
 		};
-		mocks.prepareStaticAssetsBuildOutput.mockResolvedValue(true);
+		mocks.prepareStaticAssetsBuildOutput.mockResolvedValue("prepared");
 		mocks.readBuildOutput.mockResolvedValue({
 			rootConfig,
 			workers: { default: worker },
@@ -800,6 +800,21 @@ describe("cf previews deploy", () => {
 			expect.objectContaining({ assets: { directory: "/project/assets" } }),
 			expect.any(Object)
 		);
+	});
+
+	it("does not read or deploy existing Build Output when static setup is pending", async () => {
+		mocks.prepareStaticAssetsBuildOutput.mockResolvedValueOnce("setup-needed");
+
+		await expect(
+			runPreviewDeploy({
+				directory: ".",
+				"preview-name": "feature",
+			} as Parameters<typeof runPreviewDeploy>[0])
+		).resolves.toBeUndefined();
+
+		expect(mocks.runBuild).not.toHaveBeenCalled();
+		expect(mocks.readBuildOutput).not.toHaveBeenCalled();
+		expect(mocks.previewBuildOutput).not.toHaveBeenCalled();
 	});
 
 	it("returns the Preview deployment as JSON", () => {

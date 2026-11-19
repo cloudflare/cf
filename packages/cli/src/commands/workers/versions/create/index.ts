@@ -1,4 +1,5 @@
 import { withTelemetry } from "../../../../lib/telemetry/index.js";
+import { log } from "../../../../lib/ui/log.js";
 import { runUpload, sharedUploadBuilder } from "../../../deploy/shared.js";
 import {
 	prepareStaticAssetsBuildOutput,
@@ -36,12 +37,17 @@ const versionsCreateCommand: CommandModule<
 			);
 		}
 
-		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+		const staticAssetsBuild = await prepareStaticAssetsBuildOutput(argv, {
 			isPreview: false,
 		});
-		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
-			command: "Version upload",
-		});
+		if (staticAssetsBuild === "setup-needed") {
+			log.success("--dry-run: exiting now.");
+			return;
+		}
+		await runUpload(
+			staticAssetsBuild === "prepared" ? { ...argv, prebuilt: true } : argv,
+			{ command: "Version upload" }
+		);
 	},
 };
 

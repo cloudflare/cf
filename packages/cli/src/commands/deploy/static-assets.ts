@@ -44,6 +44,8 @@ interface StaticAssetsBuildContext {
 	isPreview: boolean;
 }
 
+type StaticAssetsBuildResult = "no-directory" | "prepared" | "setup-needed";
+
 export const staticAssetsDirectoryOption = {
 	type: "string",
 	description:
@@ -54,10 +56,10 @@ export const staticAssetsDirectoryOption = {
 export async function prepareStaticAssetsBuildOutput(
 	argv: StaticAssetsCommandArgs,
 	context: StaticAssetsBuildContext
-): Promise<boolean | "setup-needed"> {
+): Promise<StaticAssetsBuildResult> {
 	const { directory } = argv;
 	if (directory === undefined) {
-		return false;
+		return "no-directory";
 	}
 	if (directory === "") {
 		throw new Error("The static assets directory argument cannot be empty.");
@@ -77,12 +79,12 @@ export async function prepareStaticAssetsBuildOutput(
 	let sourceDirectory = await resolveSourceDirectory(root, directory);
 	// Autoconfig checks cwd, but directory uploads also reuse ancestor configs.
 	if (findCloudflareConfig(root) === null) {
-		const { configuration, setupNeeded } = await prepareProject(root, {
+		const { configuration } = await prepareProject(root, {
 			outputDir: sourceDirectory,
 			dryRun: argv["dry-run"],
 			output: argv.quiet ? "silent" : "stderr",
 		});
-		if (setupNeeded) {
+		if (argv["dry-run"]) {
 			return "setup-needed";
 		}
 		if (configuration) {
@@ -119,7 +121,7 @@ export async function prepareStaticAssetsBuildOutput(
 		log.success(`Build Output written to ${BUILD_OUTPUT_ROOT}`);
 		log.message("");
 	}
-	return true;
+	return "prepared";
 }
 
 async function loadStaticAssetsProjectConfig(

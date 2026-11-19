@@ -2,16 +2,13 @@ import { existsSync, readFileSync } from "node:fs";
 import { unlink } from "node:fs/promises";
 import { basename, resolve } from "node:path";
 import { toValidWorkerName } from "@cloudflare/workers-utils";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-	seed,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { prepareStaticAssetsBuildOutput } from "../../../commands/deploy/static-assets.js";
 import { confirm, prompt, select } from "../../../lib/dialog.js";
 import { VERSION } from "../../../version.js";
+import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -42,7 +39,7 @@ vi.mock("../../../lib/dialog.js", { spy: true });
 describe("cf deploy — assets", () => {
 	setupMsw();
 	runInTempDir();
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 
 	beforeEach(async () => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-api-token");
@@ -204,6 +201,31 @@ describe("cf deploy — assets", () => {
 			}
 		);
 
+		it.each([["deploy"], ["workers", "versions", "create"]])(
+			"preserves Build Output with %s --dry-run when detection fails",
+			async (...command) => {
+				const requests = recordRequests();
+				await seed({
+					"index.html": "root asset",
+					"functions/hello.js": "export function onRequest() {}",
+					".cloudflare/output/v1/config.json": "existing output",
+				});
+
+				await expect(runCf([...command, ".", "--dry-run"])).resolves.toEqual({
+					exitCode: 0,
+				});
+
+				expect(std.err).toContain("--dry-run: exiting now.");
+				expect(existsSync("cloudflare.config.ts")).toBe(false);
+				expect(existsSync(".assetsignore")).toBe(false);
+				expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
+					"existing output"
+				);
+				expect(buildDelegateWasCalled()).toBe(false);
+				expect(requests).toEqual([]);
+			}
+		);
+
 		it("keeps custom asset exclusions when configuring the project root", async () => {
 			mockWorkerUpload();
 			const assets = mockAssetUpload();
@@ -261,7 +283,7 @@ describe("cf deploy — assets", () => {
 					{ directory: ".", mode: "staging" },
 					{ isPreview: true }
 				)
-			).resolves.toBe(true);
+			).resolves.toBe("prepared");
 
 			expect(
 				JSON.parse(readFileSync(".cloudflare/output/v1/config.json", "utf8"))
@@ -273,14 +295,17 @@ describe("cf deploy — assets", () => {
 		});
 
 		it("suppresses static assets preparation output with --quiet", async () => {
-			await seed({ "public/index.html": "quiet" });
+			await seed({
+				"package.json": JSON.stringify({ type: "module" }),
+				"public/index.html": "quiet",
+			});
 
 			await expect(
 				prepareStaticAssetsBuildOutput(
 					{ directory: "public", quiet: true },
 					{ isPreview: false }
 				)
-			).resolves.toBe(true);
+			).resolves.toBe("prepared");
 
 			expect(std.err).toBe("");
 		});

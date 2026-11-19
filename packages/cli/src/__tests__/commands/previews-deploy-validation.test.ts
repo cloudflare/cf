@@ -9,7 +9,7 @@ vi.mock("@cloudflare/build-output-utils", () => ({
 }));
 
 vi.mock("../../commands/deploy/static-assets.js", () => ({
-	prepareStaticAssetsBuildOutput: vi.fn().mockResolvedValue(false),
+	prepareStaticAssetsBuildOutput: vi.fn().mockResolvedValue("no-directory"),
 	staticAssetsDirectoryOption: {
 		type: "string",
 		description: "Static assets directory",

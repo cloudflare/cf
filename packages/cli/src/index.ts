@@ -584,7 +584,8 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
 	if (hasQuietFlag(args)) {
 		return undefined;
 	}
-	if (commandName(args) === "complete") {
+	const command = commandName(args);
+	if (command === "complete" || command === "update") {
 		return undefined;
 	}
 	const bannerWritesToStdout = args.length === 0;

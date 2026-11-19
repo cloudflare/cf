@@ -124,6 +124,17 @@ describe("update check runtime", () => {
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});
 
+	it("skips the background registry check for cf update", async () => {
+		setTTY(true, true);
+		const output = captureOutput();
+
+		await runCf(["update", "--dry-run", "--help"]);
+
+		expect(output.stdout()).toContain("cf update [target]");
+		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
+		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
+	});
+
 	it.each([
 		["string value", ["--profile", "work"]],
 		["boolean true", ["--local", "true"]],

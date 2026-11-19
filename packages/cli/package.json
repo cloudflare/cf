@@ -101,6 +101,7 @@
 		"minimatch": "11.0.8",
 		"minisearch": "7.2.0",
 		"msw": "3.0.5",
+		"package-manager-detector": "1.9.0",
 		"semver": "7.8.6",
 		"shell-quote": "^1.12.0",
 		"string-width": "9.0.0",

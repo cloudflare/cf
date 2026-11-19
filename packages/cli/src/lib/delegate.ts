@@ -392,7 +392,9 @@ function isSamePath(a: string, b: string): boolean {
  * contains "dlx" isn't mistaken for a cache. npm + pnpm only by design;
  * yarn dlx and bunx use less stable temp shapes and are out of scope.
  */
-function isEphemeralExecInstall(ownPackageJsonPath: string | null): boolean {
+export function isEphemeralExecInstall(
+	ownPackageJsonPath: string | null
+): boolean {
 	if (!ownPackageJsonPath) {
 		return false;
 	}
@@ -415,7 +417,7 @@ export function isEphemeralExecRun(): boolean {
  * → `<pkg>/package.json`) and under tsx (`src/lib/delegate.ts` →
  * `packages/cli/package.json`).
  */
-function findOwnPackageJson(): string | null {
+export function findOwnPackageJson(): string | null {
 	let dir = dirname(fileURLToPath(import.meta.url));
 	for (;;) {
 		const candidate = resolve(dir, "package.json");

@@ -171,6 +171,7 @@ describe("shouldApplyCloudflareDotEnv", () => {
 		"init",
 		"init workers",
 		"migrate",
+		"update",
 		"tunnels diag",
 		"tunnels login",
 		"tunnels quick-start",

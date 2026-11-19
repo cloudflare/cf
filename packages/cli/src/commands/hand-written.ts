@@ -148,6 +148,13 @@ const registry = [
 	},
 	{
 		kind: "root",
+		dryRun: "native",
+		command: "update [target]",
+		describe: "Update the running installation of cf",
+		dir: "update",
+	},
+	{
+		kind: "root",
 		dryRun: "preview",
 		command: "cli",
 		describe: "Discover commands and configure the cf CLI",

@@ -961,9 +961,14 @@ commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
-The autoconfig patch makes generated `cloudflare.config.ts` imports type-only,
-so static directories without a local cf installation can load their config.
-Remove it after consuming an autoconfig release containing the upstream fix.
+`autoconfig` temporarily uses the commit-pinned PR preview from
+[workers-sdk#17059](https://github.com/cloudflare/workers-sdk/pull/17059), which
+makes generated `cloudflare.config.ts` imports type-only so static directories
+without a local cf installation can load their config. Replace the preview with
+an exact npm version after an autoconfig release contains the fix. Temporary
+parent-scoped overrides keep its unchanged `config` and `workers-utils`
+dependencies on the released versions above, preserving `blockExoticSubdeps`;
+remove those overrides with the preview.
 
 The two Forge inputs are updated separately:
 

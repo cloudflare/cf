@@ -181,12 +181,13 @@ catalogs:
       version: 1.6.0
 
 overrides:
+  '@cloudflare/autoconfig>@cloudflare/config': 1.0.0-rc.2
+  '@cloudflare/autoconfig>@cloudflare/workers-utils': 0.55.0
   vite@*: npm:@voidzero-dev/vite-plus-core@1.6.0
   vitest@*: 5.1.0
 
 patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
-  '@cloudflare/autoconfig@0.13.2': dfd0aa98f1ecdac5bcdab84c913ec95c05c48a501f7b9df95a32c068707a404b
 
 importers:
 
@@ -290,8 +291,8 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@cloudflare/autoconfig':
-        specifier: 0.13.2
-        version: 0.13.2(patch_hash=dfd0aa98f1ecdac5bcdab84c913ec95c05c48a501f7b9df95a32c068707a404b)(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@5518b2b2674c2c2c873bc7f8759131bf80db5c9a
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@5518b2b2674c2c2c873bc7f8759131bf80db5c9a(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
       '@cloudflare/cli-shared-helpers':
         specifier: 0.3.11
         version: 0.3.11(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
@@ -717,8 +718,9 @@ packages:
     resolution: {integrity: sha512-tEj8X2No2A1c9NDnZECxiiJ8TP3vmFlN9tLlLeSaMqVW4tUmVG2R4qpv/eP4zymWxnymYLkLcIYVV0VcWj3RCQ==}
     engines: {node: '>= 20.12.0'}
 
-  '@cloudflare/autoconfig@0.13.2':
-    resolution: {integrity: sha512-Yg7h/xTRN3VkYncaxaWXmd4kjLT8TFzdLwLgPxP93u5NwzWe5lH4xnaGNmsrdXLvUeRhMoScDAazdzZuMEfvBA==}
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@5518b2b2674c2c2c873bc7f8759131bf80db5c9a':
+    resolution: {integrity: sha512-+hLT9N6wuPOkJdzK65qZ+ab8MeanYxWEaBlVYwPkHKcBTQ/8Agv12iIWRQI51qY1Vil0g0HLfOlop6L0CP8Xkw==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@5518b2b2674c2c2c873bc7f8759131bf80db5c9a}
+    version: 0.13.2
 
   '@cloudflare/build-output-utils@1.0.0-rc.2':
     resolution: {integrity: sha512-Zsb0038d2RucgLTj7eyYsErtIY+H7Gdz+hAImZmR+x0pKm0fMpBRMkGPZ26g0rukHl+1A6AnX3BcUf9mXPl7+w==}
@@ -4465,7 +4467,7 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 2.0.0
 
-  '@cloudflare/autoconfig@0.13.2(patch_hash=dfd0aa98f1ecdac5bcdab84c913ec95c05c48a501f7b9df95a32c068707a404b)(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)':
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@5518b2b2674c2c2c873bc7f8759131bf80db5c9a(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.3.11(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
       '@cloudflare/config': 1.0.0-rc.2

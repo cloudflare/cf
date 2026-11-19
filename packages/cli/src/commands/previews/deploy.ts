@@ -34,6 +34,7 @@ import {
 	createContainerDeployConfig,
 	isLiveContainerExport,
 } from "../deploy/containers.js";
+import { previewSecretsFileDescription } from "../deploy/secrets-file-description.js";
 import {
 	prepareStaticAssetsBuildOutput,
 	staticAssetsDirectoryOption,
@@ -57,7 +58,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Use existing Preview Build Output Specification files without building",
 			default: false,
 		})
-		.option("worker", buildOutputWorkerOption);
+		.option("worker", buildOutputWorkerOption)
+		.option("secrets-file", {
+			type: "string",
+			description: previewSecretsFileDescription,
+			requiresArg: true,
+		});
 }
 
 type PreviewDeployArgs = InferArgs<typeof builder>;
@@ -188,7 +194,7 @@ async function deployPreviewBuildOutput(
 
 	const result = await previewBuildOutput(
 		accountId,
-		{ name: previewName, json: true },
+		{ name: previewName, json: true, secretsFile: argv["secrets-file"] },
 		{
 			workerConfig: builtConfig,
 			rootConfig: output.rootConfig,

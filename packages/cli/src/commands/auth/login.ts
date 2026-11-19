@@ -117,39 +117,40 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 			const validToken = await getValidToken();
 			if (validToken) {
 				const state = readAuthCredentials();
-				if (argv.scopes && argv.scopes.length > 0) {
-					const currentScopes = new Set(state?.scopes ?? []);
-					const missingScopes = argv.scopes.filter(
-						(scope) => !currentScopes.has(scope)
-					);
-					if (missingScopes.length > 0) {
-						throw new Error(
-							`Already logged in without the requested scope(s): ${missingScopes.join(", ")}. Run \`cf auth login --force\` to re-authenticate with new scopes, or run \`cf auth create <name>\` to authenticate a separate profile.`
+				const currentScopes = new Set(state?.scopes ?? []);
+				const hasNewScopes =
+					argv.scopes !== undefined &&
+					argv.scopes.length > 0 &&
+					argv.scopes.some((scope) => !currentScopes.has(scope));
+
+				if (!hasNewScopes) {
+					const lines = [
+						"You are already logged in.",
+						`${theme.info("Config file:")} ${theme.muted(getConfigPath())}`,
+					];
+					if (state?.expiration_time) {
+						lines.push(
+							`${theme.info("Token expires:")} ${new Date(
+								state.expiration_time
+							).toLocaleString()}`
 						);
 					}
-				}
-				const lines = [
-					"You are already logged in.",
-					`${theme.info("Config file:")} ${theme.muted(getConfigPath())}`,
-				];
-				if (state?.expiration_time) {
 					lines.push(
-						`${theme.info("Token expires:")} ${new Date(
-							state.expiration_time
-						).toLocaleString()}`
+						`Run ${theme.code("cf auth login --force")} to re-authenticate, or ${theme.code("cf auth logout")} to log out.`
 					);
+					log.info(lines.join("\n"));
+					return;
 				}
-				lines.push(
-					`Run ${theme.code("cf auth login --force")} to re-authenticate, or ${theme.code("cf auth logout")} to log out.`
-				);
-				log.info(lines.join("\n"));
-				return;
-			}
 
-			// Token refresh failed — proceed with a fresh login.
-			log.warn(
-				"Existing tokens are invalid or expired. Starting fresh login..."
-			);
+				// The user requested scopes not present in existing credentials;
+				// trigger a fresh login flow with the new scopes without requiring --force.
+				log.info("Re-authenticating with new scopes...");
+			} else {
+				// Token refresh failed — proceed with a fresh login.
+				log.warn(
+					"Existing tokens are invalid or expired. Starting fresh login..."
+				);
+			}
 		} else if (argv.force && isOAuthLoggedIn()) {
 			log.info("Re-authenticating...");
 		}

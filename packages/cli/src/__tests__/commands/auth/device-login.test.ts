@@ -279,18 +279,24 @@ describe("cf auth device login", () => {
 		`);
 	});
 
-	it("fails when requesting new scopes on an existing login without --force", async () => {
+	it("re-authenticates when requesting new scopes on an existing login without --force", async () => {
 		sharedAuth.validToken = "valid-token";
 		sharedAuth.credentials = {
 			oauth_token: "valid-token",
 			scopes: ["workers:write"],
 		};
 
-		await expect(
-			runCf(["auth", "login", "--no-browser", "--scopes", "account:read"])
-		).rejects.toThrow(
-			"Already logged in without the requested scope(s): account:read. Run `cf auth login --force` to re-authenticate with new scopes, or run `cf auth create <name>` to authenticate a separate profile."
+		await runCf(["auth", "login", "--no-browser", "--scopes", "account:read"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(sharedAuth.login).toHaveBeenCalledWith(
+			expect.anything(),
+			expect.objectContaining({
+				scopes: ["account:read"],
+			})
 		);
+		expect(std.err).toContain("Re-authenticating with new scopes...");
+		expect(std.err).toContain("Starting OAuth login flow...");
 	});
 
 	it("rejects invalid scope names on an existing login before checking missing scopes", async () => {

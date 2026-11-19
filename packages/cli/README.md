@@ -112,6 +112,3 @@ cf feedback --field type=bug --field expected="a deploy" --field actual="error 1
 Agents can pipe a JSON report with the same fields plus an `agent` object to
 `cf feedback --input-json -`. `cf feedback --help` lists the fields. CLI context
 follows the telemetry setting; `--no-context` leaves it out.
-
-- [Cloudflare developer docs](https://developers.cloudflare.com/)
-- [cf CLI telemetry](https://github.com/cloudflare/cf/blob/main/packages/cli/telemetry.md)

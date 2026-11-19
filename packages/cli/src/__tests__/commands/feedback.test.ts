@@ -382,5 +382,17 @@ describe("cf feedback", () => {
 		}
 		expect(help).toContain("--input-json -");
 		expect(help).toContain("Do not include secrets");
+		expect(help).not.toContain("DO_NOT_TRACK is enabled");
+	});
+
+	it("warns in --help that feedback sends request headers under DO_NOT_TRACK", async () => {
+		vi.stubEnv("DO_NOT_TRACK", "1");
+		const { cli } = buildCli(["feedback", "--help"]);
+		const help = (await cli.getHelp()).replace(/\s+/g, " ");
+		expect(help).toContain("DO_NOT_TRACK is enabled");
+		expect(help).toContain(
+			"cf version, execution mode and detected agent harness"
+		);
+		expect(help).toContain("The report omits optional CLI context.");
 	});
 });

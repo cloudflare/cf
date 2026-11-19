@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { isDoNotTrackEnabled } from "@cloudflare/workers-utils";
 import { readFileForFlag } from "../../lib/input-validation.js";
 import { formatOutput, printSuccess } from "../../lib/output.js";
 import { resolveTelemetry } from "../../lib/telemetry/config.js";
@@ -49,6 +50,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.example(AGENT_EXAMPLE, "Send an agent report through --input-json -")
 		.epilogue(
 			[
+				...(isDoNotTrackEnabled()
+					? [
+							"DO_NOT_TRACK is enabled. Running cf feedback still sends your report and request headers with the cf version, execution mode and detected agent harness, if available. The report omits optional CLI context.",
+						]
+					: []),
 				"Sends bugs, friction and feature requests to the cf team. A note on its own is enough.",
 				"Fields (all optional): type (bug, friction, feature, docs, praise, other), product, command, task, attempted, expected, actual, impact (blocked, worked_around, friction, none), suggestion, rating (1–5), sentiment, model. Other keys are kept as free-form fields.",
 				"Agents can send a JSON report with the same fields plus an agent object (name, model, commands, errors, repro_steps, docs_urls). --field values win over the report.",

@@ -10,6 +10,7 @@ import {
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { prepareStaticAssetsBuildOutput } from "../../../commands/deploy/static-assets.js";
+import { confirm, prompt, select } from "../../../lib/dialog.js";
 import { VERSION } from "../../../version.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
@@ -19,7 +20,9 @@ import {
 	buildDelegateWasCalled,
 	mockAssetUpload,
 	mockDefaultHandlers,
+	mockExistingWorker,
 	mockWorkerUpload,
+	recordRequests,
 	seedBuildDelegate,
 	buildOutputRootConfig,
 	workerConfig,
@@ -29,6 +32,12 @@ vi.mock("../../../lib/deploy-context.js", () => ({
 	createDeployContext: (authToken: string) =>
 		createMockDeployContext(authToken),
 }));
+
+vi.mock("@cloudflare/cli-shared-helpers/packages", () => ({
+	installPackages: vi.fn(),
+	installWrangler: vi.fn(),
+}));
+vi.mock("../../../lib/dialog.js", { spy: true });
 
 describe("cf deploy — assets", () => {
 	setupMsw();
@@ -116,38 +125,140 @@ describe("cf deploy — assets", () => {
 			);
 		});
 
-		it("deploys the project root without including .cloudflare", async () => {
+		it.each([["deploy"], ["workers", "versions", "create"]])(
+			"configures root assets before uploading with %s",
+			async (...command) => {
+				mockExistingWorker({ lastDeployedFrom: "cf_cli" });
+				mockWorkerUpload();
+				const assets = mockAssetUpload();
+				await seed({
+					"index.html": "root asset",
+					".env": "CLOUDFLARE_API_TOKEN=secret",
+					".env.local": "LOCAL_SECRET=secret",
+					".dev.vars": "DEV_SECRET=secret",
+					".dev.vars.production": "DEV_SECRET=secret",
+					".git/HEAD": "ref: refs/heads/main",
+					".cloudflare/project-state.json": "not an asset",
+					".cloudflare/output/v1/workers/default/bundle/stale.js":
+						"export default {};",
+				});
+
+				const { exitCode } = await runCf([...command, "."]);
+
+				expect(exitCode).toBe(0);
+				expect(buildDelegateWasCalled()).toBe(false);
+				expect(existsSync("cloudflare.config.ts")).toBe(true);
+				expect(readFileSync(".assetsignore", "utf8")).toContain(".env*");
+				const manifestPaths = Object.keys(assets.manifest ?? {});
+				expect(manifestPaths).toContain("/index.html");
+				for (const ignoredPath of [
+					"/.env",
+					"/.env.local",
+					"/.dev.vars",
+					"/.dev.vars.production",
+					"/.assetsignore",
+				]) {
+					expect(manifestPaths).not.toContain(ignoredPath);
+				}
+				expect(
+					manifestPaths.some((assetPath) =>
+						/^\/(?:\.git|node_modules)\//.test(assetPath)
+					)
+				).toBe(false);
+				expect(
+					manifestPaths.some((assetPath) =>
+						assetPath.startsWith("/.cloudflare/")
+					)
+				).toBe(false);
+				expect(
+					existsSync(
+						resolve(".cloudflare/output/v1/workers/default/assets/.cloudflare")
+					)
+				).toBe(false);
+			}
+		);
+
+		it.each([["deploy"], ["workers", "versions", "create"]])(
+			"dry-runs static setup without replacing Build Output with %s",
+			async (...command) => {
+				const requests = recordRequests();
+				await seed({
+					"package.json": JSON.stringify({
+						dependencies: { next: "^16.0.0" },
+					}),
+					"index.html": "root asset",
+					".cloudflare/output/v1/config.json": "existing output",
+				});
+
+				const { exitCode } = await runCf([...command, ".", "--dry-run"]);
+
+				expect(exitCode).toBe(0);
+				expect(std.err).toContain("Static");
+				expect(existsSync("cloudflare.config.ts")).toBe(false);
+				expect(existsSync(".assetsignore")).toBe(false);
+				expect(readFileSync(".cloudflare/output/v1/config.json", "utf8")).toBe(
+					"existing output"
+				);
+				expect(buildDelegateWasCalled()).toBe(false);
+				expect(requests).toEqual([]);
+			}
+		);
+
+		it("keeps custom asset exclusions when configuring the project root", async () => {
 			mockWorkerUpload();
 			const assets = mockAssetUpload();
 			await seed({
 				"index.html": "root asset",
-				".cloudflare/project-state.json": "not an asset",
-				".cloudflare/output/v1/workers/default/bundle/stale.js":
-					"export default {};",
+				"private.txt": "private asset",
+				".env.production": "SECRET=secret",
+				".assetsignore": "/private.txt\n.env\n",
 			});
 
-			const { exitCode } = await runCf(["deploy", "."]);
+			await expect(runCf(["deploy", "."])).resolves.toEqual({ exitCode: 0 });
 
-			expect(exitCode).toBe(0);
-			expect(buildDelegateWasCalled()).toBe(false);
-			const manifestPaths = Object.keys(assets.manifest ?? {});
-			expect(manifestPaths).toContain("/index.html");
+			expect(readFileSync(".assetsignore", "utf8")).toContain("/private.txt\n");
+			expect(assets.manifest).toHaveProperty("/index.html");
+			expect(Object.keys(assets.manifest ?? {})).not.toContain("/private.txt");
+			expect(Object.keys(assets.manifest ?? {})).not.toContain(
+				"/.env.production"
+			);
+		});
+
+		it("uploads the assets directory confirmed during setup", async () => {
+			mockWorkerUpload();
+			const assets = mockAssetUpload();
+			await seed({
+				"index.html": "root asset",
+				"public/index.html": "confirmed asset",
+				".env": "SECRET=secret",
+			});
+			vi.mocked(confirm)
+				.mockResolvedValueOnce(true)
+				.mockResolvedValueOnce(true);
+			vi.mocked(select).mockResolvedValueOnce("static");
+			vi.mocked(prompt)
+				.mockResolvedValueOnce("confirmed-static-site")
+				.mockResolvedValueOnce("public")
+				.mockResolvedValueOnce("");
+
+			await expect(runCf(["deploy", "."])).resolves.toEqual({ exitCode: 0 });
+
+			expect(Object.keys(assets.manifest ?? {})).toEqual(["/index.html"]);
 			expect(
-				manifestPaths.some((assetPath) => assetPath.startsWith("/.cloudflare/"))
-			).toBe(false);
-			expect(
-				existsSync(
-					resolve(".cloudflare/output/v1/workers/default/assets/.cloudflare")
+				readFileSync(
+					".cloudflare/output/v1/workers/default/assets/index.html",
+					"utf8"
 				)
-			).toBe(false);
+			).toBe("confirmed asset");
+			expect(buildDelegateWasCalled()).toBe(false);
 		});
 
 		it("writes Preview Build Output for Preview deployment commands", async () => {
-			await seed({ "public/index.html": "preview" });
+			await seed({ "index.html": "preview", ".env": "SECRET=secret" });
 
 			await expect(
 				prepareStaticAssetsBuildOutput(
-					{ directory: "public", mode: "staging" },
+					{ directory: ".", mode: "staging" },
 					{ isPreview: true }
 				)
 			).resolves.toBe(true);
@@ -157,6 +268,7 @@ describe("cf deploy — assets", () => {
 			).toMatchObject({
 				buildContext: { isPreview: true, mode: "staging" },
 			});
+			expect(readFileSync(".assetsignore", "utf8")).toContain(".env*");
 			expect(buildDelegateWasCalled()).toBe(false);
 		});
 
@@ -211,6 +323,29 @@ describe("cf deploy — assets", () => {
 			expect(
 				JSON.parse(readFileSync(".cloudflare/output/v1/config.json", "utf8"))
 			).toMatchObject({ settings: { accountId: ACCOUNT_ID } });
+			expect(buildDelegateWasCalled()).toBe(false);
+		});
+
+		it("reuses an ancestor config without configuring the working directory", async () => {
+			const upload = mockWorkerUpload();
+			mockAssetUpload();
+			await seed({
+				"cloudflare.config.ts": `export default {
+					worker: { name: "parent-static-site", compatibilityDate: "2026-01-01" }
+				};`,
+				"site/index.html": "nested site",
+			});
+			const cwd = process.cwd();
+			try {
+				process.chdir("site");
+
+				await expect(runCf(["deploy", "."])).resolves.toEqual({ exitCode: 0 });
+
+				expect(upload.scriptName).toBe("parent-static-site");
+				expect(existsSync("cloudflare.config.ts")).toBe(false);
+			} finally {
+				process.chdir(cwd);
+			}
 			expect(buildDelegateWasCalled()).toBe(false);
 		});
 

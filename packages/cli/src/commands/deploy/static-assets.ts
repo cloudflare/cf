@@ -16,6 +16,7 @@ import {
 	DEFAULT_COMPAT_DATE,
 	getWorkerNameFromProject,
 } from "@cloudflare/workers-utils";
+import { prepareProject } from "../../lib/autoconfig.js";
 import {
 	CLOUDFLARE_CONFIG_FILENAME,
 	findCloudflareConfig,
@@ -32,6 +33,7 @@ interface StaticAssetsProjectConfig {
 
 interface StaticAssetsCommandArgs {
 	directory?: string;
+	"dry-run"?: boolean;
 	mode?: string;
 	prebuilt?: boolean;
 	quiet?: boolean;
@@ -52,7 +54,7 @@ export const staticAssetsDirectoryOption = {
 export async function prepareStaticAssetsBuildOutput(
 	argv: StaticAssetsCommandArgs,
 	context: StaticAssetsBuildContext
-): Promise<boolean> {
+): Promise<boolean | "setup-needed"> {
 	const { directory } = argv;
 	if (directory === undefined) {
 		return false;
@@ -72,21 +74,23 @@ export async function prepareStaticAssetsBuildOutput(
 	}
 
 	const root = await fsp.realpath(process.cwd());
-	const sourceDirectory = await resolveSourceDirectory(root, directory);
-	const buildOutputDirectory = path.resolve(root, BUILD_OUTPUT_ROOT);
-
-	if (isWithin(buildOutputDirectory, sourceDirectory)) {
-		throw new Error(
-			`The static assets directory cannot be inside ${BUILD_OUTPUT_ROOT}, because that directory is replaced during deployment. Choose the original build directory instead.`
-		);
-	}
-	if (
-		sourceDirectory !== root &&
-		isWithin(sourceDirectory, buildOutputDirectory)
-	) {
-		throw new Error(
-			`The static assets directory cannot contain ${BUILD_OUTPUT_ROOT}. Choose the specific directory containing the built assets.`
-		);
+	let sourceDirectory = await resolveSourceDirectory(root, directory);
+	// Autoconfig checks cwd, but directory uploads also reuse ancestor configs.
+	if (findCloudflareConfig(root) === null) {
+		const { configuration, setupNeeded } = await prepareProject(root, {
+			outputDir: sourceDirectory,
+			dryRun: argv["dry-run"],
+			output: argv.quiet ? "silent" : "stderr",
+		});
+		if (setupNeeded) {
+			return "setup-needed";
+		}
+		if (configuration) {
+			sourceDirectory = await resolveSourceDirectory(
+				root,
+				configuration.outputDir
+			);
+		}
 	}
 
 	const projectConfig = await loadStaticAssetsProjectConfig(root, {
@@ -96,7 +100,9 @@ export async function prepareStaticAssetsBuildOutput(
 
 	if (!argv.quiet) {
 		log.section("Static assets");
-		log.message(`Preparing an assets-only deployment from ${directory}`);
+		log.message(
+			`Preparing an assets-only deployment from ${path.relative(root, sourceDirectory) || "."}`
+		);
 	}
 
 	await cleanBuildOutputDir(root);
@@ -180,6 +186,20 @@ async function resolveSourceDirectory(
 
 	if (!(await fsp.stat(sourceDirectory)).isDirectory()) {
 		throw new Error(`Static assets path is not a directory: ${directory}`);
+	}
+	const buildOutputDirectory = path.resolve(root, BUILD_OUTPUT_ROOT);
+	if (isWithin(buildOutputDirectory, sourceDirectory)) {
+		throw new Error(
+			`The static assets directory cannot be inside ${BUILD_OUTPUT_ROOT}, because that directory is replaced during deployment. Choose the original build directory instead.`
+		);
+	}
+	if (
+		sourceDirectory !== root &&
+		isWithin(sourceDirectory, buildOutputDirectory)
+	) {
+		throw new Error(
+			`The static assets directory cannot contain ${BUILD_OUTPUT_ROOT}. Choose the specific directory containing the built assets.`
+		);
 	}
 	return sourceDirectory;
 }

@@ -1,4 +1,5 @@
 import { withTelemetry } from "../../../../lib/telemetry/index.js";
+import { log } from "../../../../lib/ui/log.js";
 import { runUpload, sharedUploadBuilder } from "../../../deploy/shared.js";
 import {
 	prepareStaticAssetsBuildOutput,
@@ -39,6 +40,10 @@ const versionsCreateCommand: CommandModule<
 		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
 			isPreview: false,
 		});
+		if (preparedStaticAssets === "setup-needed") {
+			log.success("--dry-run: exiting now.");
+			return;
+		}
 		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
 			command: "Version upload",
 		});

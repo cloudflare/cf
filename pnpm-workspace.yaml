@@ -4,6 +4,7 @@ packages:
 
 patchedDependencies:
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
+  "@cloudflare/autoconfig@0.13.2": patches/@cloudflare__autoconfig@0.13.2.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (the pinned pkg.pr.new Forge build) are allowed.

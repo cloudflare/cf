@@ -52,6 +52,10 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
 			isPreview: false,
 		});
+		if (preparedStaticAssets === "setup-needed") {
+			log.success("--dry-run: exiting now.");
+			return;
+		}
 		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
 			command: "Deploy",
 		});

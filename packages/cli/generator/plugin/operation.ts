@@ -57,6 +57,7 @@ export interface BodyParamInfo {
 	optionalParentPath: readonly string[] | null;
 	type: string;
 	itemType?: string;
+	nullable?: boolean;
 	jsonShape?: JsonShape;
 	description?: string;
 	enumValues?: string[];

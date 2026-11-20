@@ -1,6 +1,6 @@
 {
 	"name": "cf",
-	"version": "1.0.0-rc.1",
+	"version": "1.0.0-rc.2",
 	"description": "The Cloudflare CLI",
 	"keywords": [
 		"ai",
@@ -69,25 +69,25 @@
 		"test:imports": "vp run task:test:imports"
 	},
 	"dependencies": {
-		"@cloudflare/build-output-utils": "1.0.0-rc.1",
-		"@cloudflare/config": "1.0.0-rc.1",
-		"@cloudflare/runtime-types": "0.1.30",
+		"@cloudflare/build-output-utils": "1.0.0-rc.2",
+		"@cloudflare/config": "1.0.0-rc.2",
+		"@cloudflare/runtime-types": "0.1.31",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "5.20261117.0-beta"
+		"miniflare": "5.20261118.0-beta"
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
 		"@bytecodealliance/jco": "1.42.0",
 		"@clack/core": "1.6.0",
 		"@clack/prompts": "^1.9.0",
-		"@cloudflare/autoconfig": "0.13.1",
-		"@cloudflare/cli-shared-helpers": "0.3.10",
-		"@cloudflare/codemods": "0.8.1",
-		"@cloudflare/containers-shared": "0.26.3",
-		"@cloudflare/deploy-helpers": "0.27.2",
-		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@f6720c19250f90fe5b395ef2c38d488aaba31641",
-		"@cloudflare/workers-auth": "0.18.4",
-		"@cloudflare/workers-utils": "0.54.2",
+		"@cloudflare/autoconfig": "0.13.2",
+		"@cloudflare/cli-shared-helpers": "0.3.11",
+		"@cloudflare/codemods": "0.8.2",
+		"@cloudflare/containers-shared": "0.27.0",
+		"@cloudflare/deploy-helpers": "0.28.0",
+		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ecd1521d1f164ed51ff990bd8676c0ff47a203e8",
+		"@cloudflare/workers-auth": "0.18.5",
+		"@cloudflare/workers-utils": "0.55.0",
 		"@redocly/openapi-core": "2.79.0",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",

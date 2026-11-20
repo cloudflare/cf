@@ -431,7 +431,7 @@ describe("cf deploy", () => {
 			expect(dockerCommands).toContain(
 				`push registry.fed.cloudflare.com/${ACCOUNT_ID}/api-container:test`
 			);
-			expect(dockerCommands).toContain(
+			expect(dockerCommands).not.toContain(
 				"image rm api-container:built-by-wrangler"
 			);
 			expect(registryCredentialUrl).toMatch(

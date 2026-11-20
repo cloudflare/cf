@@ -1,3 +1,4 @@
+import { previewSecretsFileDescription } from "../../deploy/secrets-file-description.js";
 import type { LeafCommandMeta } from "../../../lib/command-meta.js";
 
 export default {
@@ -39,6 +40,12 @@ export default {
 			required: false,
 			description:
 				"Name of the Worker in the Build Output to use (defaults to the default Worker)",
+		},
+		{
+			name: "secrets-file",
+			type: "string",
+			required: false,
+			description: previewSecretsFileDescription,
 		},
 		{
 			name: "dry-run",

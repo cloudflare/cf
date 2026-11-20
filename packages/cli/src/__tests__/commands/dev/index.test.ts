@@ -242,7 +242,7 @@ describe("cf dev", () => {
 				/@cloudflare\/vite-plugin .* is not installed/
 			);
 			expect(unframe(std.err)).toMatch(
-				/npm install --save-dev @cloudflare\/vite-plugin@beta/
+				/npm install --save-dev @cloudflare\/vite-plugin@\^2\.0\.0-rc\.0/
 			);
 		});
 
@@ -263,7 +263,7 @@ describe("cf dev", () => {
 			);
 			expect(unframe(std.err)).toMatch(/vite executable could not be found/);
 			expect(unframe(std.err)).toMatch(
-				/npm install --save-dev @cloudflare\/vite-plugin@beta vite/
+				/npm install --save-dev @cloudflare\/vite-plugin@\^2\.0\.0-rc\.0 vite/
 			);
 			expect(unframe(std.err)).toMatch(
 				/@cloudflare\/vite-plugin >=2\.0\.0-beta\.v\.13 <3/
@@ -323,7 +323,7 @@ describe("cf dev", () => {
 			minimum: "2.0.0-beta.v.13",
 			executable: "node_modules/vite/bin/vite.js",
 			vite: true,
-			install: "npm install --save-dev @cloudflare/vite-plugin@beta",
+			install: "npm install --save-dev @cloudflare/vite-plugin@^2.0.0-rc.0",
 		},
 		{
 			name: "wrangler",

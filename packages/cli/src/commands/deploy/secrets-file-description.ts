@@ -1,2 +1,8 @@
-export const secretsFileDescription =
-	"Path to a file containing secrets to upload with the version (JSON or .env format). Dotenv values expand $VAR and ${VAR} using process environment values and earlier file values; process environment values override file values, including empty values. Only declared file keys are uploaded. Only use trusted dotenv secrets files: they can read and upload any process environment value. Escape literal dollar signs with \\$ or use JSON.";
+function describeSecretsFile(upload: string) {
+	return `Path to a file containing secrets to upload with the ${upload} (JSON or .env format). Dotenv values expand $VAR and \${VAR} using process environment values and earlier file values; process environment values override file values, including empty values. Only declared file keys are uploaded. Only use trusted dotenv secrets files: they can read and upload any process environment value. Escape literal dollar signs with \\$ or use JSON.`;
+}
+
+export const secretsFileDescription = describeSecretsFile("version");
+
+export const previewSecretsFileDescription =
+	describeSecretsFile("Preview deployment");

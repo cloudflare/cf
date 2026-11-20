@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sensitivity-levels", {
 			type: "string",
 			description:
-				'The sensitivity_levels field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
+				'The sensitivity_levels field. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -107,7 +107,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										sensitivity_levels: parseObjectArray(
 											argv["sensitivity-levels"],
-											"sensitivity-levels"
+											"sensitivity-levels",
+											true
 										),
 									}),
 					});
@@ -152,7 +153,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					sensitivity_levels: parseObjectArray(
 						argv["sensitivity-levels"],
-						"sensitivity-levels"
+						"sensitivity-levels",
+						true
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>

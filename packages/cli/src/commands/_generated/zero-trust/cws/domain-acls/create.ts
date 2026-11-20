@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				'Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action": "ALLOW" | "BLOCK", "domain": string}].',
+				'Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"action": "ALLOW" | "BLOCK", "domain": string}].',
 		})
 		.option("name", { type: "string", description: "Name of the domain ACL" })
 		.option("dry-run", {
@@ -105,7 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										default_action: argv["default-action"],
-										entries: parseObjectArray(argv["entries"], "entries"),
+										entries: parseObjectArray(argv["entries"], "entries", true),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -134,7 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					default_action: argv["default-action"],
-					entries: parseObjectArray(argv["entries"], "entries"),
+					entries: parseObjectArray(argv["entries"], "entries", true),
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

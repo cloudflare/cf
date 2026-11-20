@@ -6378,7 +6378,7 @@
 					"name": "otel",
 					"type": "string",
 					"required": false,
-					"description": "The otel field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"headers\": {...}, \"url\": string, \"authorization\"?: string, \"content_type\"?: \"json\" | \"protobuf\"}]. ? marks optional keys."
+					"description": "The otel field. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"headers\": {...}, \"url\": string, \"authorization\"?: string, \"content_type\"?: \"json\" | \"protobuf\"}]. ? marks optional keys."
 				},
 				{
 					"name": "rate-limiting-interval",
@@ -7055,7 +7055,7 @@
 					"name": "otel",
 					"type": "string",
 					"required": false,
-					"description": "The otel field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"headers\": {...}, \"url\": string, \"authorization\"?: string, \"content_type\"?: \"json\" | \"protobuf\"}]. ? marks optional keys."
+					"description": "The otel field. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"headers\": {...}, \"url\": string, \"authorization\"?: string, \"content_type\"?: \"json\" | \"protobuf\"}]. ? marks optional keys."
 				},
 				{
 					"name": "rate-limiting-interval",
@@ -12616,13 +12616,13 @@
 					"name": "selector-exclude",
 					"type": "string",
 					"required": false,
-					"description": "Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"operation_ids\"?: [string]}]. ? marks optional keys."
+					"description": "Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"operation_ids\"?: [string]}]. ? marks optional keys."
 				},
 				{
 					"name": "selector-include",
 					"type": "string",
 					"required": false,
-					"description": "Select all matching operations. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"host\"?: [string]}]. ? marks optional keys."
+					"description": "Select all matching operations. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"host\"?: [string]}]. ? marks optional keys."
 				},
 				{
 					"name": "title",
@@ -12705,13 +12705,13 @@
 					"name": "selector-exclude",
 					"type": "string",
 					"required": false,
-					"description": "Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"operation_ids\"?: [string]}]. ? marks optional keys."
+					"description": "Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"operation_ids\"?: [string]}]. ? marks optional keys."
 				},
 				{
 					"name": "selector-include",
 					"type": "string",
 					"required": false,
-					"description": "Select all matching operations. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"host\"?: [string]}]. ? marks optional keys."
+					"description": "Select all matching operations. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"host\"?: [string]}]. ? marks optional keys."
 				},
 				{
 					"name": "title",
@@ -57160,13 +57160,13 @@
 					"name": "updated-prompts",
 					"type": "string",
 					"required": false,
-					"description": "Prompt overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
+					"description": "Prompt overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
 				},
 				{
 					"name": "updated-tools",
 					"type": "string",
 					"required": false,
-					"description": "Tool overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
+					"description": "Tool overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
 				}
 			]
 		},
@@ -61857,7 +61857,7 @@
 					"name": "members",
 					"type": "string",
 					"required": false,
-					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"user\": {...}}]."
+					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"user\": {...}}]."
 				}
 			]
 		},
@@ -110067,7 +110067,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": true,
-					"description": "Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"action\": \"ALLOW\" | \"BLOCK\", \"domain\": string}]."
+					"description": "Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"action\": \"ALLOW\" | \"BLOCK\", \"domain\": string}]."
 				},
 				{
 					"name": "name",
@@ -110204,7 +110204,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": true,
-					"description": "Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"action\": \"ALLOW\" | \"BLOCK\", \"domain\": string}]."
+					"description": "Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"action\": \"ALLOW\" | \"BLOCK\", \"domain\": string}]."
 				},
 				{
 					"name": "name",
@@ -110469,7 +110469,7 @@
 					"name": "policies",
 					"type": "string",
 					"required": true,
-					"description": "Policies to include with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"policy_id\": string, \"enforce\"?: boolean}]. ? marks optional keys."
+					"description": "Policies to include with per-membership enforcement mode. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"policy_id\": string, \"enforce\"?: boolean}]. ? marks optional keys."
 				},
 				{
 					"name": "tags",
@@ -110624,7 +110624,7 @@
 					"name": "policies",
 					"type": "string",
 					"required": true,
-					"description": "Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"policy_id\": string, \"enforce\"?: boolean}]. ? marks optional keys."
+					"description": "Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"policy_id\": string, \"enforce\"?: boolean}]. ? marks optional keys."
 				},
 				{
 					"name": "tags",
@@ -115216,7 +115216,7 @@
 					"name": "sensitivity-levels",
 					"type": "string",
 					"required": false,
-					"description": "The sensitivity_levels field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"group_id\": string, \"level_id\": string}]."
+					"description": "The sensitivity_levels field. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"group_id\": string, \"level_id\": string}]."
 				}
 			]
 		},
@@ -115356,7 +115356,7 @@
 					"name": "tags",
 					"type": "string",
 					"required": false,
-					"description": "The desired final state of tags.\n- `None` (omitted): no tag changes.\n- `Some([])`: delete all tags.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"description\"?: (string | null), \"name\"?: (string | null)} & {\"id\"?: (string | null)})]. ? marks optional keys."
+					"description": "The desired final state of tags.\n- `None` (omitted): no tag changes.\n- `Some([])`: delete all tags.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [({\"description\"?: (string | null), \"name\"?: (string | null)} & {\"id\"?: (string | null)})]. ? marks optional keys."
 				}
 			]
 		},
@@ -116515,7 +116515,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": false,
-					"description": "Custom entries from this profile.\nIf this field is omitted, entries owned by this profile will not be changed. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({\"enabled\": boolean, \"name\": string, \"pattern\": {...}, \"description\"?: (string | null)} & {\"entry_id\": string}) | {\"enabled\": boolean, \"name\": string, \"pattern\": {...}, \"description\"?: (string | null)})]. ? marks optional keys."
+					"description": "Custom entries from this profile.\nIf this field is omitted, entries owned by this profile will not be changed. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [(({\"enabled\": boolean, \"name\": string, \"pattern\": {...}, \"description\"?: (string | null)} & {\"entry_id\": string}) | {\"enabled\": boolean, \"name\": string, \"pattern\": {...}, \"description\"?: (string | null)})]. ? marks optional keys."
 				},
 				{
 					"name": "name",
@@ -116533,7 +116533,7 @@
 					"name": "sensitivity-levels",
 					"type": "string",
 					"required": false,
-					"description": "Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"group_id\": string, \"level_id\": string}]."
+					"description": "Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"group_id\": string, \"level_id\": string}]."
 				},
 				{
 					"name": "shared-entries",
@@ -116841,7 +116841,7 @@
 					"name": "levels",
 					"type": "string",
 					"required": false,
-					"description": "The desired final state of levels.\n- `None` (omitted): no level changes.\n- `Some([])`: delete all levels.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"description\"?: (string | null), \"name\"?: (string | null)} & {\"id\"?: (string | null)})]. ? marks optional keys."
+					"description": "The desired final state of levels.\n- `None` (omitted): no level changes.\n- `Some([])`: delete all levels.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [({\"description\"?: (string | null), \"name\"?: (string | null)} & {\"id\"?: (string | null)})]. ? marks optional keys."
 				},
 				{
 					"name": "name",
@@ -118438,7 +118438,7 @@
 					"name": "endpoints-doh-networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				},
 				{
 					"name": "endpoints-doh-require-token",
@@ -118456,7 +118456,7 @@
 					"name": "endpoints-dot-networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				},
 				{
 					"name": "endpoints-ipv4-enabled",
@@ -118474,7 +118474,7 @@
 					"name": "endpoints-ipv6-networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				},
 				{
 					"name": "max-ttl-mode",
@@ -118498,7 +118498,7 @@
 					"name": "networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				}
 			]
 		},
@@ -118641,7 +118641,7 @@
 					"name": "endpoints-doh-networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				},
 				{
 					"name": "endpoints-doh-require-token",
@@ -118659,7 +118659,7 @@
 					"name": "endpoints-dot-networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				},
 				{
 					"name": "endpoints-ipv4-enabled",
@@ -118677,7 +118677,7 @@
 					"name": "endpoints-ipv6-networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				},
 				{
 					"name": "max-ttl-mode",
@@ -118701,7 +118701,7 @@
 					"name": "networks",
 					"type": "string",
 					"required": false,
-					"description": "Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"network\": string}]."
+					"description": "Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"network\": string}]."
 				}
 			]
 		},

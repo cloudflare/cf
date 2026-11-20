@@ -304,8 +304,8 @@ importers:
         specifier: 0.28.0
         version: 0.28.0(@types/node@26.6.6)(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
       '@cloudflare/forge':
-        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ecd1521d1f164ed51ff990bd8676c0ff47a203e8
-        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ecd1521d1f164ed51ff990bd8676c0ff47a203e8(@bytecodealliance/jco@1.42.0)
+        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@27d2ab1e11c3df637c82c0c1df766e8a3e2f428d
+        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@27d2ab1e11c3df637c82c0c1df766e8a3e2f428d(@bytecodealliance/jco@1.42.0)
       '@cloudflare/workers-auth':
         specifier: 0.18.5
         version: 0.18.5(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
@@ -739,8 +739,8 @@ packages:
   '@cloudflare/deploy-helpers@0.28.0':
     resolution: {integrity: sha512-ctLTAcnIYHgEE+pT3gAczOG4rBLt4Rn489aRZCFK6jhy1a/UjgK7RdQODJitWZfRxXo2wZiZIQWNxrIU7vOjDg==}
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ecd1521d1f164ed51ff990bd8676c0ff47a203e8':
-    resolution: {integrity: sha512-eR7asgOSDjAwnTbLgMXT1MjSyZiM3pnBQM5d58uDWewYxAyvCb6vXqWP+FgnzFP2nzxTZAZIo9EvXFzXFexTXg==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ecd1521d1f164ed51ff990bd8676c0ff47a203e8}
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@27d2ab1e11c3df637c82c0c1df766e8a3e2f428d':
+    resolution: {integrity: sha512-V1LHR1RD2ZVRkJG6XiR5N9s2kJW6vBiyXCaLuh+DVYeJ/HXRpO1YxxCto29TdqUIfo7tuBgVyaXEa5y2LGFIlw==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@27d2ab1e11c3df637c82c0c1df766e8a3e2f428d}
     version: 0.2.0
     engines: {node: '>=18'}
     hasBin: true
@@ -4528,7 +4528,7 @@ snapshots:
       - utf-8-validate
       - vitest
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@ecd1521d1f164ed51ff990bd8676c0ff47a203e8(@bytecodealliance/jco@1.42.0)':
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@27d2ab1e11c3df637c82c0c1df766e8a3e2f428d(@bytecodealliance/jco@1.42.0)':
     optionalDependencies:
       '@bytecodealliance/jco': 1.42.0
 

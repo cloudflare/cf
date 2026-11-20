@@ -204,6 +204,16 @@ describe("parseObjectArray", () => {
 		expect(parseObjectArray(undefined, "versions")).toBeUndefined();
 	});
 
+	it("accepts top-level JSON null for a nullable flag", () => {
+		expect(parseObjectArray("null", "versions", true)).toBeNull();
+	});
+
+	it("names null as an alternative when rejecting invalid nullable flag values", () => {
+		expect(() => parseObjectArray("[null]", "versions", true)).toThrow(
+			"--versions must be a JSON array of objects or null."
+		);
+	});
+
 	it.each([
 		["an object", '{"version_id":"v1"}'],
 		["null", "null"],

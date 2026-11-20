@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("levels", {
 			type: "string",
 			description:
-				'The desired final state of levels.\n- `None` (omitted): no level changes.\n- `Some([])`: delete all levels.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"description"?: (string | null), "name"?: (string | null)} & {"id"?: (string | null)})]. ? marks optional keys.',
+				'The desired final state of levels.\n- `None` (omitted): no level changes.\n- `Some([])`: delete all levels.\n- `Some([...])`: desired final set + order. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [({"description"?: (string | null), "name"?: (string | null)} & {"id"?: (string | null)})]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("dry-run", {
@@ -87,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										levels: parseObjectArray(argv["levels"], "levels"),
+										levels: parseObjectArray(argv["levels"], "levels", true),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -123,7 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					levels: parseObjectArray(argv["levels"], "levels"),
+					levels: parseObjectArray(argv["levels"], "levels", true),
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

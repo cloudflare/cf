@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("policies", {
 			type: "string",
 			description:
-				'Policies to include with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"policy_id": string, "enforce"?: boolean}]. ? marks optional keys.',
+				'Policies to include with per-membership enforcement mode. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"policy_id": string, "enforce"?: boolean}]. ? marks optional keys.',
 		})
 		.option("tags", {
 			type: "string",
@@ -125,7 +125,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"name",
 												"text"
 											),
-											policies: parseObjectArray(argv["policies"], "policies"),
+											policies: parseObjectArray(
+												argv["policies"],
+												"policies",
+												true
+											),
 											tags: parseJsonMap(argv["tags"], "tags"),
 										},
 										[["tags"]]
@@ -164,7 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"name",
 							"text"
 						),
-						policies: parseObjectArray(argv["policies"], "policies"),
+						policies: parseObjectArray(argv["policies"], "policies", true),
 						tags: parseJsonMap(argv["tags"], "tags"),
 					},
 					[["tags"]]

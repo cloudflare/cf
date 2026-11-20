@@ -54,7 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("endpoints-doh-networks", {
 			type: "string",
 			description:
-				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
+				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("endpoints-doh-require-token", {
 			type: "boolean",
@@ -69,7 +69,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("endpoints-dot-networks", {
 			type: "string",
 			description:
-				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
+				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("endpoints-ipv4-enabled", {
 			type: "boolean",
@@ -84,7 +84,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("endpoints-ipv6-networks", {
 			type: "string",
 			description:
-				'Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
+				'Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("max-ttl-mode", {
 			type: "string",
@@ -107,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("networks", {
 			type: "string",
 			description:
-				'Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"network": string}].',
+				'Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -197,7 +197,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												enabled: argv["endpoints-doh-enabled"],
 												networks: parseObjectArray(
 													argv["endpoints-doh-networks"],
-													"endpoints-doh-networks"
+													"endpoints-doh-networks",
+													true
 												),
 												require_token: argv["endpoints-doh-require-token"],
 											},
@@ -205,7 +206,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												enabled: argv["endpoints-dot-enabled"],
 												networks: parseObjectArray(
 													argv["endpoints-dot-networks"],
-													"endpoints-dot-networks"
+													"endpoints-dot-networks",
+													true
 												),
 											},
 											ipv4: {
@@ -215,7 +217,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												enabled: argv["endpoints-ipv6-enabled"],
 												networks: parseObjectArray(
 													argv["endpoints-ipv6-networks"],
-													"endpoints-ipv6-networks"
+													"endpoints-ipv6-networks",
+													true
 												),
 											},
 										},
@@ -228,7 +231,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										networks: parseObjectArray(argv["networks"], "networks"),
+										networks: parseObjectArray(
+											argv["networks"],
+											"networks",
+											true
+										),
 									}),
 					});
 					return;
@@ -264,7 +271,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							enabled: argv["endpoints-doh-enabled"],
 							networks: parseObjectArray(
 								argv["endpoints-doh-networks"],
-								"endpoints-doh-networks"
+								"endpoints-doh-networks",
+								true
 							),
 							require_token: argv["endpoints-doh-require-token"],
 						},
@@ -272,7 +280,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							enabled: argv["endpoints-dot-enabled"],
 							networks: parseObjectArray(
 								argv["endpoints-dot-networks"],
-								"endpoints-dot-networks"
+								"endpoints-dot-networks",
+								true
 							),
 						},
 						ipv4: {
@@ -282,7 +291,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							enabled: argv["endpoints-ipv6-enabled"],
 							networks: parseObjectArray(
 								argv["endpoints-ipv6-networks"],
-								"endpoints-ipv6-networks"
+								"endpoints-ipv6-networks",
+								true
 							),
 						},
 					},
@@ -295,7 +305,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					networks: parseObjectArray(argv["networks"], "networks"),
+					networks: parseObjectArray(argv["networks"], "networks", true),
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })

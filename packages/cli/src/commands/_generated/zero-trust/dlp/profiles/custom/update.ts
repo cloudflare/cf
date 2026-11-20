@@ -71,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				'Custom entries from this profile.\nIf this field is omitted, entries owned by this profile will not be changed. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)} & {"entry_id": string}) | {"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)})]. ? marks optional keys.',
+				'Custom entries from this profile.\nIf this field is omitted, entries owned by this profile will not be changed. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [(({"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)} & {"entry_id": string}) | {"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)})]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("ocr-enabled", {
@@ -81,7 +81,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sensitivity-levels", {
 			type: "string",
 			description:
-				'Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
+				'Sensitivity levels to associate with the profile. If omitted, existing associations are unchanged. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
 		})
 		.option("shared-entries", {
 			type: "string",
@@ -182,7 +182,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										entries: parseObjectArray(argv["entries"], "entries"),
+										entries: parseObjectArray(argv["entries"], "entries", true),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -191,7 +191,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										ocr_enabled: argv["ocr-enabled"],
 										sensitivity_levels: parseObjectArray(
 											argv["sensitivity-levels"],
-											"sensitivity-levels"
+											"sensitivity-levels",
+											true
 										),
 										shared_entries: parseObjectArray(
 											argv["shared-entries"],
@@ -243,7 +244,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					entries: parseObjectArray(argv["entries"], "entries"),
+					entries: parseObjectArray(argv["entries"], "entries", true),
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
@@ -252,7 +253,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					ocr_enabled: argv["ocr-enabled"],
 					sensitivity_levels: parseObjectArray(
 						argv["sensitivity-levels"],
-						"sensitivity-levels"
+						"sensitivity-levels",
+						true
 					),
 					shared_entries: parseObjectArray(
 						argv["shared-entries"],

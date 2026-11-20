@@ -1,6 +1,7 @@
+import $bulkedit from "./bulk-edit.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
-import $edit from "./edit/index.js";
+import $edit from "./edit.js";
 import $get from "./get.js";
 import $health from "./health/index.js";
 import $list from "./list.js";
@@ -21,12 +22,13 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($bulkedit)
 			.command($create)
 			.command($delete)
+			.command($edit)
 			.command($get)
 			.command($list)
 			.command($update)
-			.command($edit)
 			.command($health)
 			.command($preview)
 			.command($references)

@@ -57160,13 +57160,13 @@
 					"name": "updated-prompts",
 					"type": "string",
 					"required": false,
-					"description": "Server-wide prompt capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
+					"description": "Prompt overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
 				},
 				{
 					"name": "updated-tools",
 					"type": "string",
 					"required": false,
-					"description": "Server-wide tool capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
+					"description": "Tool overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{\"name\": string, \"alias\"?: string, \"description\"?: string, \"enabled\"?: boolean}]. ? marks optional keys."
 				}
 			]
 		},
@@ -96723,6 +96723,22 @@
 				}
 			]
 		},
+		"user load-balancers pools bulk-edit": {
+			"operationId": "user.load-balancers.pools.bulk-edit",
+			"httpMethod": "PATCH",
+			"path": "/user/load_balancers/pools",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `\"\"` is accepted."
+				}
+			]
+		},
 		"user load-balancers pools create": {
 			"operationId": "user.load-balancers.pools.create",
 			"httpMethod": "POST",
@@ -96882,8 +96898,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"user load-balancers pools edit pools pool": {
-			"operationId": "user.load-balancers.pools.edit.pools.pool",
+		"user load-balancers pools edit": {
+			"operationId": "user.load-balancers.pools.edit",
 			"httpMethod": "PATCH",
 			"path": "/user/load_balancers/pools/{pool_id}",
 			"pathParams": [
@@ -97029,22 +97045,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"address\"?: string, \"enabled\"?: boolean, \"flatten_cname\"?: boolean, \"header\"?: {...}, \"name\"?: string, ...more}]. ? marks optional keys."
-				}
-			]
-		},
-		"user load-balancers pools edit pools pools": {
-			"operationId": "user.load-balancers.pools.edit.pools.pools",
-			"httpMethod": "PATCH",
-			"path": "/user/load_balancers/pools",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "notification-email",
-					"type": "string",
-					"required": false,
-					"description": "The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `\"\"` is accepted."
 				}
 			]
 		},

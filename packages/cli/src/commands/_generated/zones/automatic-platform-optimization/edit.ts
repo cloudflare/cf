@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zones automatic-platform-optimization edit\n\nAutomatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare's edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it."
+			'$0 zones automatic-platform-optimization edit\n\nAutomatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare\'s edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it. Setting `value` to `"off"` disables APO but keeps the detected zone/site/plugin facts. On the first write for a zone (no existing configuration) an object `value` must include `enabled`, `cf`, `wordpress` and `wp_plugin`; otherwise the request fails with error 1023. `"off"` is a no-op when no configuration exists.'
 		)
 		.option("value-cache-by-device-type", {
 			type: "boolean",

@@ -60,12 +60,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("updated-prompts", {
 			type: "string",
 			description:
-				'Server-wide prompt capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "alias"?: string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
+				'Prompt overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"name": string, "alias"?: string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("updated-tools", {
 			type: "string",
 			description:
-				'Server-wide tool capability overrides. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "alias"?: string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
+				'Tool overrides. Omit to preserve, send [] to clear, or null to reset the field to absence. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"name": string, "alias"?: string, "description"?: string, "enabled"?: boolean}]. ? marks optional keys.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -135,11 +135,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										secure_web_gateway: argv["secure-web-gateway"],
 										updated_prompts: parseObjectArray(
 											argv["updated-prompts"],
-											"updated-prompts"
+											"updated-prompts",
+											true
 										),
 										updated_tools: parseObjectArray(
 											argv["updated-tools"],
-											"updated-tools"
+											"updated-tools",
+											true
 										),
 									}),
 						sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]],
@@ -192,11 +194,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					secure_web_gateway: argv["secure-web-gateway"],
 					updated_prompts: parseObjectArray(
 						argv["updated-prompts"],
-						"updated-prompts"
+						"updated-prompts",
+						true
 					),
 					updated_tools: parseObjectArray(
 						argv["updated-tools"],
-						"updated-tools"
+						"updated-tools",
+						true
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>

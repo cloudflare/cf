@@ -1,8 +1,8 @@
-import operation from "../../../../../_operations/user/load-balancers/pools/edit/pools/pools.js";
+import operation from "../../../_operations/user/load-balancers/pools/bulk-edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * pools command
+ * bulk-edit command
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -17,7 +17,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 user load-balancers pools edit pools pools\n\nApply changes to a number of existing pools, overwriting the supplied properties. Pools are ordered by ascending `name`. Returns the list of affected pools. Supports the standard pagination query parameters, either `limit`/`offset` or `per_page`/`page`."
+			"$0 user load-balancers pools bulk-edit\n\nApply changes to a number of existing pools, overwriting the supplied properties. Pools are ordered by ascending `name`. Returns the list of affected pools. Supports the standard pagination query parameters, either `limit`/`offset` or `per_page`/`page`."
 		)
 		.option("notification-email", {
 			type: "string",
@@ -38,13 +38,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "pools",
+	command: "bulk-edit",
 	describe: "Patch Pools",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "user load-balancers pools edit pools pools",
+				command: "user load-balancers pools bulk-edit",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -53,7 +53,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf user load-balancers pools edit pools pools",
+						command: "cf user load-balancers pools bulk-edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/user/load_balancers/pools`,
 						pathParams: {},

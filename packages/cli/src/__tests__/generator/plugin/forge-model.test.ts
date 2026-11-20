@@ -497,6 +497,33 @@ describe("the forge model", () => {
 		expect(code).toContain("const missing = ['settings-format-type']");
 	});
 
+	it("names the actual flags in validation for a renamed optional object", () => {
+		const code = file(
+			create({
+				type: "object",
+				properties: {
+					settings: {
+						type: "object",
+						"x-fern-property-name": "configuration",
+						required: ["format"],
+						properties: {
+							format: { type: "string" },
+							label: {
+								type: "string",
+								"x-fern-property-name": "displayName",
+							},
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain(
+			"required when one of --configuration-format, --configuration-display-name is set"
+		);
+		expect(code).not.toContain("--settings-*");
+	});
+
 	it("recognizes an optional nested object under a required object", () => {
 		const code = file(
 			create({

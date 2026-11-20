@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("upload-metadata", {
 			type: "string",
 			description:
-				"Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded.\nSupported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`.",
+				"Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded.\nSupported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`, `encodingmode`.\n`encodingmode` accepts `default` or `previewFirst`.",
 		})
 		.option("dry-run", {
 			type: "boolean",

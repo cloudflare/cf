@@ -413,7 +413,10 @@ describe("cf workers triggers deploy", () => {
 
 		expect(exitCode).toBe(0);
 		expect(requests).toEqual([]);
-		expect(std.out).toContain("--dry-run: exiting now.");
+		expect(std.out).toContain(
+			"--dry-run: no changes will be made. Would deploy test-worker triggers:"
+		);
+		expect(std.out).toContain("schedule: */5 * * * *");
 	});
 });
 

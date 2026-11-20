@@ -52,6 +52,11 @@ export default defineConfig({
 				dependsOn: ["task:generate"],
 				cache: false,
 			},
+			"task:test:regression": {
+				command: "vp test run --config regression.config.ts",
+				dependsOn: ["task:generate"],
+				cache: false,
+			},
 			"task:test:watch": {
 				command: "vp test watch",
 				dependsOn: ["task:generate"],
@@ -73,6 +78,7 @@ export default defineConfig({
 		pool: "forks",
 		retry: 0,
 		include: ["src/__tests__/**/*.test.ts", "src/__tests__/**/*.test.tsx"],
+		exclude: ["src/__tests__/regression/shards/**"],
 		setupFiles: ["src/__tests__/vitest.setup.ts"],
 		globals: true,
 		unstubEnvs: true,

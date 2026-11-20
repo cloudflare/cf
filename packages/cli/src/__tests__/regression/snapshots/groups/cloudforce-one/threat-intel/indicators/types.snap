@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "cloudforce-one",
+    "threat-intel",
+    "indicators",
+    "types"
+  ],
+  "requests": []
+}

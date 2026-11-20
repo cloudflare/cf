@@ -1,1 +1,3 @@
 packages/cli/src/commands/_generated/** linguist-generated
+packages/cli/src/__tests__/regression/** text eol=lf
+packages/cli/src/__tests__/regression/snapshots/** linguist-generated

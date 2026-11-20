@@ -1,0 +1,2134 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --active",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "15",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--active value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --display-name",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--display-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "displayName": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --emails",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--emails",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --external-id",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "externalId": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta-created",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-created",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "created": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta-last-modified",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-last-modified",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "lastModified": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta-location",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-location",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "location": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta-resource-type",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-resource-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "resourceType": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta-version",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-version",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "version": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name-family-name",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name-family-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": {
+            "familyName": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name-formatted",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name-formatted",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": {
+            "formatted": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name-given-name",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name-given-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": {
+            "givenName": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name-honorific-prefix",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name-honorific-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": {
+            "honorificPrefix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name-honorific-suffix",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name-honorific-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": {
+            "honorificSuffix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name-middle-name",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--name-middle-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": {
+            "middleName": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schemas",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--schemas",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "schemas": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --user-name",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--user-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "userName": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false",
+      "--display-name",
+      "second value &/?+ü",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-created",
+      "second value &/?+ü",
+      "--meta-last-modified",
+      "second value &/?+ü",
+      "--meta-location",
+      "second value &/?+ü",
+      "--meta-resource-type",
+      "second value &/?+ü",
+      "--meta-version",
+      "second value &/?+ü",
+      "--name-family-name",
+      "second value &/?+ü",
+      "--name-formatted",
+      "second value &/?+ü",
+      "--name-given-name",
+      "second value &/?+ü",
+      "--name-honorific-prefix",
+      "second value &/?+ü",
+      "--name-honorific-suffix",
+      "second value &/?+ü",
+      "--name-middle-name",
+      "second value &/?+ü",
+      "--schemas",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--user-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "629",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false,
+          "displayName": "second value &/?+ü",
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "created": "second value &/?+ü",
+            "lastModified": "second value &/?+ü",
+            "location": "second value &/?+ü",
+            "resourceType": "second value &/?+ü",
+            "version": "second value &/?+ü"
+          },
+          "name": {
+            "familyName": "second value &/?+ü",
+            "formatted": "second value &/?+ü",
+            "givenName": "second value &/?+ü",
+            "honorificPrefix": "second value &/?+ü",
+            "honorificSuffix": "second value &/?+ü",
+            "middleName": "second value &/?+ü"
+          },
+          "schemas": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "userName": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--display-name",
+      "regression value &/?+ü",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-last-modified",
+      "regression value &/?+ü",
+      "--meta-resource-type",
+      "regression value &/?+ü",
+      "--name-family-name",
+      "regression value &/?+ü",
+      "--name-given-name",
+      "regression value &/?+ü",
+      "--name-honorific-suffix",
+      "regression value &/?+ü",
+      "--schemas",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "348",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "displayName": "regression value &/?+ü",
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "lastModified": "regression value &/?+ü",
+            "resourceType": "regression value &/?+ü"
+          },
+          "name": {
+            "familyName": "regression value &/?+ü",
+            "givenName": "regression value &/?+ü",
+            "honorificSuffix": "regression value &/?+ü"
+          },
+          "schemas": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--meta-created",
+      "second value &/?+ü",
+      "--meta-location",
+      "second value &/?+ü",
+      "--meta-version",
+      "second value &/?+ü",
+      "--name-formatted",
+      "second value &/?+ü",
+      "--name-honorific-prefix",
+      "second value &/?+ü",
+      "--name-middle-name",
+      "second value &/?+ü",
+      "--user-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "306",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false,
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "meta": {
+            "created": "second value &/?+ü",
+            "location": "second value &/?+ü",
+            "version": "second value &/?+ü"
+          },
+          "name": {
+            "formatted": "second value &/?+ü",
+            "honorificPrefix": "second value &/?+ü",
+            "middleName": "second value &/?+ü"
+          },
+          "userName": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-location",
+      "regression value &/?+ü",
+      "--meta-resource-type",
+      "regression value &/?+ü",
+      "--name-formatted",
+      "regression value &/?+ü",
+      "--name-given-name",
+      "regression value &/?+ü",
+      "--name-middle-name",
+      "regression value &/?+ü",
+      "--schemas",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "331",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "location": "regression value &/?+ü",
+            "resourceType": "regression value &/?+ü"
+          },
+          "name": {
+            "formatted": "regression value &/?+ü",
+            "givenName": "regression value &/?+ü",
+            "middleName": "regression value &/?+ü"
+          },
+          "schemas": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false",
+      "--display-name",
+      "second value &/?+ü",
+      "--meta-created",
+      "second value &/?+ü",
+      "--meta-last-modified",
+      "second value &/?+ü",
+      "--meta-version",
+      "second value &/?+ü",
+      "--name-family-name",
+      "second value &/?+ü",
+      "--name-honorific-prefix",
+      "second value &/?+ü",
+      "--name-honorific-suffix",
+      "second value &/?+ü",
+      "--user-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "319",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false,
+          "displayName": "second value &/?+ü",
+          "meta": {
+            "created": "second value &/?+ü",
+            "lastModified": "second value &/?+ü",
+            "version": "second value &/?+ü"
+          },
+          "name": {
+            "familyName": "second value &/?+ü",
+            "honorificPrefix": "second value &/?+ü",
+            "honorificSuffix": "second value &/?+ü"
+          },
+          "userName": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-created",
+      "regression value &/?+ü",
+      "--meta-last-modified",
+      "regression value &/?+ü",
+      "--meta-location",
+      "regression value &/?+ü",
+      "--meta-resource-type",
+      "regression value &/?+ü",
+      "--name-honorific-prefix",
+      "regression value &/?+ü",
+      "--name-honorific-suffix",
+      "regression value &/?+ü",
+      "--name-middle-name",
+      "regression value &/?+ü",
+      "--schemas",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "339",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "created": "regression value &/?+ü",
+            "lastModified": "regression value &/?+ü",
+            "location": "regression value &/?+ü",
+            "resourceType": "regression value &/?+ü"
+          },
+          "name": {
+            "honorificPrefix": "regression value &/?+ü",
+            "honorificSuffix": "regression value &/?+ü",
+            "middleName": "regression value &/?+ü"
+          },
+          "schemas": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false",
+      "--display-name",
+      "second value &/?+ü",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-version",
+      "second value &/?+ü",
+      "--name-family-name",
+      "second value &/?+ü",
+      "--name-formatted",
+      "second value &/?+ü",
+      "--name-given-name",
+      "second value &/?+ü",
+      "--user-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "319",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false,
+          "displayName": "second value &/?+ü",
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "version": "second value &/?+ü"
+          },
+          "name": {
+            "familyName": "second value &/?+ü",
+            "formatted": "second value &/?+ü",
+            "givenName": "second value &/?+ü"
+          },
+          "userName": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-version",
+      "regression value &/?+ü",
+      "--name-family-name",
+      "regression value &/?+ü",
+      "--name-formatted",
+      "regression value &/?+ü",
+      "--name-given-name",
+      "regression value &/?+ü",
+      "--name-honorific-prefix",
+      "regression value &/?+ü",
+      "--name-honorific-suffix",
+      "regression value &/?+ü",
+      "--name-middle-name",
+      "regression value &/?+ü",
+      "--schemas",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "335",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "version": "regression value &/?+ü"
+          },
+          "name": {
+            "familyName": "regression value &/?+ü",
+            "formatted": "regression value &/?+ü",
+            "givenName": "regression value &/?+ü",
+            "honorificPrefix": "regression value &/?+ü",
+            "honorificSuffix": "regression value &/?+ü",
+            "middleName": "regression value &/?+ü"
+          },
+          "schemas": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false",
+      "--display-name",
+      "second value &/?+ü",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-created",
+      "second value &/?+ü",
+      "--meta-last-modified",
+      "second value &/?+ü",
+      "--meta-location",
+      "second value &/?+ü",
+      "--meta-resource-type",
+      "second value &/?+ü",
+      "--user-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "314",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false,
+          "displayName": "second value &/?+ü",
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "created": "second value &/?+ü",
+            "lastModified": "second value &/?+ü",
+            "location": "second value &/?+ü",
+            "resourceType": "second value &/?+ü"
+          },
+          "userName": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=false",
+      "--display-name",
+      "second value &/?+ü",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-created",
+      "second value &/?+ü",
+      "--meta-last-modified",
+      "second value &/?+ü",
+      "--meta-location",
+      "second value &/?+ü",
+      "--meta-resource-type",
+      "second value &/?+ü",
+      "--meta-version",
+      "second value &/?+ü",
+      "--name-family-name",
+      "second value &/?+ü",
+      "--name-formatted",
+      "second value &/?+ü",
+      "--name-given-name",
+      "second value &/?+ü",
+      "--name-honorific-prefix",
+      "second value &/?+ü",
+      "--name-honorific-suffix",
+      "second value &/?+ü",
+      "--name-middle-name",
+      "second value &/?+ü",
+      "--schemas",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "596",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": false,
+          "displayName": "second value &/?+ü",
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "created": "second value &/?+ü",
+            "lastModified": "second value &/?+ü",
+            "location": "second value &/?+ü",
+            "resourceType": "second value &/?+ü",
+            "version": "second value &/?+ü"
+          },
+          "name": {
+            "familyName": "second value &/?+ü",
+            "formatted": "second value &/?+ü",
+            "givenName": "second value &/?+ü",
+            "honorificPrefix": "second value &/?+ü",
+            "honorificSuffix": "second value &/?+ü",
+            "middleName": "second value &/?+ü"
+          },
+          "schemas": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--active=true",
+      "--display-name",
+      "regression value &/?+ü",
+      "--emails",
+      "[{\"regression\":\"item\"}]",
+      "--external-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta-created",
+      "regression value &/?+ü",
+      "--meta-last-modified",
+      "regression value &/?+ü",
+      "--meta-location",
+      "regression value &/?+ü",
+      "--meta-resource-type",
+      "regression value &/?+ü",
+      "--meta-version",
+      "regression value &/?+ü",
+      "--name-family-name",
+      "regression value &/?+ü",
+      "--name-formatted",
+      "regression value &/?+ü",
+      "--name-given-name",
+      "regression value &/?+ü",
+      "--name-honorific-prefix",
+      "regression value &/?+ü",
+      "--name-honorific-suffix",
+      "regression value &/?+ü",
+      "--name-middle-name",
+      "regression value &/?+ü",
+      "--schemas",
+      "regression value &/?+ü",
+      "--user-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "662",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "active": true,
+          "displayName": "regression value &/?+ü",
+          "emails": [
+            {
+              "regression": "item"
+            }
+          ],
+          "externalId": "0123456789abcdef0123456789abcdef",
+          "meta": {
+            "created": "regression value &/?+ü",
+            "lastModified": "regression value &/?+ü",
+            "location": "regression value &/?+ü",
+            "resourceType": "regression value &/?+ü",
+            "version": "regression value &/?+ü"
+          },
+          "name": {
+            "familyName": "regression value &/?+ü",
+            "formatted": "regression value &/?+ü",
+            "givenName": "regression value &/?+ü",
+            "honorificPrefix": "regression value &/?+ü",
+            "honorificSuffix": "regression value &/?+ü",
+            "middleName": "regression value &/?+ü"
+          },
+          "schemas": [
+            "regression value &/?+ü"
+          ],
+          "userName": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "binary file",
+    "argv": [
+      "zero-trust",
+      "access",
+      "user-populations",
+      "users",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--file",
+      "<payload.txt>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/user_populations/0123456789abcdef0123456789abcdef/users",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/scim+json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "invalidJson": "Regression payload: bytes &/?+ü\n"
+        }
+      }
+    ]
+  }
+]

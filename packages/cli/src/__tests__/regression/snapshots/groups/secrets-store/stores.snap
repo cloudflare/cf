@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "secrets-store",
+    "stores"
+  ],
+  "requests": []
+}

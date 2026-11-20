@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "pages",
+    "deployments",
+    "history",
+    "logs"
+  ],
+  "requests": []
+}

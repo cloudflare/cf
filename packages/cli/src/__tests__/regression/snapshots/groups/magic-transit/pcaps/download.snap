@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "magic-transit",
+    "pcaps",
+    "download"
+  ],
+  "requests": []
+}

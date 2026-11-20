@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "user",
+    "load-balancers",
+    "pools",
+    "references"
+  ],
+  "requests": []
+}

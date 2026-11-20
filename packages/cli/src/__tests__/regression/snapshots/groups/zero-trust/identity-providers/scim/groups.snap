@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "identity-providers",
+    "scim",
+    "groups"
+  ],
+  "requests": []
+}

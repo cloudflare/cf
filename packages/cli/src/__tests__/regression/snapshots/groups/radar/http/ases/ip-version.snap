@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "radar",
+    "http",
+    "ases",
+    "ip-version"
+  ],
+  "requests": []
+}

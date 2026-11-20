@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "zero-trust",
+    "access",
+    "applications",
+    "policy-tests",
+    "users"
+  ],
+  "requests": []
+}

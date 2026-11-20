@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "zero-trust",
+    "dlp",
+    "validators",
+    "worker",
+    "status"
+  ],
+  "requests": []
+}

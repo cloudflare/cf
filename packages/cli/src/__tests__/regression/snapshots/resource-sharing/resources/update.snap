@@ -1,0 +1,359 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/shares/0123456789abcdef0123456789abcdef/resources/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "meta": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "resource-sharing",
+      "resources",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--share-id",
+      "0123456789abcdef0123456789abcdef",
+      "--meta",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at meta (for --meta).",
+    "requests": []
+  }
+]

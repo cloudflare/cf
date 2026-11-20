@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "magic-network-monitoring",
+    "vpc-flows"
+  ],
+  "requests": []
+}

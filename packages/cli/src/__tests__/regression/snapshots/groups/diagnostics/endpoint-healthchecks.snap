@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "diagnostics",
+    "endpoint-healthchecks"
+  ],
+  "requests": []
+}

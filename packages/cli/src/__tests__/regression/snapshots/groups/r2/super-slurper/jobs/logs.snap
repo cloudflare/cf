@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "r2",
+    "super-slurper",
+    "jobs",
+    "logs"
+  ],
+  "requests": []
+}

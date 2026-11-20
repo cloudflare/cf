@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "casb",
+    "applications",
+    "auth-methods"
+  ],
+  "requests": []
+}

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "devices",
+    "profiles",
+    "default"
+  ],
+  "requests": []
+}

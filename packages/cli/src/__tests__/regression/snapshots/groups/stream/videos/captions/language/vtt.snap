@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "stream",
+    "videos",
+    "captions",
+    "language",
+    "vtt"
+  ],
+  "requests": []
+}

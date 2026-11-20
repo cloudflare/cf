@@ -1,0 +1,652 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check"
+    ],
+    "exitCode": 1,
+    "error": "--bucket is required. Pass --bucket <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "only --account",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--account",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v2/sourcingkit/sources/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "regression value &/?+ü",
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "regression": "json value"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --region",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v2/sourcingkit/sources/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "secret": {
+            "regression": "json value"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --vendor value 1",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--vendor",
+      "r2"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v2/sourcingkit/sources/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "regression": "json value"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--account",
+      "second value &/?+ü",
+      "--region",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v2/sourcingkit/sources/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "second value &/?+ü",
+          "bucket": "regression value &/?+ü",
+          "region": "second value &/?+ü",
+          "secret": {
+            "regression": "json value"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--account",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v2/sourcingkit/sources/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "second value &/?+ü",
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "regression": "json value"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at secret (for --secret).",
+    "requests": []
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "images",
+      "import",
+      "sources",
+      "pre-check",
+      "--bucket",
+      "regression value &/?+ü",
+      "--secret",
+      "{\"regression\":\"json value\"}",
+      "--vendor",
+      "s3",
+      "--account",
+      "regression value &/?+ü",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/images/v2/sourcingkit/sources/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "regression value &/?+ü",
+          "bucket": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "secret": {
+            "regression": "json value"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  }
+]

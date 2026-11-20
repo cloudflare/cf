@@ -1,0 +1,1954 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sink-config-account-id",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--sink-config-bucket is required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-bucket",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-bucket",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--sink-config-account-id is required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-credentials-access-key-id",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-credentials-access-key-id -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-credentials-secret-access-key",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-credentials-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-credentials-secret-access-key -> sink-config-credentials-access-key-id",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-file-naming-prefix",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-prefix -> sink-config-credentials-access-key-id sink-config-file-naming-prefix -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-file-naming-strategy",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-strategy",
+      "serial"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "--sink-config-file-naming-strategy value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-strategy",
+      "uuid"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "--sink-config-file-naming-strategy value 2",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-strategy",
+      "uuid_v7"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "--sink-config-file-naming-strategy value 3",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-strategy",
+      "ulid"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-file-naming-suffix",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-suffix -> sink-config-credentials-access-key-id sink-config-file-naming-suffix -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-jurisdiction",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-jurisdiction",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-jurisdiction -> sink-config-credentials-access-key-id sink-config-jurisdiction -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-partitioning-time-pattern",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-partitioning-time-pattern -> sink-config-credentials-access-key-id sink-config-partitioning-time-pattern -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-path",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-path -> sink-config-credentials-access-key-id sink-config-path -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-rolling-policy-file-size-bytes",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--sink-config-account-id, --sink-config-bucket are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-rolling-policy-inactivity-seconds",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--sink-config-account-id, --sink-config-bucket are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-rolling-policy-interval-seconds",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-rolling-policy-interval-seconds",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--sink-config-account-id, --sink-config-bucket are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-namespace",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-namespace -> sink-config-table-name sink-config-namespace -> sink-config-token",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-table-name",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-table-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-table-name -> sink-config-token",
+    "requests": []
+  },
+  {
+    "case": "only --sink-config-token",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-token -> sink-config-table-name",
+    "requests": []
+  },
+  {
+    "case": "only --format-decimal-encoding",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-decimal-encoding",
+      "number"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-decimal-encoding value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-decimal-encoding",
+      "string"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-decimal-encoding value 2",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-decimal-encoding",
+      "bytes"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-timestamp-format",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-timestamp-format",
+      "rfc3339"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-timestamp-format value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-timestamp-format",
+      "unix_millis"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-unstructured",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-unstructured=true"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-unstructured value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-unstructured=false"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-compression",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-compression",
+      "uncompressed"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-compression",
+      "gzip"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 2",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-compression",
+      "snappy"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 3",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-compression",
+      "zstd"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 4",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-compression",
+      "lz4"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-type",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-type",
+      "json"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "format": {
+            "type": "json"
+          },
+          "name": "regression value &/?+ü",
+          "type": "r2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--format-type value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-type",
+      "parquet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "format": {
+            "type": "parquet"
+          },
+          "name": "regression value &/?+ü",
+          "type": "r2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --format-row-group-bytes",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-row-group-bytes",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --schema-fields",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schema": {
+            "fields": [
+              {
+                "regression": "item"
+              }
+            ]
+          },
+          "type": "r2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schema-inferred",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schema": {
+            "inferred": true
+          },
+          "type": "r2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--schema-inferred value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--schema-inferred=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schema": {
+            "inferred": false
+          },
+          "type": "r2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "r2_data_catalog"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 2",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "basin_catalog"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "r2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-bucket",
+      "second value &/?+ü",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-secret-access-key",
+      "second value &/?+ü",
+      "--sink-config-file-naming-prefix",
+      "second value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "uuid",
+      "--sink-config-file-naming-suffix",
+      "second value &/?+ü",
+      "--sink-config-jurisdiction",
+      "second value &/?+ü",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-path",
+      "second value &/?+ü",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "2",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "2",
+      "--sink-config-rolling-policy-interval-seconds",
+      "2",
+      "--sink-config-namespace",
+      "second value &/?+ü",
+      "--sink-config-table-name",
+      "second value &/?+ü",
+      "--sink-config-token",
+      "second value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-unstructured=false",
+      "--format-compression",
+      "gzip",
+      "--format-type",
+      "parquet",
+      "--format-row-group-bytes",
+      "2",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--schema-inferred=false"
+    ],
+    "exitCode": 1,
+    "error": "Arguments sink-config-credentials-access-key-id and sink-config-namespace are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-bucket",
+      "regression value &/?+ü",
+      "--sink-config-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "serial",
+      "--sink-config-jurisdiction",
+      "regression value &/?+ü",
+      "--sink-config-path",
+      "regression value &/?+ü",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "1",
+      "--sink-config-namespace",
+      "regression value &/?+ü",
+      "--sink-config-token",
+      "regression value &/?+ü",
+      "--format-timestamp-format",
+      "rfc3339",
+      "--format-compression",
+      "uncompressed",
+      "--format-row-group-bytes",
+      "1",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-credentials-secret-access-key -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-jurisdiction -> sink-config-credentials-access-key-id sink-config-path -> sink-config-credentials-access-key-id sink-config-namespace -> sink-config-table-name sink-config-token -> sink-config-table-name",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-file-naming-prefix",
+      "second value &/?+ü",
+      "--sink-config-file-naming-suffix",
+      "second value &/?+ü",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "2",
+      "--sink-config-rolling-policy-interval-seconds",
+      "2",
+      "--sink-config-table-name",
+      "second value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-unstructured=false",
+      "--format-type",
+      "parquet",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-credentials-access-key-id -> sink-config-credentials-secret-access-key sink-config-file-naming-prefix -> sink-config-credentials-secret-access-key sink-config-file-naming-suffix -> sink-config-credentials-secret-access-key sink-config-partitioning-time-pattern -> sink-config-credentials-secret-access-key sink-config-table-name -> sink-config-token",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--sink-config-file-naming-suffix",
+      "regression value &/?+ü",
+      "--sink-config-jurisdiction",
+      "regression value &/?+ü",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "1",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "1",
+      "--sink-config-table-name",
+      "regression value &/?+ü",
+      "--sink-config-token",
+      "regression value &/?+ü",
+      "--format-unstructured=true",
+      "--format-compression",
+      "uncompressed",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 1,
+    "error": "Arguments sink-config-credentials-access-key-id and sink-config-table-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-bucket",
+      "second value &/?+ü",
+      "--sink-config-file-naming-prefix",
+      "second value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "uuid",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-path",
+      "second value &/?+ü",
+      "--sink-config-rolling-policy-interval-seconds",
+      "2",
+      "--sink-config-namespace",
+      "second value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-type",
+      "parquet",
+      "--format-row-group-bytes",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-prefix -> sink-config-credentials-access-key-id sink-config-file-naming-prefix -> sink-config-credentials-secret-access-key sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-secret-access-key sink-config-partitioning-time-pattern -> sink-config-credentials-access-key-id sink-config-partitioning-time-pattern -> sink-config-credentials-secret-access-key sink-config-path -> sink-config-credentials-access-key-id sink-config-path -> sink-config-credentials-secret-access-key sink-config-namespace -> sink-config-table-name sink-config-namespace -> sink-config-token",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-file-naming-prefix",
+      "regression value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "serial",
+      "--sink-config-file-naming-suffix",
+      "regression value &/?+ü",
+      "--sink-config-jurisdiction",
+      "regression value &/?+ü",
+      "--sink-config-rolling-policy-interval-seconds",
+      "1",
+      "--sink-config-namespace",
+      "regression value &/?+ü",
+      "--sink-config-table-name",
+      "regression value &/?+ü",
+      "--sink-config-token",
+      "regression value &/?+ü",
+      "--format-type",
+      "json",
+      "--format-row-group-bytes",
+      "1",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-file-naming-prefix -> sink-config-credentials-access-key-id sink-config-file-naming-prefix -> sink-config-credentials-secret-access-key sink-config-file-naming-strategy -> sink-config-credentials-access-key-id sink-config-file-naming-strategy -> sink-config-credentials-secret-access-key sink-config-file-naming-suffix -> sink-config-credentials-access-key-id sink-config-file-naming-suffix -> sink-config-credentials-secret-access-key sink-config-jurisdiction -> sink-config-credentials-access-key-id sink-config-jurisdiction -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-bucket",
+      "second value &/?+ü",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-secret-access-key",
+      "second value &/?+ü",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-path",
+      "second value &/?+ü",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "2",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "2",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-unstructured=false",
+      "--format-compression",
+      "gzip"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-path",
+      "regression value &/?+ü",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "1",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "1",
+      "--sink-config-rolling-policy-interval-seconds",
+      "1",
+      "--sink-config-namespace",
+      "regression value &/?+ü",
+      "--sink-config-table-name",
+      "regression value &/?+ü",
+      "--sink-config-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n sink-config-partitioning-time-pattern -> sink-config-credentials-access-key-id sink-config-partitioning-time-pattern -> sink-config-credentials-secret-access-key sink-config-path -> sink-config-credentials-access-key-id sink-config-path -> sink-config-credentials-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-bucket",
+      "second value &/?+ü",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-secret-access-key",
+      "second value &/?+ü",
+      "--sink-config-file-naming-prefix",
+      "second value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "uuid",
+      "--sink-config-file-naming-suffix",
+      "second value &/?+ü",
+      "--sink-config-jurisdiction",
+      "second value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-unstructured=false",
+      "--format-compression",
+      "gzip",
+      "--format-type",
+      "parquet",
+      "--format-row-group-bytes",
+      "2",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--schema-inferred=false"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-row-group-bytes are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--format-decimal-encoding",
+      "number",
+      "--format-timestamp-format",
+      "rfc3339",
+      "--format-unstructured=true",
+      "--format-compression",
+      "uncompressed",
+      "--format-type",
+      "json",
+      "--format-row-group-bytes",
+      "1",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-row-group-bytes are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-bucket",
+      "second value &/?+ü",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-secret-access-key",
+      "second value &/?+ü",
+      "--sink-config-file-naming-prefix",
+      "second value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "uuid",
+      "--sink-config-file-naming-suffix",
+      "second value &/?+ü",
+      "--sink-config-jurisdiction",
+      "second value &/?+ü",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-path",
+      "second value &/?+ü",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "2",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "2",
+      "--sink-config-rolling-policy-interval-seconds",
+      "2",
+      "--sink-config-namespace",
+      "second value &/?+ü",
+      "--sink-config-table-name",
+      "second value &/?+ü",
+      "--sink-config-token",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments sink-config-credentials-access-key-id and sink-config-namespace are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/sinks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "pipelines",
+      "sinks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "r2",
+      "--sink-config-account-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-bucket",
+      "regression value &/?+ü",
+      "--sink-config-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sink-config-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--sink-config-file-naming-prefix",
+      "regression value &/?+ü",
+      "--sink-config-file-naming-strategy",
+      "serial",
+      "--sink-config-file-naming-suffix",
+      "regression value &/?+ü",
+      "--sink-config-jurisdiction",
+      "regression value &/?+ü",
+      "--sink-config-partitioning-time-pattern",
+      "2026-01-02T03:04:05Z",
+      "--sink-config-path",
+      "regression value &/?+ü",
+      "--sink-config-rolling-policy-file-size-bytes",
+      "1",
+      "--sink-config-rolling-policy-inactivity-seconds",
+      "1",
+      "--sink-config-rolling-policy-interval-seconds",
+      "1",
+      "--sink-config-namespace",
+      "regression value &/?+ü",
+      "--sink-config-table-name",
+      "regression value &/?+ü",
+      "--sink-config-token",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "number",
+      "--format-timestamp-format",
+      "rfc3339",
+      "--format-unstructured=true",
+      "--format-compression",
+      "uncompressed",
+      "--format-type",
+      "json",
+      "--format-row-group-bytes",
+      "1",
+      "--schema-fields",
+      "[{\"regression\":\"item\"}]",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 1,
+    "error": "Arguments sink-config-credentials-access-key-id and sink-config-namespace are mutually exclusive",
+    "requests": []
+  }
+]

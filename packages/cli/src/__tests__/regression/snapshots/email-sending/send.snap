@@ -1,0 +1,1472 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "email-sending",
+      "send"
+    ],
+    "exitCode": 1,
+    "error": "--subject is required. Pass --subject <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attachments",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attachments": [
+            {
+              "regression": "item"
+            }
+          ],
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bcc-address",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--bcc-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bcc": {
+            "address": "192.0.2.1"
+          },
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bcc-name",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--bcc-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n bcc-name -> bcc-address",
+    "requests": []
+  },
+  {
+    "case": "only --cc-address",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--cc-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cc": {
+            "address": "192.0.2.1"
+          },
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cc-name",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--cc-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n cc-name -> cc-address",
+    "requests": []
+  },
+  {
+    "case": "only --from-address",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--from-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "from": {
+            "address": "192.0.2.1"
+          },
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --from-name",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--from-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n from-name -> from-address",
+    "requests": []
+  },
+  {
+    "case": "only --headers",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--headers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "headers": {
+            "regression": "json value"
+          },
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --html",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--html",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "html": "regression value &/?+ü",
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reply-to-address",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--reply-to-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "reply_to": {
+            "address": "192.0.2.1"
+          },
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reply-to-name",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--reply-to-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n reply-to-name -> reply-to-address",
+    "requests": []
+  },
+  {
+    "case": "only --text",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "subject": "regression value &/?+ü",
+          "text": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --to-address",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--to-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "subject": "regression value &/?+ü",
+          "to": {
+            "address": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --to-name",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--to-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n to-name -> to-address",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]",
+      "--bcc-address",
+      "192.0.2.1",
+      "--bcc-name",
+      "second value &/?+ü",
+      "--cc-address",
+      "192.0.2.1",
+      "--cc-name",
+      "second value &/?+ü",
+      "--from-address",
+      "192.0.2.1",
+      "--from-name",
+      "second value &/?+ü",
+      "--headers",
+      "{\"regression\":\"json value\"}",
+      "--html",
+      "second value &/?+ü",
+      "--reply-to-address",
+      "192.0.2.1",
+      "--reply-to-name",
+      "second value &/?+ü",
+      "--text",
+      "second value &/?+ü",
+      "--to-address",
+      "192.0.2.1",
+      "--to-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "470",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attachments": [
+            {
+              "regression": "item"
+            }
+          ],
+          "bcc": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "cc": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "from": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "headers": {
+            "regression": "json value"
+          },
+          "html": "second value &/?+ü",
+          "reply_to": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "subject": "regression value &/?+ü",
+          "text": "second value &/?+ü",
+          "to": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--bcc-address",
+      "192.0.2.1",
+      "--cc-address",
+      "192.0.2.1",
+      "--from-address",
+      "192.0.2.1",
+      "--headers",
+      "{\"regression\":\"json value\"}",
+      "--reply-to-address",
+      "192.0.2.1",
+      "--text",
+      "regression value &/?+ü",
+      "--to-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n to-name -> to-address",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]",
+      "--bcc-name",
+      "second value &/?+ü",
+      "--cc-name",
+      "second value &/?+ü",
+      "--from-name",
+      "second value &/?+ü",
+      "--html",
+      "second value &/?+ü",
+      "--reply-to-name",
+      "second value &/?+ü",
+      "--to-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n bcc-name -> bcc-address cc-name -> cc-address from-name -> from-address reply-to-name -> reply-to-address",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--bcc-name",
+      "regression value &/?+ü",
+      "--cc-address",
+      "192.0.2.1",
+      "--from-name",
+      "regression value &/?+ü",
+      "--headers",
+      "{\"regression\":\"json value\"}",
+      "--reply-to-name",
+      "regression value &/?+ü",
+      "--text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n bcc-name -> bcc-address from-name -> from-address reply-to-name -> reply-to-address",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]",
+      "--bcc-address",
+      "192.0.2.1",
+      "--cc-name",
+      "second value &/?+ü",
+      "--from-address",
+      "192.0.2.1",
+      "--html",
+      "second value &/?+ü",
+      "--reply-to-address",
+      "192.0.2.1",
+      "--to-address",
+      "192.0.2.1",
+      "--to-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n cc-name -> cc-address",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--cc-name",
+      "regression value &/?+ü",
+      "--from-address",
+      "192.0.2.1",
+      "--from-name",
+      "regression value &/?+ü",
+      "--headers",
+      "{\"regression\":\"json value\"}",
+      "--to-address",
+      "192.0.2.1",
+      "--to-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n cc-name -> cc-address",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]",
+      "--bcc-address",
+      "192.0.2.1",
+      "--bcc-name",
+      "second value &/?+ü",
+      "--cc-address",
+      "192.0.2.1",
+      "--html",
+      "second value &/?+ü",
+      "--reply-to-address",
+      "192.0.2.1",
+      "--reply-to-name",
+      "second value &/?+ü",
+      "--text",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "285",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attachments": [
+            {
+              "regression": "item"
+            }
+          ],
+          "bcc": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "cc": {
+            "address": "192.0.2.1"
+          },
+          "html": "second value &/?+ü",
+          "reply_to": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "subject": "regression value &/?+ü",
+          "text": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--html",
+      "regression value &/?+ü",
+      "--reply-to-address",
+      "192.0.2.1",
+      "--reply-to-name",
+      "regression value &/?+ü",
+      "--text",
+      "regression value &/?+ü",
+      "--to-address",
+      "192.0.2.1",
+      "--to-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "233",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "html": "regression value &/?+ü",
+          "reply_to": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          },
+          "subject": "regression value &/?+ü",
+          "text": "regression value &/?+ü",
+          "to": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]",
+      "--bcc-address",
+      "192.0.2.1",
+      "--bcc-name",
+      "second value &/?+ü",
+      "--cc-address",
+      "192.0.2.1",
+      "--cc-name",
+      "second value &/?+ü",
+      "--from-address",
+      "192.0.2.1",
+      "--from-name",
+      "second value &/?+ü",
+      "--headers",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "290",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attachments": [
+            {
+              "regression": "item"
+            }
+          ],
+          "bcc": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "cc": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "from": {
+            "address": "192.0.2.1",
+            "name": "second value &/?+ü"
+          },
+          "headers": {
+            "regression": "json value"
+          },
+          "subject": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "email-sending",
+      "send",
+      "--subject",
+      "regression value &/?+ü",
+      "--attachments",
+      "[{\"regression\":\"item\"}]",
+      "--bcc-address",
+      "192.0.2.1",
+      "--bcc-name",
+      "regression value &/?+ü",
+      "--cc-address",
+      "192.0.2.1",
+      "--cc-name",
+      "regression value &/?+ü",
+      "--from-address",
+      "192.0.2.1",
+      "--from-name",
+      "regression value &/?+ü",
+      "--headers",
+      "{\"regression\":\"json value\"}",
+      "--html",
+      "regression value &/?+ü",
+      "--reply-to-address",
+      "192.0.2.1",
+      "--reply-to-name",
+      "regression value &/?+ü",
+      "--text",
+      "regression value &/?+ü",
+      "--to-address",
+      "192.0.2.1",
+      "--to-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email/sending/send",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "498",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attachments": [
+            {
+              "regression": "item"
+            }
+          ],
+          "bcc": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          },
+          "cc": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          },
+          "from": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          },
+          "headers": {
+            "regression": "json value"
+          },
+          "html": "regression value &/?+ü",
+          "reply_to": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          },
+          "subject": "regression value &/?+ü",
+          "text": "regression value &/?+ü",
+          "to": {
+            "address": "192.0.2.1",
+            "name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  }
+]

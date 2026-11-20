@@ -1,0 +1,1577 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "hyperdrive",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtls-ca-certificate-id",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "ca_certificate_id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtls-certificate-id",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "mtls_certificate_id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtls-sslmode",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "require"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "require"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 1",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "verify-ca"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "verify-ca"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 2",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "verify-full"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "verify-full"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 3",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "REQUIRED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "REQUIRED"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 4",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "VERIFY_CA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "VERIFY_CA"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 5",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "VERIFY_IDENTITY"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "VERIFY_IDENTITY"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-connection-limit",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-connection-limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "origin_connection_limit": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --integration-custom-database-name",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-custom-database-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-database-branch-name integration-custom-database-name -> integration-database-name integration-custom-database-name -> integration-organization-name integration-custom-database-name -> integration-provider integration-custom-database-name -> integration-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --integration-database-branch-name",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-database-branch-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-branch-name -> integration-database-name integration-database-branch-name -> integration-organization-name integration-database-branch-name -> integration-provider integration-database-branch-name -> integration-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --integration-database-name",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-database-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-name -> integration-database-branch-name integration-database-name -> integration-organization-name integration-database-name -> integration-provider integration-database-name -> integration-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --integration-organization-name",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-organization-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-organization-name -> integration-database-branch-name integration-organization-name -> integration-database-name integration-organization-name -> integration-provider integration-organization-name -> integration-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --integration-provider",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-provider",
+      "planetscale"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-provider -> integration-database-branch-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-provider -> integration-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --integration-scheme",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-scheme",
+      "postgres"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name integration-scheme -> integration-provider",
+    "requests": []
+  },
+  {
+    "case": "--integration-scheme value 1",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-scheme",
+      "postgresql"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name integration-scheme -> integration-provider",
+    "requests": []
+  },
+  {
+    "case": "--integration-scheme value 2",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-scheme",
+      "mysql"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name integration-scheme -> integration-provider",
+    "requests": []
+  },
+  {
+    "case": "only --origin-database",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-database -> origin-password origin-database -> origin-scheme origin-database -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-password",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-password -> origin-database origin-password -> origin-scheme origin-password -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-scheme",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-scheme -> origin-database origin-scheme -> origin-password origin-scheme -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "--origin-scheme value 1",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgresql"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-scheme -> origin-database origin-scheme -> origin-password origin-scheme -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "--origin-scheme value 2",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "mysql"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-scheme -> origin-database origin-scheme -> origin-password origin-scheme -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-user",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-user",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-user -> origin-database origin-user -> origin-password origin-user -> origin-scheme",
+    "requests": []
+  },
+  {
+    "case": "only --origin-host",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-host -> origin-database origin-host -> origin-password origin-host -> origin-scheme origin-host -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-port",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-port -> origin-host origin-port -> origin-database origin-port -> origin-password origin-port -> origin-scheme origin-port -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-access-client-id",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-id -> origin-access-client-secret origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-access-client-secret",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-secret -> origin-host origin-access-client-secret -> origin-access-client-id origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "only --origin-service-id",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-service-id -> origin-database origin-service-id -> origin-password origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-connection-limit",
+      "2",
+      "--integration-custom-database-name",
+      "second value &/?+ü",
+      "--integration-database-branch-name",
+      "second value &/?+ü",
+      "--integration-database-name",
+      "second value &/?+ü",
+      "--integration-organization-name",
+      "second value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgresql",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-password",
+      "second value &/?+ü",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-user",
+      "second value &/?+ü",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-port",
+      "2",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-custom-database-name and origin-database are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-connection-limit",
+      "1",
+      "--integration-database-branch-name",
+      "regression value &/?+ü",
+      "--integration-organization-name",
+      "regression value &/?+ü",
+      "--integration-scheme",
+      "postgres",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-branch-name -> integration-database-name integration-database-branch-name -> integration-provider integration-organization-name -> integration-database-name integration-organization-name -> integration-provider integration-scheme -> integration-database-name integration-scheme -> integration-provider origin-password -> origin-database origin-password -> origin-scheme origin-user -> origin-database origin-user -> origin-scheme origin-port -> origin-host origin-port -> origin-database origin-port -> origin-scheme origin-access-client-secret -> origin-host origin-access-client-secret -> origin-access-client-id origin-access-client-secret -> origin-database origin-access-client-secret -> origin-scheme",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--integration-custom-database-name",
+      "second value &/?+ü",
+      "--integration-database-name",
+      "second value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-database-branch-name integration-custom-database-name -> integration-organization-name integration-custom-database-name -> integration-scheme integration-database-name -> integration-database-branch-name integration-database-name -> integration-organization-name integration-database-name -> integration-scheme integration-provider -> integration-database-branch-name integration-provider -> integration-organization-name integration-provider -> integration-scheme origin-database -> origin-password origin-database -> origin-user origin-scheme -> origin-password origin-scheme -> origin-user origin-host -> origin-password origin-host -> origin-user origin-access-client-id -> origin-access-client-secret origin-access-client-id -> origin-password origin-access-client-id -> origin-user origin-service-id -> origin-password origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "require",
+      "--origin-connection-limit",
+      "1",
+      "--integration-database-name",
+      "regression value &/?+ü",
+      "--integration-organization-name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-database-name -> integration-database-branch-name integration-database-name -> integration-provider integration-database-name -> integration-scheme integration-organization-name -> integration-database-branch-name integration-organization-name -> integration-provider integration-organization-name -> integration-scheme origin-database -> origin-scheme origin-database -> origin-user origin-password -> origin-scheme origin-password -> origin-user origin-host -> origin-scheme origin-host -> origin-user origin-port -> origin-scheme origin-port -> origin-user origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--integration-custom-database-name",
+      "second value &/?+ü",
+      "--integration-database-branch-name",
+      "second value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgresql",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-user",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-database-name integration-custom-database-name -> integration-organization-name integration-database-branch-name -> integration-database-name integration-database-branch-name -> integration-organization-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name origin-scheme -> origin-database origin-scheme -> origin-password origin-user -> origin-database origin-user -> origin-password origin-access-client-id -> origin-host origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-secret -> origin-host origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-custom-database-name",
+      "regression value &/?+ü",
+      "--integration-database-branch-name",
+      "regression value &/?+ü",
+      "--integration-database-name",
+      "regression value &/?+ü",
+      "--integration-organization-name",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-provider integration-custom-database-name -> integration-scheme integration-database-branch-name -> integration-provider integration-database-branch-name -> integration-scheme integration-database-name -> integration-provider integration-database-name -> integration-scheme integration-organization-name -> integration-provider integration-organization-name -> integration-scheme origin-scheme -> origin-database origin-scheme -> origin-password origin-user -> origin-database origin-user -> origin-password origin-host -> origin-database origin-host -> origin-password origin-port -> origin-database origin-port -> origin-password",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-connection-limit",
+      "2",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgresql",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-password",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-provider -> integration-database-branch-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name origin-database -> origin-scheme origin-database -> origin-user origin-password -> origin-scheme origin-password -> origin-user origin-access-client-id -> origin-host origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user origin-access-client-secret -> origin-host origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgres",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-provider -> integration-database-branch-name integration-provider -> integration-database-name integration-provider -> integration-organization-name integration-scheme -> integration-database-branch-name integration-scheme -> integration-database-name integration-scheme -> integration-organization-name",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-connection-limit",
+      "2",
+      "--integration-custom-database-name",
+      "second value &/?+ü",
+      "--integration-database-branch-name",
+      "second value &/?+ü",
+      "--integration-database-name",
+      "second value &/?+ü",
+      "--integration-organization-name",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n integration-custom-database-name -> integration-provider integration-custom-database-name -> integration-scheme integration-database-branch-name -> integration-provider integration-database-branch-name -> integration-scheme integration-database-name -> integration-provider integration-database-name -> integration-scheme integration-organization-name -> integration-provider integration-organization-name -> integration-scheme origin-access-client-id -> origin-host origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user origin-access-client-secret -> origin-host origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user origin-service-id -> origin-database origin-service-id -> origin-password origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-id -> origin-database origin-access-client-id -> origin-password origin-access-client-id -> origin-scheme origin-access-client-id -> origin-user origin-access-client-secret -> origin-host origin-access-client-secret -> origin-database origin-access-client-secret -> origin-password origin-access-client-secret -> origin-scheme origin-access-client-secret -> origin-user origin-service-id -> origin-database origin-service-id -> origin-password origin-service-id -> origin-scheme origin-service-id -> origin-user",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-connection-limit",
+      "2",
+      "--integration-custom-database-name",
+      "second value &/?+ü",
+      "--integration-database-branch-name",
+      "second value &/?+ü",
+      "--integration-database-name",
+      "second value &/?+ü",
+      "--integration-organization-name",
+      "second value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgresql",
+      "--origin-database",
+      "second value &/?+ü",
+      "--origin-password",
+      "second value &/?+ü",
+      "--origin-scheme",
+      "postgresql",
+      "--origin-user",
+      "second value &/?+ü",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-port",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-custom-database-name and origin-database are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "hyperdrive",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "require",
+      "--origin-connection-limit",
+      "1",
+      "--integration-custom-database-name",
+      "regression value &/?+ü",
+      "--integration-database-branch-name",
+      "regression value &/?+ü",
+      "--integration-database-name",
+      "regression value &/?+ü",
+      "--integration-organization-name",
+      "regression value &/?+ü",
+      "--integration-provider",
+      "planetscale",
+      "--integration-scheme",
+      "postgres",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Arguments integration-custom-database-name and origin-database are mutually exclusive",
+    "requests": []
+  }
+]

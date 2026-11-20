@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "radar",
+    "bgp",
+    "rpki",
+    "aspa"
+  ],
+  "requests": []
+}

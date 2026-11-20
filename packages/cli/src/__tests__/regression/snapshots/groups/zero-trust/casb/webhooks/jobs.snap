@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "casb",
+    "webhooks",
+    "jobs"
+  ],
+  "requests": []
+}

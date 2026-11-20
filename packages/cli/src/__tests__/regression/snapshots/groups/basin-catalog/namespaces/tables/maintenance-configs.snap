@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "basin-catalog",
+    "namespaces",
+    "tables",
+    "maintenance-configs"
+  ],
+  "requests": []
+}

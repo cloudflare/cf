@@ -1,0 +1,344 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit"
+    ],
+    "exitCode": 1,
+    "error": "--new-priorities is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/email/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "new_priorities": {
+            "regression": "json value"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "email",
+      "rules",
+      "bulk-edit",
+      "--new-priorities",
+      "{\"regression\":\"json value\"}",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at new_priorities (for --new-priorities).",
+    "requests": []
+  }
+]

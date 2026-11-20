@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "ai-gateway",
+    "gateways",
+    "providers"
+  ],
+  "requests": []
+}

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "radar",
+    "http",
+    "ases",
+    "bot-class"
+  ],
+  "requests": []
+}

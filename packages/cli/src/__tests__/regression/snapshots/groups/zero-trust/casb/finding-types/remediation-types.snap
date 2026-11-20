@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "casb",
+    "finding-types",
+    "remediation-types"
+  ],
+  "requests": []
+}

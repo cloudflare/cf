@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "magic-transit",
+    "advanced-tcp-protection",
+    "configs",
+    "tcp",
+    "flow",
+    "protection",
+    "filters"
+  ],
+  "requests": []
+}

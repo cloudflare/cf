@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "radar",
+    "http",
+    "locations",
+    "http-method"
+  ],
+  "requests": []
+}

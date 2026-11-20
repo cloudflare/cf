@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "logpush",
+    "account-ownership",
+    "validate"
+  ],
+  "requests": []
+}

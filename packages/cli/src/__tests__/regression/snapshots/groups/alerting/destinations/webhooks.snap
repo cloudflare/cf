@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "alerting",
+    "destinations",
+    "webhooks"
+  ],
+  "requests": []
+}

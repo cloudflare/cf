@@ -1,0 +1,1915 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --agg-interval",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "15m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=15m",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--agg-interval value 1",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--agg-interval value 2",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1d"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1d",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--agg-interval value 3",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1w"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1w",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --date-range",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?dateRange=2026-01-02T03%3A04%3A05Z",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --date-start",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--date-start",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?dateStart=2026-01-02T03%3A04%3A05Z",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --date-end",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--date-end",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?dateEnd=2026-01-02T03%3A04%3A05Z",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --limit-per-group",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--limit-per-group",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?limitPerGroup=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ca",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--ca",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?ca=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ca-owner",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--ca-owner",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?caOwner=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --duration",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?duration=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --entry-type",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--entry-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?entryType=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --expiration-status",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--expiration-status",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?expirationStatus=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --has-ips",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--has-ips",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?hasIps=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --has-wildcards",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--has-wildcards",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?hasWildcards=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --log",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--log",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?log=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --log-api",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--log-api",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?logApi=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --log-operator",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--log-operator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?logOperator=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --public-key-algorithm",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--public-key-algorithm",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?publicKeyAlgorithm=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --signature-algorithm",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--signature-algorithm",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?signatureAlgorithm=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --validation-level",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--validation-level",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?validationLevel=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tld",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?tld=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --normalization",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--normalization",
+      "RAW_VALUES"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?normalization=RAW_VALUES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--normalization value 1",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--normalization",
+      "PERCENTAGE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?normalization=PERCENTAGE",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --unique-entries",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--unique-entries",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?uniqueEntries=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --format",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--format value 1",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--limit-per-group",
+      "2",
+      "--ca",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--ca-owner",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--duration",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--entry-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--expiration-status",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--has-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--has-wildcards",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log-api",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log-operator",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--public-key-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--signature-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--validation-level",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--tld",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--normalization",
+      "PERCENTAGE",
+      "--unique-entries",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&limitPerGroup=2&ca=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&caOwner=second%20value%20%26%2F%3F%2B%C3%BC&caOwner=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&hasIps=192.0.2.1&hasIps=192.0.2.1&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&logApi=second%20value%20%26%2F%3F%2B%C3%BC&logApi=second%20value%20%26%2F%3F%2B%C3%BC&logOperator=second%20value%20%26%2F%3F%2B%C3%BC&logOperator=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&normalization=PERCENTAGE&uniqueEntries=second%20value%20%26%2F%3F%2B%C3%BC&uniqueEntries=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "--limit-per-group",
+      "1",
+      "--ca-owner",
+      "regression value &/?+ü",
+      "--entry-type",
+      "regression value &/?+ü",
+      "--has-ips",
+      "192.0.2.1",
+      "--log",
+      "regression value &/?+ü",
+      "--log-operator",
+      "regression value &/?+ü",
+      "--signature-algorithm",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü",
+      "--unique-entries",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?name=regression%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&limitPerGroup=1&caOwner=regression%20value%20%26%2F%3F%2B%C3%BC&entryType=regression%20value%20%26%2F%3F%2B%C3%BC&hasIps=192.0.2.1&log=regression%20value%20%26%2F%3F%2B%C3%BC&logOperator=regression%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC&uniqueEntries=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--ca",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--duration",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--expiration-status",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--has-wildcards",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log-api",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--public-key-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--validation-level",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--normalization",
+      "PERCENTAGE",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&ca=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&logApi=second%20value%20%26%2F%3F%2B%C3%BC&logApi=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&normalization=PERCENTAGE&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "--ca",
+      "regression value &/?+ü",
+      "--ca-owner",
+      "regression value &/?+ü",
+      "--expiration-status",
+      "regression value &/?+ü",
+      "--has-ips",
+      "192.0.2.1",
+      "--log-api",
+      "regression value &/?+ü",
+      "--log-operator",
+      "regression value &/?+ü",
+      "--validation-level",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&ca=regression%20value%20%26%2F%3F%2B%C3%BC&caOwner=regression%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=regression%20value%20%26%2F%3F%2B%C3%BC&hasIps=192.0.2.1&logApi=regression%20value%20%26%2F%3F%2B%C3%BC&logOperator=regression%20value%20%26%2F%3F%2B%C3%BC&validationLevel=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--limit-per-group",
+      "2",
+      "--duration",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--entry-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--has-wildcards",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--public-key-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--signature-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--normalization",
+      "PERCENTAGE",
+      "--unique-entries",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&limitPerGroup=2&duration=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&normalization=PERCENTAGE&uniqueEntries=second%20value%20%26%2F%3F%2B%C3%BC&uniqueEntries=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
+      "--limit-per-group",
+      "1",
+      "--ca",
+      "regression value &/?+ü",
+      "--ca-owner",
+      "regression value &/?+ü",
+      "--has-wildcards",
+      "regression value &/?+ü",
+      "--log",
+      "regression value &/?+ü",
+      "--log-api",
+      "regression value &/?+ü",
+      "--log-operator",
+      "regression value &/?+ü",
+      "--normalization",
+      "RAW_VALUES",
+      "--unique-entries",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?dateEnd=2026-01-02T03%3A04%3A05Z&limitPerGroup=1&ca=regression%20value%20%26%2F%3F%2B%C3%BC&caOwner=regression%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=regression%20value%20%26%2F%3F%2B%C3%BC&log=regression%20value%20%26%2F%3F%2B%C3%BC&logApi=regression%20value%20%26%2F%3F%2B%C3%BC&logOperator=regression%20value%20%26%2F%3F%2B%C3%BC&normalization=RAW_VALUES&uniqueEntries=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--duration",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--entry-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--expiration-status",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--has-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--public-key-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--signature-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--validation-level",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--tld",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&duration=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&hasIps=192.0.2.1&hasIps=192.0.2.1&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--duration",
+      "regression value &/?+ü",
+      "--entry-type",
+      "regression value &/?+ü",
+      "--expiration-status",
+      "regression value &/?+ü",
+      "--has-ips",
+      "192.0.2.1",
+      "--has-wildcards",
+      "regression value &/?+ü",
+      "--log",
+      "regression value &/?+ü",
+      "--log-api",
+      "regression value &/?+ü",
+      "--log-operator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?duration=regression%20value%20%26%2F%3F%2B%C3%BC&entryType=regression%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=regression%20value%20%26%2F%3F%2B%C3%BC&hasIps=192.0.2.1&hasWildcards=regression%20value%20%26%2F%3F%2B%C3%BC&log=regression%20value%20%26%2F%3F%2B%C3%BC&logApi=regression%20value%20%26%2F%3F%2B%C3%BC&logOperator=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--limit-per-group",
+      "2",
+      "--ca",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--ca-owner",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--public-key-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--signature-algorithm",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--validation-level",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--tld",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--normalization",
+      "PERCENTAGE",
+      "--unique-entries",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&limitPerGroup=2&ca=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&caOwner=second%20value%20%26%2F%3F%2B%C3%BC&caOwner=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&publicKeyAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&validationLevel=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&normalization=PERCENTAGE&uniqueEntries=second%20value%20%26%2F%3F%2B%C3%BC&uniqueEntries=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--public-key-algorithm",
+      "regression value &/?+ü",
+      "--signature-algorithm",
+      "regression value &/?+ü",
+      "--validation-level",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü",
+      "--normalization",
+      "RAW_VALUES",
+      "--unique-entries",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?publicKeyAlgorithm=regression%20value%20%26%2F%3F%2B%C3%BC&signatureAlgorithm=regression%20value%20%26%2F%3F%2B%C3%BC&validationLevel=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC&normalization=RAW_VALUES&uniqueEntries=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--agg-interval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--date-range",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-start",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--date-end",
+      "2026-01-02T03:04:05Z",
+      "2026-01-02T03:04:05Z",
+      "--limit-per-group",
+      "2",
+      "--ca",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--ca-owner",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--duration",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--entry-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--expiration-status",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--has-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--has-wildcards",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log-api",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--log-operator",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&limitPerGroup=2&ca=second%20value%20%26%2F%3F%2B%C3%BC&ca=second%20value%20%26%2F%3F%2B%C3%BC&caOwner=second%20value%20%26%2F%3F%2B%C3%BC&caOwner=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&duration=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&entryType=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&expirationStatus=second%20value%20%26%2F%3F%2B%C3%BC&hasIps=192.0.2.1&hasIps=192.0.2.1&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&hasWildcards=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&log=second%20value%20%26%2F%3F%2B%C3%BC&logApi=second%20value%20%26%2F%3F%2B%C3%BC&logApi=second%20value%20%26%2F%3F%2B%C3%BC&logOperator=second%20value%20%26%2F%3F%2B%C3%BC&logOperator=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "-q"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/radar/ct/timeseries_groups/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <dimension>",
+    "argv": [
+      "radar",
+      "ct",
+      "timeseries-groups",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/ct/timeseries_groups/second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  }
+]

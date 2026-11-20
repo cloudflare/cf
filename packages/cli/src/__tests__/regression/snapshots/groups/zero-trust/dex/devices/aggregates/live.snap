@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "zero-trust",
+    "dex",
+    "devices",
+    "aggregates",
+    "live"
+  ],
+  "requests": []
+}

@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "dns-firewall",
+    "reverse-dns"
+  ],
+  "requests": []
+}

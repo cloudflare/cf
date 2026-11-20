@@ -1,0 +1,648 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--configuration-headers is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "only --skip-preflight-check",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--skip-preflight-check=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/destinations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "228",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
+            "headers": {
+              "regression": "json value"
+            },
+            "logpushDataset": "opentelemetry-traces",
+            "type": "logpush",
+            "url": "https://example.com/a?x=1&y=two"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "skipPreflightCheck": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--skip-preflight-check value 1",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--skip-preflight-check=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/destinations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "229",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
+            "headers": {
+              "regression": "json value"
+            },
+            "logpushDataset": "opentelemetry-traces",
+            "type": "logpush",
+            "url": "https://example.com/a?x=1&y=two"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "skipPreflightCheck": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --configuration-logpush-dataset value 1",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-logs"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "required --configuration-logpush-dataset value 2",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-metrics"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "required --enabled value 1",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/destinations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "202",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "configuration": {
+            "headers": {
+              "regression": "json value"
+            },
+            "logpushDataset": "opentelemetry-traces",
+            "type": "logpush",
+            "url": "https://example.com/a?x=1&y=two"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "global quiet alias",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-q"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "global zone alias",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-z",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "global mode alias",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "-m",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "global help",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--help"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global help alias",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-h"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--version"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global version alias",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "-v"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "o11y",
+      "destinations",
+      "create",
+      "--configuration-headers",
+      "{\"regression\":\"json value\"}",
+      "--configuration-logpush-dataset",
+      "opentelemetry-traces",
+      "--configuration-type",
+      "logpush",
+      "--configuration-url",
+      "https://example.com/a?x=1&y=two",
+      "--enabled=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--body must include a JSON object at configuration.headers (for --configuration-headers).",
+    "requests": []
+  }
+]

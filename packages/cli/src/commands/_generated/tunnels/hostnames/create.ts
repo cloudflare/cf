@@ -1,9 +1,9 @@
-import operation from "../../../_operations/realtime/kit/apps/update.js";
+import operation from "../../_operations/tunnels/hostnames/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
- * @generated from apis/overlays/realtime.ts
+ * create command
+ * @generated from apis/overlays/tunnels.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -23,17 +23,22 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit apps update <app-id>\n\nUpdate the name of an app in your account."
+			"$0 tunnels hostnames create <tunnel-id>\n\nAssigns a hostname to a tunnel. If the tunnel has no active hostnames, the new hostname is always canonical."
 		)
-		.positional("app-id", {
+		.positional("tunnel-id", {
 			type: "string",
-			description: "App ID",
+			description: "UUID of the tunnel.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("canonical", {
+			type: "boolean",
+			description:
+				"Set to `true` to make the new hostname canonical, replacing any existing canonical hostname.\nIf `false` or omitted, the new hostname is canonical only if the tunnel has no active hostnames.\n",
+		})
+		.option("hostname", {
 			type: "string",
 			description:
-				"The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character.",
+				"A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -49,24 +54,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <app-id>",
-	describe: "Update an app",
+	command: "create <tunnel-id>",
+	describe: "Create a tunnel hostname",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "realtime kit apps update",
+				command: "tunnels hostnames create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["canonical", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
+					if (argv["hostname"] === undefined) {
+						argv["hostname"] = await promptForRequiredField(
+							"hostname",
+							"A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens."
 						);
 					}
 				};
@@ -76,18 +81,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf realtime kit apps update",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/realtime/kit/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}`,
-						pathParams: { "app-id": String(argv["app-id"] ?? "") },
+						command: "cf tunnels hostnames create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/tunnels/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}/hostnames`,
+						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
+										canonical: argv["canonical"],
+										hostname: resolveFileToken(
+											argv["hostname"] as string | undefined,
+											"hostname",
 											"text"
 										),
 									}),
@@ -102,34 +108,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
+					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
-							app_id: argv["app-id"],
+							tunnel_id: argv["tunnel-id"],
 						})
 					);
-					formatOutput(result, { successLabel: `Updated` });
+					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
+					canonical: argv["canonical"],
+					hostname: resolveFileToken(
+						argv["hostname"] as string | undefined,
+						"hostname",
 						"text"
 					),
 				});
-				const result = await withProgress(`Updating`, async () =>
+				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
-						app_id: argv["app-id"],
+						tunnel_id: argv["tunnel-id"],
 					})
 				);
-				formatOutput(result, { successLabel: `Updated` });
+				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

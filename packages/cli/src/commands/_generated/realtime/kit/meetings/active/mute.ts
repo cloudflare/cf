@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit meetings active mute <meeting-id>\n\nMutes one or more participants from an active session using user ID or custom participant ID."
+			"$0 realtime kit meetings active mute <meeting-id>\n\nMutes the microphone of one or more participants of an active session using their participant IDs."
 		)
 		.positional("meeting-id", {
 			type: "string",
@@ -33,15 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The app identifier tag.",
 			demandOption: true,
 		})
-		.option("custom-participant-ids", {
-			type: "string",
-			array: true,
-			description: "The custom_participant_ids field",
-		})
 		.option("participant-ids", {
 			type: "string",
 			array: true,
-			description: "The participant_ids field",
+			description:
+				"IDs of the participants to mute, as returned when the participants were added to the meeting.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -50,8 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description:
-				"Request body for muting participants in an active session. At least one of \`participant_ids\` or \`custom_participant_ids\` must contain a value.",
+			description: "Request body for muting participants in an active session.",
 		});
 }
 
@@ -71,7 +66,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const resolveRequiredFields = async (): Promise<void> => {
+					if (argv["participant-ids"] === undefined) {
+						throw new Error(
+							"--participant-ids is required (or pass --body with this field set)."
+						);
+					}
+				};
 				if (argv.dryRun) {
+					if (argv.body === undefined) {
+						await resolveRequiredFields();
+					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf realtime kit meetings active mute",
@@ -86,7 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										custom_participant_ids: argv["custom-participant-ids"],
 										participant_ids: argv["participant-ids"],
 									}),
 					});
@@ -111,10 +115,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
+				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					custom_participant_ids: argv["custom-participant-ids"],
 					participant_ids: argv["participant-ids"],
 				});
 				const result = await withProgress(`Creating`, async () =>

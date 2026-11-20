@@ -22,6 +22,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Single Autonomous System Number (ASN) as integer.",
 			demandOption: true,
 		})
+		.option("include-confidence-level", {
+			type: "boolean",
+			description:
+				"Include the traffic data confidence level in the response. Set to `false` to skip it and get a faster response.",
+		})
 		.option("format", {
 			type: "string",
 			description: "Format in which results will be returned.",
@@ -45,12 +50,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "radar entities asns get",
 				classification: {
-					safeFlags: ["format", "dry-run"],
+					safeFlags: ["include-confidence-level", "format", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
+					includeConfidenceLevel: argv["include-confidence-level"],
 					format: argv["format"],
 				};
 				if (argv.dryRun) {

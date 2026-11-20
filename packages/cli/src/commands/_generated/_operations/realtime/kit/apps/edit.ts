@@ -1,4 +1,4 @@
-/** @generated from realtime.kit.apps.update */
+/** @generated from realtime.kit.apps.edit */
 import { path } from "#api";
 
 export default {

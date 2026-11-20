@@ -31,7 +31,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Free-text search over log metadata.",
 		})
-		.option("page", { type: "number", description: "Page" })
+		.option("page", {
+			type: "number",
+			description:
+				"Page number, from 1. A high page reads every page before it again. To read further back in a listing sorted by created_at, ask for page 1 again with a created_at lt filter set to the created_at of the last log returned. Logs in the same millisecond as that log can be left out: to include them, set the filter 1 ms later and drop the logs already returned.",
+		})
 		.option("per-page", { type: "number", description: "Per page" })
 		.option("order-by", {
 			type: "string",

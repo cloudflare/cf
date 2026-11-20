@@ -5,6 +5,7 @@ import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
+import $hostnames from "./hostnames/index.js";
 import $list from "./list.js";
 import $managementtoken from "./management-token/index.js";
 import $token from "./token/index.js";
@@ -42,6 +43,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($config)
 			.command($connections)
 			.command($connectors)
+			.command($hostnames)
 			.command($managementtoken)
 			.command($token)
 			.demandCommand(1, "Please specify a subcommand");

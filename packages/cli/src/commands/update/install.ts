@@ -20,6 +20,7 @@ const GLOBAL_PROBES = {
 
 type Manager = keyof typeof GLOBAL_PROBES;
 type Dependency = "optionalDependencies" | "dependencies" | "devDependencies";
+type Manifest = Partial<Record<Dependency, Record<string, string>>> | null;
 type LocalInstall = { cwd: string; dependency: Dependency; spec: string };
 type UpdatePlan = {
 	scope: "local" | "global";
@@ -37,6 +38,16 @@ async function canonicalPath(path: string): Promise<string | undefined> {
 	return realpath(path).catch(() => undefined);
 }
 
+function parseManifest(path: string, text: string): Manifest {
+	try {
+		return JSON.parse(text) as Manifest;
+	} catch {
+		throw new Error(
+			`cf update could not parse ${path} as JSON. Fix the file or update cf manually.`
+		);
+	}
+}
+
 async function findLocalInstall(
 	cwd: string,
 	installedManifest: string
@@ -46,7 +57,16 @@ async function findLocalInstall(
 		let resolved: string;
 		try {
 			resolved = createRequire(projectManifest).resolve("cf/package.json");
-		} catch {
+		} catch (error) {
+			if (
+				error instanceof Error &&
+				"code" in error &&
+				error.code === "ERR_INVALID_PACKAGE_CONFIG"
+			) {
+				throw new Error(
+					`cf update could not resolve the local installation: ${error.message} Fix the file or update cf manually.`
+				);
+			}
 			return undefined;
 		}
 		if ((await canonicalPath(resolved)) !== installedManifest) {
@@ -59,9 +79,7 @@ async function findLocalInstall(
 			throw error;
 		});
 		if (text !== undefined) {
-			const manifest = JSON.parse(text) as Partial<
-				Record<Dependency, { cf?: string }>
-			> | null;
+			const manifest = parseManifest(projectManifest, text);
 			for (const dependency of [
 				"optionalDependencies",
 				"dependencies",
@@ -139,9 +157,8 @@ async function planGlobalPnpmUpdate(
 		"package.json"
 	);
 	const text = await readFile(groupManifest, "utf8").catch(() => undefined);
-	const group = text
-		? (JSON.parse(text) as { dependencies?: Record<string, string> })
-		: undefined;
+	const group =
+		text === undefined ? undefined : parseManifest(groupManifest, text);
 	const packages = Object.keys(group?.dependencies ?? {});
 	if (packages.length !== 1 || packages[0] !== "cf") {
 		throw new Error(

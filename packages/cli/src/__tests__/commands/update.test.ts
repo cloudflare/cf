@@ -139,6 +139,19 @@ describe("cf update", () => {
 		});
 	});
 
+	it("names a malformed project manifest from a subdirectory", async () => {
+		await mockLocalInstall({ "package.json": "{" });
+		const manifest = join(process.cwd(), "package.json");
+		await mkdir("src");
+		process.chdir("src");
+
+		const result = runCf(["update"]);
+		await expect(result).rejects.toThrow(manifest);
+		await expect(result).rejects.toThrow("Fix the file or update cf manually.");
+		expect(x).not.toHaveBeenCalled();
+		expect(spawn).not.toHaveBeenCalled();
+	});
+
 	it.each([
 		{
 			manager: "npm",
@@ -245,6 +258,31 @@ describe("cf update", () => {
 		);
 		expect(spawn).not.toHaveBeenCalled();
 	});
+
+	it.each(["{", ""])(
+		"names a malformed pnpm global group manifest (%j)",
+		async (content) => {
+			const root = join(process.cwd(), "global");
+			const install = join(root, "node_modules", "cf");
+			await seed({
+				"global/node_modules/cf/package.json": installedPackage,
+				"global/package.json": content,
+			});
+			vi.mocked(findOwnPackageJson).mockReturnValue(
+				join(install, "package.json")
+			);
+			vi.mocked(x).mockImplementation((name) =>
+				name === "pnpm"
+					? probeResult(`${root}\n${install}`, 0)
+					: probeResult("", 1)
+			);
+
+			await expect(runCf(["update"])).rejects.toThrow(
+				`cf update could not parse ${join(root, "package.json")} as JSON. Fix the file or update cf manually.`
+			);
+			expect(spawn).not.toHaveBeenCalled();
+		}
+	);
 
 	it("does not update a different global installation", async () => {
 		await seed({

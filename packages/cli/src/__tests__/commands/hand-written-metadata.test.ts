@@ -55,6 +55,7 @@ describe("hand-written command metadata", () => {
 				"cf previews deploy",
 				"cf schema",
 				"cf tools",
+				"cf update",
 			])
 		);
 	});
@@ -67,6 +68,7 @@ describe("hand-written command metadata", () => {
 			"cf docs search",
 			"cf schema",
 			"cf tools",
+			"cf update",
 		]) {
 			const command = commands.get(commandName);
 			expect(command).toBeDefined();
@@ -234,7 +236,12 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(52);
+		expect(commands.size).toBe(53);
+		expect(commands.get("cf update")?.handWritten).toEqual({
+			kind: "root",
+			overrides: false,
+			dir: "update",
+		});
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);

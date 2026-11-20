@@ -63,6 +63,10 @@ const runtime = {
 		load: () => import("./migrate/index.js"),
 		telemetry: { command: "migrate", recordArgs: false },
 	},
+	update: {
+		load: () => import("./update/index.js"),
+		telemetry: { command: "update", recordArgs: false },
+	},
 	docs: {
 		load: () => import("./docs/index.js"),
 		telemetry: { command: "docs", recordArgs: false },

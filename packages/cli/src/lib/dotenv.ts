@@ -94,6 +94,7 @@ const GLOBAL_DOTENV_EXCLUSIONS = new Set([
 	"tunnels quick-start",
 	"tunnels ready",
 	"tunnels tail",
+	"update",
 	"workers check",
 	"workers types",
 	"deploy",

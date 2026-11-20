@@ -132623,6 +132623,35 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf update",
+			"name": "update",
+			"fullPath": ["update"],
+			"category": "action",
+			"description": "Update the current installation of cf",
+			"usage": "cf update [target] [options]",
+			"search": {
+				"keywords": ["upgrade", "self-update"]
+			},
+			"arguments": [
+				{
+					"name": "target",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Release tag or exact version to install"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Show the package manager command without running it",
+					"default": false
+				}
+			]
+		},
+		{
 			"command": "cf url-normalization delete",
 			"name": "delete",
 			"fullPath": ["url-normalization", "delete"],
@@ -172361,6 +172390,7 @@
 		"docs": "Search live Cloudflare documentation",
 		"init": "Create a new Cloudflare project or set up an existing one",
 		"migrate": "Migrate a Wrangler project to cf",
+		"update": "Update the current installation of cf",
 		"cli": "Discover commands and configure the cf CLI",
 		"schema": "Show API schema details for a command",
 		"tools": ""

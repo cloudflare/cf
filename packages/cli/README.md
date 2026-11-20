@@ -13,6 +13,17 @@ npm install -g cf
 cf supports the latest minor release of each supported Node.js major version.
 See [package.json](package.json) for the supported versions.
 
+Run `cf update` to install the `latest` release using the package manager that
+owns the running installation (npm, pnpm, Yarn, or Bun). If your project pins
+`cf`, run the command in that project to update its dependency. To update your
+global copy, run it outside projects that pin `cf`. Global Yarn installs are
+supported for Yarn Classic only. If you installed `cf` as part of a global pnpm
+group, update that group manually to avoid changing its other packages.
+
+Use `cf update --dry-run` to see the command without installing anything, or
+`cf update <tag-or-version>` to choose a specific release. For one-shot runs,
+specify the version when launching cf instead (for example, `npx cf@latest`).
+
 ## Quick start
 
 ```sh

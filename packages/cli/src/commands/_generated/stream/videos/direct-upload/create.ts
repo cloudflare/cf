@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 stream videos direct-upload create\n\nCreates a direct upload endpoint that allows an end-user to upload a video without an API key."
+			"$0 stream videos direct-upload create\n\nCreates a direct upload endpoint that allows an end-user to upload a video without an API key. `encodingMode` is fixed when the upload URL is created and cannot be changed when the generated URL is used."
 		)
 		.option("upload-creator", {
 			type: "string",
@@ -43,6 +43,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "A user-defined identifier for the media creator.",
 		})
+		.option("encoding-mode", {
+			type: "string",
+			description:
+				"Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first.",
+			choices: ["default", "previewFirst"],
+			default: "default",
+		})
+		.coerce("encoding-mode", (value) =>
+			resolveFileToken(value, "encoding-mode", "text")
+		)
 		.option("expiry", {
 			type: "string",
 			description:
@@ -102,7 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "stream videos direct-upload create",
 				classification: {
-					safeFlags: ["require-signed-urls", "dry-run"],
+					safeFlags: ["encoding-mode", "require-signed-urls", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -139,6 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"creator",
 												"text"
 											),
+											encodingMode: argv["encoding-mode"],
 											expiry: resolveFileToken(
 												argv["expiry"] as string | undefined,
 												"expiry",
@@ -204,6 +215,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						)
 					);
+				if (argv["encoding-mode"] !== undefined)
+					setNestedValue(bodyData, ["encodingMode"], argv["encoding-mode"]);
 				if (argv["expiry"] !== undefined)
 					setNestedValue(
 						bodyData,

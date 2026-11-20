@@ -68,7 +68,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `Are you sure you want to delete all rules in this account?`,
+					}))
+				) {
 					return;
 				}
 

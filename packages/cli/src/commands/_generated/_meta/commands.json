@@ -129755,6 +129755,14 @@
 					"description": "A user-defined identifier for the media creator."
 				},
 				{
+					"name": "encoding-mode",
+					"type": "string",
+					"required": false,
+					"description": "Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first.",
+					"default": "default",
+					"enum": ["default", "previewFirst"]
+				},
+				{
 					"name": "input",
 					"type": "string",
 					"required": false,
@@ -129862,7 +129870,7 @@
 					"name": "upload-metadata",
 					"type": "string",
 					"required": false,
-					"description": "Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded.\nSupported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`."
+					"description": "Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded.\nSupported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`, `encodingmode`.\n`encodingmode` accepts `default` or `previewFirst`."
 				},
 				{
 					"name": "dry-run",
@@ -129923,7 +129931,7 @@
 			"command": "cf stream videos direct-upload create",
 			"name": "create",
 			"fullPath": ["stream", "videos", "direct-upload", "create"],
-			"description": "Creates a direct upload endpoint that allows an end-user to upload a video without an API key.",
+			"description": "Creates a direct upload endpoint that allows an end-user to upload a video without an API key. `encodingMode` is fixed when the upload URL is created and cannot be changed when the generated URL is used.",
 			"summary": "Upload videos via direct upload URLs",
 			"usage": "cf stream videos direct-upload create [options]",
 			"arguments": [],
@@ -129945,6 +129953,14 @@
 					"type": "string",
 					"required": false,
 					"description": "A user-defined identifier for the media creator."
+				},
+				{
+					"name": "encoding-mode",
+					"type": "string",
+					"required": false,
+					"description": "Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first.",
+					"default": "default",
+					"enum": ["default", "previewFirst"]
 				},
 				{
 					"name": "expiry",

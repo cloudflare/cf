@@ -93854,6 +93854,12 @@
 					"description": "A user-defined identifier for the media creator."
 				},
 				{
+					"name": "encoding-mode",
+					"type": "string",
+					"required": false,
+					"description": "Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first."
+				},
+				{
 					"name": "input",
 					"type": "string",
 					"required": false,
@@ -93972,6 +93978,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A user-defined identifier for the media creator."
+				},
+				{
+					"name": "encoding-mode",
+					"type": "string",
+					"required": false,
+					"description": "Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first."
 				},
 				{
 					"name": "expiry",

@@ -43,6 +43,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "A user-defined identifier for the media creator.",
 		})
+		.option("encoding-mode", {
+			type: "string",
+			description:
+				"Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first.",
+			choices: ["default", "previewFirst"],
+			default: "default",
+		})
+		.coerce("encoding-mode", (value) =>
+			resolveFileToken(value, "encoding-mode", "text")
+		)
 		.option("input", {
 			type: "string",
 			description:
@@ -106,7 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "stream videos copy",
 				classification: {
-					safeFlags: ["require-signed-urls", "dry-run"],
+					safeFlags: ["encoding-mode", "require-signed-urls", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -133,6 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"creator",
 												"text"
 											),
+											encodingMode: argv["encoding-mode"],
 											input: resolveFileToken(
 												argv["input"] as string | undefined,
 												"input",
@@ -206,6 +217,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						)
 					);
+				if (argv["encoding-mode"] !== undefined)
+					setNestedValue(bodyData, ["encodingMode"], argv["encoding-mode"]);
 				if (argv["input"] !== undefined)
 					setNestedValue(
 						bodyData,

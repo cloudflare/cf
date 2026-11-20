@@ -132627,7 +132627,7 @@
 			"name": "update",
 			"fullPath": ["update"],
 			"category": "action",
-			"description": "Update the running installation of cf",
+			"description": "Update the current installation of cf",
 			"usage": "cf update [target] [options]",
 			"search": {
 				"keywords": ["upgrade", "self-update"]
@@ -172392,7 +172392,7 @@
 		"docs": "Search live Cloudflare documentation",
 		"init": "Create a new Cloudflare project or set up an existing one",
 		"migrate": "Migrate a Wrangler project to cf",
-		"update": "Update the running installation of cf",
+		"update": "Update the current installation of cf",
 		"cli": "Discover commands and configure the cf CLI",
 		"schema": "Show API schema details for a command",
 		"tools": ""

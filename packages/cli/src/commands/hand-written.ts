@@ -150,7 +150,7 @@ const registry = [
 		kind: "root",
 		dryRun: "native",
 		command: "update [target]",
-		describe: "Update the running installation of cf",
+		describe: "Update the current installation of cf",
 		dir: "update",
 	},
 	{

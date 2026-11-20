@@ -67,6 +67,7 @@ describe("cf update", () => {
 	it("shows the update command in help without probing", async () => {
 		await expect(runCf(["update", "--help"])).resolves.toEqual({ exitCode: 0 });
 		expect(std.out).toContain("update [target]");
+		expect(std.out).toContain("Update the current installation of cf");
 		expect(std.out).toContain("--dry-run");
 		expect(x).not.toHaveBeenCalled();
 	});

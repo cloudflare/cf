@@ -6,7 +6,7 @@ export default [
 		name: "update",
 		fullPath: ["update"],
 		category: "action",
-		description: "Update the running installation of cf",
+		description: "Update the current installation of cf",
 		usage: "cf update [target] [options]",
 		search: { keywords: ["upgrade", "self-update"] },
 		arguments: [

@@ -27,7 +27,7 @@ const updateCommand: CommandModule<
 	InferArgs<typeof builder>
 > = {
 	command: "update [target]",
-	describe: "Update the running installation of cf",
+	describe: "Update the current installation of cf",
 	builder,
 	handler: async (args) => {
 		const version = valid(args.target);

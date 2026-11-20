@@ -1,5 +1,75 @@
 # cf
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 5f7ebcf: Add `cf update` to update the current cf installation with its package manager.
+
+  Update a project dependency or a global installation, choose a release tag or version, and preview the package manager command with `--dry-run`.
+
+- 29442c5: Add `--secrets-file` to `cf previews deploy`
+
+  Use `cf previews deploy --secrets-file .env.preview` to upload secrets with a Preview deployment, in the same JSON or `.env` format that `cf deploy --secrets-file` accepts. Previously, Preview secrets could only be set in the Cloudflare dashboard or with Wrangler.
+
+- 1288332: Update the generated command surface for Forge OpenAPI release
+  `1c2a2f19ace2d4c55bfb77ebb17c408a004c40d0`.
+
+  **Breaking:** `cf user load-balancers pools edit pools pool <pool-id>` is now
+  `cf user load-balancers pools edit <pool-id>`, and
+  `cf user load-balancers pools edit pools pools` is now
+  `cf user load-balancers pools bulk-edit`.
+
+- 34c393f: Update the generated command surface for Forge OpenAPI release
+  `2b2a4d864560ba802f264202316ec9eaf8595dd6`.
+- edd1c14: Update the generated command surface for Forge OpenAPI release
+  `5162716769ddc087f36d6661a879e2082c88ee44`.
+
+  **Breaking:** Update scripts that use these renamed commands; there are no compatibility aliases:
+
+  - `cf realtime kit apps update`, `cf realtime kit meetings update`, `cf realtime kit meetings participants update`, `cf realtime kit presets update`, and `cf realtime kit webhooks update` now use `edit` instead of `update`.
+  - `cf network subnets initial-resolved-ip edit` is now `cf network subnets initial-resolved-ip replace`.
+  - `cf dns dnssec list zsks` is now `cf dns dnssec zsks list`.
+
+  `cf realtime kit meetings active kick` and `mute` no longer accept `--custom-participant-ids`. Use `--participant-ids` with participant IDs instead; it is now required when using individual flags.
+
+### Patch Changes
+
+- eba97c3: Allow `null` for JSON object-array flags when the API schema permits it. For example, `cf mcp servers update <id> --updated-tools null` resets the tool overrides to absent rather than setting an empty list.
+- 505ecaf: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.1` → `0.13.2`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.1` → `1.0.0-rc.2`
+  - `@cloudflare/cli-shared-helpers`: `0.3.10` → `0.3.11`
+  - `@cloudflare/codemods`: `0.8.1` → `0.8.2`
+  - `@cloudflare/config`: `1.0.0-rc.1` → `1.0.0-rc.2`
+  - `@cloudflare/containers-shared`: `0.26.3` → `0.27.0`
+  - `@cloudflare/deploy-helpers`: `0.27.2` → `0.28.0`
+  - `@cloudflare/runtime-types`: `0.1.30` → `0.1.31`
+  - `@cloudflare/workers-auth`: `0.18.4` → `0.18.5`
+  - `@cloudflare/workers-utils`: `0.54.2` → `0.55.0`
+  - `miniflare`: `5.20261117.0-beta` → `5.20261118.0-beta`
+
+- 974dfbb: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.2` → `0.13.3`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.2` → `1.0.0-rc.3`
+  - `@cloudflare/cli-shared-helpers`: `0.3.11` → `0.3.12`
+  - `@cloudflare/codemods`: `0.8.2` → `0.9.0`
+  - `@cloudflare/config`: `1.0.0-rc.2` → `1.0.0-rc.3`
+  - `@cloudflare/containers-shared`: `0.27.0` → `0.27.1`
+  - `@cloudflare/deploy-helpers`: `0.28.0` → `0.29.0`
+  - `@cloudflare/runtime-types`: `0.1.31` → `0.1.32`
+  - `@cloudflare/workers-auth`: `0.18.5` → `0.18.6`
+  - `@cloudflare/workers-utils`: `0.55.0` → `0.56.0`
+  - `miniflare`: `5.20261118.0-beta` → `5.20261119.0-beta`
+
+- c126d2e: Retain Container images for repeated Build Output uploads
+
+  Keep local image tags referenced by saved Build Output after successful deploys
+  and Worker version uploads. Reusing that output with `--prebuilt` now succeeds
+  for both standard Containers and Durable Object-managed Containers.
+
 ## 1.0.0-rc.2
 
 ### Minor Changes

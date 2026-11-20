@@ -362,4 +362,20 @@ describe("createCommandClient", () => {
 			);
 		});
 	});
+
+	describe("login scope validation", () => {
+		it("names individual invalid scopes in the error message", async () => {
+			await expect(
+				oauth.login({ scopes: ["invalid_scope_1"] })
+			).rejects.toThrow("Invalid cf OAuth scope(s): invalid_scope_1.");
+		});
+
+		it("names multiple invalid scopes comma-separated", async () => {
+			await expect(
+				oauth.login({
+					scopes: ["bad_scope_a", "workers:write", "bad_scope_b"],
+				})
+			).rejects.toThrow("Invalid cf OAuth scope(s): bad_scope_a, bad_scope_b.");
+		});
+	});
 });

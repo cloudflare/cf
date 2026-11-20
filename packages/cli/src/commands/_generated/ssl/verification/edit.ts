@@ -12,13 +12,12 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ssl verification edit <certificate-pack-id>\n\nEdit SSL validation method for a certificate pack. A PATCH request will request an immediate validation check on any certificate, and return the updated status. If a validation method is provided, the validation will be immediately attempted using that method."
+			"$0 ssl verification edit <certificate-pack-id>\n\nUpdate the configured SSL validation method for a Universal SSL certificate pack, or request another validation attempt for a pack in pending_validation. This endpoint does not change the validation method for advanced certificates. For an active certificate pack, a method-only update saves the method without rerunning validation or replacing the active certificate. For a pack pending validation, changing the method initializes validation using the requested method. Cloudflare may select a different method during automatic renewal. Omit validation_method, send an empty JSON object, or omit the request body to use the current or default method. For a pack in pending_validation, keeping the current method requests another validation attempt. Cloudflare may queue this attempt rather than complete validation before returning. For an active pack, an empty JSON object or a request without a body does not rerun DCV. The response returns the current status and does not guarantee that validation has completed. Available methods depend on the DNS setup and certificate authority. For Google Trust Services, Let's Encrypt, and SSL.com, full DNS setups support txt only, while partial DNS setups support txt or http. HTTP validation does not support wildcard certificates. This endpoint allows four PATCH requests per zone per 60 seconds."
 		)
 		.positional("certificate-pack-id", {
 			type: "string",
@@ -27,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("validation-method", {
 			type: "string",
-			description: "Desired validation method.",
+			description: "SSL validation method.",
 			choices: ["http", "cname", "txt", "email"],
 		})
 		.coerce("validation-method", (value) =>
@@ -40,7 +39,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
+			description:
+				"SSL validation settings. Omit validation_method to use the current or default method.",
 		});
 }
 
@@ -48,7 +48,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <certificate-pack-id>",
-	describe: "Edit SSL Certificate Pack Validation Method",
+	describe: "Update SSL Certificate Pack Validation Method",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -60,19 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["validation-method"] === undefined) {
-						argv["validation-method"] = await promptForRequiredEnumField(
-							"validation-method",
-							"Desired validation method.",
-							["http", "cname", "txt", "email"] as const
-						);
-					}
-				};
 				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
 					formatDryRun({
 						command: "cf ssl verification edit",
 						method: "PATCH",
@@ -111,7 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({

@@ -1,8 +1,8 @@
-import operation from "../../../_operations/realtime/kit/meetings/update.js";
+import operation from "../../../_operations/realtime/kit/meetings/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/realtime.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit meetings update <meeting-id>\n\nUpdates a meeting in an App for the given meeting ID."
+			"$0 realtime kit meetings edit <meeting-id>\n\nUpdates a meeting in an App for the given meeting ID."
 		)
 		.positional("meeting-id", {
 			type: "string",
@@ -239,13 +239,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <meeting-id>",
+	command: "edit <meeting-id>",
 	describe: "Update a meeting",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "realtime kit meetings update",
+				command: "realtime kit meetings edit",
 				classification: {
 					safeFlags: [
 						"ai-config-summarization-summary-type",
@@ -276,7 +276,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf realtime kit meetings update",
+						command: "cf realtime kit meetings edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/realtime/kit/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/meetings/${argv["meeting-id"] == null ? "<meeting-id>" : encodeURIComponent(String(argv["meeting-id"]))}`,
 						pathParams: {

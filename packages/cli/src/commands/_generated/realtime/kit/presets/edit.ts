@@ -1,8 +1,8 @@
-import operation from "../../../_operations/realtime/kit/presets/update.js";
+import operation from "../../../_operations/realtime/kit/presets/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * update command
+ * edit command
  * @generated from apis/overlays/realtime.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit presets update <preset-id>\n\nUpdate a preset by the provided preset ID"
+			"$0 realtime kit presets edit <preset-id>\n\nUpdate a preset by the provided preset ID"
 		)
 		.positional("preset-id", {
 			type: "string",
@@ -375,13 +375,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <preset-id>",
+	command: "edit <preset-id>",
 	describe: "Update a preset",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "realtime kit presets update",
+				command: "realtime kit presets edit",
 				classification: {
 					safeFlags: [
 						"preset-config-media-audio-enable-high-bitrate",
@@ -443,7 +443,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf realtime kit presets update",
+						command: "cf realtime kit presets edit",
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/realtime/kit/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/presets/${argv["preset-id"] == null ? "<preset-id>" : encodeURIComponent(String(argv["preset-id"]))}`,
 						pathParams: {

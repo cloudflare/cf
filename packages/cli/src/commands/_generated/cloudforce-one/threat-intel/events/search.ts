@@ -65,7 +65,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("search", {
 			type: "string",
 			description:
-				'Structured search as a JSON array of {field, op, value} objects, AND\'d together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"field": "attacker" | "attackerCountry" | "category" | ...more, "op": "equals" | "not" | "gt" | ...more, "value": string} | ...more)].',
+				'Structured search as a JSON array of {field, op, value} objects, AND\'d together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. `containsAny` takes an array of up to 50 strings and matches when the field contains any of them; it is not supported for `indicator`, `date`, `killChain`, or `hasChildren`. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"field": "attacker" | "attackerCountry" | "category" | ...more, "op": "equals" | "not" | "gt" | ...more, "value": string} | ...more)].',
 		})
 		.option("search-branches", {
 			type: "string",

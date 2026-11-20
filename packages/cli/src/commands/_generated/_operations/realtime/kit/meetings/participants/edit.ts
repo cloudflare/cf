@@ -1,4 +1,4 @@
-/** @generated from realtime.kit.meetings.participants.update */
+/** @generated from realtime.kit.meetings.participants.edit */
 import { path } from "#api";
 
 export default {

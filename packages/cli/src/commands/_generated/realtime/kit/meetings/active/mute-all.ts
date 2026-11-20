@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit meetings active mute-all <meeting-id>\n\nMutes all participants of an active session for the given meeting ID."
+			"$0 realtime kit meetings active mute-all <meeting-id>\n\nMutes the microphone of all participants of an active session for the given meeting ID."
 		)
 		.positional("meeting-id", {
 			type: "string",
@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("allow-unmute", {
 			type: "boolean",
 			description:
-				"if false, participants won't be able to unmute themselves after they are muted",
+				"This field is ignored. Muted participants can unmute themselves if their preset allows them to produce audio.",
 			default: false,
 		})
 		.option("dry-run", {

@@ -1,9 +1,9 @@
-import operation from "../../../_operations/network/subnets/initial-resolved-ip/edit.js";
+import operation from "../../../_operations/realtime/kit/webhooks/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
- * @generated from apis/overlays/network.ts
+ * @generated from apis/overlays/realtime.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -22,25 +22,31 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 network subnets initial-resolved-ip edit <address-family>\n\nUpdates the CIDR for the account's default Initial Resolved IP Subnet of the given address family. The new CIDR must not conflict with existing private routes in the account."
+			"$0 realtime kit webhooks edit <webhook-id>\n\nEdits the webhook details for the given webhook ID."
 		)
-		.positional("address-family", {
+		.positional("webhook-id", {
 			type: "string",
-			description: "IP address family, either \`v4\` (IPv4) or \`v6\` (IPv6)",
+			description: "ID of the webhook",
 			demandOption: true,
 		})
-		.option("comment", {
+		.option("app-id", {
 			type: "string",
-			description: "An optional description of the subnet.",
+			description: "The app identifier tag.",
+			demandOption: true,
 		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the subnet.",
+		.option("enabled", {
+			type: "boolean",
+			description: "Omit to keep the current value.",
 		})
-		.option("network", {
+		.option("events", {
 			type: "string",
-			description:
-				"The private IPv4 or IPv6 range defining the subnet, in CIDR notation.",
+			array: true,
+			description: "Events that the webhook will get triggered by",
+		})
+		.option("name", { type: "string", description: "Name of the webhook" })
+		.option("url", {
+			type: "string",
+			description: "URL the webhook will send events to",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -56,15 +62,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <address-family>",
-	describe: "Update Initial Resolved IP Subnet",
+	command: "edit <webhook-id>",
+	describe: "Edit a webhook",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "network subnets initial-resolved-ip edit",
+				command: "realtime kit webhooks edit",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -72,30 +78,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf network subnets initial-resolved-ip edit",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/zerotrust/subnets/initial_resolved_ip/${argv["address-family"] == null ? "<address-family>" : encodeURIComponent(String(argv["address-family"]))}`,
+						command: "cf realtime kit webhooks edit",
+						method: "PATCH",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/realtime/kit/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}`,
 						pathParams: {
-							"address-family": String(argv["address-family"] ?? ""),
+							"app-id": String(argv["app-id"] ?? ""),
+							"webhook-id": String(argv["webhook-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										comment: resolveFileToken(
-											argv["comment"] as string | undefined,
-											"comment",
-											"text"
-										),
+										enabled: argv["enabled"],
+										events: argv["events"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
 											"text"
 										),
-										network: resolveFileToken(
-											argv["network"] as string | undefined,
-											"network",
+										url: resolveFileToken(
+											argv["url"] as string | undefined,
+											"url",
 											"text"
 										),
 									}),
@@ -114,7 +118,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
-							address_family: argv["address-family"],
+							app_id: argv["app-id"],
+							webhook_id: argv["webhook-id"],
 						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
@@ -123,19 +128,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					comment: resolveFileToken(
-						argv["comment"] as string | undefined,
-						"comment",
-						"text"
-					),
+					enabled: argv["enabled"],
+					events: argv["events"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
 						"text"
 					),
-					network: resolveFileToken(
-						argv["network"] as string | undefined,
-						"network",
+					url: resolveFileToken(
+						argv["url"] as string | undefined,
+						"url",
 						"text"
 					),
 				});
@@ -143,7 +145,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
-						address_family: argv["address-family"],
+						app_id: argv["app-id"],
+						webhook_id: argv["webhook-id"],
 					})
 				);
 				formatOutput(result, { successLabel: `Updated` });

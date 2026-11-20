@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence topics list\n\nReturns the managed topics a structured PIR can follow, with their default question, relevance criteria, suggested actors and event rules. Suggested actors the account cannot see are left out. Topics change centrally; PIRs follow a topic's defaults wherever the customer has not changed them. Also returns `organization_types` for the organization profile form."
+			"$0 cloudforce-one priority-intelligence topics list\n\nReturns the managed topics a structured PIR can follow, with their family, default question, relevance criteria, suggested actors and event rules. Suggested actors the account cannot see are left out. Topics change centrally; PIRs follow a topic's defaults wherever the customer has not changed them. Also returns `topic_families`, the picker's groups in display order, and `organization_types` for the organization profile form."
 		)
 		.option("dry-run", {
 			type: "boolean",

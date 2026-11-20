@@ -62,6 +62,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"New polling interval in seconds (60-86400). Omit to keep current value.",
 		})
+		.option("tagging-enabled", {
+			type: "boolean",
+			description:
+				"When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Omit to keep current value.",
+		})
 		.option("title", {
 			type: "string",
 			description:
@@ -89,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "cloudforce-one threat-signals feeds update",
 				classification: {
-					safeFlags: ["category-id", "enabled", "dry-run"],
+					safeFlags: ["category-id", "enabled", "tagging-enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -114,6 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										enabled: argv["enabled"],
 										poll_interval_s: argv["poll-interval-s"],
+										tagging_enabled: argv["tagging-enabled"],
 										title: resolveFileToken(
 											argv["title"] as string | undefined,
 											"title",
@@ -152,6 +158,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					enabled: argv["enabled"],
 					poll_interval_s: argv["poll-interval-s"],
+					tagging_enabled: argv["tagging-enabled"],
 					title: resolveFileToken(
 						argv["title"] as string | undefined,
 						"title",

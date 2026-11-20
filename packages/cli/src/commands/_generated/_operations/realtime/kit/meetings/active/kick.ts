@@ -7,6 +7,9 @@ export default {
 		path`/accounts/${request.account_id}/realtime/kit/${request.app_id}/meetings/${request.meeting_id}/active-session/kick`,
 	body: "json",
 	errors: {
+		400: "BadRequestError",
+		401: "UnauthorizedError",
 		404: "NotFoundError",
+		500: "InternalServerError",
 	},
 } as const;

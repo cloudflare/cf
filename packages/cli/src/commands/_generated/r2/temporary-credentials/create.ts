@@ -17,17 +17,20 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 r2 temporary-credentials create\n\nCreates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects."
+			"$0 r2 temporary-credentials create\n\nCreates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects. The credentials grant either a permission level or an explicit list of S3 actions."
 		)
+		.option("actions", {
+			type: "string",
+			array: true,
+			description:
+				'S3 actions allowed on the credentials; requests for any other action are denied. For example, `["GetObject", "HeadObject"]` allows reading objects without listing them. Exactly one of `permission` or `actions` must be provided. The parent token must have Object Read & Write permission if any action writes, and Object Read otherwise.',
+		})
 		.option("bucket", { type: "string", description: "Name of the R2 bucket." })
 		.option("objects", {
 			type: "string",
@@ -41,7 +44,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("permission", {
 			type: "string",
-			description: "Permissions allowed on the credentials.",
+			description:
+				"Permissions allowed on the credentials. Exactly one of `permission` or `actions` must be provided.",
 			choices: [
 				"admin-read-write",
 				"admin-read-only",
@@ -103,18 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions."
 						);
 					}
-					if (argv["permission"] === undefined) {
-						argv["permission"] = await promptForRequiredEnumField(
-							"permission",
-							"Permissions allowed on the credentials.",
-							[
-								"admin-read-write",
-								"admin-read-only",
-								"object-read-write",
-								"object-read-only",
-							] as const
-						);
-					}
 					if (argv["ttl-seconds"] === undefined) {
 						throw new Error(
 							"--ttl-seconds is required (or pass --body with this field set)."
@@ -136,6 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										actions: argv["actions"],
 										bucket: resolveFileToken(
 											argv["bucket"] as string | undefined,
 											"bucket",
@@ -172,6 +165,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					actions: argv["actions"],
 					bucket: resolveFileToken(
 						argv["bucket"] as string | undefined,
 						"bucket",

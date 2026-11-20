@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies which page to retrieve.",
 		})
 		.option("per-page", {
-			type: "string",
+			type: "number",
 			description: "Specifies the number of pipelines per page.",
 		})
 		.option("dry-run", {

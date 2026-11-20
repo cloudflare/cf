@@ -10048,7 +10048,7 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page"
+					"description": "Page number, from 1. A high page reads every page before it again. To read further back in a listing sorted by created_at, ask for page 1 again with a created_at lt filter set to the created_at of the last log returned. Logs in the same millisecond as that log can be left out: to include them, set the filter 1 ms later and drop the logs already returned."
 				},
 				{
 					"name": "per-page",
@@ -25823,8 +25823,8 @@
 			"command": "cf browser-run quick-action snapshot",
 			"name": "snapshot",
 			"fullPath": ["browser-run", "quick-action", "snapshot"],
-			"description": "Returns the page's HTML content and screenshot. Control page loading with `gotoOptions` and `waitFor*` options. Customize screenshots with `viewport`, `fullPage`, `clip` and others.",
-			"summary": "Get HTML content and screenshot.",
+			"description": "Capture at least two formats from one prepared page: HTML, screenshot, Markdown, accessibility tree, PDF, links, scrape, or JSON. Defaults to HTML and screenshot. Format-specific options use the same fields as standalone actions. Scrape requires elements. An origin 304 returns HTTP 200 with an empty result and meta.status 304, without captures or AI work, and is not cached. JSON snapshots share one actionTimeout budget across navigation, captures, retries, and AI (default 60 seconds, maximum 120 seconds). Other snapshots retain existing timeout behavior. Formats use a fixed capture order, not array order; a live page may change between captures. Any format failure fails the request.",
+			"summary": "Capture multiple page formats.",
 			"usage": "cf browser-run quick-action snapshot [options]",
 			"arguments": [],
 			"options": [
@@ -25896,10 +25896,29 @@
 					"description": "Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"value\": string, \"domain\"?: string, \"expires\"?: number, \"httpOnly\"?: boolean, ...more}]. ? marks optional keys."
 				},
 				{
+					"name": "custom-ai",
+					"type": "string",
+					"required": false,
+					"description": "Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"model\": string, \"authorization\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "elements",
+					"type": "string",
+					"required": false,
+					"description": "The elements field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"selector\": string}]."
+				},
+				{
 					"name": "emulate-media-type",
 					"type": "string",
 					"required": false,
 					"description": "The emulateMediaType field"
+				},
+				{
+					"name": "exclude-external-links",
+					"type": "boolean",
+					"required": false,
+					"description": "The excludeExternalLinks field",
+					"default": false
 				},
 				{
 					"name": "formats",
@@ -25932,6 +25951,145 @@
 					"description": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
 				},
 				{
+					"name": "interesting-only",
+					"type": "boolean",
+					"required": false,
+					"description": "The interestingOnly field"
+				},
+				{
+					"name": "pdf-options-display-header-footer",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to show the header and footer."
+				},
+				{
+					"name": "pdf-options-footer-template",
+					"type": "string",
+					"required": false,
+					"description": "HTML template for the print footer."
+				},
+				{
+					"name": "pdf-options-format",
+					"type": "string",
+					"required": false,
+					"description": "Paper format. Takes priority over width and height if set.",
+					"enum": [
+						"letter",
+						"legal",
+						"tabloid",
+						"ledger",
+						"a0",
+						"a1",
+						"a2",
+						"a3",
+						"a4",
+						"a5",
+						"a6"
+					]
+				},
+				{
+					"name": "pdf-options-header-template",
+					"type": "string",
+					"required": false,
+					"description": "HTML template for the print header."
+				},
+				{
+					"name": "pdf-options-height",
+					"type": "string",
+					"required": false,
+					"description": "Sets the height of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-landscape",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to print in landscape orientation."
+				},
+				{
+					"name": "pdf-options-margin-bottom",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.bottom field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-left",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.left field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-right",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.right field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-top",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.top field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-omit-background",
+					"type": "boolean",
+					"required": false,
+					"description": "Hides default white background and allows generating pdfs with transparency."
+				},
+				{
+					"name": "pdf-options-outline",
+					"type": "boolean",
+					"required": false,
+					"description": "Generate document outline."
+				},
+				{
+					"name": "pdf-options-page-ranges",
+					"type": "string",
+					"required": false,
+					"description": "Paper ranges to print, e.g. '1-5, 8, 11-13'."
+				},
+				{
+					"name": "pdf-options-prefer-csspage-size",
+					"type": "boolean",
+					"required": false,
+					"description": "Give CSS @page size priority over other size declarations."
+				},
+				{
+					"name": "pdf-options-print-background",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to true to print background graphics."
+				},
+				{
+					"name": "pdf-options-scale",
+					"type": "number",
+					"required": false,
+					"description": "Scales the rendering of the web page. Amount must be between 0.1 and 2."
+				},
+				{
+					"name": "pdf-options-tagged",
+					"type": "boolean",
+					"required": false,
+					"description": "Generate tagged (accessible) PDF."
+				},
+				{
+					"name": "pdf-options-timeout",
+					"type": "number",
+					"required": false,
+					"description": "Timeout in milliseconds."
+				},
+				{
+					"name": "pdf-options-width",
+					"type": "string",
+					"required": false,
+					"description": "Sets the width of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "prompt",
+					"type": "string",
+					"required": false,
+					"description": "The prompt field"
+				},
+				{
 					"name": "reject-request-pattern",
 					"type": "string",
 					"required": false,
@@ -25942,6 +26100,24 @@
 					"type": "string",
 					"required": false,
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+				},
+				{
+					"name": "response-format-json-schema",
+					"type": "string",
+					"required": false,
+					"description": "Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": unknown}."
+				},
+				{
+					"name": "response-format-type",
+					"type": "string",
+					"required": false,
+					"description": "The response_format.type field"
+				},
+				{
+					"name": "root",
+					"type": "string",
+					"required": false,
+					"description": "The root field"
 				},
 				{
 					"name": "screenshot-options-capture-beyond-viewport",
@@ -26017,6 +26193,18 @@
 					"enum": ["png", "jpeg", "webp"]
 				},
 				{
+					"name": "scroll-page",
+					"type": "boolean",
+					"required": false,
+					"description": "The scrollPage field"
+				},
+				{
+					"name": "selector",
+					"type": "string",
+					"required": false,
+					"description": "The selector field"
+				},
+				{
 					"name": "set-extra-httpheaders",
 					"type": "string",
 					"required": false,
@@ -26076,6 +26264,13 @@
 					"type": "number",
 					"required": false,
 					"description": "The viewport.width field"
+				},
+				{
+					"name": "visible-links-only",
+					"type": "boolean",
+					"required": false,
+					"description": "The visibleLinksOnly field",
+					"default": false
 				},
 				{
 					"name": "wait-for-selector-hidden",
@@ -31743,7 +31938,7 @@
 			"command": "cf cloudforce-one priority-intelligence topics list",
 			"name": "list",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "topics", "list"],
-			"description": "Returns the managed topics a structured PIR can follow, with their default question, relevance criteria, suggested actors and event rules. Suggested actors the account cannot see are left out. Topics change centrally; PIRs follow a topic's defaults wherever the customer has not changed them. Also returns `organization_types` for the organization profile form.",
+			"description": "Returns the managed topics a structured PIR can follow, with their family, default question, relevance criteria, suggested actors and event rules. Suggested actors the account cannot see are left out. Topics change centrally; PIRs follow a topic's defaults wherever the customer has not changed them. Also returns `topic_families`, the picker's groups in display order, and `organization_types` for the organization profile form.",
 			"summary": "List managed PIR topics",
 			"usage": "cf cloudforce-one priority-intelligence topics list",
 			"arguments": [],
@@ -37329,7 +37524,7 @@
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value."
+					"description": "JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. `containsAny` takes an array of up to 50 strings and matches when the field contains any of them; it is not supported for `indicator`, `date`, `killChain`, or `hasChildren`. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value."
 				},
 				{
 					"name": "search-branches",
@@ -37982,7 +38177,7 @@
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": \"attacker\" | \"attackerCountry\" | \"category\" | ...more, \"op\": \"equals\" | \"not\" | \"gt\" | ...more, \"value\": string} | ...more)]."
+					"description": "Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. `containsAny` takes an array of up to 50 strings and matches when the field contains any of them; it is not supported for `indicator`, `date`, `killChain`, or `hasChildren`. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": \"attacker\" | \"attackerCountry\" | \"category\" | ...more, \"op\": \"equals\" | \"not\" | \"gt\" | ...more, \"value\": string} | ...more)]."
 				},
 				{
 					"name": "search-branches",
@@ -40977,6 +41172,13 @@
 					"default": 300
 				},
 				{
+					"name": "tagging-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Default false.",
+					"default": false
+				},
+				{
 					"name": "title",
 					"type": "string",
 					"required": false,
@@ -41329,6 +41531,12 @@
 					"type": "number",
 					"required": false,
 					"description": "New polling interval in seconds (60-86400). Omit to keep current value."
+				},
+				{
+					"name": "tagging-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Omit to keep current value."
 				},
 				{
 					"name": "title",
@@ -46838,12 +47046,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf dns dnssec list zsks",
-			"name": "zsks",
-			"fullPath": ["dns", "dnssec", "list", "zsks"],
+			"command": "cf dns dnssec zsks list",
+			"name": "list",
+			"fullPath": ["dns", "dnssec", "zsks", "list"],
 			"description": "List the Zone Signing Keys (ZSKs) that DNSSEC uses for the zone.",
 			"summary": "List DNSSEC ZSKs",
-			"usage": "cf dns dnssec list zsks",
+			"usage": "cf dns dnssec zsks list",
 			"arguments": [],
 			"options": [
 				{
@@ -46854,11 +47062,11 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/dnssec/zsk",
-			"operationId": "dns.dnssec.list.zsks",
+			"operationId": "dns.dnssec.zsks.list",
 			"hideCommand": false
 		},
 		{
@@ -47372,7 +47580,7 @@
 			"command": "cf dns records list",
 			"name": "list",
 			"fullPath": ["dns", "records", "list"],
-			"description": "List, search, sort, and filter a zones' DNS records.",
+			"description": "List, search, sort, and filter a zone's DNS records. Requests with `cursor` or `prev_cursor` use cursor pagination. Otherwise, the endpoint uses offset pagination. To start cursor pagination, set `cursor` to an empty value, then pass `result_info.cursor` from the previous response to request the next page. Cursor-paginated responses do not include `page`, `total_count`, or `total_pages`. Cursor tokens are opaque and can vary in length. Pass them back unchanged and do not assume a fixed length.",
 			"summary": "List DNS Records",
 			"usage": "cf dns records list [options]",
 			"arguments": [],
@@ -47577,10 +47785,22 @@
 					"enum": ["any", "all"]
 				},
 				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque token for cursor pagination, obtained from `result_info.cursor` of the previous response. An empty value starts cursor pagination. Mutually exclusive with `page` and `prev_cursor`."
+				},
+				{
+					"name": "prev-cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque token for requesting the previous page in cursor pagination, obtained from `result_info.prev_cursor` of the previous response. Mutually exclusive with `page` and `cursor`."
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page number of paginated results."
+					"description": "Page number for offset pagination."
 				},
 				{
 					"name": "per-page",
@@ -80343,12 +80563,44 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf network subnets initial-resolved-ip edit",
-			"name": "edit",
-			"fullPath": ["network", "subnets", "initial-resolved-ip", "edit"],
+			"command": "cf network subnets initial-resolved-ip get",
+			"name": "get",
+			"fullPath": ["network", "subnets", "initial-resolved-ip", "get"],
+			"description": "Returns the account's default Initial Resolved IP Subnet for the given address family.",
+			"summary": "Get Initial Resolved IP Subnet",
+			"usage": "cf network subnets initial-resolved-ip get <address-family>",
+			"arguments": [
+				{
+					"name": "address-family",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "IP address family, either `v4` (IPv4) or `v6` (IPv6)"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}",
+			"operationId": "network.subnets.initial-resolved-ip.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf network subnets initial-resolved-ip replace",
+			"name": "replace",
+			"fullPath": ["network", "subnets", "initial-resolved-ip", "replace"],
 			"description": "Updates the CIDR for the account's default Initial Resolved IP Subnet of the given address family. The new CIDR must not conflict with existing private routes in the account.",
 			"summary": "Update Initial Resolved IP Subnet",
-			"usage": "cf network subnets initial-resolved-ip edit <address-family> [options]",
+			"usage": "cf network subnets initial-resolved-ip replace <address-family> [options]",
 			"arguments": [
 				{
 					"name": "address-family",
@@ -80391,43 +80643,11 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "update",
+			"category": "action",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}",
-			"operationId": "network.subnets.initial-resolved-ip.edit",
-			"hideCommand": false
-		},
-		{
-			"command": "cf network subnets initial-resolved-ip get",
-			"name": "get",
-			"fullPath": ["network", "subnets", "initial-resolved-ip", "get"],
-			"description": "Returns the account's default Initial Resolved IP Subnet for the given address family.",
-			"summary": "Get Initial Resolved IP Subnet",
-			"usage": "cf network subnets initial-resolved-ip get <address-family>",
-			"arguments": [
-				{
-					"name": "address-family",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "IP address family, either `v4` (IPv4) or `v6` (IPv6)"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}",
-			"operationId": "network.subnets.initial-resolved-ip.get",
+			"operationId": "network.subnets.initial-resolved-ip.replace",
 			"hideCommand": false
 		},
 		{
@@ -89198,7 +89418,7 @@
 				},
 				{
 					"name": "per-page",
-					"type": "string",
+					"type": "number",
 					"required": false,
 					"description": "Specifies the number of pipelines per page."
 				},
@@ -94243,11 +94463,17 @@
 			"command": "cf r2 temporary-credentials create",
 			"name": "create",
 			"fullPath": ["r2", "temporary-credentials", "create"],
-			"description": "Creates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects.",
+			"description": "Creates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects. The credentials grant either a permission level or an explicit list of S3 actions.",
 			"summary": "Create Temporary Access Credentials",
 			"usage": "cf r2 temporary-credentials create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "actions",
+					"type": "string",
+					"required": false,
+					"description": "S3 actions allowed on the credentials; requests for any other action are denied. For example, `[\"GetObject\", \"HeadObject\"]` allows reading objects without listing them. Exactly one of `permission` or `actions` must be provided. The parent token must have Object Read & Write permission if any action writes, and Object Read otherwise."
+				},
 				{
 					"name": "bucket",
 					"type": "string",
@@ -94269,8 +94495,8 @@
 				{
 					"name": "permission",
 					"type": "string",
-					"required": true,
-					"description": "Permissions allowed on the credentials.",
+					"required": false,
+					"description": "Permissions allowed on the credentials. Exactly one of `permission` or `actions` must be provided.",
 					"enum": [
 						"admin-read-write",
 						"admin-read-only",
@@ -103899,6 +104125,12 @@
 			],
 			"options": [
 				{
+					"name": "include-confidence-level",
+					"type": "boolean",
+					"required": false,
+					"description": "Include the traffic data confidence level in the response. Set to `false` to skip it and get a faster response."
+				},
+				{
 					"name": "format",
 					"type": "string",
 					"required": false,
@@ -111080,6 +111312,50 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf realtime kit apps edit",
+			"name": "edit",
+			"fullPath": ["realtime", "kit", "apps", "edit"],
+			"description": "Update the name of an app in your account.",
+			"summary": "Update an app",
+			"usage": "cf realtime kit apps edit <app-id> [options]",
+			"arguments": [
+				{
+					"name": "app-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "App ID"
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/realtime/kit/apps/{app_id}",
+			"operationId": "realtime.kit.apps.edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf realtime kit apps get",
 			"name": "get",
 			"fullPath": ["realtime", "kit", "apps", "get"],
@@ -111158,50 +111434,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/realtime/kit/apps",
 			"operationId": "realtime.kit.apps.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf realtime kit apps update",
-			"name": "update",
-			"fullPath": ["realtime", "kit", "apps", "update"],
-			"description": "Update the name of an app in your account.",
-			"summary": "Update an app",
-			"usage": "cf realtime kit apps update <app-id> [options]",
-			"arguments": [
-				{
-					"name": "app-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "App ID"
-				}
-			],
-			"options": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/realtime/kit/apps/{app_id}",
-			"operationId": "realtime.kit.apps.update",
 			"hideCommand": false
 		},
 		{
@@ -111554,7 +111786,7 @@
 			"command": "cf realtime kit meetings active kick",
 			"name": "kick",
 			"fullPath": ["realtime", "kit", "meetings", "active", "kick"],
-			"description": "Kicks one or more participants from an active session using user ID or custom participant ID.",
+			"description": "Kicks one or more participants from an active session using their participant IDs. Every connection of each participant is removed from the session.",
 			"summary": "Kick participants from an active session",
 			"usage": "cf realtime kit meetings active kick <meeting-id> [options]",
 			"arguments": [
@@ -111574,16 +111806,10 @@
 					"description": "The app identifier tag."
 				},
 				{
-					"name": "custom-participant-ids",
-					"type": "string",
-					"required": false,
-					"description": "The custom_participant_ids field"
-				},
-				{
 					"name": "participant-ids",
 					"type": "string",
-					"required": false,
-					"description": "The participant_ids field"
+					"required": true,
+					"description": "IDs of the participants to kick, as returned when the participants were added to the meeting."
 				},
 				{
 					"name": "dry-run",
@@ -111610,7 +111836,7 @@
 			"command": "cf realtime kit meetings active kick-all",
 			"name": "kick-all",
 			"fullPath": ["realtime", "kit", "meetings", "active", "kick-all"],
-			"description": "Kicks all participants from an active session for the given meeting ID.",
+			"description": "Kicks all participants from an active session for the given meeting ID and ends the session. Participants in connected breakout rooms are kicked as well.",
 			"summary": "Kick all participants",
 			"usage": "cf realtime kit meetings active kick-all <meeting-id> [options]",
 			"arguments": [
@@ -111656,7 +111882,7 @@
 			"command": "cf realtime kit meetings active mute",
 			"name": "mute",
 			"fullPath": ["realtime", "kit", "meetings", "active", "mute"],
-			"description": "Mutes one or more participants from an active session using user ID or custom participant ID.",
+			"description": "Mutes the microphone of one or more participants of an active session using their participant IDs.",
 			"summary": "Mute participants of an active session",
 			"usage": "cf realtime kit meetings active mute <meeting-id> [options]",
 			"arguments": [
@@ -111676,16 +111902,10 @@
 					"description": "The app identifier tag."
 				},
 				{
-					"name": "custom-participant-ids",
-					"type": "string",
-					"required": false,
-					"description": "The custom_participant_ids field"
-				},
-				{
 					"name": "participant-ids",
 					"type": "string",
-					"required": false,
-					"description": "The participant_ids field"
+					"required": true,
+					"description": "IDs of the participants to mute, as returned when the participants were added to the meeting."
 				},
 				{
 					"name": "dry-run",
@@ -111712,7 +111932,7 @@
 			"command": "cf realtime kit meetings active mute-all",
 			"name": "mute-all",
 			"fullPath": ["realtime", "kit", "meetings", "active", "mute-all"],
-			"description": "Mutes all participants of an active session for the given meeting ID.",
+			"description": "Mutes the microphone of all participants of an active session for the given meeting ID.",
 			"summary": "Mute all participants",
 			"usage": "cf realtime kit meetings active mute-all <meeting-id> [options]",
 			"arguments": [
@@ -111735,7 +111955,7 @@
 					"name": "allow-unmute",
 					"type": "boolean",
 					"required": false,
-					"description": "if false, participants won't be able to unmute themselves after they are muted",
+					"description": "This field is ignored. Muted participants can unmute themselves if their preset allows them to produce audio.",
 					"default": false
 				},
 				{
@@ -112067,6 +112287,254 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/meetings",
 			"operationId": "realtime.kit.meetings.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf realtime kit meetings edit",
+			"name": "edit",
+			"fullPath": ["realtime", "kit", "meetings", "edit"],
+			"description": "Updates a meeting in an App for the given meeting ID.",
+			"summary": "Update a meeting",
+			"usage": "cf realtime kit meetings edit <meeting-id> [options]",
+			"arguments": [
+				{
+					"name": "meeting-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the meeting. Fetch the meeting ID using the create a meeting API."
+				}
+			],
+			"options": [
+				{
+					"name": "app-id",
+					"type": "string",
+					"required": true,
+					"description": "The app identifier tag."
+				},
+				{
+					"name": "ai-config-summarization-summary-type",
+					"type": "string",
+					"required": false,
+					"description": "Defines the style of the summary, such as general, team meeting, or sales call.",
+					"enum": [
+						"general",
+						"team_meeting",
+						"sales_call",
+						"client_check_in",
+						"interview",
+						"daily_standup",
+						"one_on_one_meeting",
+						"lecture",
+						"code_review"
+					]
+				},
+				{
+					"name": "ai-config-summarization-text-format",
+					"type": "string",
+					"required": false,
+					"description": "Determines the text format of the summary, such as plain text or markdown.",
+					"enum": ["plain_text", "markdown"]
+				},
+				{
+					"name": "ai-config-summarization-word-limit",
+					"type": "number",
+					"required": false,
+					"description": "Sets the maximum number of words in the meeting summary."
+				},
+				{
+					"name": "ai-config-transcription-keywords",
+					"type": "string",
+					"required": false,
+					"description": "Adds specific terms to improve accurate detection during transcription."
+				},
+				{
+					"name": "ai-config-transcription-language",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
+					"enum": [
+						"en-US",
+						"en-IN",
+						"de",
+						"hi",
+						"sv",
+						"ru",
+						"pl",
+						"el",
+						"fr",
+						"nl"
+					]
+				},
+				{
+					"name": "ai-config-transcription-profanity-filter",
+					"type": "boolean",
+					"required": false,
+					"description": "Control the inclusion of offensive language in transcriptions."
+				},
+				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
+				},
+				{
+					"name": "live-stream-on-start",
+					"type": "boolean",
+					"required": false,
+					"description": "Specifies if the meeting should start getting livestreamed on start."
+				},
+				{
+					"name": "persist-chat",
+					"type": "boolean",
+					"required": false,
+					"description": "If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space."
+				},
+				{
+					"name": "record-on-start",
+					"type": "boolean",
+					"required": false,
+					"description": "Specifies if the meeting should start getting recorded as soon as someone joins the meeting."
+				},
+				{
+					"name": "recording-config-audio-config-channel",
+					"type": "string",
+					"required": false,
+					"description": "Audio signal pathway within an audio file that carries a specific sound source.",
+					"enum": ["mono", "stereo"]
+				},
+				{
+					"name": "recording-config-audio-config-codec",
+					"type": "string",
+					"required": false,
+					"description": "Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
+					"enum": ["MP3", "AAC"]
+				},
+				{
+					"name": "recording-config-audio-config-export-file",
+					"type": "boolean",
+					"required": false,
+					"description": "Controls whether to export audio file seperately"
+				},
+				{
+					"name": "recording-config-file-name-prefix",
+					"type": "string",
+					"required": false,
+					"description": "Adds a prefix to the beginning of the file name of the recording."
+				},
+				{
+					"name": "recording-config-live-streaming-config-rtmp-url",
+					"type": "string",
+					"required": false,
+					"description": "RTMP URL to stream to"
+				},
+				{
+					"name": "recording-config-max-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours."
+				},
+				{
+					"name": "recording-config-realtimekit-bucket-config-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording."
+				},
+				{
+					"name": "recording-config-storage-config-type",
+					"type": "string",
+					"required": false,
+					"description": "The recording_config.storage_config.type field",
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+				},
+				{
+					"name": "recording-config-video-config-codec",
+					"type": "string",
+					"required": false,
+					"description": "Codec using which the recording will be encoded.",
+					"enum": ["H264", "VP8", "VP9"]
+				},
+				{
+					"name": "recording-config-video-config-export-file",
+					"type": "boolean",
+					"required": false,
+					"description": "Controls whether to export video file seperately"
+				},
+				{
+					"name": "recording-config-video-config-height",
+					"type": "number",
+					"required": false,
+					"description": "Height of the recording video in pixels"
+				},
+				{
+					"name": "recording-config-video-config-watermark-position",
+					"type": "string",
+					"required": false,
+					"description": "Position of the watermark",
+					"enum": ["left top", "right top", "left bottom", "right bottom"]
+				},
+				{
+					"name": "recording-config-video-config-watermark-url",
+					"type": "string",
+					"required": false,
+					"description": "URL of the watermark image"
+				},
+				{
+					"name": "recording-config-video-config-width",
+					"type": "number",
+					"required": false,
+					"description": "Width of the recording video in pixels"
+				},
+				{
+					"name": "session-keep-alive-time-in-secs",
+					"type": "number",
+					"required": false,
+					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.",
+					"enum": ["ACTIVE", "INACTIVE"]
+				},
+				{
+					"name": "summarize-on-end",
+					"type": "boolean",
+					"required": false,
+					"description": "Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API."
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": false,
+					"description": "Title of the meeting"
+				},
+				{
+					"name": "transcribe-on-end",
+					"type": "boolean",
+					"required": false,
+					"description": "Automatically generate transcripts when the meeting ends."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}",
+			"operationId": "realtime.kit.meetings.edit",
 			"hideCommand": false
 		},
 		{
@@ -112402,6 +112870,74 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf realtime kit meetings participants edit",
+			"name": "edit",
+			"fullPath": ["realtime", "kit", "meetings", "participants", "edit"],
+			"description": "Updates a participant's details for the given meeting and participant ID.",
+			"summary": "Edit a participant's detail",
+			"usage": "cf realtime kit meetings participants edit <participant-id> [options]",
+			"arguments": [
+				{
+					"name": "participant-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the participant. You can fetch the participant ID using the add a participant API."
+				}
+			],
+			"options": [
+				{
+					"name": "app-id",
+					"type": "string",
+					"required": true,
+					"description": "The app identifier tag."
+				},
+				{
+					"name": "meeting-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the meeting. You can fetch the meeting ID using the create a meeting API."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "(Optional) Name of the participant."
+				},
+				{
+					"name": "picture",
+					"type": "string",
+					"required": false,
+					"description": "(Optional) A URL to a picture to be used for the participant."
+				},
+				{
+					"name": "preset-name",
+					"type": "string",
+					"required": false,
+					"description": "(Optional) Name of the preset to apply to this participant."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}",
+			"operationId": "realtime.kit.meetings.participants.edit",
+			"hideCommand": false
+		},
+		{
 			"command": "cf realtime kit meetings participants get",
 			"name": "get",
 			"fullPath": ["realtime", "kit", "meetings", "participants", "get"],
@@ -112708,74 +113244,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf realtime kit meetings participants update",
-			"name": "update",
-			"fullPath": ["realtime", "kit", "meetings", "participants", "update"],
-			"description": "Updates a participant's details for the given meeting and participant ID.",
-			"summary": "Edit a participant's detail",
-			"usage": "cf realtime kit meetings participants update <participant-id> [options]",
-			"arguments": [
-				{
-					"name": "participant-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "ID of the participant. You can fetch the participant ID using the add a participant API."
-				}
-			],
-			"options": [
-				{
-					"name": "app-id",
-					"type": "string",
-					"required": true,
-					"description": "The app identifier tag."
-				},
-				{
-					"name": "meeting-id",
-					"type": "string",
-					"required": true,
-					"description": "ID of the meeting. You can fetch the meeting ID using the create a meeting API."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "(Optional) Name of the participant."
-				},
-				{
-					"name": "picture",
-					"type": "string",
-					"required": false,
-					"description": "(Optional) A URL to a picture to be used for the participant."
-				},
-				{
-					"name": "preset-name",
-					"type": "string",
-					"required": false,
-					"description": "(Optional) Name of the preset to apply to this participant."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}",
-			"operationId": "realtime.kit.meetings.participants.update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf realtime kit meetings replace",
 			"name": "replace",
 			"fullPath": ["realtime", "kit", "meetings", "replace"],
@@ -113014,254 +113482,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}",
 			"operationId": "realtime.kit.meetings.replace",
-			"hideCommand": false
-		},
-		{
-			"command": "cf realtime kit meetings update",
-			"name": "update",
-			"fullPath": ["realtime", "kit", "meetings", "update"],
-			"description": "Updates a meeting in an App for the given meeting ID.",
-			"summary": "Update a meeting",
-			"usage": "cf realtime kit meetings update <meeting-id> [options]",
-			"arguments": [
-				{
-					"name": "meeting-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "ID of the meeting. Fetch the meeting ID using the create a meeting API."
-				}
-			],
-			"options": [
-				{
-					"name": "app-id",
-					"type": "string",
-					"required": true,
-					"description": "The app identifier tag."
-				},
-				{
-					"name": "ai-config-summarization-summary-type",
-					"type": "string",
-					"required": false,
-					"description": "Defines the style of the summary, such as general, team meeting, or sales call.",
-					"enum": [
-						"general",
-						"team_meeting",
-						"sales_call",
-						"client_check_in",
-						"interview",
-						"daily_standup",
-						"one_on_one_meeting",
-						"lecture",
-						"code_review"
-					]
-				},
-				{
-					"name": "ai-config-summarization-text-format",
-					"type": "string",
-					"required": false,
-					"description": "Determines the text format of the summary, such as plain text or markdown.",
-					"enum": ["plain_text", "markdown"]
-				},
-				{
-					"name": "ai-config-summarization-word-limit",
-					"type": "number",
-					"required": false,
-					"description": "Sets the maximum number of words in the meeting summary."
-				},
-				{
-					"name": "ai-config-transcription-keywords",
-					"type": "string",
-					"required": false,
-					"description": "Adds specific terms to improve accurate detection during transcription."
-				},
-				{
-					"name": "ai-config-transcription-language",
-					"type": "string",
-					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
-					"enum": [
-						"en-US",
-						"en-IN",
-						"de",
-						"hi",
-						"sv",
-						"ru",
-						"pl",
-						"el",
-						"fr",
-						"nl"
-					]
-				},
-				{
-					"name": "ai-config-transcription-profanity-filter",
-					"type": "boolean",
-					"required": false,
-					"description": "Control the inclusion of offensive language in transcriptions."
-				},
-				{
-					"name": "enable-sip",
-					"type": "boolean",
-					"required": false,
-					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
-				},
-				{
-					"name": "live-stream-on-start",
-					"type": "boolean",
-					"required": false,
-					"description": "Specifies if the meeting should start getting livestreamed on start."
-				},
-				{
-					"name": "persist-chat",
-					"type": "boolean",
-					"required": false,
-					"description": "If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space."
-				},
-				{
-					"name": "record-on-start",
-					"type": "boolean",
-					"required": false,
-					"description": "Specifies if the meeting should start getting recorded as soon as someone joins the meeting."
-				},
-				{
-					"name": "recording-config-audio-config-channel",
-					"type": "string",
-					"required": false,
-					"description": "Audio signal pathway within an audio file that carries a specific sound source.",
-					"enum": ["mono", "stereo"]
-				},
-				{
-					"name": "recording-config-audio-config-codec",
-					"type": "string",
-					"required": false,
-					"description": "Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
-					"enum": ["MP3", "AAC"]
-				},
-				{
-					"name": "recording-config-audio-config-export-file",
-					"type": "boolean",
-					"required": false,
-					"description": "Controls whether to export audio file seperately"
-				},
-				{
-					"name": "recording-config-file-name-prefix",
-					"type": "string",
-					"required": false,
-					"description": "Adds a prefix to the beginning of the file name of the recording."
-				},
-				{
-					"name": "recording-config-live-streaming-config-rtmp-url",
-					"type": "string",
-					"required": false,
-					"description": "RTMP URL to stream to"
-				},
-				{
-					"name": "recording-config-max-seconds",
-					"type": "number",
-					"required": false,
-					"description": "Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours."
-				},
-				{
-					"name": "recording-config-realtimekit-bucket-config-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording."
-				},
-				{
-					"name": "recording-config-storage-config-type",
-					"type": "string",
-					"required": false,
-					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
-				},
-				{
-					"name": "recording-config-video-config-codec",
-					"type": "string",
-					"required": false,
-					"description": "Codec using which the recording will be encoded.",
-					"enum": ["H264", "VP8", "VP9"]
-				},
-				{
-					"name": "recording-config-video-config-export-file",
-					"type": "boolean",
-					"required": false,
-					"description": "Controls whether to export video file seperately"
-				},
-				{
-					"name": "recording-config-video-config-height",
-					"type": "number",
-					"required": false,
-					"description": "Height of the recording video in pixels"
-				},
-				{
-					"name": "recording-config-video-config-watermark-position",
-					"type": "string",
-					"required": false,
-					"description": "Position of the watermark",
-					"enum": ["left top", "right top", "left bottom", "right bottom"]
-				},
-				{
-					"name": "recording-config-video-config-watermark-url",
-					"type": "string",
-					"required": false,
-					"description": "URL of the watermark image"
-				},
-				{
-					"name": "recording-config-video-config-width",
-					"type": "number",
-					"required": false,
-					"description": "Width of the recording video in pixels"
-				},
-				{
-					"name": "session-keep-alive-time-in-secs",
-					"type": "number",
-					"required": false,
-					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.",
-					"enum": ["ACTIVE", "INACTIVE"]
-				},
-				{
-					"name": "summarize-on-end",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API."
-				},
-				{
-					"name": "title",
-					"type": "string",
-					"required": false,
-					"description": "Title of the meeting"
-				},
-				{
-					"name": "transcribe-on-end",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically generate transcripts when the meeting ends."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}",
-			"operationId": "realtime.kit.meetings.update",
 			"hideCommand": false
 		},
 		{
@@ -113767,6 +113987,470 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}",
 			"operationId": "realtime.kit.presets.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf realtime kit presets edit",
+			"name": "edit",
+			"fullPath": ["realtime", "kit", "presets", "edit"],
+			"description": "Update a preset by the provided preset ID",
+			"summary": "Update a preset",
+			"usage": "cf realtime kit presets edit <preset-id> [options]",
+			"arguments": [
+				{
+					"name": "preset-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the preset to fetch"
+				}
+			],
+			"options": [
+				{
+					"name": "app-id",
+					"type": "string",
+					"required": true,
+					"description": "The app identifier tag."
+				},
+				{
+					"name": "preset-config-livestream-viewer-qualities",
+					"type": "string",
+					"required": false,
+					"description": "Livestream viewer quality levels."
+				},
+				{
+					"name": "preset-config-max-screenshare-count",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of screen shares that can be active at a given time"
+				},
+				{
+					"name": "preset-config-max-video-streams-desktop",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of video streams visible on desktop devices"
+				},
+				{
+					"name": "preset-config-max-video-streams-mobile",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of streams visible on mobile devices"
+				},
+				{
+					"name": "preset-config-media-audio-enable-high-bitrate",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable High Quality Audio for your meetings"
+				},
+				{
+					"name": "preset-config-media-audio-enable-stereo",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable Stereo for your meetings"
+				},
+				{
+					"name": "preset-config-media-screenshare-frame-rate",
+					"type": "number",
+					"required": false,
+					"description": "Frame rate of screen share"
+				},
+				{
+					"name": "preset-config-media-screenshare-quality",
+					"type": "string",
+					"required": false,
+					"description": "Quality of screen share ",
+					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
+				},
+				{
+					"name": "preset-config-media-video-frame-rate",
+					"type": "number",
+					"required": false,
+					"description": "Frame rate of participants' video"
+				},
+				{
+					"name": "preset-config-media-video-quality",
+					"type": "string",
+					"required": false,
+					"description": "Video quality of participants",
+					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
+				},
+				{
+					"name": "preset-config-media-video-simulcast",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable simulcast for participant videos."
+				},
+				{
+					"name": "preset-config-view-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of the meeting",
+					"enum": ["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the preset"
+				},
+				{
+					"name": "permissions-accept-stage-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.accept_stage_requests field"
+				},
+				{
+					"name": "permissions-accept-waiting-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether this participant can accept waiting requests"
+				},
+				{
+					"name": "permissions-can-accept-production-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_accept_production_requests field"
+				},
+				{
+					"name": "permissions-can-change-participant-permissions",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_change_participant_permissions field"
+				},
+				{
+					"name": "permissions-can-edit-display-name",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
+				},
+				{
+					"name": "permissions-can-livestream",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_livestream field"
+				},
+				{
+					"name": "permissions-can-record",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_record field"
+				},
+				{
+					"name": "permissions-can-spotlight",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_spotlight field"
+				},
+				{
+					"name": "permissions-chat-private-can-receive",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.can_receive field"
+				},
+				{
+					"name": "permissions-chat-private-can-send",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.can_send field"
+				},
+				{
+					"name": "permissions-chat-private-files",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.files field"
+				},
+				{
+					"name": "permissions-chat-private-text",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.text field"
+				},
+				{
+					"name": "permissions-chat-public-can-send",
+					"type": "boolean",
+					"required": false,
+					"description": "Can send messages in general"
+				},
+				{
+					"name": "permissions-chat-public-files",
+					"type": "boolean",
+					"required": false,
+					"description": "Can send file messages"
+				},
+				{
+					"name": "permissions-chat-public-text",
+					"type": "boolean",
+					"required": false,
+					"description": "Can send text messages"
+				},
+				{
+					"name": "permissions-connected-meetings-can-alter-connected-meetings",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.connected_meetings.can_alter_connected_meetings field"
+				},
+				{
+					"name": "permissions-connected-meetings-can-switch-connected-meetings",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.connected_meetings.can_switch_connected_meetings field"
+				},
+				{
+					"name": "permissions-connected-meetings-can-switch-to-parent-meeting",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.connected_meetings.can_switch_to_parent_meeting field"
+				},
+				{
+					"name": "permissions-disable-participant-audio",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.disable_participant_audio field"
+				},
+				{
+					"name": "permissions-disable-participant-screensharing",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.disable_participant_screensharing field"
+				},
+				{
+					"name": "permissions-disable-participant-video",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.disable_participant_video field"
+				},
+				{
+					"name": "permissions-hidden-participant",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether this participant is visible to others or not"
+				},
+				{
+					"name": "permissions-is-recorder",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.is_recorder field"
+				},
+				{
+					"name": "permissions-kick-participant",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.kick_participant field"
+				},
+				{
+					"name": "permissions-media-audio-can-produce",
+					"type": "string",
+					"required": false,
+					"description": "Can produce audio",
+					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
+				},
+				{
+					"name": "permissions-media-screenshare-can-produce",
+					"type": "string",
+					"required": false,
+					"description": "Can produce screen share video",
+					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
+				},
+				{
+					"name": "permissions-media-video-can-produce",
+					"type": "string",
+					"required": false,
+					"description": "Can produce video",
+					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
+				},
+				{
+					"name": "permissions-pin-participant",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.pin_participant field"
+				},
+				{
+					"name": "permissions-plugins-can-close",
+					"type": "boolean",
+					"required": false,
+					"description": "Can close plugins that are already open"
+				},
+				{
+					"name": "permissions-plugins-can-edit-config",
+					"type": "boolean",
+					"required": false,
+					"description": "Can edit plugin config"
+				},
+				{
+					"name": "permissions-plugins-can-start",
+					"type": "boolean",
+					"required": false,
+					"description": "Can start plugins"
+				},
+				{
+					"name": "permissions-plugins-config",
+					"type": "string",
+					"required": false,
+					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+				},
+				{
+					"name": "permissions-polls-can-create",
+					"type": "boolean",
+					"required": false,
+					"description": "Can create polls"
+				},
+				{
+					"name": "permissions-polls-can-view",
+					"type": "boolean",
+					"required": false,
+					"description": "Can view polls"
+				},
+				{
+					"name": "permissions-polls-can-vote",
+					"type": "boolean",
+					"required": false,
+					"description": "Can vote on polls"
+				},
+				{
+					"name": "permissions-recorder-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of the recording peer",
+					"enum": ["RECORDER", "LIVESTREAMER", "NONE"]
+				},
+				{
+					"name": "permissions-show-participant-list",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.show_participant_list field"
+				},
+				{
+					"name": "permissions-stage-access",
+					"type": "string",
+					"required": false,
+					"description": "The permissions.stage_access field",
+					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
+				},
+				{
+					"name": "permissions-stage-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.stage_enabled field"
+				},
+				{
+					"name": "permissions-transcription-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.transcription_enabled field"
+				},
+				{
+					"name": "permissions-waiting-room-type",
+					"type": "string",
+					"required": false,
+					"description": "Waiting room type",
+					"enum": ["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"]
+				},
+				{
+					"name": "ui-design-tokens-border-radius",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.border_radius field",
+					"enum": ["sharp", "rounded", "extra-rounded", "circular"]
+				},
+				{
+					"name": "ui-design-tokens-border-width",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.border_width field",
+					"enum": ["none", "thin", "fat"]
+				},
+				{
+					"name": "ui-design-tokens-colors-danger",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.danger field"
+				},
+				{
+					"name": "ui-design-tokens-colors-success",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.success field"
+				},
+				{
+					"name": "ui-design-tokens-colors-text",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.text field"
+				},
+				{
+					"name": "ui-design-tokens-colors-text-on-brand",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.text_on_brand field"
+				},
+				{
+					"name": "ui-design-tokens-colors-video-bg",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.video_bg field"
+				},
+				{
+					"name": "ui-design-tokens-colors-warning",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.warning field"
+				},
+				{
+					"name": "ui-design-tokens-font-family",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.font_family field"
+				},
+				{
+					"name": "ui-design-tokens-google-font",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.google_font field"
+				},
+				{
+					"name": "ui-design-tokens-logo",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.logo field"
+				},
+				{
+					"name": "ui-design-tokens-spacing-base",
+					"type": "number",
+					"required": false,
+					"description": "The ui.design_tokens.spacing_base field"
+				},
+				{
+					"name": "ui-design-tokens-theme",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.theme field",
+					"enum": ["darkest", "dark", "light"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}",
+			"operationId": "realtime.kit.presets.edit",
 			"hideCommand": false
 		},
 		{
@@ -114320,470 +115004,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf realtime kit presets update",
-			"name": "update",
-			"fullPath": ["realtime", "kit", "presets", "update"],
-			"description": "Update a preset by the provided preset ID",
-			"summary": "Update a preset",
-			"usage": "cf realtime kit presets update <preset-id> [options]",
-			"arguments": [
-				{
-					"name": "preset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "ID of the preset to fetch"
-				}
-			],
-			"options": [
-				{
-					"name": "app-id",
-					"type": "string",
-					"required": true,
-					"description": "The app identifier tag."
-				},
-				{
-					"name": "preset-config-livestream-viewer-qualities",
-					"type": "string",
-					"required": false,
-					"description": "Livestream viewer quality levels."
-				},
-				{
-					"name": "preset-config-max-screenshare-count",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of screen shares that can be active at a given time"
-				},
-				{
-					"name": "preset-config-max-video-streams-desktop",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of video streams visible on desktop devices"
-				},
-				{
-					"name": "preset-config-max-video-streams-mobile",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of streams visible on mobile devices"
-				},
-				{
-					"name": "preset-config-media-audio-enable-high-bitrate",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable High Quality Audio for your meetings"
-				},
-				{
-					"name": "preset-config-media-audio-enable-stereo",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable Stereo for your meetings"
-				},
-				{
-					"name": "preset-config-media-screenshare-frame-rate",
-					"type": "number",
-					"required": false,
-					"description": "Frame rate of screen share"
-				},
-				{
-					"name": "preset-config-media-screenshare-quality",
-					"type": "string",
-					"required": false,
-					"description": "Quality of screen share ",
-					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
-				},
-				{
-					"name": "preset-config-media-video-frame-rate",
-					"type": "number",
-					"required": false,
-					"description": "Frame rate of participants' video"
-				},
-				{
-					"name": "preset-config-media-video-quality",
-					"type": "string",
-					"required": false,
-					"description": "Video quality of participants",
-					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
-				},
-				{
-					"name": "preset-config-media-video-simulcast",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable simulcast for participant videos."
-				},
-				{
-					"name": "preset-config-view-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of the meeting",
-					"enum": ["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"]
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the preset"
-				},
-				{
-					"name": "permissions-accept-stage-requests",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.accept_stage_requests field"
-				},
-				{
-					"name": "permissions-accept-waiting-requests",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether this participant can accept waiting requests"
-				},
-				{
-					"name": "permissions-can-accept-production-requests",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_accept_production_requests field"
-				},
-				{
-					"name": "permissions-can-change-participant-permissions",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_change_participant_permissions field"
-				},
-				{
-					"name": "permissions-can-edit-display-name",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_edit_display_name field"
-				},
-				{
-					"name": "permissions-can-edit-meeting-title",
-					"type": "boolean",
-					"required": false,
-					"description": "Allows renaming the meeting for the current session"
-				},
-				{
-					"name": "permissions-can-livestream",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_livestream field"
-				},
-				{
-					"name": "permissions-can-record",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_record field"
-				},
-				{
-					"name": "permissions-can-spotlight",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_spotlight field"
-				},
-				{
-					"name": "permissions-chat-private-can-receive",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.can_receive field"
-				},
-				{
-					"name": "permissions-chat-private-can-send",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.can_send field"
-				},
-				{
-					"name": "permissions-chat-private-files",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.files field"
-				},
-				{
-					"name": "permissions-chat-private-text",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.text field"
-				},
-				{
-					"name": "permissions-chat-public-can-send",
-					"type": "boolean",
-					"required": false,
-					"description": "Can send messages in general"
-				},
-				{
-					"name": "permissions-chat-public-files",
-					"type": "boolean",
-					"required": false,
-					"description": "Can send file messages"
-				},
-				{
-					"name": "permissions-chat-public-text",
-					"type": "boolean",
-					"required": false,
-					"description": "Can send text messages"
-				},
-				{
-					"name": "permissions-connected-meetings-can-alter-connected-meetings",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.connected_meetings.can_alter_connected_meetings field"
-				},
-				{
-					"name": "permissions-connected-meetings-can-switch-connected-meetings",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.connected_meetings.can_switch_connected_meetings field"
-				},
-				{
-					"name": "permissions-connected-meetings-can-switch-to-parent-meeting",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.connected_meetings.can_switch_to_parent_meeting field"
-				},
-				{
-					"name": "permissions-disable-participant-audio",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.disable_participant_audio field"
-				},
-				{
-					"name": "permissions-disable-participant-screensharing",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.disable_participant_screensharing field"
-				},
-				{
-					"name": "permissions-disable-participant-video",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.disable_participant_video field"
-				},
-				{
-					"name": "permissions-hidden-participant",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether this participant is visible to others or not"
-				},
-				{
-					"name": "permissions-is-recorder",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.is_recorder field"
-				},
-				{
-					"name": "permissions-kick-participant",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.kick_participant field"
-				},
-				{
-					"name": "permissions-media-audio-can-produce",
-					"type": "string",
-					"required": false,
-					"description": "Can produce audio",
-					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
-				},
-				{
-					"name": "permissions-media-screenshare-can-produce",
-					"type": "string",
-					"required": false,
-					"description": "Can produce screen share video",
-					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
-				},
-				{
-					"name": "permissions-media-video-can-produce",
-					"type": "string",
-					"required": false,
-					"description": "Can produce video",
-					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
-				},
-				{
-					"name": "permissions-pin-participant",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.pin_participant field"
-				},
-				{
-					"name": "permissions-plugins-can-close",
-					"type": "boolean",
-					"required": false,
-					"description": "Can close plugins that are already open"
-				},
-				{
-					"name": "permissions-plugins-can-edit-config",
-					"type": "boolean",
-					"required": false,
-					"description": "Can edit plugin config"
-				},
-				{
-					"name": "permissions-plugins-can-start",
-					"type": "boolean",
-					"required": false,
-					"description": "Can start plugins"
-				},
-				{
-					"name": "permissions-plugins-config",
-					"type": "string",
-					"required": false,
-					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
-				},
-				{
-					"name": "permissions-polls-can-create",
-					"type": "boolean",
-					"required": false,
-					"description": "Can create polls"
-				},
-				{
-					"name": "permissions-polls-can-view",
-					"type": "boolean",
-					"required": false,
-					"description": "Can view polls"
-				},
-				{
-					"name": "permissions-polls-can-vote",
-					"type": "boolean",
-					"required": false,
-					"description": "Can vote on polls"
-				},
-				{
-					"name": "permissions-recorder-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of the recording peer",
-					"enum": ["RECORDER", "LIVESTREAMER", "NONE"]
-				},
-				{
-					"name": "permissions-show-participant-list",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.show_participant_list field"
-				},
-				{
-					"name": "permissions-stage-access",
-					"type": "string",
-					"required": false,
-					"description": "The permissions.stage_access field",
-					"enum": ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"]
-				},
-				{
-					"name": "permissions-stage-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.stage_enabled field"
-				},
-				{
-					"name": "permissions-transcription-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.transcription_enabled field"
-				},
-				{
-					"name": "permissions-waiting-room-type",
-					"type": "string",
-					"required": false,
-					"description": "Waiting room type",
-					"enum": ["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"]
-				},
-				{
-					"name": "ui-design-tokens-border-radius",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.border_radius field",
-					"enum": ["sharp", "rounded", "extra-rounded", "circular"]
-				},
-				{
-					"name": "ui-design-tokens-border-width",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.border_width field",
-					"enum": ["none", "thin", "fat"]
-				},
-				{
-					"name": "ui-design-tokens-colors-danger",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.danger field"
-				},
-				{
-					"name": "ui-design-tokens-colors-success",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.success field"
-				},
-				{
-					"name": "ui-design-tokens-colors-text",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.text field"
-				},
-				{
-					"name": "ui-design-tokens-colors-text-on-brand",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.text_on_brand field"
-				},
-				{
-					"name": "ui-design-tokens-colors-video-bg",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.video_bg field"
-				},
-				{
-					"name": "ui-design-tokens-colors-warning",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.warning field"
-				},
-				{
-					"name": "ui-design-tokens-font-family",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.font_family field"
-				},
-				{
-					"name": "ui-design-tokens-google-font",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.google_font field"
-				},
-				{
-					"name": "ui-design-tokens-logo",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.logo field"
-				},
-				{
-					"name": "ui-design-tokens-spacing-base",
-					"type": "number",
-					"required": false,
-					"description": "The ui.design_tokens.spacing_base field"
-				},
-				{
-					"name": "ui-design-tokens-theme",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.theme field",
-					"enum": ["darkest", "dark", "light"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}",
-			"operationId": "realtime.kit.presets.update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf realtime kit recordings active get",
 			"name": "get",
 			"fullPath": ["realtime", "kit", "recordings", "active", "get"],
@@ -114825,7 +115045,7 @@
 			"command": "cf realtime kit recordings control",
 			"name": "control",
 			"fullPath": ["realtime", "kit", "recordings", "control"],
-			"description": "Pause/Resume/Stop a given recording ID.",
+			"description": "Pause/Resume/Stop a given recording ID. **Note:** A recording can stay paused for a maximum of 12 hours. After that, it automatically resumes and finishes.",
 			"summary": "Pause/Resume/Stop recording",
 			"usage": "cf realtime kit recordings control <recording-id> [options]",
 			"arguments": [
@@ -115724,7 +115944,7 @@
 			"command": "cf realtime kit sessions transcripts export",
 			"name": "export",
 			"fullPath": ["realtime", "kit", "sessions", "transcripts", "export"],
-			"description": "Returns a URL to download the transcript for the session ID in CSV format.",
+			"description": "Returns a URL to download the transcript for the session ID in the requested format.",
 			"summary": "Fetch the complete transcript for a session",
 			"usage": "cf realtime kit sessions transcripts export <session-id> [options]",
 			"arguments": [
@@ -115872,6 +116092,74 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}",
 			"operationId": "realtime.kit.webhooks.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf realtime kit webhooks edit",
+			"name": "edit",
+			"fullPath": ["realtime", "kit", "webhooks", "edit"],
+			"description": "Edits the webhook details for the given webhook ID.",
+			"summary": "Edit a webhook",
+			"usage": "cf realtime kit webhooks edit <webhook-id> [options]",
+			"arguments": [
+				{
+					"name": "webhook-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the webhook"
+				}
+			],
+			"options": [
+				{
+					"name": "app-id",
+					"type": "string",
+					"required": true,
+					"description": "The app identifier tag."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Omit to keep the current value."
+				},
+				{
+					"name": "events",
+					"type": "string",
+					"required": false,
+					"description": "Events that the webhook will get triggered by"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the webhook"
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": false,
+					"description": "URL the webhook will send events to"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}",
+			"operationId": "realtime.kit.webhooks.edit",
 			"hideCommand": false
 		},
 		{
@@ -116038,74 +116326,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}",
 			"operationId": "realtime.kit.webhooks.replace",
-			"hideCommand": false
-		},
-		{
-			"command": "cf realtime kit webhooks update",
-			"name": "update",
-			"fullPath": ["realtime", "kit", "webhooks", "update"],
-			"description": "Edits the webhook details for the given webhook ID.",
-			"summary": "Edit a webhook",
-			"usage": "cf realtime kit webhooks update <webhook-id> [options]",
-			"arguments": [
-				{
-					"name": "webhook-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "ID of the webhook"
-				}
-			],
-			"options": [
-				{
-					"name": "app-id",
-					"type": "string",
-					"required": true,
-					"description": "The app identifier tag."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "events",
-					"type": "string",
-					"required": false,
-					"description": "Events that the webhook will get triggered by"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the webhook"
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": false,
-					"description": "URL the webhook will send events to"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}",
-			"operationId": "realtime.kit.webhooks.update",
 			"hideCommand": false
 		},
 		{
@@ -128190,8 +128410,8 @@
 			"command": "cf ssl verification edit",
 			"name": "edit",
 			"fullPath": ["ssl", "verification", "edit"],
-			"description": "Edit SSL validation method for a certificate pack. A PATCH request will request an immediate validation check on any certificate, and return the updated status. If a validation method is provided, the validation will be immediately attempted using that method.",
-			"summary": "Edit SSL Certificate Pack Validation Method",
+			"description": "Update the configured SSL validation method for a Universal SSL certificate pack, or request another validation attempt for a pack in pending_validation. This endpoint does not change the validation method for advanced certificates. For an active certificate pack, a method-only update saves the method without rerunning validation or replacing the active certificate. For a pack pending validation, changing the method initializes validation using the requested method. Cloudflare may select a different method during automatic renewal. Omit validation_method, send an empty JSON object, or omit the request body to use the current or default method. For a pack in pending_validation, keeping the current method requests another validation attempt. Cloudflare may queue this attempt rather than complete validation before returning. For an active pack, an empty JSON object or a request without a body does not rerun DCV. The response returns the current status and does not guarantee that validation has completed. Available methods depend on the DNS setup and certificate authority. For Google Trust Services, Let's Encrypt, and SSL.com, full DNS setups support txt only, while partial DNS setups support txt or http. HTTP validation does not support wildcard certificates. This endpoint allows four PATCH requests per zone per 60 seconds.",
+			"summary": "Update SSL Certificate Pack Validation Method",
 			"usage": "cf ssl verification edit <certificate-pack-id> [options]",
 			"arguments": [
 				{
@@ -128206,8 +128426,8 @@
 				{
 					"name": "validation-method",
 					"type": "string",
-					"required": true,
-					"description": "Desired validation method.",
+					"required": false,
+					"description": "SSL validation method.",
 					"enum": ["http", "cname", "txt", "email"]
 				},
 				{
@@ -131869,6 +132089,256 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cfd_tunnel/{tunnel_id}",
 			"operationId": "tunnels.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf tunnels hostnames create",
+			"name": "create",
+			"fullPath": ["tunnels", "hostnames", "create"],
+			"description": "Assigns a hostname to a tunnel. If the tunnel has no active hostnames, the new hostname is always canonical.",
+			"summary": "Create a tunnel hostname",
+			"usage": "cf tunnels hostnames create <tunnel-id> [options]",
+			"arguments": [
+				{
+					"name": "tunnel-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel."
+				}
+			],
+			"options": [
+				{
+					"name": "canonical",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to `true` to make the new hostname canonical, replacing any existing canonical hostname.\nIf `false` or omitted, the new hostname is canonical only if the tunnel has no active hostnames.\n"
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true,
+					"description": "A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames",
+			"operationId": "tunnels.hostnames.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf tunnels hostnames delete",
+			"name": "delete",
+			"fullPath": ["tunnels", "hostnames", "delete"],
+			"description": "Deletes a hostname assigned to a tunnel.",
+			"summary": "Delete a tunnel hostname",
+			"usage": "cf tunnels hostnames delete <hostname-id> [options]",
+			"arguments": [
+				{
+					"name": "hostname-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel hostname."
+				}
+			],
+			"options": [
+				{
+					"name": "tunnel-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames/{hostname_id}",
+			"operationId": "tunnels.hostnames.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf tunnels hostnames edit",
+			"name": "edit",
+			"fullPath": ["tunnels", "hostnames", "edit"],
+			"description": "Updates the hostname value or makes it canonical. To unset a canonical hostname, make a different hostname canonical instead.",
+			"summary": "Update a tunnel hostname",
+			"usage": "cf tunnels hostnames edit <hostname-id> [options]",
+			"arguments": [
+				{
+					"name": "hostname-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel hostname."
+				}
+			],
+			"options": [
+				{
+					"name": "tunnel-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel."
+				},
+				{
+					"name": "canonical",
+					"type": "boolean",
+					"required": false,
+					"description": "Makes this hostname canonical. `false` is not accepted; make a different hostname canonical to unset this one."
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": false,
+					"description": "A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames/{hostname_id}",
+			"operationId": "tunnels.hostnames.edit",
+			"hideCommand": false
+		},
+		{
+			"command": "cf tunnels hostnames get",
+			"name": "get",
+			"fullPath": ["tunnels", "hostnames", "get"],
+			"description": "Fetches a hostname assigned to a tunnel.",
+			"summary": "Get a tunnel hostname",
+			"usage": "cf tunnels hostnames get <hostname-id> [options]",
+			"arguments": [
+				{
+					"name": "hostname-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel hostname."
+				}
+			],
+			"options": [
+				{
+					"name": "tunnel-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames/{hostname_id}",
+			"operationId": "tunnels.hostnames.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf tunnels hostnames list",
+			"name": "list",
+			"fullPath": ["tunnels", "hostnames", "list"],
+			"description": "Lists and filters the hostnames assigned to a tunnel.",
+			"summary": "List tunnel hostnames",
+			"usage": "cf tunnels hostnames list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "tunnel-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the tunnel."
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": false,
+					"description": "If set, only list tunnel hostnames that contain this value. The filter is case-insensitive."
+				},
+				{
+					"name": "canonical",
+					"type": "boolean",
+					"required": false,
+					"description": "If set, only list tunnel hostnames with the specified canonical status."
+				},
+				{
+					"name": "is-deleted",
+					"type": "boolean",
+					"required": false,
+					"description": "If `true`, only return deleted tunnel hostnames. If `false` or omitted, exclude deleted tunnel hostnames."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results to display, up to 1000. The server caps larger values at 1000."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number to return."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames",
+			"operationId": "tunnels.hostnames.list",
 			"hideCommand": false
 		},
 		{
@@ -171518,7 +171988,7 @@
 		"dls regions": "Operations for regions",
 		"dns": "dns",
 		"dns dnssec": "Operations for dnssec",
-		"dns dnssec list": "Operations for dnssec.list",
+		"dns dnssec zsks": "Operations for dnssec.zsks",
 		"dns records": "Operations for records",
 		"dns settings": "Operations for settings",
 		"dns settings account": "Operations for settings.account",
@@ -172104,6 +172574,7 @@
 		"tunnels config": "Operations for config",
 		"tunnels connections": "Operations for connections",
 		"tunnels connectors": "Operations for connectors",
+		"tunnels hostnames": "Operations for hostnames",
 		"tunnels management-token": "Operations for management-token",
 		"tunnels token": "Operations for token",
 		"turnstile": "CAPTCHA-free bot verification widgets that protect forms and APIs without degrading user experience",

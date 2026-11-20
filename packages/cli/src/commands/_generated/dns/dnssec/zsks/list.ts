@@ -1,8 +1,8 @@
-import operation from "../../../_operations/dns/dnssec/list/zsks.js";
+import operation from "../../../_operations/dns/dnssec/zsks/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * zsks command
+ * list command
  * @generated from apis/overlays/dns.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dns dnssec list zsks\n\nList the Zone Signing Keys (ZSKs) that DNSSEC uses for the zone."
+			"$0 dns dnssec zsks list\n\nList the Zone Signing Keys (ZSKs) that DNSSEC uses for the zone."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -27,13 +27,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "zsks",
+	command: "list",
 	describe: "List DNSSEC ZSKs",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "dns dnssec list zsks",
+				command: "dns dnssec zsks list",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -42,7 +42,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf dns dnssec list zsks",
+						command: "cf dns dnssec zsks list",
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/dnssec/zsk`,
 						pathParams: {

@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit sessions transcripts export <session-id>\n\nReturns a URL to download the transcript for the session ID in CSV format."
+			"$0 realtime kit sessions transcripts export <session-id>\n\nReturns a URL to download the transcript for the session ID in the requested format."
 		)
 		.positional("session-id", {
 			type: "string",

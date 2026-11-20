@@ -1,5 +1,5 @@
-import $edit from "./edit.js";
 import $get from "./get.js";
+import $replace from "./replace.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * initial-resolved-ip command group
@@ -13,8 +13,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($edit)
 			.command($get)
+			.command($replace)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -19249,10 +19249,28 @@
 					"description": "Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"name\": string, \"value\": string, \"domain\"?: string, \"expires\"?: number, \"httpOnly\"?: boolean, ...more}]. ? marks optional keys."
 				},
 				{
+					"name": "custom-ai",
+					"type": "string",
+					"required": false,
+					"description": "Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"model\": string, \"authorization\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "elements",
+					"type": "string",
+					"required": false,
+					"description": "The elements field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"selector\": string}]."
+				},
+				{
 					"name": "emulate-media-type",
 					"type": "string",
 					"required": false,
 					"description": "The emulateMediaType field"
+				},
+				{
+					"name": "exclude-external-links",
+					"type": "boolean",
+					"required": false,
+					"description": "The excludeExternalLinks field"
 				},
 				{
 					"name": "formats",
@@ -19285,6 +19303,132 @@
 					"description": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
 				},
 				{
+					"name": "interesting-only",
+					"type": "boolean",
+					"required": false,
+					"description": "The interestingOnly field"
+				},
+				{
+					"name": "pdf-options-display-header-footer",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to show the header and footer."
+				},
+				{
+					"name": "pdf-options-footer-template",
+					"type": "string",
+					"required": false,
+					"description": "HTML template for the print footer."
+				},
+				{
+					"name": "pdf-options-format",
+					"type": "string",
+					"required": false,
+					"description": "Paper format. Takes priority over width and height if set."
+				},
+				{
+					"name": "pdf-options-header-template",
+					"type": "string",
+					"required": false,
+					"description": "HTML template for the print header."
+				},
+				{
+					"name": "pdf-options-height",
+					"type": "string",
+					"required": false,
+					"description": "Sets the height of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-landscape",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to print in landscape orientation."
+				},
+				{
+					"name": "pdf-options-margin-bottom",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.bottom field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-left",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.left field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-right",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.right field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-top",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.top field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-omit-background",
+					"type": "boolean",
+					"required": false,
+					"description": "Hides default white background and allows generating pdfs with transparency."
+				},
+				{
+					"name": "pdf-options-outline",
+					"type": "boolean",
+					"required": false,
+					"description": "Generate document outline."
+				},
+				{
+					"name": "pdf-options-page-ranges",
+					"type": "string",
+					"required": false,
+					"description": "Paper ranges to print, e.g. '1-5, 8, 11-13'."
+				},
+				{
+					"name": "pdf-options-prefer-csspage-size",
+					"type": "boolean",
+					"required": false,
+					"description": "Give CSS @page size priority over other size declarations."
+				},
+				{
+					"name": "pdf-options-print-background",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to true to print background graphics."
+				},
+				{
+					"name": "pdf-options-scale",
+					"type": "number",
+					"required": false,
+					"description": "Scales the rendering of the web page. Amount must be between 0.1 and 2."
+				},
+				{
+					"name": "pdf-options-tagged",
+					"type": "boolean",
+					"required": false,
+					"description": "Generate tagged (accessible) PDF."
+				},
+				{
+					"name": "pdf-options-timeout",
+					"type": "number",
+					"required": false,
+					"description": "Timeout in milliseconds."
+				},
+				{
+					"name": "pdf-options-width",
+					"type": "string",
+					"required": false,
+					"description": "Sets the width of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "prompt",
+					"type": "string",
+					"required": false,
+					"description": "The prompt field"
+				},
+				{
 					"name": "reject-request-pattern",
 					"type": "string",
 					"required": false,
@@ -19295,6 +19439,24 @@
 					"type": "string",
 					"required": false,
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+				},
+				{
+					"name": "response-format-json-schema",
+					"type": "string",
+					"required": false,
+					"description": "Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": unknown}."
+				},
+				{
+					"name": "response-format-type",
+					"type": "string",
+					"required": false,
+					"description": "The response_format.type field"
+				},
+				{
+					"name": "root",
+					"type": "string",
+					"required": false,
+					"description": "The root field"
 				},
 				{
 					"name": "screenshot-options-capture-beyond-viewport",
@@ -19369,6 +19531,18 @@
 					"description": "The screenshotOptions.type field"
 				},
 				{
+					"name": "scroll-page",
+					"type": "boolean",
+					"required": false,
+					"description": "The scrollPage field"
+				},
+				{
+					"name": "selector",
+					"type": "string",
+					"required": false,
+					"description": "The selector field"
+				},
+				{
 					"name": "set-extra-httpheaders",
 					"type": "string",
 					"required": false,
@@ -19427,6 +19601,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The viewport.width field"
+				},
+				{
+					"name": "visible-links-only",
+					"type": "boolean",
+					"required": false,
+					"description": "The visibleLinksOnly field"
 				},
 				{
 					"name": "wait-for-selector-hidden",
@@ -27969,7 +28149,7 @@
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": \"attacker\" | \"attackerCountry\" | \"category\" | ...more, \"op\": \"equals\" | \"not\" | \"gt\" | ...more, \"value\": string} | ...more)]."
+					"description": "Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. `containsAny` takes an array of up to 50 strings and matches when the field contains any of them; it is not supported for `indicator`, `date`, `killChain`, or `hasChildren`. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `\"unknown\"` also drops them; analytics datasets treat `\"unknown\"` as a literal value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"field\": \"attacker\" | \"attackerCountry\" | \"category\" | ...more, \"op\": \"equals\" | \"not\" | \"gt\" | ...more, \"value\": string} | ...more)]."
 				},
 				{
 					"name": "search-branches",
@@ -30121,6 +30301,12 @@
 					"description": "Polling interval in seconds (60-86400). Default 300s (5 minutes)."
 				},
 				{
+					"name": "tagging-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Default false."
+				},
+				{
 					"name": "title",
 					"type": "string",
 					"required": false,
@@ -30366,6 +30552,12 @@
 					"type": "number",
 					"required": false,
 					"description": "New polling interval in seconds (60-86400). Omit to keep current value."
+				},
+				{
+					"name": "tagging-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Omit to keep current value."
 				},
 				{
 					"name": "title",
@@ -34055,8 +34247,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"dns dnssec list zsks": {
-			"operationId": "dns.dnssec.list.zsks",
+		"dns dnssec zsks list": {
+			"operationId": "dns.dnssec.zsks.list",
 			"httpMethod": "GET",
 			"path": "/zones/{zone_id}/dnssec/zsk",
 			"pathParams": [
@@ -34640,6 +34832,18 @@
 				{
 					"name": "tag_match",
 					"flag": "tag-match",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "prev_cursor",
+					"flag": "prev-cursor",
 					"type": "string",
 					"required": false
 				},
@@ -58218,8 +58422,30 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"network subnets initial-resolved-ip edit": {
-			"operationId": "network.subnets.initial-resolved-ip.edit",
+		"network subnets initial-resolved-ip get": {
+			"operationId": "network.subnets.initial-resolved-ip.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_family",
+					"flag": "address-family",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"network subnets initial-resolved-ip replace": {
+			"operationId": "network.subnets.initial-resolved-ip.replace",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}",
 			"pathParams": [
@@ -58258,28 +58484,6 @@
 					"description": "The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
 				}
 			]
-		},
-		"network subnets initial-resolved-ip get": {
-			"operationId": "network.subnets.initial-resolved-ip.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "address_family",
-					"flag": "address-family",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"network subnets list": {
 			"operationId": "network.subnets.list",
@@ -64738,7 +64942,7 @@
 				{
 					"name": "per_page",
 					"flag": "per-page",
-					"type": "string",
+					"type": "number",
 					"required": false
 				}
 			],
@@ -68125,6 +68329,12 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "actions",
+					"type": "string",
+					"required": false,
+					"description": "S3 actions allowed on the credentials; requests for any other action are denied. For example, `[\"GetObject\", \"HeadObject\"]` allows reading objects without listing them. Exactly one of `permission` or `actions` must be provided. The parent token must have Object Read & Write permission if any action writes, and Object Read otherwise."
+				},
+				{
 					"name": "bucket",
 					"type": "string",
 					"required": true,
@@ -68145,8 +68355,8 @@
 				{
 					"name": "permission",
 					"type": "string",
-					"required": true,
-					"description": "Permissions allowed on the credentials."
+					"required": false,
+					"description": "Permissions allowed on the credentials. Exactly one of `permission` or `actions` must be provided."
 				},
 				{
 					"name": "prefixes",
@@ -74456,6 +74666,12 @@
 			],
 			"queryParams": [
 				{
+					"name": "includeConfidenceLevel",
+					"flag": "include-confidence-level",
+					"type": "boolean",
+					"required": false
+				},
+				{
 					"name": "format",
 					"flag": "format",
 					"type": "string",
@@ -79878,6 +80094,35 @@
 				}
 			]
 		},
+		"realtime kit apps edit": {
+			"operationId": "realtime.kit.apps.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/realtime/kit/apps/{app_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"flag": "app-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
+				}
+			]
+		},
 		"realtime kit apps get": {
 			"operationId": "realtime.kit.apps.get",
 			"httpMethod": "GET",
@@ -79939,35 +80184,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"realtime kit apps update": {
-			"operationId": "realtime.kit.apps.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/realtime/kit/apps/{app_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"flag": "app-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
-				}
-			]
 		},
 		"realtime kit livestreams get": {
 			"operationId": "realtime.kit.livestreams.get",
@@ -80261,16 +80477,10 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "custom-participant-ids",
-					"type": "string",
-					"required": false,
-					"description": "The custom_participant_ids field"
-				},
-				{
 					"name": "participant-ids",
 					"type": "string",
-					"required": false,
-					"description": "The participant_ids field"
+					"required": true,
+					"description": "IDs of the participants to kick, as returned when the participants were added to the meeting."
 				}
 			]
 		},
@@ -80330,16 +80540,10 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "custom-participant-ids",
-					"type": "string",
-					"required": false,
-					"description": "The custom_participant_ids field"
-				},
-				{
 					"name": "participant-ids",
 					"type": "string",
-					"required": false,
-					"description": "The participant_ids field"
+					"required": true,
+					"description": "IDs of the participants to mute, as returned when the participants were added to the meeting."
 				}
 			]
 		},
@@ -80374,7 +80578,7 @@
 					"name": "allow-unmute",
 					"type": "boolean",
 					"required": false,
-					"description": "if false, participants won't be able to unmute themselves after they are muted"
+					"description": "This field is ignored. Muted participants can unmute themselves if their preset allows them to produce audio."
 				}
 			]
 		},
@@ -80601,6 +80805,209 @@
 					"type": "number",
 					"required": false,
 					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
+				},
+				{
+					"name": "summarize-on-end",
+					"type": "boolean",
+					"required": false,
+					"description": "Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API."
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": false,
+					"description": "Title of the meeting"
+				},
+				{
+					"name": "transcribe-on-end",
+					"type": "boolean",
+					"required": false,
+					"description": "Automatically generate transcripts when the meeting ends."
+				}
+			]
+		},
+		"realtime kit meetings edit": {
+			"operationId": "realtime.kit.meetings.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"flag": "app-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "meeting_id",
+					"flag": "meeting-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ai-config-summarization-summary-type",
+					"type": "string",
+					"required": false,
+					"description": "Defines the style of the summary, such as general, team meeting, or sales call."
+				},
+				{
+					"name": "ai-config-summarization-text-format",
+					"type": "string",
+					"required": false,
+					"description": "Determines the text format of the summary, such as plain text or markdown."
+				},
+				{
+					"name": "ai-config-summarization-word-limit",
+					"type": "number",
+					"required": false,
+					"description": "Sets the maximum number of words in the meeting summary."
+				},
+				{
+					"name": "ai-config-transcription-keywords",
+					"type": "string",
+					"required": false,
+					"description": "Adds specific terms to improve accurate detection during transcription."
+				},
+				{
+					"name": "ai-config-transcription-language",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription."
+				},
+				{
+					"name": "ai-config-transcription-profanity-filter",
+					"type": "boolean",
+					"required": false,
+					"description": "Control the inclusion of offensive language in transcriptions."
+				},
+				{
+					"name": "enable-sip",
+					"type": "boolean",
+					"required": false,
+					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
+				},
+				{
+					"name": "live-stream-on-start",
+					"type": "boolean",
+					"required": false,
+					"description": "Specifies if the meeting should start getting livestreamed on start."
+				},
+				{
+					"name": "persist-chat",
+					"type": "boolean",
+					"required": false,
+					"description": "If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space."
+				},
+				{
+					"name": "record-on-start",
+					"type": "boolean",
+					"required": false,
+					"description": "Specifies if the meeting should start getting recorded as soon as someone joins the meeting."
+				},
+				{
+					"name": "recording-config-audio-config-channel",
+					"type": "string",
+					"required": false,
+					"description": "Audio signal pathway within an audio file that carries a specific sound source."
+				},
+				{
+					"name": "recording-config-audio-config-codec",
+					"type": "string",
+					"required": false,
+					"description": "Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis."
+				},
+				{
+					"name": "recording-config-audio-config-export-file",
+					"type": "boolean",
+					"required": false,
+					"description": "Controls whether to export audio file seperately"
+				},
+				{
+					"name": "recording-config-file-name-prefix",
+					"type": "string",
+					"required": false,
+					"description": "Adds a prefix to the beginning of the file name of the recording."
+				},
+				{
+					"name": "recording-config-live-streaming-config-rtmp-url",
+					"type": "string",
+					"required": false,
+					"description": "RTMP URL to stream to"
+				},
+				{
+					"name": "recording-config-max-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours."
+				},
+				{
+					"name": "recording-config-realtimekit-bucket-config-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording."
+				},
+				{
+					"name": "recording-config-storage-config-type",
+					"type": "string",
+					"required": false,
+					"description": "The recording_config.storage_config.type field"
+				},
+				{
+					"name": "recording-config-video-config-codec",
+					"type": "string",
+					"required": false,
+					"description": "Codec using which the recording will be encoded."
+				},
+				{
+					"name": "recording-config-video-config-export-file",
+					"type": "boolean",
+					"required": false,
+					"description": "Controls whether to export video file seperately"
+				},
+				{
+					"name": "recording-config-video-config-height",
+					"type": "number",
+					"required": false,
+					"description": "Height of the recording video in pixels"
+				},
+				{
+					"name": "recording-config-video-config-watermark-position",
+					"type": "string",
+					"required": false,
+					"description": "Position of the watermark"
+				},
+				{
+					"name": "recording-config-video-config-watermark-url",
+					"type": "string",
+					"required": false,
+					"description": "URL of the watermark image"
+				},
+				{
+					"name": "recording-config-video-config-width",
+					"type": "number",
+					"required": false,
+					"description": "Width of the recording video in pixels"
+				},
+				{
+					"name": "session-keep-alive-time-in-secs",
+					"type": "number",
+					"required": false,
+					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting."
 				},
 				{
 					"name": "summarize-on-end",
@@ -80883,6 +81290,59 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"realtime kit meetings participants edit": {
+			"operationId": "realtime.kit.meetings.participants.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"flag": "app-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "meeting_id",
+					"flag": "meeting-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "participant_id",
+					"flag": "participant-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "(Optional) Name of the participant."
+				},
+				{
+					"name": "picture",
+					"type": "string",
+					"required": false,
+					"description": "(Optional) A URL to a picture to be used for the participant."
+				},
+				{
+					"name": "preset-name",
+					"type": "string",
+					"required": false,
+					"description": "(Optional) Name of the preset to apply to this participant."
+				}
+			]
+		},
 		"realtime kit meetings participants get": {
 			"operationId": "realtime.kit.meetings.participants.get",
 			"httpMethod": "GET",
@@ -81104,59 +81564,6 @@
 				}
 			]
 		},
-		"realtime kit meetings participants update": {
-			"operationId": "realtime.kit.meetings.participants.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"flag": "app-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "meeting_id",
-					"flag": "meeting-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "participant_id",
-					"flag": "participant-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "(Optional) Name of the participant."
-				},
-				{
-					"name": "picture",
-					"type": "string",
-					"required": false,
-					"description": "(Optional) A URL to a picture to be used for the participant."
-				},
-				{
-					"name": "preset-name",
-					"type": "string",
-					"required": false,
-					"description": "(Optional) Name of the preset to apply to this participant."
-				}
-			]
-		},
 		"realtime kit meetings replace": {
 			"operationId": "realtime.kit.meetings.replace",
 			"httpMethod": "PUT",
@@ -81333,209 +81740,6 @@
 					"type": "number",
 					"required": false,
 					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
-				},
-				{
-					"name": "summarize-on-end",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API."
-				},
-				{
-					"name": "title",
-					"type": "string",
-					"required": false,
-					"description": "Title of the meeting"
-				},
-				{
-					"name": "transcribe-on-end",
-					"type": "boolean",
-					"required": false,
-					"description": "Automatically generate transcripts when the meeting ends."
-				}
-			]
-		},
-		"realtime kit meetings update": {
-			"operationId": "realtime.kit.meetings.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"flag": "app-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "meeting_id",
-					"flag": "meeting-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "ai-config-summarization-summary-type",
-					"type": "string",
-					"required": false,
-					"description": "Defines the style of the summary, such as general, team meeting, or sales call."
-				},
-				{
-					"name": "ai-config-summarization-text-format",
-					"type": "string",
-					"required": false,
-					"description": "Determines the text format of the summary, such as plain text or markdown."
-				},
-				{
-					"name": "ai-config-summarization-word-limit",
-					"type": "number",
-					"required": false,
-					"description": "Sets the maximum number of words in the meeting summary."
-				},
-				{
-					"name": "ai-config-transcription-keywords",
-					"type": "string",
-					"required": false,
-					"description": "Adds specific terms to improve accurate detection during transcription."
-				},
-				{
-					"name": "ai-config-transcription-language",
-					"type": "string",
-					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription."
-				},
-				{
-					"name": "ai-config-transcription-profanity-filter",
-					"type": "boolean",
-					"required": false,
-					"description": "Control the inclusion of offensive language in transcriptions."
-				},
-				{
-					"name": "enable-sip",
-					"type": "boolean",
-					"required": false,
-					"description": "Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials."
-				},
-				{
-					"name": "live-stream-on-start",
-					"type": "boolean",
-					"required": false,
-					"description": "Specifies if the meeting should start getting livestreamed on start."
-				},
-				{
-					"name": "persist-chat",
-					"type": "boolean",
-					"required": false,
-					"description": "If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space."
-				},
-				{
-					"name": "record-on-start",
-					"type": "boolean",
-					"required": false,
-					"description": "Specifies if the meeting should start getting recorded as soon as someone joins the meeting."
-				},
-				{
-					"name": "recording-config-audio-config-channel",
-					"type": "string",
-					"required": false,
-					"description": "Audio signal pathway within an audio file that carries a specific sound source."
-				},
-				{
-					"name": "recording-config-audio-config-codec",
-					"type": "string",
-					"required": false,
-					"description": "Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis."
-				},
-				{
-					"name": "recording-config-audio-config-export-file",
-					"type": "boolean",
-					"required": false,
-					"description": "Controls whether to export audio file seperately"
-				},
-				{
-					"name": "recording-config-file-name-prefix",
-					"type": "string",
-					"required": false,
-					"description": "Adds a prefix to the beginning of the file name of the recording."
-				},
-				{
-					"name": "recording-config-live-streaming-config-rtmp-url",
-					"type": "string",
-					"required": false,
-					"description": "RTMP URL to stream to"
-				},
-				{
-					"name": "recording-config-max-seconds",
-					"type": "number",
-					"required": false,
-					"description": "Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours."
-				},
-				{
-					"name": "recording-config-realtimekit-bucket-config-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording."
-				},
-				{
-					"name": "recording-config-storage-config-type",
-					"type": "string",
-					"required": false,
-					"description": "The recording_config.storage_config.type field"
-				},
-				{
-					"name": "recording-config-video-config-codec",
-					"type": "string",
-					"required": false,
-					"description": "Codec using which the recording will be encoded."
-				},
-				{
-					"name": "recording-config-video-config-export-file",
-					"type": "boolean",
-					"required": false,
-					"description": "Controls whether to export video file seperately"
-				},
-				{
-					"name": "recording-config-video-config-height",
-					"type": "number",
-					"required": false,
-					"description": "Height of the recording video in pixels"
-				},
-				{
-					"name": "recording-config-video-config-watermark-position",
-					"type": "string",
-					"required": false,
-					"description": "Position of the watermark"
-				},
-				{
-					"name": "recording-config-video-config-watermark-url",
-					"type": "string",
-					"required": false,
-					"description": "URL of the watermark image"
-				},
-				{
-					"name": "recording-config-video-config-width",
-					"type": "number",
-					"required": false,
-					"description": "Width of the recording video in pixels"
-				},
-				{
-					"name": "session-keep-alive-time-in-secs",
-					"type": "number",
-					"required": false,
-					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting."
 				},
 				{
 					"name": "summarize-on-end",
@@ -82015,6 +82219,443 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"realtime kit presets edit": {
+			"operationId": "realtime.kit.presets.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"flag": "app-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preset_id",
+					"flag": "preset-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "preset-config-livestream-viewer-qualities",
+					"type": "string",
+					"required": false,
+					"description": "Livestream viewer quality levels."
+				},
+				{
+					"name": "preset-config-max-screenshare-count",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of screen shares that can be active at a given time"
+				},
+				{
+					"name": "preset-config-max-video-streams-desktop",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of video streams visible on desktop devices"
+				},
+				{
+					"name": "preset-config-max-video-streams-mobile",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of streams visible on mobile devices"
+				},
+				{
+					"name": "preset-config-media-audio-enable-high-bitrate",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable High Quality Audio for your meetings"
+				},
+				{
+					"name": "preset-config-media-audio-enable-stereo",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable Stereo for your meetings"
+				},
+				{
+					"name": "preset-config-media-screenshare-frame-rate",
+					"type": "number",
+					"required": false,
+					"description": "Frame rate of screen share"
+				},
+				{
+					"name": "preset-config-media-screenshare-quality",
+					"type": "string",
+					"required": false,
+					"description": "Quality of screen share "
+				},
+				{
+					"name": "preset-config-media-video-frame-rate",
+					"type": "number",
+					"required": false,
+					"description": "Frame rate of participants' video"
+				},
+				{
+					"name": "preset-config-media-video-quality",
+					"type": "string",
+					"required": false,
+					"description": "Video quality of participants"
+				},
+				{
+					"name": "preset-config-media-video-simulcast",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable simulcast for participant videos."
+				},
+				{
+					"name": "preset-config-view-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of the meeting"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the preset"
+				},
+				{
+					"name": "permissions-accept-stage-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.accept_stage_requests field"
+				},
+				{
+					"name": "permissions-accept-waiting-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether this participant can accept waiting requests"
+				},
+				{
+					"name": "permissions-can-accept-production-requests",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_accept_production_requests field"
+				},
+				{
+					"name": "permissions-can-change-participant-permissions",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_change_participant_permissions field"
+				},
+				{
+					"name": "permissions-can-edit-display-name",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_edit_display_name field"
+				},
+				{
+					"name": "permissions-can-edit-meeting-title",
+					"type": "boolean",
+					"required": false,
+					"description": "Allows renaming the meeting for the current session"
+				},
+				{
+					"name": "permissions-can-livestream",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_livestream field"
+				},
+				{
+					"name": "permissions-can-record",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_record field"
+				},
+				{
+					"name": "permissions-can-spotlight",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.can_spotlight field"
+				},
+				{
+					"name": "permissions-chat-private-can-receive",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.can_receive field"
+				},
+				{
+					"name": "permissions-chat-private-can-send",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.can_send field"
+				},
+				{
+					"name": "permissions-chat-private-files",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.files field"
+				},
+				{
+					"name": "permissions-chat-private-text",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.chat.private.text field"
+				},
+				{
+					"name": "permissions-chat-public-can-send",
+					"type": "boolean",
+					"required": false,
+					"description": "Can send messages in general"
+				},
+				{
+					"name": "permissions-chat-public-files",
+					"type": "boolean",
+					"required": false,
+					"description": "Can send file messages"
+				},
+				{
+					"name": "permissions-chat-public-text",
+					"type": "boolean",
+					"required": false,
+					"description": "Can send text messages"
+				},
+				{
+					"name": "permissions-connected-meetings-can-alter-connected-meetings",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.connected_meetings.can_alter_connected_meetings field"
+				},
+				{
+					"name": "permissions-connected-meetings-can-switch-connected-meetings",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.connected_meetings.can_switch_connected_meetings field"
+				},
+				{
+					"name": "permissions-connected-meetings-can-switch-to-parent-meeting",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.connected_meetings.can_switch_to_parent_meeting field"
+				},
+				{
+					"name": "permissions-disable-participant-audio",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.disable_participant_audio field"
+				},
+				{
+					"name": "permissions-disable-participant-screensharing",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.disable_participant_screensharing field"
+				},
+				{
+					"name": "permissions-disable-participant-video",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.disable_participant_video field"
+				},
+				{
+					"name": "permissions-hidden-participant",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether this participant is visible to others or not"
+				},
+				{
+					"name": "permissions-is-recorder",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.is_recorder field"
+				},
+				{
+					"name": "permissions-kick-participant",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.kick_participant field"
+				},
+				{
+					"name": "permissions-media-audio-can-produce",
+					"type": "string",
+					"required": false,
+					"description": "Can produce audio"
+				},
+				{
+					"name": "permissions-media-screenshare-can-produce",
+					"type": "string",
+					"required": false,
+					"description": "Can produce screen share video"
+				},
+				{
+					"name": "permissions-media-video-can-produce",
+					"type": "string",
+					"required": false,
+					"description": "Can produce video"
+				},
+				{
+					"name": "permissions-pin-participant",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.pin_participant field"
+				},
+				{
+					"name": "permissions-plugins-can-close",
+					"type": "boolean",
+					"required": false,
+					"description": "Can close plugins that are already open"
+				},
+				{
+					"name": "permissions-plugins-can-edit-config",
+					"type": "boolean",
+					"required": false,
+					"description": "Can edit plugin config"
+				},
+				{
+					"name": "permissions-plugins-can-start",
+					"type": "boolean",
+					"required": false,
+					"description": "Can start plugins"
+				},
+				{
+					"name": "permissions-plugins-config",
+					"type": "string",
+					"required": false,
+					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+				},
+				{
+					"name": "permissions-polls-can-create",
+					"type": "boolean",
+					"required": false,
+					"description": "Can create polls"
+				},
+				{
+					"name": "permissions-polls-can-view",
+					"type": "boolean",
+					"required": false,
+					"description": "Can view polls"
+				},
+				{
+					"name": "permissions-polls-can-vote",
+					"type": "boolean",
+					"required": false,
+					"description": "Can vote on polls"
+				},
+				{
+					"name": "permissions-recorder-type",
+					"type": "string",
+					"required": false,
+					"description": "Type of the recording peer"
+				},
+				{
+					"name": "permissions-show-participant-list",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.show_participant_list field"
+				},
+				{
+					"name": "permissions-stage-access",
+					"type": "string",
+					"required": false,
+					"description": "The permissions.stage_access field"
+				},
+				{
+					"name": "permissions-stage-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.stage_enabled field"
+				},
+				{
+					"name": "permissions-transcription-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The permissions.transcription_enabled field"
+				},
+				{
+					"name": "permissions-waiting-room-type",
+					"type": "string",
+					"required": false,
+					"description": "Waiting room type"
+				},
+				{
+					"name": "ui-design-tokens-border-radius",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.border_radius field"
+				},
+				{
+					"name": "ui-design-tokens-border-width",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.border_width field"
+				},
+				{
+					"name": "ui-design-tokens-colors-danger",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.danger field"
+				},
+				{
+					"name": "ui-design-tokens-colors-success",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.success field"
+				},
+				{
+					"name": "ui-design-tokens-colors-text",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.text field"
+				},
+				{
+					"name": "ui-design-tokens-colors-text-on-brand",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.text_on_brand field"
+				},
+				{
+					"name": "ui-design-tokens-colors-video-bg",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.video_bg field"
+				},
+				{
+					"name": "ui-design-tokens-colors-warning",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.colors.warning field"
+				},
+				{
+					"name": "ui-design-tokens-font-family",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.font_family field"
+				},
+				{
+					"name": "ui-design-tokens-google-font",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.google_font field"
+				},
+				{
+					"name": "ui-design-tokens-logo",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.logo field"
+				},
+				{
+					"name": "ui-design-tokens-spacing-base",
+					"type": "number",
+					"required": false,
+					"description": "The ui.design_tokens.spacing_base field"
+				},
+				{
+					"name": "ui-design-tokens-theme",
+					"type": "string",
+					"required": false,
+					"description": "The ui.design_tokens.theme field"
+				}
+			]
 		},
 		"realtime kit presets get": {
 			"operationId": "realtime.kit.presets.get",
@@ -82517,443 +83158,6 @@
 					"name": "ui-design-tokens-theme",
 					"type": "string",
 					"required": true,
-					"description": "The ui.design_tokens.theme field"
-				}
-			]
-		},
-		"realtime kit presets update": {
-			"operationId": "realtime.kit.presets.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/realtime/kit/{app_id}/presets/{preset_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"flag": "app-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "preset_id",
-					"flag": "preset-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "preset-config-livestream-viewer-qualities",
-					"type": "string",
-					"required": false,
-					"description": "Livestream viewer quality levels."
-				},
-				{
-					"name": "preset-config-max-screenshare-count",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of screen shares that can be active at a given time"
-				},
-				{
-					"name": "preset-config-max-video-streams-desktop",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of video streams visible on desktop devices"
-				},
-				{
-					"name": "preset-config-max-video-streams-mobile",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of streams visible on mobile devices"
-				},
-				{
-					"name": "preset-config-media-audio-enable-high-bitrate",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable High Quality Audio for your meetings"
-				},
-				{
-					"name": "preset-config-media-audio-enable-stereo",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable Stereo for your meetings"
-				},
-				{
-					"name": "preset-config-media-screenshare-frame-rate",
-					"type": "number",
-					"required": false,
-					"description": "Frame rate of screen share"
-				},
-				{
-					"name": "preset-config-media-screenshare-quality",
-					"type": "string",
-					"required": false,
-					"description": "Quality of screen share "
-				},
-				{
-					"name": "preset-config-media-video-frame-rate",
-					"type": "number",
-					"required": false,
-					"description": "Frame rate of participants' video"
-				},
-				{
-					"name": "preset-config-media-video-quality",
-					"type": "string",
-					"required": false,
-					"description": "Video quality of participants"
-				},
-				{
-					"name": "preset-config-media-video-simulcast",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable simulcast for participant videos."
-				},
-				{
-					"name": "preset-config-view-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of the meeting"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the preset"
-				},
-				{
-					"name": "permissions-accept-stage-requests",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.accept_stage_requests field"
-				},
-				{
-					"name": "permissions-accept-waiting-requests",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether this participant can accept waiting requests"
-				},
-				{
-					"name": "permissions-can-accept-production-requests",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_accept_production_requests field"
-				},
-				{
-					"name": "permissions-can-change-participant-permissions",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_change_participant_permissions field"
-				},
-				{
-					"name": "permissions-can-edit-display-name",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_edit_display_name field"
-				},
-				{
-					"name": "permissions-can-edit-meeting-title",
-					"type": "boolean",
-					"required": false,
-					"description": "Allows renaming the meeting for the current session"
-				},
-				{
-					"name": "permissions-can-livestream",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_livestream field"
-				},
-				{
-					"name": "permissions-can-record",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_record field"
-				},
-				{
-					"name": "permissions-can-spotlight",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.can_spotlight field"
-				},
-				{
-					"name": "permissions-chat-private-can-receive",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.can_receive field"
-				},
-				{
-					"name": "permissions-chat-private-can-send",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.can_send field"
-				},
-				{
-					"name": "permissions-chat-private-files",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.files field"
-				},
-				{
-					"name": "permissions-chat-private-text",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.chat.private.text field"
-				},
-				{
-					"name": "permissions-chat-public-can-send",
-					"type": "boolean",
-					"required": false,
-					"description": "Can send messages in general"
-				},
-				{
-					"name": "permissions-chat-public-files",
-					"type": "boolean",
-					"required": false,
-					"description": "Can send file messages"
-				},
-				{
-					"name": "permissions-chat-public-text",
-					"type": "boolean",
-					"required": false,
-					"description": "Can send text messages"
-				},
-				{
-					"name": "permissions-connected-meetings-can-alter-connected-meetings",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.connected_meetings.can_alter_connected_meetings field"
-				},
-				{
-					"name": "permissions-connected-meetings-can-switch-connected-meetings",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.connected_meetings.can_switch_connected_meetings field"
-				},
-				{
-					"name": "permissions-connected-meetings-can-switch-to-parent-meeting",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.connected_meetings.can_switch_to_parent_meeting field"
-				},
-				{
-					"name": "permissions-disable-participant-audio",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.disable_participant_audio field"
-				},
-				{
-					"name": "permissions-disable-participant-screensharing",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.disable_participant_screensharing field"
-				},
-				{
-					"name": "permissions-disable-participant-video",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.disable_participant_video field"
-				},
-				{
-					"name": "permissions-hidden-participant",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether this participant is visible to others or not"
-				},
-				{
-					"name": "permissions-is-recorder",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.is_recorder field"
-				},
-				{
-					"name": "permissions-kick-participant",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.kick_participant field"
-				},
-				{
-					"name": "permissions-media-audio-can-produce",
-					"type": "string",
-					"required": false,
-					"description": "Can produce audio"
-				},
-				{
-					"name": "permissions-media-screenshare-can-produce",
-					"type": "string",
-					"required": false,
-					"description": "Can produce screen share video"
-				},
-				{
-					"name": "permissions-media-video-can-produce",
-					"type": "string",
-					"required": false,
-					"description": "Can produce video"
-				},
-				{
-					"name": "permissions-pin-participant",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.pin_participant field"
-				},
-				{
-					"name": "permissions-plugins-can-close",
-					"type": "boolean",
-					"required": false,
-					"description": "Can close plugins that are already open"
-				},
-				{
-					"name": "permissions-plugins-can-edit-config",
-					"type": "boolean",
-					"required": false,
-					"description": "Can edit plugin config"
-				},
-				{
-					"name": "permissions-plugins-can-start",
-					"type": "boolean",
-					"required": false,
-					"description": "Can start plugins"
-				},
-				{
-					"name": "permissions-plugins-config",
-					"type": "string",
-					"required": false,
-					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
-				},
-				{
-					"name": "permissions-polls-can-create",
-					"type": "boolean",
-					"required": false,
-					"description": "Can create polls"
-				},
-				{
-					"name": "permissions-polls-can-view",
-					"type": "boolean",
-					"required": false,
-					"description": "Can view polls"
-				},
-				{
-					"name": "permissions-polls-can-vote",
-					"type": "boolean",
-					"required": false,
-					"description": "Can vote on polls"
-				},
-				{
-					"name": "permissions-recorder-type",
-					"type": "string",
-					"required": false,
-					"description": "Type of the recording peer"
-				},
-				{
-					"name": "permissions-show-participant-list",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.show_participant_list field"
-				},
-				{
-					"name": "permissions-stage-access",
-					"type": "string",
-					"required": false,
-					"description": "The permissions.stage_access field"
-				},
-				{
-					"name": "permissions-stage-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.stage_enabled field"
-				},
-				{
-					"name": "permissions-transcription-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The permissions.transcription_enabled field"
-				},
-				{
-					"name": "permissions-waiting-room-type",
-					"type": "string",
-					"required": false,
-					"description": "Waiting room type"
-				},
-				{
-					"name": "ui-design-tokens-border-radius",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.border_radius field"
-				},
-				{
-					"name": "ui-design-tokens-border-width",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.border_width field"
-				},
-				{
-					"name": "ui-design-tokens-colors-danger",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.danger field"
-				},
-				{
-					"name": "ui-design-tokens-colors-success",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.success field"
-				},
-				{
-					"name": "ui-design-tokens-colors-text",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.text field"
-				},
-				{
-					"name": "ui-design-tokens-colors-text-on-brand",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.text_on_brand field"
-				},
-				{
-					"name": "ui-design-tokens-colors-video-bg",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.video_bg field"
-				},
-				{
-					"name": "ui-design-tokens-colors-warning",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.colors.warning field"
-				},
-				{
-					"name": "ui-design-tokens-font-family",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.font_family field"
-				},
-				{
-					"name": "ui-design-tokens-google-font",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.google_font field"
-				},
-				{
-					"name": "ui-design-tokens-logo",
-					"type": "string",
-					"required": false,
-					"description": "The ui.design_tokens.logo field"
-				},
-				{
-					"name": "ui-design-tokens-spacing-base",
-					"type": "number",
-					"required": false,
-					"description": "The ui.design_tokens.spacing_base field"
-				},
-				{
-					"name": "ui-design-tokens-theme",
-					"type": "string",
-					"required": false,
 					"description": "The ui.design_tokens.theme field"
 				}
 			]
@@ -83819,6 +84023,59 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"realtime kit webhooks edit": {
+			"operationId": "realtime.kit.webhooks.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"flag": "app-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "webhook_id",
+					"flag": "webhook-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Omit to keep the current value."
+				},
+				{
+					"name": "events",
+					"type": "string",
+					"required": false,
+					"description": "Events that the webhook will get triggered by"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Name of the webhook"
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": false,
+					"description": "URL the webhook will send events to"
+				}
+			]
+		},
 		"realtime kit webhooks events list": {
 			"operationId": "realtime.kit.webhooks.events.list",
 			"httpMethod": "GET",
@@ -83939,59 +84196,6 @@
 					"type": "string",
 					"required": true,
 					"description": "URL this webhook will send events to"
-				}
-			]
-		},
-		"realtime kit webhooks update": {
-			"operationId": "realtime.kit.webhooks.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/{webhook_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"flag": "app-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "webhook_id",
-					"flag": "webhook-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "events",
-					"type": "string",
-					"required": false,
-					"description": "Events that the webhook will get triggered by"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Name of the webhook"
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": false,
-					"description": "URL the webhook will send events to"
 				}
 			]
 		},
@@ -92725,8 +92929,8 @@
 				{
 					"name": "validation-method",
 					"type": "string",
-					"required": true,
-					"description": "Desired validation method."
+					"required": false,
+					"description": "SSL validation method."
 				}
 			]
 		},
@@ -95106,6 +95310,190 @@
 				}
 			],
 			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tunnels hostnames create": {
+			"operationId": "tunnels.hostnames.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tunnel_id",
+					"flag": "tunnel-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "canonical",
+					"type": "boolean",
+					"required": false,
+					"description": "Set to `true` to make the new hostname canonical, replacing any existing canonical hostname.\nIf `false` or omitted, the new hostname is canonical only if the tunnel has no active hostnames.\n"
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true,
+					"description": "A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens."
+				}
+			]
+		},
+		"tunnels hostnames delete": {
+			"operationId": "tunnels.hostnames.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames/{hostname_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tunnel_id",
+					"flag": "tunnel-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname_id",
+					"flag": "hostname-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tunnels hostnames edit": {
+			"operationId": "tunnels.hostnames.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames/{hostname_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tunnel_id",
+					"flag": "tunnel-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname_id",
+					"flag": "hostname-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "canonical",
+					"type": "boolean",
+					"required": false,
+					"description": "Makes this hostname canonical. `false` is not accepted; make a different hostname canonical to unset this one."
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": false,
+					"description": "A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens."
+				}
+			]
+		},
+		"tunnels hostnames get": {
+			"operationId": "tunnels.hostnames.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames/{hostname_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tunnel_id",
+					"flag": "tunnel-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname_id",
+					"flag": "hostname-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tunnels hostnames list": {
+			"operationId": "tunnels.hostnames.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/tunnels/{tunnel_id}/hostnames",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tunnel_id",
+					"flag": "tunnel-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "hostname",
+					"flag": "hostname",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "canonical",
+					"flag": "canonical",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "is_deleted",
+					"flag": "is-deleted",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},

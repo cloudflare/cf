@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dns records list\n\nList, search, sort, and filter a zones' DNS records."
+			"$0 dns records list\n\nList, search, sort, and filter a zone's DNS records. Requests with `cursor` or `prev_cursor` use cursor pagination. Otherwise, the endpoint uses offset pagination. To start cursor pagination, set `cursor` to an empty value, then pass `result_info.cursor` from the previous response to request the next page. Cursor-paginated responses do not include `page`, `total_count`, or `total_pages`. Cursor tokens are opaque and can vary in length. Pass them back unchanged and do not assume a fixed length."
 		)
 		.option("name", {
 			type: "string",
@@ -186,9 +186,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether to match all tag search requirements or at least one (any). If set to `all`, acts like a logical AND between tag filters. If set to `any`, acts like a logical OR instead. Note that the regular `match` parameter is still used to combine the resulting condition with other filters that aren't related to tags. The legacy `tag-match` parameter is an alias for this parameter.",
 			choices: ["any", "all"],
 		})
+		.option("cursor", {
+			type: "string",
+			description:
+				"Opaque token for cursor pagination, obtained from `result_info.cursor` of the previous response. An empty value starts cursor pagination. Mutually exclusive with `page` and `prev_cursor`.",
+		})
+		.option("prev-cursor", {
+			type: "string",
+			description:
+				"Opaque token for requesting the previous page in cursor pagination, obtained from `result_info.prev_cursor` of the previous response. Mutually exclusive with `page` and `cursor`.",
+		})
 		.option("page", {
 			type: "number",
-			description: "Page number of paginated results.",
+			description: "Page number for offset pagination.",
 		})
 		.option("per-page", {
 			type: "number",
@@ -281,6 +291,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"tag.endswith": argv["tag-endswith"],
 					search: argv["search"],
 					tag_match: argv["tag-match"],
+					cursor: argv["cursor"],
+					prev_cursor: argv["prev-cursor"],
 					page: argv["page"],
 					per_page: argv["per-page"],
 					order: argv["order"],

@@ -5,7 +5,7 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/radar/entities/asns/${request.asn}`,
-	query: ["format"],
+	query: ["includeConfidenceLevel", "format"],
 	errors: {
 		404: "NotFoundError",
 	},

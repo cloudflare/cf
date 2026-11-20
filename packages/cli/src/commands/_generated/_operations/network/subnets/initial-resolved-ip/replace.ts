@@ -1,4 +1,4 @@
-/** @generated from network.subnets.initial-resolved-ip.edit */
+/** @generated from network.subnets.initial-resolved-ip.replace */
 import { path } from "#api";
 
 export default {

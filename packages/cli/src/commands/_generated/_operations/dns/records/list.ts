@@ -35,6 +35,8 @@ export default {
 		"tag.endswith",
 		"search",
 		"tag_match",
+		"cursor",
+		"prev_cursor",
 		"page",
 		"per_page",
 		"order",

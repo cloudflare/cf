@@ -1,4 +1,4 @@
-/** @generated from dns.dnssec.list.zsks */
+/** @generated from dns.dnssec.zsks.list */
 import { path } from "#api";
 
 export default {

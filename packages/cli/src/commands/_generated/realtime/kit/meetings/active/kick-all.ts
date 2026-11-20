@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit meetings active kick-all <meeting-id>\n\nKicks all participants from an active session for the given meeting ID."
+			"$0 realtime kit meetings active kick-all <meeting-id>\n\nKicks all participants from an active session for the given meeting ID and ends the session. Participants in connected breakout rooms are kicked as well."
 		)
 		.positional("meeting-id", {
 			type: "string",

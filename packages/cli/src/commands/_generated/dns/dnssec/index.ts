@@ -1,7 +1,7 @@
 import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
-import $list from "./list/index.js";
+import $zsks from "./zsks/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dnssec command group
@@ -18,7 +18,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($delete)
 			.command($edit)
 			.command($get)
-			.command($list)
+			.command($zsks)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

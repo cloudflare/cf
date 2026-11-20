@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 realtime kit recordings control <recording-id>\n\nPause/Resume/Stop a given recording ID."
+			"$0 realtime kit recordings control <recording-id>\n\nPause/Resume/Stop a given recording ID. **Note:** A recording can stay paused for a maximum of 12 hours. After that, it automatically resumes and finishes."
 		)
 		.positional("recording-id", {
 			type: "string",

@@ -49,12 +49,17 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 				"Using --force may overwrite conflicting remote Worker changes."
 			);
 		}
-		const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+		const staticAssetsBuild = await prepareStaticAssetsBuildOutput(argv, {
 			isPreview: false,
 		});
-		await runUpload(preparedStaticAssets ? { ...argv, prebuilt: true } : argv, {
-			command: "Deploy",
-		});
+		if (staticAssetsBuild === "setup-needed") {
+			log.success("--dry-run: exiting now.");
+			return;
+		}
+		await runUpload(
+			staticAssetsBuild === "prepared" ? { ...argv, prebuilt: true } : argv,
+			{ command: "Deploy" }
+		);
 	},
 };
 

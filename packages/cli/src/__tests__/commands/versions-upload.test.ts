@@ -42,6 +42,11 @@ vi.mock("../../lib/deploy-context.js", () => ({
 		createMockDeployContext(authToken),
 }));
 
+vi.mock("@cloudflare/cli-shared-helpers/packages", () => ({
+	installPackages: vi.fn(),
+	installWrangler: vi.fn(),
+}));
+
 describe("cf workers versions create", () => {
 	setupMsw();
 	runInTempDir();

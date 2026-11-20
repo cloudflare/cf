@@ -420,7 +420,13 @@ reuses that generator for a project it has just created and installed.
 
 Supplying `[directory]` to `cf deploy`, `cf previews deploy`, or
 `cf workers versions create` invokes the shared
-`src/commands/deploy/static-assets.ts` helper. It loads and validates the nearest
+`src/commands/deploy/static-assets.ts` helper. Without an existing source config,
+it runs project setup with the chosen directory as autoconfig's static assets
+output, without running a build.
+For unconfigured projects deploying their root, autoconfig creates or updates
+`.assetsignore` to exclude environment files, dependencies, and Git metadata.
+Setup dry runs stop before writing config, replacing Build Output, or uploading.
+The helper then loads and validates the nearest
 `cloudflare.config.ts` when present, reuses its account settings and Worker
 definition, and rejects configured Worker entrypoints or Containers. If no Worker
 is configured, it derives a Worker name from the project and uses the default
@@ -955,6 +961,14 @@ commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
+`autoconfig` temporarily uses the commit-pinned PR preview from
+[workers-sdk#17059](https://github.com/cloudflare/workers-sdk/pull/17059), which
+makes generated `cloudflare.config.ts` imports type-only so static directories
+without a local cf installation can load their config. Replace the preview with
+an exact npm version after an autoconfig release contains the fix. Temporary
+parent-scoped overrides keep its unchanged `config` and `workers-utils`
+dependencies on the released versions above, preserving `blockExoticSubdeps`;
+remove those overrides with the preview.
 
 The two Forge inputs are updated separately:
 

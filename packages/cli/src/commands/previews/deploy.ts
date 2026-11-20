@@ -29,6 +29,7 @@ import { createDeployContext } from "../../lib/deploy-context.js";
 import { assembleBuildResult } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
 import { formatOutput } from "../../lib/output.js";
+import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
 import {
 	createContainerDeployConfig,
@@ -83,7 +84,7 @@ export function createPreviewDeployOutput(result: PreviewResult) {
 
 export async function runPreviewDeploy(
 	argv: PreviewDeployArgs
-): Promise<PreviewResult> {
+): Promise<PreviewResult | undefined> {
 	const explicitPreviewName = argv["preview-name"];
 	const previewName = explicitPreviewName ?? getBranchName();
 	// deploy-helpers checks Workers CI, GitHub, and GitLab before falling back to Git.
@@ -94,10 +95,14 @@ export async function runPreviewDeploy(
 		);
 	}
 
-	const preparedStaticAssets = await prepareStaticAssetsBuildOutput(argv, {
+	const staticAssetsBuild = await prepareStaticAssetsBuildOutput(argv, {
 		isPreview: true,
 	});
-	if (!argv.prebuilt && !preparedStaticAssets) {
+	if (staticAssetsBuild === "setup-needed") {
+		log.success("--dry-run: exiting now.");
+		return;
+	}
+	if (!argv.prebuilt && staticAssetsBuild === "no-directory") {
 		await runBuild(
 			argv.mode,
 			{ output: argv.quiet ? "silent" : "stderr", worker: argv.worker },
@@ -235,7 +240,9 @@ const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {
 			throw new Error("--local is not supported by cf previews deploy.");
 		}
 		const result = await runPreviewDeploy(argv);
-		formatOutput(createPreviewDeployOutput(result), { quiet: argv.quiet });
+		if (result !== undefined) {
+			formatOutput(createPreviewDeployOutput(result), { quiet: argv.quiet });
+		}
 	},
 };
 

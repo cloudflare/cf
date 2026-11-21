@@ -148,7 +148,7 @@ pnpm build
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
-forge (the `@cloudflare/forge` binary, installed from a pinned preview) parses
+forge (the `@cloudflare/forge` binary, installed from the versioned npm package) parses
 the document; the command generator is a forge plugin that lives here, in
 `packages/cli/generator/plugin/`. It is TypeScript written against
 `@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
@@ -208,7 +208,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 
 | Task                            | Location                                                                                                                                                                                                                                                                        |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                                      |
+| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the next tagged release.                                                                                                                                                                 |
 | Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                                |
 | New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                   |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,observability,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
@@ -230,7 +230,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                                        |
 | Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                              |
 | Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                                |
-| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                              |
+| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the Forge version or OpenAPI SHA, `pnpm install`, `pnpm generate`                                                                                                                     |
 | Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                              |
 
 ## Library Map (`packages/cli/src/lib/`)
@@ -947,22 +947,20 @@ The future names are not registered as options, so cf rejects them as unknown. A
 
 `@cloudflare/forge` — the forge binary for every platform, which runs the
 plugin that generates the commands, and `@cloudflare/forge/plugin`, the
-library the plugin is written with — is not on npm. Forge's `Publish preview`
-workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
-pushes that change the package, and `packages/cli/package.json` pins one by
-commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
-`build-output-utils`, `config`, `containers-shared`, `workers-auth`,
+library the plugin is written with — is on npm as [`@cloudflare/forge`](https://www.npmjs.com/package/@cloudflare/forge), with
+the native binary split into six per-platform `optionalDependencies`
+(`@cloudflare/forge-<os>-<cpu>`). `packages/cli/package.json` pins an exact
+version. `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 
 The two Forge inputs are updated separately:
 
-- **The forge package SHA** — Renovate (`renovate.json5`'s `customManagers` /
-  `customDatasources`) follows the newest successful `publish-preview.yml` run
-  on Forge's main branch and opens a `renovate/forge` PR. Its post-upgrade
-  tasks refresh `pnpm-lock.yaml`, run `pnpm generate` against the unchanged
-  OpenAPI pin, and write a `patch` changeset with
+- **The forge package version** — Renovate groups `@cloudflare/forge` as `forge`
+  and opens a `renovate/forge` PR when a new version lands on npm. Its
+  post-upgrade tasks refresh `pnpm-lock.yaml`, run `pnpm generate` against the
+  unchanged OpenAPI pin, and write a `patch` changeset with
   `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
   must match `allowedCommands` in `.github/renovate-global.json`.
 - **`config.forgeOpenApiVersion`** in `packages/cli/package.json`, read by
@@ -977,11 +975,8 @@ The two Forge inputs are updated separately:
 Both PRs rewrite `_generated/`; whichever merges second is rebased or
 refreshed onto the new base and regenerated by its own automation.
 
-To move either pin by hand, edit the SHA, then run `pnpm install` and
+To move either pin by hand, edit the Forge version or OpenAPI SHA, then run `pnpm install` and
 `pnpm generate`, and commit `pnpm-lock.yaml` and the regenerated output with it.
-
-When the Forge package publishes to npm: switch to the npm version and drop
-the `forge-main` custom manager and datasource.
 
 ## Patched deps
 
@@ -1033,7 +1028,7 @@ Names discussed in planning documents such as `paramOverride.derive`, `x-forge-j
 ## Commands
 
 ```bash
-pnpm install           # forge comes from its pinned pkg.pr.new build
+pnpm install           # forge comes from its pinned npm release
 pnpm build             # pinned public OpenAPI → CLI and dist/
 pnpm dev               # tsx packages/cli/src/dev.ts
 pnpm check             # generation + dependency builds + workspace type checks + lint/format

@@ -4,13 +4,13 @@ The two generator inputs have independent update paths:
 
 | Automation              | Update branch             | Input it updates                                                                |
 | ----------------------- | ------------------------- | ------------------------------------------------------------------------------- |
-| Renovate Forge group    | `renovate/forge`          | Forge package commit in `packages/cli/package.json` and `pnpm-lock.yaml`        |
+| Renovate Forge group    | `renovate/forge`          | Forge package version in `packages/cli/package.json` and `pnpm-lock.yaml`       |
 | Update OpenAPI workflow | `automation/update-forge` | OpenAPI revision in `config.forgeOpenApiVersion` of `packages/cli/package.json` |
 
-Renovate follows the newest successful Forge package publication from `main`
-and pins its pkg.pr.new URL. It regenerates commands with the existing OpenAPI
-pin and adds a patch changeset when generated output changes. Its configuration
-lives in `renovate.json5` and `.github/renovate-global.json`.
+Renovate tracks `@cloudflare/forge` npm releases and pins an exact version. It
+regenerates commands with the existing OpenAPI pin and adds a patch changeset
+when generated output changes. Its configuration lives in `renovate.json5` and
+`.github/renovate-global.json`.
 
 The OpenAPI workflow runs hourly, manually, or on a `forge-release-published`
 repository dispatch. It selects the latest published `openapi@<sha>` release

@@ -15,7 +15,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "cloudforce-one",
-	describe: "Detection rule management APIs",
+	describe:
+		"Threat intelligence platform — request investigations, scan indicators, and track threat events",
 
 	builder: (yargs) => {
 		return yargs

@@ -1,11 +1,6 @@
-import $create from "./create.js";
-import $delete from "./delete.js";
 import $federationgrants from "./federation-grants/index.js";
-import $get from "./get.js";
-import $list from "./list.js";
 import $samlcertificate from "./saml-certificate/index.js";
 import $scim from "./scim/index.js";
-import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * identity-providers command group
@@ -19,11 +14,6 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
 			.command($federationgrants)
 			.command($samlcertificate)
 			.command($scim)

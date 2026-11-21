@@ -1,9 +1,10 @@
+import $agreements from "./agreements/index.js";
 import $enableddomains from "./enabled-domains/index.js";
+import $enabledpublishers from "./enabled-publishers/index.js";
 import $operator from "./operator/index.js";
 import $pricing from "./pricing/index.js";
 import $proposals from "./proposals/index.js";
 import $usagereports from "./usage-reports/index.js";
-import $usagestats from "./usage-stats/index.js";
 import $zones from "./zones/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -18,12 +19,13 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($agreements)
 			.command($enableddomains)
+			.command($enabledpublishers)
 			.command($operator)
 			.command($pricing)
 			.command($proposals)
 			.command($usagereports)
-			.command($usagestats)
 			.command($zones)
 			.demandCommand(1, "Please specify a subcommand");
 	},

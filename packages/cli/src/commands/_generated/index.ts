@@ -267,7 +267,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"cloudforce-one",
-			"Detection rule management APIs",
+			"Threat intelligence platform — request investigations, scan indicators, and track threat events",
 			() => import("./cloudforce-one/index.js"),
 			null
 		),
@@ -347,15 +347,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"custom-csrs",
-			"custom-csrs",
-			() => import("./custom-csrs/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"custom-hostnames",
 			"custom-hostnames",
 			() => import("./custom-hostnames/index.js"),
@@ -368,15 +359,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"custom-nameservers",
 			"custom-nameservers",
 			() => import("./custom-nameservers/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"custom-pages",
-			"Manage custom error and challenge pages and their assets for accounts and zones",
-			() => import("./custom-pages/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -473,6 +455,15 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
+			"feedback",
+			"feedback",
+			() => import("./feedback/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
 			"field-extractors",
 			"field-extractors",
 			() => import("./field-extractors/index.js"),
@@ -546,7 +537,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"images",
-			"Store, resize, and deliver optimized images globally — variants, signing keys, and direct uploads",
+			"Store, resize, and deliver optimized images globally - variants, signing keys, and direct uploads",
 			() => import("./images/index.js"),
 			null
 		),
@@ -631,7 +622,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./magic-network-monitoring/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -896,21 +887,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"rulesets",
-			"rulesets",
-			() => import("./rulesets/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"rum",
 			"Real User Measurement (Web Analytics) — track page loads, Core Web Vitals, and visitor metrics",
 			() => import("./rum/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1113,11 +1095,11 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"web3",
-			"web3",
+			"Web3 gateways — serve IPFS and Ethereum content through custom hostnames on Cloudflare",
 			() => import("./web3/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

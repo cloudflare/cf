@@ -1,7 +1,7 @@
-import $deletebulk from "./delete-bulk.js";
+import $bulkcreate from "./bulk-create.js";
+import $bulkdelete from "./bulk-delete.js";
+import $create from "./create.js";
 import $delete from "./delete.js";
-import $updatebulk from "./update-bulk.js";
-import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zones command group
@@ -15,10 +15,10 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($bulkcreate)
+			.command($bulkdelete)
+			.command($create)
 			.command($delete)
-			.command($deletebulk)
-			.command($update)
-			.command($updatebulk)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

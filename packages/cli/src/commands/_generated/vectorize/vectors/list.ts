@@ -1,0 +1,93 @@
+import operation from "../../_operations/vectorize/vectors/list.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * list command
+ * @generated from apis/overlays/vectorize.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 vectorize vectors list\n\nReturns a paginated list of vector identifiers from the specified index."
+		)
+		.option("index-name", {
+			type: "string",
+			description: "Index name",
+			demandOption: true,
+		})
+		.option("result-count", {
+			type: "number",
+			description: "Maximum number of vectors to return",
+		})
+		.option("cursor", {
+			type: "string",
+			description: "Cursor for pagination to get the next page of results",
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "list",
+	describe: "List Vectors",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "vectorize vectors list",
+				classification: {
+					safeFlags: ["dry-run"],
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				const queryParams: Record<string, unknown> = {
+					count: argv["result-count"],
+					cursor: argv["cursor"],
+				};
+				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
+					formatDryRun({
+						command: "cf vectorize vectors list",
+						method: "GET",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/vectorize/v2/indexes/${argv["index-name"] == null ? "<index-name>" : encodeURIComponent(String(argv["index-name"]))}/list`,
+						pathParams: { "index-name": String(argv["index-name"] ?? "") },
+						query: queryParams,
+						bodyKind: "none",
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
+
+				const result = await withProgress(`Loading`, async () =>
+					client.send(operation, {
+						account_id: accountId,
+						index_name: argv["index-name"],
+						...queryParams,
+					})
+				);
+				formatOutput(result, { successLabel: `Loaded` });
+			}
+		),
+};
+
+export default command;

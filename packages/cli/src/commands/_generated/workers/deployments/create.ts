@@ -37,19 +37,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.",
 		})
-		.option("code-update-strategy-mode", {
+		.option("durable-objects-code-update-mode", {
 			type: "string",
 			description:
-				"Variant descriptions:\n- `immediate`: Apply Durable Object code updates immediately.\n- `deferred`: Allow active Durable Objects to hibernate before updating their code.",
+				"How to apply Durable Object code updates. `immediate` resets active objects and applies the new code right away. `deferred` lets active objects keep running their current code until they hibernate or the maximum delay passes.",
 			choices: ["immediate", "deferred"],
 		})
-		.coerce("code-update-strategy-mode", (value) =>
-			resolveFileToken(value, "code-update-strategy-mode", "text")
+		.coerce("durable-objects-code-update-mode", (value) =>
+			resolveFileToken(value, "durable-objects-code-update-mode", "text")
 		)
-		.option("code-update-strategy-max-delay", {
+		.option("durable-objects-code-update-max-delay", {
 			type: "number",
 			description:
-				"Set the maximum number of seconds to wait before forcing the update. When omitted, the default maximum delay applies.",
+				"Maximum number of seconds, up to 86400, that an active Durable Object can keep running its current code before it resets and adopts the new code. Only valid with `deferred`. When omitted, the default maximum delay applies.",
 		})
 		.option("strategy", {
 			type: "string",
@@ -74,11 +74,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"code-update-strategy-mode",
-				"code-update-strategy-max-delay",
+				"durable-objects-code-update-mode",
+				"durable-objects-code-update-max-delay",
 			].some((k) => argv[k] !== undefined);
 			if (!argv.body && groupSet) {
-				const missing = ["code-update-strategy-mode"].filter(
+				const missing = ["durable-objects-code-update-mode"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
@@ -133,7 +133,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: [
 						"bypass-deployment-checks",
-						"code-update-strategy-mode",
+						"durable-objects-code-update-mode",
 						"strategy",
 						"dry-run",
 					],
@@ -182,8 +182,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: validateBodyUnions(
 										compactBody({
 											code_update_strategy: {
-												mode: argv["code-update-strategy-mode"],
-												max_delay: argv["code-update-strategy-max-delay"],
+												mode: argv["durable-objects-code-update-mode"],
+												max_delay:
+													argv["durable-objects-code-update-max-delay"],
 											},
 											strategy: argv["strategy"],
 											versions: parseObjectArray(argv["versions"], "versions"),
@@ -222,8 +223,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					code_update_strategy: {
-						mode: argv["code-update-strategy-mode"],
-						max_delay: argv["code-update-strategy-max-delay"],
+						mode: argv["durable-objects-code-update-mode"],
+						max_delay: argv["durable-objects-code-update-max-delay"],
 					},
 					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),

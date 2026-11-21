@@ -3,6 +3,7 @@ import $customproviders from "./custom-providers/index.js";
 import $dynamicrouting from "./dynamic-routing/index.js";
 import $gateways from "./gateways/index.js";
 import $logs from "./logs/index.js";
+import $modelaliases from "./model-aliases/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ai-gateway command
@@ -22,6 +23,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($dynamicrouting)
 			.command($gateways)
 			.command($logs)
+			.command($modelaliases)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

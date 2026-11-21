@@ -1,6 +1,6 @@
-import $create from "./create.js";
-import $delete from "./delete.js";
+import $grant from "./grant.js";
 import $list from "./list.js";
+import $revoke from "./revoke.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * permissions command group
@@ -14,9 +14,9 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($create)
-			.command($delete)
+			.command($grant)
 			.command($list)
+			.command($revoke)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

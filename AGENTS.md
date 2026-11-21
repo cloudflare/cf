@@ -2,7 +2,7 @@
 
 This repository contains the public `cf` npm CLI and its command generator.
 `cf` is an agent-first CLI for the whole Cloudflare API. Shared Forge code is
-installed from a commit-pinned pkg.pr.new build until it is available on npm.
+installed from the versioned `@cloudflare/forge` npm package.
 
 ## Read as needed
 

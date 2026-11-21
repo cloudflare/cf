@@ -12,14 +12,14 @@ const upgrades = JSON.parse(readFileSync(dataFile, "utf8"));
 const [upgrade, ...rest] = Array.isArray(upgrades) ? upgrades : [];
 if (
 	upgrade?.depName !== "@cloudflare/forge" ||
-	typeof upgrade.newDigest !== "string" ||
-	!/^[0-9a-f]{40}$/.test(upgrade.newDigest) ||
+	typeof upgrade.newVersion !== "string" ||
+	!/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(upgrade.newVersion) ||
 	rest.length > 0
 ) {
 	throw new Error("Renovate upgrade data is invalid");
 }
 
-// A Forge build that leaves the generated commands unchanged is internal.
+// A Forge release that leaves the generated commands unchanged is internal.
 const generatedChanged =
 	execFileSync("git", ["status", "--porcelain", "--", GENERATED_DIR], {
 		encoding: "utf8",
@@ -28,14 +28,14 @@ if (!generatedChanged) {
 	process.exit(0);
 }
 
-const sha = upgrade.newDigest;
+const version = upgrade.newVersion;
 writeFileSync(
-	`.changeset/renovate-forge-${sha.slice(0, 12)}.md`,
+	`.changeset/renovate-forge-${version}.md`,
 	`---
 "cf": patch
 ---
 
-Update the generated command surface for \`@cloudflare/forge\` build
-\`${sha}\`.
+Update the generated command surface for \`@cloudflare/forge\`
+\`${version}\`.
 `
 );

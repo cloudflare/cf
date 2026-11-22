@@ -24,6 +24,19 @@ describe("cf workers identifiers", () => {
 	};
 	const ACCOUNT = `${TEST_BASE_URL}/accounts/test-account`;
 	const flags = ["--worker", "--worker-id", "--script-name"];
+	function mockWorkerWithoutNamespaces() {
+		server.use(
+			http.get(`${ACCOUNT}/workers/workers/my-worker`, () =>
+				HttpResponse.json({
+					success: true,
+					result: { id: "my-worker", name: "my-worker" },
+				})
+			),
+			http.get(`${ACCOUNT}/workers/durable_objects/namespaces`, () =>
+				HttpResponse.json({ success: true, result: [] })
+			)
+		);
+	}
 	const commands = [
 		{ args: ["get"], path: "/workers/workers/my-worker" },
 		{ args: ["versions", "list"], path: "/workers/workers/my-worker/versions" },
@@ -101,6 +114,9 @@ describe("cf workers identifiers", () => {
 	it.each(["get", "delete"])(
 		"%s retains positional Worker input",
 		async (name) => {
+			if (name === "delete") {
+				mockWorkerWithoutNamespaces();
+			}
 			const request = vi.fn(() =>
 				HttpResponse.json({ success: true, result: { id: "my-worker" } })
 			);
@@ -120,6 +136,7 @@ describe("cf workers identifiers", () => {
 	);
 
 	it.each(flags)("delete accepts %s", async (flag) => {
+		mockWorkerWithoutNamespaces();
 		const request = vi.fn(() =>
 			HttpResponse.json({ success: true, result: null })
 		);

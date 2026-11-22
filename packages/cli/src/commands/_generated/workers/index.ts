@@ -1,4 +1,3 @@
-import $delete from "./delete.js";
 import $deployments from "./deployments/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
@@ -12,6 +11,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  */
 import type { CommandModule } from "yargs";
 import $check from "#commands/workers/check/index.js";
+import $delete from "#commands/workers/delete/index.js";
 import $triggers from "#commands/workers/triggers/index.js";
 import $types from "#commands/workers/types/index.js";
 import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";

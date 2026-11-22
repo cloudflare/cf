@@ -15,7 +15,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 web3 hostnames delete <identifier>\n\nDelete Web3 Hostname")
+		.usage(
+			"$0 web3 hostnames delete <identifier>\n\nDeletes a Web3 hostname and its configuration from the zone."
+		)
 		.positional("identifier", {
 			type: "string",
 			description: "Specify the identifier of the hostname.",

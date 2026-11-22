@@ -20,7 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 web3 hostnames create\n\nCreate Web3 Hostname")
+		.usage(
+			"$0 web3 hostnames create\n\nCreates a new Web3 hostname for serving decentralized web content."
+		)
 		.option("description", {
 			type: "string",
 			description: "Specify an optional description of the hostname.",

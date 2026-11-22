@@ -22,6 +22,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 queues subscriptions list\n\nReturns a paginated list of Queue event subscriptions with optional sorting and filtering."
 		)
+		.option("queue-id", {
+			type: "string",
+			description: "Filter event subscriptions by destination queue ID.",
+		})
 		.option("page", {
 			type: "number",
 			description: "Page number for pagination",
@@ -64,6 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
+					queue_id: argv["queue-id"],
 					page: argv["page"],
 					per_page: argv["per-page"],
 					order: argv["order"],

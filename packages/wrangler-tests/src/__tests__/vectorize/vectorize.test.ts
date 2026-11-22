@@ -37,7 +37,7 @@ describe("vectorize help", () => {
 	it("should show help when the query command is passed without an argument", async ({
 		expect,
 	}) => {
-		await expect(() => runWrangler("vectorize query")).rejects.toThrow(
+		await expect(() => runWrangler("vectorize vectors query")).rejects.toThrow(
 			"Not enough non-option arguments: got 0, need at least 1"
 		);
 	});
@@ -237,7 +237,9 @@ describe("vectorize commands", () => {
 
 	it("should handle a getByIds on a vectorize index", async ({ expect }) => {
 		mockVectorizeV2Request();
-		await runWrangler("vectorize get-by-ids test-index --ids a 'b'");
+		await runWrangler(
+			"vectorize vectors bulk-get --index-name=test-index --ids a 'b'"
+		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			[
 			  {
@@ -275,7 +277,9 @@ describe("vectorize commands", () => {
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();
-		await runWrangler("vectorize get-by-ids test-index --ids a 'b'");
+		await runWrangler(
+			"vectorize vectors bulk-get --index-name=test-index --ids a 'b'"
+		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`[]`);
 	});
 
@@ -287,7 +291,9 @@ describe("vectorize commands", () => {
 
 	it("should handle a deleteByIds on a vectorize index", async ({ expect }) => {
 		mockVectorizeV2Request();
-		await runWrangler("vectorize delete-by-ids test-index --ids a 'b'");
+		await runWrangler(
+			"vectorize vectors bulk-delete --index-name=test-index --ids a 'b'"
+		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "mutationId": "xxxxxx-xxxx-xxxx-xxxx-xxxxxx",
@@ -296,7 +302,7 @@ describe("vectorize commands", () => {
 	});
 
 	// Same rationale as get-by-ids — cf doesn't have an
-	// id-presence guard for delete-by-ids either.
+	// id-presence guard for bulk-delete either.
 	it.skip("should log error when deleteByIds does not receive ids", async () => {});
 
 	it("should handle a query on a vectorize index", async ({ expect }) => {
@@ -305,7 +311,7 @@ describe("vectorize commands", () => {
 		// verbatim; coercion / NaN-stripping that wrangler did is not
 		// replicated here.
 		await runWrangler(
-			"vectorize query test-index --vector 1 2 3 4 1.5 2.6 7 8"
+			"vectorize vectors query test-index --vector 1 2 3 4 1.5 2.6 7 8"
 		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
@@ -365,7 +371,7 @@ describe("vectorize commands", () => {
 				{ once: true }
 			)
 		);
-		await runWrangler("vectorize query test-index --vector 1 2 3 4");
+		await runWrangler("vectorize vectors query test-index --vector 1 2 3 4");
 		expect(capturedBody).toEqual({
 			vector: ["1", "2", "3", "4"],
 			returnMetadata: "none",
@@ -397,7 +403,7 @@ describe("vectorize commands", () => {
 			)
 		);
 		await runWrangler(
-			`vectorize query test-index --vector 1 2 3 "4" 1.5 "2.6" a "b" null 7 abc 8 undefined`
+			`vectorize vectors query test-index --vector 1 2 3 "4" 1.5 "2.6" a "b" null 7 abc 8 undefined`
 		);
 		expect(capturedBody).toEqual({
 			vector: [
@@ -421,7 +427,7 @@ describe("vectorize commands", () => {
 		});
 	});
 
-	// cf's `vectorize query` does not expose --vector-id, --namespace,
+	// cf's `vectorize vectors query` does not expose --vector-id, --namespace,
 	// or --filter as per-field flags — only --vector and --top-k /
 	// --return-* / --body. Querying by id, namespace filter, or
 	// metadata filter requires hand-assembling --body. Treating the
@@ -435,7 +441,7 @@ describe("vectorize commands", () => {
 
 	it.skip("should warn when query returns no vectors", async ({ expect }) => {
 		mockVectorizeV2RequestError();
-		await runWrangler("vectorize query test-index --vector 1 2 3 4");
+		await runWrangler("vectorize vectors query test-index --vector 1 2 3 4");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "count": 0,
@@ -447,7 +453,7 @@ describe("vectorize commands", () => {
 	// cf doesn't enforce "must provide vector or vector-id, but not
 	// both" at the CLI layer — there's no --vector-id flag in cf at
 	// all. Both negative cases below are downstream of the same
-	// `vectorize query` flag-gap bug.
+	// `vectorize vectors query` flag-gap bug.
 	// See `test_bugs/vectorize-query-missing-flags.md`.
 	it.todo("should fail query when neither vector nor vector-id is provided", async () => {});
 	it.todo("should fail query when both vector and vector-id are provided", async () => {});
@@ -459,7 +465,7 @@ describe("vectorize commands", () => {
 
 		await expect(() =>
 			runWrangler(
-				"vectorize query test-index --vector 1 2 3 4 --return-metadata=truncated"
+				"vectorize vectors query test-index --vector 1 2 3 4 --return-metadata=truncated"
 			)
 		).rejects.toThrow(
 			`Invalid values:
@@ -483,7 +489,7 @@ describe("vectorize commands", () => {
 	it("should handle create metadata index", async ({ expect }) => {
 		mockVectorizeV2Request();
 		await runWrangler(
-			`vectorize metadata-index create test-index --property-name='some-prop' --index-type='string'`
+			`vectorize metadata-indexes create test-index --property-name='some-prop' --index-type='string'`
 		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
@@ -498,7 +504,7 @@ describe("vectorize commands", () => {
 		mockVectorizeV2Request();
 		await expect(() =>
 			runWrangler(
-				`vectorize metadata-index create test-index --property-name='some-prop' --index-type='array'`
+				`vectorize metadata-indexes create test-index --property-name='some-prop' --index-type='array'`
 			)
 		).rejects.toThrow(`Invalid values:
   Argument: index-type, Given: "array", Choices: "string", "number", "boolean"`);
@@ -506,8 +512,9 @@ describe("vectorize commands", () => {
 
 	it("should handle list metadata index", async ({ expect }) => {
 		mockVectorizeV2Request();
-		// cf's `metadata-index list` takes --index-name (no positional).
-		await runWrangler(`vectorize metadata-index list --index-name=test-index`);
+		await runWrangler(
+			`vectorize metadata-indexes list --index-name=test-index`
+		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "metadataIndexes": [
@@ -532,7 +539,9 @@ describe("vectorize commands", () => {
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();
-		await runWrangler("vectorize metadata-index list --index-name=test-index");
+		await runWrangler(
+			"vectorize metadata-indexes list --index-name=test-index"
+		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "metadataIndexes": [],
@@ -555,7 +564,7 @@ describe("vectorize commands", () => {
 		// .../metadata_index/delete op. `--force` bypasses the prompt
 		// (non-interactive / CI path).
 		await runWrangler(
-			`vectorize metadata-index delete test-index --property-name='some-prop' --force`
+			`vectorize metadata-indexes delete test-index --property-name='some-prop' --force`
 		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
@@ -567,14 +576,14 @@ describe("vectorize commands", () => {
 	it("should show help when the list-vectors command is passed without an index", async ({
 		expect,
 	}) => {
-		await expect(() => runWrangler("vectorize list-vectors")).rejects.toThrow(
-			"Not enough non-option arguments: got 0, need at least 1"
+		await expect(() => runWrangler("vectorize vectors list")).rejects.toThrow(
+			"Missing required argument: index-name"
 		);
 	});
 
 	it("should handle list-vectors on a vectorize index", async ({ expect }) => {
 		mockVectorizeV2Request();
-		await runWrangler("vectorize list-vectors test-index");
+		await runWrangler("vectorize vectors list --index-name=test-index");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "count": 3,
@@ -601,7 +610,9 @@ describe("vectorize commands", () => {
 		expect,
 	}) => {
 		mockVectorizeV2Request();
-		await runWrangler("vectorize list-vectors test-index --result-count 2");
+		await runWrangler(
+			"vectorize vectors list --index-name=test-index --result-count 2"
+		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "count": 2,
@@ -626,7 +637,7 @@ describe("vectorize commands", () => {
 	}) => {
 		mockVectorizeV2Request();
 		await runWrangler(
-			"vectorize list-vectors test-index --cursor next-page-cursor"
+			"vectorize vectors list --index-name=test-index --cursor next-page-cursor"
 		);
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
@@ -655,7 +666,7 @@ describe("vectorize commands", () => {
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();
-		await runWrangler("vectorize list-vectors test-index");
+		await runWrangler("vectorize vectors list --index-name=test-index");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "count": 0,

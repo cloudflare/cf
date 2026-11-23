@@ -20,7 +20,7 @@ import type { CommandModule } from "yargs";
 const command: CommandModule<CommonYargsOptions> = {
 	command: "images",
 	describe:
-		"Store, resize, and deliver optimized images globally — variants, signing keys, and direct uploads",
+		"Store, resize, and deliver optimized images globally - variants, signing keys, and direct uploads",
 
 	builder: (yargs) => {
 		return yargs

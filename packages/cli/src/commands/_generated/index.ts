@@ -267,7 +267,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"cloudforce-one",
-			"Detection rule management APIs",
+			"Threat intelligence platform — request investigations, scan indicators, and track threat events",
 			() => import("./cloudforce-one/index.js"),
 			null
 		),
@@ -473,6 +473,15 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
+			"feedback",
+			"feedback",
+			() => import("./feedback/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
 			"field-extractors",
 			"field-extractors",
 			() => import("./field-extractors/index.js"),
@@ -546,7 +555,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"images",
-			"Store, resize, and deliver optimized images globally — variants, signing keys, and direct uploads",
+			"Store, resize, and deliver optimized images globally - variants, signing keys, and direct uploads",
 			() => import("./images/index.js"),
 			null
 		),
@@ -631,7 +640,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./magic-network-monitoring/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -897,7 +906,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"rulesets",
-			"rulesets",
+			"Versioned collections of rules that control how Cloudflare processes traffic — WAF, transform, redirect, and more",
 			() => import("./rulesets/index.js"),
 			null
 		),
@@ -910,7 +919,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./rum/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1113,11 +1122,11 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"web3",
-			"web3",
+			"Web3 gateways — serve IPFS and Ethereum content through custom hostnames on Cloudflare",
 			() => import("./web3/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

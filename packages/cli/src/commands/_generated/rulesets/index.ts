@@ -14,7 +14,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "rulesets",
-	describe: "rulesets",
+	describe:
+		"Versioned collections of rules that control how Cloudflare processes traffic — WAF, transform, redirect, and more",
 
 	builder: (yargs) => {
 		return yargs

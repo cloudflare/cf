@@ -74,13 +74,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Do not show any Cloudflare branding on the widget (ENT only).\n",
 		})
-		.option("region", {
-			type: "string",
-			description:
-				"Region where this widget can be used. This cannot be changed after creation.\n",
-			choices: ["world", "china"],
-		})
-		.coerce("region", (value) => resolveFileToken(value, "region", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -109,7 +102,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ephemeral-id",
 						"widget-mode",
 						"offlabel",
-						"region",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -162,7 +154,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										offlabel: argv["offlabel"],
-										region: argv["region"],
 									}),
 					});
 					return;
@@ -200,7 +191,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					offlabel: argv["offlabel"],
-					region: argv["region"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {

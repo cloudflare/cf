@@ -28,29 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 turnstile widgets create\n\nCreates a Turnstile widget for an account."
 		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of items per page.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to order widgets by.",
-			choices: ["id", "sitekey", "name", "created_on", "modified_on"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order widgets.",
-			choices: ["asc", "desc"],
-		})
-		.option("filter", {
-			type: "string",
-			description:
-				"Filter widgets by field. The `name` field uses case-insensitive\nsubstring matching; `sitekey` uses exact matching.\nFormat: `field:value`\n\nSupported fields:\n- `name` - Filter by widget name (e.g., `filter=name:login-form`)\n- `sitekey` - Filter by sitekey (e.g., `filter=sitekey:0x4AAA`)\n\nReturns 400 Bad Request if the field is unsupported or format is invalid.\nAn empty filter value returns all results.",
-		})
 		.option("bot-fight-mode", {
 			type: "boolean",
 			description:
@@ -123,8 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "turnstile widgets create",
 				classification: {
 					safeFlags: [
-						"order",
-						"direction",
 						"bot-fight-mode",
 						"clearance-level",
 						"ephemeral-id",
@@ -137,13 +112,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					order: argv["order"],
-					direction: argv["direction"],
-					filter: argv["filter"],
-				};
 				const resolveRequiredFields = async (): Promise<void> => {
 					if (argv["domains"] === undefined) {
 						throw new Error(
@@ -174,7 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/challenges/widgets`,
 						pathParams: {},
-						query: queryParams,
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -204,17 +171,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
-					const qs = new URLSearchParams(
-						Object.entries(queryParams)
-							.filter(([, v]) => v !== undefined)
-							.map(([k, v]) => [k, String(v)])
-					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							...queryParams,
-						})
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -236,17 +194,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					offlabel: argv["offlabel"],
 					region: argv["region"],
 				});
-				const qs = new URLSearchParams(
-					Object.entries(queryParams)
-						.filter(([, v]) => v !== undefined)
-						.map(([k, v]) => [k, String(v)])
-				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						...queryParams,
-					})
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

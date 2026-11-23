@@ -14,7 +14,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 web3 hostnames list\n\nList Web3 Hostnames")
+		.usage(
+			"$0 web3 hostnames list\n\nLists all Web3 hostnames configured for the zone."
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

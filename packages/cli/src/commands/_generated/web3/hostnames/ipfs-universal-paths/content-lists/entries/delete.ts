@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 web3 hostnames ipfs-universal-paths content-lists entries delete <content-list-entry-identifier>\n\nDelete IPFS Universal Path Gateway Content List Entry"
+			"$0 web3 hostnames ipfs-universal-paths content-lists entries delete <content-list-entry-identifier>\n\nDeletes an entry from an IPFS Universal Path Gateway content list."
 		)
 		.positional("content-list-entry-identifier", {
 			type: "string",

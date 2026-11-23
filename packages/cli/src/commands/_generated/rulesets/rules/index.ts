@@ -10,7 +10,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "rules",
-	describe: "Operations for rules",
+	describe:
+		"Individual rules within a ruleset — each with an expression, action, and priority",
 
 	builder: (yargs) => {
 		return yargs

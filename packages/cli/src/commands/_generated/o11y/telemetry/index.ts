@@ -1,6 +1,4 @@
-import $heartbeat from "./heartbeat.js";
 import $keys from "./keys.js";
-import $livetail from "./live-tail.js";
 import $query from "./query.js";
 import $values from "./values.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -16,9 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($heartbeat)
 			.command($keys)
-			.command($livetail)
 			.command($query)
 			.command($values)
 			.demandCommand(1, "Please specify a subcommand");

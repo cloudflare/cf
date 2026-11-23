@@ -9,6 +9,7 @@ const sharedAuth = vi.hoisted(() => ({
 	credentials: undefined as
 		| { oauth_token?: string; scopes: string[] }
 		| undefined,
+	validToken: undefined as string | undefined,
 	login: vi.fn(),
 }));
 
@@ -26,8 +27,7 @@ vi.mock("@cloudflare/workers-auth/cf", async (importOriginal) => ({
 		getActiveProfile: () => sharedAuth.activeProfile,
 		getCredentialStore: () => ({ path: () => "/test/auth.json" }),
 		readAuthCredentials: () => sharedAuth.credentials,
-		// Stored tokens never refresh, so they read as invalid or expired.
-		getOAuthTokenFromLocalState: async () => undefined,
+		getOAuthTokenFromLocalState: async () => sharedAuth.validToken,
 		login: sharedAuth.login,
 	}),
 }));
@@ -48,6 +48,7 @@ describe("cf auth device login", () => {
 	beforeEach(() => {
 		sharedAuth.activeProfile = "default";
 		sharedAuth.credentials = undefined;
+		sharedAuth.validToken = undefined;
 		sharedAuth.login.mockReset().mockResolvedValue(true);
 		telemetryEvents.length = 0;
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
@@ -276,5 +277,74 @@ describe("cf auth device login", () => {
 			●  Config file: /test/auth.json
 			│  Scopes: one"
 		`);
+	});
+
+	it("re-authenticates when replacing scopes on an existing login without --force", async () => {
+		sharedAuth.validToken = "valid-token";
+		sharedAuth.credentials = {
+			oauth_token: "valid-token",
+			scopes: ["workers:write"],
+		};
+
+		await runCf(["auth", "login", "--no-browser", "--scopes", "account:read"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(sharedAuth.login).toHaveBeenCalledWith(
+			expect.anything(),
+			expect.objectContaining({
+				scopes: ["account:read"],
+			})
+		);
+		expect(std.err).toContain("Re-authenticating with requested scopes...");
+		expect(std.err).toContain("Starting OAuth login flow...");
+	});
+
+	it("re-authenticates when requesting fewer scopes on an existing login without --force", async () => {
+		sharedAuth.validToken = "valid-token";
+		sharedAuth.credentials = {
+			oauth_token: "valid-token",
+			scopes: ["workers:write", "account:read", "offline_access"],
+		};
+
+		await runCf(["auth", "login", "--no-browser", "--scopes", "account:read"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(sharedAuth.login).toHaveBeenCalledWith(
+			expect.anything(),
+			expect.objectContaining({ scopes: ["account:read"] })
+		);
+	});
+
+	it("rejects invalid scope names before comparing with the existing login", async () => {
+		sharedAuth.validToken = "valid-token";
+		sharedAuth.credentials = {
+			oauth_token: "valid-token",
+			scopes: ["workers:write"],
+		};
+
+		await expect(
+			runCf(["auth", "login", "--no-browser", "--scopes", "workerz:write"])
+		).rejects.toThrow("Invalid cf OAuth scope(s): workerz:write.");
+	});
+
+	it("reuses an existing login with equivalent scopes regardless of order or duplicates", async () => {
+		sharedAuth.validToken = "valid-token";
+		sharedAuth.credentials = {
+			oauth_token: "valid-token",
+			scopes: ["workers:write", "account:read", "offline_access"],
+		};
+
+		await runCf([
+			"auth",
+			"login",
+			"--no-browser",
+			"--scopes",
+			"account:read",
+			"workers:write",
+			"account:read",
+		]);
+
+		expect(sharedAuth.login).not.toHaveBeenCalled();
+		expect(std.err).toContain("You are already logged in.");
 	});
 });

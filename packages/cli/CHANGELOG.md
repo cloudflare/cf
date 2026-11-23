@@ -1,5 +1,124 @@
 # cf
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 5f7ebcf: Add `cf update` to update the current cf installation with its package manager.
+
+  Update a project dependency or a global installation, choose a release tag or version, and preview the package manager command with `--dry-run`.
+
+- 29442c5: Add `--secrets-file` to `cf previews deploy`
+
+  Use `cf previews deploy --secrets-file .env.preview` to upload secrets with a Preview deployment, in the same JSON or `.env` format that `cf deploy --secrets-file` accepts. Previously, Preview secrets could only be set in the Cloudflare dashboard or with Wrangler.
+
+- 1288332: Update the generated command surface for Forge OpenAPI release
+  `1c2a2f19ace2d4c55bfb77ebb17c408a004c40d0`.
+
+  **Breaking:** `cf user load-balancers pools edit pools pool <pool-id>` is now
+  `cf user load-balancers pools edit <pool-id>`, and
+  `cf user load-balancers pools edit pools pools` is now
+  `cf user load-balancers pools bulk-edit`.
+
+- 34c393f: Update the generated command surface for Forge OpenAPI release
+  `2b2a4d864560ba802f264202316ec9eaf8595dd6`.
+- 1dbe7e9: Update the generated command surface for Forge OpenAPI release
+  `4a9d37b27a68d4c7bc23d71600b0b29b61f6c0fd`.
+
+  **Breaking:** Several commands are renamed, and some take their identifiers
+  as flags instead of positional arguments. There are no compatibility aliases;
+  update scripts to use the new names and inputs:
+
+  - `cf vectorize insert`, `upsert`, and `query` are now
+    `cf vectorize vectors insert`, `upsert`, and `query`.
+  - `cf vectorize get-by-ids`, `delete-by-ids`, and `list-vectors` are now
+    `cf vectorize vectors bulk-get`, `bulk-delete`, and `list`. These take the
+    index as `--index-name` instead of a positional argument.
+  - `cf vectorize metadata-index` is now `cf vectorize metadata-indexes`.
+  - `cf dns settings account views` is now `cf dns views`.
+  - `cf cloudforce-one requests get-request-list`, `get-request-read`,
+    `post-request-create`, and `put-request-update` are now `list`, `get`,
+    `create`, and `update`. The renamed `list` command takes the project type
+    as `--project-type` instead of a positional argument.
+  - `cf addressing address-maps accounts update` is now `create`. The `ips`
+    and `zones` subgroups rename `update` to `create`, `update-bulk` to
+    `bulk-create`, and `delete-bulk` to `bulk-delete`. The renamed bulk
+    commands take the Address Map ID as `--address-map-id` instead of a
+    positional argument.
+  - `cf cache origin-cloud-regions bulk update` and `bulk delete` are now
+    `cf cache origin-cloud-regions bulk-replace` and `bulk-delete`.
+  - `cf intel indicator-feeds permissions create` and `delete` are now
+    `grant` and `revoke`.
+  - `cf resource-sharing recipients update` and
+    `cf resource-sharing excluded-recipients update` are now `replace`.
+  - `cf waiting-rooms rules get` is now `cf waiting-rooms rules list`, which
+    takes the waiting room ID as `--waiting-room-id` instead of a positional
+    argument.
+
+  **Breaking:** Some existing commands change their flags:
+
+  - `cf workers deployments create` renames `--code-update-strategy-mode` and
+    `--code-update-strategy-max-delay` to `--durable-objects-code-update-mode`
+    and `--durable-objects-code-update-max-delay`.
+  - `cf turnstile widgets update` no longer accepts `--region`.
+  - `cf turnstile widgets create` no longer accepts the list flags `--page`,
+    `--per-page`, `--order`, `--direction`, and `--filter`.
+
+  `cf o11y telemetry live-tail` and `cf o11y telemetry heartbeat` are removed;
+  use `cf observability tail` to stream live events.
+
+  New commands include `cf ai-gateway model-aliases`, `cf feedback`,
+  `cf pay-per-use agreements`, and `cf pay-per-use enabled-publishers list`.
+  `cf queues subscriptions list` accepts an optional `--queue-id` filter.
+
+- edd1c14: Update the generated command surface for Forge OpenAPI release
+  `5162716769ddc087f36d6661a879e2082c88ee44`.
+
+  **Breaking:** Update scripts that use these renamed commands; there are no compatibility aliases:
+
+  - `cf realtime kit apps update`, `cf realtime kit meetings update`, `cf realtime kit meetings participants update`, `cf realtime kit presets update`, and `cf realtime kit webhooks update` now use `edit` instead of `update`.
+  - `cf network subnets initial-resolved-ip edit` is now `cf network subnets initial-resolved-ip replace`.
+  - `cf dns dnssec list zsks` is now `cf dns dnssec zsks list`.
+
+  `cf realtime kit meetings active kick` and `mute` no longer accept `--custom-participant-ids`. Use `--participant-ids` with participant IDs instead; it is now required when using individual flags.
+
+### Patch Changes
+
+- eba97c3: Allow `null` for JSON object-array flags when the API schema permits it. For example, `cf mcp servers update <id> --updated-tools null` resets the tool overrides to absent rather than setting an empty list.
+- 505ecaf: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.1` → `0.13.2`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.1` → `1.0.0-rc.2`
+  - `@cloudflare/cli-shared-helpers`: `0.3.10` → `0.3.11`
+  - `@cloudflare/codemods`: `0.8.1` → `0.8.2`
+  - `@cloudflare/config`: `1.0.0-rc.1` → `1.0.0-rc.2`
+  - `@cloudflare/containers-shared`: `0.26.3` → `0.27.0`
+  - `@cloudflare/deploy-helpers`: `0.27.2` → `0.28.0`
+  - `@cloudflare/runtime-types`: `0.1.30` → `0.1.31`
+  - `@cloudflare/workers-auth`: `0.18.4` → `0.18.5`
+  - `@cloudflare/workers-utils`: `0.54.2` → `0.55.0`
+  - `miniflare`: `5.20261117.0-beta` → `5.20261118.0-beta`
+
+- 974dfbb: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.2` → `0.13.3`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.2` → `1.0.0-rc.3`
+  - `@cloudflare/cli-shared-helpers`: `0.3.11` → `0.3.12`
+  - `@cloudflare/codemods`: `0.8.2` → `0.9.0`
+  - `@cloudflare/config`: `1.0.0-rc.2` → `1.0.0-rc.3`
+  - `@cloudflare/containers-shared`: `0.27.0` → `0.27.1`
+  - `@cloudflare/deploy-helpers`: `0.28.0` → `0.29.0`
+  - `@cloudflare/runtime-types`: `0.1.31` → `0.1.32`
+  - `@cloudflare/workers-auth`: `0.18.5` → `0.18.6`
+  - `@cloudflare/workers-utils`: `0.55.0` → `0.56.0`
+  - `miniflare`: `5.20261118.0-beta` → `5.20261119.0-beta`
+
+- c126d2e: Retain Container images for repeated Build Output uploads
+
+  Keep local image tags referenced by saved Build Output after successful deploys
+  and Worker version uploads. Reusing that output with `--prebuilt` now succeeds
+  for both standard Containers and Durable Object-managed Containers.
+
 ## 1.0.0-rc.2
 
 ### Minor Changes

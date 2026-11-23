@@ -22,6 +22,13 @@ export interface CommonEventProperties {
 	isInteractive: boolean;
 	cliMode: CLIMode;
 	agent: string | null;
+	/** The detected harness's own version, when it announces one. */
+	agentVersion?: string;
+	/**
+	 * The `AI_AGENT` value of an agent cf does not recognise, limited to
+	 * 64 letters, digits, `_` and `-`.
+	 */
+	agentAnnouncedName?: string;
 	/** Whether a global cf handed this run to a project-local cf. */
 	delegated: boolean;
 	/**

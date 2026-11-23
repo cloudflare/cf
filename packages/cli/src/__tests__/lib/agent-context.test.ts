@@ -21,6 +21,12 @@ describe("detectAgentContext", () => {
 		["Claude Code", { CLAUDECODE: "1" }, "claude-code"],
 		["Codex", { CODEX_THREAD_ID: "codex-thread" }, "codex"],
 		["Amp", { AMP_CURRENT_THREAD_ID: "amp-thread" }, "amp"],
+		["Antigravity IDE", { ANTIGRAVITY_AGENT: "1" }, "antigravity"],
+		[
+			"Antigravity CLI",
+			{ ANTIGRAVITY_CONVERSATION_ID: "agy-conversation" },
+			"antigravity",
+		],
 		["Gemini CLI", { GEMINI_CLI: "1" }, "gemini-agent"],
 		["Auggie", { AUGMENT_AGENT: "1" }, "auggie"],
 		["Crush", { CRUSH: "1" }, "crush"],
@@ -93,6 +99,25 @@ describe("detectAgentContext", () => {
 		expect(context.invocationId).toBe("cursor-request");
 	});
 
+	it("captures the Antigravity conversation without its language-server credentials", () => {
+		const context = detectAgentContext({
+			ANTIGRAVITY_AGENT: "1",
+			ANTIGRAVITY_CONVERSATION_ID: "agy-conversation",
+			ANTIGRAVITY_CSRF_TOKEN: "private-token",
+			ANTIGRAVITY_LS_ADDRESS: "127.0.0.1:5387",
+		});
+
+		expect(context.harness).toEqual({
+			id: "antigravity",
+			name: "Google Antigravity",
+		});
+		expect(context.sessionId).toBe("agy-conversation");
+		expect(context.matches[0]?.signals).toEqual([
+			"ANTIGRAVITY_AGENT",
+			"ANTIGRAVITY_CONVERSATION_ID",
+		]);
+	});
+
 	it("retains nested matches while preferring a direct agent over Warp", () => {
 		const context = detectAgentContext({
 			CLAUDECODE: "1",
@@ -133,6 +158,8 @@ describe("detectAgentContext", () => {
 			CLAUDECODE: "0",
 			CODEX_THREAD_ID: "off",
 			AMP_CURRENT_THREAD_ID: "no",
+			ANTIGRAVITY_AGENT: "true",
+			ANTIGRAVITY_CONVERSATION_ID: "false",
 			GEMINI_CLI: "true",
 			AUGMENT_AGENT: "false",
 			CRUSH: "true",
@@ -155,6 +182,7 @@ describe("detectAgentContext", () => {
 		const context = detectAgentContext({
 			AIDER_API_KEY: "private-token",
 			CODEIUM_EDITOR_APP_ROOT: "/private/editor",
+			ANTIGRAVITY_CSRF_TOKEN: "private-token",
 			REPL_ID: "private-repl",
 			TERM_PROGRAM: "WarpTerminal",
 			PAGER: "cat",

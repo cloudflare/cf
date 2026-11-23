@@ -273,6 +273,98 @@ const detectCrush: AgentDetector = (environment) => {
 		: null;
 };
 
+// Evidence: https://github.com/github/copilot-cli/blob/c41b148a2a85a8502c9e7bf73cb4d04d707f6576/changelog.md#L4518
+// and https://github.com/github/copilot-cli/blob/c41b148a2a85a8502c9e7bf73cb4d04d707f6576/changelog.md#L3972
+// COPILOT_MODEL and COPILOT_ALLOW_ALL are user settings, not markers.
+const detectCopilotCli: AgentDetector = (environment) => {
+	if (!isExact(environment, "COPILOT_CLI", "1")) {
+		return null;
+	}
+	const signals = ["COPILOT_CLI"];
+	const sessionId = value(environment, "COPILOT_AGENT_SESSION_ID");
+	if (sessionId) {
+		signals.push("COPILOT_AGENT_SESSION_ID");
+	}
+	return contractMatch(
+		{ id: "copilot-cli", name: "GitHub Copilot CLI" },
+		signals,
+		{ sessionId }
+	);
+};
+
+// Evidence: @kiro/agent 0.66.119, bundled with Kiro CLI 3.5.0 and Kiro IDE,
+// sets AWS_SDK_UA_APP_ID to `kiro-<client>` and KIRO_SESSION_ID for spawned
+// commands. AWS_SDK_UA_APP_ID is a standard AWS SDK setting, so only Kiro's
+// own values count.
+const detectKiro: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	signalIf(
+		signals,
+		/^kiro-[a-z]+$/.test(value(environment, "AWS_SDK_UA_APP_ID") ?? ""),
+		"AWS_SDK_UA_APP_ID"
+	);
+	const sessionId = value(environment, "KIRO_SESSION_ID");
+	if (sessionId) {
+		signals.push("KIRO_SESSION_ID");
+	}
+	return signals.length > 0
+		? contractMatch({ id: "kiro", name: "Kiro" }, signals, { sessionId })
+		: null;
+};
+
+// Evidence: Junie CLI 4100.11 sets MATTERHORN_TASK (to an empty string) and
+// MATTERHORN_SESSION_ID for agent shell commands. Its launcher's JUNIE_DATA
+// and JUNIE_SHIM_PATH are inherited incidentally and are not markers:
+// https://github.com/JetBrains/junie/blob/0fa19c7350066d5bc3f229803883c04fe1c6f92e/install.sh#L940-L949
+const detectJunie: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	signalIf(
+		signals,
+		typeof environment.MATTERHORN_TASK === "string",
+		"MATTERHORN_TASK"
+	);
+	const sessionId = value(environment, "MATTERHORN_SESSION_ID");
+	if (sessionId) {
+		signals.push("MATTERHORN_SESSION_ID");
+	}
+	return signals.length > 0
+		? contractMatch({ id: "junie", name: "Junie" }, signals, { sessionId })
+		: null;
+};
+
+// Evidence: https://github.com/aaif-goose/goose/blob/059fee25f13fa92be561a7d42cdd04ececef5a98/crates/goose/src/agents/platform_extensions/developer/shell.rs#L616-L625
+// `goose term init` also exports AGENT_SESSION_ID into the user's own shell,
+// so it only supplies the session ID once a marker is present.
+const detectGoose: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	const gooseMarker = signalIf(
+		signals,
+		isExact(environment, "GOOSE_TERMINAL", "1"),
+		"GOOSE_TERMINAL"
+	);
+	const genericMarker = signalIf(
+		signals,
+		isExact(environment, "AGENT", "goose"),
+		"AGENT"
+	);
+	if (!gooseMarker && !genericMarker) {
+		return null;
+	}
+	const sessionId = value(environment, "AGENT_SESSION_ID");
+	if (sessionId) {
+		signals.push("AGENT_SESSION_ID");
+	}
+	return contractMatch({ id: "goose", name: "Goose" }, signals, { sessionId });
+};
+
+// Evidence: https://github.com/cline/cline/blob/34c104e6fc49781cda4adcd73ffdccd8f029fef9/apps/vscode/src/hosts/vscode/terminal/VscodeTerminalRegistry.ts#L31
+// Set only on terminals Cline creates; its background execution mode and the
+// Cline CLI set no marker.
+const detectCline: AgentDetector = (environment) =>
+	isExact(environment, "CLINE_ACTIVE", "true")
+		? contractMatch({ id: "cline", name: "Cline" }, ["CLINE_ACTIVE"])
+		: null;
+
 // Evidence: VS Code Copilot agent child-process environment. Verified 2026-09-02.
 const detectVsCodeCopilot: AgentDetector = (environment) => {
 	const signals: string[] = [];
@@ -331,6 +423,11 @@ export const agentDetectors: readonly AgentDetector[] = [
 	detectGeminiCli,
 	detectAuggie,
 	detectCrush,
+	detectCopilotCli,
+	detectKiro,
+	detectJunie,
+	detectGoose,
+	detectCline,
 	detectVsCodeCopilot,
 	detectWarp,
 ];

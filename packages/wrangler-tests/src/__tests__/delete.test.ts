@@ -90,8 +90,7 @@ describe("delete", () => {
 
 	// wrangler's `delete` auto-deletes Workers Sites KV namespaces
 	// (`__<script>-workers_sites_assets` / `_preview`) associated with
-	// the worker. cf's `workers delete` is a plain DELETE on the Worker
-	// endpoint with no Sites-aware bookkeeping, so this
+	// the worker. cf's `workers delete` has no Sites-aware bookkeeping, so this
 	// behaviour has no cf equivalent. Workers Sites is also being sunset
 	// in favour of static assets.
 	it.skip("should delete a site namespace associated with a worker", async () => {});
@@ -107,7 +106,7 @@ describe("delete", () => {
 		// and `/workers/tails/by-consumer/:name` to surface a second
 		// confirmation listing every dependent worker / Pages function /
 		// tail before passing `?force=true` to the API. cf's
-		// `workers delete` is a plain DELETE with no pre-flight dependency
+		// `workers delete` has no pre-flight dependency
 		// walk. Its `--force` flag only skips cf's standard confirmation;
 		// the endpoint already deletes the Worker's associated resources.
 		// The wrangler-side dependency UX has no cf equivalent.
@@ -137,6 +136,15 @@ function mockDeleteWorkerRequest(
 ) {
 	const { name } = options;
 	msw.use(
+		http.get("*/accounts/:accountId/workers/workers/:workerId", ({ params }) =>
+			HttpResponse.json({
+				success: true,
+				result: { id: params.workerId, name: params.workerId },
+			})
+		),
+		http.get("*/accounts/:accountId/workers/durable_objects/namespaces", () =>
+			HttpResponse.json({ success: true, result: [] })
+		),
 		http.delete(
 			"*/accounts/:accountId/workers/workers/:workerId",
 			({ params }) => {

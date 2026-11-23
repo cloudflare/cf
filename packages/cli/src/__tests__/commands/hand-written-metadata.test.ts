@@ -236,7 +236,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(53);
+		expect(commands.size).toBe(54);
 		expect(commands.get("cf update")?.handWritten).toEqual({
 			kind: "root",
 			overrides: false,
@@ -272,6 +272,7 @@ describe("hand-written-only command metadata", () => {
 				"cf d1 migrations create",
 				"cf observability tail",
 				"cf workers triggers deploy",
+				"cf workers delete",
 				"cf workers versions create",
 				"cf workers check",
 				"cf workers types",
@@ -335,6 +336,30 @@ describe("hand-written-only command metadata", () => {
 		expect(commands.get("cf ai run")?.operationId).toBe("ai.run");
 		expect(commands.get("cf registrar registrations create")?.operationId).toBe(
 			"registrar.registrations.create"
+		);
+	});
+
+	it("overrides Worker deletion without losing its spec-derived API identity", () => {
+		const command = commands.get("cf workers delete");
+		expect(command).toMatchObject({
+			operationId: "workers.delete",
+			httpMethod: "DELETE",
+			apiPath: "/accounts/{account_id}/workers/workers/{worker_id}",
+			handWritten: {
+				kind: "leafOverride",
+				overrides: true,
+				dir: "workers/delete",
+				emitKey: "workers/delete",
+			},
+		});
+		expect(command?.options).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					name: "delete-containers",
+					type: "boolean",
+					default: false,
+				}),
+			])
 		);
 	});
 

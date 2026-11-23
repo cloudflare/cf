@@ -2091,6 +2091,72 @@
 			}
 		},
 		{
+			"command": "cf workers delete",
+			"name": "delete",
+			"fullPath": ["workers", "delete"],
+			"description": "Delete a Worker and its associated versions and deployments. Container applications are only deleted with confirmation or --delete-containers.",
+			"summary": "Delete Worker",
+			"usage": "cf workers delete [worker] [options]",
+			"arguments": [
+				{
+					"name": "worker",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Identifier for the Worker, which can be ID or name."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": false,
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
+				{
+					"name": "delete-with-references",
+					"type": "boolean",
+					"required": false,
+					"description": "Delete the Worker even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted Worker are deleted even if other Workers reference them."
+				},
+				{
+					"name": "delete-containers",
+					"type": "boolean",
+					"required": false,
+					"description": "Also delete Container applications owned by this Worker.",
+					"default": false
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Preview the deletion without making API requests.",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"alias": "f",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/workers/workers/{worker_id}",
+			"operationId": "workers.delete",
+			"hideCommand": false,
+			"handWritten": {
+				"kind": "leafOverride",
+				"overrides": true,
+				"dir": "workers/delete",
+				"emitKey": "workers/delete"
+			}
+		},
+		{
 			"command": "cf workers triggers deploy",
 			"name": "deploy",
 			"fullPath": ["workers", "triggers", "deploy"],

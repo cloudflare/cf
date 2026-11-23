@@ -664,10 +664,15 @@ operation, but not well enough for a generated command to be useful. The
 generator keeps deriving the operation's identity (path, verb,
 operationId) and a `meta.ts` sidecar overrides only usage/flags/prose;
 the generated index imports the implementation from `#commands/<dir>`
-instead of its generated sibling. Current entries: `ai/run`,
-`registrar/registrations/create`, and `workers/versions/create`. The first two
-have bodies whose real schema sits behind a sibling endpoint; the third replaces
-a request-body-driven upload with the Build Output workflow shared by deploy.
+instead of its generated sibling. `ai/run` and `registrar/registrations/create`
+have bodies whose real schema sits behind a sibling endpoint. `workers/delete`
+checks for Container applications linked to production Durable Object namespaces
+owned by the Worker, then either warns or deletes them after the Worker deletion
+succeeds. Interactive users can confirm the cleanup separately; scripts opt in
+with `--delete-containers`. `--force` only bypasses confirmation. A failed lookup
+warns for a Worker-only deletion and aborts an explicit cleanup so it can be retried
+before ownership information is lost. `--dry-run` reports the requested cleanup
+without contacting the API.
 Each overridden leaf needs a spec drift guard in `src/__tests__/`.
 
 **Leaf command** (`kind: "leaf"`) — adds an executable workflow directly to a

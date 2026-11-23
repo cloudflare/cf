@@ -44,6 +44,7 @@ import tunnelsTailMeta from "./tunnels/tail/meta.js";
 import updateMeta from "./update/meta.js";
 import whoamiMeta from "./whoami/meta.js";
 import workersCheckMeta from "./workers/check/meta.js";
+import workersDeleteMeta from "./workers/delete/meta.js";
 import workersTriggersMeta from "./workers/triggers/meta.js";
 import workersTypesMeta from "./workers/types/meta.js";
 import workersVersionsCreateMeta from "./workers/versions/create/meta.js";
@@ -103,6 +104,7 @@ export const handWrittenMeta = {
 	leafOverrides: {
 		"ai/run": aiRunMeta,
 		"registrar/registrations/create": registrarRegistrationsCreateMeta,
+		"workers/delete": workersDeleteMeta,
 	},
 } satisfies {
 	roots: Record<HandWrittenDir<"root">, readonly CommandMeta[]>;

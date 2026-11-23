@@ -302,7 +302,7 @@ describe("hand-written leaf commands", () => {
 	it("splices the command into the generated resource index", () => {
 		const generated = generateResourceIndexFile(
 			workersSchema,
-			["versions"],
+			["delete", "versions"],
 			[]
 		);
 
@@ -312,6 +312,10 @@ describe("hand-written leaf commands", () => {
 		expect(generated).toContain(
 			"import $types from '#commands/workers/types/index.js';"
 		);
+		expect(generated).toContain(
+			"import $delete from '#commands/workers/delete/index.js';"
+		);
+		expect(generated).toContain(".command($delete)");
 		expect(generated).toContain(
 			".command(withHandWrittenDryRun($check, 'preview'))"
 		);

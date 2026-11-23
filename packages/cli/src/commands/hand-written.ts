@@ -201,6 +201,12 @@ const registry = [
 		dir: "registrar/registrations/create",
 	},
 	{
+		kind: "leafOverride",
+		dryRun: "native",
+		emitKey: "workers/delete",
+		dir: "workers/delete",
+	},
+	{
 		kind: "leaf",
 		dryRun: "native",
 		parent: "workers/versions",

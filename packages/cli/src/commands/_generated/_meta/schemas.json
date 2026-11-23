@@ -3206,9 +3206,9 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"addressing address-maps accounts delete": {
-			"operationId": "addressing.address-maps.accounts.delete",
-			"httpMethod": "DELETE",
+		"addressing address-maps accounts create": {
+			"operationId": "addressing.address-maps.accounts.create",
+			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{member_account_id}",
 			"pathParams": [
 				{
@@ -3234,9 +3234,9 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"addressing address-maps accounts update": {
-			"operationId": "addressing.address-maps.accounts.update",
-			"httpMethod": "PUT",
+		"addressing address-maps accounts delete": {
+			"operationId": "addressing.address-maps.accounts.delete",
+			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{member_account_id}",
 			"pathParams": [
 				{
@@ -3387,6 +3387,90 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"addressing address-maps ips bulk-create": {
+			"operationId": "addressing.address-maps.ips.bulk-create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_map_id",
+					"flag": "address-map-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ips",
+					"type": "string",
+					"required": true,
+					"description": "The ips field"
+				}
+			]
+		},
+		"addressing address-maps ips bulk-delete": {
+			"operationId": "addressing.address-maps.ips.bulk-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_map_id",
+					"flag": "address-map-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ips",
+					"type": "string",
+					"required": true,
+					"description": "The ips field"
+				}
+			]
+		},
+		"addressing address-maps ips create": {
+			"operationId": "addressing.address-maps.ips.create",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips/{ip_address}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_map_id",
+					"flag": "address-map-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "ip_address",
+					"flag": "ip-address",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"addressing address-maps ips delete": {
 			"operationId": "addressing.address-maps.ips.delete",
 			"httpMethod": "DELETE",
@@ -3415,55 +3499,13 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"addressing address-maps ips delete-bulk": {
-			"operationId": "addressing.address-maps.ips.delete-bulk",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips",
+		"addressing address-maps list": {
+			"operationId": "addressing.address-maps.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/addressing/address_maps",
 			"pathParams": [
 				{
 					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "address_map_id",
-					"flag": "address-map-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "ips",
-					"type": "string",
-					"required": true,
-					"description": "The ips field"
-				}
-			]
-		},
-		"addressing address-maps ips update": {
-			"operationId": "addressing.address-maps.ips.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips/{ip_address}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "address_map_id",
-					"flag": "address-map-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ip_address",
-					"flag": "ip-address",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -3472,10 +3514,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"addressing address-maps ips update-bulk": {
-			"operationId": "addressing.address-maps.ips.update-bulk",
+		"addressing address-maps zones bulk-create": {
+			"operationId": "addressing.address-maps.zones.bulk-create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips",
+			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -3485,7 +3527,6 @@
 				{
 					"name": "address_map_id",
 					"flag": "address-map-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -3494,20 +3535,61 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "ips",
+					"name": "zones",
 					"type": "string",
 					"required": true,
-					"description": "The ips field"
+					"description": "The zones field"
 				}
 			]
 		},
-		"addressing address-maps list": {
-			"operationId": "addressing.address-maps.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/addressing/address_maps",
+		"addressing address-maps zones bulk-delete": {
+			"operationId": "addressing.address-maps.zones.bulk-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
 			"pathParams": [
 				{
 					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_map_id",
+					"flag": "address-map-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "zones",
+					"type": "string",
+					"required": true,
+					"description": "The zones field"
+				}
+			]
+		},
+		"addressing address-maps zones create": {
+			"operationId": "addressing.address-maps.zones.create",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_map_id",
+					"flag": "address-map-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "member_zone_id",
+					"flag": "member-zone-id",
+					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -3543,92 +3625,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"addressing address-maps zones delete-bulk": {
-			"operationId": "addressing.address-maps.zones.delete-bulk",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "address_map_id",
-					"flag": "address-map-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "zones",
-					"type": "string",
-					"required": true,
-					"description": "The zones field"
-				}
-			]
-		},
-		"addressing address-maps zones update": {
-			"operationId": "addressing.address-maps.zones.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "address_map_id",
-					"flag": "address-map-id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "member_zone_id",
-					"flag": "member-zone-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"addressing address-maps zones update-bulk": {
-			"operationId": "addressing.address-maps.zones.update-bulk",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "address_map_id",
-					"flag": "address-map-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "zones",
-					"type": "string",
-					"required": true,
-					"description": "The zones field"
-				}
-			]
 		},
 		"addressing leases list": {
 			"operationId": "addressing.leases.list",
@@ -7502,6 +7498,196 @@
 					"type": "number",
 					"required": false,
 					"description": "The score field"
+				}
+			]
+		},
+		"ai-gateway model-aliases create": {
+			"operationId": "ai-gateway.model-aliases.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/model_aliases",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "models",
+					"type": "string",
+					"required": true,
+					"description": "The models field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"model\": string, \"providers\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "routing-algorithm",
+					"type": "string",
+					"required": false,
+					"description": "The routing.algorithm field"
+				},
+				{
+					"name": "routing-mode",
+					"type": "string",
+					"required": false,
+					"description": "The routing.mode field"
+				}
+			]
+		},
+		"ai-gateway model-aliases delete": {
+			"operationId": "ai-gateway.model-aliases.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/model_aliases/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ai-gateway model-aliases get": {
+			"operationId": "ai-gateway.model-aliases.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/model_aliases/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ai-gateway model-aliases list": {
+			"operationId": "ai-gateway.model-aliases.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/model_aliases",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ai-gateway model-aliases update": {
+			"operationId": "ai-gateway.model-aliases.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/model_aliases/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"flag": "gateway-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "models",
+					"type": "string",
+					"required": true,
+					"description": "The models field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"model\": string, \"providers\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "routing-algorithm",
+					"type": "string",
+					"required": false,
+					"description": "The routing.algorithm field"
+				},
+				{
+					"name": "routing-mode",
+					"type": "string",
+					"required": false,
+					"description": "The routing.mode field"
 				}
 			]
 		},
@@ -15772,7 +15958,7 @@
 					"name": "filter-by-billable-metric-ids",
 					"type": "string",
 					"required": false,
-					"description": "Restrict results to rows whose `x_BillableMetricId` matches one of these billable metric ids (e.g. `workers_standard_requests`). Values must be unique."
+					"description": "Restrict results to rows whose `x_BillableMetricId` matches one of these billable metric ids (e.g. `workers_standard_requests`). Values must be unique. Cost billed under an archived billable metric carries that metric's catalog public id as `x_BillableMetricId` and is never matched by this filter; omit the filter to include it."
 				},
 				{
 					"name": "filter-by-product-family-ids",
@@ -21111,8 +21297,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"cache origin-cloud-regions bulk delete": {
-			"operationId": "cache.origin-cloud-regions.bulk.delete",
+		"cache origin-cloud-regions bulk-delete": {
+			"operationId": "cache.origin-cloud-regions.bulk-delete",
 			"httpMethod": "DELETE",
 			"path": "/zones/{zone_id}/origin/cloud_regions/batch",
 			"pathParams": [
@@ -21127,8 +21313,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"cache origin-cloud-regions bulk update": {
-			"operationId": "cache.origin-cloud-regions.bulk.update",
+		"cache origin-cloud-regions bulk-replace": {
+			"operationId": "cache.origin-cloud-regions.bulk-replace",
 			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/origin/cloud_regions/batch",
 			"pathParams": [
@@ -24201,9 +24387,9 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one requests get-request-list": {
-			"operationId": "cloudforce-one.requests.get-request-list",
-			"httpMethod": "GET",
+		"cloudforce-one requests create": {
+			"operationId": "cloudforce-one.requests.create",
+			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}",
 			"pathParams": [
 				{
@@ -24215,6 +24401,119 @@
 					"name": "project_type",
 					"flag": "project-type",
 					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "RFI description (optional). Defaults to an empty string when omitted."
+				},
+				{
+					"name": "event-id",
+					"type": "string",
+					"required": false,
+					"description": "Optional related event ID"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Optional metadata fields specific to the RFI type. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": unknown}."
+				},
+				{
+					"name": "priority",
+					"type": "string",
+					"required": false,
+					"description": "RFI priority. Four-level projects use `low`, `routine`, `high`, `urgent`; existing projects retain legacy `low`->routine compatibility. `medium`, `critical`, and `unknown` remain accepted legacy aliases. Defaults to `routine`."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Optional request type for the request"
+				},
+				{
+					"name": "subtype-id",
+					"type": "string",
+					"required": false,
+					"description": "Optional subtype ID"
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": false,
+					"description": "RFI title (optional). When omitted, the server generates a summary from the request type and readable ID."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "Traffic Light Protocol level. Canonical values are `clear`, `green`, `amber`, `amber-strict`, `red`, `purple`. `white` and `amber+strict` are accepted input aliases; responses always use the canonical spelling."
+				}
+			]
+		},
+		"cloudforce-one requests get": {
+			"operationId": "cloudforce-one.requests.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/{request_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "project_type",
+					"flag": "project-type",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"flag": "request-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests legal-response access-check": {
+			"operationId": "cloudforce-one.requests.legal-response.access-check",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/legal-response/access-check",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests list": {
+			"operationId": "cloudforce-one.requests.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "project_type",
+					"flag": "project-type",
 					"type": "string",
 					"required": true
 				}
@@ -24317,49 +24616,6 @@
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests get-request-read": {
-			"operationId": "cloudforce-one.requests.get-request-read",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/{request_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "project_type",
-					"flag": "project-type",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"flag": "request-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests legal-response access-check": {
-			"operationId": "cloudforce-one.requests.legal-response.access-check",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/legal-response/access-check",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -24595,10 +24851,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one requests post-request-create": {
-			"operationId": "cloudforce-one.requests.post-request-create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}",
+		"cloudforce-one requests quota get": {
+			"operationId": "cloudforce-one.requests.quota.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/quota",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -24614,60 +24870,32 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "RFI description (optional). Defaults to an empty string when omitted."
-				},
-				{
-					"name": "event-id",
-					"type": "string",
-					"required": false,
-					"description": "Optional related event ID"
-				},
-				{
-					"name": "metadata",
-					"type": "string",
-					"required": false,
-					"description": "Optional metadata fields specific to the RFI type. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": unknown}."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "RFI priority. Four-level projects use `low`, `routine`, `high`, `urgent`; existing projects retain legacy `low`->routine compatibility. `medium`, `critical`, and `unknown` remain accepted legacy aliases. Defaults to `routine`."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Optional request type for the request"
-				},
-				{
-					"name": "subtype-id",
-					"type": "string",
-					"required": false,
-					"description": "Optional subtype ID"
-				},
-				{
-					"name": "title",
-					"type": "string",
-					"required": false,
-					"description": "RFI title (optional). When omitted, the server generates a summary from the request type and readable ID."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "Traffic Light Protocol level. Canonical values are `clear`, `green`, `amber`, `amber-strict`, `red`, `purple`. `white` and `amber+strict` are accepted input aliases; responses always use the canonical spelling."
-				}
-			]
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
-		"cloudforce-one requests put-request-update": {
-			"operationId": "cloudforce-one.requests.put-request-update",
+		"cloudforce-one requests types list": {
+			"operationId": "cloudforce-one.requests.types.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/types",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "project_type",
+					"flag": "project-type",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests update": {
+			"operationId": "cloudforce-one.requests.update",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/{request_id}",
 			"pathParams": [
@@ -24742,49 +24970,6 @@
 					"description": "Traffic Light Protocol level. `white` and `amber+strict` are accepted input aliases; responses always use the canonical spelling."
 				}
 			]
-		},
-		"cloudforce-one requests quota get": {
-			"operationId": "cloudforce-one.requests.quota.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/quota",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "project_type",
-					"flag": "project-type",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests types list": {
-			"operationId": "cloudforce-one.requests.types.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/types",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "project_type",
-					"flag": "project-type",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"cloudforce-one requests user get": {
 			"operationId": "cloudforce-one.requests.user.get",
@@ -35272,8 +35457,28 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"dns settings account views create": {
-			"operationId": "dns.settings.account.views.create",
+		"dns usage account get": {
+			"operationId": "dns.usage.account.get",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/dns_records/usage",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns views create": {
+			"operationId": "dns.views.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/dns_settings/views",
 			"pathParams": [
@@ -35300,8 +35505,8 @@
 				}
 			]
 		},
-		"dns settings account views delete": {
-			"operationId": "dns.settings.account.views.delete",
+		"dns views delete": {
+			"operationId": "dns.views.delete",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/dns_settings/views/{view_id}",
 			"pathParams": [
@@ -35322,8 +35527,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"dns settings account views edit": {
-			"operationId": "dns.settings.account.views.edit",
+		"dns views edit": {
+			"operationId": "dns.views.edit",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/dns_settings/views/{view_id}",
 			"pathParams": [
@@ -35357,8 +35562,8 @@
 				}
 			]
 		},
-		"dns settings account views get": {
-			"operationId": "dns.settings.account.views.get",
+		"dns views get": {
+			"operationId": "dns.views.get",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/dns_settings/views/{view_id}",
 			"pathParams": [
@@ -35379,8 +35584,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"dns settings account views list": {
-			"operationId": "dns.settings.account.views.list",
+		"dns views list": {
+			"operationId": "dns.views.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/dns_settings/views",
 			"pathParams": [
@@ -35464,26 +35669,6 @@
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"dns usage account get": {
-			"operationId": "dns.usage.account.get",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/dns_records/usage",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -41015,6 +41200,325 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"feedback diagnose": {
+			"operationId": "feedback.diagnose",
+			"httpMethod": "GET",
+			"path": "/feedback/diagnosis",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"feedback send": {
+			"operationId": "feedback.send",
+			"httpMethod": "POST",
+			"path": "/feedback/send",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "actual",
+					"type": "string",
+					"required": false,
+					"description": "What happened instead."
+				},
+				{
+					"name": "agent-commands",
+					"type": "string",
+					"required": false,
+					"description": "Commands the agent ran. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"command\": string, \"duration_ms\"?: number, \"exit_code\"?: number, \"flags\"?: [string]}]. ? marks optional keys."
+				},
+				{
+					"name": "agent-docs-urls",
+					"type": "string",
+					"required": false,
+					"description": "Documentation the agent read."
+				},
+				{
+					"name": "agent-errors",
+					"type": "string",
+					"required": false,
+					"description": "Errors the agent hit. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"message\": string, \"code\"?: string, \"command\"?: string}]. ? marks optional keys."
+				},
+				{
+					"name": "agent-model",
+					"type": "string",
+					"required": false,
+					"description": "The model the agent used."
+				},
+				{
+					"name": "agent-name",
+					"type": "string",
+					"required": false,
+					"description": "The agent's name, such as `claude-code`."
+				},
+				{
+					"name": "agent-repro-steps",
+					"type": "string",
+					"required": false,
+					"description": "Steps to reproduce the problem."
+				},
+				{
+					"name": "agent-stats-duration-ms",
+					"type": "number",
+					"required": false,
+					"description": "How long the task took, in milliseconds."
+				},
+				{
+					"name": "agent-stats-retries",
+					"type": "number",
+					"required": false,
+					"description": "Retries made."
+				},
+				{
+					"name": "agent-stats-tool-calls",
+					"type": "number",
+					"required": false,
+					"description": "Tool calls made."
+				},
+				{
+					"name": "agent-stats-turns",
+					"type": "number",
+					"required": false,
+					"description": "Conversation turns."
+				},
+				{
+					"name": "agent-version",
+					"type": "string",
+					"required": false,
+					"description": "The agent's version."
+				},
+				{
+					"name": "attempted",
+					"type": "string",
+					"required": false,
+					"description": "What was tried."
+				},
+				{
+					"name": "client-agent-detected",
+					"type": "string",
+					"required": false,
+					"description": "The coding agent the CLI detected, such as `claude-code`."
+				},
+				{
+					"name": "client-agent-model-detected",
+					"type": "string",
+					"required": false,
+					"description": "The model the CLI detected."
+				},
+				{
+					"name": "client-arch",
+					"type": "string",
+					"required": false,
+					"description": "The CPU architecture."
+				},
+				{
+					"name": "client-cli-delegated",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the command was delegated to another tool."
+				},
+				{
+					"name": "client-cli-mode",
+					"type": "string",
+					"required": false,
+					"description": "How the CLI was run."
+				},
+				{
+					"name": "client-cli-version",
+					"type": "string",
+					"required": false,
+					"description": "The cf CLI version."
+				},
+				{
+					"name": "client-error-message",
+					"type": "string",
+					"required": false,
+					"description": "The error message."
+				},
+				{
+					"name": "client-error-stack",
+					"type": "string",
+					"required": false,
+					"description": "The stack trace."
+				},
+				{
+					"name": "client-error-telemetry-message",
+					"type": "string",
+					"required": false,
+					"description": "The error message as recorded by telemetry."
+				},
+				{
+					"name": "client-is-ci",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the CLI ran in CI."
+				},
+				{
+					"name": "client-is-interactive",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether the CLI ran in an interactive terminal."
+				},
+				{
+					"name": "client-last-command-args-used",
+					"type": "string",
+					"required": false,
+					"description": "The flag names used, without values."
+				},
+				{
+					"name": "client-last-command-command",
+					"type": "string",
+					"required": false,
+					"description": "The command path, such as `workers deploy`."
+				},
+				{
+					"name": "client-last-command-error-codes",
+					"type": "string",
+					"required": false,
+					"description": "Cloudflare API error codes returned."
+				},
+				{
+					"name": "client-last-command-error-type",
+					"type": "string",
+					"required": false,
+					"description": "The kind of error, if any."
+				},
+				{
+					"name": "client-last-command-exit-code",
+					"type": "number",
+					"required": false,
+					"description": "The command's exit code."
+				},
+				{
+					"name": "client-last-command-http-status",
+					"type": "number",
+					"required": false,
+					"description": "The HTTP status of the failed API call, if any."
+				},
+				{
+					"name": "client-last-command-outcome",
+					"type": "string",
+					"required": false,
+					"description": "How the command ended."
+				},
+				{
+					"name": "client-node-major",
+					"type": "number",
+					"required": false,
+					"description": "The Node.js major version."
+				},
+				{
+					"name": "client-os",
+					"type": "string",
+					"required": false,
+					"description": "The operating system."
+				},
+				{
+					"name": "client-os-release",
+					"type": "string",
+					"required": false,
+					"description": "The operating system release."
+				},
+				{
+					"name": "client-package-manager",
+					"type": "string",
+					"required": false,
+					"description": "The package manager that installed the CLI."
+				},
+				{
+					"name": "client-telemetry-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether CLI telemetry was on."
+				},
+				{
+					"name": "command",
+					"type": "string",
+					"required": false,
+					"description": "The cf command it is about, such as `workers deploy`."
+				},
+				{
+					"name": "expected",
+					"type": "string",
+					"required": false,
+					"description": "What was expected to happen."
+				},
+				{
+					"name": "fields",
+					"type": "string",
+					"required": false,
+					"description": "Any other details as string values, keyed by lowercase names such as `region`. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": string}."
+				},
+				{
+					"name": "impact",
+					"type": "string",
+					"required": false,
+					"description": "How much it got in the way."
+				},
+				{
+					"name": "message",
+					"type": "string",
+					"required": false,
+					"description": "The feedback, in the user's or agent's words."
+				},
+				{
+					"name": "product",
+					"type": "string",
+					"required": false,
+					"description": "The Cloudflare product it is about, such as `workers` or `r2`."
+				},
+				{
+					"name": "rating",
+					"type": "number",
+					"required": false,
+					"description": "An overall rating from 1 to 5."
+				},
+				{
+					"name": "schema-version",
+					"type": "number",
+					"required": true,
+					"description": "Version of this request format."
+				},
+				{
+					"name": "sent-at",
+					"type": "string",
+					"required": false,
+					"description": "When the client sent the feedback."
+				},
+				{
+					"name": "sentiment",
+					"type": "string",
+					"required": false,
+					"description": "The overall sentiment."
+				},
+				{
+					"name": "submission-id",
+					"type": "string",
+					"required": true,
+					"description": "A UUID chosen by the client. Retrying with the same ID does not store the feedback twice."
+				},
+				{
+					"name": "suggestion",
+					"type": "string",
+					"required": false,
+					"description": "What would have helped."
+				},
+				{
+					"name": "task",
+					"type": "string",
+					"required": false,
+					"description": "What the user was trying to do."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": false,
+					"description": "What kind of feedback this is."
+				}
+			]
+		},
 		"field-extractors delete": {
 			"operationId": "field-extractors.delete",
 			"httpMethod": "DELETE",
@@ -45785,38 +46289,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"intel indicator-feeds permissions create": {
-			"operationId": "intel.indicator-feeds.permissions.create",
+		"intel indicator-feeds permissions grant": {
+			"operationId": "intel.indicator-feeds.permissions.grant",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/intel/indicator-feeds/permissions/add",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "account-tag",
-					"type": "string",
-					"required": false,
-					"description": "The Cloudflare account tag of the account to change permissions on"
-				},
-				{
-					"name": "feed-id",
-					"type": "number",
-					"required": false,
-					"description": "The ID of the feed to add/remove permissions on"
-				}
-			]
-		},
-		"intel indicator-feeds permissions delete": {
-			"operationId": "intel.indicator-feeds.permissions.delete",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/intel/indicator-feeds/permissions/remove",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -45855,6 +46331,34 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"intel indicator-feeds permissions revoke": {
+			"operationId": "intel.indicator-feeds.permissions.revoke",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/intel/indicator-feeds/permissions/remove",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "account-tag",
+					"type": "string",
+					"required": false,
+					"description": "The Cloudflare account tag of the account to change permissions on"
+				},
+				{
+					"name": "feed-id",
+					"type": "number",
+					"required": false,
+					"description": "The ID of the feed to add/remove permissions on"
+				}
+			]
 		},
 		"intel indicator-feeds providers create": {
 			"operationId": "intel.indicator-feeds.providers.create",
@@ -60765,28 +61269,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"o11y telemetry heartbeat": {
-			"operationId": "o11y.telemetry.heartbeat",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/telemetry/live-tail/heartbeat",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "script-id",
-					"type": "string",
-					"required": false,
-					"description": "The scriptId field"
-				}
-			]
-		},
 		"o11y telemetry keys": {
 			"operationId": "o11y.telemetry.keys",
 			"httpMethod": "POST",
@@ -60854,40 +61336,6 @@
 					"type": "number",
 					"required": false,
 					"description": "The to field"
-				}
-			]
-		},
-		"o11y telemetry live-tail": {
-			"operationId": "o11y.telemetry.live-tail",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/telemetry/live-tail",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "filter-combination",
-					"type": "string",
-					"required": false,
-					"description": "Set a flag to describe how to combine the filters on the query."
-				},
-				{
-					"name": "filters",
-					"type": "string",
-					"required": false,
-					"description": "Apply filters to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"filterCombination\": \"and\" | \"or\" | \"AND\" | ...more, \"filters\": [{...}], \"kind\": \"group\"} | ...more)]."
-				},
-				{
-					"name": "script-id",
-					"type": "string",
-					"required": false,
-					"description": "The scriptId field"
 				}
 			]
 		},
@@ -64301,10 +64749,94 @@
 				}
 			]
 		},
+		"pay-per-use agreements create": {
+			"operationId": "pay-per-use.agreements.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/pay-per-use/agreements",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Offered price per use in USD microcents. Omit it or send null when no price is agreed yet."
+				},
+				{
+					"name": "publisher-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifier of the publisher the offer is made to."
+				}
+			]
+		},
+		"pay-per-use agreements list": {
+			"operationId": "pay-per-use.agreements.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/pay-per-use/agreements",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"pay-per-use enabled-domains list": {
 			"operationId": "pay-per-use.enabled-domains.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pay-per-use/enabled-domains",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use enabled-publishers list": {
+			"operationId": "pay-per-use.enabled-publishers.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/pay-per-use/enabled-publishers",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -66627,6 +67159,12 @@
 				}
 			],
 			"queryParams": [
+				{
+					"name": "queue_id",
+					"flag": "queue-id",
+					"type": "string",
+					"required": false
+				},
 				{
 					"name": "page",
 					"flag": "page",
@@ -86175,8 +86713,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"resource-sharing excluded-recipients update": {
-			"operationId": "resource-sharing.excluded-recipients.update",
+		"resource-sharing excluded-recipients replace": {
+			"operationId": "resource-sharing.excluded-recipients.replace",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"pathParams": [
@@ -86458,8 +86996,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"resource-sharing recipients update": {
-			"operationId": "resource-sharing.recipients.update",
+		"resource-sharing recipients replace": {
+			"operationId": "resource-sharing.recipients.replace",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"pathParams": [
@@ -95659,38 +96197,7 @@
 					"required": true
 				}
 			],
-			"queryParams": [
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "order",
-					"flag": "order",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "direction",
-					"flag": "direction",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "filter",
-					"flag": "filter",
-					"type": "string",
-					"required": false
-				}
-			],
+			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
@@ -95924,12 +96431,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Do not show any Cloudflare branding on the widget (ENT only).\n"
-				},
-				{
-					"name": "region",
-					"type": "string",
-					"required": false,
-					"description": "Region where this widget can be used. This cannot be changed after creation.\n"
 				}
 			]
 		},
@@ -98382,35 +98883,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"vectorize delete-by-ids": {
-			"operationId": "vectorize.delete-by-ids",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/delete_by_ids",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "index_name",
-					"flag": "index-name",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "ids",
-					"type": "string",
-					"required": false,
-					"description": "A list of vector identifiers to delete from the index indicated by the path."
-				}
-			]
-		},
 		"vectorize get": {
 			"operationId": "vectorize.get",
 			"httpMethod": "GET",
@@ -98432,35 +98904,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"vectorize get-by-ids": {
-			"operationId": "vectorize.get-by-ids",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/get_by_ids",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "index_name",
-					"flag": "index-name",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "ids",
-					"type": "string",
-					"required": false,
-					"description": "A list of vector identifiers to retrieve from the index indicated by the path."
-				}
-			]
 		},
 		"vectorize info": {
 			"operationId": "vectorize.info",
@@ -98484,35 +98927,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"vectorize insert": {
-			"operationId": "vectorize.insert",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/insert",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "index_name",
-					"flag": "index-name",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "unparsable-behavior",
-					"flag": "unparsable-behavior",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
 		"vectorize list": {
 			"operationId": "vectorize.list",
 			"httpMethod": "GET",
@@ -98528,43 +98942,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"vectorize list-vectors": {
-			"operationId": "vectorize.list-vectors",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/list",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "index_name",
-					"flag": "index-name",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "count",
-					"flag": "result-count",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"flag": "cursor",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"vectorize metadata-index create": {
-			"operationId": "vectorize.metadata-index.create",
+		"vectorize metadata-indexes create": {
+			"operationId": "vectorize.metadata-indexes.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/create",
 			"pathParams": [
@@ -98598,8 +98977,8 @@
 				}
 			]
 		},
-		"vectorize metadata-index delete": {
-			"operationId": "vectorize.metadata-index.delete",
+		"vectorize metadata-indexes delete": {
+			"operationId": "vectorize.metadata-indexes.delete",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/delete",
 			"pathParams": [
@@ -98627,8 +99006,8 @@
 				}
 			]
 		},
-		"vectorize metadata-index list": {
-			"operationId": "vectorize.metadata-index.list",
+		"vectorize metadata-indexes list": {
+			"operationId": "vectorize.metadata-indexes.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/list",
 			"pathParams": [
@@ -98648,8 +99027,127 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"vectorize query": {
-			"operationId": "vectorize.query",
+		"vectorize vectors bulk-delete": {
+			"operationId": "vectorize.vectors.bulk-delete",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/delete_by_ids",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "index_name",
+					"flag": "index-name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ids",
+					"type": "string",
+					"required": false,
+					"description": "A list of vector identifiers to delete from the index indicated by the path."
+				}
+			]
+		},
+		"vectorize vectors bulk-get": {
+			"operationId": "vectorize.vectors.bulk-get",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/get_by_ids",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "index_name",
+					"flag": "index-name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ids",
+					"type": "string",
+					"required": false,
+					"description": "A list of vector identifiers to retrieve from the index indicated by the path."
+				}
+			]
+		},
+		"vectorize vectors insert": {
+			"operationId": "vectorize.vectors.insert",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/insert",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "index_name",
+					"flag": "index-name",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "unparsable-behavior",
+					"flag": "unparsable-behavior",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"vectorize vectors list": {
+			"operationId": "vectorize.vectors.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/list",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "index_name",
+					"flag": "index-name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "count",
+					"flag": "result-count",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"vectorize vectors query": {
+			"operationId": "vectorize.vectors.query",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/query",
 			"pathParams": [
@@ -98701,8 +99199,8 @@
 				}
 			]
 		},
-		"vectorize upsert": {
-			"operationId": "vectorize.upsert",
+		"vectorize vectors upsert": {
+			"operationId": "vectorize.vectors.upsert",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/upsert",
 			"pathParams": [
@@ -99762,8 +100260,8 @@
 				}
 			]
 		},
-		"waiting-rooms rules get": {
-			"operationId": "waiting-rooms.rules.get",
+		"waiting-rooms rules list": {
+			"operationId": "waiting-rooms.rules.list",
 			"httpMethod": "GET",
 			"path": "/zones/{zone_id}/waiting_rooms/{waiting_room_id}/rules",
 			"pathParams": [
@@ -99776,7 +100274,6 @@
 				{
 					"name": "waiting_room_id",
 					"flag": "waiting-room-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -101349,16 +101846,16 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "code-update-strategy-mode",
+					"name": "durable-objects-code-update-mode",
 					"type": "string",
 					"required": false,
-					"description": "Variant descriptions:\n- `immediate`: Apply Durable Object code updates immediately.\n- `deferred`: Allow active Durable Objects to hibernate before updating their code."
+					"description": "How to apply Durable Object code updates. `immediate` resets active objects and applies the new code right away. `deferred` lets active objects keep running their current code until they hibernate or the maximum delay passes."
 				},
 				{
-					"name": "code-update-strategy-max-delay",
+					"name": "durable-objects-code-update-max-delay",
 					"type": "number",
 					"required": false,
-					"description": "Set the maximum number of seconds to wait before forcing the update. When omitted, the default maximum delay applies."
+					"description": "Maximum number of seconds, up to 86400, that an active Durable Object can keep running its current code before it resets and adopts the new code. Only valid with `deferred`. When omitted, the default maximum delay applies."
 				},
 				{
 					"name": "strategy",
@@ -117941,7 +118438,7 @@
 					"name": "validity-period-days",
 					"type": "number",
 					"required": false,
-					"description": "Sets the certificate validity period in days (range: 1-10,950 days / ~30 years). Defaults to 1,825 days (5 years). **Important**: This field is only settable during the certificate creation.  Certificates becomes immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle."
+					"description": "Sets the certificate validity period in days (range: 1-10,950 days / ~30 years). Defaults to 1,825 days (5 years). **Important**: This field is only settable during the certificate creation. Certificates becomes immutable after creation - use the `/activate` and `/deactivate` endpoints to manage certificate lifecycle."
 				}
 			]
 		},
@@ -118218,7 +118715,7 @@
 					"name": "settings-inspection-mode",
 					"type": "string",
 					"required": false,
-					"description": "Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic."
+					"description": "Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic."
 				},
 				{
 					"name": "settings-max-ttl-secs",
@@ -118465,7 +118962,7 @@
 					"name": "settings-inspection-mode",
 					"type": "string",
 					"required": false,
-					"description": "Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic."
+					"description": "Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic."
 				},
 				{
 					"name": "settings-max-ttl-secs",

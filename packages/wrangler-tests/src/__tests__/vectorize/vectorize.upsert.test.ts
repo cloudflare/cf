@@ -93,7 +93,9 @@ describe("dataset upsert", () => {
 			)
 		);
 
-		await runWrangler(`vectorize insert my-index --file vectors.ndjson`);
+		await runWrangler(
+			`vectorize vectors insert my-index --file vectors.ndjson`
+		);
 
 		expect(insertRequestCount).toBe(1);
 		expect(
@@ -143,7 +145,9 @@ describe("dataset upsert", () => {
 			)
 		);
 
-		await runWrangler(`vectorize upsert my-index --file vectors.ndjson`);
+		await runWrangler(
+			`vectorize vectors upsert my-index --file vectors.ndjson`
+		);
 
 		expect(upsertRequestCount).toBe(1);
 		expect(
@@ -184,7 +188,9 @@ describe("dataset upsert", () => {
 			})
 		);
 
-		await runWrangler(`vectorize insert my-index --file vectors.ndjson`);
+		await runWrangler(
+			`vectorize vectors insert my-index --file vectors.ndjson`
+		);
 
 		expect(JSON.parse(std.out)).toEqual({ mutationId });
 		expect(std.warn).toBe("");
@@ -215,7 +221,9 @@ describe("dataset upsert", () => {
 			})
 		);
 
-		await runWrangler(`vectorize upsert my-index --file vectors.ndjson`);
+		await runWrangler(
+			`vectorize vectors upsert my-index --file vectors.ndjson`
+		);
 
 		expect(JSON.parse(std.out)).toEqual({ mutationId });
 		expect(std.warn).toBe("");
@@ -230,7 +238,9 @@ describe("dataset upsert", () => {
 	// See `test_bugs/vectorize-file-bare-enoent.md`.
 	it("should reject an invalid file param", async ({ expect }) => {
 		await expect(
-			runWrangler("vectorize upsert my-index --file invalid_vectors.ndjson")
+			runWrangler(
+				"vectorize vectors upsert my-index --file invalid_vectors.ndjson"
+			)
 		).rejects.toThrowErrorMatchingInlineSnapshot(
 			`[Error: Cannot read invalid or empty file: invalid_vectors.ndjson]`
 		);
@@ -243,7 +253,9 @@ describe("dataset upsert", () => {
 		writeFileSync("empty_vectors.ndjson", "");
 
 		await expect(
-			runWrangler("vectorize upsert my-index --file empty_vectors.ndjson")
+			runWrangler(
+				"vectorize vectors upsert my-index --file empty_vectors.ndjson"
+			)
 		).rejects.toThrowErrorMatchingInlineSnapshot(
 			`[Error: Cannot read invalid or empty file: empty_vectors.ndjson]`
 		);

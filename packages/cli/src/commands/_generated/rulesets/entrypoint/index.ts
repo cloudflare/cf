@@ -9,7 +9,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "entrypoint",
-	describe: "Operations for entrypoint",
+	describe:
+		"The entry point ruleset of a phase, evaluated when the phase runs (e.g. http_request_firewall_custom)",
 
 	builder: (yargs) => {
 		return yargs

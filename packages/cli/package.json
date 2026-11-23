@@ -113,7 +113,7 @@
 		"yargs": "18.2.0"
 	},
 	"config": {
-		"forgeOpenApiVersion": "2b2a4d864560ba802f264202316ec9eaf8595dd6"
+		"forgeOpenApiVersion": "4a9d37b27a68d4c7bc23d71600b0b29b61f6c0fd"
 	},
 	"engines": {
 		"node": "^22.23.0 || ^24.22.0 || ^26.12.0"

@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 web3 hostnames ipfs-universal-paths content-lists entries create <identifier>\n\nCreate IPFS Universal Path Gateway Content List Entry"
+			"$0 web3 hostnames ipfs-universal-paths content-lists entries create <identifier>\n\nCreates a new entry in an IPFS Universal Path Gateway content list."
 		)
 		.positional("identifier", {
 			type: "string",

@@ -13,7 +13,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "hostnames",
-	describe: "Operations for hostnames",
+	describe:
+		"Web3 gateway hostnames with IPFS Universal Path content list management",
 
 	builder: (yargs) => {
 		return yargs

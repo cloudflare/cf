@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "web3",
-	describe: "web3",
+	describe:
+		"Web3 gateways — serve IPFS and Ethereum content through custom hostnames on Cloudflare",
 
 	builder: (yargs) => {
 		return yargs

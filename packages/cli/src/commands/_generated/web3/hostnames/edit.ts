@@ -16,7 +16,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 web3 hostnames edit <identifier>\n\nEdit Web3 Hostname")
+		.usage(
+			"$0 web3 hostnames edit <identifier>\n\nUpdates a Web3 hostname configuration."
+		)
 		.positional("identifier", {
 			type: "string",
 			description: "Specify the identifier of the hostname.",

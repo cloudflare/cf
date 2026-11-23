@@ -279,7 +279,7 @@ describe("cf auth device login", () => {
 		`);
 	});
 
-	it("re-authenticates when requesting new scopes on an existing login without --force", async () => {
+	it("re-authenticates when replacing scopes on an existing login without --force", async () => {
 		sharedAuth.validToken = "valid-token";
 		sharedAuth.credentials = {
 			oauth_token: "valid-token",
@@ -295,11 +295,27 @@ describe("cf auth device login", () => {
 				scopes: ["account:read"],
 			})
 		);
-		expect(std.err).toContain("Re-authenticating with new scopes...");
+		expect(std.err).toContain("Re-authenticating with requested scopes...");
 		expect(std.err).toContain("Starting OAuth login flow...");
 	});
 
-	it("rejects invalid scope names on an existing login before checking missing scopes", async () => {
+	it("re-authenticates when requesting fewer scopes on an existing login without --force", async () => {
+		sharedAuth.validToken = "valid-token";
+		sharedAuth.credentials = {
+			oauth_token: "valid-token",
+			scopes: ["workers:write", "account:read", "offline_access"],
+		};
+
+		await runCf(["auth", "login", "--no-browser", "--scopes", "account:read"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(sharedAuth.login).toHaveBeenCalledWith(
+			expect.anything(),
+			expect.objectContaining({ scopes: ["account:read"] })
+		);
+	});
+
+	it("rejects invalid scope names before comparing with the existing login", async () => {
 		sharedAuth.validToken = "valid-token";
 		sharedAuth.credentials = {
 			oauth_token: "valid-token",
@@ -311,14 +327,22 @@ describe("cf auth device login", () => {
 		).rejects.toThrow("Invalid cf OAuth scope(s): workerz:write.");
 	});
 
-	it("succeeds when existing login already holds the requested scopes without --force", async () => {
+	it("reuses an existing login with equivalent scopes regardless of order or duplicates", async () => {
 		sharedAuth.validToken = "valid-token";
 		sharedAuth.credentials = {
 			oauth_token: "valid-token",
-			scopes: ["workers:write"],
+			scopes: ["workers:write", "account:read", "offline_access"],
 		};
 
-		await runCf(["auth", "login", "--no-browser", "--scopes", "workers:write"]);
+		await runCf([
+			"auth",
+			"login",
+			"--no-browser",
+			"--scopes",
+			"account:read",
+			"workers:write",
+			"account:read",
+		]);
 
 		expect(sharedAuth.login).not.toHaveBeenCalled();
 		expect(std.err).toContain("You are already logged in.");

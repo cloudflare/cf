@@ -117,13 +117,17 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 			const validToken = await getValidToken();
 			if (validToken) {
 				const state = readAuthCredentials();
-				const currentScopes = new Set(state?.scopes ?? []);
-				const hasNewScopes =
-					argv.scopes !== undefined &&
-					argv.scopes.length > 0 &&
-					argv.scopes.some((scope) => !currentScopes.has(scope));
+				const currentScopes = new Set(state?.scopes);
+				currentScopes.delete("offline_access");
+				const requestedScopes = argv.scopes?.length
+					? new Set(argv.scopes)
+					: undefined;
+				const scopesChanged =
+					requestedScopes !== undefined &&
+					(requestedScopes.size !== currentScopes.size ||
+						[...requestedScopes].some((scope) => !currentScopes.has(scope)));
 
-				if (!hasNewScopes) {
+				if (!scopesChanged) {
 					const lines = [
 						"You are already logged in.",
 						`${theme.info("Config file:")} ${theme.muted(getConfigPath())}`,
@@ -142,9 +146,7 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 					return;
 				}
 
-				// The user requested scopes not present in existing credentials;
-				// trigger a fresh login flow with the new scopes without requiring --force.
-				log.info("Re-authenticating with new scopes...");
+				log.info("Re-authenticating with requested scopes...");
 			} else {
 				// Token refresh failed — proceed with a fresh login.
 				log.warn(

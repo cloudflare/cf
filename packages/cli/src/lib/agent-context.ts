@@ -185,7 +185,8 @@ const detectCursorAgent: AgentDetector = (environment) => {
 };
 
 // Claude Code announces itself as `claude-code_<major>-<minor>-<patch>_agent`.
-const CLAUDE_CODE_ANNOUNCEMENT = /^claude-code(?:_(\d+(?:-\d+)*))?(?:_|$)/;
+const CLAUDE_CODE_ANNOUNCEMENT =
+	/^claude-code(?:_(\d+-\d+-\d+)_agent|_agent)?$/;
 
 // Evidence: Anthropic Claude Code child-process environment. Verified 2026-09-02.
 // AI_AGENT since 2.1.120: https://github.com/anthropics/claude-code/blob/50cdc7005318f630144c28217d1dada32e6ba762/CHANGELOG.md#L8359

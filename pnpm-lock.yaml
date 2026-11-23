@@ -304,8 +304,8 @@ importers:
         specifier: 0.29.0
         version: 0.29.0(@types/node@26.6.6)(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
       '@cloudflare/forge':
-        specifier: 0.2.0
-        version: 0.2.0(@bytecodealliance/jco@1.42.0)
+        specifier: 0.3.0
+        version: 0.3.0(@bytecodealliance/jco@1.42.0)
       '@cloudflare/workers-auth':
         specifier: 0.18.6
         version: 0.18.6(msw@3.0.5(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
@@ -742,38 +742,38 @@ packages:
   '@cloudflare/deploy-helpers@0.29.0':
     resolution: {integrity: sha512-GBw0JIiJfjTw8ilarBVPIK0r520l1uP6T92CBhk3RDiUPcp9U+yk6V7KijqmzlEyGrT2InmJ8aNX/KiomlDc1A==}
 
-  '@cloudflare/forge-darwin-arm64@0.2.0':
-    resolution: {integrity: sha512-y9HpyHYUXwQ8rQm+eZ06bY2LtJ3gxO3CwHtcTqaIg8tRMddAFDreIWxnfoP5Ncz7xaaaWHagnxfYl/H1nbavUA==}
+  '@cloudflare/forge-darwin-arm64@0.3.0':
+    resolution: {integrity: sha512-x4st6CAMjyZ16QtY/JOkhfd5q2AvZyhNiSx2NMV5GD5d5xw+/Is7dbpa/6jSsb6mG9FYOCjiDTbdQZY3D84ECg==}
     cpu: [arm64]
     os: [darwin]
 
-  '@cloudflare/forge-darwin-x64@0.2.0':
-    resolution: {integrity: sha512-+ueT98BcAlM9HRf4yQUWPxLnhvDMCdXlBE30SUmfUqo0Nq3qxDdWHSE6S8pe2RK9WwDLeghbo/8dbbVLzXSQ+g==}
+  '@cloudflare/forge-darwin-x64@0.3.0':
+    resolution: {integrity: sha512-ikJh+vhj+ZOSAY1SOREnhGjAsAIGHryjiKrtzew+QoKUqMiFMFnvIPzno+N0hi4cCV4QkvZasGxDmn2HYcz04Q==}
     cpu: [x64]
     os: [darwin]
 
-  '@cloudflare/forge-linux-arm64@0.2.0':
-    resolution: {integrity: sha512-MWoacSBfmzJWgHd5o/3Vy1vddKA51TKfF3EBwFcvzkDYPlCAyDUP/LVI1mP9tL81DyCqNxUe/tjMv/iekMpLjQ==}
+  '@cloudflare/forge-linux-arm64@0.3.0':
+    resolution: {integrity: sha512-IVfOLdZwj1/jCJ3EtVXEMfiOfStfNOh38PicMXKzmnT5pes2PHMpFSD9Td3XVNXIEZWEFgRSZJxez+JujgTXww==}
     cpu: [arm64]
     os: [linux]
 
-  '@cloudflare/forge-linux-x64@0.2.0':
-    resolution: {integrity: sha512-DsC6ymbeWFqYnLkivm/u0KAcUZ2yjd10aLL679MY/zlUXEFllgTnjRmA3vsrSnMwPDlZxm84LTO8ffKEGGR88Q==}
+  '@cloudflare/forge-linux-x64@0.3.0':
+    resolution: {integrity: sha512-9b1MaYc8ZfIYXG213zgva+FvqzBYfKozi7qtNsp8btrAur3+SrM8R+wNG510aGdC7W9a8TlgxEmhkRsfaIgh0w==}
     cpu: [x64]
     os: [linux]
 
-  '@cloudflare/forge-win32-arm64@0.2.0':
-    resolution: {integrity: sha512-dKu8+hc7ZSgYxI/SxgtgH4ojXOeTnPCRkd9mVCfeS7G6OvNIBt0I8kmAXny48JJouJmkfalbkMEAeVYXEhbX+g==}
+  '@cloudflare/forge-win32-arm64@0.3.0':
+    resolution: {integrity: sha512-91Pm0piO5uBE4aRtBik/Sd/Z1K2OryDDd+NXfQsYCs+VPQYu0eLsbdnKK+NVbHaMC4XzLPmRUswzNF4V8YpAPw==}
     cpu: [arm64]
     os: [win32]
 
-  '@cloudflare/forge-win32-x64@0.2.0':
-    resolution: {integrity: sha512-lpzGHcFLJDYny1hj3Ke/m6VVqP1vIJw4VnOcpdvTSpCo/M3P+P2VKFFrssxKAKf4q6y7IZrssGi5uoztB/70/g==}
+  '@cloudflare/forge-win32-x64@0.3.0':
+    resolution: {integrity: sha512-8x0jNunYzwUmo7FwwYeGoEv1K8+4CM6z3gV2/2MMsdmEDZRdztt8Ux50YfHNMv2w3rVglpZEP3Hw9iorTkVB6A==}
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/forge@0.2.0':
-    resolution: {integrity: sha512-EN8NAKt82nvdomOVoGJzYTpWglyWBC2IAdb1/jlYdPLjgQ4Lwsm+q/zXyL1Vj2t4uQBtmsYgRPjNmVVBvKYxLg==}
+  '@cloudflare/forge@0.3.0':
+    resolution: {integrity: sha512-jAD61Rr0tBntk19CVXcCtsK2trUhOw/iaAE0YB604y7V2LNyJwd90wRXiidvhfhT/FcxV5jiPCxzcjmRkKAzCg==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -4158,10 +4158,12 @@ packages:
   yuku-core@0.19.0:
     resolution: {integrity: sha512-kYK9e1XdfirNhkipzW0wmMcSWcVF/CWnuugodfVYRCUwvoBefweL9HzB96OiKEhsx78V5WbUxbJqlizMX869Qg==}
     engines: {node: '>=14.18.0'}
+    deprecated: 'Yuku is now one package with one core. Use "yuku" instead: https://yuku.fyi/javascript/. Existing installs keep working but get no more fixes.'
 
   yuku-parser@0.19.0:
     resolution: {integrity: sha512-XrBh9ZiQK5mJVRxZBAvD6LwRyAYrK3MFtH3+onyuxFL5hFD44EC3QOmIC1FjTj6H2MMwq46/NAI+NZxLZPZgxg==}
     engines: {node: '>=14.18.0'}
+    deprecated: 'Yuku is now one package with one core. Use "yuku" instead: https://yuku.fyi/javascript/. Existing installs keep working but get no more fixes.'
 
   zod@4.6.6:
     resolution: {integrity: sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA==}
@@ -4563,33 +4565,33 @@ snapshots:
       - utf-8-validate
       - vitest
 
-  '@cloudflare/forge-darwin-arm64@0.2.0':
+  '@cloudflare/forge-darwin-arm64@0.3.0':
     optional: true
 
-  '@cloudflare/forge-darwin-x64@0.2.0':
+  '@cloudflare/forge-darwin-x64@0.3.0':
     optional: true
 
-  '@cloudflare/forge-linux-arm64@0.2.0':
+  '@cloudflare/forge-linux-arm64@0.3.0':
     optional: true
 
-  '@cloudflare/forge-linux-x64@0.2.0':
+  '@cloudflare/forge-linux-x64@0.3.0':
     optional: true
 
-  '@cloudflare/forge-win32-arm64@0.2.0':
+  '@cloudflare/forge-win32-arm64@0.3.0':
     optional: true
 
-  '@cloudflare/forge-win32-x64@0.2.0':
+  '@cloudflare/forge-win32-x64@0.3.0':
     optional: true
 
-  '@cloudflare/forge@0.2.0(@bytecodealliance/jco@1.42.0)':
+  '@cloudflare/forge@0.3.0(@bytecodealliance/jco@1.42.0)':
     optionalDependencies:
       '@bytecodealliance/jco': 1.42.0
-      '@cloudflare/forge-darwin-arm64': 0.2.0
-      '@cloudflare/forge-darwin-x64': 0.2.0
-      '@cloudflare/forge-linux-arm64': 0.2.0
-      '@cloudflare/forge-linux-x64': 0.2.0
-      '@cloudflare/forge-win32-arm64': 0.2.0
-      '@cloudflare/forge-win32-x64': 0.2.0
+      '@cloudflare/forge-darwin-arm64': 0.3.0
+      '@cloudflare/forge-darwin-x64': 0.3.0
+      '@cloudflare/forge-linux-arm64': 0.3.0
+      '@cloudflare/forge-linux-x64': 0.3.0
+      '@cloudflare/forge-win32-arm64': 0.3.0
+      '@cloudflare/forge-win32-x64': 0.3.0
 
   '@cloudflare/kv-asset-handler@0.5.1': {}
 

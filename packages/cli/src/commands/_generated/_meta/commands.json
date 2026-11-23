@@ -47338,7 +47338,7 @@
 					"name": "deletes",
 					"type": "string",
 					"required": false,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"id\"?: string}]. ? marks optional keys."
+					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"id\": string}]."
 				},
 				{
 					"name": "patches",
@@ -48172,7 +48172,7 @@
 					"name": "rejects",
 					"type": "string",
 					"required": false,
-					"description": "The rejects field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"id\"?: string}]. ? marks optional keys."
+					"description": "The rejects field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"id\": string}]."
 				},
 				{
 					"name": "dry-run",
@@ -49969,7 +49969,7 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "DNS Firewall cluster name"
 				},
 				{
@@ -49994,7 +49994,7 @@
 				{
 					"name": "upstream-ips",
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "The upstream_ips field"
 				},
 				{
@@ -120827,20 +120827,20 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "The human-readable name of the ruleset."
 				},
 				{
 					"name": "kind",
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "The kind of the ruleset.",
 					"enum": ["managed", "custom", "root", "zone"]
 				},
 				{
 					"name": "phase",
 					"type": "string",
-					"required": false,
+					"required": true,
 					"description": "The phase of the ruleset.",
 					"enum": [
 						"ddos_l4",

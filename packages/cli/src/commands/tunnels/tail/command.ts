@@ -20,7 +20,7 @@ function validateUUID(value: string, label: string): string {
 	return value;
 }
 
-interface TunnelTailArgs extends CommonYargsOptions {
+export interface TunnelTailArgs extends CommonYargsOptions {
 	"tunnel-id"?: string;
 	"connector-id"?: string;
 	event?: (typeof EVENTS)[number][];

@@ -140,7 +140,7 @@ pnpm build
             ├─ cf#task:generate:plugin
             │    └─ forge-plugin build generator/index.ts -o generator/cli.wasm
             └─ cf#task:generate: tsx packages/cli/generate.ts
-                 ├─ fetch pinned Forge OpenAPI release (or preview bundle)
+                 ├─ fetch pinned cloudflare/api-schemas openapi.json (or local bundle)
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
                  ├─ rm -rf _generated/
                  ├─ forge normalize --leave-old-extensions -
@@ -376,7 +376,7 @@ Shell-completion scripts are no longer generated — `cf complete`
 ### OpenAPI compatibility overlay
 
 `generate.ts` applies `generator/cli-compat.overlay.yaml` to both downloaded
-and `FORGE_OPENAPI_BUNDLE` inputs before audience filtering and Forge
+and `OPENAPI_BUNDLE` inputs before audience filtering and Forge
 normalization. The file follows the
 [OpenAPI Overlay 1.1 specification](https://spec.openapis.org/overlay/v1.1.0.html):
 ordered JSONPath targets with standard `update` and `remove` actions. Redocly's
@@ -394,7 +394,7 @@ Each justified action also needs a source precondition in
 `generator/cli-compat-guards.ts` and a regression test. Overlay actions allow
 unmatched targets, so the guards check operation identities, body field types,
 and upstream annotations before applying any changes. Remove an action and its
-guard together when the pinned Forge OpenAPI supplies the fix.
+guard together when the pinned OpenAPI supplies the fix.
 
 ### Source config access is command-scoped
 
@@ -969,11 +969,13 @@ The two Forge inputs are updated separately:
   unchanged OpenAPI pin, and write a `patch` changeset with
   `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
   must match `allowedCommands` in `.github/renovate-global.json`.
-- **`config.forgeOpenApiVersion`** in `packages/cli/package.json`, read by
-  `packages/cli/generate.ts` — the `Update OpenAPI`
+- **`config.openApiVersion`** in `packages/cli/package.json`, read by
+  `packages/cli/generate.ts` — a commit of
+  [cloudflare/api-schemas](https://github.com/cloudflare/api-schemas), whose
+  `openapi.json` is the generator input. The `Update OpenAPI`
   workflow (`.github/workflows/update-openapi.yml`) runs `scripts/update-openapi.ts`
-  hourly and on a `forge-release-published` `repository_dispatch`. It pins the
-  latest `openapi@<sha>` Forge release, regenerates with the pinned forge
+  hourly and on an `api-schemas-updated` `repository_dispatch`. It pins the
+  latest `main` commit that changed `openapi.json`, regenerates with the pinned forge
   build, writes a `minor` changeset, and opens or refreshes the
   `automation/update-forge` PR. The existing branch and concurrency group are
   retained so the renamed workflow continues managing existing update PRs.

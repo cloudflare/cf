@@ -11,8 +11,9 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -24,6 +25,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 stream webhooks update\n\nCreate a webhook for notifications about on-demand video uploads."
 		)
+		.option("notification-url", {
+			type: "string",
+			description: "The URL where webhooks will be sent.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -58,11 +63,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
-				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -71,7 +71,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/webhook`,
 						pathParams: {},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										notificationUrl: resolveFileToken(
+											argv["notification-url"] as string | undefined,
+											"notification-url",
+											"text"
+										),
+									}),
 					});
 					return;
 				}
@@ -98,6 +107,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					notificationUrl: resolveFileToken(
+						argv["notification-url"] as string | undefined,
+						"notification-url",
+						"text"
+					),
+				});
+				const result = await withProgress(`Updating`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

@@ -1,3 +1,4 @@
+import $accounteligibility from "./account-eligibility/index.js";
 import $rules from "./rules/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -12,6 +13,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($accounteligibility)
 			.command($rules)
 			.demandCommand(1, "Please specify a subcommand");
 	},

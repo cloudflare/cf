@@ -1,4 +1,6 @@
+import $datasets from "./datasets/index.js";
 import $list from "./list/index.js";
+import $query from "./query.js";
 import $rayid from "./rayid/index.js";
 import $received from "./received/index.js";
 import $retrieve from "./retrieve/index.js";
@@ -16,6 +18,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($query)
+			.command($datasets)
 			.command($list)
 			.command($rayid)
 			.command($received)

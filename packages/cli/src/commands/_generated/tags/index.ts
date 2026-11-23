@@ -1,3 +1,4 @@
+import $accountresources from "./account-resources/index.js";
 import $keys from "./keys/index.js";
 import $resources from "./resources/index.js";
 import $summary from "./summary/index.js";
@@ -15,6 +16,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($accountresources)
 			.command($keys)
 			.command($resources)
 			.command($summary)

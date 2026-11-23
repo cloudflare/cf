@@ -2,6 +2,7 @@ import $catchall from "./catch-all/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
+import $listaccount from "./list-account.js";
 import $plan from "./plan.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -21,6 +22,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($create)
 			.command($delete)
 			.command($get)
+			.command($listaccount)
 			.command($plan)
 			.command($update)
 			.command($catchall)

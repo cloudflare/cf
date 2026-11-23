@@ -1,0 +1,96 @@
+import operation from "../../_operations/monetization/account-eligibility/get.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * get command
+ * @generated from apis/overlays/monetization.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+import {
+	createCommandClient,
+	getAccountId,
+	getZoneId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 monetization account-eligibility get\n\nReturns the account or zone's latest stored monetization eligibility result.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
+		)
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "get",
+	describe: "Get account or zone monetization eligibility",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "monetization account-eligibility get",
+				classification: {
+					safeFlags: ["dry-run"],
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				if (argv.dryRun) {
+					const __cfDryRunAccountId =
+						argv.zone === undefined
+							? await resolveAccountIdSilent()
+							: undefined;
+					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
+					const accountOrZoneId =
+						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
+					formatDryRun({
+						command: "cf monetization account-eligibility get",
+						method: "GET",
+						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/monetization`,
+						pathParams: {
+							"account-or-zone": String(accountOrZone),
+							"account-or-zone-id": String(accountOrZoneId),
+						},
+						bodyKind: "none",
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
+				const accountOrZoneId =
+					accountOrZone === "zones"
+						? await getZoneId({ zone: argv.zone }, client, {
+								quiet: argv.quiet,
+							})
+						: argv.local
+							? LOCAL_ACCOUNT_ID
+							: await getAccountId();
+				if (accountOrZone === "zones") {
+					argv.zoneId = accountOrZoneId;
+				} else {
+					argv.accountId = accountOrZoneId;
+				}
+
+				const result = await withProgress(`Loading`, async () =>
+					client.send(operation, {
+						account_or_zone: accountOrZone,
+						account_or_zone_id: accountOrZoneId,
+					})
+				);
+				formatOutput(result, { successLabel: `Loaded` });
+			}
+		),
+};
+
+export default command;

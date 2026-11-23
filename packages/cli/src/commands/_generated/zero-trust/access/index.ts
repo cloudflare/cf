@@ -3,7 +3,9 @@ import $custompages from "./custom-pages/index.js";
 import $infrastructure from "./infrastructure/index.js";
 import $logs from "./logs/index.js";
 import $mfa from "./mfa/index.js";
+import $mtlscertificates from "./mtls-certificates/index.js";
 import $policies from "./policies/index.js";
+import $rulegroups from "./rule-groups/index.js";
 import $samlencryptioncertificates from "./saml-encryption-certificates/index.js";
 import $servicetokens from "./service-tokens/index.js";
 import $signingkeys from "./signing-keys/index.js";
@@ -29,7 +31,9 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($infrastructure)
 			.command($logs)
 			.command($mfa)
+			.command($mtlscertificates)
 			.command($policies)
+			.command($rulegroups)
 			.command($samlencryptioncertificates)
 			.command($servicetokens)
 			.command($signingkeys)

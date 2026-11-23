@@ -1,0 +1,35 @@
+import $create from "./create.js";
+import $delete from "./delete.js";
+import $entrypoint from "./entrypoint/index.js";
+import $get from "./get.js";
+import $list from "./list.js";
+import $rules from "./rules/index.js";
+import $update from "./update.js";
+import type { CommonYargsOptions } from "#lib/cli-types.js";
+/**
+ * rulesets command
+ * @generated from apis/overlays/rulesets.ts
+ */
+import type { CommandModule } from "yargs";
+
+const command: CommandModule<CommonYargsOptions> = {
+	command: "rulesets",
+	describe:
+		"Versioned collections of rules that control how Cloudflare processes traffic — WAF, transform, redirect, and more",
+
+	builder: (yargs) => {
+		return yargs
+			.command($create)
+			.command($delete)
+			.command($get)
+			.command($list)
+			.command($update)
+			.command($entrypoint)
+			.command($rules)
+			.demandCommand(1, "Please specify a subcommand");
+	},
+
+	handler: () => {},
+};
+
+export default command;

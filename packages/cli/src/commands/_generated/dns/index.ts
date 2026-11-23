@@ -1,6 +1,7 @@
 import $dnssec from "./dnssec/index.js";
 import $records from "./records/index.js";
 import $settings from "./settings/index.js";
+import $usage from "./usage/index.js";
 import $views from "./views/index.js";
 import $zonetransfers from "./zone-transfers/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -19,6 +20,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($dnssec)
 			.command($records)
 			.command($settings)
+			.command($usage)
 			.command($views)
 			.command($zonetransfers)
 			.demandCommand(1, "Please specify a subcommand");

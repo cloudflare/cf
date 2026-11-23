@@ -1,3 +1,5 @@
+import $edit from "./edit.js";
+import $get from "./get.js";
 import $nameserversets from "./nameserver-sets/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -12,6 +14,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($edit)
+			.command($get)
 			.command($nameserversets)
 			.demandCommand(1, "Please specify a subcommand");
 	},

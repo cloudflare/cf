@@ -1,4 +1,6 @@
+import $accessrules from "./access-rules/index.js";
 import $lockdowns from "./lockdowns/index.js";
+import $payloadlogging from "./payload-logging/index.js";
 import $uarules from "./ua-rules/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -14,7 +16,9 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($accessrules)
 			.command($lockdowns)
+			.command($payloadlogging)
 			.command($uarules)
 			.demandCommand(1, "Please specify a subcommand");
 	},

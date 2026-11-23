@@ -5,6 +5,7 @@
 	"requireConfig": "required",
 	"allowedCommands": [
 		"^node \\./scripts/create-workers-sdk-changeset\\.mjs$",
+		"^node \\./scripts/sync-vite-plus\\.mjs$",
 		"^pnpm install --no-frozen-lockfile$",
 		"^pnpm generate$",
 		"^node \\./scripts/create-forge-changeset\\.mjs$"

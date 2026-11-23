@@ -29,3 +29,11 @@ update without changing files or PRs. Set `GH_TOKEN` (or `GITHUB_TOKEN`) for
 cf's PR and branch operations. Public Forge release requests are anonymous,
 and generation and checks run without those credentials. The workflow uses
 `GH_ACCESS_TOKEN` when available so its PR updates trigger normal CI.
+
+## Vite+ updates
+
+Renovate upgrades the `vite-plus` workspace catalog entry, then runs
+`node ./scripts/sync-vite-plus.mjs` to copy the chosen release's published Vite
+core alias and Vitest version into `pnpm-workspace.yaml` and refresh
+`pnpm-lock.yaml`. Those two pins are not upgraded independently. For a manual
+upgrade, edit the `vite-plus` catalog entry, then run the sync script.

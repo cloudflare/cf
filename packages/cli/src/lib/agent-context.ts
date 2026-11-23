@@ -218,6 +218,31 @@ const detectAmp: AgentDetector = (environment) => {
 		: null;
 };
 
+// Evidence: the language server shared by the Antigravity IDE and the agy CLI
+// documents ANTIGRAVITY_CONVERSATION_ID for agent shell commands (agy 1.5.15).
+// Only the IDE also sets ANTIGRAVITY_AGENT=1:
+// https://github.com/unjs/std-env/issues/223
+// Never read ANTIGRAVITY_CSRF_TOKEN, which shares the same environment.
+const detectAntigravity: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	const agentMarker = signalIf(
+		signals,
+		isExact(environment, "ANTIGRAVITY_AGENT", "1"),
+		"ANTIGRAVITY_AGENT"
+	);
+	const sessionId = value(environment, "ANTIGRAVITY_CONVERSATION_ID");
+	if (sessionId) {
+		signals.push("ANTIGRAVITY_CONVERSATION_ID");
+	}
+	return agentMarker || sessionId
+		? contractMatch(
+				{ id: "antigravity", name: "Google Antigravity" },
+				signals,
+				{ sessionId }
+			)
+		: null;
+};
+
 // Evidence: https://github.com/google-gemini/gemini-cli/blob/62364cb2000795537a6895261b37ec668e4cf527/packages/core/src/services/shellExecutionService.ts#L569
 const detectGeminiCli: AgentDetector = (environment) =>
 	isExact(environment, "GEMINI_CLI", "1")
@@ -302,6 +327,7 @@ export const agentDetectors: readonly AgentDetector[] = [
 	detectClaudeCode,
 	detectCodex,
 	detectAmp,
+	detectAntigravity,
 	detectGeminiCli,
 	detectAuggie,
 	detectCrush,

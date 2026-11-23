@@ -936,6 +936,28 @@
 				}
 			]
 		},
+		"accounts applications references": {
+			"operationId": "accounts.applications.references",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/resource-library/applications/{id}/references",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"accounts applications update": {
 			"operationId": "accounts.applications.update",
 			"httpMethod": "PATCH",
@@ -45074,6 +45096,49 @@
 					"description": "Policies attached to the User group. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"id\": string} & {\"access\": \"allow\" | \"deny\", \"permission_groups\": [{...}], \"resource_groups\": [{...}]})]."
 				}
 			]
+		},
+		"images config edit": {
+			"operationId": "images.config.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/images/v1/config",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "flexible-variants",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether flexible variants are enabled. When `true`, hosted images can be transformed with options in the URL (for example `https://imagedelivery.net/<ACCOUNT_HASH>/<IMAGE_ID>/w=400,sharpen=3`) instead of only through named variants. When `false` or absent, only named variants can be requested.\n"
+				},
+				{
+					"name": "preserve-content-credentials",
+					"type": "boolean",
+					"required": false,
+					"description": "Retain C2PA provenance metadata on images delivered from hosted Cloudflare Images. When enabled, Cloudflare keeps any existing Content Credentials in the source image and cryptographically signs the transformations it applies during delivery."
+				}
+			]
+		},
+		"images config get": {
+			"operationId": "images.config.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/images/v1/config",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"images create": {
 			"operationId": "images.create",
@@ -91053,6 +91118,12 @@
 					"description": "The type of DNS record associated with the application."
 				},
 				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
+				},
+				{
 					"name": "edge-ips-connectivity",
 					"type": "string",
 					"required": false,
@@ -91270,6 +91341,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The type of DNS record associated with the application."
+				},
+				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
 				},
 				{
 					"name": "edge-ips-connectivity",
@@ -102041,6 +102118,65 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"workers previews deployments profile": {
+			"operationId": "workers.previews.deployments.profile",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/{deployment_id}/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "worker_id",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "deployment_id",
+					"flag": "deployment-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "actor-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
+				},
+				{
+					"name": "duration-ms",
+					"type": "number",
+					"required": true,
+					"description": "Profile duration in milliseconds."
+				},
+				{
+					"name": "namespace-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id."
+				},
+				{
+					"name": "profile-type",
+					"type": "string",
+					"required": false,
+					"description": "The profile_type field"
+				}
+			]
 		},
 		"workers scripts search": {
 			"operationId": "workers.scripts.search",

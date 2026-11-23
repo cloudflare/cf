@@ -1371,6 +1371,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf accounts applications references",
+			"name": "references",
+			"fullPath": ["accounts", "applications", "references"],
+			"description": "List the resources in the account that reference a custom application, such as Gateway rules. This is the same list a delete of the application returns when it is rejected. A delete checks the references again, so the list can change before the delete runs.",
+			"summary": "Get application references",
+			"usage": "cf accounts applications references <id>",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Application ID of a custom application in the account."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/resource-library/applications/{id}/references",
+			"operationId": "accounts.applications.references",
+			"hideCommand": false
+		},
+		{
 			"command": "cf accounts applications update",
 			"name": "update",
 			"fullPath": ["accounts", "applications", "update"],
@@ -61650,6 +61682,72 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}",
 			"operationId": "iam.user-groups.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf images config edit",
+			"name": "edit",
+			"fullPath": ["images", "config", "edit"],
+			"description": "Update account-level Cloudflare Images settings. Only the settings included in the request are changed.",
+			"summary": "Update Images account configuration",
+			"usage": "cf images config edit [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "flexible-variants",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether flexible variants are enabled. When `true`, hosted images can be transformed with options in the URL (for example `https://imagedelivery.net/<ACCOUNT_HASH>/<IMAGE_ID>/w=400,sharpen=3`) instead of only through named variants. When `false` or absent, only named variants can be requested.\n"
+				},
+				{
+					"name": "preserve-content-credentials",
+					"type": "boolean",
+					"required": false,
+					"description": "Retain C2PA provenance metadata on images delivered from hosted Cloudflare Images. When enabled, Cloudflare keeps any existing Content Credentials in the source image and cryptographically signs the transformations it applies during delivery."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/images/v1/config",
+			"operationId": "images.config.edit",
+			"hideCommand": false
+		},
+		{
+			"command": "cf images config get",
+			"name": "get",
+			"fullPath": ["images", "config", "get"],
+			"description": "Get account-level Cloudflare Images settings, such as flexible variants and Content Credentials preservation. Settings that are disabled may be omitted from the response.",
+			"summary": "Get Images account configuration",
+			"usage": "cf images config get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/images/v1/config",
+			"operationId": "images.config.get",
 			"hideCommand": false
 		},
 		{
@@ -125502,6 +125600,12 @@
 					"enum": ["CNAME", "ADDRESS"]
 				},
 				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
+				},
+				{
 					"name": "edge-ips-connectivity",
 					"type": "string",
 					"required": false,
@@ -125779,6 +125883,12 @@
 					"required": false,
 					"description": "The type of DNS record associated with the application.",
 					"enum": ["CNAME", "ADDRESS"]
+				},
+				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
 				},
 				{
 					"name": "edge-ips-connectivity",
@@ -142054,6 +142164,90 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/workers/workers",
 			"operationId": "workers.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workers previews deployments profile",
+			"name": "profile",
+			"fullPath": ["workers", "previews", "deployments", "profile"],
+			"description": "Captures a CPU or heap profile from a recently active isolate running the specified Preview deployment. This endpoint requires the Worker Preview profiling feature to be enabled for the account. If the deployment's bundle is identical to another deployed Worker version in the account, the profile may be captured from an isolate running that version.",
+			"summary": "Profile Preview Deployment",
+			"usage": "cf workers previews deployments profile <deployment-id> [options]",
+			"arguments": [
+				{
+					"name": "deployment-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the deployment, which can be a UUID, a UUID prefix (minimum length 8), or the literal \"latest\" to select the most recently created deployment."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Identifies the Worker by ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
+				{
+					"name": "preview-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the Preview, which can be ID, slug, or URL-encoded name."
+				},
+				{
+					"name": "actor-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
+				},
+				{
+					"name": "duration-ms",
+					"type": "number",
+					"required": true,
+					"description": "Profile duration in milliseconds."
+				},
+				{
+					"name": "namespace-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id."
+				},
+				{
+					"name": "profile-type",
+					"type": "string",
+					"required": false,
+					"description": "The profile_type field",
+					"default": "cpu",
+					"enum": ["cpu", "heap"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/{deployment_id}/profile",
+			"operationId": "workers.previews.deployments.profile",
 			"hideCommand": false
 		},
 		{
@@ -172691,6 +172885,7 @@
 		"iam user-groups": "Organize account members into groups for easier permission assignment",
 		"iam user-groups members": "Operations for user-groups.members",
 		"images": "Store, resize, and deliver optimized images globally - variants, signing keys, and direct uploads",
+		"images config": "Account-level Cloudflare Images settings",
 		"images flows": "Zone-level transformation flows that control how images are resized and optimized on delivery",
 		"images import": "Import images from S3",
 		"images import sources": "Operations for import.sources",
@@ -173255,6 +173450,8 @@
 		"web3 hostnames ipfs-universal-paths content-lists entries": "Operations for hostnames.ipfs-universal-paths.content-lists.entries",
 		"workers": "Deploy and manage serverless JavaScript/WASM applications on Cloudflare's global network",
 		"workers deployments": "Manage Worker deployments and traffic versions",
+		"workers previews": "Operations for previews",
+		"workers previews deployments": "Operations for previews.deployments",
 		"workers scripts": "Worker script operations including usage model, settings, content, tags, schedules, subdomains, and queue consumers",
 		"workers secrets": "Manage secrets bound to Worker scripts",
 		"workers versions": "Create, list, inspect, and manage Worker versions",

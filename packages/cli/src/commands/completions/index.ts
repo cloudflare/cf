@@ -211,7 +211,7 @@ const completeCommand: CommandModule<object, CompleteArgs> & {
 			{ command: "complete", recordArgs: false },
 			argv as Record<string, unknown>,
 			() => {
-				setupCompletions();
+				// The init script is static; commands resolve at TAB time.
 				t.setup("cf", "cf", shell);
 			}
 		);

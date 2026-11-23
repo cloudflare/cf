@@ -5,7 +5,7 @@ import { runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface AccessSshGenArgs extends CommonYargsOptions {
+export interface AccessSshGenArgs extends CommonYargsOptions {
 	hostname: string;
 }
 

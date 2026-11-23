@@ -3,7 +3,7 @@ import { CLOUDFLARED_LOG_LEVELS, runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface TunnelQuickStartArgs extends CommonYargsOptions {
+export interface TunnelQuickStartArgs extends CommonYargsOptions {
 	url: string;
 	"allowed-mail"?: string[];
 	"log-level": (typeof CLOUDFLARED_LOG_LEVELS)[number];

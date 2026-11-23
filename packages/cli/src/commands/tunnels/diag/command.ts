@@ -3,7 +3,7 @@ import { runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface TunnelDiagArgs extends CommonYargsOptions {
+export interface TunnelDiagArgs extends CommonYargsOptions {
 	metrics?: string;
 	"diag-container-id"?: string;
 	"diag-pod-id"?: string;

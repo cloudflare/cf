@@ -3,7 +3,7 @@ import { runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface TunnelReadyArgs extends CommonYargsOptions {
+export interface TunnelReadyArgs extends CommonYargsOptions {
 	metrics: string;
 }
 

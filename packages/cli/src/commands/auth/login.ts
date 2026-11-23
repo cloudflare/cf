@@ -18,7 +18,7 @@ import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgClassification } from "../../lib/telemetry/index.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface LoginArgs extends CommonYargsOptions {
+export interface LoginArgs extends CommonYargsOptions {
 	force?: boolean;
 	browser?: boolean;
 	device?: boolean;

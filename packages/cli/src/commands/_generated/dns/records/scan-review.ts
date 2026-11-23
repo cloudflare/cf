@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rejects", {
 			type: "string",
 			description:
-				'The rejects field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
+				'The rejects field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
 		})
 		.option("dry-run", {
 			type: "boolean",

@@ -5,7 +5,7 @@ export type OpenApiOperation = Record<string, unknown> & {
 	parameters?: unknown[];
 };
 
-/** The Forge OpenAPI document the commands are generated from. */
+/** The OpenAPI document, with Forge extensions, the commands are generated from. */
 export interface ForgeOpenApiDocument {
 	paths?: Record<
 		string,

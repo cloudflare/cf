@@ -31,6 +31,15 @@ describe("detectAgentContext", () => {
 		["Auggie", { AUGMENT_AGENT: "1" }, "auggie"],
 		["Crush", { CRUSH: "1" }, "crush"],
 		["Crush via AI_AGENT", { AI_AGENT: "crush" }, "crush"],
+		["GitHub Copilot CLI", { COPILOT_CLI: "1" }, "copilot-cli"],
+		["Kiro CLI", { AWS_SDK_UA_APP_ID: "kiro-cli" }, "kiro"],
+		["Kiro IDE", { AWS_SDK_UA_APP_ID: "kiro-ide" }, "kiro"],
+		["Kiro session", { KIRO_SESSION_ID: "kiro-session" }, "kiro"],
+		["Junie", { MATTERHORN_TASK: "" }, "junie"],
+		["Junie session", { MATTERHORN_SESSION_ID: "junie-session" }, "junie"],
+		["Goose", { GOOSE_TERMINAL: "1" }, "goose"],
+		["Goose via AGENT", { AGENT: "goose" }, "goose"],
+		["Cline", { CLINE_ACTIVE: "true" }, "cline"],
 		[
 			"VS Code Copilot",
 			{ AI_AGENT: "github_copilot_vscode_agent" },
@@ -118,6 +127,46 @@ describe("detectAgentContext", () => {
 		]);
 	});
 
+	it.each([
+		[
+			"Copilot CLI",
+			{ COPILOT_CLI: "1", COPILOT_AGENT_SESSION_ID: "copilot-session" },
+			"copilot-session",
+		],
+		[
+			"Kiro",
+			{ AWS_SDK_UA_APP_ID: "kiro-cli", KIRO_SESSION_ID: "kiro-session" },
+			"kiro-session",
+		],
+		[
+			"Junie",
+			{ MATTERHORN_TASK: "", MATTERHORN_SESSION_ID: "junie-session" },
+			"junie-session",
+		],
+		[
+			"Goose",
+			{ GOOSE_TERMINAL: "1", AGENT: "goose", AGENT_SESSION_ID: "20260217_5" },
+			"20260217_5",
+		],
+	])("captures the %s session ID", (_name, environment, sessionId) => {
+		const context = detectAgentContext(environment);
+		expect(context.sessionId).toBe(sessionId);
+		expect(context.matches).toHaveLength(1);
+	});
+
+	it("does not detect user settings and incidental harness variables", () => {
+		const context = detectAgentContext({
+			COPILOT_MODEL: "gpt-5",
+			COPILOT_ALLOW_ALL: "true",
+			AWS_SDK_UA_APP_ID: "my-app",
+			JUNIE_DATA: "/home/user/.junie",
+			JUNIE_SHIM_PATH: "/home/user/.local/bin/junie",
+			AGENT_SESSION_ID: "goose-term-session",
+			GOOSE_PROVIDER: "anthropic",
+		});
+		expect(context.isAgentic).toBe(false);
+	});
+
 	it("retains nested matches while preferring a direct agent over Warp", () => {
 		const context = detectAgentContext({
 			CLAUDECODE: "1",
@@ -164,6 +213,12 @@ describe("detectAgentContext", () => {
 			AUGMENT_AGENT: "false",
 			CRUSH: "true",
 			COPILOT_AGENT: "true",
+			COPILOT_CLI: "true",
+			KIRO_SESSION_ID: "false",
+			MATTERHORN_SESSION_ID: "0",
+			GOOSE_TERMINAL: "true",
+			AGENT: "unknown-agent",
+			CLINE_ACTIVE: "1",
 			OZ_RUN_ID: "0",
 			AI_AGENT: "unknown-agent",
 		});

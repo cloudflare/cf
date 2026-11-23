@@ -1,5 +1,24 @@
 # cf
 
+## 1.0.0-rc.4
+
+### Minor Changes
+
+- 0848e17: Offer to delete a Worker's Container applications with `cf workers delete`
+
+  The command finds applications owned by the Worker before deleting it. It offers to delete them interactively and warns when it leaves them behind. To opt in without a prompt, run `cf workers delete <worker> --delete-containers --force`. `--force` alone still only skips confirmation. Application deletion is asynchronous, so instances may take a while to shut down.
+
+### Patch Changes
+
+- 30bfe56: Name invalid OAuth scopes and re-authenticate when changing scopes
+
+  Name the specific invalid OAuth scopes when scope validation fails during `cf auth login`.
+  When an explicit scope list differs from the existing login's scopes, start a new login flow
+  with the requested scopes without requiring `--force`, including when requesting fewer scopes.
+
+- b4c28e8: Update the generated command surface for `@cloudflare/forge`
+  `0.3.0`.
+
 ## 1.0.0-rc.3
 
 ### Minor Changes

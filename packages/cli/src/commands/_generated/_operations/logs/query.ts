@@ -9,6 +9,7 @@ export default {
 		400: "BadRequestError",
 		403: "ForbiddenError",
 		404: "NotFoundError",
+		422: "UnprocessableEntityError",
 		507: "InsufficientStorageError",
 	},
 } as const;

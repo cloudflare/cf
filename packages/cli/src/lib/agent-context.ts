@@ -15,6 +15,8 @@ export interface AgentMatch {
 	model?: AgentModel;
 	sessionId?: string;
 	invocationId?: string;
+	/** The `AI_AGENT` value of an agent no detector recognises. */
+	announcedName?: string;
 	signals: readonly string[];
 }
 
@@ -24,6 +26,7 @@ export interface AgentContext {
 	model: AgentModel | null;
 	sessionId: string | null;
 	invocationId: string | null;
+	announcedName: string | null;
 	matches: readonly AgentMatch[];
 }
 
@@ -181,19 +184,37 @@ const detectCursorAgent: AgentDetector = (environment) => {
 	});
 };
 
+// Claude Code announces itself as `claude-code_<major>-<minor>-<patch>_agent`.
+const CLAUDE_CODE_ANNOUNCEMENT =
+	/^claude-code(?:_(\d+-\d+-\d+)_agent|_agent)?$/;
+
 // Evidence: Anthropic Claude Code child-process environment. Verified 2026-09-02.
+// AI_AGENT since 2.1.120: https://github.com/anthropics/claude-code/blob/50cdc7005318f630144c28217d1dada32e6ba762/CHANGELOG.md#L8359
 const detectClaudeCode: AgentDetector = (environment) => {
-	if (!isExact(environment, "CLAUDECODE", "1")) {
+	const signals: string[] = [];
+	const claudeMarker = signalIf(
+		signals,
+		isExact(environment, "CLAUDECODE", "1"),
+		"CLAUDECODE"
+	);
+	const announcement = CLAUDE_CODE_ANNOUNCEMENT.exec(
+		value(environment, "AI_AGENT") ?? ""
+	);
+	signalIf(signals, announcement !== null, "AI_AGENT");
+	if (!claudeMarker && !announcement) {
 		return null;
 	}
-	const signals = ["CLAUDECODE"];
+
 	const sessionId = value(environment, "CLAUDE_CODE_SESSION_ID");
 	if (sessionId) {
 		signals.push("CLAUDE_CODE_SESSION_ID");
 	}
-	return contractMatch({ id: "claude-code", name: "Claude Code" }, signals, {
-		sessionId,
-	});
+	const version = announcement?.[1]?.split("-").join(".");
+	return contractMatch(
+		{ id: "claude-code", name: "Claude Code", ...(version ? { version } : {}) },
+		signals,
+		{ sessionId }
+	);
 };
 
 // Evidence: https://github.com/openai/codex/blob/cb1eea3e98ebc433ab5f9c12ce043e979d1902df/codex-rs/protocol/src/shell_environment.rs#L150
@@ -432,21 +453,58 @@ export const agentDetectors: readonly AgentDetector[] = [
 	detectWarp,
 ];
 
+// The format gh accepts, bounded so an announced name is safe to record.
+const ANNOUNCED_NAME = /^[A-Za-z0-9_-]{1,64}$/;
+
+function explainsAnnouncement(match: AgentMatch, announced: string): boolean {
+	const { id } = match.harness;
+	return (
+		match.signals.includes("AI_AGENT") ||
+		announced === id ||
+		announced.startsWith(`${id}_`)
+	);
+}
+
+// AI_AGENT is the cross-agent marker proposed in
+// https://github.com/agentsmd/agents.md/issues/136 and read first by gh:
+// https://github.com/cli/cli/blob/0b6a11bba4dc02c30ef9fbdf2974f8d9c15dfdb9/internal/agents/detect.go#L59-L64
+// Any value no detector explains marks an agent cf does not yet recognise.
+function detectUnknownAgent(
+	environment: AgentEnvironment,
+	matches: readonly AgentMatch[]
+): AgentMatch | null {
+	const announced = value(environment, "AI_AGENT");
+	if (
+		!announced ||
+		matches.some((match) => explainsAnnouncement(match, announced))
+	) {
+		return null;
+	}
+	return contractMatch({ id: "unknown", name: "Unknown agent" }, ["AI_AGENT"], {
+		announcedName: ANNOUNCED_NAME.test(announced) ? announced : undefined,
+	});
+}
+
 export function detectAgentContext(
 	environment: AgentEnvironment = process.env,
 	detectors: readonly AgentDetector[] = agentDetectors
 ): AgentContext {
 	const matches: AgentMatch[] = [];
-	for (const detector of detectors) {
+	const collect = (detect: () => AgentMatch | null) => {
 		try {
-			const match = detector(environment);
+			const match = detect();
 			if (match) {
 				matches.push(match);
 			}
 		} catch {
 			// Detection is advisory and must never prevent a CLI request.
 		}
+	};
+	for (const detector of detectors) {
+		collect(() => detector(environment));
 	}
+	// Runs last so it claims only AI_AGENT values no detector explains.
+	collect(() => detectUnknownAgent(environment, matches));
 
 	return {
 		isAgentic: matches.length > 0,
@@ -455,6 +513,8 @@ export function detectAgentContext(
 		sessionId: matches.find((match) => match.sessionId)?.sessionId ?? null,
 		invocationId:
 			matches.find((match) => match.invocationId)?.invocationId ?? null,
+		announcedName:
+			matches.find((match) => match.announcedName)?.announcedName ?? null,
 		matches,
 	};
 }

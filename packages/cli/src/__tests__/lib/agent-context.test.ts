@@ -199,7 +199,7 @@ describe("detectAgentContext", () => {
 		).toMatchObject({ isAgentic: false, harness: null, sessionId: null });
 	});
 
-	it("ignores false-like, inexact, and unknown markers", () => {
+	it("ignores false-like and inexact markers", () => {
 		const context = detectAgentContext({
 			QWEN_CODE_SESSION_ID: "false",
 			PI_CODING_AGENT: "1",
@@ -220,7 +220,7 @@ describe("detectAgentContext", () => {
 			AGENT: "unknown-agent",
 			CLINE_ACTIVE: "1",
 			OZ_RUN_ID: "0",
-			AI_AGENT: "unknown-agent",
+			AI_AGENT: "false",
 		});
 
 		expect(context).toEqual({
@@ -229,8 +229,88 @@ describe("detectAgentContext", () => {
 			model: null,
 			sessionId: null,
 			invocationId: null,
+			announcedName: null,
 			matches: [],
 		});
+	});
+
+	it("reads the Claude Code version from AI_AGENT", () => {
+		const context = detectAgentContext({
+			CLAUDECODE: "1",
+			AI_AGENT: "claude-code_2-1-330_agent",
+		});
+
+		expect(context.harness).toEqual({
+			id: "claude-code",
+			name: "Claude Code",
+			version: "2.1.330",
+		});
+		expect(context.announcedName).toBeNull();
+		expect(context.matches).toHaveLength(1);
+		expect(context.matches[0]?.signals).toEqual(["CLAUDECODE", "AI_AGENT"]);
+	});
+
+	it.each([
+		["the Claude Code announcement alone", { AI_AGENT: "claude-code" }],
+		[
+			"a versionless announcement",
+			{ CLAUDECODE: "1", AI_AGENT: "claude-code_agent" },
+		],
+	])("detects Claude Code from %s without a version", (_name, environment) => {
+		const context = detectAgentContext(environment);
+		expect(context.harness).toEqual({ id: "claude-code", name: "Claude Code" });
+		expect(context.matches).toHaveLength(1);
+	});
+
+	it("records an unrecognised AI_AGENT as an unknown agent", () => {
+		const context = detectAgentContext({ AI_AGENT: "hermes-agent" });
+
+		expect(context.isAgentic).toBe(true);
+		expect(context.harness).toEqual({ id: "unknown", name: "Unknown agent" });
+		expect(context.announcedName).toBe("hermes-agent");
+		expect(context.matches[0]?.signals).toEqual(["AI_AGENT"]);
+	});
+
+	it.each([
+		["spaces", "my agent"],
+		["a version separator", "custom-agent@2.0"],
+		["more than 64 characters", "a".repeat(65)],
+	])("withholds an announced name containing %s", (_name, announced) => {
+		const context = detectAgentContext({ AI_AGENT: announced });
+
+		expect(context.harness?.id).toBe("unknown");
+		expect(context.announcedName).toBeNull();
+	});
+
+	it.each([
+		["Pi", { AI_AGENT: "pi" }],
+		["Crush", { AI_AGENT: "crush" }],
+		["VS Code Copilot", { AI_AGENT: "github_copilot_vscode_agent" }],
+		["OpenCode", { OPENCODE: "1", AI_AGENT: "opencode" }],
+		["a qualified slug", { OPENCODE: "1", AI_AGENT: "opencode_1-2_agent" }],
+	])(
+		"does not treat an AI_AGENT explained by %s as unknown",
+		(_name, environment) => {
+			const context = detectAgentContext(environment);
+
+			expect(context.matches).toHaveLength(1);
+			expect(context.harness?.id).not.toBe("unknown");
+			expect(context.announcedName).toBeNull();
+		}
+	);
+
+	it("keeps a recognised agent primary when an unknown agent is also announced", () => {
+		const context = detectAgentContext({
+			CODEX_THREAD_ID: "codex-thread",
+			AI_AGENT: "hermes-agent",
+		});
+
+		expect(context.harness?.id).toBe("codex");
+		expect(context.matches.map((match) => match.harness.id)).toEqual([
+			"codex",
+			"unknown",
+		]);
+		expect(context.announcedName).toBe("hermes-agent");
 	});
 
 	it("does not detect editor and credential heuristics", () => {

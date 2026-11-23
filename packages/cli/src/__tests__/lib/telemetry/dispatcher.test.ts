@@ -70,6 +70,46 @@ describe("telemetry dispatcher", () => {
 		expect(JSON.stringify(body)).not.toContain("private-thread-id");
 	});
 
+	it("records the announced version and unknown agent names", async () => {
+		vi.stubEnv("CLAUDECODE", "");
+		vi.stubEnv("CODEX_THREAD_ID", "private-thread-id");
+		vi.stubEnv("AI_AGENT", "hermes-agent");
+		const { __resetTelemetryForTests, getTelemetryDispatcher } =
+			await import("../../../lib/telemetry/dispatcher.js");
+		const { allTelemetryDispatchesSettled } =
+			await import("../../../lib/telemetry/lifecycle.js");
+		const send = async () => {
+			getTelemetryDispatcher().sendAdhocEvent("test event");
+			await allTelemetryDispatchesSettled();
+			const [, init] = vi.mocked(fetch).mock.calls.at(-1) as [
+				string,
+				RequestInit,
+			];
+			return JSON.parse(init.body as string).properties as Record<
+				string,
+				unknown
+			>;
+		};
+
+		const nested = await send();
+		expect(nested).toMatchObject({
+			agent: "codex",
+			agentAnnouncedName: "hermes-agent",
+		});
+		expect(nested).not.toHaveProperty("agentVersion");
+
+		vi.stubEnv("CODEX_THREAD_ID", "");
+		vi.stubEnv("CLAUDECODE", "1");
+		vi.stubEnv("AI_AGENT", "claude-code_2-1-330_agent");
+		__resetTelemetryForTests();
+		const claude = await send();
+		expect(claude).toMatchObject({
+			agent: "claude-code",
+			agentVersion: "2.1.330",
+		});
+		expect(claude).not.toHaveProperty("agentAnnouncedName");
+	});
+
 	it("joins search, help, and command events in one agent session", async () => {
 		vi.stubEnv("CODEX_THREAD_ID", "private-thread-id");
 		const { __resetTelemetryForTests, getTelemetryDispatcher } =

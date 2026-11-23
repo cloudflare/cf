@@ -13,6 +13,7 @@
  * the runtime's `Operation` describes.
  */
 
+import { isRuntimeHeader } from "../../src/lib/runtime-headers.js";
 import { bodyUnions, type BodyUnion } from "./body-unions.js";
 import { bodyProperties, discriminator, requiredNames } from "./body.js";
 import { GenerateError, nameWords, obj, type Obj, type Value } from "./js.js";
@@ -231,8 +232,10 @@ export function resolve(method: Method): OperationInfo {
 			}
 		}
 	}
-	const headerParams =
-		method.headers?.fields.map((f) => parameter(f, false)) ?? [];
+	// The client sends its own values for these on every request.
+	const headerParams = (
+		method.headers?.fields.map((f) => parameter(f, false)) ?? []
+	).filter((p) => !isRuntimeHeader(p.name));
 
 	const raw = method.body;
 	const body = raw && !isSemanticallyEmpty(raw) ? raw : undefined;

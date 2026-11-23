@@ -6,6 +6,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
+import { RUNTIME_HEADER_NAMES } from "../../lib/runtime-headers.js";
 
 /**
  * Unit tests for `lib/request-headers.ts` — the default outbound headers
@@ -134,6 +135,16 @@ describe("request-headers", () => {
 				harness: null,
 			});
 			expect(getDefaultHeaders()).not.toHaveProperty("X-CF-CLI-Agent");
+		});
+
+		it("lists every default header as runtime-owned for the generator", () => {
+			mocks.detectAgentContext.mockReturnValue({
+				isAgentic: true,
+				harness: { id: "codex" },
+			});
+			expect(Object.keys(getDefaultHeaders()).sort()).toEqual(
+				[...RUNTIME_HEADER_NAMES].sort()
+			);
 		});
 	});
 });

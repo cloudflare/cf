@@ -1040,6 +1040,41 @@ describe("the forge model", () => {
 		);
 	});
 
+	it("leaves headers the client always sends to the runtime", () => {
+		const files = generateFiles(
+			doc({
+				"/accounts/{account_id}/things": {
+					post: {
+						"x-fern-sdk-group-name": "things",
+						"x-fern-sdk-method-name": "create",
+						summary: "Create a thing",
+						parameters: [
+							account(),
+							{
+								name: "user-agent",
+								in: "header",
+								required: true,
+								schema: { type: "string" },
+							},
+							{
+								name: "cf-r2-jurisdiction",
+								in: "header",
+								schema: { type: "string" },
+							},
+						],
+						responses: ok(),
+					},
+				},
+			})
+		);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).not.toContain("user-agent");
+		expect(code).toContain(
+			`headers['cf-r2-jurisdiction'] = String(argv["cf-r2-jurisdiction"])`
+		);
+		expect(operation(files, "things/create")).not.toMatch(/user-agent/i);
+	});
+
 	it("describes a parameter by the schema its allOf refers to", () => {
 		const code = file(
 			doc(

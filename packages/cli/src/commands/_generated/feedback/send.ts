@@ -1,3 +1,4 @@
+import operation from "../_operations/feedback/send.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -5,13 +6,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/feedback.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, requestApi } from "#lib/auth.js";
+import { createCommandClient } from "#lib/auth.js";
 import {
 	compactBody,
 	parseBody,
 	parseJsonMap,
 	parseObjectArray,
-	setNestedValue,
 } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
@@ -25,12 +25,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 feedback send\n\nReport a problem with Cloudflare products, the cf CLI, or the Cloudflare MCP server and its tools to the Cloudflare team. While you work, keep track of what went wrong: failed calls, errors, wrong or confusing results, missing commands or tools. Send feedback near the end of the task if it hit a Cloudflare problem: several failed attempts, an error that looks like a Cloudflare bug, or a workaround you had to find. Also send feedback at the user's request. Skip it if the task went fine or the problem was in the user's own code. Send at most once per task; never send to test the endpoint or to log progress. Describe what was attempted, what was expected and what happened. Leave out secrets, API tokens, personal data, account or zone IDs and full conversations. After a successful submission, if you are an agent, tell the user at the next natural break, such as the end of the current turn, that you sent feedback to Cloudflare. Include the `submission_id`."
 		)
-		.option("user-agent", {
-			type: "string",
-			description:
-				"Identifies the client. Must start with `cf-cli/<version>` or `cloudflare-mcp`.",
-			demandOption: true,
-		})
 		.option("actual", { type: "string", description: "What happened instead." })
 		.option("agent-commands", {
 			type: "string",
@@ -293,9 +287,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const headers: Record<string, string> = {};
-				if (argv["user-agent"] !== undefined)
-					headers["User-Agent"] = String(argv["user-agent"]);
 				const resolveRequiredFields = async (): Promise<void> => {
 					if (argv["schema-version"] === undefined) {
 						throw new Error(
@@ -507,10 +498,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body !== undefined) {
 					const bodyData = parsedBody;
 					const result = await withProgress(`Creating`, async () =>
-						requestApi<unknown>(client, "POST", `/feedback/send`, {
-							body: bodyData,
-							headers: Object.keys(headers).length > 0 ? headers : undefined,
-						})
+						client.send(operation, { body: bodyData })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -518,380 +506,172 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["actual"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["actual"],
-						resolveFileToken(
+				const bodyData = compactBody(
+					{
+						actual: resolveFileToken(
 							argv["actual"] as string | undefined,
 							"actual",
 							"text"
-						)
-					);
-				if (argv["agent-commands"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "commands"],
-						parseObjectArray(argv["agent-commands"], "agent-commands")
-					);
-				if (argv["agent-docs-urls"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "docs_urls"],
-						argv["agent-docs-urls"]
-					);
-				if (argv["agent-errors"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "errors"],
-						parseObjectArray(argv["agent-errors"], "agent-errors")
-					);
-				if (argv["agent-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "model"],
-						resolveFileToken(
-							argv["agent-model"] as string | undefined,
-							"agent-model",
-							"text"
-						)
-					);
-				if (argv["agent-name"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "name"],
-						resolveFileToken(
-							argv["agent-name"] as string | undefined,
-							"agent-name",
-							"text"
-						)
-					);
-				if (argv["agent-repro-steps"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "repro_steps"],
-						argv["agent-repro-steps"]
-					);
-				if (argv["agent-stats-duration-ms"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "stats", "duration_ms"],
-						argv["agent-stats-duration-ms"]
-					);
-				if (argv["agent-stats-retries"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "stats", "retries"],
-						argv["agent-stats-retries"]
-					);
-				if (argv["agent-stats-tool-calls"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "stats", "tool_calls"],
-						argv["agent-stats-tool-calls"]
-					);
-				if (argv["agent-stats-turns"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "stats", "turns"],
-						argv["agent-stats-turns"]
-					);
-				if (argv["agent-version"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["agent", "version"],
-						resolveFileToken(
-							argv["agent-version"] as string | undefined,
-							"agent-version",
-							"text"
-						)
-					);
-				if (argv["attempted"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["attempted"],
-						resolveFileToken(
+						),
+						agent: {
+							commands: parseObjectArray(
+								argv["agent-commands"],
+								"agent-commands"
+							),
+							docs_urls: argv["agent-docs-urls"],
+							errors: parseObjectArray(argv["agent-errors"], "agent-errors"),
+							model: resolveFileToken(
+								argv["agent-model"] as string | undefined,
+								"agent-model",
+								"text"
+							),
+							name: resolveFileToken(
+								argv["agent-name"] as string | undefined,
+								"agent-name",
+								"text"
+							),
+							repro_steps: argv["agent-repro-steps"],
+							stats: {
+								duration_ms: argv["agent-stats-duration-ms"],
+								retries: argv["agent-stats-retries"],
+								tool_calls: argv["agent-stats-tool-calls"],
+								turns: argv["agent-stats-turns"],
+							},
+							version: resolveFileToken(
+								argv["agent-version"] as string | undefined,
+								"agent-version",
+								"text"
+							),
+						},
+						attempted: resolveFileToken(
 							argv["attempted"] as string | undefined,
 							"attempted",
 							"text"
-						)
-					);
-				if (argv["client-agent-detected"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "agent_detected"],
-						resolveFileToken(
-							argv["client-agent-detected"] as string | undefined,
-							"client-agent-detected",
-							"text"
-						)
-					);
-				if (argv["client-agent-model-detected"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "agent_model_detected"],
-						resolveFileToken(
-							argv["client-agent-model-detected"] as string | undefined,
-							"client-agent-model-detected",
-							"text"
-						)
-					);
-				if (argv["client-arch"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "arch"],
-						resolveFileToken(
-							argv["client-arch"] as string | undefined,
-							"client-arch",
-							"text"
-						)
-					);
-				if (argv["client-cli-delegated"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "cli_delegated"],
-						argv["client-cli-delegated"]
-					);
-				if (argv["client-cli-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "cli_mode"],
-						argv["client-cli-mode"]
-					);
-				if (argv["client-cli-version"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "cli_version"],
-						resolveFileToken(
-							argv["client-cli-version"] as string | undefined,
-							"client-cli-version",
-							"text"
-						)
-					);
-				if (argv["client-error-message"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "error", "message"],
-						resolveFileToken(
-							argv["client-error-message"] as string | undefined,
-							"client-error-message",
-							"text"
-						)
-					);
-				if (argv["client-error-stack"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "error", "stack"],
-						resolveFileToken(
-							argv["client-error-stack"] as string | undefined,
-							"client-error-stack",
-							"text"
-						)
-					);
-				if (argv["client-error-telemetry-message"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "error", "telemetry_message"],
-						resolveFileToken(
-							argv["client-error-telemetry-message"] as string | undefined,
-							"client-error-telemetry-message",
-							"text"
-						)
-					);
-				if (argv["client-is-ci"] !== undefined)
-					setNestedValue(bodyData, ["client", "is_ci"], argv["client-is-ci"]);
-				if (argv["client-is-interactive"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "is_interactive"],
-						argv["client-is-interactive"]
-					);
-				if (argv["client-last-command-args-used"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "args_used"],
-						argv["client-last-command-args-used"]
-					);
-				if (argv["client-last-command-command"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "command"],
-						resolveFileToken(
-							argv["client-last-command-command"] as string | undefined,
-							"client-last-command-command",
-							"text"
-						)
-					);
-				if (argv["client-last-command-error-codes"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "error_codes"],
-						argv["client-last-command-error-codes"]
-					);
-				if (argv["client-last-command-error-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "error_type"],
-						resolveFileToken(
-							argv["client-last-command-error-type"] as string | undefined,
-							"client-last-command-error-type",
-							"text"
-						)
-					);
-				if (argv["client-last-command-exit-code"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "exit_code"],
-						argv["client-last-command-exit-code"]
-					);
-				if (argv["client-last-command-http-status"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "http_status"],
-						argv["client-last-command-http-status"]
-					);
-				if (argv["client-last-command-outcome"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "last_command", "outcome"],
-						argv["client-last-command-outcome"]
-					);
-				if (argv["client-node-major"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "node_major"],
-						argv["client-node-major"]
-					);
-				if (argv["client-os"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "os"],
-						resolveFileToken(
-							argv["client-os"] as string | undefined,
-							"client-os",
-							"text"
-						)
-					);
-				if (argv["client-os-release"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "os_release"],
-						resolveFileToken(
-							argv["client-os-release"] as string | undefined,
-							"client-os-release",
-							"text"
-						)
-					);
-				if (argv["client-package-manager"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "package_manager"],
-						argv["client-package-manager"]
-					);
-				if (argv["client-telemetry-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["client", "telemetry_enabled"],
-						argv["client-telemetry-enabled"]
-					);
-				if (argv["command"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["command"],
-						resolveFileToken(
+						),
+						client: {
+							agent_detected: resolveFileToken(
+								argv["client-agent-detected"] as string | undefined,
+								"client-agent-detected",
+								"text"
+							),
+							agent_model_detected: resolveFileToken(
+								argv["client-agent-model-detected"] as string | undefined,
+								"client-agent-model-detected",
+								"text"
+							),
+							arch: resolveFileToken(
+								argv["client-arch"] as string | undefined,
+								"client-arch",
+								"text"
+							),
+							cli_delegated: argv["client-cli-delegated"],
+							cli_mode: argv["client-cli-mode"],
+							cli_version: resolveFileToken(
+								argv["client-cli-version"] as string | undefined,
+								"client-cli-version",
+								"text"
+							),
+							error: {
+								message: resolveFileToken(
+									argv["client-error-message"] as string | undefined,
+									"client-error-message",
+									"text"
+								),
+								stack: resolveFileToken(
+									argv["client-error-stack"] as string | undefined,
+									"client-error-stack",
+									"text"
+								),
+								telemetry_message: resolveFileToken(
+									argv["client-error-telemetry-message"] as string | undefined,
+									"client-error-telemetry-message",
+									"text"
+								),
+							},
+							is_ci: argv["client-is-ci"],
+							is_interactive: argv["client-is-interactive"],
+							last_command: {
+								args_used: argv["client-last-command-args-used"],
+								command: resolveFileToken(
+									argv["client-last-command-command"] as string | undefined,
+									"client-last-command-command",
+									"text"
+								),
+								error_codes: argv["client-last-command-error-codes"],
+								error_type: resolveFileToken(
+									argv["client-last-command-error-type"] as string | undefined,
+									"client-last-command-error-type",
+									"text"
+								),
+								exit_code: argv["client-last-command-exit-code"],
+								http_status: argv["client-last-command-http-status"],
+								outcome: argv["client-last-command-outcome"],
+							},
+							node_major: argv["client-node-major"],
+							os: resolveFileToken(
+								argv["client-os"] as string | undefined,
+								"client-os",
+								"text"
+							),
+							os_release: resolveFileToken(
+								argv["client-os-release"] as string | undefined,
+								"client-os-release",
+								"text"
+							),
+							package_manager: argv["client-package-manager"],
+							telemetry_enabled: argv["client-telemetry-enabled"],
+						},
+						command: resolveFileToken(
 							argv["command"] as string | undefined,
 							"command",
 							"text"
-						)
-					);
-				if (argv["expected"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["expected"],
-						resolveFileToken(
+						),
+						expected: resolveFileToken(
 							argv["expected"] as string | undefined,
 							"expected",
 							"text"
-						)
-					);
-				if (argv["fields"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["fields"],
-						parseJsonMap(argv["fields"], "fields")
-					);
-				if (argv["impact"] !== undefined)
-					setNestedValue(bodyData, ["impact"], argv["impact"]);
-				if (argv["message"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["message"],
-						resolveFileToken(
+						),
+						fields: parseJsonMap(argv["fields"], "fields"),
+						impact: argv["impact"],
+						message: resolveFileToken(
 							argv["message"] as string | undefined,
 							"message",
 							"text"
-						)
-					);
-				if (argv["product"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["product"],
-						resolveFileToken(
+						),
+						product: resolveFileToken(
 							argv["product"] as string | undefined,
 							"product",
 							"text"
-						)
-					);
-				if (argv["rating"] !== undefined)
-					setNestedValue(bodyData, ["rating"], argv["rating"]);
-				if (argv["schema-version"] !== undefined)
-					setNestedValue(bodyData, ["schema_version"], argv["schema-version"]);
-				if (argv["sent-at"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["sent_at"],
-						resolveFileToken(
+						),
+						rating: argv["rating"],
+						schema_version: argv["schema-version"],
+						sent_at: resolveFileToken(
 							argv["sent-at"] as string | undefined,
 							"sent-at",
 							"text"
-						)
-					);
-				if (argv["sentiment"] !== undefined)
-					setNestedValue(bodyData, ["sentiment"], argv["sentiment"]);
-				if (argv["submission-id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["submission_id"],
-						resolveFileToken(
+						),
+						sentiment: argv["sentiment"],
+						submission_id: resolveFileToken(
 							argv["submission-id"] as string | undefined,
 							"submission-id",
 							"text"
-						)
-					);
-				if (argv["suggestion"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["suggestion"],
-						resolveFileToken(
+						),
+						suggestion: resolveFileToken(
 							argv["suggestion"] as string | undefined,
 							"suggestion",
 							"text"
-						)
-					);
-				if (argv["task"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["task"],
-						resolveFileToken(argv["task"] as string | undefined, "task", "text")
-					);
-				if (argv["type"] !== undefined)
-					setNestedValue(bodyData, ["type"], argv["type"]);
+						),
+						task: resolveFileToken(
+							argv["task"] as string | undefined,
+							"task",
+							"text"
+						),
+						type: argv["type"],
+					},
+					[["fields"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
-					requestApi<unknown>(client, "POST", `/feedback/send`, {
-						body: bodyData,
-						headers: Object.keys(headers).length > 0 ? headers : undefined,
-					})
+					client.send(operation, { body: bodyData })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

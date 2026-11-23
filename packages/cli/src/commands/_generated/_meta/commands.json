@@ -56586,12 +56586,6 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "user-agent",
-					"type": "string",
-					"required": true,
-					"description": "Identifies the client. Must start with `cf-cli/<version>` or `cloudflare-mcp`."
-				},
-				{
 					"name": "actual",
 					"type": "string",
 					"required": false,

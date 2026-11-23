@@ -1,6 +1,7 @@
 import $deployments from "./deployments/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
+import $previews from "./previews/index.js";
 import $scripts from "./scripts/index.js";
 import $secrets from "./secrets/index.js";
 import $versions from "./versions/index.js";
@@ -29,6 +30,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($list)
 			.command(withHandWrittenDryRun($types, "preview"))
 			.command($deployments)
+			.command($previews)
 			.command($scripts)
 			.command($secrets)
 			.command(withHandWrittenDryRun($triggers, "native"))

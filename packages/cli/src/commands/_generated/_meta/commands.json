@@ -42262,6 +42262,13 @@
 			],
 			"options": [
 				{
+					"name": "install",
+					"type": "boolean",
+					"required": false,
+					"description": "Write the script to cf's config directory for your shell rc to source, instead of printing it",
+					"default": false
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,

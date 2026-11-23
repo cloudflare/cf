@@ -194,7 +194,12 @@ that way send a passthrough `requestApi` call instead.
 Shell completions are no longer generated — `cf complete` is backed by
 `@bomb.sh/tab`, which parses the command/option tree at runtime from
 the complete generated and hand-written `_meta/commands.json` catalogue (see
-`src/commands/completions/index.ts`).
+`src/commands/completions/index.ts`). The init script itself is static, so
+`cf complete <shell> --install` writes it to
+`~/.config/cloudflare/completions/cf.<ext>` for the shell rc to source without
+spawning cf; TAB callbacks rewrite installed scripts whose content differs
+from the running cf's, and never create missing ones
+(`src/commands/completions/install.ts`).
 
 `pnpm build` runs Vite+ Pack, which:
 

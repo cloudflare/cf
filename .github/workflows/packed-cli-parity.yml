@@ -1,0 +1,50 @@
+name: Packed CLI parity
+
+on:
+  pull_request:
+    paths:
+      - "packages/cli/src/lib/stricli*.ts"
+      - "scripts/compare-packed-cli.mjs"
+      - ".github/workflows/packed-cli-parity.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - if: runner.os == 'Windows'
+        run: git config --system core.longpaths true
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          path: head
+          persist-credentials: false
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          path: base
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+      - uses: $/.github/actions/install-dependencies
+        with:
+          working-directory: head
+      - uses: $/.github/actions/install-dependencies
+        with:
+          working-directory: base
+      - name: Build, pack and install both CLIs outside their workspaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          for side in base head; do
+            mkdir "install-$side"
+            (cd "$side" && pnpm --filter cf build)
+            (cd "$side/packages/cli" && pnpm pack --pack-destination "../../../install-$side")
+            (cd "install-$side" && npm install --ignore-scripts --no-audit --no-fund ./*.tgz)
+          done
+      - name: Compare installed commands, including their exit status
+        run: node head/scripts/compare-packed-cli.mjs install-base install-head

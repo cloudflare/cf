@@ -22,7 +22,7 @@ Paths below are relative to the repository root unless a section uses the
 cf/
 ├── packages/cli/       # cf — CLI + generator
 │   ├── src/
-│   │   ├── index.ts            # yargs entry; registers lazy-loaded generated
+│   │   ├── index.ts            # Stricli entry; registers lazy-loaded generated
 │   │   │                       # commands + hand-written commands
 │   │   ├── dev.ts              # tsx entry wrapper (maps CliExit → process.exit);
 │   │   │                       # NOT the `cf dev` command
@@ -210,7 +210,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the next tagged release.                                                                                                                                                                 |
 | Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                                |
-| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                   |
+| New cross-product flag          | startup hook in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                       |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,observability,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
 | Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                                            |
 | `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                                    |
@@ -220,7 +220,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                                   |
 | `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                                      |
 | Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                                       |
-| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                                    |
+| Help formatting                 | declaration-driven renderer in `packages/cli/src/lib/stricli.ts`                                                                                                                                                                                                                |
 | `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                                 |
 | Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                              |
 | Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                                            |
@@ -269,7 +269,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `ui/theme.ts`         | background-neutral semantic colour palette and Chalk wrapper                                                                                                                                                                                                                                                                                                                                           |
 | `ui/format.ts`        | one-line `success`, `warning`, and `hint` helpers                                                                                                                                                                                                                                                                                                                                                      |
 | `ui/log.ts`           | stderr messages: clack notices (hidden by `--quiet`), warnings and flow lines, each notice or warning optionally followed by copyable commands; not re-exported from `ui/index.ts`                                                                                                                                                                                                                     |
-| `input-validation.ts` | yargs-time arg coercion + `resolveFileToken(value, fieldName, format)` for `@<path>` ingestion; runtime body/path validation                                                                                                                                                                                                                                                                           |
+| `input-validation.ts` | parse-time arg coercion + `resolveFileToken(value, fieldName, format)` for `@<path>` ingestion; runtime body/path validation                                                                                                                                                                                                                                                                           |
 | `resolve.ts`          | URL templating (path-param substitution), `isId`, `isValidDomainName`                                                                                                                                                                                                                                                                                                                                  |
 
 ## Critical Invariants
@@ -357,7 +357,7 @@ Practical extensions of this rule:
 
 ### Lazy command registration
 
-Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings yargs needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
+Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings the router needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
 
 Vite+ Pack preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
 
@@ -577,7 +577,7 @@ to know before editing `generator/plugin/`.
   fail with a clear "--body is required" error instead of an opaque
   EOF API error.
 - Per-field-flag `demandOption: true` is suppressed when `--body` is
-  also supported (so `--body @file` isn't rejected by yargs for
+  also supported (so `--body @file` isn't rejected during parsing for
   missing required fields — handler-time enforcement instead).
 - Required body positionals remain mandatory when `--body` is supplied, even
   when the JSON contains the same fields. Body positionals merge into JSON
@@ -755,10 +755,9 @@ break at sunset; surfacing them encourages users to adopt doomed paths.
   each accepted body in one request. No automatic batching is inferred from
   schema limits.
 
-### Strict yargs
+### Argument parsing
 
-`yargs.strict()` handles unknown flags. There are no pre-yargs
-allowlists — yargs is authoritative. Keep it that way.
+`src/lib/stricli.ts` collects the selected command’s builder declarations, resolves aliases, and constructs a Stricli command for the flags and positionals. Unknown options are rejected before startup unless the command explicitly accepts dynamic flags or forwards arguments. Keep the declarations authoritative; do not add product-specific allowlists to the parser. Generated and hand-written modules retain the yargs builder **types**, not the runtime dependency.
 
 ### Output
 
@@ -802,7 +801,7 @@ pass its `cursor` value to `cf zero-trust casb findings list --cursor <value>`.
 
 Required fields inside an optional request-body object are validated only when a
 flag supplies that object. Omitting the object leaves those nested fields
-optional. Because yargs performs this validation before the handler, missing
+optional. Because the parser performs this validation before the handler, missing
 fields in a supplied optional object are rejected rather than prompted for.
 
 For other required body fields, when stdin is a TTY and the field is not supplied:
@@ -867,7 +866,7 @@ These have stabilised this repo's voice; preserve them.
   (the commands passed to `log.info` / `log.warn`); other commands in a
   message are styled as code. `--quiet` hides notices and success lines,
   never warnings, fixes or prompts.
-- **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
+- **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. The cf declaration adapter renders root, group, and command help.
 
 ## Global Flags
 

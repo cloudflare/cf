@@ -2,11 +2,12 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeAll, describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import * as bodyParser from "../../../lib/body-parser.js";
 import { resolveFileToken } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
+import type { CommandModule } from "yargs";
 
 function setup(code: string) {
 	const send = vi.fn(async () => undefined);
@@ -36,14 +37,7 @@ function setup(code: string) {
 		createCommandClient,
 		formatDryRun,
 		run: async (args: string[]) =>
-			yargs(["save", ...args])
-				.exitProcess(false)
-				.command(command)
-				.strict()
-				.fail((message, error) => {
-					throw error ?? new Error(message);
-				})
-				.parseAsync(),
+			commandParser(["save", ...args], command).parse(),
 	};
 }
 

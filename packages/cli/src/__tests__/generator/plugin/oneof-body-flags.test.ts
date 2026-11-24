@@ -1,7 +1,6 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import {
 	compactBody,
 	parseBody,
@@ -9,6 +8,8 @@ import {
 } from "../../../lib/body-parser.js";
 import { resolveFileToken } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
+import type { CommandModule } from "yargs";
 
 const network = {
 	type: "object",
@@ -139,15 +140,7 @@ function setup(code: string, initialFlags: string[] = []) {
 		) => run(),
 	}) as CommandModule;
 	const parse = async (flags: string[]) =>
-		yargs(["create", ...initialFlags, ...flags])
-			.locale("en")
-			.exitProcess(false)
-			.command(command)
-			.strict()
-			.fail((message, error) => {
-				throw error ?? new Error(message);
-			})
-			.parseAsync();
+		commandParser(["create", ...initialFlags, ...flags], command).parse();
 	return { parse, requestBody, formatDryRun };
 }
 

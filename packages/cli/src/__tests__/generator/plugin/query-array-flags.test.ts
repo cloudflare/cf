@@ -1,11 +1,12 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import { Client, type Operation } from "../../../api/client.js";
 import { path } from "../../../api/path.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandsMetadata } from "../../../lib/command-meta.js";
+import type { CommandModule } from "yargs";
 
 const enumValues = ["001", "a/b &c", "literal,comma"];
 const enumSchema = { type: "string", enum: enumValues };
@@ -122,14 +123,7 @@ describe.each(
 					task: () => Promise<void>
 				) => task(),
 			}) as CommandModule;
-			const argv = await yargs(["list", ...flags])
-				.exitProcess(false)
-				.command(command)
-				.strict()
-				.fail((message, error) => {
-					throw error ?? new Error(message);
-				})
-				.parseAsync();
+			const argv = await commandParser(["list", ...flags], command).parse();
 			return { argv, urls };
 		}
 

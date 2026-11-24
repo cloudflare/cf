@@ -1,9 +1,10 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
+import type { CommandModule } from "yargs";
 
 const JSON_BODY = "Raw JSON request body (bypasses individual flags)";
 const PLAIN = "Send the workflow name as plain text, without JSON quotes.";
@@ -41,7 +42,7 @@ async function bodyDescriptions(contentTypes: string[], description?: string) {
 		.replace(/^import[\s\S]*?;\n/gm, "")
 		.replace("export default command;", "command;");
 	const command = new Script(source).runInNewContext() as CommandModule;
-	const help = await yargs(["update"]).command(command).wrap(null).getHelp();
+	const help = await commandParser(["update"], command).getHelp();
 	return { metadata: bodyDescription, help };
 }
 

@@ -1,7 +1,6 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
-import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import {
 	ACCOUNT_OR_ZONE_HELP,
@@ -27,9 +26,11 @@ import {
 	param,
 	wire,
 } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { Arg, ArgType } from "../../../../generator/plugin/args.js";
 import type { Method } from "../../../../generator/plugin/commands.js";
 import type { OperationInfo } from "../../../../generator/plugin/operation.js";
+import type { Argv } from "yargs";
 
 describe("descriptions", () => {
 	it("labels POST validation without claiming to create a resource", () => {
@@ -367,7 +368,7 @@ describe("variant prompts", () => {
 });
 
 describe("optional joined query enums", () => {
-	it("leaves an omitted optional array unset", () => {
+	it("leaves an omitted optional array unset", async () => {
 		const ctx = context(
 			method("list", "example-list"),
 			"example",
@@ -382,10 +383,18 @@ describe("optional joined query enums", () => {
 				wire: wire({ joined: ["selector"] }),
 			})
 		);
-		const parser = new Script(
-			stripTypeScriptTypes(`yargs${builderLines(ctx).join("\n")}`)
-		).runInNewContext({ yargs: yargs([]).exitProcess(false) }) as Argv;
-		expect(parser.parseSync().selector).toBeUndefined();
+		const builder = new Script(
+			stripTypeScriptTypes(`(yargs) => yargs${builderLines(ctx).join("\n")}`)
+		).runInNewContext() as (args: Argv) => Argv;
+		expect(
+			(
+				await commandParser(["list"], {
+					command: "list",
+					builder,
+					handler() {},
+				}).parse()
+			).selector
+		).toBeUndefined();
 	});
 });
 
@@ -456,14 +465,7 @@ describe("optional body-object validation", () => {
 			`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
 		).runInNewContext() as (args: Argv) => Argv;
 		const parse = async (args: string[]) =>
-			yargs(args)
-				.exitProcess(false)
-				.fail((message, error) => {
-					throw error ?? new Error(message);
-				})
-				.command("create", "", builder, () => {})
-				.strict()
-				.parseAsync();
+			commandParser(args, { command: "create", builder, handler() {} }).parse();
 
 		await expect(
 			parse(["create", "--parameters-order-by-order", "asc"])
@@ -632,14 +634,11 @@ describe("Fern names", () => {
 				`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
 			).runInNewContext() as (args: Argv) => Argv;
 			const parse = async (args: string[]) =>
-				yargs(args)
-					.exitProcess(false)
-					.fail((message, error) => {
-						throw error ?? new Error(message);
-					})
-					.command(command, "", builder, () => {})
-					.strict()
-					.parseAsync();
+				commandParser(args, {
+					command: command,
+					builder,
+					handler() {},
+				}).parse();
 			expect(
 				await parse(["get", "consumer-1", "--queue", "queue-1"])
 			).toMatchObject({ consumer: "consumer-1", queue: "queue-1" });

@@ -2,7 +2,6 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import { handler, imports } from "../../../../generator/plugin/emit/handler.js";
 import { context as emitContext } from "../../../../generator/plugin/emit/index.js";
@@ -18,6 +17,8 @@ import {
 	operation,
 	wire,
 } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
+import type { Argv } from "yargs";
 
 describe.each([true, false])(
 	"scalar-union positionals (typed request: %s)",
@@ -85,18 +86,10 @@ describe.each([true, false])(
 						) => task(),
 						formatOutput: () => {},
 					}) as (argv: Record<string, unknown>) => Promise<void>;
-					const argv = await yargs([
-						"create",
-						...args,
-						...(dryRun ? ["--dry-run"] : []),
-					])
-						.exitProcess(false)
-						.command(command, "", builder, () => {})
-						.strict()
-						.fail((message, error) => {
-							throw error ?? new Error(message);
-						})
-						.parseAsync();
+					const argv = await commandParser(
+						["create", ...args, ...(dryRun ? ["--dry-run"] : [])],
+						{ command: command, builder, handler() {} }
+					).parse();
 					await run(argv);
 					if (dryRun) {
 						expect(formatDryRun).toHaveBeenCalledWith(

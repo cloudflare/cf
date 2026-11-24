@@ -1,6 +1,6 @@
 # cf (`packages/cli`)
 
-Cloudflare CLI. Yargs-based, TypeScript, ESM, Node ≥ 22.
+Cloudflare CLI. Stricli runtime with yargs-compatible command declarations, TypeScript, ESM, Node ≥ 22.
 
 This package IS the CLI. It also owns the generator that produces its
 per-API command surface: the forge plugin in `generator/plugin/`, which
@@ -49,7 +49,7 @@ second consumer.
 | Global CLI state            | `src/lib/state.ts`                                                                                                    |
 | Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`                                                                        |
 | Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                               |
-| Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                            |
+| Help labels and flag groups | declaration-driven help in `src/lib/stricli.ts`                                                                       |
 | Generator output shape      | `generator/plugin/` (rerun `pnpm generate`)                                                                           |
 | Metadata JSON shape         | `generator/plugin/files.ts`                                                                                           |
 | Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)                     |

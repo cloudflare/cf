@@ -1,11 +1,12 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import { jsonShape } from "../../../../generator/plugin/json-shape.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 import type { ObjectType, Type } from "@cloudflare/forge/plugin";
+import type { CommandModule } from "yargs";
 
 describe("JSON parameter shapes", () => {
 	const files = generateFiles({
@@ -141,7 +142,7 @@ describe("JSON parameter shapes", () => {
 				(field) => field.name === "actions"
 			)?.description
 		).toBe(description);
-		const help = await yargs(["create"]).command(command).wrap(null).getHelp();
+		const help = await commandParser(["create"], command).getHelp();
 		expect(help).toContain(description);
 	});
 

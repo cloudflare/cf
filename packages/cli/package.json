@@ -89,6 +89,7 @@
 		"@cloudflare/workers-auth": "0.18.8",
 		"@cloudflare/workers-utils": "0.57.0",
 		"@redocly/openapi-core": "2.82.0",
+		"@stricli/core": "1.3.0",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",
@@ -109,8 +110,7 @@
 		"tsx": "4.21.0",
 		"undici": "8.13.0",
 		"vite-plus": "catalog:",
-		"ws": "8.23.0",
-		"yargs": "18.2.0"
+		"ws": "8.23.0"
 	},
 	"config": {
 		"openApiVersion": "2f687dad103baa5342ddd1532a2463c5f268f37d"

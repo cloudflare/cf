@@ -1,5 +1,7 @@
 # Forge and OpenAPI updates
 
+To check parser compatibility, build both revisions with the same Node version and run `node scripts/compare-cli-parity.mjs <reference dist> <candidate dist>`. The script compares exit status and exact stdout/stderr bytes for metadata-discovered help routes, generated HTTP dry runs and selected parser edge cases. It uses temporary homes, no credentials and a blocked fetch implementation; it does not exercise live services or interactive terminals.
+
 The two generator inputs have independent update paths:
 
 | Automation              | Update branch             | Input it updates                                                           |

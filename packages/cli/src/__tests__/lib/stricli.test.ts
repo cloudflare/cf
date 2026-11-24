@@ -16,8 +16,10 @@ describe("Stricli command boundary", () => {
 		handler.mockClear();
 		await expect(
 			commandParser(["remove", "id", "--force=maybe"], command).parse()
-		).rejects.toThrow("Expected true or false for --force");
-		expect(handler).not.toHaveBeenCalled();
+		).resolves.toMatchObject({ force: false });
+		expect(handler).toHaveBeenCalledWith(
+			expect.objectContaining({ force: false })
+		);
 	});
 	it("preserves grouped switches and an explicit dash-prefixed value", async () => {
 		await expect(
@@ -28,5 +30,29 @@ describe("Stricli command boundary", () => {
 			force: true,
 			label: "--force",
 		});
+	});
+	it("binds camel-case command operands to the declared kebab-case positional", async () => {
+		await expect(
+			commandParser(["get", "example"], {
+				command: "get <resourceId>",
+				builder: (args) => args.positional("resource-id", { type: "string" }),
+				handler,
+			}).parse()
+		).resolves.toMatchObject({
+			resourceId: "example",
+			"resource-id": "example",
+		});
+	});
+	it("distinguishes omitted, empty and malformed numeric values", async () => {
+		await expect(
+			commandParser(
+				["--count", "2", "get", "--count", "--count=", "--count=bad"],
+				{
+					command: "get",
+					builder: (args) => args.option("count", { type: "number" }),
+					handler,
+				}
+			).parse()
+		).resolves.toMatchObject({ count: [2, undefined, 0, NaN] });
 	});
 });

@@ -1,13 +1,14 @@
 import {
 	buildApplication,
 	buildCommand,
-	numberParser,
 	run,
 	text_en,
 	UnexpectedFlagError,
 	UnsatisfiedFlagError,
 	UnsatisfiedPositionalError,
 } from "@stricli/core";
+import cliui from "cliui";
+import stringWidth from "string-width";
 import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "./global-options.js";
 import { theme } from "./ui/theme.js";
 import type { CommonYargsOptions } from "./cli-types.js";
@@ -27,6 +28,16 @@ const list = <T>(value: T | readonly T[] | undefined): readonly T[] =>
 const camel = (key: string) =>
 	key.replace(/-([a-z])/g, (_, char: string) => char.toUpperCase());
 const words = (mod: Module) => list(mod.command)[0]?.split(" ") ?? [];
+const negativeNumber = /^-(?:\d|\.\d)/;
+function parseLiteral(literal: string, opt: Options) {
+	if (literal === "!") {
+		return opt.type === "number" ? 0 : false;
+	}
+	if (opt.type === "number") {
+		return literal === "" ? undefined : Number(literal.slice(1));
+	}
+	return literal.slice(1);
+}
 
 class Definition {
 	flags = new Map<string, Options>(Object.entries(GLOBAL_OPTIONS));
@@ -41,14 +52,21 @@ class Definition {
 	autoHelp = true;
 	heading = "";
 	footer = "";
-	examples: string[] = [];
+	examples: [string, string][] = [];
+	groupedOptions = new Set<string>();
 	constructor(readonly showHelp: () => void) {}
 	command(child: Module) {
 		this.children.push(child);
 		return this;
 	}
 	option(name: string, option: Options) {
-		this.flags.set(name, option);
+		const previous = this.flags.get(name);
+		this.flags.set(
+			name,
+			previous?.choices && option.choices
+				? { ...option, choices: [...previous.choices, ...option.choices] }
+				: option
+		);
 		return this;
 	}
 	options(options: Record<string, Options>) {
@@ -70,14 +88,17 @@ class Definition {
 		return this;
 	}
 	example(input: string, description: string) {
-		this.examples.push(`${input}  ${description}`);
+		this.examples.push([input, description]);
 		return this;
 	}
 	hide(name: string) {
 		this.flags.set(name, { ...this.flags.get(name), hidden: true });
 		return this;
 	}
-	group() {
+	group(names: string | string[]) {
+		for (const name of list(names)) {
+			this.groupedOptions.add(name);
+		}
 		return this;
 	}
 	demandCommand() {
@@ -142,23 +163,6 @@ function aliases(def: Definition) {
 	return names;
 }
 
-function wrapLine(text: string, width: number): string[] {
-	if (text.length <= width) {
-		return [text];
-	}
-	const lines = [""];
-	for (const word of text.split(/\s+/)) {
-		const index = lines.length - 1;
-		const line = lines[index];
-		if (line && line.length + word.length + 1 > width) {
-			lines.push(word);
-		} else {
-			lines[index] = line ? `${line} ${word}` : word;
-		}
-	}
-	return lines;
-}
-
 function renderHelp(
 	def: Definition,
 	path: string[],
@@ -166,114 +170,173 @@ function renderHelp(
 	width: number
 ) {
 	const prefix = ["cf", ...path].join(" ");
-	const heading = def.heading
-		? def.heading.replace(/^\$0/, "cf")
-		: mod
+	const ui = cliui({ width, wrap: Number.isFinite(width) });
+	const columnWidth = (labels: string[]) =>
+		Math.min(
+			Math.floor(width / 2),
+			Math.max(0, ...labels.map((label) => stringWidth(label)))
+		) + 4;
+	const section = (title: string) => ui.div(theme.brand(title));
+	const endRow = (extra?: string) =>
+		extra
+			? ui.div({ text: extra, padding: [0, 0, 0, 2], align: "right" })
+			: ui.div();
+	const heading =
+		def.heading ||
+		(mod
 			? `${prefix}${words(mod)
 					.slice(1)
 					.map((word) => ` ${word}`)
-					.join("")}\n\n${mod.describe || ""}`
-			: "cf <command> [options]\n\nThe Cloudflare CLI - manage your Cloudflare resources";
-	const sections = [
-		heading
-			.split("\n")
-			.flatMap((line) => wrapLine(line, width))
-			.join("\n"),
-	];
-	const section = (title: string, rows: string[]) => {
-		if (rows.length) {
-			sections.push(
-				`${theme.brand(title)}\n${rows.map((row) => `  ${row}`).join("\n")}`
+					.join("")}${mod.describe ? `\n\n${mod.describe}` : ""}`
+			: "cf <command> [options]\n\nThe Cloudflare CLI - manage your Cloudflare resources");
+	ui.div({ text: heading.replaceAll("$0", "cf") });
+	ui.div();
+	const children = def.children
+		.filter((child) => child.describe !== false)
+		.map((child) => ({
+			label: `${prefix} ${words(child).join(" ")}`,
+			description: String(child.describe || ""),
+			aliases: [...list(child.command).slice(1), ...list(child.aliases)],
+		}))
+		.sort((left, right) => left.label.localeCompare(right.label));
+	if (children.length) {
+		section("Commands");
+		const column = columnWidth(children.map((child) => child.label));
+		for (const child of children) {
+			ui.span(
+				{ text: child.label, padding: [0, 2, 0, 2], width: column },
+				{ text: child.description }
+			);
+			endRow(
+				child.aliases.length
+					? `[aliases: ${child.aliases.join(", ")}]`
+					: undefined
 			);
 		}
-	};
-	section(
-		"Commands",
-		def.children
-			.filter((child) => child.describe !== false)
-			.map(
-				(child) =>
-					`${prefix} ${words(child).join(" ")}  ${child.describe || ""}`
-			)
-			.sort()
-	);
-	const opts = (entries: [string, Options][], positional = false) => {
+		ui.div();
+	}
+	const opts = (
+		title: string,
+		entries: [string, Options][],
+		positional = false
+	) => {
 		const flags = entries
 			.filter(([, opt]) => !opt.hidden)
 			.map(([key, opt]) => {
-				const names = [...list(opt.alias), key];
+				const names = [key, ...list(opt.alias)];
 				const label = positional
-					? key
-					: (names.some((name) => name.length === 1) ? "" : "    ") +
-						names
+					? names.join(", ")
+					: names
+							.sort(
+								(left, right) =>
+									Number(left.length > 1) - Number(right.length > 1)
+							)
 							.map((name) => (name.length === 1 ? `-${name}` : `--${name}`))
 							.join(", ");
-				const description = opt.description ?? opt.describe ?? "";
-				const metadata = [
-					opt.type && `[${opt.type}]`,
-					opt.demandOption && "[required]",
-					opt.choices && `[choices: ${opt.choices.join(", ")}]`,
-					opt.default !== undefined &&
-						`[default: ${JSON.stringify(opt.default)}]`,
+				const indent = !positional && label.startsWith("--") ? 4 : 0;
+				const variadic =
+					positional &&
+					mod &&
+					words(mod).some(
+						(word) =>
+							word.slice(1, -1).replace(/\.{2,3}$/, "") === key &&
+							/\.{2,3}[\]>]$/.test(word)
+					);
+				const type = opt.array || variadic ? "array" : opt.type;
+				const defaultValue = opt.default ?? (variadic ? [] : undefined);
+				const extra = [
+					type && `[${type}]`,
+					opt.demandOption &&
+						(!positional ||
+							!mod ||
+							words(mod).some(
+								(word) => word.slice(1, -1).replace(/\.{2,3}$/, "") === key
+							)) &&
+						"[required]",
+					opt.choices &&
+						`[choices: ${opt.choices.map((value) => JSON.stringify(value)).join(", ")}]`,
+					defaultValue !== undefined &&
+						`[default: ${opt.defaultDescription ?? JSON.stringify(defaultValue)}]`,
 				]
 					.filter(Boolean)
 					.join(" ");
-				return { label, description, metadata };
+				return {
+					label,
+					indent,
+					extra,
+					description: String(opt.description ?? opt.describe ?? ""),
+				};
 			});
-		const column = Math.max(0, ...flags.map((flag) => flag.label.length)) + 2;
-		return flags.map(({ label, description, metadata }) => {
-			const lines = String(description)
-				.split("\n")
-				.flatMap((line) => wrapLine(line, width - column - 2));
-			const last = lines.length - 1;
-			if (metadata) {
-				if (
-					Number.isFinite(width) &&
-					(lines[last]?.length ?? 0) + 1 + metadata.length > width - column - 2
-				) {
-					lines.push("");
-				}
-				const end = lines.length - 1;
-				lines[end] =
-					(lines[end] ?? "").padEnd(
-						Number.isFinite(width)
-							? width - column - 2 - metadata.length
-							: (lines[end]?.length ?? 0) + 1
-					) + metadata;
-			}
-			return lines
-				.map(
-					(line, index) =>
-						(index ? " ".repeat(column + 2) : label.padEnd(column)) + line
-				)
-				.join("\n");
-		});
+		if (!flags.length) {
+			return;
+		}
+		section(title);
+		const column = columnWidth(
+			flags.map((flag) => " ".repeat(flag.indent) + flag.label)
+		);
+		for (const flag of flags) {
+			ui.span(
+				{
+					text: flag.label,
+					width: column,
+					padding: [0, 2, 0, 2 + flag.indent],
+				},
+				flag.description
+			);
+			endRow(flag.extra);
+		}
+		ui.div();
 	};
-	section("Positionals", opts([...def.positions], true));
-	section(
-		"Global flags",
-		opts(
-			[...def.flags]
-				.filter(([key]) => Object.hasOwn(GLOBAL_OPTIONS, key))
-				.concat(
-					Object.entries(BUILTIN_OPTIONS).map(
-						([key, opt]): [string, Options] => [
-							key,
-							{ ...opt, type: "boolean" },
-						]
-					)
-				)
-		)
+	const local = [...def.flags].filter(
+		([key]) =>
+			!Object.hasOwn(GLOBAL_OPTIONS, key) &&
+			!Object.hasOwn(BUILTIN_OPTIONS, key) &&
+			(!def.positions.has(key) || def.groupedOptions.has(key))
 	);
-	section(
-		"Options",
-		opts([...def.flags].filter(([key]) => !Object.hasOwn(GLOBAL_OPTIONS, key)))
+	opts(
+		"Positionals",
+		[...def.positions].map(([key, opt]) => [
+			key,
+			{ ...opt, ...def.flags.get(key) },
+		]),
+		true
 	);
-	section("Examples", def.examples);
-	if (def.footer) {
-		sections.push(def.footer);
+	if (def.groupedOptions.size) {
+		opts("Options", local);
 	}
-	return sections.join("\n\n");
+	opts(
+		"Global flags",
+		[...def.flags]
+			.filter(([key]) => Object.hasOwn(GLOBAL_OPTIONS, key))
+			.concat(
+				Object.entries(BUILTIN_OPTIONS).map(([key, opt]): [string, Options] => [
+					key,
+					{ type: "boolean", ...opt, ...def.flags.get(key) },
+				])
+			)
+	);
+	if (!def.groupedOptions.size) {
+		opts("Options", local);
+	}
+	if (def.examples.length) {
+		section("Examples");
+		const column = columnWidth(def.examples.map(([example]) => example));
+		for (const [example, description] of def.examples) {
+			ui.div(
+				{
+					text: example.replaceAll("$0", "cf"),
+					width: column,
+					padding: [0, 2, 0, 2],
+				},
+				{ text: description }
+			);
+		}
+		ui.div();
+	}
+	if (def.footer) {
+		ui.div(`${def.footer.replaceAll("$0", "cf")}\n`);
+	}
+	return ui.toString().trimEnd();
 }
 
 function closest(input: string, children: Module[]) {
@@ -344,13 +407,15 @@ export function createParser(
 					mod,
 					hooks.helpWidth ?? (process.stdout.columns || 80)
 				),
-				command()
+				def.autoHelp || helpOnly ? command() : undefined
 			);
 		const showHelp = () => {
 			hooks.shown(command() ?? "cf");
 			console.log(help());
 		};
 		let def = new Definition(showHelp);
+		def.footer =
+			"For more information, visit https://developers.cloudflare.com/";
 		def.children = roots;
 		def.requireChild = true;
 		const delimiter = input.indexOf("--");
@@ -387,8 +452,11 @@ export function createParser(
 				}
 				const key = names.get(previous.replace(/^--?/, ""));
 				return (
-					!key ||
-					(def.flags.get(key)?.type === "boolean" &&
+					previous.includes("=") ||
+					previous.startsWith("--no-") ||
+					["-h", "--help"].includes(previous) ||
+					(!!key &&
+						def.flags.get(key)?.type === "boolean" &&
 						!["true", "false"].includes(token))
 				);
 			});
@@ -427,7 +495,7 @@ export function createParser(
 			const parent = def;
 			def = new Definition(showHelp);
 			for (const [name, opt] of parent.flags) {
-				if (opt.global) {
+				if (opt.global !== false) {
 					def.flags.set(name, opt);
 				}
 			}
@@ -466,7 +534,7 @@ export function createParser(
 					: {
 							kind: "parsed",
 							brief: opt.description ?? "",
-							parse: opt.type === "number" ? numberParser : String,
+							parse: (literal: string) => parseLiteral(literal, opt),
 							optional: true,
 							variadic: true,
 							inferEmpty: !opt.requiresArg && !opt.nargs,
@@ -475,6 +543,29 @@ export function createParser(
 		const parsedTokens: string[] = [],
 			positionals: string[] = [],
 			unknown: string[] = [];
+		const switches = new Map<string, boolean>();
+		const coercions = new Map<Options, unknown[]>();
+		const trackCoercion = (opt: Options, value: unknown) => {
+			if (opt.coerce) {
+				const values = coercions.get(opt) ?? [];
+				values.push(value);
+				coercions.set(opt, values);
+			}
+		};
+		const checkCoercions = () => {
+			for (const [opt, values] of coercions) {
+				opt.coerce?.(values.length === 1 ? values[0] : values);
+			}
+		};
+		const addUnknown = (name: string) => {
+			for (const alias of def.config["camel-case-expansion"] === false
+				? [name]
+				: [name, camel(name)]) {
+				if (!unknown.includes(alias)) {
+					unknown.push(alias);
+				}
+			}
+		};
 		for (let idx = 0; idx < args.length; idx++) {
 			const arg = args[idx];
 			if (arg === undefined) {
@@ -483,7 +574,7 @@ export function createParser(
 			if (def.autoHelp && (arg === "--help" || arg === "-h")) {
 				continue;
 			}
-			if (!arg.startsWith("-") || arg === "-" || /^-\d/.test(arg)) {
+			if (!arg.startsWith("-") || arg === "-" || negativeNumber.test(arg)) {
 				positionals.push(arg);
 				continue;
 			}
@@ -493,9 +584,8 @@ export function createParser(
 			) {
 				const shortNames = arg.slice(1).split("");
 				if (
-					shortNames.every(
-						(name) => def.flags.get(names.get(name) ?? "")?.type === "boolean"
-					)
+					!def.config["unknown-options-as-args"] ||
+					shortNames.every((name) => names.has(name))
 				) {
 					args.splice(idx, 1, ...shortNames.map((name) => `-${name}`));
 					idx--;
@@ -506,6 +596,7 @@ export function createParser(
 			let key = names.get(spelling);
 			const negated =
 				!key &&
+				inline === undefined &&
 				spelling.startsWith("no-") &&
 				def.config["boolean-negation"] !== false;
 			if (negated) {
@@ -522,7 +613,12 @@ export function createParser(
 					Object.hasOwn(Object.prototype, spelling) ||
 					spelling === "prototype"
 				) {
-					unknown.push(spelling);
+					const unknownName = negated ? spelling.slice(3) : spelling;
+					addUnknown(
+						def.config["dot-notation"] === false
+							? unknownName
+							: (unknownName.split(".")[0] ?? unknownName)
+					);
 					if (
 						inline === undefined &&
 						args[idx + 1] &&
@@ -542,7 +638,7 @@ export function createParser(
 					? {
 							kind: "parsed",
 							brief: "",
-							parse: String,
+							parse: (literal: string) => literal.slice(1),
 							optional: true,
 							variadic: true,
 						}
@@ -553,8 +649,8 @@ export function createParser(
 				return fail(`Unknown argument: ${spelling}`);
 			}
 			if (negated && opt.type !== "boolean") {
-				opt.coerce?.(false);
-				unknown.push(spelling);
+				trackCoercion(opt, false);
+				parsedTokens.push(`--${key}`, "!");
 				continue;
 			}
 			const flag = `--${key}`;
@@ -564,45 +660,35 @@ export function createParser(
 					(!negated && ["true", "false"].includes(args[idx + 1] ?? "")
 						? args[++idx]
 						: undefined);
-				if (value !== undefined && value !== "true" && value !== "false") {
-					return fail(`Expected true or false for --${key}`);
-				}
-				if (negated && inline !== undefined) {
-					return fail(`Cannot pass a value to --${spelling}`);
-				}
-				parsedTokens.push(
-					negated
-						? `${flag}=false`
-						: value === undefined
-							? flag
-							: `${flag}=${value}`
+				switches.set(
+					flag,
+					!negated && (value === undefined || value === "true")
 				);
 				continue;
 			}
 			const takesValue = () =>
 				idx + 1 < args.length &&
 				(!args[idx + 1]?.startsWith("-") ||
-					/^-\d/.test(args[idx + 1] ?? "") ||
+					negativeNumber.test(args[idx + 1] ?? "") ||
 					args[idx + 1] === "-");
 			let value = inline ?? (takesValue() ? args[++idx] : undefined);
-			if (value === undefined && (opt.requiresArg || opt.nargs)) {
+			if (!wantsHelp && value === undefined && (opt.requiresArg || opt.nargs)) {
 				return fail(`Not enough arguments following: ${key}`);
 			}
-			const pushValue = (literal: string) => {
-				if (literal.startsWith("-") && !/[\r\n\u2028\u2029]/.test(literal)) {
-					parsedTokens.push(`${flag}=${literal}`);
-				} else {
-					parsedTokens.push(flag, literal);
+			const pushValue = (raw: string | undefined) => {
+				if (raw !== undefined || !opt.requiresArg) {
+					trackCoercion(opt, raw ?? "");
 				}
+				parsedTokens.push(flag, raw === undefined ? "" : `:${raw}`);
 			};
-			pushValue(value ?? "");
+			pushValue(value);
 			while (
 				(opt.array || opt.type === "array") &&
 				!opt.nargs &&
 				takesValue()
 			) {
 				value = args[++idx];
-				pushValue(value ?? "");
+				pushValue(value);
 			}
 		}
 		if (positionals.length > spec.length && !spec.at(-1)?.many) {
@@ -614,16 +700,23 @@ export function createParser(
 			);
 		}
 		if (wantsHelp || (def.requireChild && mod)) {
-			if (!wantsHelp && unknown.length) {
-				return fail(`Unknown argument: ${unknown[0]}`);
-			}
 			if (helpOnly) {
 				return help();
 			}
 			showHelp();
-			return;
+			if (wantsHelp || !unknown.length) {
+				checkCoercions();
+				return;
+			}
 		}
 		if (unknown.length) {
+			checkCoercions();
+			const required = spec.filter((item) => item.required).length;
+			if (positionals.length < required) {
+				return fail(
+					`Not enough non-option arguments: got ${positionals.length}, need at least ${required}`
+				);
+			}
 			return fail(
 				`Unknown argument${unknown.length > 1 ? "s" : ""}: ${unknown.join(", ")}`,
 				mod ? undefined : "missing-command"
@@ -696,9 +789,18 @@ export function createParser(
 				diagnostic += text;
 			},
 		};
-		await run(app, [...parsedTokens, "--", ...positionals], {
-			process: { stdout: stream, stderr: stream },
-		});
+		await run(
+			app,
+			[
+				...parsedTokens,
+				...Array.from(switches, ([flag, value]) => `${flag}=${value}`),
+				"--",
+				...positionals,
+			],
+			{
+				process: { stdout: stream, stderr: stream },
+			}
+		);
 		if (!result) {
 			return fail(diagnostic.trim() || "Invalid arguments");
 		}
@@ -750,11 +852,15 @@ export function createParser(
 			assign(key, result[key], opt);
 		}
 		for (const [idx, item] of spec.entries()) {
-			const opt = def.positions.get(item.key) ?? {};
+			const key = def.positions.has(item.key)
+				? item.key
+				: ([...def.positions.keys()].find((name) => camel(name) === item.key) ??
+					item.key);
+			const opt = def.positions.get(key) ?? {};
 			const value = item.many ? operands.slice(idx) : operands[idx];
 			if (value !== undefined || opt.default !== undefined) {
 				assign(
-					item.key,
+					key,
 					opt.type === "number" && value !== undefined ? Number(value) : value,
 					opt
 				);

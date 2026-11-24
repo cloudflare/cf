@@ -243,6 +243,59 @@ describe("cf previews deploy", () => {
 		);
 	});
 
+	describe("dotenv mode", () => {
+		runInTempDir();
+
+		it("loads dotenv files for the recorded mode when --prebuilt omits --mode", async () => {
+			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+			writeFileSync(
+				".env",
+				"CLOUDFLARE_API_TOKEN=default-token\nCLOUDFLARE_ACCOUNT_ID=default-account\n"
+			);
+			writeFileSync(
+				".env.staging",
+				"CLOUDFLARE_API_TOKEN=staging-token\nCLOUDFLARE_ACCOUNT_ID=staging-account\n"
+			);
+			mocks.readBuildOutput.mockResolvedValue({
+				rootConfig: { buildContext: { isPreview: true, mode: "staging" } },
+				workers: {
+					default: {
+						config: { type: "worker", name: "preview-worker" },
+						bundleDir: "/project/bundle",
+					},
+				},
+			});
+			mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
+			mocks.getAuthToken.mockImplementation(
+				async () => process.env.CLOUDFLARE_API_TOKEN
+			);
+			mocks.getAccountId.mockImplementation(
+				async () => process.env.CLOUDFLARE_ACCOUNT_ID
+			);
+			mocks.createDeployContext.mockReturnValue({
+				logger: { log: vi.fn(), info: vi.fn() },
+			});
+			mocks.previewBuildOutput.mockResolvedValue(previewResult);
+
+			await expect(
+				runPreviewDeploy({
+					"preview-name": "feature",
+					prebuilt: true,
+				} as Parameters<typeof runPreviewDeploy>[0])
+			).resolves.toBe(previewResult);
+
+			expect(mocks.createDeployContext).toHaveBeenCalledWith("staging-token");
+			expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
+				"staging-account",
+				expect.any(Object),
+				expect.any(Object),
+				expect.any(Object)
+			);
+			expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
+		});
+	});
+
 	it("deploys the Preview under CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
 		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
 		const rootConfig = { buildContext: { isPreview: true } };

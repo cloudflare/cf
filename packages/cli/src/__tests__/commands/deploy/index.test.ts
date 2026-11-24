@@ -208,6 +208,75 @@ describe("cf deploy", () => {
 			expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
 		});
 
+		it.each([
+			{
+				name: "prebuilt output when --mode is omitted",
+				flags: ["--prebuilt"],
+				recordedMode: "staging",
+				buildArgv: undefined,
+			},
+			{
+				// Vite records its default "production" mode when --mode is omitted.
+				name: "a delegated build's default mode",
+				flags: [],
+				recordedMode: "production",
+				buildArgv: ["build"],
+			},
+		])(
+			"loads dotenv files for the recorded mode of $name",
+			async ({ flags, recordedMode, buildArgv }) => {
+				vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+				vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+				let uploadRequest:
+					| { account: string | undefined; authorization: string | null }
+					| undefined;
+				mockWorkerUpload(
+					{},
+					{
+						onRequest: (request) => {
+							uploadRequest = {
+								account: new URL(request.url).pathname.match(
+									/\/accounts\/([^/]+)\//
+								)?.[1],
+								authorization: request.headers.get("authorization"),
+							};
+						},
+					}
+				);
+				await seed({
+					".env": [
+						"CLOUDFLARE_API_TOKEN=default-token",
+						"CLOUDFLARE_ACCOUNT_ID=default-account",
+					].join("\n"),
+					[`.env.${recordedMode}`]: [
+						`CLOUDFLARE_API_TOKEN=${recordedMode}-token`,
+						`CLOUDFLARE_ACCOUNT_ID=${recordedMode}-account`,
+					].join("\n"),
+					".cloudflare/output/v1/config.json": buildOutputRootConfig({
+						buildContext: { isPreview: false, mode: recordedMode },
+					}),
+					".cloudflare/output/v1/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v1/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
+
+				const { exitCode } = await runCf(["deploy", ...flags]);
+
+				expect(exitCode).toBe(0);
+				if (buildArgv === undefined) {
+					expect(buildDelegateWasCalled()).toBe(false);
+				} else {
+					expect(readBuildDelegateArgv()).toEqual(buildArgv);
+				}
+				expect(uploadRequest).toEqual({
+					account: `${recordedMode}-account`,
+					authorization: `Bearer ${recordedMode}-token`,
+				});
+				expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
+			}
+		);
+
 		it("deploys a single ESM module", async () => {
 			const upload = mockWorkerUpload();
 			await seed({

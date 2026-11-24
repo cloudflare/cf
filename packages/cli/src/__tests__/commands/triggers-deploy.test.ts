@@ -189,6 +189,111 @@ describe("cf workers triggers deploy", () => {
 		expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
 	});
 
+	describe("dotenv mode", () => {
+		let schedulesRequest:
+			| { account: unknown; authorization: string | null }
+			| undefined;
+
+		beforeEach(async () => {
+			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+			schedulesRequest = undefined;
+			msw.use(
+				http.put(
+					"*/accounts/:accountId/workers/scripts/:scriptName/schedules",
+					({ request, params }) => {
+						schedulesRequest = {
+							account: params.accountId,
+							authorization: request.headers.get("authorization"),
+						};
+						return HttpResponse.json(createFetchResult({ schedules: [] }));
+					}
+				)
+			);
+			await seed({
+				".env": [
+					"CLOUDFLARE_API_TOKEN=default-token",
+					"CLOUDFLARE_ACCOUNT_ID=default-account",
+				].join("\n"),
+				".env.staging": [
+					"CLOUDFLARE_API_TOKEN=staging-token",
+					"CLOUDFLARE_ACCOUNT_ID=staging-account",
+				].join("\n"),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig({
+						triggers: [{ type: "scheduled", schedule: "*/5 * * * *" }],
+					}),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+		});
+
+		it.each([
+			{
+				name: "the recorded mode when --mode is omitted",
+				recordedMode: "staging",
+				flags: [],
+				expected: "staging",
+			},
+			{
+				name: "an explicit --mode",
+				recordedMode: "staging",
+				flags: ["--mode", "staging"],
+				expected: "staging",
+			},
+			{
+				name: "no mode when the Build Output records none",
+				recordedMode: undefined,
+				flags: [],
+				expected: "default",
+			},
+		])(
+			"loads prebuilt dotenv files for $name",
+			async ({ recordedMode, flags, expected }) => {
+				await seed({
+					".cloudflare/output/v1/config.json": buildOutputRootConfig({
+						buildContext: { isPreview: false, mode: recordedMode },
+					}),
+				});
+
+				const { exitCode } = await runCf([
+					...TRIGGERS_DEPLOY_COMMAND,
+					"--prebuilt",
+					...flags,
+				]);
+
+				expect(exitCode).toBe(0);
+				expect(schedulesRequest).toEqual({
+					account: `${expected}-account`,
+					authorization: `Bearer ${expected}-token`,
+				});
+				expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
+			}
+		);
+
+		it("loads dotenv files for the mode a delegated build recorded by default", async () => {
+			// Vite records its default "production" mode when --mode is omitted.
+			await seed({
+				".env.production": [
+					"CLOUDFLARE_API_TOKEN=production-token",
+					"CLOUDFLARE_ACCOUNT_ID=production-account",
+				].join("\n"),
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					buildContext: { isPreview: false, mode: "production" },
+				}),
+			});
+
+			const { exitCode } = await runCf(TRIGGERS_DEPLOY_COMMAND);
+
+			expect(exitCode).toBe(0);
+			expect(readBuildDelegateArgv()).toEqual(["build"]);
+			expect(schedulesRequest).toEqual({
+				account: "production-account",
+				authorization: "Bearer production-token",
+			});
+		});
+	});
+
 	it("skips the build and deploys existing triggers with --prebuilt", async () => {
 		let schedulesBody: unknown;
 		let schedulesAccount: unknown;

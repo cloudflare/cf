@@ -2,7 +2,7 @@
 "cf": minor
 ---
 
-Update the generated command surface for Cloudflare API schemas revision
+Update the generated beta CWS commands for Cloudflare API schemas revision
 `5aec9e4e3a074fa419d2fe1b7c0894e513c29a3e`.
 
 **Breaking:** `cf zero-trust cws tenant-structures nodes batch <structure-id>`
